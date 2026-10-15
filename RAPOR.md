@@ -65,3 +65,16 @@ node altcoin_news_hunter.mjs
    - **Gerçek Binance Hesabı Modu (`LIVE_TRADING=true`):** `.env` dosyasına `BINANCE_API_KEY` ve `BINANCE_SECRET_KEY` girildiğinde HMAC-SHA256 imzalı gerçek `POST /api/v3/order` (`MARKET`) emirleri gönderir.
 4. **Canlı Web Kontrol Paneli:**
    - Arka planda `http://localhost:3847` adresinde çalışır. Tarayıcıdan açıldığında anlık portföy değerini, açık pozisyonları, yakalanan haberleri ve satış geçmişini canlı gösterir.
+
+---
+
+## 5. GitHub Repository & Taşıma Bilgisi
+
+- **GitHub Repo URL:** `https://github.com/Hanubaki/altcoin-news-hunter`
+- **Branch:** `main`
+- **Evdeki Bilgisayarda Çalıştırma Komutları:**
+  ```bash
+  git clone https://github.com/Hanubaki/altcoin-news-hunter.git
+  cd altcoin-news-hunter
+  node altcoin_auto_trader.mjs --daemon
+  ```
