@@ -1,0 +1,1038 @@
+{
+  "updatedAt": "2026-10-15T11:30:20.209Z",
+  "scanDurationMs": 3889,
+  "bankrollTry": 1000,
+  "bankrollUsdt": 28.01,
+  "totalHeadlinesScanned": 92,
+  "activeFeeds": [
+    "CoinTelegraph (20)",
+    "Decrypt (20)",
+    "CoinDesk (20)",
+    "BeInCrypto (12)",
+    "CryptoPotato (20)"
+  ],
+  "top4AltcoinPicks": [
+    {
+      "symbol": "AVAX",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "xrp",
+        "tokenized",
+        "blackrock",
+        "ripple"
+      ],
+      "newsScore": 10.78,
+      "freshestMinutesAgo": 146,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
+          "minutesAgo": 146,
+          "catalystPoints": 5.67,
+          "directMention": false
+        },
+        {
+          "source": "CoinTelegraph",
+          "title": "Bitcoin ETFs shed $261M as XRP funds buck weekly outflow trend",
+          "minutesAgo": 247,
+          "catalystPoints": 3.89,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 9.555,
+      "change1hPct": 0.05,
+      "change24hPct": -6.333,
+      "lagVsLeader24h": 1.77,
+      "rsi1h": 29.43,
+      "volRatio": 0.38,
+      "fundingHourlyPct": -0.0038,
+      "totalScore": 87.5,
+      "tpPct": 6.39,
+      "slPct": 3.07,
+      "tpPrice": 10.166,
+      "slPrice": 9.2617,
+      "allocUsdt": 6,
+      "allocTry": 214,
+      "qty": 0.6279,
+      "expectedProfitUsdt": 0.38
+    },
+    {
+      "symbol": "PENDLE",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "aave",
+        "babylon",
+        "lending proposal",
+        "lido",
+        "uniswap"
+      ],
+      "newsScore": 4.69,
+      "freshestMinutesAgo": 136,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
+          "minutesAgo": 136,
+          "catalystPoints": 3.51,
+          "directMention": false
+        },
+        {
+          "source": "BeInCrypto",
+          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
+          "minutesAgo": 233,
+          "catalystPoints": 0.68,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 1.932,
+      "change1hPct": 0.1,
+      "change24hPct": -11.7,
+      "lagVsLeader24h": 6.25,
+      "rsi1h": 28.1,
+      "volRatio": 0.31,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 61.5,
+      "tpPct": 7.5,
+      "slPct": 3.4,
+      "tpPrice": 2.0769,
+      "slPrice": 1.8663,
+      "allocUsdt": 6,
+      "allocTry": 214,
+      "qty": 3.106,
+      "expectedProfitUsdt": 0.45
+    },
+    {
+      "symbol": "STX",
+      "leaderSymbol": "BTC",
+      "ecosystems": [
+        "Bitcoin Layer-2, Ordinals, Runes & BTC DeFi"
+      ],
+      "matchedKeywords": [
+        "babylon",
+        "saylor"
+      ],
+      "newsScore": 4.55,
+      "freshestMinutesAgo": 136,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
+          "minutesAgo": 136,
+          "catalystPoints": 3.51,
+          "directMention": false
+        },
+        {
+          "source": "Decrypt",
+          "title": "Morning Minute: Move Over, Saylor, There’s a New Top Buyer in Town",
+          "minutesAgo": 1399,
+          "catalystPoints": 1.04,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.3994,
+      "change1hPct": 1.42,
+      "change24hPct": -8.854,
+      "lagVsLeader24h": 6.06,
+      "rsi1h": 34.24,
+      "volRatio": 0.59,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 52.8,
+      "tpPct": 7.5,
+      "slPct": 3.4,
+      "tpPrice": 0.42935,
+      "slPrice": 0.38582,
+      "allocUsdt": 6,
+      "allocTry": 214,
+      "qty": 15.02,
+      "expectedProfitUsdt": 0.45
+    }
+  ],
+  "allQualifiedOpportunities": [
+    {
+      "symbol": "AVAX",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "xrp",
+        "tokenized",
+        "blackrock",
+        "ripple"
+      ],
+      "newsScore": 10.78,
+      "freshestMinutesAgo": 146,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
+          "minutesAgo": 146,
+          "catalystPoints": 5.67,
+          "directMention": false
+        },
+        {
+          "source": "CoinTelegraph",
+          "title": "Bitcoin ETFs shed $261M as XRP funds buck weekly outflow trend",
+          "minutesAgo": 247,
+          "catalystPoints": 3.89,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 9.555,
+      "change1hPct": 0.05,
+      "change24hPct": -6.333,
+      "lagVsLeader24h": 1.77,
+      "rsi1h": 29.43,
+      "volRatio": 0.38,
+      "fundingHourlyPct": -0.0038,
+      "totalScore": 87.5,
+      "tpPct": 6.39,
+      "slPct": 3.07,
+      "tpPrice": 10.166,
+      "slPrice": 9.2617,
+      "allocUsdt": 6,
+      "allocTry": 214,
+      "qty": 0.6279,
+      "expectedProfitUsdt": 0.38
+    },
+    {
+      "symbol": "ALGO",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "xrp",
+        "tokenized",
+        "blackrock",
+        "ripple"
+      ],
+      "newsScore": 10.78,
+      "freshestMinutesAgo": 146,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
+          "minutesAgo": 146,
+          "catalystPoints": 5.67,
+          "directMention": false
+        },
+        {
+          "source": "CoinTelegraph",
+          "title": "Bitcoin ETFs shed $261M as XRP funds buck weekly outflow trend",
+          "minutesAgo": 247,
+          "catalystPoints": 3.89,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.1091,
+      "change1hPct": 0.37,
+      "change24hPct": -9.536,
+      "lagVsLeader24h": 4.98,
+      "rsi1h": 27.7,
+      "volRatio": 0.36,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 84,
+      "tpPct": 7.5,
+      "slPct": 3.4,
+      "tpPrice": 0.11728,
+      "slPrice": 0.10539
+    },
+    {
+      "symbol": "OM",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "xrp",
+        "tokenized",
+        "blackrock",
+        "ripple"
+      ],
+      "newsScore": 10.78,
+      "freshestMinutesAgo": 146,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
+          "minutesAgo": 146,
+          "catalystPoints": 5.67,
+          "directMention": false
+        },
+        {
+          "source": "CoinTelegraph",
+          "title": "Bitcoin ETFs shed $261M as XRP funds buck weekly outflow trend",
+          "minutesAgo": 247,
+          "catalystPoints": 3.89,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.0669,
+      "change1hPct": -4.43,
+      "change24hPct": -5.106,
+      "lagVsLeader24h": 0.55,
+      "rsi1h": 31.53,
+      "volRatio": 2.27,
+      "fundingHourlyPct": 0,
+      "totalScore": 81.6,
+      "tpPct": 6.01,
+      "slPct": 2.88,
+      "tpPrice": 0.070921,
+      "slPrice": 0.064973
+    },
+    {
+      "symbol": "ONDO",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "xrp",
+        "tokenized",
+        "blackrock",
+        "ripple"
+      ],
+      "newsScore": 10.78,
+      "freshestMinutesAgo": 146,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
+          "minutesAgo": 146,
+          "catalystPoints": 5.67,
+          "directMention": false
+        },
+        {
+          "source": "CoinTelegraph",
+          "title": "Bitcoin ETFs shed $261M as XRP funds buck weekly outflow trend",
+          "minutesAgo": 247,
+          "catalystPoints": 3.89,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.4289,
+      "change1hPct": 0.14,
+      "change24hPct": -7.445,
+      "lagVsLeader24h": 2.89,
+      "rsi1h": 32.56,
+      "volRatio": 0.31,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 79.8,
+      "tpPct": 6.76,
+      "slPct": 3.24,
+      "tpPrice": 0.45789,
+      "slPrice": 0.415
+    },
+    {
+      "symbol": "XRP",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "xrp",
+        "tokenized",
+        "blackrock",
+        "ripple"
+      ],
+      "newsScore": 14.54,
+      "freshestMinutesAgo": 146,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
+          "minutesAgo": 146,
+          "catalystPoints": 7.65,
+          "directMention": true
+        },
+        {
+          "source": "CoinTelegraph",
+          "title": "Bitcoin ETFs shed $261M as XRP funds buck weekly outflow trend",
+          "minutesAgo": 247,
+          "catalystPoints": 5.25,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 1.3084,
+      "change1hPct": -0.04,
+      "change24hPct": -4.559,
+      "lagVsLeader24h": 0,
+      "rsi1h": 38.28,
+      "volRatio": 0.17,
+      "fundingHourlyPct": -0.0013,
+      "totalScore": 76,
+      "tpPct": 4.79,
+      "slPct": 2.3,
+      "tpPrice": 1.3711,
+      "slPrice": 1.2783
+    },
+    {
+      "symbol": "XLM",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "xrp",
+        "tokenized",
+        "blackrock",
+        "ripple"
+      ],
+      "newsScore": 10.78,
+      "freshestMinutesAgo": 146,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
+          "minutesAgo": 146,
+          "catalystPoints": 5.67,
+          "directMention": false
+        },
+        {
+          "source": "CoinTelegraph",
+          "title": "Bitcoin ETFs shed $261M as XRP funds buck weekly outflow trend",
+          "minutesAgo": 247,
+          "catalystPoints": 3.89,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.1799,
+      "change1hPct": 0.17,
+      "change24hPct": -4.966,
+      "lagVsLeader24h": 0.41,
+      "rsi1h": 36.54,
+      "volRatio": 0.34,
+      "fundingHourlyPct": -0.0005,
+      "totalScore": 76,
+      "tpPct": 5.25,
+      "slPct": 2.52,
+      "tpPrice": 0.18934,
+      "slPrice": 0.17537
+    },
+    {
+      "symbol": "RSR",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "xrp",
+        "tokenized",
+        "blackrock",
+        "ripple"
+      ],
+      "newsScore": 10.78,
+      "freshestMinutesAgo": 146,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
+          "minutesAgo": 146,
+          "catalystPoints": 5.67,
+          "directMention": false
+        },
+        {
+          "source": "CoinTelegraph",
+          "title": "Bitcoin ETFs shed $261M as XRP funds buck weekly outflow trend",
+          "minutesAgo": 247,
+          "catalystPoints": 3.89,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.001922,
+      "change1hPct": -0.1,
+      "change24hPct": -3.756,
+      "lagVsLeader24h": -0.8,
+      "rsi1h": 44.88,
+      "volRatio": 0.19,
+      "fundingHourlyPct": -0.0076,
+      "totalScore": 76,
+      "tpPct": 7.5,
+      "slPct": 3.4,
+      "tpPrice": 0.0020662,
+      "slPrice": 0.0018567
+    },
+    {
+      "symbol": "HBAR",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "xrp",
+        "tokenized",
+        "blackrock",
+        "ripple"
+      ],
+      "newsScore": 10.78,
+      "freshestMinutesAgo": 146,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
+          "minutesAgo": 146,
+          "catalystPoints": 5.67,
+          "directMention": false
+        },
+        {
+          "source": "CoinTelegraph",
+          "title": "Bitcoin ETFs shed $261M as XRP funds buck weekly outflow trend",
+          "minutesAgo": 247,
+          "catalystPoints": 3.89,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.08148,
+      "change1hPct": 0.26,
+      "change24hPct": -5.377,
+      "lagVsLeader24h": 0.82,
+      "rsi1h": 29.88,
+      "volRatio": 0.32,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 75.6,
+      "tpPct": 5.56,
+      "slPct": 2.67,
+      "tpPrice": 0.08601,
+      "slPrice": 0.079304
+    },
+    {
+      "symbol": "LINK",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "xrp",
+        "tokenized",
+        "blackrock",
+        "ripple"
+      ],
+      "newsScore": 10.78,
+      "freshestMinutesAgo": 146,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
+          "minutesAgo": 146,
+          "catalystPoints": 5.67,
+          "directMention": false
+        },
+        {
+          "source": "CoinTelegraph",
+          "title": "Bitcoin ETFs shed $261M as XRP funds buck weekly outflow trend",
+          "minutesAgo": 247,
+          "catalystPoints": 3.89,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 12.073,
+      "change1hPct": 0.34,
+      "change24hPct": -6.331,
+      "lagVsLeader24h": 1.77,
+      "rsi1h": 34.14,
+      "volRatio": 0.52,
+      "fundingHourlyPct": 0,
+      "totalScore": 69.5,
+      "tpPct": 5.64,
+      "slPct": 2.71,
+      "tpPrice": 12.754,
+      "slPrice": 11.746
+    },
+    {
+      "symbol": "PENDLE",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "aave",
+        "babylon",
+        "lending proposal",
+        "lido",
+        "uniswap"
+      ],
+      "newsScore": 4.69,
+      "freshestMinutesAgo": 136,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
+          "minutesAgo": 136,
+          "catalystPoints": 3.51,
+          "directMention": false
+        },
+        {
+          "source": "BeInCrypto",
+          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
+          "minutesAgo": 233,
+          "catalystPoints": 0.68,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 1.932,
+      "change1hPct": 0.1,
+      "change24hPct": -11.7,
+      "lagVsLeader24h": 6.25,
+      "rsi1h": 28.1,
+      "volRatio": 0.31,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 61.5,
+      "tpPct": 7.5,
+      "slPct": 3.4,
+      "tpPrice": 2.0769,
+      "slPrice": 1.8663,
+      "allocUsdt": 6,
+      "allocTry": 214,
+      "qty": 3.106,
+      "expectedProfitUsdt": 0.45
+    },
+    {
+      "symbol": "OP",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "aave",
+        "babylon",
+        "lending proposal",
+        "lido",
+        "uniswap"
+      ],
+      "newsScore": 4.69,
+      "freshestMinutesAgo": 136,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
+          "minutesAgo": 136,
+          "catalystPoints": 3.51,
+          "directMention": false
+        },
+        {
+          "source": "BeInCrypto",
+          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
+          "minutesAgo": 233,
+          "catalystPoints": 0.68,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.1319,
+      "change1hPct": 0.38,
+      "change24hPct": -11.417,
+      "lagVsLeader24h": 5.97,
+      "rsi1h": 29.38,
+      "volRatio": 0.24,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 61.4,
+      "tpPct": 7.5,
+      "slPct": 3.4,
+      "tpPrice": 0.14179,
+      "slPrice": 0.12742
+    },
+    {
+      "symbol": "AAVE",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "aave",
+        "babylon",
+        "lending proposal",
+        "lido",
+        "uniswap"
+      ],
+      "newsScore": 5.92,
+      "freshestMinutesAgo": 136,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
+          "minutesAgo": 136,
+          "catalystPoints": 4.74,
+          "directMention": true
+        },
+        {
+          "source": "BeInCrypto",
+          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
+          "minutesAgo": 233,
+          "catalystPoints": 0.68,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 149.32,
+      "change1hPct": 0.09,
+      "change24hPct": -6.943,
+      "lagVsLeader24h": 1.49,
+      "rsi1h": 35.28,
+      "volRatio": 0.83,
+      "fundingHourlyPct": -0.0006,
+      "totalScore": 60.6,
+      "tpPct": 6.07,
+      "slPct": 2.91,
+      "tpPrice": 158.38,
+      "slPrice": 144.97
+    },
+    {
+      "symbol": "ETHFI",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "aave",
+        "babylon",
+        "lending proposal",
+        "lido",
+        "uniswap"
+      ],
+      "newsScore": 4.69,
+      "freshestMinutesAgo": 136,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
+          "minutesAgo": 136,
+          "catalystPoints": 3.51,
+          "directMention": false
+        },
+        {
+          "source": "BeInCrypto",
+          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
+          "minutesAgo": 233,
+          "catalystPoints": 0.68,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.6028,
+      "change1hPct": 0.2,
+      "change24hPct": -9.285,
+      "lagVsLeader24h": 3.84,
+      "rsi1h": 33.22,
+      "volRatio": 0.26,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 57.1,
+      "tpPct": 7.5,
+      "slPct": 3.4,
+      "tpPrice": 0.64801,
+      "slPrice": 0.5823
+    },
+    {
+      "symbol": "ENS",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "aave",
+        "babylon",
+        "lending proposal",
+        "lido",
+        "uniswap"
+      ],
+      "newsScore": 4.69,
+      "freshestMinutesAgo": 136,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
+          "minutesAgo": 136,
+          "catalystPoints": 3.51,
+          "directMention": false
+        },
+        {
+          "source": "BeInCrypto",
+          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
+          "minutesAgo": 233,
+          "catalystPoints": 0.68,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 5.51,
+      "change1hPct": 0.55,
+      "change24hPct": -7.705,
+      "lagVsLeader24h": 2.26,
+      "rsi1h": 31.88,
+      "volRatio": 0.14,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 54,
+      "tpPct": 7.5,
+      "slPct": 3.4,
+      "tpPrice": 5.9232,
+      "slPrice": 5.3227
+    },
+    {
+      "symbol": "ARB",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "aave",
+        "babylon",
+        "lending proposal",
+        "lido",
+        "uniswap"
+      ],
+      "newsScore": 4.69,
+      "freshestMinutesAgo": 136,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
+          "minutesAgo": 136,
+          "catalystPoints": 3.51,
+          "directMention": false
+        },
+        {
+          "source": "BeInCrypto",
+          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
+          "minutesAgo": 233,
+          "catalystPoints": 0.68,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.1737,
+      "change1hPct": -0.12,
+      "change24hPct": -7.409,
+      "lagVsLeader24h": 1.96,
+      "rsi1h": 32.49,
+      "volRatio": 0.35,
+      "fundingHourlyPct": 0.0007,
+      "totalScore": 53.4,
+      "tpPct": 7.49,
+      "slPct": 3.4,
+      "tpPrice": 0.18671,
+      "slPrice": 0.16779
+    },
+    {
+      "symbol": "STX",
+      "leaderSymbol": "BTC",
+      "ecosystems": [
+        "Bitcoin Layer-2, Ordinals, Runes & BTC DeFi"
+      ],
+      "matchedKeywords": [
+        "babylon",
+        "saylor"
+      ],
+      "newsScore": 4.55,
+      "freshestMinutesAgo": 136,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
+          "minutesAgo": 136,
+          "catalystPoints": 3.51,
+          "directMention": false
+        },
+        {
+          "source": "Decrypt",
+          "title": "Morning Minute: Move Over, Saylor, There’s a New Top Buyer in Town",
+          "minutesAgo": 1399,
+          "catalystPoints": 1.04,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.3994,
+      "change1hPct": 1.42,
+      "change24hPct": -8.854,
+      "lagVsLeader24h": 6.06,
+      "rsi1h": 34.24,
+      "volRatio": 0.59,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 52.8,
+      "tpPct": 7.5,
+      "slPct": 3.4,
+      "tpPrice": 0.42935,
+      "slPrice": 0.38582,
+      "allocUsdt": 6,
+      "allocTry": 214,
+      "qty": 15.02,
+      "expectedProfitUsdt": 0.45
+    },
+    {
+      "symbol": "EIGEN",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "aave",
+        "babylon",
+        "lending proposal",
+        "lido",
+        "uniswap"
+      ],
+      "newsScore": 4.69,
+      "freshestMinutesAgo": 136,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
+          "minutesAgo": 136,
+          "catalystPoints": 3.51,
+          "directMention": false
+        },
+        {
+          "source": "BeInCrypto",
+          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
+          "minutesAgo": 233,
+          "catalystPoints": 0.68,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.2256,
+      "change1hPct": -0.22,
+      "change24hPct": -6.39,
+      "lagVsLeader24h": 0.94,
+      "rsi1h": 31.3,
+      "volRatio": 0.66,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 51.3,
+      "tpPct": 6.21,
+      "slPct": 2.98,
+      "tpPrice": 0.23961,
+      "slPrice": 0.21888
+    },
+    {
+      "symbol": "LDO",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "aave",
+        "babylon",
+        "lending proposal",
+        "lido",
+        "uniswap"
+      ],
+      "newsScore": 4.69,
+      "freshestMinutesAgo": 136,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
+          "minutesAgo": 136,
+          "catalystPoints": 3.51,
+          "directMention": false
+        },
+        {
+          "source": "BeInCrypto",
+          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
+          "minutesAgo": 233,
+          "catalystPoints": 0.68,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.3865,
+      "change1hPct": 0.1,
+      "change24hPct": -7.558,
+      "lagVsLeader24h": 2.11,
+      "rsi1h": 38.04,
+      "volRatio": 0.32,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 45.7,
+      "tpPct": 7.5,
+      "slPct": 3.4,
+      "tpPrice": 0.41549,
+      "slPrice": 0.37336
+    },
+    {
+      "symbol": "UNI",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "aave",
+        "babylon",
+        "lending proposal",
+        "lido",
+        "uniswap"
+      ],
+      "newsScore": 4.69,
+      "freshestMinutesAgo": 136,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
+          "minutesAgo": 136,
+          "catalystPoints": 3.51,
+          "directMention": false
+        },
+        {
+          "source": "BeInCrypto",
+          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
+          "minutesAgo": 233,
+          "catalystPoints": 0.68,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 6.884,
+      "change1hPct": 0.07,
+      "change24hPct": -6.085,
+      "lagVsLeader24h": 0.64,
+      "rsi1h": 37.27,
+      "volRatio": 0.29,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 41.5,
+      "tpPct": 5.75,
+      "slPct": 2.76,
+      "tpPrice": 7.2798,
+      "slPrice": 6.694
+    },
+    {
+      "symbol": "METIS",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "aave",
+        "babylon",
+        "lending proposal",
+        "lido",
+        "uniswap"
+      ],
+      "newsScore": 4.69,
+      "freshestMinutesAgo": 136,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
+          "minutesAgo": 136,
+          "catalystPoints": 3.51,
+          "directMention": false
+        },
+        {
+          "source": "BeInCrypto",
+          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
+          "minutesAgo": 233,
+          "catalystPoints": 0.68,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 3.8,
+      "change1hPct": 2.15,
+      "change24hPct": 4.396,
+      "lagVsLeader24h": -9.84,
+      "rsi1h": 64.06,
+      "volRatio": 2.05,
+      "fundingHourlyPct": 0,
+      "totalScore": 29.8,
+      "tpPct": 7.5,
+      "slPct": 3.4,
+      "tpPrice": 4.085,
+      "slPrice": 3.6708
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "altcoin-news-hunter",
+  "version": "5.0.0",
+  "description": "Autonomous Breaking-News to Connected Altcoin (Sympathy Play) Scanner & Binance Spot Auto-Trader",
+  "type": "module",
+  "scripts": {
+    "scan": "node altcoin_news_hunter.mjs",
+    "trade": "node altcoin_auto_trader.mjs",
+    "start": "node altcoin_auto_trader.mjs --daemon"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
