@@ -749,23 +749,44 @@ async function runTradingCycle() {
   const msSinceLastWa = Date.now() - Number(state.lastWhatsAppReportAt || 0);
   if (cycleEvents.length > 0 || msSinceLastWa >= 60 * 60 * 1000) {
     state.lastWhatsAppReportAt = Date.now();
-    const openLines = state.openPositions
-      .map(p => `• ${p.symbol}: ${toTL(p.currentPrice * p.qty)} TL (${p.unrealizedPnlUsdt >= 0 ? '+' : ''}${toTL(p.unrealizedPnlUsdt)} TL / %${p.unrealizedPnlPct})`)
-      .join('\n');
-    const eventHeader = cycleEvents.length > 0 ? `⚡ *Yeni İşlemler:*\n${cycleEvents.join('\n')}\n--------------------\n` : '';
-    const waMsg =
-      `💰 *ALTCOIN KASA RAPORU (v8.0 AI)*\n` +
-      eventHeader +
-      `Toplam Kasa: *${toTL(state.totalEquityUsdt)} TL*\n` +
-      `Net Kar: *${state.totalPnlUsdt >= 0 ? '+' : ''}${toTL(state.totalPnlUsdt)} TL (%${state.totalPnlPct})*\n` +
-      `Nakit: ${toTL(state.cashUsdt)} TL | Basari: ${state.winCount}/${state.winCount + state.lossCount}\n` +
-      `--------------------\n` +
-      `*Acik Islemler:*\n${openLines || 'Yok'}`;
-    await sendInstantPhoneAlert(waMsg);
+    await sendInstantPhoneAlert(buildSimpleWhatsAppMessage(state));
   }
 
   savePortfolioState(state);
   return { state, signalsData };
+}
+
+function buildSimpleWhatsAppMessage(state) {
+  const openMarketValueUsdt = state.openPositions.reduce((sum, p) => sum + p.currentPrice * p.qty, 0);
+  const expectedOpenUsdt = state.openPositions.reduce((sum, p) => {
+    const targetPrice = Math.max(Number(p.takeProfitPrice || 0), p.entryPrice * 1.09, p.currentPrice * 1.04);
+    return sum + targetPrice * p.qty;
+  }, 0);
+  const expectedTotalUsdt = state.cashUsdt + expectedOpenUsdt;
+  const expectedTotalPnlUsdt = expectedTotalUsdt - state.initialBankrollUsdt;
+
+  const openLines = state.openPositions
+    .map(p => {
+      const curTry = toTL(p.currentPrice * p.qty);
+      const pnlSign = p.unrealizedPnlUsdt >= 0 ? '+' : '';
+      const pnlTry = toTL(p.unrealizedPnlUsdt);
+      const targetPrice = Math.max(Number(p.takeProfitPrice || 0), p.entryPrice * 1.09, p.currentPrice * 1.04);
+      const targetTry = toTL(targetPrice * p.qty);
+      return `- ${p.symbol}: ${curTry} TL (Kar: ${pnlSign}${pnlTry} TL | Hedef: ${targetTry} TL)`;
+    })
+    .join('\n');
+
+  const pnlSign = state.totalPnlUsdt >= 0 ? '+' : '';
+  const expSign = expectedTotalPnlUsdt >= 0 ? '+' : '';
+
+  return (
+    `Toplam Kasa: ${toTL(state.totalEquityUsdt)} TL\n` +
+    `Su Anki Kar: ${pnlSign}${toTL(state.totalPnlUsdt)} TL (${pnlSign}%${state.totalPnlPct})\n` +
+    `Coindeki Para: ${toTL(openMarketValueUsdt)} TL\n` +
+    `Bostaki Nakit: ${toTL(state.cashUsdt)} TL\n` +
+    `Hedeflenen Kasa (Hedef Gelirse): ${toTL(expectedTotalUsdt)} TL (${expSign}${toTL(expectedTotalPnlUsdt)} TL Kar)\n\n` +
+    `Coinde Olanlar:\n${openLines || 'Su an acik islem yok'}`
+  );
 }
 
 function renderDashboardHtml() {
@@ -982,18 +1003,8 @@ async function main() {
   }
 
   if (shouldNotify) {
-    const openLines = s.openPositions
-      .map(p => `• ${p.symbol}: ${toTL(p.currentPrice * p.qty)} TL (${p.unrealizedPnlUsdt >= 0 ? '+' : ''}${toTL(p.unrealizedPnlUsdt)} TL / %${p.unrealizedPnlPct})`)
-      .join('\n');
-    const waMsg =
-      `💰 *ALTCOIN KASA RAPORU (v8.0 AI)*\n` +
-      `Toplam Kasa: *${toTL(s.totalEquityUsdt)} TL*\n` +
-      `Net Kar: *${s.totalPnlUsdt >= 0 ? '+' : ''}${toTL(s.totalPnlUsdt)} TL (%${s.totalPnlPct})*\n` +
-      `Nakit: ${toTL(s.cashUsdt)} TL | Basari: ${s.winCount}/${s.winCount + s.lossCount}\n` +
-      `--------------------\n` +
-      `*Acik Islemler:*\n${openLines || 'Yok'}`;
-    await sendInstantPhoneAlert(waMsg);
-    console.log('📱 WhatsApp Kasa Raporu telefonuna gönderildi!');
+    await sendInstantPhoneAlert(buildSimpleWhatsAppMessage(s));
+    console.log('WhatsApp Kasa Raporu telefonuna gonderildi!');
   }
 
   if (isDaemon) {
