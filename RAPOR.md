@@ -1,17 +1,17 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Zero-Risk v9.0)
 
-**Son Güncelleme:** 16.10.2026 19:39:24
+**Son Güncelleme:** 16.10.2026 22:43:34
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.031,16 TL`**
-* **Toplam Net Kâr / Zarar:** **`+31,20 TL` (`+%3.12`)**
-* **Boşta Bekleyen Nakit:** `845,35 TL`
-* **Coinde Olan Para:** `185,81 TL`
-* **Başarılı Satış / Zarar Kes:** `8 Kârlı Satış / 3 Zarar Kes`
+* **Şu Anki Toplam Para:** **`1.028,32 TL`**
+* **Toplam Net Kâr / Zarar:** **`+28,36 TL` (`+%2.84`)**
+* **Boşta Bekleyen Nakit:** `452,37 TL`
+* **Coinde Olan Para:** `575,95 TL`
+* **Başarılı Satış / Zarar Kes:** `8 Kârlı Satış / 4 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Bağlantı Bekleniyor`
 
 ---
@@ -20,6 +20,7 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
+| **DOGE** | `185,64 TL` | `183,22 TL` | **`-2,42 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%-1.31) |
 | **DOGE** | `189,57 TL` | `186,75 TL` | **`-2,82 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%-1.48) |
 | **BOME** | `399,48 TL` | `391,56 TL` | **`-7,92 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%-2) |
 | **FLOKI** | `401,63 TL` | `390,50 TL` | **`-11,12 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%-2.77) |
@@ -38,7 +39,8 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **DOGE (VURGUN)** | `185,64 TL` | `185,81 TL` | **`+0,16 TL (%0.09)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
+| **WIF** | `390,92 TL` | `390,69 TL` | **`-0,20 TL (%-0.05)`** | 🛡️ Sıkı Kalkan Aktif (+%1,0'da Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **XRP (VURGUN)** | `185,28 TL` | `185,26 TL` | **`-0,03 TL (%-0.02)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
 
 ---
 
