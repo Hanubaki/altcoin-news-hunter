@@ -1,18 +1,18 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Ultra-Yield v7.0)
 
-**Son Güncelleme:** 16.10.2026 14:43:10
+**Son Güncelleme:** 16.10.2026 15:05:39
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.056,32 TL`**
-* **Toplam Net Kâr / Zarar:** **`+56,37 TL` (`+%5.64`)**
-* **Boşta Bekleyen Nakit:** `324,96 TL`
-* **Coinde Olan Para:** `731,36 TL`
-* **Başarılı Satış / Zarar Kes:** `5 Kârlı Satış / 0 Zarar Kes`
-* **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: BNB: 0.0004 | ETHW: 0.0010 | TRY: 0.0011)`
+* **Şu Anki Toplam Para:** **`1.050,67 TL`**
+* **Toplam Net Kâr / Zarar:** **`+50,71 TL` (`+%5.07`)**
+* **Boşta Bekleyen Nakit:** `107,90 TL`
+* **Coinde Olan Para:** `942,77 TL`
+* **Başarılı Satış / Zarar Kes:** `6 Kârlı Satış / 0 Zarar Kes`
+* **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Bağlantı Bekleniyor`
 
 ---
 
@@ -20,6 +20,7 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
+| **RAY** | `173,93 TL` | `182,42 TL` | **`+8,49 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (%4.87) |
 | **RAY** | `115,95 TL` | `123,28 TL` | **`+7,33 TL`** | 💰 1. KADEME (%40) KÂR AL (+%6.33) |
 | **FET** | `292,03 TL` | `293,16 TL` | **`+1,13 TL`** | 🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — %0.39) |
 | **FET** | `332,01 TL` | `332,21 TL` | **`+0,20 TL`** | 🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — %0.05) |
@@ -32,9 +33,9 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **AVAX** | `133,88 TL` | `145,14 TL` | **`+11,27 TL (%8.42)`** | 🚀 1. Kademe Satıldı, +%9'da 2. Kademe + Sınırsız Uçuş Modu |
-| **RAY** | `173,93 TL` | `185,07 TL` | **`+11,12 TL (%6.39)`** | 🚀 1. Kademe Satıldı, +%9'da 2. Kademe + Sınırsız Uçuş Modu |
-| **FLOKI** | `401,63 TL` | `401,15 TL` | **`-0,49 TL (%-0.12)`** | +%4,0'da 1. Kademe, +%9,0'da 2. Kademe, Kalanı Sınırsız Uçuş |
+| **AVAX** | `133,88 TL` | `144,06 TL` | **`+10,19 TL (%7.61)`** | 🚀 1. Kademe Satıldı, +%9'da 2. Kademe + Sınırsız Uçuş Modu |
+| **FLOKI** | `401,63 TL` | `399,38 TL` | **`-2,26 TL (%-0.56)`** | +%4,0'da 1. Kademe, +%9,0'da 2. Kademe, Kalanı Sınırsız Uçuş |
+| **BOME** | `399,48 TL` | `399,33 TL` | **`-0,23 TL (%-0.06)`** | +%4,0'da 1. Kademe, +%9,0'da 2. Kademe, Kalanı Sınırsız Uçuş |
 
 ---
 
