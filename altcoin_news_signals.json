@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-16T12:20:49.524Z",
-  "scanDurationMs": 7111,
+  "updatedAt": "2026-10-16T12:26:31.074Z",
+  "scanDurationMs": 7601,
   "bankrollTry": 1000,
   "bankrollUsdt": 28.01,
-  "btc1hChangePct": -0.44,
+  "btc1hChangePct": -0.35,
   "btcCrashAlert": false,
   "marketBreadthPct": 99,
   "totalHeadlinesScanned": 92,
@@ -25,32 +25,32 @@
         "solana"
       ],
       "newsScore": 7.72,
-      "freshestMinutesAgo": 58,
+      "freshestMinutesAgo": 64,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "GTA 6 Trailer Features Meme Coin—And Solana Copycat Soars 2,900%",
-          "minutesAgo": 125,
+          "minutesAgo": 130,
           "catalystPoints": 5,
           "directMention": false
         },
         {
           "source": "CoinTelegraph",
           "title": "Solana’s Liu says Shanghai event postponed over registration surge",
-          "minutesAgo": 58,
+          "minutesAgo": 64,
           "catalystPoints": 2.72,
           "directMention": false
         }
       ],
-      "lastPrice": 0.0006911,
-      "change1hPct": 0.19,
-      "change24hPct": 2.203,
-      "lagVsLeader24h": 1.67,
-      "rsi1h": 45.33,
+      "lastPrice": 0.0006953,
+      "change1hPct": 0.8,
+      "change24hPct": 2.885,
+      "lagVsLeader24h": 1.29,
+      "rsi1h": 50,
       "hasRsiDivergence": true,
-      "atr1hPct": 1.34,
-      "bbPctB": 0.31,
-      "bbWidthPct": 2,
+      "atr1hPct": 1.36,
+      "bbPctB": 0.6,
+      "bbWidthPct": 1.98,
       "isSqueeze": true,
       "macdBullishTurn": true,
       "adx": 2.4,
@@ -58,42 +58,41 @@
       "regime": "DIP_TOPLAMA",
       "support": 0.0006766,
       "resistance": 0.0007056,
-      "roomToResistancePct": 2.1,
-      "aiConsensusCount": 4,
+      "roomToResistancePct": 1.5,
+      "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
-        "Llama-4-Scout",
         "Gemini-3.5-Flash",
         "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 61.2,
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 61.1,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.46,
-      "fundingHourlyPct": -0.0014,
+      "volRatio": 0.48,
+      "fundingHourlyPct": -0.0009,
       "totalScore": 99,
       "tpPct": 4.5,
-      "slPct": 1.94,
-      "tpPrice": 0.0007222,
-      "slPrice": 0.00067769,
+      "slPct": 1.97,
+      "tpPrice": 0.00072659,
+      "slPrice": 0.0006816,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
           "decision": "WAIT",
           "confidence": 95,
-          "reason": "GTA 6 haberi BOME ile doğrudan ilgili değil, tuzak riski."
+          "reason": "GTA 6 haberinde BOME geçmiyor, tuzak riski yüksek."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
-          "confidence": 78,
-          "reason": "Whale alımı ve hype, fiyat yükselişi bekleniyor"
+          "confidence": 82,
+          "reason": "Whale alımı ve hype pozitif"
         }
       ],
       "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 87,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] GTA 6 haberi BOME ile doğrudan ilgili değil, tuzak riski. | [GPT-120B: LONG %78] Whale alımı ve hype, fiyat yükselişi bekleniyor"
+      "liveLlmConfidence": 89,
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] GTA 6 haberinde BOME geçmiyor, tuzak riski yüksek. | [GPT-120B: LONG %82] Whale alımı ve hype pozitif"
     },
     {
       "symbol": "OM",
@@ -108,19 +107,19 @@
         "xrp"
       ],
       "newsScore": 15.43,
-      "freshestMinutesAgo": 50,
+      "freshestMinutesAgo": 56,
       "headlines": [
         {
           "source": "CoinDesk",
           "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 92,
+          "minutesAgo": 98,
           "catalystPoints": 8.64,
           "directMention": false
         },
         {
           "source": "CryptoPotato",
           "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
-          "minutesAgo": 50,
+          "minutesAgo": 56,
           "catalystPoints": 6.46,
           "directMention": false
         }
@@ -128,7 +127,7 @@
       "lastPrice": 0.0669,
       "change1hPct": -4.43,
       "change24hPct": -5.106,
-      "lagVsLeader24h": 7.49,
+      "lagVsLeader24h": 7.54,
       "rsi1h": 31.53,
       "hasRsiDivergence": true,
       "atr1hPct": 3.26,
@@ -164,21 +163,21 @@
           "model": "Qwen-3.8",
           "decision": "WAIT",
           "confidence": 95,
-          "reason": "Haber spekülatif, RSI aşırı satımda, balina alımı yüksek riskli."
+          "reason": "Haber tuzak, RSI aşırı satım, balina alımı düşük."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
           "confidence": 82,
-          "reason": "Pozitif haber ve düşük RSI, balina alımı"
+          "reason": "Pozitif haber, düşük RSI, balina alımı"
         }
       ],
       "liveLlmDecision": "LONG",
       "liveLlmConfidence": 89,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber spekülatif, RSI aşırı satımda, balina alımı yüksek riskli. | [GPT-120B: LONG %82] Pozitif haber ve düşük RSI, balina alımı"
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber tuzak, RSI aşırı satım, balina alımı düşük. | [GPT-120B: LONG %82] Pozitif haber, düşük RSI, balina alımı"
     },
     {
-      "symbol": "FLOKI",
+      "symbol": "PEPE",
       "leaderSymbol": "DOGE",
       "ecosystems": [
         "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
@@ -188,74 +187,74 @@
         "elon musk"
       ],
       "newsScore": 13.64,
-      "freshestMinutesAgo": 92,
+      "freshestMinutesAgo": 98,
       "headlines": [
         {
           "source": "CoinDesk",
           "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 92,
+          "minutesAgo": 98,
           "catalystPoints": 8.64,
           "directMention": false
         },
         {
           "source": "Decrypt",
           "title": "GTA 6 Trailer Features Meme Coin—And Solana Copycat Soars 2,900%",
-          "minutesAgo": 125,
+          "minutesAgo": 130,
           "catalystPoints": 5,
           "directMention": false
         }
       ],
-      "lastPrice": 0.00002477,
-      "change1hPct": -0.12,
-      "change24hPct": 4.824,
-      "lagVsLeader24h": -2.75,
-      "rsi1h": 56.52,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.85,
-      "bbPctB": 0.74,
-      "bbWidthPct": 1.83,
+      "lastPrice": 0.00000412,
+      "change1hPct": 0.49,
+      "change24hPct": 4.304,
+      "lagVsLeader24h": -2.04,
+      "rsi1h": 50,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.18,
+      "bbPctB": 0.53,
+      "bbWidthPct": 2.59,
       "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 4.3,
+      "macdBullishTurn": true,
+      "adx": 21.4,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
-      "support": 0.00002329,
-      "resistance": 0.00002494,
-      "roomToResistancePct": 1.5,
+      "support": 0.00000386,
+      "resistance": 0.00000421,
+      "roomToResistancePct": 2.18,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 63,
+      "takerBuyRatioPct": 43.4,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.18,
+      "volRatio": 0.31,
       "fundingHourlyPct": 0,
-      "totalScore": 86,
-      "tpPct": 4.99,
+      "totalScore": 87,
+      "tpPct": 6.08,
       "slPct": 1.8,
-      "tpPrice": 0.000026006,
-      "slPrice": 0.000024324,
+      "tpPrice": 0.0000043705,
+      "slPrice": 0.0000040458,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
           "decision": "WAIT",
           "confidence": 95,
-          "reason": "Haber FLOKI ile alakasız, tuzak riski yüksek."
+          "reason": "Haber PEPE ile alakasız, tuzak riski yüksek."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
-          "confidence": 82,
-          "reason": "Pozitif haber ve yüksek balina alımı"
+          "confidence": 78,
+          "reason": "Yüksek balina alımı ve güçlü teknik destek"
         }
       ],
       "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 89,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber FLOKI ile alakasız, tuzak riski yüksek. | [GPT-120B: LONG %82] Pozitif haber ve yüksek balina alımı"
+      "liveLlmConfidence": 87,
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber PEPE ile alakasız, tuzak riski yüksek. | [GPT-120B: LONG %78] Yüksek balina alımı ve güçlü teknik destek"
     },
     {
       "symbol": "SUI",
@@ -267,55 +266,56 @@
         "celestia"
       ],
       "newsScore": 2.16,
-      "freshestMinutesAgo": 100,
+      "freshestMinutesAgo": 105,
       "headlines": [
         {
           "source": "CoinDesk",
           "title": "Altcoins outpace bitcoin as celestia jumps 16%, Warsh silent on interest-rate plans",
-          "minutesAgo": 100,
+          "minutesAgo": 105,
           "catalystPoints": 2.16,
           "directMention": false
         }
       ],
-      "lastPrice": 1.046,
-      "change1hPct": -0.6,
-      "change24hPct": 6.236,
+      "lastPrice": 1.0497,
+      "change1hPct": -0.27,
+      "change24hPct": 6.72,
       "lagVsLeader24h": 0,
-      "rsi1h": 56.04,
+      "rsi1h": 59.54,
       "hasRsiDivergence": false,
       "atr1hPct": 1.19,
-      "bbPctB": 0.77,
-      "bbWidthPct": 2.36,
+      "bbPctB": 0.89,
+      "bbWidthPct": 2.45,
       "isSqueeze": true,
-      "macdBullishTurn": false,
+      "macdBullishTurn": true,
       "adx": 22.3,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
       "support": 0.9668,
       "resistance": 1.0542,
       "roomToResistancePct": 1.5,
-      "aiConsensusCount": 2,
+      "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 49.6,
-      "isGreenBounce": false,
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 49.5,
+      "isGreenBounce": true,
       "isTrending": true,
-      "volRatio": 0.35,
+      "volRatio": 0.4,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 45.7,
+      "totalScore": 57.7,
       "tpPct": 6.91,
       "slPct": 1.8,
-      "tpPrice": 1.1183,
-      "slPrice": 1.0272,
+      "tpPrice": 1.1222,
+      "slPrice": 1.0308,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
-          "decision": "WAIT",
+          "decision": "LONG",
           "confidence": 75,
-          "reason": "Haber SUI'ye özel değil, genel piyasa haberi."
+          "reason": "Altcoin rallisi ve dengeli RSI pozitif sinyal veriyor."
         },
         {
           "model": "GPT-120B",
@@ -326,7 +326,7 @@
       ],
       "liveLlmDecision": "LONG",
       "liveLlmConfidence": 79,
-      "liveLlmReason": "[Qwen-3.8: WAIT %75] Haber SUI'ye özel değil, genel piyasa haberi. | [GPT-120B: LONG %82] Whale alımı ve pozitif haberler destekli"
+      "liveLlmReason": "[Qwen-3.8: LONG %75] Altcoin rallisi ve dengeli RSI pozitif sinyal veriyor. | [GPT-120B: LONG %82] Whale alımı ve pozitif haberler destekli"
     }
   ],
   "allQualifiedOpportunities": [
@@ -340,32 +340,32 @@
         "solana"
       ],
       "newsScore": 7.72,
-      "freshestMinutesAgo": 58,
+      "freshestMinutesAgo": 64,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "GTA 6 Trailer Features Meme Coin—And Solana Copycat Soars 2,900%",
-          "minutesAgo": 125,
+          "minutesAgo": 130,
           "catalystPoints": 5,
           "directMention": false
         },
         {
           "source": "CoinTelegraph",
           "title": "Solana’s Liu says Shanghai event postponed over registration surge",
-          "minutesAgo": 58,
+          "minutesAgo": 64,
           "catalystPoints": 2.72,
           "directMention": false
         }
       ],
-      "lastPrice": 0.0006911,
-      "change1hPct": 0.19,
-      "change24hPct": 2.203,
-      "lagVsLeader24h": 1.67,
-      "rsi1h": 45.33,
+      "lastPrice": 0.0006953,
+      "change1hPct": 0.8,
+      "change24hPct": 2.885,
+      "lagVsLeader24h": 1.29,
+      "rsi1h": 50,
       "hasRsiDivergence": true,
-      "atr1hPct": 1.34,
-      "bbPctB": 0.31,
-      "bbWidthPct": 2,
+      "atr1hPct": 1.36,
+      "bbPctB": 0.6,
+      "bbWidthPct": 1.98,
       "isSqueeze": true,
       "macdBullishTurn": true,
       "adx": 2.4,
@@ -373,42 +373,41 @@
       "regime": "DIP_TOPLAMA",
       "support": 0.0006766,
       "resistance": 0.0007056,
-      "roomToResistancePct": 2.1,
-      "aiConsensusCount": 4,
+      "roomToResistancePct": 1.5,
+      "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
-        "Llama-4-Scout",
         "Gemini-3.5-Flash",
         "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 61.2,
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 61.1,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.46,
-      "fundingHourlyPct": -0.0014,
+      "volRatio": 0.48,
+      "fundingHourlyPct": -0.0009,
       "totalScore": 99,
       "tpPct": 4.5,
-      "slPct": 1.94,
-      "tpPrice": 0.0007222,
-      "slPrice": 0.00067769,
+      "slPct": 1.97,
+      "tpPrice": 0.00072659,
+      "slPrice": 0.0006816,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
           "decision": "WAIT",
           "confidence": 95,
-          "reason": "GTA 6 haberi BOME ile doğrudan ilgili değil, tuzak riski."
+          "reason": "GTA 6 haberinde BOME geçmiyor, tuzak riski yüksek."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
-          "confidence": 78,
-          "reason": "Whale alımı ve hype, fiyat yükselişi bekleniyor"
+          "confidence": 82,
+          "reason": "Whale alımı ve hype pozitif"
         }
       ],
       "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 87,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] GTA 6 haberi BOME ile doğrudan ilgili değil, tuzak riski. | [GPT-120B: LONG %78] Whale alımı ve hype, fiyat yükselişi bekleniyor"
+      "liveLlmConfidence": 89,
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] GTA 6 haberinde BOME geçmiyor, tuzak riski yüksek. | [GPT-120B: LONG %82] Whale alımı ve hype pozitif"
     },
     {
       "symbol": "OM",
@@ -423,19 +422,19 @@
         "xrp"
       ],
       "newsScore": 15.43,
-      "freshestMinutesAgo": 50,
+      "freshestMinutesAgo": 56,
       "headlines": [
         {
           "source": "CoinDesk",
           "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 92,
+          "minutesAgo": 98,
           "catalystPoints": 8.64,
           "directMention": false
         },
         {
           "source": "CryptoPotato",
           "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
-          "minutesAgo": 50,
+          "minutesAgo": 56,
           "catalystPoints": 6.46,
           "directMention": false
         }
@@ -443,7 +442,7 @@
       "lastPrice": 0.0669,
       "change1hPct": -4.43,
       "change24hPct": -5.106,
-      "lagVsLeader24h": 7.49,
+      "lagVsLeader24h": 7.54,
       "rsi1h": 31.53,
       "hasRsiDivergence": true,
       "atr1hPct": 3.26,
@@ -479,79 +478,161 @@
           "model": "Qwen-3.8",
           "decision": "WAIT",
           "confidence": 95,
-          "reason": "Haber spekülatif, RSI aşırı satımda, balina alımı yüksek riskli."
+          "reason": "Haber tuzak, RSI aşırı satım, balina alımı düşük."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
           "confidence": 82,
-          "reason": "Pozitif haber ve düşük RSI, balina alımı"
+          "reason": "Pozitif haber, düşük RSI, balina alımı"
         }
       ],
       "liveLlmDecision": "LONG",
       "liveLlmConfidence": 89,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber spekülatif, RSI aşırı satımda, balina alımı yüksek riskli. | [GPT-120B: LONG %82] Pozitif haber ve düşük RSI, balina alımı"
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber tuzak, RSI aşırı satım, balina alımı düşük. | [GPT-120B: LONG %82] Pozitif haber, düşük RSI, balina alımı"
     },
     {
-      "symbol": "PYTH",
-      "leaderSymbol": "SOL",
+      "symbol": "PEPE",
+      "leaderSymbol": "DOGE",
       "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
+        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
       ],
       "matchedKeywords": [
-        "solana"
+        "meme coin",
+        "elon musk"
       ],
-      "newsScore": 7.72,
-      "freshestMinutesAgo": 58,
+      "newsScore": 13.64,
+      "freshestMinutesAgo": 98,
       "headlines": [
         {
-          "source": "Decrypt",
-          "title": "GTA 6 Trailer Features Meme Coin—And Solana Copycat Soars 2,900%",
-          "minutesAgo": 125,
-          "catalystPoints": 5,
+          "source": "CoinDesk",
+          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
+          "minutesAgo": 98,
+          "catalystPoints": 8.64,
           "directMention": false
         },
         {
-          "source": "CoinTelegraph",
-          "title": "Solana’s Liu says Shanghai event postponed over registration surge",
-          "minutesAgo": 58,
-          "catalystPoints": 2.72,
+          "source": "Decrypt",
+          "title": "GTA 6 Trailer Features Meme Coin—And Solana Copycat Soars 2,900%",
+          "minutesAgo": 130,
+          "catalystPoints": 5,
           "directMention": false
         }
       ],
-      "lastPrice": 0.09028,
-      "change1hPct": 0.11,
-      "change24hPct": 3.722,
-      "lagVsLeader24h": 0.15,
-      "rsi1h": 33.36,
+      "lastPrice": 0.00000412,
+      "change1hPct": 0.49,
+      "change24hPct": 4.304,
+      "lagVsLeader24h": -2.04,
+      "rsi1h": 50,
       "hasRsiDivergence": true,
-      "atr1hPct": 2.26,
-      "bbPctB": -0.06,
-      "bbWidthPct": 6.27,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 90.3,
+      "atr1hPct": 1.18,
+      "bbPctB": 0.53,
+      "bbWidthPct": 2.59,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 21.4,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
-      "support": 0.08247,
-      "resistance": 0.09917,
-      "roomToResistancePct": 9.85,
-      "aiConsensusCount": 2,
+      "support": 0.00000386,
+      "resistance": 0.00000421,
+      "roomToResistancePct": 2.18,
+      "aiConsensusCount": 3,
       "aiConsensusModels": [
+        "Llama-4-Maverick",
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 47.1,
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 43.4,
       "isGreenBounce": true,
-      "isTrending": true,
-      "volRatio": 0.13,
+      "isTrending": false,
+      "volRatio": 0.31,
+      "fundingHourlyPct": 0,
+      "totalScore": 87,
+      "tpPct": 6.08,
+      "slPct": 1.8,
+      "tpPrice": 0.0000043705,
+      "slPrice": 0.0000040458,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 95,
+          "reason": "Haber PEPE ile alakasız, tuzak riski yüksek."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 78,
+          "reason": "Yüksek balina alımı ve güçlü teknik destek"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 87,
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber PEPE ile alakasız, tuzak riski yüksek. | [GPT-120B: LONG %78] Yüksek balina alımı ve güçlü teknik destek"
+    },
+    {
+      "symbol": "DOGE",
+      "leaderSymbol": "DOGE",
+      "ecosystems": [
+        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
+      ],
+      "matchedKeywords": [
+        "meme coin",
+        "elon musk"
+      ],
+      "newsScore": 13.64,
+      "freshestMinutesAgo": 98,
+      "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
+          "minutesAgo": 98,
+          "catalystPoints": 8.64,
+          "directMention": false
+        },
+        {
+          "source": "Decrypt",
+          "title": "GTA 6 Trailer Features Meme Coin—And Solana Copycat Soars 2,900%",
+          "minutesAgo": 130,
+          "catalystPoints": 5,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.0823,
+      "change1hPct": -0.16,
+      "change24hPct": 2.261,
+      "lagVsLeader24h": 0,
+      "rsi1h": 66.8,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.71,
+      "bbPctB": 0.77,
+      "bbWidthPct": 2.34,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 9.1,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.07816,
+      "resistance": 0.08263,
+      "roomToResistancePct": 1.5,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 60.7,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.24,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 85.7,
-      "tpPct": 9,
-      "slPct": 3.28,
-      "tpPrice": 0.098405,
-      "slPrice": 0.087319
+      "totalScore": 78,
+      "tpPct": 4.5,
+      "slPct": 1.8,
+      "tpPrice": 0.086003,
+      "slPrice": 0.080819
     },
     {
       "symbol": "FLOKI",
@@ -564,34 +645,34 @@
         "elon musk"
       ],
       "newsScore": 13.64,
-      "freshestMinutesAgo": 92,
+      "freshestMinutesAgo": 98,
       "headlines": [
         {
           "source": "CoinDesk",
           "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 92,
+          "minutesAgo": 98,
           "catalystPoints": 8.64,
           "directMention": false
         },
         {
           "source": "Decrypt",
           "title": "GTA 6 Trailer Features Meme Coin—And Solana Copycat Soars 2,900%",
-          "minutesAgo": 125,
+          "minutesAgo": 130,
           "catalystPoints": 5,
           "directMention": false
         }
       ],
-      "lastPrice": 0.00002477,
-      "change1hPct": -0.12,
-      "change24hPct": 4.824,
-      "lagVsLeader24h": -2.75,
-      "rsi1h": 56.52,
+      "lastPrice": 0.00002485,
+      "change1hPct": 0.2,
+      "change24hPct": 5.252,
+      "lagVsLeader24h": -2.99,
+      "rsi1h": 59.83,
       "hasRsiDivergence": false,
       "atr1hPct": 0.85,
-      "bbPctB": 0.74,
-      "bbWidthPct": 1.83,
+      "bbPctB": 0.89,
+      "bbWidthPct": 1.91,
       "isSqueeze": true,
-      "macdBullishTurn": false,
+      "macdBullishTurn": true,
       "adx": 4.3,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
@@ -605,33 +686,16 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 63,
+      "takerBuyRatioPct": 63.3,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.18,
+      "volRatio": 0.19,
       "fundingHourlyPct": 0,
-      "totalScore": 86,
+      "totalScore": 78,
       "tpPct": 4.99,
       "slPct": 1.8,
-      "tpPrice": 0.000026006,
-      "slPrice": 0.000024324,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "Haber FLOKI ile alakasız, tuzak riski yüksek."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 82,
-          "reason": "Pozitif haber ve yüksek balina alımı"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 89,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber FLOKI ile alakasız, tuzak riski yüksek. | [GPT-120B: LONG %82] Pozitif haber ve yüksek balina alımı"
+      "tpPrice": 0.00002609,
+      "slPrice": 0.000024403
     },
     {
       "symbol": "RSR",
@@ -646,32 +710,32 @@
         "xrp"
       ],
       "newsScore": 15.43,
-      "freshestMinutesAgo": 50,
+      "freshestMinutesAgo": 56,
       "headlines": [
         {
           "source": "CoinDesk",
           "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 92,
+          "minutesAgo": 98,
           "catalystPoints": 8.64,
           "directMention": false
         },
         {
           "source": "CryptoPotato",
           "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
-          "minutesAgo": 50,
+          "minutesAgo": 56,
           "catalystPoints": 6.46,
           "directMention": false
         }
       ],
-      "lastPrice": 0.001948,
-      "change1hPct": -0.26,
-      "change24hPct": 2.043,
-      "lagVsLeader24h": 0.34,
-      "rsi1h": 46.67,
+      "lastPrice": 0.001949,
+      "change1hPct": -0.2,
+      "change24hPct": 2.687,
+      "lagVsLeader24h": -0.25,
+      "rsi1h": 46.93,
       "hasRsiDivergence": true,
       "atr1hPct": 1.73,
-      "bbPctB": 0.65,
-      "bbWidthPct": 4.45,
+      "bbPctB": 0.66,
+      "bbWidthPct": 4.46,
       "isSqueeze": true,
       "macdBullishTurn": true,
       "adx": 5.7,
@@ -679,7 +743,7 @@
       "regime": "DIP_TOPLAMA",
       "support": 0.001893,
       "resistance": 0.002004,
-      "roomToResistancePct": 2.87,
+      "roomToResistancePct": 2.82,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -687,395 +751,16 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 40.6,
+      "takerBuyRatioPct": 40.7,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.3,
-      "fundingHourlyPct": -0.0075,
+      "volRatio": 0.33,
+      "fundingHourlyPct": -0.007,
       "totalScore": 77,
       "tpPct": 4.5,
       "slPct": 2.51,
-      "tpPrice": 0.0020357,
-      "slPrice": 0.0018991
-    },
-    {
-      "symbol": "PEPE",
-      "leaderSymbol": "DOGE",
-      "ecosystems": [
-        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
-      ],
-      "matchedKeywords": [
-        "meme coin",
-        "elon musk"
-      ],
-      "newsScore": 13.64,
-      "freshestMinutesAgo": 92,
-      "headlines": [
-        {
-          "source": "CoinDesk",
-          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 92,
-          "catalystPoints": 8.64,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "GTA 6 Trailer Features Meme Coin—And Solana Copycat Soars 2,900%",
-          "minutesAgo": 125,
-          "catalystPoints": 5,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.00000409,
-      "change1hPct": -0.24,
-      "change24hPct": 3.544,
-      "lagVsLeader24h": -1.47,
-      "rsi1h": 43.48,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.17,
-      "bbPctB": 0.27,
-      "bbWidthPct": 2.65,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 21.4,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.00000386,
-      "resistance": 0.00000421,
-      "roomToResistancePct": 2.93,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 42.3,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.26,
-      "fundingHourlyPct": 0,
-      "totalScore": 75,
-      "tpPct": 6.08,
-      "slPct": 1.8,
-      "tpPrice": 0.0000043387,
-      "slPrice": 0.0000040164
-    },
-    {
-      "symbol": "XRP",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "tokenized",
-        "ripple",
-        "rlusd",
-        "xrp"
-      ],
-      "newsScore": 15.54,
-      "freshestMinutesAgo": 50,
-      "headlines": [
-        {
-          "source": "CoinDesk",
-          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 92,
-          "catalystPoints": 8.64,
-          "directMention": false
-        },
-        {
-          "source": "CryptoPotato",
-          "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
-          "minutesAgo": 50,
-          "catalystPoints": 6.46,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 1.3415,
-      "change1hPct": -0.38,
-      "change24hPct": 2.381,
-      "lagVsLeader24h": 0,
-      "rsi1h": 51.2,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.68,
-      "bbPctB": 0.64,
-      "bbWidthPct": 1.14,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 22.9,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 1.2867,
-      "resistance": 1.3477,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 55.3,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.43,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 66,
-      "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 1.4019,
-      "slPrice": 1.3174
-    },
-    {
-      "symbol": "DOGE",
-      "leaderSymbol": "DOGE",
-      "ecosystems": [
-        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
-      ],
-      "matchedKeywords": [
-        "meme coin",
-        "elon musk"
-      ],
-      "newsScore": 13.64,
-      "freshestMinutesAgo": 92,
-      "headlines": [
-        {
-          "source": "CoinDesk",
-          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 92,
-          "catalystPoints": 8.64,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "GTA 6 Trailer Features Meme Coin—And Solana Copycat Soars 2,900%",
-          "minutesAgo": 125,
-          "catalystPoints": 5,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.08216,
-      "change1hPct": -0.32,
-      "change24hPct": 2.075,
-      "lagVsLeader24h": 0,
-      "rsi1h": 63.53,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.71,
-      "bbPctB": 0.71,
-      "bbWidthPct": 2.31,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 9.1,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.07816,
-      "resistance": 0.08263,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 60.6,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.2,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 64,
-      "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 0.085857,
-      "slPrice": 0.080681
-    },
-    {
-      "symbol": "ONDO",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "tokenized",
-        "ripple",
-        "rlusd",
-        "xrp"
-      ],
-      "newsScore": 15.43,
-      "freshestMinutesAgo": 50,
-      "headlines": [
-        {
-          "source": "CoinDesk",
-          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 92,
-          "catalystPoints": 8.64,
-          "directMention": false
-        },
-        {
-          "source": "CryptoPotato",
-          "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
-          "minutesAgo": 50,
-          "catalystPoints": 6.46,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.4705,
-      "change1hPct": -0.47,
-      "change24hPct": 9.317,
-      "lagVsLeader24h": -6.94,
-      "rsi1h": 57.2,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.14,
-      "bbPctB": 0.68,
-      "bbWidthPct": 2.81,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 0.4,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.4251,
-      "resistance": 0.4749,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 44.4,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.34,
-      "fundingHourlyPct": -0.0011,
-      "totalScore": 63,
-      "tpPct": 8.37,
-      "slPct": 1.8,
-      "tpPrice": 0.50988,
-      "slPrice": 0.46203
-    },
-    {
-      "symbol": "XLM",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "tokenized",
-        "ripple",
-        "rlusd",
-        "xrp"
-      ],
-      "newsScore": 15.43,
-      "freshestMinutesAgo": 50,
-      "headlines": [
-        {
-          "source": "CoinDesk",
-          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 92,
-          "catalystPoints": 8.64,
-          "directMention": false
-        },
-        {
-          "source": "CryptoPotato",
-          "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
-          "minutesAgo": 50,
-          "catalystPoints": 6.46,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.1837,
-      "change1hPct": -0.6,
-      "change24hPct": 1.886,
-      "lagVsLeader24h": 0.49,
-      "rsi1h": 50,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.69,
-      "bbPctB": 0.51,
-      "bbWidthPct": 1.98,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 9.9,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.1777,
-      "resistance": 0.1859,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 44.4,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.58,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 61,
-      "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 0.19197,
-      "slPrice": 0.18039
-    },
-    {
-      "symbol": "PNUT",
-      "leaderSymbol": "DOGE",
-      "ecosystems": [
-        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
-      ],
-      "matchedKeywords": [
-        "meme coin",
-        "elon musk"
-      ],
-      "newsScore": 13.64,
-      "freshestMinutesAgo": 92,
-      "headlines": [
-        {
-          "source": "CoinDesk",
-          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 92,
-          "catalystPoints": 8.64,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "GTA 6 Trailer Features Meme Coin—And Solana Copycat Soars 2,900%",
-          "minutesAgo": 125,
-          "catalystPoints": 5,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.0469,
-      "change1hPct": -0.64,
-      "change24hPct": 5.631,
-      "lagVsLeader24h": -3.56,
-      "rsi1h": 65.52,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.03,
-      "bbPctB": 0.85,
-      "bbWidthPct": 4.52,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 37.9,
-      "ema20AboveEma50": true,
-      "regime": "GUCLU_TREND",
-      "support": 0.0436,
-      "resistance": 0.0473,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 52.5,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 1.17,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 59.9,
-      "tpPct": 6.3,
-      "slPct": 1.8,
-      "tpPrice": 0.049855,
-      "slPrice": 0.046056
+      "tpPrice": 0.0020367,
+      "slPrice": 0.0019001
     },
     {
       "symbol": "LINK",
@@ -1090,32 +775,32 @@
         "xrp"
       ],
       "newsScore": 15.43,
-      "freshestMinutesAgo": 50,
+      "freshestMinutesAgo": 56,
       "headlines": [
         {
           "source": "CoinDesk",
           "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 92,
+          "minutesAgo": 98,
           "catalystPoints": 8.64,
           "directMention": false
         },
         {
           "source": "CryptoPotato",
           "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
-          "minutesAgo": 50,
+          "minutesAgo": 56,
           "catalystPoints": 6.46,
           "directMention": false
         }
       ],
-      "lastPrice": 12.63,
-      "change1hPct": -0.61,
-      "change24hPct": 4.553,
-      "lagVsLeader24h": -2.17,
-      "rsi1h": 59.45,
+      "lastPrice": 12.675,
+      "change1hPct": -0.26,
+      "change24hPct": 4.934,
+      "lagVsLeader24h": -2.5,
+      "rsi1h": 64.62,
       "hasRsiDivergence": false,
       "atr1hPct": 0.83,
-      "bbPctB": 0.79,
-      "bbWidthPct": 2.42,
+      "bbPctB": 0.91,
+      "bbWidthPct": 2.52,
       "isSqueeze": true,
       "macdBullishTurn": true,
       "adx": 2.3,
@@ -1124,22 +809,23 @@
       "support": 11.885,
       "resistance": 12.714,
       "roomToResistancePct": 1.5,
-      "aiConsensusCount": 2,
+      "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 51.5,
-      "isGreenBounce": false,
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 51.9,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.19,
+      "volRatio": 0.24,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 59,
+      "totalScore": 73,
       "tpPct": 5.26,
       "slPct": 1.8,
-      "tpPrice": 13.294,
-      "slPrice": 12.403
+      "tpPrice": 13.342,
+      "slPrice": 12.447
     },
     {
       "symbol": "HBAR",
@@ -1154,32 +840,32 @@
         "xrp"
       ],
       "newsScore": 15.43,
-      "freshestMinutesAgo": 50,
+      "freshestMinutesAgo": 56,
       "headlines": [
         {
           "source": "CoinDesk",
           "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 92,
+          "minutesAgo": 98,
           "catalystPoints": 8.64,
           "directMention": false
         },
         {
           "source": "CryptoPotato",
           "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
-          "minutesAgo": 50,
+          "minutesAgo": 56,
           "catalystPoints": 6.46,
           "directMention": false
         }
       ],
-      "lastPrice": 0.08669,
-      "change1hPct": -0.46,
-      "change24hPct": 5.836,
-      "lagVsLeader24h": -3.46,
-      "rsi1h": 62.11,
+      "lastPrice": 0.08701,
+      "change1hPct": -0.14,
+      "change24hPct": 6.2,
+      "lagVsLeader24h": -3.77,
+      "rsi1h": 64.97,
       "hasRsiDivergence": false,
       "atr1hPct": 0.99,
-      "bbPctB": 0.85,
-      "bbWidthPct": 3.89,
+      "bbPctB": 0.92,
+      "bbWidthPct": 3.99,
       "isSqueeze": true,
       "macdBullishTurn": true,
       "adx": 37.2,
@@ -1188,22 +874,84 @@
       "support": 0.08054,
       "resistance": 0.08718,
       "roomToResistancePct": 1.5,
-      "aiConsensusCount": 2,
+      "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 52.9,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.37,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 73,
+      "tpPct": 5.61,
+      "slPct": 1.8,
+      "tpPrice": 0.091891,
+      "slPrice": 0.085444
+    },
+    {
+      "symbol": "PYTH",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 7.72,
+      "freshestMinutesAgo": 64,
+      "headlines": [
+        {
+          "source": "Decrypt",
+          "title": "GTA 6 Trailer Features Meme Coin—And Solana Copycat Soars 2,900%",
+          "minutesAgo": 130,
+          "catalystPoints": 5,
+          "directMention": false
+        },
+        {
+          "source": "CoinTelegraph",
+          "title": "Solana’s Liu says Shanghai event postponed over registration surge",
+          "minutesAgo": 64,
+          "catalystPoints": 2.72,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.09113,
+      "change1hPct": 1.12,
+      "change24hPct": 3.793,
+      "lagVsLeader24h": 0.38,
+      "rsi1h": 37.79,
+      "hasRsiDivergence": true,
+      "atr1hPct": 2.35,
+      "bbPctB": 0.06,
+      "bbWidthPct": 5.87,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 90.3,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.08247,
+      "resistance": 0.09917,
+      "roomToResistancePct": 8.82,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 51.6,
-      "isGreenBounce": false,
+      "takerBuyRatioPct": 47.9,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.26,
+      "volRatio": 0.2,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 59,
-      "tpPct": 5.61,
-      "slPct": 1.8,
-      "tpPrice": 0.091553,
-      "slPrice": 0.08513
+      "totalScore": 70.7,
+      "tpPct": 9,
+      "slPct": 3.41,
+      "tpPrice": 0.099332,
+      "slPrice": 0.088022
     },
     {
       "symbol": "BONK",
@@ -1215,101 +963,104 @@
         "solana"
       ],
       "newsScore": 7.72,
-      "freshestMinutesAgo": 58,
+      "freshestMinutesAgo": 64,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "GTA 6 Trailer Features Meme Coin—And Solana Copycat Soars 2,900%",
-          "minutesAgo": 125,
+          "minutesAgo": 130,
           "catalystPoints": 5,
           "directMention": false
         },
         {
           "source": "CoinTelegraph",
           "title": "Solana’s Liu says Shanghai event postponed over registration surge",
-          "minutesAgo": 58,
+          "minutesAgo": 64,
           "catalystPoints": 2.72,
           "directMention": false
         }
       ],
-      "lastPrice": 0.0000031,
-      "change1hPct": -0.64,
-      "change24hPct": 2.99,
-      "lagVsLeader24h": 0.88,
-      "rsi1h": 55,
+      "lastPrice": 0.00000312,
+      "change1hPct": 0,
+      "change24hPct": 3.654,
+      "lagVsLeader24h": 0.52,
+      "rsi1h": 61.11,
       "hasRsiDivergence": false,
       "atr1hPct": 1.18,
-      "bbPctB": 0.56,
-      "bbWidthPct": 2.76,
+      "bbPctB": 0.77,
+      "bbWidthPct": 2.84,
       "isSqueeze": true,
-      "macdBullishTurn": false,
+      "macdBullishTurn": true,
       "adx": 6.7,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
       "support": 0.00000295,
       "resistance": 0.00000314,
       "roomToResistancePct": 1.5,
-      "aiConsensusCount": 2,
+      "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 49.3,
-      "isGreenBounce": false,
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 50,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.35,
+      "volRatio": 0.38,
       "fundingHourlyPct": 0,
-      "totalScore": 57.3,
+      "totalScore": 67.7,
       "tpPct": 4.64,
       "slPct": 1.8,
-      "tpPrice": 0.0000032438,
-      "slPrice": 0.0000030442
+      "tpPrice": 0.0000032648,
+      "slPrice": 0.0000030638
     },
     {
-      "symbol": "SHIB",
-      "leaderSymbol": "DOGE",
+      "symbol": "XRP",
+      "leaderSymbol": "XRP",
       "ecosystems": [
-        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
-        "meme coin",
-        "elon musk"
+        "tokenized",
+        "ripple",
+        "rlusd",
+        "xrp"
       ],
-      "newsScore": 13.64,
-      "freshestMinutesAgo": 92,
+      "newsScore": 15.54,
+      "freshestMinutesAgo": 56,
       "headlines": [
         {
           "source": "CoinDesk",
           "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 92,
+          "minutesAgo": 98,
           "catalystPoints": 8.64,
           "directMention": false
         },
         {
-          "source": "Decrypt",
-          "title": "GTA 6 Trailer Features Meme Coin—And Solana Copycat Soars 2,900%",
-          "minutesAgo": 125,
-          "catalystPoints": 5,
+          "source": "CryptoPotato",
+          "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
+          "minutesAgo": 56,
+          "catalystPoints": 6.46,
           "directMention": false
         }
       ],
-      "lastPrice": 0.00000517,
-      "change1hPct": 0,
-      "change24hPct": 4.024,
-      "lagVsLeader24h": -1.95,
-      "rsi1h": 66.67,
+      "lastPrice": 1.3429,
+      "change1hPct": -0.27,
+      "change24hPct": 2.433,
+      "lagVsLeader24h": 0,
+      "rsi1h": 52.82,
       "hasRsiDivergence": false,
-      "atr1hPct": 0.74,
-      "bbPctB": 0.89,
-      "bbWidthPct": 1.55,
+      "atr1hPct": 0.68,
+      "bbPctB": 0.72,
+      "bbWidthPct": 1.16,
       "isSqueeze": true,
       "macdBullishTurn": false,
-      "adx": 9.1,
+      "adx": 22.9,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
-      "support": 0.00000493,
-      "resistance": 0.00000518,
+      "support": 1.2867,
+      "resistance": 1.3477,
       "roomToResistancePct": 1.5,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
@@ -1317,77 +1068,80 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 48.5,
-      "isGreenBounce": true,
+      "takerBuyRatioPct": 54.9,
+      "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.26,
-      "fundingHourlyPct": 0,
-      "totalScore": 56,
+      "volRatio": 0.53,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 66,
       "tpPct": 4.5,
       "slPct": 1.8,
-      "tpPrice": 0.0000054026,
-      "slPrice": 0.0000050769
+      "tpPrice": 1.4033,
+      "slPrice": 1.3187
     },
     {
-      "symbol": "JUP",
-      "leaderSymbol": "SOL",
+      "symbol": "ONDO",
+      "leaderSymbol": "XRP",
       "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
-        "solana"
+        "tokenized",
+        "ripple",
+        "rlusd",
+        "xrp"
       ],
-      "newsScore": 7.72,
-      "freshestMinutesAgo": 58,
+      "newsScore": 15.43,
+      "freshestMinutesAgo": 56,
       "headlines": [
         {
-          "source": "Decrypt",
-          "title": "GTA 6 Trailer Features Meme Coin—And Solana Copycat Soars 2,900%",
-          "minutesAgo": 125,
-          "catalystPoints": 5,
+          "source": "CoinDesk",
+          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
+          "minutesAgo": 98,
+          "catalystPoints": 8.64,
           "directMention": false
         },
         {
-          "source": "CoinTelegraph",
-          "title": "Solana’s Liu says Shanghai event postponed over registration surge",
-          "minutesAgo": 58,
-          "catalystPoints": 2.72,
+          "source": "CryptoPotato",
+          "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
+          "minutesAgo": 56,
+          "catalystPoints": 6.46,
           "directMention": false
         }
       ],
-      "lastPrice": 0.3116,
-      "change1hPct": -0.32,
-      "change24hPct": 6.895,
-      "lagVsLeader24h": -3.02,
-      "rsi1h": 46.11,
+      "lastPrice": 0.4716,
+      "change1hPct": -0.23,
+      "change24hPct": 9.623,
+      "lagVsLeader24h": -7.19,
+      "rsi1h": 60,
       "hasRsiDivergence": false,
-      "atr1hPct": 1.23,
-      "bbPctB": 0.35,
-      "bbWidthPct": 1.53,
+      "atr1hPct": 1.14,
+      "bbPctB": 0.76,
+      "bbWidthPct": 2.85,
       "isSqueeze": true,
       "macdBullishTurn": false,
-      "adx": 16.8,
+      "adx": 0.4,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
-      "support": 0.2926,
-      "resistance": 0.3163,
-      "roomToResistancePct": 1.51,
+      "support": 0.4251,
+      "resistance": 0.4749,
+      "roomToResistancePct": 1.5,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Maverick",
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 42.4,
-      "isGreenBounce": false,
+      "takerBuyRatioPct": 44.2,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.7,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 55.7,
-      "tpPct": 6.16,
+      "volRatio": 0.4,
+      "fundingHourlyPct": -0.0006,
+      "totalScore": 63,
+      "tpPct": 8.37,
       "slPct": 1.8,
-      "tpPrice": 0.33079,
-      "slPrice": 0.30599
+      "tpPrice": 0.51107,
+      "slPrice": 0.46311
     },
     {
       "symbol": "ALGO",
@@ -1402,58 +1156,120 @@
         "xrp"
       ],
       "newsScore": 15.43,
-      "freshestMinutesAgo": 50,
+      "freshestMinutesAgo": 56,
       "headlines": [
         {
           "source": "CoinDesk",
           "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 92,
+          "minutesAgo": 98,
           "catalystPoints": 8.64,
           "directMention": false
         },
         {
           "source": "CryptoPotato",
           "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
-          "minutesAgo": 50,
+          "minutesAgo": 56,
           "catalystPoints": 6.46,
           "directMention": false
         }
       ],
-      "lastPrice": 0.1192,
-      "change1hPct": -0.25,
-      "change24hPct": 8.561,
-      "lagVsLeader24h": -6.18,
-      "rsi1h": 54.13,
+      "lastPrice": 0.1195,
+      "change1hPct": 0,
+      "change24hPct": 8.933,
+      "lagVsLeader24h": -6.5,
+      "rsi1h": 55.66,
       "hasRsiDivergence": false,
       "atr1hPct": 1.4,
-      "bbPctB": 0.74,
-      "bbWidthPct": 6.14,
+      "bbPctB": 0.77,
+      "bbWidthPct": 6.19,
       "isSqueeze": false,
-      "macdBullishTurn": false,
+      "macdBullishTurn": true,
       "adx": 24.5,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
       "support": 0.1086,
       "resistance": 0.121,
-      "roomToResistancePct": 1.51,
-      "aiConsensusCount": 1,
+      "roomToResistancePct": 1.5,
+      "aiConsensusCount": 2,
       "aiConsensusModels": [
+        "Llama-4-Maverick",
         "Gemini-3.5-Flash"
       ],
-      "aiConsensusLabel": "1/4 AI ONAYLI",
-      "takerBuyRatioPct": 43.1,
-      "isGreenBounce": false,
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 45,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.36,
+      "volRatio": 0.58,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 51,
+      "totalScore": 63,
       "tpPct": 8.55,
       "slPct": 2.03,
-      "tpPrice": 0.12939,
-      "slPrice": 0.11678
+      "tpPrice": 0.12972,
+      "slPrice": 0.11707
     },
     {
-      "symbol": "AVAX",
+      "symbol": "JUP",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 7.72,
+      "freshestMinutesAgo": 64,
+      "headlines": [
+        {
+          "source": "Decrypt",
+          "title": "GTA 6 Trailer Features Meme Coin—And Solana Copycat Soars 2,900%",
+          "minutesAgo": 130,
+          "catalystPoints": 5,
+          "directMention": false
+        },
+        {
+          "source": "CoinTelegraph",
+          "title": "Solana’s Liu says Shanghai event postponed over registration surge",
+          "minutesAgo": 64,
+          "catalystPoints": 2.72,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.3125,
+      "change1hPct": 0.03,
+      "change24hPct": 7.131,
+      "lagVsLeader24h": -2.95,
+      "rsi1h": 49.37,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.23,
+      "bbPctB": 0.57,
+      "bbWidthPct": 1.52,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 16.8,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.2926,
+      "resistance": 0.3163,
+      "roomToResistancePct": 1.5,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 41.5,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.75,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 62.7,
+      "tpPct": 6.16,
+      "slPct": 1.8,
+      "tpPrice": 0.33175,
+      "slPrice": 0.30688
+    },
+    {
+      "symbol": "XLM",
       "leaderSymbol": "XRP",
       "ecosystems": [
         "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
@@ -1465,39 +1281,39 @@
         "xrp"
       ],
       "newsScore": 15.43,
-      "freshestMinutesAgo": 50,
+      "freshestMinutesAgo": 56,
       "headlines": [
         {
           "source": "CoinDesk",
           "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 92,
+          "minutesAgo": 98,
           "catalystPoints": 8.64,
           "directMention": false
         },
         {
           "source": "CryptoPotato",
           "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
-          "minutesAgo": 50,
+          "minutesAgo": 56,
           "catalystPoints": 6.46,
           "directMention": false
         }
       ],
-      "lastPrice": 10.277,
-      "change1hPct": -0.27,
-      "change24hPct": 6.652,
-      "lagVsLeader24h": -4.27,
-      "rsi1h": 65.84,
+      "lastPrice": 0.1841,
+      "change1hPct": -0.38,
+      "change24hPct": 2.164,
+      "lagVsLeader24h": 0.27,
+      "rsi1h": 52.94,
       "hasRsiDivergence": false,
-      "atr1hPct": 1.07,
-      "bbPctB": 0.83,
-      "bbWidthPct": 4.96,
-      "isSqueeze": false,
+      "atr1hPct": 0.69,
+      "bbPctB": 0.61,
+      "bbWidthPct": 1.99,
+      "isSqueeze": true,
       "macdBullishTurn": true,
-      "adx": 48.5,
+      "adx": 9.9,
       "ema20AboveEma50": true,
-      "regime": "GUCLU_TREND",
-      "support": 9.534,
-      "resistance": 10.415,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.1777,
+      "resistance": 0.1859,
       "roomToResistancePct": 1.5,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
@@ -1505,16 +1321,16 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 47.6,
+      "takerBuyRatioPct": 45.4,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.3,
-      "fundingHourlyPct": 0.0003,
-      "totalScore": 49,
-      "tpPct": 7.22,
+      "volRatio": 0.64,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 61,
+      "tpPct": 4.5,
       "slPct": 1.8,
-      "tpPrice": 11.019,
-      "slPrice": 10.092
+      "tpPrice": 0.19238,
+      "slPrice": 0.18079
     },
     {
       "symbol": "JTO",
@@ -1526,32 +1342,32 @@
         "solana"
       ],
       "newsScore": 7.72,
-      "freshestMinutesAgo": 58,
+      "freshestMinutesAgo": 64,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "GTA 6 Trailer Features Meme Coin—And Solana Copycat Soars 2,900%",
-          "minutesAgo": 125,
+          "minutesAgo": 130,
           "catalystPoints": 5,
           "directMention": false
         },
         {
           "source": "CoinTelegraph",
           "title": "Solana’s Liu says Shanghai event postponed over registration surge",
-          "minutesAgo": 58,
+          "minutesAgo": 64,
           "catalystPoints": 2.72,
           "directMention": false
         }
       ],
-      "lastPrice": 0.4827,
-      "change1hPct": -0.39,
-      "change24hPct": 6.065,
-      "lagVsLeader24h": -2.19,
-      "rsi1h": 59.07,
+      "lastPrice": 0.4865,
+      "change1hPct": 0.39,
+      "change24hPct": 7.041,
+      "lagVsLeader24h": -2.86,
+      "rsi1h": 63.73,
       "hasRsiDivergence": false,
-      "atr1hPct": 1.54,
-      "bbPctB": 0.8,
-      "bbWidthPct": 3.99,
+      "atr1hPct": 1.56,
+      "bbPctB": 0.96,
+      "bbWidthPct": 4.23,
       "isSqueeze": true,
       "macdBullishTurn": true,
       "adx": 14.6,
@@ -1566,16 +1382,16 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 43.7,
-      "isGreenBounce": false,
+      "takerBuyRatioPct": 44,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.08,
+      "volRatio": 0.1,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 48.7,
+      "totalScore": 55.7,
       "tpPct": 8.26,
-      "slPct": 2.23,
-      "tpPrice": 0.52257,
-      "slPrice": 0.47194
+      "slPct": 2.26,
+      "tpPrice": 0.52668,
+      "slPrice": 0.47551
     },
     {
       "symbol": "SUI",
@@ -1587,55 +1403,56 @@
         "celestia"
       ],
       "newsScore": 2.16,
-      "freshestMinutesAgo": 100,
+      "freshestMinutesAgo": 105,
       "headlines": [
         {
           "source": "CoinDesk",
           "title": "Altcoins outpace bitcoin as celestia jumps 16%, Warsh silent on interest-rate plans",
-          "minutesAgo": 100,
+          "minutesAgo": 105,
           "catalystPoints": 2.16,
           "directMention": false
         }
       ],
-      "lastPrice": 1.046,
-      "change1hPct": -0.6,
-      "change24hPct": 6.236,
+      "lastPrice": 1.0497,
+      "change1hPct": -0.27,
+      "change24hPct": 6.72,
       "lagVsLeader24h": 0,
-      "rsi1h": 56.04,
+      "rsi1h": 59.54,
       "hasRsiDivergence": false,
       "atr1hPct": 1.19,
-      "bbPctB": 0.77,
-      "bbWidthPct": 2.36,
+      "bbPctB": 0.89,
+      "bbWidthPct": 2.45,
       "isSqueeze": true,
-      "macdBullishTurn": false,
+      "macdBullishTurn": true,
       "adx": 22.3,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
       "support": 0.9668,
       "resistance": 1.0542,
       "roomToResistancePct": 1.5,
-      "aiConsensusCount": 2,
+      "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 49.6,
-      "isGreenBounce": false,
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 49.5,
+      "isGreenBounce": true,
       "isTrending": true,
-      "volRatio": 0.35,
+      "volRatio": 0.4,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 45.7,
+      "totalScore": 57.7,
       "tpPct": 6.91,
       "slPct": 1.8,
-      "tpPrice": 1.1183,
-      "slPrice": 1.0272,
+      "tpPrice": 1.1222,
+      "slPrice": 1.0308,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
-          "decision": "WAIT",
+          "decision": "LONG",
           "confidence": 75,
-          "reason": "Haber SUI'ye özel değil, genel piyasa haberi."
+          "reason": "Altcoin rallisi ve dengeli RSI pozitif sinyal veriyor."
         },
         {
           "model": "GPT-120B",
@@ -1646,7 +1463,7 @@
       ],
       "liveLlmDecision": "LONG",
       "liveLlmConfidence": 79,
-      "liveLlmReason": "[Qwen-3.8: WAIT %75] Haber SUI'ye özel değil, genel piyasa haberi. | [GPT-120B: LONG %82] Whale alımı ve pozitif haberler destekli"
+      "liveLlmReason": "[Qwen-3.8: LONG %75] Altcoin rallisi ve dengeli RSI pozitif sinyal veriyor. | [GPT-120B: LONG %82] Whale alımı ve pozitif haberler destekli"
     }
   ]
 }

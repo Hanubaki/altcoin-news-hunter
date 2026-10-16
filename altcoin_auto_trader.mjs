@@ -919,7 +919,7 @@ async function runTradingCycle() {
   delete state._cycleEvents;
 
   const msSinceLastWa = Date.now() - Number(state.lastWhatsAppReportAt || 0);
-  if (cycleEvents.length > 0 || msSinceLastWa >= 60 * 60 * 1000) {
+  if (cycleEvents.length > 0 || msSinceLastWa >= 25 * 60 * 1000) {
     state.lastWhatsAppReportAt = Date.now();
     await sendInstantPhoneAlert(buildSimpleWhatsAppMessage(state));
   }

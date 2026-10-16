@@ -1,16 +1,16 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Zero-Risk v9.0)
 
-**Son Güncelleme:** 16.10.2026 15:20:51
+**Son Güncelleme:** 16.10.2026 15:26:40
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.052,14 TL`**
-* **Toplam Net Kâr / Zarar:** **`+52,18 TL` (`+%5.22`)**
+* **Şu Anki Toplam Para:** **`1.055,38 TL`**
+* **Toplam Net Kâr / Zarar:** **`+55,43 TL` (`+%5.54`)**
 * **Boşta Bekleyen Nakit:** `62,18 TL`
-* **Coinde Olan Para:** `989,96 TL`
+* **Coinde Olan Para:** `993,21 TL`
 * **Başarılı Satış / Zarar Kes:** `8 Kârlı Satış / 0 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: BNB: 0.0004 | ETHW: 0.0010 | TRY: 0.0011)`
 
@@ -35,9 +35,9 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **FLOKI** | `401,63 TL` | `399,70 TL` | **`-1,93 TL (%-0.48)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
-| **BOME** | `399,48 TL` | `400,72 TL` | **`+1,16 TL (%0.29)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
-| **DOGE (VURGUN)** | `189,57 TL` | `189,54 TL` | **`-0,02 TL (%-0.01)`** | 🎰 VURGUN / KUMAR SLOTU (Erken Satış Yok — Doğrudan +%18 Vurgun Hedefi) |
+| **FLOKI** | `401,63 TL` | `400,67 TL` | **`-0,97 TL (%-0.24)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
+| **BOME** | `399,48 TL` | `402,75 TL` | **`+3,19 TL (%0.8)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
+| **DOGE (VURGUN)** | `189,57 TL` | `189,80 TL` | **`+0,23 TL (%0.12)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
 
 ---
 

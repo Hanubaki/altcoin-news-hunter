@@ -35,6 +35,8 @@ jobs:
           BINANCE_SECRET_KEY: ${{ secrets.BINANCE_SECRET_KEY }}
           LIVE_TRADING: 'true'
         run: |
+          node altcoin_auto_trader.mjs
+          sleep 40
           HOUR=$(date +%H)
           MIN=$(date +%M)
           if [ "$HOUR" = "21" ] && [ "$MIN" -lt "20" ]; then
