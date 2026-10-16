@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-16T06:02:01.553Z",
-  "scanDurationMs": 3662,
+  "updatedAt": "2026-10-16T06:06:46.405Z",
+  "scanDurationMs": 7122,
   "bankrollTry": 1000,
   "bankrollUsdt": 28.01,
-  "btc1hChangePct": -0.03,
+  "btc1hChangePct": -0.04,
   "btcCrashAlert": false,
   "marketBreadthPct": 94,
   "totalHeadlinesScanned": 92,
@@ -16,70 +16,6 @@
   ],
   "top4AltcoinPicks": [
     {
-      "symbol": "IO",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "ai agent",
-        "ai agents",
-        "openai"
-      ],
-      "newsScore": 4.36,
-      "freshestMinutesAgo": 93,
-      "headlines": [
-        {
-          "source": "CoinDesk",
-          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
-          "minutesAgo": 93,
-          "catalystPoints": 3.38,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
-          "minutesAgo": 2026,
-          "catalystPoints": 0.65,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.1632,
-      "change1hPct": -0.06,
-      "change24hPct": 4.348,
-      "lagVsLeader24h": 1.36,
-      "rsi1h": 44.14,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.31,
-      "bbPctB": 0.47,
-      "bbWidthPct": 7.61,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 6.5,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.1542,
-      "resistance": 0.1681,
-      "roomToResistancePct": 3,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 51.7,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.02,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 65.1,
-      "tpPct": 6.18,
-      "slPct": 1.9,
-      "tpPrice": 0.17329,
-      "slPrice": 0.1601
-    },
-    {
       "symbol": "BONK",
       "leaderSymbol": "SOL",
       "ecosystems": [
@@ -89,20 +25,20 @@
         "solana"
       ],
       "newsScore": 3.12,
-      "freshestMinutesAgo": 2086,
+      "freshestMinutesAgo": 2091,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Solana Sets a Date for Its Next Major Upgrade",
-          "minutesAgo": 2086,
+          "minutesAgo": 2091,
           "catalystPoints": 3.12,
           "directMention": false
         }
       ],
       "lastPrice": 0.00000311,
       "change1hPct": 0.32,
-      "change24hPct": 5.424,
-      "lagVsLeader24h": -1.2,
+      "change24hPct": 5.068,
+      "lagVsLeader24h": -1.13,
       "rsi1h": 53.85,
       "hasRsiDivergence": true,
       "atr1hPct": 1.14,
@@ -123,194 +59,10 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 57.9,
+      "takerBuyRatioPct": 58.7,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.19,
-      "fundingHourlyPct": 0,
-      "totalScore": 60,
-      "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 0.0000032499,
-      "slPrice": 0.000003054
-    },
-    {
-      "symbol": "XLM",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "xrp",
-        "tokenized",
-        "ripple"
-      ],
-      "newsScore": 2.79,
-      "freshestMinutesAgo": 8,
-      "headlines": [
-        {
-          "source": "CoinDesk",
-          "title": "XRP has failed to make holders rich like bitcoin and ether. Here’s why",
-          "minutesAgo": 8,
-          "catalystPoints": 1.7,
-          "directMention": false
-        },
-        {
-          "source": "CryptoPotato",
-          "title": "Important Ripple News and XRP Price Update: October 15",
-          "minutesAgo": 1351,
-          "catalystPoints": 0.59,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.1828,
-      "change1hPct": -0.05,
-      "change24hPct": 2.928,
-      "lagVsLeader24h": 0.2,
-      "rsi1h": 36.51,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.56,
-      "bbPctB": 0.49,
-      "bbWidthPct": 4.46,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 53.6,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.1777,
-      "resistance": 0.1857,
-      "roomToResistancePct": 1.59,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 46.2,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0,
-      "fundingHourlyPct": 0.0005,
-      "totalScore": 46.6,
-      "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 0.19103,
-      "slPrice": 0.17951
-    }
-  ],
-  "allQualifiedOpportunities": [
-    {
-      "symbol": "IO",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "ai agent",
-        "ai agents",
-        "openai"
-      ],
-      "newsScore": 4.36,
-      "freshestMinutesAgo": 93,
-      "headlines": [
-        {
-          "source": "CoinDesk",
-          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
-          "minutesAgo": 93,
-          "catalystPoints": 3.38,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
-          "minutesAgo": 2026,
-          "catalystPoints": 0.65,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.1632,
-      "change1hPct": -0.06,
-      "change24hPct": 4.348,
-      "lagVsLeader24h": 1.36,
-      "rsi1h": 44.14,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.31,
-      "bbPctB": 0.47,
-      "bbWidthPct": 7.61,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 6.5,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.1542,
-      "resistance": 0.1681,
-      "roomToResistancePct": 3,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 51.7,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.02,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 65.1,
-      "tpPct": 6.18,
-      "slPct": 1.9,
-      "tpPrice": 0.17329,
-      "slPrice": 0.1601
-    },
-    {
-      "symbol": "BONK",
-      "leaderSymbol": "SOL",
-      "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "solana"
-      ],
-      "newsScore": 3.12,
-      "freshestMinutesAgo": 2086,
-      "headlines": [
-        {
-          "source": "Decrypt",
-          "title": "Solana Sets a Date for Its Next Major Upgrade",
-          "minutesAgo": 2086,
-          "catalystPoints": 3.12,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.00000311,
-      "change1hPct": 0.32,
-      "change24hPct": 5.424,
-      "lagVsLeader24h": -1.2,
-      "rsi1h": 53.85,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.14,
-      "bbPctB": 0.74,
-      "bbWidthPct": 5.42,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 0,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.00000295,
-      "resistance": 0.00000313,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 57.9,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.19,
+      "volRatio": 0.28,
       "fundingHourlyPct": 0,
       "totalScore": 60,
       "tpPct": 4.5,
@@ -330,32 +82,32 @@
         "openai"
       ],
       "newsScore": 4.36,
-      "freshestMinutesAgo": 93,
+      "freshestMinutesAgo": 97,
       "headlines": [
         {
           "source": "CoinDesk",
           "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
-          "minutesAgo": 93,
+          "minutesAgo": 97,
           "catalystPoints": 3.38,
           "directMention": false
         },
         {
           "source": "Decrypt",
           "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
-          "minutesAgo": 2026,
+          "minutesAgo": 2031,
           "catalystPoints": 0.65,
           "directMention": false
         }
       ],
       "lastPrice": 0.2037,
-      "change1hPct": -0.39,
-      "change24hPct": 5.708,
+      "change1hPct": -0.29,
+      "change24hPct": 5.654,
       "lagVsLeader24h": 0,
-      "rsi1h": 26.42,
+      "rsi1h": 26.92,
       "hasRsiDivergence": true,
-      "atr1hPct": 1.2,
-      "bbPctB": 0.47,
-      "bbWidthPct": 9.54,
+      "atr1hPct": 1.21,
+      "bbPctB": 0.48,
+      "bbWidthPct": 9.53,
       "isSqueeze": false,
       "macdBullishTurn": false,
       "adx": 46.2,
@@ -373,7 +125,7 @@
       "takerBuyRatioPct": 59.1,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.02,
+      "volRatio": 0.14,
       "fundingHourlyPct": 0.0013,
       "totalScore": 59.6,
       "tpPct": 7.21,
@@ -382,7 +134,182 @@
       "slPrice": 0.20003
     },
     {
-      "symbol": "GRT",
+      "symbol": "LINK",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "xrp",
+        "ripple",
+        "tokenized"
+      ],
+      "newsScore": 2.62,
+      "freshestMinutesAgo": 13,
+      "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "XRP has failed to make holders rich like bitcoin and ether. Here’s why",
+          "minutesAgo": 13,
+          "catalystPoints": 1.7,
+          "directMention": false
+        },
+        {
+          "source": "CryptoPotato",
+          "title": "Important Ripple News and XRP Price Update: October 15",
+          "minutesAgo": 1356,
+          "catalystPoints": 0.59,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 12.476,
+      "change1hPct": -0.03,
+      "change24hPct": 4.01,
+      "lagVsLeader24h": -1.04,
+      "rsi1h": 54.66,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.72,
+      "bbPctB": 0.59,
+      "bbWidthPct": 6.34,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 19.7,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 11.885,
+      "resistance": 12.587,
+      "roomToResistancePct": 1.5,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 51.6,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.03,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 40.8,
+      "tpPct": 4.5,
+      "slPct": 1.8,
+      "tpPrice": 13.037,
+      "slPrice": 12.251
+    }
+  ],
+  "allQualifiedOpportunities": [
+    {
+      "symbol": "BONK",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 3.12,
+      "freshestMinutesAgo": 2091,
+      "headlines": [
+        {
+          "source": "Decrypt",
+          "title": "Solana Sets a Date for Its Next Major Upgrade",
+          "minutesAgo": 2091,
+          "catalystPoints": 3.12,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.00000311,
+      "change1hPct": 0.32,
+      "change24hPct": 5.068,
+      "lagVsLeader24h": -1.13,
+      "rsi1h": 53.85,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.14,
+      "bbPctB": 0.74,
+      "bbWidthPct": 5.42,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 0,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.00000295,
+      "resistance": 0.00000313,
+      "roomToResistancePct": 1.5,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 58.7,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.28,
+      "fundingHourlyPct": 0,
+      "totalScore": 60,
+      "tpPct": 4.5,
+      "slPct": 1.8,
+      "tpPrice": 0.0000032499,
+      "slPrice": 0.000003054
+    },
+    {
+      "symbol": "WIF",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 3.12,
+      "freshestMinutesAgo": 2091,
+      "headlines": [
+        {
+          "source": "Decrypt",
+          "title": "Solana Sets a Date for Its Next Major Upgrade",
+          "minutesAgo": 2091,
+          "catalystPoints": 3.12,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.2013,
+      "change1hPct": -0.1,
+      "change24hPct": 5.503,
+      "lagVsLeader24h": -1.56,
+      "rsi1h": 51.82,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.94,
+      "bbPctB": 0.62,
+      "bbWidthPct": 7.12,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 3.7,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.1898,
+      "resistance": 0.2033,
+      "roomToResistancePct": 1.5,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 55.4,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.03,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 60,
+      "tpPct": 5.17,
+      "slPct": 1.8,
+      "tpPrice": 0.21171,
+      "slPrice": 0.19768
+    },
+    {
+      "symbol": "FET",
       "leaderSymbol": "FET",
       "ecosystems": [
         "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
@@ -393,57 +320,56 @@
         "openai"
       ],
       "newsScore": 4.36,
-      "freshestMinutesAgo": 93,
+      "freshestMinutesAgo": 97,
       "headlines": [
         {
           "source": "CoinDesk",
           "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
-          "minutesAgo": 93,
+          "minutesAgo": 97,
           "catalystPoints": 3.38,
           "directMention": false
         },
         {
           "source": "Decrypt",
           "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
-          "minutesAgo": 2026,
+          "minutesAgo": 2031,
           "catalystPoints": 0.65,
           "directMention": false
         }
       ],
-      "lastPrice": 0.02543,
-      "change1hPct": 0,
-      "change24hPct": 7.891,
-      "lagVsLeader24h": -2.18,
-      "rsi1h": 64.2,
+      "lastPrice": 0.2037,
+      "change1hPct": -0.29,
+      "change24hPct": 5.654,
+      "lagVsLeader24h": 0,
+      "rsi1h": 26.92,
       "hasRsiDivergence": true,
-      "atr1hPct": 0.99,
-      "bbPctB": 0.76,
-      "bbWidthPct": 8.14,
+      "atr1hPct": 1.21,
+      "bbPctB": 0.48,
+      "bbWidthPct": 9.53,
       "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 1.9,
+      "macdBullishTurn": false,
+      "adx": 46.2,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
-      "support": 0.02346,
-      "resistance": 0.02543,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 3,
+      "support": 0.1925,
+      "resistance": 0.2111,
+      "roomToResistancePct": 3.63,
+      "aiConsensusCount": 2,
       "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
       ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 60.2,
-      "isGreenBounce": true,
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 59.1,
+      "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 1,
-      "fundingHourlyPct": 0,
-      "totalScore": 58.6,
-      "tpPct": 5.96,
+      "volRatio": 0.14,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 59.6,
+      "tpPct": 7.21,
       "slPct": 1.8,
-      "tpPrice": 0.026946,
-      "slPrice": 0.024972
+      "tpPrice": 0.21839,
+      "slPrice": 0.20003
     },
     {
       "symbol": "PYTH",
@@ -455,25 +381,25 @@
         "solana"
       ],
       "newsScore": 3.12,
-      "freshestMinutesAgo": 2086,
+      "freshestMinutesAgo": 2091,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Solana Sets a Date for Its Next Major Upgrade",
-          "minutesAgo": 2086,
+          "minutesAgo": 2091,
           "catalystPoints": 3.12,
           "directMention": false
         }
       ],
-      "lastPrice": 0.09503,
-      "change1hPct": 0.05,
-      "change24hPct": 12.315,
-      "lagVsLeader24h": -8.09,
-      "rsi1h": 54.73,
+      "lastPrice": 0.09528,
+      "change1hPct": 0.31,
+      "change24hPct": 13.038,
+      "lagVsLeader24h": -9.1,
+      "rsi1h": 55.61,
       "hasRsiDivergence": true,
       "atr1hPct": 2.41,
-      "bbPctB": 0.65,
-      "bbWidthPct": 17.44,
+      "bbPctB": 0.67,
+      "bbWidthPct": 17.47,
       "isSqueeze": false,
       "macdBullishTurn": false,
       "adx": 19.1,
@@ -481,7 +407,7 @@
       "regime": "DIP_TOPLAMA",
       "support": 0.08195,
       "resistance": 0.09917,
-      "roomToResistancePct": 4.36,
+      "roomToResistancePct": 4.08,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Scout",
@@ -489,16 +415,16 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 54.2,
+      "takerBuyRatioPct": 55.7,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.03,
+      "volRatio": 0.09,
       "fundingHourlyPct": 0.0013,
       "totalScore": 55,
       "tpPct": 9,
       "slPct": 3.49,
-      "tpPrice": 0.10358,
-      "slPrice": 0.091713
+      "tpPrice": 0.10386,
+      "slPrice": 0.091955
     },
     {
       "symbol": "BOME",
@@ -510,112 +436,230 @@
         "solana"
       ],
       "newsScore": 3.12,
-      "freshestMinutesAgo": 2086,
+      "freshestMinutesAgo": 2091,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Solana Sets a Date for Its Next Major Upgrade",
-          "minutesAgo": 2086,
+          "minutesAgo": 2091,
           "catalystPoints": 3.12,
           "directMention": false
         }
       ],
-      "lastPrice": 0.000695,
-      "change1hPct": -0.13,
-      "change24hPct": 2.75,
-      "lagVsLeader24h": 1.47,
-      "rsi1h": 49.36,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.2,
-      "bbPctB": 0.58,
-      "bbWidthPct": 3.87,
+      "lastPrice": 0.0006928,
+      "change1hPct": -0.45,
+      "change24hPct": 2.153,
+      "lagVsLeader24h": 1.79,
+      "rsi1h": 47.13,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.22,
+      "bbPctB": 0.5,
+      "bbWidthPct": 3.86,
       "isSqueeze": true,
       "macdBullishTurn": true,
-      "adx": 21.8,
+      "adx": 18.9,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
       "support": 0.000673,
       "resistance": 0.0007056,
-      "roomToResistancePct": 1.53,
-      "aiConsensusCount": 2,
+      "roomToResistancePct": 1.85,
+      "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
+        "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 40.3,
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 43.7,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.02,
-      "fundingHourlyPct": -0.002,
-      "totalScore": 50.7,
+      "volRatio": 0.13,
+      "fundingHourlyPct": -0.0025,
+      "totalScore": 52.3,
       "tpPct": 4.5,
       "slPct": 1.8,
-      "tpPrice": 0.00072627,
-      "slPrice": 0.00068249
+      "tpPrice": 0.00072398,
+      "slPrice": 0.00068033
     },
     {
-      "symbol": "XLM",
-      "leaderSymbol": "XRP",
+      "symbol": "IO",
+      "leaderSymbol": "FET",
       "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
       ],
       "matchedKeywords": [
-        "xrp",
-        "tokenized",
-        "ripple"
+        "ai agent",
+        "ai agents",
+        "openai"
       ],
-      "newsScore": 2.79,
-      "freshestMinutesAgo": 8,
+      "newsScore": 4.36,
+      "freshestMinutesAgo": 97,
       "headlines": [
         {
           "source": "CoinDesk",
-          "title": "XRP has failed to make holders rich like bitcoin and ether. Here’s why",
-          "minutesAgo": 8,
-          "catalystPoints": 1.7,
+          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
+          "minutesAgo": 97,
+          "catalystPoints": 3.38,
           "directMention": false
         },
         {
-          "source": "CryptoPotato",
-          "title": "Important Ripple News and XRP Price Update: October 15",
-          "minutesAgo": 1351,
-          "catalystPoints": 0.59,
+          "source": "Decrypt",
+          "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
+          "minutesAgo": 2031,
+          "catalystPoints": 0.65,
           "directMention": false
         }
       ],
-      "lastPrice": 0.1828,
-      "change1hPct": -0.05,
-      "change24hPct": 2.928,
-      "lagVsLeader24h": 0.2,
-      "rsi1h": 36.51,
+      "lastPrice": 0.163,
+      "change1hPct": -0.18,
+      "change24hPct": 4.02,
+      "lagVsLeader24h": 1.63,
+      "rsi1h": 43.54,
       "hasRsiDivergence": true,
-      "atr1hPct": 0.56,
-      "bbPctB": 0.49,
-      "bbWidthPct": 4.46,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 53.6,
+      "atr1hPct": 1.32,
+      "bbPctB": 0.45,
+      "bbWidthPct": 7.61,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 6.5,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
-      "support": 0.1777,
-      "resistance": 0.1857,
-      "roomToResistancePct": 1.59,
+      "support": 0.1542,
+      "resistance": 0.1681,
+      "roomToResistancePct": 3.13,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
-        "Llama-4-Maverick",
+        "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 46.2,
+      "takerBuyRatioPct": 51.3,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0,
-      "fundingHourlyPct": 0.0005,
+      "volRatio": 0.05,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 51.6,
+      "tpPct": 6.18,
+      "slPct": 1.91,
+      "tpPrice": 0.17307,
+      "slPrice": 0.15989
+    },
+    {
+      "symbol": "JTO",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 3.12,
+      "freshestMinutesAgo": 2091,
+      "headlines": [
+        {
+          "source": "Decrypt",
+          "title": "Solana Sets a Date for Its Next Major Upgrade",
+          "minutesAgo": 2091,
+          "catalystPoints": 3.12,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.4795,
+      "change1hPct": -0.02,
+      "change24hPct": 6.014,
+      "lagVsLeader24h": -2.08,
+      "rsi1h": 58.78,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.59,
+      "bbPctB": 0.75,
+      "bbWidthPct": 8.05,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 27.1,
+      "ema20AboveEma50": true,
+      "regime": "GUCLU_TREND",
+      "support": 0.4425,
+      "resistance": 0.4838,
+      "roomToResistancePct": 1.5,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 50.9,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.06,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 48,
+      "tpPct": 7.58,
+      "slPct": 2.31,
+      "tpPrice": 0.51585,
+      "slPrice": 0.46842
+    },
+    {
+      "symbol": "NEAR",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "ai agent",
+        "ai agents",
+        "openai"
+      ],
+      "newsScore": 4.36,
+      "freshestMinutesAgo": 97,
+      "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
+          "minutesAgo": 97,
+          "catalystPoints": 3.38,
+          "directMention": false
+        },
+        {
+          "source": "Decrypt",
+          "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
+          "minutesAgo": 2031,
+          "catalystPoints": 0.65,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 5.214,
+      "change1hPct": -0.06,
+      "change24hPct": 12.979,
+      "lagVsLeader24h": -7.32,
+      "rsi1h": 55.76,
+      "hasRsiDivergence": false,
+      "atr1hPct": 2.03,
+      "bbPctB": 0.57,
+      "bbWidthPct": 19.96,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 9.4,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 4.539,
+      "resistance": 5.418,
+      "roomToResistancePct": 3.91,
+      "aiConsensusCount": 1,
+      "aiConsensusModels": [
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "1/4 AI ONAYLI",
+      "takerBuyRatioPct": 48,
+      "isGreenBounce": true,
+      "isTrending": true,
+      "volRatio": 0.12,
+      "fundingHourlyPct": 0.0013,
       "totalScore": 46.6,
-      "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 0.19103,
-      "slPrice": 0.17951
+      "tpPct": 9,
+      "slPct": 2.94,
+      "tpPrice": 5.6833,
+      "slPrice": 5.0607
     },
     {
       "symbol": "RENDER",
@@ -629,35 +673,35 @@
         "openai"
       ],
       "newsScore": 4.36,
-      "freshestMinutesAgo": 93,
+      "freshestMinutesAgo": 97,
       "headlines": [
         {
           "source": "CoinDesk",
           "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
-          "minutesAgo": 93,
+          "minutesAgo": 97,
           "catalystPoints": 3.38,
           "directMention": false
         },
         {
           "source": "Decrypt",
           "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
-          "minutesAgo": 2026,
+          "minutesAgo": 2031,
           "catalystPoints": 0.65,
           "directMention": false
         }
       ],
       "lastPrice": 1.927,
-      "change1hPct": -0.05,
-      "change24hPct": 4.671,
-      "lagVsLeader24h": 1.04,
-      "rsi1h": 35.9,
+      "change1hPct": 0,
+      "change24hPct": 4.842,
+      "lagVsLeader24h": 0.81,
+      "rsi1h": 36.13,
       "hasRsiDivergence": false,
-      "atr1hPct": 1.23,
-      "bbPctB": 0.46,
+      "atr1hPct": 1.24,
+      "bbPctB": 0.47,
       "bbWidthPct": 10.89,
       "isSqueeze": false,
       "macdBullishTurn": false,
-      "adx": 58.9,
+      "adx": 60,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
       "support": 1.807,
@@ -669,53 +713,62 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 38.4,
+      "takerBuyRatioPct": 39.2,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.01,
+      "volRatio": 0.05,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 46.5,
+      "totalScore": 46.1,
       "tpPct": 7.71,
       "slPct": 1.8,
       "tpPrice": 2.0756,
       "slPrice": 1.8923
     },
     {
-      "symbol": "WIF",
-      "leaderSymbol": "SOL",
+      "symbol": "GRT",
+      "leaderSymbol": "FET",
       "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
       ],
       "matchedKeywords": [
-        "solana"
+        "ai agent",
+        "ai agents",
+        "openai"
       ],
-      "newsScore": 3.12,
-      "freshestMinutesAgo": 2086,
+      "newsScore": 4.36,
+      "freshestMinutesAgo": 97,
       "headlines": [
         {
+          "source": "CoinDesk",
+          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
+          "minutesAgo": 97,
+          "catalystPoints": 3.38,
+          "directMention": false
+        },
+        {
           "source": "Decrypt",
-          "title": "Solana Sets a Date for Its Next Major Upgrade",
-          "minutesAgo": 2086,
-          "catalystPoints": 3.12,
+          "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
+          "minutesAgo": 2031,
+          "catalystPoints": 0.65,
           "directMention": false
         }
       ],
-      "lastPrice": 0.2012,
-      "change1hPct": -0.15,
-      "change24hPct": 5.617,
-      "lagVsLeader24h": -1.39,
-      "rsi1h": 51.35,
+      "lastPrice": 0.0253,
+      "change1hPct": -0.51,
+      "change24hPct": 6.886,
+      "lagVsLeader24h": -1.23,
+      "rsi1h": 59.79,
       "hasRsiDivergence": true,
-      "atr1hPct": 0.93,
-      "bbPctB": 0.61,
-      "bbWidthPct": 7.12,
+      "atr1hPct": 1.02,
+      "bbPctB": 0.7,
+      "bbWidthPct": 8.05,
       "isSqueeze": false,
       "macdBullishTurn": true,
-      "adx": 3.7,
+      "adx": 1.9,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
-      "support": 0.1898,
-      "resistance": 0.2033,
+      "support": 0.02346,
+      "resistance": 0.02534,
       "roomToResistancePct": 1.5,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
@@ -723,16 +776,16 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 56,
+      "takerBuyRatioPct": 60.2,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.01,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 46,
-      "tpPct": 5.17,
+      "volRatio": 0,
+      "fundingHourlyPct": 0,
+      "totalScore": 44.6,
+      "tpPct": 5.96,
       "slPct": 1.8,
-      "tpPrice": 0.2116,
-      "slPrice": 0.19758
+      "tpPrice": 0.026808,
+      "slPrice": 0.024845
     },
     {
       "symbol": "ICP",
@@ -746,32 +799,32 @@
         "openai"
       ],
       "newsScore": 4.36,
-      "freshestMinutesAgo": 93,
+      "freshestMinutesAgo": 97,
       "headlines": [
         {
           "source": "CoinDesk",
           "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
-          "minutesAgo": 93,
+          "minutesAgo": 97,
           "catalystPoints": 3.38,
           "directMention": false
         },
         {
           "source": "Decrypt",
           "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
-          "minutesAgo": 2026,
+          "minutesAgo": 2031,
           "catalystPoints": 0.65,
           "directMention": false
         }
       ],
-      "lastPrice": 3.075,
-      "change1hPct": -0.32,
-      "change24hPct": 7.292,
-      "lagVsLeader24h": -1.58,
-      "rsi1h": 57.79,
+      "lastPrice": 3.084,
+      "change1hPct": 0,
+      "change24hPct": 6.787,
+      "lagVsLeader24h": -1.13,
+      "rsi1h": 60.26,
       "hasRsiDivergence": true,
-      "atr1hPct": 1.31,
-      "bbPctB": 0.67,
-      "bbWidthPct": 8.55,
+      "atr1hPct": 1.32,
+      "bbPctB": 0.7,
+      "bbWidthPct": 8.6,
       "isSqueeze": false,
       "macdBullishTurn": true,
       "adx": 15.3,
@@ -786,132 +839,142 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 45.4,
-      "isGreenBounce": false,
+      "takerBuyRatioPct": 47.3,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.01,
+      "volRatio": 0.14,
       "fundingHourlyPct": 0.0013,
       "totalScore": 41.6,
       "tpPct": 5.43,
-      "slPct": 1.9,
-      "tpPrice": 3.242,
-      "slPrice": 3.0166
+      "slPct": 1.91,
+      "tpPrice": 3.2515,
+      "slPrice": 3.0251
     },
     {
-      "symbol": "JTO",
-      "leaderSymbol": "SOL",
+      "symbol": "LINK",
+      "leaderSymbol": "XRP",
       "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
-        "solana"
+        "xrp",
+        "ripple",
+        "tokenized"
       ],
-      "newsScore": 3.12,
-      "freshestMinutesAgo": 2086,
+      "newsScore": 2.62,
+      "freshestMinutesAgo": 13,
       "headlines": [
         {
-          "source": "Decrypt",
-          "title": "Solana Sets a Date for Its Next Major Upgrade",
-          "minutesAgo": 2086,
-          "catalystPoints": 3.12,
+          "source": "CoinDesk",
+          "title": "XRP has failed to make holders rich like bitcoin and ether. Here’s why",
+          "minutesAgo": 13,
+          "catalystPoints": 1.7,
+          "directMention": false
+        },
+        {
+          "source": "CryptoPotato",
+          "title": "Important Ripple News and XRP Price Update: October 15",
+          "minutesAgo": 1356,
+          "catalystPoints": 0.59,
           "directMention": false
         }
       ],
-      "lastPrice": 0.4785,
-      "change1hPct": -0.29,
-      "change24hPct": 6.381,
-      "lagVsLeader24h": -2.16,
-      "rsi1h": 57.26,
+      "lastPrice": 12.476,
+      "change1hPct": -0.03,
+      "change24hPct": 4.01,
+      "lagVsLeader24h": -1.04,
+      "rsi1h": 54.66,
       "hasRsiDivergence": true,
-      "atr1hPct": 1.58,
-      "bbPctB": 0.71,
-      "bbWidthPct": 8,
+      "atr1hPct": 0.72,
+      "bbPctB": 0.59,
+      "bbWidthPct": 6.34,
       "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 27.4,
+      "macdBullishTurn": false,
+      "adx": 19.7,
       "ema20AboveEma50": true,
-      "regime": "GUCLU_TREND",
-      "support": 0.4425,
-      "resistance": 0.4838,
+      "regime": "DIP_TOPLAMA",
+      "support": 11.885,
+      "resistance": 12.587,
       "roomToResistancePct": 1.5,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 51.6,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.03,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 40.8,
+      "tpPct": 4.5,
+      "slPct": 1.8,
+      "tpPrice": 13.037,
+      "slPrice": 12.251
+    },
+    {
+      "symbol": "XLM",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "xrp",
+        "ripple",
+        "tokenized"
+      ],
+      "newsScore": 2.62,
+      "freshestMinutesAgo": 13,
+      "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "XRP has failed to make holders rich like bitcoin and ether. Here’s why",
+          "minutesAgo": 13,
+          "catalystPoints": 1.7,
+          "directMention": false
+        },
+        {
+          "source": "CryptoPotato",
+          "title": "Important Ripple News and XRP Price Update: October 15",
+          "minutesAgo": 1356,
+          "catalystPoints": 0.59,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.1826,
+      "change1hPct": -0.16,
+      "change24hPct": 2.757,
+      "lagVsLeader24h": 0.22,
+      "rsi1h": 35.38,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.58,
+      "bbPctB": 0.47,
+      "bbWidthPct": 4.46,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 54.4,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.1777,
+      "resistance": 0.1857,
+      "roomToResistancePct": 1.7,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Maverick",
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 49.6,
+      "takerBuyRatioPct": 45.9,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.01,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 41,
-      "tpPct": 7.58,
-      "slPct": 2.29,
-      "tpPrice": 0.51477,
-      "slPrice": 0.46754
-    },
-    {
-      "symbol": "NEAR",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "ai agent",
-        "ai agents",
-        "openai"
-      ],
-      "newsScore": 4.36,
-      "freshestMinutesAgo": 93,
-      "headlines": [
-        {
-          "source": "CoinDesk",
-          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
-          "minutesAgo": 93,
-          "catalystPoints": 3.38,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
-          "minutesAgo": 2026,
-          "catalystPoints": 0.65,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 5.196,
-      "change1hPct": -0.52,
-      "change24hPct": 12.76,
-      "lagVsLeader24h": -7.05,
-      "rsi1h": 54.15,
-      "hasRsiDivergence": false,
-      "atr1hPct": 2.02,
-      "bbPctB": 0.54,
-      "bbWidthPct": 19.94,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 10.6,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 4.539,
-      "resistance": 5.418,
-      "roomToResistancePct": 4.27,
-      "aiConsensusCount": 1,
-      "aiConsensusModels": [
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "1/4 AI ONAYLI",
-      "takerBuyRatioPct": 46.6,
-      "isGreenBounce": false,
-      "isTrending": true,
       "volRatio": 0.03,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 39.6,
-      "tpPct": 9,
-      "slPct": 2.93,
-      "tpPrice": 5.6636,
-      "slPrice": 5.0438
+      "totalScore": 40.8,
+      "tpPct": 4.5,
+      "slPct": 1.8,
+      "tpPrice": 0.19082,
+      "slPrice": 0.17931
     },
     {
       "symbol": "RAY",
@@ -923,25 +986,25 @@
         "solana"
       ],
       "newsScore": 3.12,
-      "freshestMinutesAgo": 2086,
+      "freshestMinutesAgo": 2091,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Solana Sets a Date for Its Next Major Upgrade",
-          "minutesAgo": 2086,
+          "minutesAgo": 2091,
           "catalystPoints": 3.12,
           "directMention": false
         }
       ],
-      "lastPrice": 1.8504,
-      "change1hPct": -0.02,
-      "change24hPct": 4.672,
-      "lagVsLeader24h": -0.45,
-      "rsi1h": 62.83,
+      "lastPrice": 1.8437,
+      "change1hPct": -0.26,
+      "change24hPct": 3.666,
+      "lagVsLeader24h": 0.27,
+      "rsi1h": 61.11,
       "hasRsiDivergence": true,
-      "atr1hPct": 1.4,
-      "bbPctB": 0.7,
-      "bbWidthPct": 6.13,
+      "atr1hPct": 1.42,
+      "bbPctB": 0.66,
+      "bbWidthPct": 6.1,
       "isSqueeze": false,
       "macdBullishTurn": true,
       "adx": 23.9,
@@ -949,23 +1012,23 @@
       "regime": "DIP_TOPLAMA",
       "support": 1.7434,
       "resistance": 1.8715,
-      "roomToResistancePct": 1.5,
+      "roomToResistancePct": 1.51,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Maverick",
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 59.7,
+      "takerBuyRatioPct": 60.1,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.23,
+      "volRatio": 0.24,
       "fundingHourlyPct": 0,
       "totalScore": 39,
       "tpPct": 5.26,
-      "slPct": 2.03,
-      "tpPrice": 1.9477,
-      "slPrice": 1.8128
+      "slPct": 2.06,
+      "tpPrice": 1.9407,
+      "slPrice": 1.8057
     },
     {
       "symbol": "XRP",
@@ -975,35 +1038,35 @@
       ],
       "matchedKeywords": [
         "xrp",
-        "tokenized",
-        "ripple"
+        "ripple",
+        "tokenized"
       ],
-      "newsScore": 3.58,
-      "freshestMinutesAgo": 8,
+      "newsScore": 3.52,
+      "freshestMinutesAgo": 13,
       "headlines": [
         {
           "source": "CoinDesk",
           "title": "XRP has failed to make holders rich like bitcoin and ether. Here’s why",
-          "minutesAgo": 8,
+          "minutesAgo": 13,
           "catalystPoints": 2.29,
           "directMention": true
         },
         {
           "source": "CryptoPotato",
           "title": "Important Ripple News and XRP Price Update: October 15",
-          "minutesAgo": 1351,
+          "minutesAgo": 1356,
           "catalystPoints": 0.79,
           "directMention": true
         }
       ],
-      "lastPrice": 1.3367,
-      "change1hPct": -0.15,
-      "change24hPct": 3.132,
+      "lastPrice": 1.3366,
+      "change1hPct": -0.11,
+      "change24hPct": 2.974,
       "lagVsLeader24h": 0,
-      "rsi1h": 50,
+      "rsi1h": 50.68,
       "hasRsiDivergence": true,
       "atr1hPct": 0.59,
-      "bbPctB": 0.59,
+      "bbPctB": 0.6,
       "bbWidthPct": 4.47,
       "isSqueeze": true,
       "macdBullishTurn": false,
@@ -1019,140 +1082,16 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 42.2,
+      "takerBuyRatioPct": 42.5,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.02,
+      "volRatio": 0.04,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 38.1,
+      "totalScore": 37.8,
       "tpPct": 4.5,
       "slPct": 1.8,
-      "tpPrice": 1.3969,
-      "slPrice": 1.3126
-    },
-    {
-      "symbol": "LINK",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "xrp",
-        "tokenized",
-        "ripple"
-      ],
-      "newsScore": 2.79,
-      "freshestMinutesAgo": 8,
-      "headlines": [
-        {
-          "source": "CoinDesk",
-          "title": "XRP has failed to make holders rich like bitcoin and ether. Here’s why",
-          "minutesAgo": 8,
-          "catalystPoints": 1.7,
-          "directMention": false
-        },
-        {
-          "source": "CryptoPotato",
-          "title": "Important Ripple News and XRP Price Update: October 15",
-          "minutesAgo": 1351,
-          "catalystPoints": 0.59,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 12.469,
-      "change1hPct": -0.12,
-      "change24hPct": 3.805,
-      "lagVsLeader24h": -0.67,
-      "rsi1h": 53.56,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.72,
-      "bbPctB": 0.58,
-      "bbWidthPct": 6.33,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 19.7,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 11.885,
-      "resistance": 12.587,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 1,
-      "aiConsensusModels": [
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "1/4 AI ONAYLI",
-      "takerBuyRatioPct": 51.3,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.01,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 34.6,
-      "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 13.03,
-      "slPrice": 12.245
-    },
-    {
-      "symbol": "WLD",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "ai agent",
-        "ai agents",
-        "openai"
-      ],
-      "newsScore": 4.36,
-      "freshestMinutesAgo": 93,
-      "headlines": [
-        {
-          "source": "CoinDesk",
-          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
-          "minutesAgo": 93,
-          "catalystPoints": 3.38,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
-          "minutesAgo": 2026,
-          "catalystPoints": 0.65,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.5003,
-      "change1hPct": -0.28,
-      "change24hPct": 6.879,
-      "lagVsLeader24h": -1.17,
-      "rsi1h": 57.66,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.45,
-      "bbPctB": 0.57,
-      "bbWidthPct": 10.61,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 8.3,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.4632,
-      "resistance": 0.5117,
-      "roomToResistancePct": 2.28,
-      "aiConsensusCount": 1,
-      "aiConsensusModels": [
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "1/4 AI ONAYLI",
-      "takerBuyRatioPct": 42.9,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 30.6,
-      "tpPct": 6.96,
-      "slPct": 2.1,
-      "tpPrice": 0.53512,
-      "slPrice": 0.48979
+      "tpPrice": 1.3967,
+      "slPrice": 1.3125
     },
     {
       "symbol": "JUP",
@@ -1164,25 +1103,25 @@
         "solana"
       ],
       "newsScore": 3.12,
-      "freshestMinutesAgo": 2086,
+      "freshestMinutesAgo": 2091,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Solana Sets a Date for Its Next Major Upgrade",
-          "minutesAgo": 2086,
+          "minutesAgo": 2091,
           "catalystPoints": 3.12,
           "directMention": false
         }
       ],
-      "lastPrice": 0.3117,
-      "change1hPct": -0.06,
-      "change24hPct": 4.808,
-      "lagVsLeader24h": -0.58,
-      "rsi1h": 59.33,
+      "lastPrice": 0.3121,
+      "change1hPct": 0.13,
+      "change24hPct": 4.381,
+      "lagVsLeader24h": -0.44,
+      "rsi1h": 61.18,
       "hasRsiDivergence": false,
-      "atr1hPct": 1.2,
-      "bbPctB": 0.59,
-      "bbWidthPct": 7.9,
+      "atr1hPct": 1.22,
+      "bbPctB": 0.62,
+      "bbWidthPct": 7.91,
       "isSqueeze": false,
       "macdBullishTurn": true,
       "adx": 13,
@@ -1198,15 +1137,141 @@
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
       "takerBuyRatioPct": 46.8,
-      "isGreenBounce": false,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.01,
-      "fundingHourlyPct": -0.0044,
-      "totalScore": 30,
+      "volRatio": 0.03,
+      "fundingHourlyPct": -0.004,
+      "totalScore": 37,
       "tpPct": 6.16,
       "slPct": 1.8,
-      "tpPrice": 0.3309,
-      "slPrice": 0.30609
+      "tpPrice": 0.33133,
+      "slPrice": 0.30648
+    },
+    {
+      "symbol": "WLD",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "ai agent",
+        "ai agents",
+        "openai"
+      ],
+      "newsScore": 4.36,
+      "freshestMinutesAgo": 97,
+      "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
+          "minutesAgo": 97,
+          "catalystPoints": 3.38,
+          "directMention": false
+        },
+        {
+          "source": "Decrypt",
+          "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
+          "minutesAgo": 2031,
+          "catalystPoints": 0.65,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.5021,
+      "change1hPct": 0.16,
+      "change24hPct": 7.126,
+      "lagVsLeader24h": -1.47,
+      "rsi1h": 60.49,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.47,
+      "bbPctB": 0.61,
+      "bbWidthPct": 10.64,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 8.3,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.4632,
+      "resistance": 0.5117,
+      "roomToResistancePct": 1.91,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 43.6,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.03,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 36.6,
+      "tpPct": 6.96,
+      "slPct": 2.13,
+      "tpPrice": 0.53705,
+      "slPrice": 0.49141
+    },
+    {
+      "symbol": "ONDO",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "xrp",
+        "ripple",
+        "tokenized"
+      ],
+      "newsScore": 2.62,
+      "freshestMinutesAgo": 13,
+      "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "XRP has failed to make holders rich like bitcoin and ether. Here’s why",
+          "minutesAgo": 13,
+          "catalystPoints": 1.7,
+          "directMention": false
+        },
+        {
+          "source": "CryptoPotato",
+          "title": "Important Ripple News and XRP Price Update: October 15",
+          "minutesAgo": 1356,
+          "catalystPoints": 0.59,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.4686,
+      "change1hPct": 0.26,
+      "change24hPct": 9.614,
+      "lagVsLeader24h": -6.64,
+      "rsi1h": 63.75,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.21,
+      "bbPctB": 0.67,
+      "bbWidthPct": 12.68,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 16.7,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.4239,
+      "resistance": 0.4727,
+      "roomToResistancePct": 1.5,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 47.7,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.03,
+      "fundingHourlyPct": 0.0012,
+      "totalScore": 27.8,
+      "tpPct": 7.93,
+      "slPct": 1.8,
+      "tpPrice": 0.50576,
+      "slPrice": 0.46017
     },
     {
       "symbol": "AVAX",
@@ -1216,36 +1281,36 @@
       ],
       "matchedKeywords": [
         "xrp",
-        "tokenized",
-        "ripple"
+        "ripple",
+        "tokenized"
       ],
-      "newsScore": 2.79,
-      "freshestMinutesAgo": 8,
+      "newsScore": 2.62,
+      "freshestMinutesAgo": 13,
       "headlines": [
         {
           "source": "CoinDesk",
           "title": "XRP has failed to make holders rich like bitcoin and ether. Here’s why",
-          "minutesAgo": 8,
+          "minutesAgo": 13,
           "catalystPoints": 1.7,
           "directMention": false
         },
         {
           "source": "CryptoPotato",
           "title": "Important Ripple News and XRP Price Update: October 15",
-          "minutesAgo": 1351,
+          "minutesAgo": 1356,
           "catalystPoints": 0.59,
           "directMention": false
         }
       ],
-      "lastPrice": 10.081,
-      "change1hPct": -0.16,
-      "change24hPct": 5.848,
-      "lagVsLeader24h": -2.72,
-      "rsi1h": 63.33,
+      "lastPrice": 10.082,
+      "change1hPct": -0.13,
+      "change24hPct": 5.748,
+      "lagVsLeader24h": -2.77,
+      "rsi1h": 63.69,
       "hasRsiDivergence": true,
-      "atr1hPct": 0.84,
+      "atr1hPct": 0.86,
       "bbPctB": 0.69,
-      "bbWidthPct": 7.03,
+      "bbWidthPct": 7.04,
       "isSqueeze": false,
       "macdBullishTurn": true,
       "adx": 41.4,
@@ -1260,78 +1325,16 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 46.8,
+      "takerBuyRatioPct": 47.1,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.01,
-      "fundingHourlyPct": 0.0012,
-      "totalScore": 27.6,
+      "volRatio": 0.04,
+      "fundingHourlyPct": 0.0011,
+      "totalScore": 26.8,
       "tpPct": 4.59,
       "slPct": 1.8,
-      "tpPrice": 10.544,
-      "slPrice": 9.8995
-    },
-    {
-      "symbol": "ONDO",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "xrp",
-        "tokenized",
-        "ripple"
-      ],
-      "newsScore": 2.79,
-      "freshestMinutesAgo": 8,
-      "headlines": [
-        {
-          "source": "CoinDesk",
-          "title": "XRP has failed to make holders rich like bitcoin and ether. Here’s why",
-          "minutesAgo": 8,
-          "catalystPoints": 1.7,
-          "directMention": false
-        },
-        {
-          "source": "CryptoPotato",
-          "title": "Important Ripple News and XRP Price Update: October 15",
-          "minutesAgo": 1351,
-          "catalystPoints": 0.59,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.4673,
-      "change1hPct": -0.11,
-      "change24hPct": 9.336,
-      "lagVsLeader24h": -6.2,
-      "rsi1h": 61.26,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.18,
-      "bbPctB": 0.65,
-      "bbWidthPct": 12.64,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 16.7,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.4239,
-      "resistance": 0.4727,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 1,
-      "aiConsensusModels": [
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "1/4 AI ONAYLI",
-      "takerBuyRatioPct": 47.9,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.01,
-      "fundingHourlyPct": 0.0005,
-      "totalScore": 16.6,
-      "tpPct": 7.93,
-      "slPct": 1.8,
-      "tpPrice": 0.50436,
-      "slPrice": 0.45889
+      "tpPrice": 10.545,
+      "slPrice": 9.9005
     }
   ]
 }

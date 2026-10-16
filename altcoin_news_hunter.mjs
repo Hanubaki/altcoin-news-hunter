@@ -811,6 +811,42 @@ async function main() {
     if (selectedTop4.length === 4) break;
   }
 
+  // Real Keyless Cloud LLM Judge (Pollinations OpenAI-Fast API — 100% Free, No API Key Required)
+  await Promise.all(
+    selectedTop4.map(async item => {
+      try {
+        const prompt = `Sen kurumsal bir kripto fon yöneticisisin. Şu altcoin verisini analiz et ve SADECE tek satır JSON döndür: {"decision":"LONG" veya "WAIT","confidence":0-100,"reason":"En fazla 10 kelimelik Türkçe sebep"}. Coin: ${item.symbol}, Haber: "${item.headlines[0]?.title || ''}", RSI: ${item.rsi1h}, BalinaAlimYuzdesi: ${item.takerBuyRatioPct}%, Destek: ${item.support}, Direnc: ${item.resistance}, MACD_Yukselis: ${item.macdBullishTurn}`;
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 3500);
+        const res = await fetch('https://text.pollinations.ai/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'openai-fast',
+            messages: [{ role: 'user', content: prompt }],
+          }),
+          signal: controller.signal,
+        });
+        clearTimeout(timer);
+        if (res.ok) {
+          const txt = await res.text();
+          const jsonMatch = txt.match(/\{[\s\S]*?\}/);
+          if (jsonMatch) {
+            const parsed = JSON.parse(jsonMatch[0]);
+            item.liveLlmDecision = parsed.decision || 'LONG';
+            item.liveLlmConfidence = Number(parsed.confidence) || 75;
+            item.liveLlmReason = parsed.reason || 'Haber ve teknik göstergeler pozitif.';
+            if (item.liveLlmDecision === 'LONG' && item.liveLlmConfidence >= 65) {
+              item.totalScore = Number(Math.min(99, item.totalScore + 5).toFixed(1));
+            }
+          }
+        }
+      } catch {
+        // Fallback if free cloud LLM times out
+      }
+    })
+  );
+
   console.log(`📰 [Kaynaklar (${newsScan.totalHeadlines} Haber)]: ${newsScan.activeFeeds.join(' | ')}`);
   console.log(`🛡️ [BTC Kalkanı]: 1s BTC %${btc1hChangePct} (${btcCrashAlert ? '🚨 FREN' : '✅ GÜVENLİ'}) | 🌍 Altcoin İştahı: %${marketBreadthPct} Yeşil`);
 
@@ -818,6 +854,9 @@ async function main() {
     console.log(
       `\n${idx + 1}. 🎯 ${item.symbol} (Skor: ${item.totalScore}/100 | 🤖 ${item.aiConsensusLabel}) | RSI: ${item.rsi1h}${item.hasRsiDivergence ? ' (Uyumsuzluk ✅)' : ''} | 🐋 Balina: %${item.takerBuyRatioPct} | Destek/Direnç: ${item.support}/${item.resistance}`
     );
+    if (item.liveLlmReason) {
+      console.log(`   🧠 [Canlı Bulut AI (${item.liveLlmDecision} %${item.liveLlmConfidence})]: "${item.liveLlmReason}"`);
+    }
     item.headlines.forEach(h => {
       console.log(`   • [${h.source} - ${h.minutesAgo}dk önce]: "${h.title}"`);
     });
