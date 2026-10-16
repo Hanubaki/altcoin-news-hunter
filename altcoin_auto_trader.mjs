@@ -641,6 +641,66 @@ async function runTradingCycle() {
     }
   }
 
+  // Engine #10: Winner Pyramiding & Capital Concentration (Ucusa Gecen Coine Guc Aktarimi)
+  // If an open coin proves real takeoff (+1.8% to +4.5% gain, whale flow >= 53%, not yet exhausted),
+  // liquidate sluggish coins (<= +0.3% after 45m) and pour free cash into the confirmed rocket with break-even SL protection!
+  const confirmedRocket = state.openPositions.find(
+    p => !p.pyramided && p.unrealizedPnlPct >= 1.8 && p.unrealizedPnlPct <= 4.8 && (p.takerBuyRatioPct || 50) >= 53
+  );
+  if (!signalsData.btcCrashAlert && confirmedRocket) {
+    const rq = quotes[confirmedRocket.symbol];
+    const rOb = await checkOrderbookImbalance(confirmedRocket.symbol);
+    if (rq && rq.bestAsk && rOb >= -0.1) {
+      // Liquidate sluggish/flat positions to free up capital for the confirmed rocket
+      const keptPositions = [];
+      for (const p of state.openPositions) {
+        const minsHeld = (nowMs - new Date(p.entryTime).getTime()) / (1000 * 60);
+        if (p.symbol !== confirmedRocket.symbol && minsHeld >= 45 && p.unrealizedPnlPct <= 0.3 && !p.rocketMode) {
+          const pq = quotes[p.symbol];
+          if (pq && pq.bestBid) {
+            if (state.mode === 'LIVE_BINANCE') {
+              await executeBinanceRealOrder(cfg, p.symbol, 'SELL', p.qty);
+            }
+            const proceeds = Number((pq.bestBid * p.qty).toFixed(4));
+            const netPnl = Number((proceeds - p.costUsdt).toFixed(4));
+            state.cashUsdt = Number((state.cashUsdt + proceeds).toFixed(4));
+            state.realizedPnlUsdt = Number((state.realizedPnlUsdt + netPnl).toFixed(4));
+            logEvent(state, `🔄 [GÜÇ AKTARIMI] Zayıf ${p.symbol} satıldı, para uçuşa geçen ${confirmedRocket.symbol} coinine aktarılıyor!`);
+            continue;
+          }
+        }
+        keptPositions.push(p);
+      }
+      state.openPositions = keptPositions;
+
+      if (state.cashUsdt >= 4.50) {
+        const boostUsdt = Number((state.cashUsdt * 0.95).toFixed(2));
+        const addQty = Number((boostUsdt / rq.bestAsk).toPrecision(4));
+        if (state.mode === 'LIVE_BINANCE') {
+          await executeBinanceRealOrder(cfg, confirmedRocket.symbol, 'BUY', addQty, boostUsdt);
+        }
+        const totalCost = Number((confirmedRocket.costUsdt + boostUsdt).toFixed(4));
+        const totalQty = Number((confirmedRocket.qty + addQty).toPrecision(5));
+        confirmedRocket.entryPrice = Number((totalCost / totalQty).toPrecision(5));
+        confirmedRocket.qty = totalQty;
+        confirmedRocket.costUsdt = totalCost;
+        confirmedRocket.costTry = Math.round(totalCost * USD_TRY_RATE);
+        confirmedRocket.pyramided = true;
+        // Lock stop-loss at +0.5% above new blended entry so combined capital is protected
+        const safeStop = Number((confirmedRocket.entryPrice * 1.005).toPrecision(5));
+        if (safeStop > confirmedRocket.stopLossPrice && rq.bestBid > safeStop) {
+          confirmedRocket.stopLossPrice = safeStop;
+          confirmedRocket.trailingActive = true;
+        }
+        state.cashUsdt = Number((state.cashUsdt - boostUsdt).toFixed(4));
+        logEvent(
+          state,
+          `🚀 [TAM GÜÇ BASILDI] Uçuşa geçen ${confirmedRocket.symbol} coinine +${toTL(boostUsdt)} TL ek kasa basıldı (Toplam: ${toTL(totalCost)} TL | Kâr Kilidi Aktif)!`
+        );
+      }
+    }
+  }
+
   // Compute current total equity for Auto-Compounding Dynamic Position Sizing
   const currentOpenVal = state.openPositions.reduce((s, p) => s + p.currentPrice * p.qty, 0);
   const currentTotalEquity = state.cashUsdt + currentOpenVal;
@@ -659,9 +719,9 @@ async function runTradingCycle() {
       if (state.openPositions.length >= cfg.MAX_OPEN_POSITIONS) break;
       if (state.cashUsdt < 4.50) break;
       if (heldSymbols.has(cand.symbol)) continue;
-      if (aiWaitSymbols.has(cand.symbol) || cand.liveLlmDecision === 'WAIT') continue;
+      if (aiWaitSymbols.has(cand.symbol) || cand.liveLlmDecision !== 'LONG') continue;
       if (usedLeaders.has(cand.leaderSymbol)) continue;
-      if (cand.totalScore < 50) continue;
+      if (cand.totalScore < 55) continue;
       if (state.cooldowns[cand.symbol] && state.cooldowns[cand.symbol] > nowMs) continue;
 
       const q = quotes[cand.symbol];
