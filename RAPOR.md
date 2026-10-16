@@ -1,17 +1,17 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Ultra-Yield v7.0)
 
-**Son Güncelleme:** 16.10.2026 11:34:08
+**Son Güncelleme:** 16.10.2026 14:32:07
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.038,72 TL`**
-* **Toplam Net Kâr / Zarar:** **`+38,76 TL` (`+%3.88`)**
-* **Boşta Bekleyen Nakit:** `312,16 TL`
-* **Coinde Olan Para:** `726,56 TL`
-* **Başarılı Satış / Zarar Kes:** `4 Kârlı Satış / 0 Zarar Kes`
+* **Şu Anki Toplam Para:** **`1.056,84 TL`**
+* **Toplam Net Kâr / Zarar:** **`+56,88 TL` (`+%5.69`)**
+* **Boşta Bekleyen Nakit:** `324,96 TL`
+* **Coinde Olan Para:** `731,88 TL`
+* **Başarılı Satış / Zarar Kes:** `5 Kârlı Satış / 0 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: BNB: 0.0004 | ETHW: 0.0010 | TRY: 0.0011)`
 
 ---
@@ -20,6 +20,7 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
+| **RAY** | `115,95 TL` | `123,28 TL` | **`+7,33 TL`** | 💰 1. KADEME (%40) KÂR AL (+%6.33) |
 | **FET** | `292,03 TL` | `293,16 TL` | **`+1,13 TL`** | 🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — %0.39) |
 | **FET** | `332,01 TL` | `332,21 TL` | **`+0,20 TL`** | 🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — %0.05) |
 | **AVAX** | `133,88 TL` | `141,15 TL` | **`+7,27 TL`** | 💰 %50 KADEMELİ KÂR AL (+%5.44 | Kalan %50 Uçuş Modunda) |
@@ -31,9 +32,9 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **AVAX** | `133,88 TL` | `142,44 TL` | **`+8,56 TL (%6.4)`** | 🚀 1. Kademe Satıldı, +%9'da 2. Kademe + Sınırsız Uçuş Modu |
-| **RAY** | `289,88 TL` | `294,04 TL` | **`+4,15 TL (%1.43)`** | +%4,0'da 1. Kademe, +%9,0'da 2. Kademe, Kalanı Sınırsız Uçuş |
-| **IO** | `292,74 TL` | `290,08 TL` | **`-2,67 TL (%-0.91)`** | +%4,0'da 1. Kademe, +%9,0'da 2. Kademe, Kalanı Sınırsız Uçuş |
+| **AVAX** | `133,88 TL` | `145,45 TL` | **`+11,58 TL (%8.65)`** | 🚀 1. Kademe Satıldı, +%9'da 2. Kademe + Sınırsız Uçuş Modu |
+| **RAY** | `173,93 TL` | `184,96 TL` | **`+11,01 TL (%6.33)`** | 🚀 1. Kademe Satıldı, +%9'da 2. Kademe + Sınırsız Uçuş Modu |
+| **FLOKI** | `401,63 TL` | `401,47 TL` | **`-0,16 TL (%-0.04)`** | +%4,0'da 1. Kademe, +%9,0'da 2. Kademe, Kalanı Sınırsız Uçuş |
 
 ---
 

@@ -48,4 +48,4 @@ jobs:
           git config user.name "AltcoinNewsHunter Cloud Bot"
           git config user.email "bot@altcoin-news-hunter.local"
           git add RAPOR.md portfolio_state.json altcoin_news_signals.json
-          git diff --staged --quiet || (git commit -m "chore(cloud): 7/24 otonom kasa ve RAPOR.md guncellemesi [skip ci]" && git pull --rebase origin main && git push origin main)
+          git diff --staged --quiet || (git commit -m "chore(cloud): 7/24 otonom kasa ve RAPOR.md guncellemesi" && git pull --rebase origin main && git push origin main)

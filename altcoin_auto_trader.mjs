@@ -239,7 +239,8 @@ function logEvent(state, msg) {
   console.log(entry);
   state.recentLogs.unshift(entry);
   if (state.recentLogs.length > 40) state.recentLogs.length = 40;
-  sendInstantPhoneAlert(entry);
+  if (!state._cycleEvents) state._cycleEvents = [];
+  state._cycleEvents.push(entry);
 }
 
 async function fetchJson(url, options = {}, timeoutMs = 4500) {
@@ -741,6 +742,27 @@ async function runTradingCycle() {
   state.totalEquityTry = Number((state.totalEquityUsdt * USD_TRY_RATE).toFixed(2));
   state.totalPnlUsdt = Number((state.totalEquityUsdt - state.initialBankrollUsdt).toFixed(4));
   state.totalPnlPct = Number(((state.totalPnlUsdt / state.initialBankrollUsdt) * 100).toFixed(2));
+
+  const cycleEvents = state._cycleEvents || [];
+  delete state._cycleEvents;
+
+  const msSinceLastWa = Date.now() - Number(state.lastWhatsAppReportAt || 0);
+  if (cycleEvents.length > 0 || msSinceLastWa >= 60 * 60 * 1000) {
+    state.lastWhatsAppReportAt = Date.now();
+    const openLines = state.openPositions
+      .map(p => `• ${p.symbol}: ${toTL(p.currentPrice * p.qty)} TL (${p.unrealizedPnlUsdt >= 0 ? '+' : ''}${toTL(p.unrealizedPnlUsdt)} TL / %${p.unrealizedPnlPct})`)
+      .join('\n');
+    const eventHeader = cycleEvents.length > 0 ? `⚡ *Yeni İşlemler:*\n${cycleEvents.join('\n')}\n--------------------\n` : '';
+    const waMsg =
+      `💰 *ALTCOIN KASA RAPORU (v8.0 AI)*\n` +
+      eventHeader +
+      `Toplam Kasa: *${toTL(state.totalEquityUsdt)} TL*\n` +
+      `Net Kar: *${state.totalPnlUsdt >= 0 ? '+' : ''}${toTL(state.totalPnlUsdt)} TL (%${state.totalPnlPct})*\n` +
+      `Nakit: ${toTL(state.cashUsdt)} TL | Basari: ${state.winCount}/${state.winCount + state.lossCount}\n` +
+      `--------------------\n` +
+      `*Acik Islemler:*\n${openLines || 'Yok'}`;
+    await sendInstantPhoneAlert(waMsg);
+  }
 
   savePortfolioState(state);
   return { state, signalsData };
