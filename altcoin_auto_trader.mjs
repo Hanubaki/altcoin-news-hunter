@@ -75,27 +75,38 @@ function loadEnv() {
 
 async function sendInstantPhoneAlert(msg) {
   const cfg = loadEnv();
+  const tasks = [];
   // 1. WhatsApp via CallMeBot Free API
   if (cfg.WHATSAPP_PHONE && cfg.CALLMEBOT_API_KEY) {
-    const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(cfg.WHATSAPP_PHONE)}&text=${encodeURIComponent(msg)}&apikey=${encodeURIComponent(cfg.CALLMEBOT_API_KEY)}`;
-    fetch(url).catch(() => {});
+    let phone = cfg.WHATSAPP_PHONE.replace(/\s+/g, '');
+    if (phone.startsWith('05')) phone = '+9' + phone;
+    else if (phone.startsWith('5')) phone = '+90' + phone;
+    const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(phone)}&text=${encodeURIComponent(msg)}&apikey=${encodeURIComponent(cfg.CALLMEBOT_API_KEY)}`;
+    tasks.push(fetch(url, { signal: AbortSignal.timeout(5000) }).then(r => r.text()).catch(() => ''));
   }
   // 2. Telegram Bot API
   if (cfg.TELEGRAM_BOT_TOKEN && cfg.TELEGRAM_CHAT_ID) {
-    fetch(`https://api.telegram.org/bot${cfg.TELEGRAM_BOT_TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: cfg.TELEGRAM_CHAT_ID, text: msg }),
-    }).catch(() => {});
+    tasks.push(
+      fetch(`https://api.telegram.org/bot${cfg.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: cfg.TELEGRAM_CHAT_ID, text: msg }),
+        signal: AbortSignal.timeout(4000),
+      }).catch(() => {})
+    );
   }
   // 3. Discord Webhook
   if (cfg.DISCORD_WEBHOOK_URL) {
-    fetch(cfg.DISCORD_WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content: msg }),
-    }).catch(() => {});
+    tasks.push(
+      fetch(cfg.DISCORD_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: msg }),
+        signal: AbortSignal.timeout(4000),
+      }).catch(() => {})
+    );
   }
+  return Promise.allSettled(tasks);
 }
 
 function loadPortfolioState(cfg) {
@@ -859,6 +870,7 @@ function renderDashboardHtml() {
 
 async function main() {
   const isDaemon = process.argv.includes('--daemon');
+  const shouldNotify = process.argv.includes('--notify');
   const result = await runTradingCycle();
   const s = result.state;
 
@@ -871,6 +883,21 @@ async function main() {
     console.log(
       `   🟢 AÇIK: ${pos.symbol} | Yatırılan: ${toTL(pos.costUsdt)} TL -> Şu An: ${toTL(pos.currentPrice * pos.qty)} TL | Net Kâr: ${pos.unrealizedPnlUsdt >= 0 ? '+' : ''}${toTL(pos.unrealizedPnlUsdt)} TL (%${pos.unrealizedPnlPct})`
     );
+  }
+
+  if (shouldNotify) {
+    const openLines = s.openPositions
+      .map(p => `• ${p.symbol}: ${toTL(p.currentPrice * p.qty)} TL (${p.unrealizedPnlUsdt >= 0 ? '+' : ''}${toTL(p.unrealizedPnlUsdt)} TL / %${p.unrealizedPnlPct})`)
+      .join('\n');
+    const waMsg =
+      `💰 *ALTCOIN KASA RAPORU (v8.0 AI)*\n` +
+      `Toplam Kasa: *${toTL(s.totalEquityUsdt)} TL*\n` +
+      `Net Kar: *${s.totalPnlUsdt >= 0 ? '+' : ''}${toTL(s.totalPnlUsdt)} TL (%${s.totalPnlPct})*\n` +
+      `Nakit: ${toTL(s.cashUsdt)} TL | Basari: ${s.winCount}/${s.winCount + s.lossCount}\n` +
+      `--------------------\n` +
+      `*Acik Islemler:*\n${openLines || 'Yok'}`;
+    await sendInstantPhoneAlert(waMsg);
+    console.log('📱 WhatsApp Kasa Raporu telefonuna gönderildi!');
   }
 
   if (isDaemon) {
