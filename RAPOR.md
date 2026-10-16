@@ -1,17 +1,17 @@
-# 💰 KASA VE KÂR RAPORU (Sadece TL)
+# 💰 KASA VE KÂR RAPORU (Sadece TL — Ultra-Yield v7.0)
 
-**Son Güncelleme:** 16.10.2026 08:37:33
+**Son Güncelleme:** 16.10.2026 08:46:43
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.034,47 TL`**
-* **Toplam Net Kâr / Zarar:** **`+34,51 TL` (`+%3.45`)**
-* **Boşta Bekleyen Nakit:** `561,44 TL`
-* **Coinde Olan Para:** `473,03 TL`
-* **Başarılı / Zarar Kes Sayısı:** `2 Kârlı Satış / 0 Zarar Kes`
+* **Şu Anki Toplam Para:** **`1.035,01 TL`**
+* **Toplam Net Kâr / Zarar:** **`+35,06 TL` (`+%3.51`)**
+* **Boşta Bekleyen Nakit:** `271,56 TL`
+* **Coinde Olan Para:** `763,46 TL`
+* **Başarılı Satış / Zarar Kes:** `2 Kârlı Satış / 0 Zarar Kes`
 
 ---
 
@@ -28,14 +28,19 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **AVAX** | `133,88 TL` | `141,15 TL` | **`+7,28 TL (%5.44)`** | 🚀 Yarısı satıldı, kalan yarısı Uçuş Modunda (Kâr Kilidi: $9.9221) |
-| **FET** | `332,01 TL` | `331,88 TL` | **`-0,16 TL (%-0.05)`** | +%4,5 olunca yarısı satılıp kalanı Uçuş Moduna geçecek |
+| **AVAX** | `133,88 TL` | `141,27 TL` | **`+7,40 TL (%5.53)`** | 🚀 1. Kademe Satıldı, +%9'da 2. Kademe + Sınırsız Uçuş Modu |
+| **FET** | `332,01 TL` | `332,37 TL` | **`+0,32 TL (%0.1)`** | +%4,0'da 1. Kademe, +%9,0'da 2. Kademe, Kalanı Sınırsız Uçuş |
+| **RAY** | `289,88 TL` | `289,82 TL` | **`-0,08 TL (%-0.03)`** | +%4,0'da 1. Kademe, +%9,0'da 2. Kademe, Kalanı Sınırsız Uçuş |
 
 ---
 
-## 4. AKTİF KORUMA KALKANLARI
+## 4. AKTİF 12 MAKSİMUM VERİM & KORUMA MOTORU (v7.0)
 
-1. **🛡️ BTC Çöküş Kalkanı:** Bitcoin 1 saatte `-%1,8`'den fazla düşerse yeni alımları anında durdurur ve açık coinlerin kâr kilidini sıkılaştırır.
-2. **💰 Kademeli Kâr Al + 🚀 Sınırsız Uçuş Modu:** Coin `+%4,5` yükseldiğinde **yarısını otomatik satıp kârı cebe atar**, kalan yarısının Stop-Loss'unu girişin üstüne kilitleyip **tavan sınırı olmadan (`+%20`, `+%50`, `+%100`)** yükseliş bitene kadar takip eder.
-3. **⚖️ Balina Satış Duvarı Kontrolü:** Alım yapmadan önce Binance tahtasındaki ilk 10 kademe alıcı/satıcı hacmini ölçer; önünde dev satış duvarı olan coine girmez.
-4. **⏱️ 18 Saat Zaman Kilidi & 6 Saat Soğuma Kalkanı:** 18 saatte hareket etmeyen ölü coinleri boşaltır; zarar kes (Stop) olan coini 6 saat boyunca kara listeye alır.
+1. **📢 Binance Resmi Duyuru & Listeleme Avcısı:** Binance'in kendi duyuru sistemini (`Binance CMS`) anlık tarar; yeni listeleme/teminat haberlerine `1.8x` öncelik verir.
+2. **🔥 CoinGecko Küresel Trend Radarı:** Dünyada en çok aranan trend coinleri yakalayıp `+10 Puan` ivme bonusu ekler.
+3. **🐋 Balina Market Alım Akışı (Whale Taker Flow):** Son mumlardaki gerçek alıcı baskısını ölçer (`%53+` balina alımı varsa girer, `<%38` balina satışı varsa reddeder).
+4. **📈 Dipten Dönüş Mum Onayı:** Düşen bıçağı tutmaz; mumun yeşile dönmesini veya dipten tepki vermesini bekler.
+5. **🔻 3 Kademeli Kâr Hasadı + 🚀 Sınırsız Roket Modu:** `+%4,0`'da paranın %40'ını, `+%9,0`'da %30'unu satıp kârı cebe atar; kalan %30'u **tavan sınırı olmadan (`+%30`, `+%80`, `+%150`)** uçuşta tutar.
+6. **🧱 Canlı Satış Duvarı Erken Kaçış:** Açık coinin önüne aniden dev bir balina satış duvarı konursa fiyat düşmeden önce kârı kilitleyip çıkar.
+7. **🔄 Otomatik Bileşik Kasa & Sinyal Gücüne Göre Pay:** Kazandığı her lirayı ana kasaya ekler; 80+ puanlık dev haberlere kasanın `%38`'ini, normal haberlere `%28`'ini yatırır.
+8. **⚡ Akıllı Fırsat Değişimi (Swap):** Kasa doluyken 80+ puanlık dev bir haber düşerse, 2 saattir yerinde sayan zayıf coini otomatik satıp yeni fırsata geçer.

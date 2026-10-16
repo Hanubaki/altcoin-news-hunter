@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /**
- * AltcoinNewsHunter v4.1 — High-Precision Breaking-News to Connected Altcoin (Sympathy Play) Engine
+ * AltcoinNewsHunter v7.0 (Ultra-Yield) — Multi-Source News + Binance Official CMS + CoinGecko Trending + Whale Taker Flow
  *
- * Strict Catalyst Rules:
- * 1. Scans 6 global real-time crypto news feeds (CoinTelegraph, Decrypt, CoinDesk, BeInCrypto, CryptoPotato, NewsBTC)
- * 2. Strict Bullish Filter: Only genuine positive catalyst headlines score points (zero points for neutral noise;
- *    strict penalty for 'dips', 'slides', 'risks', 'outflows', 'slow', etc.)
- * 3. Top-Catalyst Ranking (No Generic BTC/ETH Volume Bias): Ecosystems are scored by their strongest breaking
- *    bullish catalysts rather than sheer article count
- * 4. Sympathy Lag Detection: Finds connected ecosystem altcoins that haven't pumped yet (1h RSI < 58)
+ * New Alpha Engines in v7.0:
+ * 1. 📢 Binance Official Announcements API (New Listings, Launchpool, Collateral, Tokenized Assets — 1.8x Catalyst Weight)
+ * 2. 🔥 CoinGecko Global Trending Radar (+10p Viral Momentum Boost for coins trending worldwide)
+ * 3. 🐋 Whale Taker Buy Ratio (Measures exact % of aggressive market buy volume from Binance Kline column 10)
+ * 4. 📈 Reversal Candle & Wick Bounce Confirmation (Catches the exact bottom turn rather than a falling knife)
+ * 5. 🛡️ BTC 1h Crash Circuit Breaker + 🌍 69-Altcoin Market Breadth Meter
+ * 6. 📏 Dynamic 14h ATR Volatility Stop-Loss Sizing
  */
 
 import fs from 'node:fs';
@@ -19,6 +19,8 @@ const USD_TRY_RATE = 35.7;
 const BANKROLL_USDT = Number((BANKROLL_TRY / USD_TRY_RATE).toFixed(2)); // $28.01 USDT
 
 const BINANCE_API = 'https://api.binance.com/api/v3';
+const BINANCE_CMS_API = 'https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&pageNo=1&pageSize=12';
+const COINGECKO_TRENDING_API = 'https://api.coingecko.com/api/v3/search/trending';
 const HYPERLIQUID_API = 'https://api.hyperliquid.xyz/info';
 const SIGNALS_FILE = path.resolve('altcoin_news_signals.json');
 
@@ -60,7 +62,7 @@ const ECOSYSTEM_GRAPH = [
     keywords: [
       'blackrock', 'swift', 'tokenization', 'tokenized', 'rwa', 'chainlink',
       'ccip', 'ondo', 'ripple', 'xrp', 'rlusd', 'stellar', 'hedera', 'algorand', 'avalanche',
-      'jp morgan', 'citibank', 'treasury', 'sec settlement',
+      'jp morgan', 'citibank', 'treasury', 'sec settlement', 'collateral asset', 'bstocks',
     ],
     sympathyAlts: ['ONDO', 'LINK', 'XRP', 'XLM', 'AVAX', 'HBAR', 'ALGO', 'OM', 'RSR'],
   },
@@ -130,7 +132,7 @@ const ECOSYSTEM_GRAPH = [
     leader: 'BNB',
     keywords: [
       'bnb chain', 'pancakeswap', 'trust wallet', 'changpeng zhao', 'space id',
-      'open campus', 'binance labs',
+      'open campus', 'binance labs', 'binance will list', 'launchpool',
     ],
     sympathyAlts: ['CAKE', 'TWT', 'ID', 'EDU'],
   },
@@ -142,8 +144,8 @@ const BULLISH_TERMS = [
   'bull', 'bullish', 'record', 'integrate', 'integration', 'fund', 'funds', 'funding',
   'backing', 'accumulate', 'accumulates', 'breakout', 'rally', 'rallies',
   'win', 'wins', 'settlement', 'expansion', 'institutional', 'milestone',
-  'buck', 'outperform', 'whale', 'listing', 'support', 'growth', 'advances', 'major',
-  'date for', 'new', 'unveil', 'unveils', 'boost', 'boosts', 'jump', 'jumps',
+  'buck', 'outperform', 'whale', 'listing', 'will list', 'will add', 'collateral',
+  'support', 'growth', 'advances', 'major', 'date for', 'new', 'unveil', 'unveils', 'boost', 'jump',
 ];
 
 const BEARISH_TERMS = [
@@ -170,7 +172,7 @@ async function fetchText(url, timeoutMs = 3500) {
   try {
     const res = await fetch(url, {
       signal: controller.signal,
-      headers: { 'User-Agent': 'Mozilla/5.0 (AltcoinNewsHunter/4.1)' },
+      headers: { 'User-Agent': 'Mozilla/5.0 (AltcoinNewsHunter/7.0)' },
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.text();
@@ -179,7 +181,7 @@ async function fetchText(url, timeoutMs = 3500) {
   }
 }
 
-async function fetchJson(url, options = {}, timeoutMs = 4500) {
+async function fetchJson(url, options = {}, timeoutMs = 4200) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
@@ -187,7 +189,7 @@ async function fetchJson(url, options = {}, timeoutMs = 4500) {
       ...options,
       signal: controller.signal,
       headers: {
-        'User-Agent': 'AltcoinNewsHunter/4.1',
+        'User-Agent': 'AltcoinNewsHunter/7.0',
         Accept: 'application/json',
         ...(options.headers || {}),
       },
@@ -227,26 +229,68 @@ function parseRssFeed(xml, sourceName) {
     const minutesAgo = Number.isFinite(pubMs) ? Math.max(1, Math.round((now - pubMs) / 60000)) : 120;
 
     if (title) {
-      items.push({ source: sourceName, title, summary, minutesAgo });
+      items.push({ source: sourceName, title, summary, minutesAgo, sourceWeight: 1.0 });
     }
   }
   return items;
 }
 
-/**
- * Step 1: Fetch all 6 RSS feeds in parallel and score ONLY genuinely bullish catalysts
- */
-async function scanAllNewsFeeds() {
-  const feedResults = await Promise.allSettled(
-    NEWS_FEEDS.map(f => fetchText(f.url, 3200).then(xml => parseRssFeed(xml, f.name)))
-  );
+async function fetchBinanceAnnouncements() {
+  try {
+    const res = await fetchJson(BINANCE_CMS_API, {}, 3200);
+    const catalogs = res?.data?.catalogs || [];
+    const items = [];
+    const now = Date.now();
+    for (const cat of catalogs) {
+      for (const art of (cat.articles || []).slice(0, 8)) {
+        const minutesAgo = art.releaseDate ? Math.max(1, Math.round((now - art.releaseDate) / 60000)) : 60;
+        items.push({
+          source: 'BinanceResmiDuyuru',
+          title: art.title,
+          summary: art.title,
+          minutesAgo,
+          sourceWeight: 1.8, // Official exchange announcements carry 1.8x catalyst weight
+        });
+      }
+    }
+    return items;
+  } catch {
+    return [];
+  }
+}
 
-  const headlines = [];
+async function fetchCoinGeckoTrending() {
+  try {
+    const res = await fetchJson(COINGECKO_TRENDING_API, {}, 3200);
+    return new Set(
+      (res?.coins || [])
+        .map(c => (c.item?.symbol || '').toUpperCase())
+        .filter(Boolean)
+    );
+  } catch {
+    return new Set();
+  }
+}
+
+async function scanAllNewsFeeds() {
+  const [binanceAnns, trendingSet, ...feedResults] = await Promise.all([
+    fetchBinanceAnnouncements(),
+    fetchCoinGeckoTrending(),
+    ...NEWS_FEEDS.map(f =>
+      fetchText(f.url, 3200)
+        .then(xml => parseRssFeed(xml, f.name))
+        .catch(() => [])
+    ),
+  ]);
+
+  const headlines = [...binanceAnns];
   const activeFeeds = [];
-  feedResults.forEach((res, idx) => {
-    if (res.status === 'fulfilled' && res.value.length > 0) {
-      headlines.push(...res.value);
-      activeFeeds.push(`${NEWS_FEEDS[idx].name} (${res.value.length})`);
+  if (binanceAnns.length > 0) activeFeeds.push(`BinanceCMS (${binanceAnns.length})`);
+
+  feedResults.forEach((list, idx) => {
+    if (Array.isArray(list) && list.length > 0) {
+      headlines.push(...list);
+      activeFeeds.push(`${NEWS_FEEDS[idx].name} (${list.length})`);
     }
   });
 
@@ -266,20 +310,19 @@ async function scanAllNewsFeeds() {
       else if (textLower.includes(r)) bearHits += 0.7;
     }
 
-    // Special handling for contrastive headlines like "Bitcoin ETFs shed $261M as XRP funds buck weekly outflow trend"
     const isContrastiveBull = titleLower.includes('buck') || titleLower.includes('despite') || titleLower.includes('defy');
     const netHeadlineSentiment = isContrastiveBull
       ? Math.max(1.5, bullHits - bearHits * 0.3)
       : bullHits - bearHits;
 
-    // Strictly skip headlines that are not net-positive catalysts!
     if (netHeadlineSentiment <= 0.4) continue;
 
     const recencyWeight = item.minutesAgo <= 90 ? 1.7 : item.minutesAgo <= 240 ? 1.35 : item.minutesAgo <= 720 ? 1.0 : 0.65;
+    const srcWeight = item.sourceWeight || 1.0;
 
     for (const eco of ECOSYSTEM_GRAPH) {
       const titleKw = eco.keywords.filter(kw => titleLower.includes(kw));
-      if (titleKw.length === 0) continue; // Strict headline relevance: keyword MUST be in the headline title!
+      if (titleKw.length === 0) continue;
 
       for (const alt of eco.sympathyAlts) {
         if (!altCatalysts[alt]) {
@@ -297,7 +340,9 @@ async function scanAllNewsFeeds() {
         titleKw.forEach(k => entry.matchedKeywords.add(k.trim()));
 
         const directMention = titleLower.includes(` ${alt.toLowerCase()} `) || titleKw.some(k => k.toUpperCase() === alt);
-        const catalystPoints = Number((netHeadlineSentiment * recencyWeight * (directMention ? 1.35 : 1.0)).toFixed(2));
+        const catalystPoints = Number(
+          (netHeadlineSentiment * recencyWeight * srcWeight * (directMention ? 1.35 : 1.0)).toFixed(2)
+        );
 
         if (item.minutesAgo < entry.freshestMinutesAgo) {
           entry.freshestMinutesAgo = item.minutesAgo;
@@ -315,7 +360,6 @@ async function scanAllNewsFeeds() {
     }
   }
 
-  // Compute each altcoin's News Score from its Top 3 Strongest Bullish Headlines
   for (const alt of Object.keys(altCatalysts)) {
     const entry = altCatalysts[alt];
     entry.headlines.sort((a, b) => b.catalystPoints - a.catalystPoints);
@@ -326,6 +370,7 @@ async function scanAllNewsFeeds() {
   return {
     totalHeadlines: headlines.length,
     activeFeeds,
+    trendingSet,
     altCatalysts,
   };
 }
@@ -360,11 +405,40 @@ function calcATRPct(klines, period = 14) {
   return Number(avg.toFixed(2));
 }
 
+/**
+ * Alpha Engine #3 & #4: Whale Taker Buy Ratio + Bottom Bounce Candle Check
+ */
+function analyzeWhaleAndCandleFlow(klines) {
+  if (!Array.isArray(klines) || klines.length < 3) {
+    return { takerBuyRatio: 0.5, isGreenBounce: false };
+  }
+  // Analyze last 3 hours of taker buy volume vs total quote volume
+  const recent = klines.slice(-3);
+  let totalQuoteVol = 0;
+  let takerBuyQuoteVol = 0;
+  for (const k of recent) {
+    totalQuoteVol += Number(k[7] || 0);       // Quote asset volume
+    takerBuyQuoteVol += Number(k[10] || 0);   // Taker buy quote asset volume
+  }
+  const takerBuyRatio = totalQuoteVol > 0 ? Number((takerBuyQuoteVol / totalQuoteVol).toFixed(3)) : 0.5;
+
+  // Check if latest candle is turning green or bouncing strongly off its low
+  const last = klines[klines.length - 1];
+  const open = Number(last[1]);
+  const high = Number(last[2]);
+  const low = Number(last[3]);
+  const close = Number(last[4]);
+  const range = Math.max(0.0000001, high - low);
+  const closePositionInRange = (close - low) / range;
+  const isGreenBounce = close >= open || closePositionInRange >= 0.55;
+
+  return { takerBuyRatio, isGreenBounce };
+}
+
 async function main() {
   const t0 = Date.now();
   console.log('================================================================================');
-  console.log(`🎯 AltcoinNewsHunter v4.1 | 69 Altcoin Canlı Haber & Bağlantılı Coin Avcısı`);
-  console.log(`   Sermaye: ${BANKROLL_TRY} TL (~$${BANKROLL_USDT} USDT) | Sadece Net Pozitif Haber + Fiyatlanmamış Altcoin`);
+  console.log(`🚀 AltcoinNewsHunter v7.0 (Ultra-Yield) | Haber + Binance Duyuru + Balina Akışı`);
   console.log('================================================================================\n');
 
   const allSymbols = getAllTrackedSymbols();
@@ -380,20 +454,21 @@ async function main() {
     }).catch(() => null),
   ]);
 
-  console.log(`📰 [Haber Taraması]: ${newsScan.totalHeadlines} Son Dakika Haberi Tarandı`);
-  console.log(`   Kaynaklar: ${newsScan.activeFeeds.join(' | ')}`);
-
   const tickerMap = {};
+  let greenCoinsCount = 0;
   for (const t of tickersRes || []) {
     const sym = t.symbol.replace(/USDT$/, '');
+    const chg = Number(t.priceChangePercent);
+    if (chg > 0) greenCoinsCount++;
     tickerMap[sym] = {
       lastPrice: Number(t.lastPrice),
-      change24hPct: Number(t.priceChangePercent),
+      change24hPct: chg,
       high24h: Number(t.highPrice),
       low24h: Number(t.lowPrice),
       quoteVol24h: Number(t.quoteVolume),
     };
   }
+  const marketBreadthPct = tickersRes?.length ? Math.round((greenCoinsCount / tickersRes.length) * 100) : 50;
 
   const hlMap = {};
   if (Array.isArray(hlMetaRes) && hlMetaRes.length === 2) {
@@ -409,7 +484,7 @@ async function main() {
   const positiveNewsAlts = Object.values(newsScan.altCatalysts)
     .filter(c => c.newsScore >= 1.5 && tickerMap[c.symbol])
     .sort((a, b) => b.newsScore - a.newsScore)
-    .slice(0, 20);
+    .slice(0, 22);
 
   const [btcKlinesRes, ...klineResults] = await Promise.allSettled([
     fetchJson(`${BINANCE_API}/klines?symbol=BTCUSDT&interval=15m&limit=5`, {}, 3500),
@@ -442,6 +517,8 @@ async function main() {
 
     const rsi1h = calcRSI(closes, 14);
     const atr1hPct = calcATRPct(klines, 14);
+    const { takerBuyRatio, isGreenBounce } = analyzeWhaleAndCandleFlow(klines);
+
     const change1hPct = closes.length >= 2
       ? Number((((closes[closes.length - 1] - closes[closes.length - 2]) / closes[closes.length - 2]) * 100).toFixed(2))
       : 0;
@@ -450,27 +527,36 @@ async function main() {
       : 1;
     const volRatio = Number(((volumes[volumes.length - 1] || avgVol) / Math.max(0.0001, avgVol)).toFixed(2));
     const fundingHourlyPct = hlMap[sym] ?? 0;
+    const isTrending = newsScan.trendingSet.has(sym);
 
     const lagVsLeader24h = Number((leaderMkt.change24hPct - mkt.change24hPct).toFixed(2));
 
-    // Anti-FOMO / Sell-The-News Guard
-    if (rsi1h > 68 || change1hPct > 4.5 || mkt.change24hPct > 14) {
-      continue;
-    }
+    // Anti-FOMO Guard + Whale Dump Rejection
+    if (rsi1h > 68 || change1hPct > 4.5 || mkt.change24hPct > 14) continue;
+    if (takerBuyRatio < 0.38) continue; // Reject if whales are aggressively market-dumping (<38% buy ratio)
 
-    let totalScore = Math.min(48, cat.newsScore * 5.0);
-    if (rsi1h <= 34) totalScore += 26;
-    else if (rsi1h <= 46) totalScore += 18;
-    else if (rsi1h <= 58) totalScore += 10;
+    let totalScore = Math.min(45, cat.newsScore * 4.8);
+    if (rsi1h <= 34) totalScore += 24;
+    else if (rsi1h <= 46) totalScore += 16;
+    else if (rsi1h <= 58) totalScore += 8;
 
-    if (lagVsLeader24h > 0.8) totalScore += Math.min(12, lagVsLeader24h * 2);
-    if (fundingHourlyPct < 0) totalScore += 10;
+    // Whale Taker Buy Bonus
+    if (takerBuyRatio >= 0.53) totalScore += 12;
+    else if (takerBuyRatio >= 0.49) totalScore += 6;
+
+    // Reversal Candle Confirmation Bonus
+    if (isGreenBounce) totalScore += 8;
+
+    // CoinGecko Global Trending Bonus
+    if (isTrending) totalScore += 10;
+
+    if (lagVsLeader24h > 0.8) totalScore += Math.min(10, lagVsLeader24h * 2);
+    if (fundingHourlyPct < 0) totalScore += 8;
     if (volRatio >= 1.1) totalScore += Math.min(8, (volRatio - 1) * 6);
 
     const rangePct = mkt.low24h > 0 ? ((mkt.high24h - mkt.low24h) / mkt.low24h) * 100 : 4;
-    const tpPct = Number(Math.max(4.5, Math.min(8.5, rangePct * 0.65)).toFixed(2));
-    // ATR Volatility Dynamic Stop-Loss (1.5x 1h ATR, bounded between 1.8% and 3.8%)
-    const slPct = Number(Math.max(1.8, Math.min(3.8, atr1hPct * 1.5)).toFixed(2));
+    const tpPct = Number(Math.max(4.5, Math.min(9.0, rangePct * 0.65)).toFixed(2));
+    const slPct = Number(Math.max(1.8, Math.min(3.6, atr1hPct * 1.45)).toFixed(2));
 
     scoredOpportunities.push({
       symbol: sym,
@@ -486,6 +572,9 @@ async function main() {
       lagVsLeader24h,
       rsi1h,
       atr1hPct,
+      takerBuyRatioPct: Number((takerBuyRatio * 100).toFixed(1)),
+      isGreenBounce,
+      isTrending,
       volRatio,
       fundingHourlyPct,
       totalScore: Number(totalScore.toFixed(1)),
@@ -507,22 +596,15 @@ async function main() {
     if (selectedTop4.length === 4) break;
   }
 
-  console.log(`🛡️ [BTC Çöküş Kalkanı]: BTC Son 1 Saat: %${btc1hChangePct} -> ${btcCrashAlert ? '🚨 ACİL FREN AKTİF (Alımlar Durduruldu!)' : '✅ PİYASA GÜVENLİ'}`);
-
-  const allocPerCoinUsdt = 9.00;
-  const allocPerCoinTry = Math.round(allocPerCoinUsdt * USD_TRY_RATE);
+  console.log(`📰 [Kaynaklar (${newsScan.totalHeadlines} Haber)]: ${newsScan.activeFeeds.join(' | ')}`);
+  console.log(`🛡️ [BTC Kalkanı]: 1s BTC %${btc1hChangePct} (${btcCrashAlert ? '🚨 FREN' : '✅ GÜVENLİ'}) | 🌍 Altcoin İştahı: %${marketBreadthPct} Yeşil`);
 
   selectedTop4.forEach((item, idx) => {
-    const qty = Number((allocPerCoinUsdt / item.lastPrice).toPrecision(4));
-    const netProfitUsdt = Number((allocPerCoinUsdt * (item.tpPct / 100)).toFixed(2));
-    item.allocUsdt = allocPerCoinUsdt;
-    item.allocTry = allocPerCoinTry;
-    item.qty = qty;
-    item.expectedProfitUsdt = netProfitUsdt;
-
-    console.log(`\n${idx + 1}. 🎯 ${item.symbol}USDT (Lider: ${item.leaderSymbol}) — Skor: ${item.totalScore}/100 | 1s RSI: ${item.rsi1h} | ATR: %${item.atr1hPct}`);
+    console.log(
+      `\n${idx + 1}. 🎯 ${item.symbol} (Skor: ${item.totalScore}/100) | RSI: ${item.rsi1h} | 🐋 Balina Alım: %${item.takerBuyRatioPct} | Dönüş Mumu: ${item.isGreenBounce ? '✅' : '⏳'}${item.isTrending ? ' | 🔥 TREND' : ''}`
+    );
     item.headlines.forEach(h => {
-      console.log(`   • Haber [${h.source} - ${h.minutesAgo}dk önce]: "${h.title}"`);
+      console.log(`   • [${h.source} - ${h.minutesAgo}dk önce]: "${h.title}"`);
     });
   });
 
@@ -533,6 +615,7 @@ async function main() {
     bankrollUsdt: BANKROLL_USDT,
     btc1hChangePct,
     btcCrashAlert,
+    marketBreadthPct,
     totalHeadlinesScanned: newsScan.totalHeadlines,
     activeFeeds: newsScan.activeFeeds,
     top4AltcoinPicks: selectedTop4,
@@ -540,7 +623,6 @@ async function main() {
   };
 
   fs.writeFileSync(SIGNALS_FILE, JSON.stringify(payload, null, 2), 'utf8');
-  console.log(`\n✅ Tarama ${Date.now() - t0}ms içinde tamamlandı.`);
   return payload;
 }
 
