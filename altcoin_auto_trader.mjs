@@ -272,17 +272,21 @@ async function fetchJson(url, options = {}, timeoutMs = 4500) {
 
 async function getOrderbookQuotes(symbols) {
   if (symbols.length === 0) return {};
-  const param = JSON.stringify(symbols.map(s => `${s}USDT`));
-  const list = await fetchJson(`${BINANCE_API}/ticker/bookTicker?symbols=${encodeURIComponent(param)}`);
-  const map = {};
-  for (const item of list) {
-    const sym = item.symbol.replace(/USDT$/, '');
-    map[sym] = {
-      bestBid: Number(item.bidPrice),
-      bestAsk: Number(item.askPrice),
-    };
+  try {
+    const param = JSON.stringify(symbols.map(s => `${s}USDT`));
+    const list = await fetchJson(`${BINANCE_API}/ticker/bookTicker?symbols=${encodeURIComponent(param)}`, {}, 7500);
+    const map = {};
+    for (const item of list) {
+      const sym = item.symbol.replace(/USDT$/, '');
+      map[sym] = {
+        bestBid: Number(item.bidPrice),
+        bestAsk: Number(item.askPrice),
+      };
+    }
+    return map;
+  } catch {
+    return {};
   }
-  return map;
 }
 
 async function checkOrderbookImbalance(symbol) {

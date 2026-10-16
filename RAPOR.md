@@ -1,16 +1,16 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Zero-Risk v9.0)
 
-**Son Güncelleme:** 16.10.2026 15:14:54
+**Son Güncelleme:** 16.10.2026 15:18:09
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.049,69 TL`**
-* **Toplam Net Kâr / Zarar:** **`+49,73 TL` (`+%4.97`)**
+* **Şu Anki Toplam Para:** **`1.050,61 TL`**
+* **Toplam Net Kâr / Zarar:** **`+50,65 TL` (`+%5.07`)**
 * **Boşta Bekleyen Nakit:** `251,74 TL`
-* **Coinde Olan Para:** `797,94 TL`
+* **Coinde Olan Para:** `798,87 TL`
 * **Başarılı Satış / Zarar Kes:** `8 Kârlı Satış / 0 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: BNB: 0.0004 | ETHW: 0.0010 | TRY: 0.0011)`
 
@@ -35,8 +35,8 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **FLOKI** | `401,63 TL` | `398,73 TL` | **`-2,91 TL (%-0.72)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
-| **BOME** | `399,48 TL` | `399,21 TL` | **`-0,35 TL (%-0.09)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
+| **FLOKI** | `401,63 TL` | `399,54 TL` | **`-2,10 TL (%-0.52)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
+| **BOME** | `399,48 TL` | `399,33 TL` | **`-0,23 TL (%-0.06)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
 
 ---
 
