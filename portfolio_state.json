@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-16T05:51:52.129Z",
+  "updatedAt": "2026-10-16T06:02:02.090Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 28.01,
   "initialBankrollTry": 1000,
@@ -21,7 +21,7 @@
       "rsiAtEntry": 29.07,
       "entryTime": "2026-10-15T11:25:39.425Z",
       "entryPrice": 9.549,
-      "currentPrice": 10.077,
+      "currentPrice": 10.075,
       "highestPrice": 10.104,
       "qty": 0.3927,
       "costUsdt": 3.75,
@@ -31,8 +31,8 @@
       "tpPct": 6.39,
       "slPct": 3.07,
       "trailingActive": true,
-      "unrealizedPnlUsdt": 0.2073,
-      "unrealizedPnlPct": 5.53,
+      "unrealizedPnlUsdt": 0.2066,
+      "unrealizedPnlPct": 5.51,
       "partialTpDone": true,
       "rocketMode": true
     },
@@ -50,7 +50,7 @@
       "obImbalance": 0.24,
       "entryTime": "2026-10-16T05:37:33.325Z",
       "entryPrice": 0.2033,
-      "currentPrice": 0.2041,
+      "currentPrice": 0.2036,
       "highestPrice": 0.2041,
       "qty": 45.75,
       "costUsdt": 9.3,
@@ -62,8 +62,8 @@
       "partialTpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0366,
-      "unrealizedPnlPct": 0.39
+      "unrealizedPnlUsdt": 0.0137,
+      "unrealizedPnlPct": 0.15
     },
     {
       "id": "pos_1792129603422_RAY",
@@ -80,8 +80,8 @@
       "obImbalance": -0.01,
       "entryTime": "2026-10-16T05:46:43.422Z",
       "entryPrice": 1.838,
-      "currentPrice": 1.8451,
-      "highestPrice": 1.8451,
+      "currentPrice": 1.8468,
+      "highestPrice": 1.8468,
       "qty": 4.418,
       "costUsdt": 8.12,
       "costTry": 290,
@@ -93,8 +93,8 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0314,
-      "unrealizedPnlPct": 0.39
+      "unrealizedPnlUsdt": 0.0389,
+      "unrealizedPnlPct": 0.48
     }
   ],
   "closedTrades": [
@@ -152,9 +152,9 @@
     "[14:25:39] 🟢 [OTOMATİK ALIM] AVAXUSDT @ $9.549 (Ask) | Tutar: $7.5 (~268 TL) | Skor: 87.9 | TP: $10.159 (+%6.39) | SL: $9.2558 (-%3.07)",
     "[14:25:39] ⚠️ Haber tarayıcı uyarısı: spawnSync C:\\WINDOWS\\system32\\cmd.exe ETIMEDOUT"
   ],
-  "totalEquityUsdt": 29.0531,
-  "totalEquityTry": 1037.2,
-  "totalPnlUsdt": 1.0431,
-  "totalPnlPct": 3.72,
+  "totalEquityUsdt": 29.0369,
+  "totalEquityTry": 1036.62,
+  "totalPnlUsdt": 1.0269,
+  "totalPnlPct": 3.67,
   "cooldowns": {}
 }
