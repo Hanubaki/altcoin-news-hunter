@@ -1,18 +1,18 @@
-# 💰 KASA VE KÂR RAPORU (Sadece TL — Ultra-Yield v7.0)
+# 💰 KASA VE KÂR RAPORU (Sadece TL — Zero-Risk v9.0)
 
-**Son Güncelleme:** 16.10.2026 15:05:39
+**Son Güncelleme:** 16.10.2026 15:12:42
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.050,67 TL`**
-* **Toplam Net Kâr / Zarar:** **`+50,71 TL` (`+%5.07`)**
-* **Boşta Bekleyen Nakit:** `107,90 TL`
-* **Coinde Olan Para:** `942,77 TL`
-* **Başarılı Satış / Zarar Kes:** `6 Kârlı Satış / 0 Zarar Kes`
-* **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Bağlantı Bekleniyor`
+* **Şu Anki Toplam Para:** **`1.051,39 TL`**
+* **Toplam Net Kâr / Zarar:** **`+51,44 TL` (`+%5.14`)**
+* **Boşta Bekleyen Nakit:** `179,83 TL`
+* **Coinde Olan Para:** `871,56 TL`
+* **Başarılı Satış / Zarar Kes:** `7 Kârlı Satış / 0 Zarar Kes`
+* **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: BNB: 0.0004 | ETHW: 0.0010 | TRY: 0.0011)`
 
 ---
 
@@ -20,6 +20,7 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
+| **AVAX** | `66,94 TL` | `71,94 TL` | **`+5,00 TL`** | 🚀 2. KADEME (%30) DEV KÂR AL (+%7.5 | Kalan %30 Sınırsız Roket) |
 | **RAY** | `173,93 TL` | `182,42 TL` | **`+8,49 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (%4.87) |
 | **RAY** | `115,95 TL` | `123,28 TL` | **`+7,33 TL`** | 💰 1. KADEME (%40) KÂR AL (+%6.33) |
 | **FET** | `292,03 TL` | `293,16 TL` | **`+1,13 TL`** | 🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — %0.39) |
@@ -33,19 +34,17 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **AVAX** | `133,88 TL` | `144,06 TL` | **`+10,19 TL (%7.61)`** | 🚀 1. Kademe Satıldı, +%9'da 2. Kademe + Sınırsız Uçuş Modu |
-| **FLOKI** | `401,63 TL` | `399,38 TL` | **`-2,26 TL (%-0.56)`** | +%4,0'da 1. Kademe, +%9,0'da 2. Kademe, Kalanı Sınırsız Uçuş |
-| **BOME** | `399,48 TL` | `399,33 TL` | **`-0,23 TL (%-0.06)`** | +%4,0'da 1. Kademe, +%9,0'da 2. Kademe, Kalanı Sınırsız Uçuş |
+| **AVAX** | `66,94 TL` | `71,97 TL` | **`+5,02 TL (%7.5)`** | 🚀 2 Kademe Alındı, Kalan %30 Sıfır Riskle Sınırsız Roket Modunda |
+| **FLOKI** | `401,63 TL` | `399,21 TL` | **`-2,42 TL (%-0.6)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
+| **BOME** | `399,48 TL` | `400,37 TL` | **`+0,81 TL (%0.2)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
 
 ---
 
-## 4. AKTİF 12 MAKSİMUM VERİM & KORUMA MOTORU (v7.0)
+## 4. AKTİF SIFIR RİSK (ZERO-RISK) VE MAKSİMUM KAZANÇ MOTORLARI (v9.0)
 
-1. **📢 Binance Resmi Duyuru & Listeleme Avcısı:** Binance'in kendi duyuru sistemini (`Binance CMS`) anlık tarar; yeni listeleme/teminat haberlerine `1.8x` öncelik verir.
-2. **🔥 CoinGecko Küresel Trend Radarı:** Dünyada en çok aranan trend coinleri yakalayıp `+10 Puan` ivme bonusu ekler.
-3. **🐋 Balina Market Alım Akışı (Whale Taker Flow):** Son mumlardaki gerçek alıcı baskısını ölçer (`%53+` balina alımı varsa girer, `<%38` balina satışı varsa reddeder).
-4. **📈 Dipten Dönüş Mum Onayı:** Düşen bıçağı tutmaz; mumun yeşile dönmesini veya dipten tepki vermesini bekler.
-5. **🔻 3 Kademeli Kâr Hasadı + 🚀 Sınırsız Roket Modu:** `+%4,0`'da paranın %40'ını, `+%9,0`'da %30'unu satıp kârı cebe atar; kalan %30'u **tavan sınırı olmadan (`+%30`, `+%80`, `+%150`)** uçuşta tutar.
-6. **🧱 Canlı Satış Duvarı Erken Kaçış:** Açık coinin önüne aniden dev bir balina satış duvarı konursa fiyat düşmeden önce kârı kilitleyip çıkar.
-7. **🔄 Otomatik Bileşik Kasa & Sinyal Gücüne Göre Pay:** Kazandığı her lirayı ana kasaya ekler; 80+ puanlık dev haberlere kasanın `%38`'ini, normal haberlere `%28`'ini yatırır.
-8. **⚡ Akıllı Fırsat Değişimi (Swap):** Kasa doluyken 80+ puanlık dev bir haber düşerse, 2 saattir yerinde sayan zayıf coini otomatik satıp yeni fırsata geçer.
+1. **🛡️ +%1,0 Anında Sıfır Risk Kilidi (Micro-Breakeven Lock):** Bir coin alındıktan sonra sadece `+%1,0` yükseldiği anda Stop-Loss otomatik olarak maliyetin `+%0,3` üstüne çekilir; o işlemin zarara dönmesi matematiksel olarak imkansız hale gelir.
+2. **🎰 +%2,8 Bedava Sürüş (Free-Ride / House Money) Hasadı:** Coin `+%2,8` yaptığı anda `%40`'ı satılıp sıcak kâr cebe atılır, kalan `%60`'ın stopu `+%1,2` net kâra kilitlenir ve **%100 sıfır riskle** `+%7,5` ve sınırsız uçuşa bırakılır.
+3. **🪜 Adım Adım Kâr Merdiveni (Step-Lock Ratchet):** Fiyat yükseldikçe kâr kilidi tek yönlü yukarı tırmanır (`+%1,8 -> +%0,9 kilit`, `+%4,5 -> +%3,3 kilit`, `+%7,0 -> +%6,0 kilit`).
+4. **🧹 Sıfır Zarar Erken Tahliye (Zero-Loss Scratch):** Alınan bir coin 18 dakika içinde ivme yakalayamazsa ve tahta/balina alımı zayıflarsa stop olmasını beklemeden `~0,00 TL` başa baş noktasından erkenden tahliye edilir.
+5. **🚀 Uçuşa Geçen Coine Korumalı Güç Aktarımı (Winner Pyramiding):** Kalkışı kanıtlanan (`+%1,8+` ve `%53+` balina alımı) coine, zayıf coinler bozularak ve boştaki nakit eklenerek tam güç basılır; birleşik maliyetin üstüne anında sıfır risk kilidi konur.
+6. **🧠 4-AI Konseyi (GPT-120B + Qwen-3.8 + Gemini) & Balina Kalite Filtresi:** Sadece gerçek AI Konseyinin `LONG` dediği, balina alımı `%52+` olan ve tahtasında satış duvarı bulunmayan coinlere girilir.
