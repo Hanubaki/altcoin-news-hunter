@@ -272,9 +272,10 @@ async function fetchJson(url, options = {}, timeoutMs = 4500) {
 
 async function getOrderbookQuotes(symbols) {
   if (symbols.length === 0) return {};
+  const wanted = new Set(symbols.map(s => `${s}USDT`));
   try {
-    const param = JSON.stringify(symbols.map(s => `${s}USDT`));
-    const list = await fetchJson(`${BINANCE_API}/ticker/bookTicker?symbols=${encodeURIComponent(param)}`, {}, 7500);
+    const param = JSON.stringify(Array.from(wanted));
+    const list = await fetchJson(`${BINANCE_API}/ticker/bookTicker?symbols=${encodeURIComponent(param)}`, {}, 5000);
     const map = {};
     for (const item of list) {
       const sym = item.symbol.replace(/USDT$/, '');
@@ -285,7 +286,22 @@ async function getOrderbookQuotes(symbols) {
     }
     return map;
   } catch {
-    return {};
+    try {
+      const allList = await fetchJson(`${BINANCE_API}/ticker/bookTicker`, {}, 7500);
+      const map = {};
+      for (const item of allList) {
+        if (wanted.has(item.symbol)) {
+          const sym = item.symbol.replace(/USDT$/, '');
+          map[sym] = {
+            bestBid: Number(item.bidPrice),
+            bestAsk: Number(item.askPrice),
+          };
+        }
+      }
+      return map;
+    } catch {
+      return {};
+    }
   }
 }
 
