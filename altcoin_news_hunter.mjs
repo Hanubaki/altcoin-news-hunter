@@ -389,6 +389,50 @@ function calcRSI(closes, period = 14) {
   return Number((100 - 100 / (1 + rs)).toFixed(2));
 }
 
+function calcEMA(values, period) {
+  if (!values.length) return [];
+  const k = 2 / (period + 1);
+  const ema = [values[0]];
+  for (let i = 1; i < values.length; i++) {
+    ema.push(values[i] * k + ema[i - 1] * (1 - k));
+  }
+  return ema;
+}
+
+/**
+ * MACD (12, 26, 9) — Detects bullish momentum shift (Histogram rising or crossing above 0)
+ */
+function calcMACD(closes) {
+  if (closes.length < 15) return { macdBullishTurn: false, histRising: false };
+  const ema12 = calcEMA(closes, 12);
+  const ema26 = calcEMA(closes, 26);
+  const macdLine = closes.map((_, i) => ema12[i] - ema26[i]);
+  const signalLine = calcEMA(macdLine, 9);
+  const hist = macdLine.map((m, i) => m - signalLine[i]);
+  const lastHist = hist[hist.length - 1];
+  const prevHist = hist[hist.length - 2];
+  return {
+    macdBullishTurn: lastHist > 0 || lastHist > prevHist,
+    histRising: lastHist > prevHist,
+  };
+}
+
+/**
+ * Bollinger Bands (20, 2) %B — 0.0 = at lower band (oversold support), 1.0 = at upper band (overbought)
+ */
+function calcBollingerPctB(closes, period = 20) {
+  if (closes.length < 5) return 0.5;
+  const slice = closes.slice(-Math.min(period, closes.length));
+  const mean = slice.reduce((a, b) => a + b, 0) / slice.length;
+  const variance = slice.reduce((a, b) => a + (b - mean) ** 2, 0) / slice.length;
+  const std = Math.sqrt(variance);
+  if (std === 0) return 0.5;
+  const lower = mean - 2 * std;
+  const upper = mean + 2 * std;
+  const last = slice[slice.length - 1];
+  return Number(((last - lower) / (upper - lower)).toFixed(2));
+}
+
 function calcATRPct(klines, period = 14) {
   if (!Array.isArray(klines) || klines.length < 3) return 2.5;
   const trs = [];
@@ -489,7 +533,7 @@ async function main() {
   const [btcKlinesRes, ...klineResults] = await Promise.allSettled([
     fetchJson(`${BINANCE_API}/klines?symbol=BTCUSDT&interval=15m&limit=5`, {}, 3500),
     ...positiveNewsAlts.map(c =>
-      fetchJson(`${BINANCE_API}/klines?symbol=${c.symbol}USDT&interval=1h&limit=20`, {}, 3500)
+      fetchJson(`${BINANCE_API}/klines?symbol=${c.symbol}USDT&interval=1h&limit=30`, {}, 3500)
     ),
   ]);
 
@@ -517,6 +561,8 @@ async function main() {
 
     const rsi1h = calcRSI(closes, 14);
     const atr1hPct = calcATRPct(klines, 14);
+    const { macdBullishTurn } = calcMACD(closes);
+    const bbPctB = calcBollingerPctB(closes, 20);
     const { takerBuyRatio, isGreenBounce } = analyzeWhaleAndCandleFlow(klines);
 
     const change1hPct = closes.length >= 2
@@ -531,14 +577,20 @@ async function main() {
 
     const lagVsLeader24h = Number((leaderMkt.change24hPct - mkt.change24hPct).toFixed(2));
 
-    // Anti-FOMO Guard + Whale Dump Rejection
-    if (rsi1h > 68 || change1hPct > 4.5 || mkt.change24hPct > 14) continue;
-    if (takerBuyRatio < 0.38) continue; // Reject if whales are aggressively market-dumping (<38% buy ratio)
+    // Anti-FOMO Guard + Bollinger Overextension + Whale Dump Rejection
+    if (rsi1h > 68 || bbPctB > 0.98 || change1hPct > 4.5 || mkt.change24hPct > 14) continue;
+    if (takerBuyRatio < 0.38) continue;
 
     let totalScore = Math.min(45, cat.newsScore * 4.8);
     if (rsi1h <= 34) totalScore += 24;
     else if (rsi1h <= 46) totalScore += 16;
     else if (rsi1h <= 58) totalScore += 8;
+
+    // Bollinger Band Lower Dip Support Bonus (%B <= 0.35 means near lower support band)
+    if (bbPctB <= 0.35) totalScore += 6;
+
+    // MACD Momentum Turn Bonus
+    if (macdBullishTurn) totalScore += 6;
 
     // Whale Taker Buy Bonus
     if (takerBuyRatio >= 0.53) totalScore += 12;
@@ -572,6 +624,8 @@ async function main() {
       lagVsLeader24h,
       rsi1h,
       atr1hPct,
+      bbPctB,
+      macdBullishTurn,
       takerBuyRatioPct: Number((takerBuyRatio * 100).toFixed(1)),
       isGreenBounce,
       isTrending,

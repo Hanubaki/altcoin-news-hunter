@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-16T05:46:43.500Z",
+  "updatedAt": "2026-10-16T05:51:52.129Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 28.01,
   "initialBankrollTry": 1000,
@@ -50,8 +50,8 @@
       "obImbalance": 0.24,
       "entryTime": "2026-10-16T05:37:33.325Z",
       "entryPrice": 0.2033,
-      "currentPrice": 0.2035,
-      "highestPrice": 0.2035,
+      "currentPrice": 0.2041,
+      "highestPrice": 0.2041,
       "qty": 45.75,
       "costUsdt": 9.3,
       "costTry": 332,
@@ -62,8 +62,8 @@
       "partialTpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0091,
-      "unrealizedPnlPct": 0.1
+      "unrealizedPnlUsdt": 0.0366,
+      "unrealizedPnlPct": 0.39
     },
     {
       "id": "pos_1792129603422_RAY",
@@ -80,8 +80,8 @@
       "obImbalance": -0.01,
       "entryTime": "2026-10-16T05:46:43.422Z",
       "entryPrice": 1.838,
-      "currentPrice": 1.8375,
-      "highestPrice": 1.838,
+      "currentPrice": 1.8451,
+      "highestPrice": 1.8451,
       "qty": 4.418,
       "costUsdt": 8.12,
       "costTry": 290,
@@ -93,8 +93,8 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0022,
-      "unrealizedPnlPct": -0.03
+      "unrealizedPnlUsdt": 0.0314,
+      "unrealizedPnlPct": 0.39
     }
   ],
   "closedTrades": [
@@ -152,9 +152,9 @@
     "[14:25:39] 🟢 [OTOMATİK ALIM] AVAXUSDT @ $9.549 (Ask) | Tutar: $7.5 (~268 TL) | Skor: 87.9 | TP: $10.159 (+%6.39) | SL: $9.2558 (-%3.07)",
     "[14:25:39] ⚠️ Haber tarayıcı uyarısı: spawnSync C:\\WINDOWS\\system32\\cmd.exe ETIMEDOUT"
   ],
-  "totalEquityUsdt": 28.992,
-  "totalEquityTry": 1035.01,
-  "totalPnlUsdt": 0.982,
-  "totalPnlPct": 3.51,
+  "totalEquityUsdt": 29.0531,
+  "totalEquityTry": 1037.2,
+  "totalPnlUsdt": 1.0431,
+  "totalPnlPct": 3.72,
   "cooldowns": {}
 }
