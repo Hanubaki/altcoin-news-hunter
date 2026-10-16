@@ -815,7 +815,7 @@ async function main() {
 
   // Multi-Provider Official AI Router (Supports Free Groq Llama-4-Maverick, Google Gemini Flash, OpenRouter DeepSeek, or Keyless Fallback)
   try {
-    const envPath = path.join(__dirname, '.env');
+    const envPath = path.resolve('.env');
     if (fs.existsSync(envPath)) {
       const lines = fs.readFileSync(envPath, 'utf8').split(/\r?\n/);
       for (const line of lines) {
@@ -832,7 +832,7 @@ async function main() {
   if ((groqKey || geminiKey || openrouterKey) && selectedTop4.length > 0) {
     await Promise.all(
       selectedTop4.map(async item => {
-        const prompt = `Sen TradingArena.ai şampiyonu kurumsal bir kripto fon yöneticisisin. Şu altcoin verisini analiz et ve SADECE tek satır geçerli bir JSON döndür (başka hiçbir açıklama veya <think> etiketi yazma): {"decision":"LONG","confidence":82,"reason":"Kısa Türkçe sebep (en fazla 10 kelime)"}. Eğer haber olumsuz/tuzaksa decision "WAIT" olsun. Coin: ${item.symbol}, Haber: "${item.headlines[0]?.title || ''}", RSI(14): ${item.rsi1h}, BalinaAlim: %${item.takerBuyRatioPct}, Destek: ${item.support}, Direnc: ${item.resistance}`;
+        const prompt = `Sen TradingArena.ai şampiyonu kurumsal bir kripto fon yöneticisisin. Şu altcoin verisini analiz et ve SADECE tek satır geçerli bir JSON döndür (başka hiçbir açıklama yazma): {"decision":"LONG","confidence":82,"reason":"Kısa Türkçe sebep (en fazla 10 kelime)"}. Eğer haber olumsuz/tuzaksa decision "WAIT" olsun. Coin: ${item.symbol}, Haber: "${item.headlines[0]?.title || ''}", RSI(14): ${item.rsi1h}, BalinaAlim: %${item.takerBuyRatioPct}, Destek: ${item.support}, Direnc: ${item.resistance}`;
 
         const aiVerdicts = [];
 
@@ -856,14 +856,13 @@ async function main() {
                       model: m.id,
                       messages: [{ role: 'user', content: prompt }],
                       temperature: 0.2,
-                      max_tokens: 700,
-                      response_format: { type: 'json_object' },
+                      max_tokens: 900,
                     }),
                   },
                   5500
                 );
                 const txt = (res?.choices?.[0]?.message?.content || '').replace(/<think>[\s\S]*?<\/think>/gi, '');
-                const jsonMatch = txt.match(/\{[\s\S]*\}/);
+                const jsonMatch = txt.match(/\{[\s\S]*?\}/);
                 if (jsonMatch) {
                   const parsed = JSON.parse(jsonMatch[0]);
                   aiVerdicts.push({
