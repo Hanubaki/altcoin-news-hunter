@@ -843,14 +843,13 @@ async function runTradingCycle() {
       .filter(c => !heldNow.has(c.symbol) && c.totalScore >= 45 && (c.takerBuyRatioPct || 50) >= 48)
       .sort((a, b) => (b.takerBuyRatioPct || 50) * 1.2 + b.totalScore - ((a.takerBuyRatioPct || 50) * 1.2 + a.totalScore));
 
-    const moonPick = moonCandidates[0];
-    if (moonPick) {
+    for (const moonPick of moonCandidates) {
       let mq = quotes[moonPick.symbol];
       if (!mq || !mq.bestAsk) {
         const extraQuotes = await getOrderbookQuotes([moonPick.symbol]);
         mq = extraQuotes[moonPick.symbol];
       }
-      if (mq && mq.bestAsk) {
+      if (mq && mq.bestAsk > 0) {
         const moonAllocUsdt = Number(Math.min(state.cashUsdt, currentTotalEquity * 0.18).toFixed(2));
         if (moonAllocUsdt >= 2.50) {
           const buyPrice = mq.bestAsk;
@@ -901,6 +900,7 @@ async function runTradingCycle() {
             state,
             `🎰 [VURGUN SLOTU AÇILDI] ${moonPick.symbol} (${toTL(moonAllocUsdt)} TL) @ $${buyPrice} | Hedef: +%18 Vurgun | Balina: %${moonPick.takerBuyRatioPct}`
           );
+          break;
         }
       }
     }
