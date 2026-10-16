@@ -1,7 +1,7 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-16T06:50:21.570Z",
-  "mode": "REALTIME_ORDERBOOK_PAPER",
+  "updatedAt": "2026-10-16T08:32:16.383Z",
+  "mode": "LIVE_BINANCE",
   "initialBankrollUsdt": 28.01,
   "initialBankrollTry": 1000,
   "cashUsdt": 8.7439,
@@ -21,18 +21,18 @@
       "rsiAtEntry": 29.07,
       "entryTime": "2026-10-15T11:25:39.425Z",
       "entryPrice": 9.549,
-      "currentPrice": 10.158,
-      "highestPrice": 10.158,
+      "currentPrice": 10.165,
+      "highestPrice": 10.165,
       "qty": 0.3927,
       "costUsdt": 3.75,
       "costTry": 134,
       "takeProfitPrice": 10.159,
-      "stopLossPrice": 9.9752,
+      "stopLossPrice": 9.982,
       "tpPct": 6.39,
       "slPct": 3.07,
       "trailingActive": true,
-      "unrealizedPnlUsdt": 0.2392,
-      "unrealizedPnlPct": 6.38,
+      "unrealizedPnlUsdt": 0.2419,
+      "unrealizedPnlPct": 6.45,
       "partialTpDone": true,
       "rocketMode": true
     },
@@ -51,7 +51,7 @@
       "obImbalance": -0.01,
       "entryTime": "2026-10-16T05:46:43.422Z",
       "entryPrice": 1.838,
-      "currentPrice": 1.8939,
+      "currentPrice": 1.8664,
       "highestPrice": 1.8939,
       "qty": 4.418,
       "costUsdt": 8.12,
@@ -64,8 +64,8 @@
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.247,
-      "unrealizedPnlPct": 3.04
+      "unrealizedPnlUsdt": 0.1255,
+      "unrealizedPnlPct": 1.55
     },
     {
       "id": "pos_1792132903758_IO",
@@ -82,7 +82,7 @@
       "obImbalance": 0.08,
       "entryTime": "2026-10-16T06:41:43.758Z",
       "entryPrice": 0.1644,
-      "currentPrice": 0.1647,
+      "currentPrice": 0.1629,
       "highestPrice": 0.1647,
       "qty": 49.88,
       "costUsdt": 8.2,
@@ -95,8 +95,8 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.015,
-      "unrealizedPnlPct": 0.18
+      "unrealizedPnlUsdt": -0.0748,
+      "unrealizedPnlPct": -0.91
     }
   ],
   "closedTrades": [
@@ -228,10 +228,10 @@
     "[14:25:39] 🟢 [OTOMATİK ALIM] AVAXUSDT @ $9.549 (Ask) | Tutar: $7.5 (~268 TL) | Skor: 87.9 | TP: $10.159 (+%6.39) | SL: $9.2558 (-%3.07)",
     "[14:25:39] ⚠️ Haber tarayıcı uyarısı: spawnSync C:\\WINDOWS\\system32\\cmd.exe ETIMEDOUT"
   ],
-  "totalEquityUsdt": 29.3154,
-  "totalEquityTry": 1046.56,
-  "totalPnlUsdt": 1.3054,
-  "totalPnlPct": 4.66,
+  "totalEquityUsdt": 29.1069,
+  "totalEquityTry": 1039.12,
+  "totalPnlUsdt": 1.0969,
+  "totalPnlPct": 3.92,
   "cooldowns": {
     "FET": 1792154502952
   }
