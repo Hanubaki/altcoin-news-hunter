@@ -155,6 +155,8 @@ const BEARISH_TERMS = [
   'stolen', 'phishing', 'penalty', 'fine', 'dip', 'dips', 'slide', 'slides', 'fall', 'falls',
   'lowest', 'slow', 'risk', 'risks', 'exit', 'shed', 'loss', 'losses', 'warn', 'warning',
   'fear', 'bear', 'bearish', 'down', 'plunge', 'plunges', 'tumble', 'attack', 'attacks',
+  'fail', 'failed', 'fails', 'failure', 'bull trap', 'sell the news', 'unlock', 'unlocks',
+  'struggle', 'struggles', 'stall', 'stalls', 'weak', 'bleed', 'ran out of',
 ];
 
 function getAllTrackedSymbols() {
@@ -811,41 +813,93 @@ async function main() {
     if (selectedTop4.length === 4) break;
   }
 
-  // Real Keyless Cloud LLM Judge (Pollinations OpenAI-Fast API — 100% Free, No API Key Required)
-  await Promise.all(
-    selectedTop4.map(async item => {
-      try {
-        const prompt = `Sen kurumsal bir kripto fon yöneticisisin. Şu altcoin verisini analiz et ve SADECE tek satır JSON döndür: {"decision":"LONG" veya "WAIT","confidence":0-100,"reason":"En fazla 10 kelimelik Türkçe sebep"}. Coin: ${item.symbol}, Haber: "${item.headlines[0]?.title || ''}", RSI: ${item.rsi1h}, BalinaAlimYuzdesi: ${item.takerBuyRatioPct}%, Destek: ${item.support}, Direnc: ${item.resistance}, MACD_Yukselis: ${item.macdBullishTurn}`;
-        const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), 3500);
-        const res = await fetch('https://text.pollinations.ai/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            model: 'openai-fast',
-            messages: [{ role: 'user', content: prompt }],
-          }),
-          signal: controller.signal,
-        });
-        clearTimeout(timer);
-        if (res.ok) {
-          const txt = await res.text();
+  // Multi-Provider Official AI Router (Supports Free Groq Llama-4-Maverick, Google Gemini Flash, OpenRouter DeepSeek, or Keyless Fallback)
+  try {
+    const envPath = path.join(__dirname, '.env');
+    if (fs.existsSync(envPath)) {
+      const lines = fs.readFileSync(envPath, 'utf8').split(/\r?\n/);
+      for (const line of lines) {
+        const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/);
+        if (m && m[2] && !process.env[m[1]]) process.env[m[1]] = m[2].trim();
+      }
+    }
+  } catch {}
+
+  const groqKey = process.env.GROQ_API_KEY || '';
+  const geminiKey = process.env.GEMINI_API_KEY || '';
+  const openrouterKey = process.env.OPENROUTER_API_KEY || '';
+
+  if ((groqKey || geminiKey || openrouterKey) && selectedTop4.length > 0) {
+    await Promise.all(
+      selectedTop4.map(async item => {
+        const prompt = `Sen TradingArena.ai şampiyonu kurumsal bir kripto fon yöneticisisin. Şu altcoin verisini analiz et ve SADECE tek satır JSON döndür: {"decision":"LONG" veya "WAIT","confidence":0-100,"reason":"En fazla 10 kelimelik Türkçe sebep"}. Coin: ${item.symbol}, Haber: "${item.headlines[0]?.title || ''}", RSI: ${item.rsi1h}, BalinaAlim: %${item.takerBuyRatioPct}, Destek: ${item.support}, Direnc: ${item.resistance}`;
+        try {
+          let txt = '';
+          if (groqKey) {
+            const res = await fetchJson(
+              'https://api.groq.com/openai/v1/chat/completions',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${groqKey}`,
+                },
+                body: JSON.stringify({
+                  model: 'meta-llama/llama-4-maverick-17b-128e-instruct',
+                  messages: [{ role: 'user', content: prompt }],
+                  temperature: 0.2,
+                }),
+              },
+              3500
+            );
+            txt = res?.choices?.[0]?.message?.content || '';
+          } else if (geminiKey) {
+            const res = await fetchJson(
+              `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`,
+              {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  contents: [{ parts: [{ text: prompt }] }],
+                }),
+              },
+              3500
+            );
+            txt = res?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+          } else if (openrouterKey) {
+            const res = await fetchJson(
+              'https://openrouter.ai/api/v1/chat/completions',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${openrouterKey}`,
+                },
+                body: JSON.stringify({
+                  model: 'deepseek/deepseek-chat-v3-0324:free',
+                  messages: [{ role: 'user', content: prompt }],
+                }),
+              },
+              4000
+            );
+            txt = res?.choices?.[0]?.message?.content || '';
+          }
           const jsonMatch = txt.match(/\{[\s\S]*?\}/);
           if (jsonMatch) {
             const parsed = JSON.parse(jsonMatch[0]);
             item.liveLlmDecision = parsed.decision || 'LONG';
-            item.liveLlmConfidence = Number(parsed.confidence) || 75;
-            item.liveLlmReason = parsed.reason || 'Haber ve teknik göstergeler pozitif.';
+            item.liveLlmConfidence = Number(parsed.confidence) || 80;
+            item.liveLlmReason = parsed.reason || '';
             if (item.liveLlmDecision === 'LONG' && item.liveLlmConfidence >= 65) {
-              item.totalScore = Number(Math.min(99, item.totalScore + 5).toFixed(1));
+              item.totalScore = Number(Math.min(99, item.totalScore + 6).toFixed(1));
+            } else if (item.liveLlmDecision === 'WAIT') {
+              item.totalScore = Number(Math.max(10, item.totalScore - 15).toFixed(1));
             }
           }
-        }
-      } catch {
-        // Fallback if free cloud LLM times out
-      }
-    })
-  );
+        } catch {}
+      })
+    );
+  }
 
   console.log(`📰 [Kaynaklar (${newsScan.totalHeadlines} Haber)]: ${newsScan.activeFeeds.join(' | ')}`);
   console.log(`🛡️ [BTC Kalkanı]: 1s BTC %${btc1hChangePct} (${btcCrashAlert ? '🚨 FREN' : '✅ GÜVENLİ'}) | 🌍 Altcoin İştahı: %${marketBreadthPct} Yeşil`);
