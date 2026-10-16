@@ -1,10 +1,10 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-16T19:43:34.468Z",
+  "updatedAt": "2026-10-16T22:13:44.255Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 28.01,
   "initialBankrollTry": 1000,
-  "cashUsdt": 12.6714,
+  "cashUsdt": 0.6314,
   "realizedPnlUsdt": 0.8014,
   "winCount": 8,
   "lossCount": 4,
@@ -23,22 +23,23 @@
       "takerBuyRatioPct": 62.9,
       "obImbalance": -0.03,
       "entryTime": "2026-10-16T19:42:51.413Z",
-      "entryPrice": 0.1985,
-      "currentPrice": 0.1984,
-      "highestPrice": 0.1985,
-      "qty": 55.16,
-      "costUsdt": 10.95,
-      "costTry": 391,
+      "entryPrice": 0.20047,
+      "currentPrice": 0.2021,
+      "highestPrice": 0.2022,
+      "qty": 114.68,
+      "costUsdt": 22.99,
+      "costTry": 821,
       "takeProfitPrice": 0.20743,
-      "stopLossPrice": 0.19602,
+      "stopLossPrice": 0.20147,
       "tpPct": 4.5,
       "slPct": 2.03,
       "partialTpDone": false,
       "stage2TpDone": false,
-      "trailingActive": false,
+      "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0055,
-      "unrealizedPnlPct": -0.05
+      "unrealizedPnlUsdt": 0.1869,
+      "unrealizedPnlPct": 0.81,
+      "pyramided": true
     },
     {
       "id": "moon_1792179771522_XRP",
@@ -56,21 +57,21 @@
       "obImbalance": 0,
       "entryTime": "2026-10-16T19:42:51.522Z",
       "entryPrice": 1.2969,
-      "currentPrice": 1.2967,
-      "highestPrice": 1.2969,
+      "currentPrice": 1.3106,
+      "highestPrice": 1.3106,
       "qty": 4.002,
       "costUsdt": 5.19,
       "costTry": 185,
       "takeProfitPrice": 1.5303,
-      "stopLossPrice": 1.2807,
+      "stopLossPrice": 1.3008,
       "tpPct": 18,
       "slPct": 2.2,
       "partialTpDone": false,
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0008,
-      "unrealizedPnlPct": -0.02
+      "unrealizedPnlUsdt": 0.0548,
+      "unrealizedPnlPct": 1.06
     }
   ],
   "closedTrades": [
@@ -421,6 +422,7 @@
     }
   ],
   "recentLogs": [
+    "[01:13:01] 🚀 [TAM GÜÇ BASILDI] Uçuşa geçen WIF coinine +429,83 TL ek kasa basıldı (Toplam: 820,74 TL | Kâr Kilidi Aktif)!",
     "[22:42:51] 🎰 [VURGUN SLOTU AÇILDI] XRP (185,28 TL) @ $1.2969 | Hedef: +%18 Vurgun | Balina: %52.8",
     "[22:42:51] ⚖️ [Tahta Kalkanı] XRP önünde satış duvarı (-0.38) var, pas geçildi.",
     "[22:42:51] 🟢 [OTOMATİK ALIM] WIF (390,92 TL) @ $0.1985 | Skor: 97.8 | Balina Alım: %62.9",
@@ -457,10 +459,10 @@
     "[14:25:39] 🟢 [OTOMATİK ALIM] AVAXUSDT @ $9.549 (Ask) | Tutar: $7.5 (~268 TL) | Skor: 87.9 | TP: $10.159 (+%6.39) | SL: $9.2558 (-%3.07)",
     "[14:25:39] ⚠️ Haber tarayıcı uyarısı: spawnSync C:\\WINDOWS\\system32\\cmd.exe ETIMEDOUT"
   ],
-  "totalEquityUsdt": 28.8045,
-  "totalEquityTry": 1028.32,
-  "totalPnlUsdt": 0.7945,
-  "totalPnlPct": 2.84,
+  "totalEquityUsdt": 29.0532,
+  "totalEquityTry": 1037.2,
+  "totalPnlUsdt": 1.0432,
+  "totalPnlPct": 3.72,
   "cooldowns": {
     "FET": 1792154502952,
     "FLOKI": 1792190321265,
@@ -468,5 +470,5 @@
     "DOGE": 1792201371160
   },
   "binanceTrStatus": "Bağlantı Bekleniyor",
-  "lastWhatsAppReportAt": 1792179771522
+  "lastWhatsAppReportAt": 1792188781071
 }
