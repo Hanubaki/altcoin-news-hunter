@@ -1,8 +1,10 @@
 {
-  "updatedAt": "2026-10-15T11:31:04.875Z",
-  "scanDurationMs": 3555,
+  "updatedAt": "2026-10-16T05:37:32.678Z",
+  "scanDurationMs": 3870,
   "bankrollTry": 1000,
   "bankrollUsdt": 28.01,
+  "btc1hChangePct": 0.08,
+  "btcCrashAlert": false,
   "totalHeadlinesScanned": 92,
   "activeFeeds": [
     "CoinTelegraph (20)",
@@ -13,365 +15,89 @@
   ],
   "top4AltcoinPicks": [
     {
-      "symbol": "AVAX",
-      "leaderSymbol": "XRP",
+      "symbol": "FET",
+      "leaderSymbol": "FET",
       "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
       ],
       "matchedKeywords": [
-        "xrp",
-        "tokenized",
-        "blackrock",
-        "ripple"
+        "ai agent",
+        "ai agents",
+        "openai"
       ],
-      "newsScore": 10.78,
-      "freshestMinutesAgo": 147,
+      "newsScore": 5.23,
+      "freshestMinutesAgo": 68,
       "headlines": [
         {
-          "source": "BeInCrypto",
-          "title": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
-          "minutesAgo": 147,
-          "catalystPoints": 5.67,
-          "directMention": false
-        },
-        {
-          "source": "CoinTelegraph",
-          "title": "Bitcoin ETFs shed $261M as XRP funds buck weekly outflow trend",
-          "minutesAgo": 247,
-          "catalystPoints": 3.89,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 9.547,
-      "change1hPct": -0.05,
-      "change24hPct": -6.475,
-      "lagVsLeader24h": 1.88,
-      "rsi1h": 28.96,
-      "volRatio": 0.39,
-      "fundingHourlyPct": -0.0038,
-      "totalScore": 87.8,
-      "tpPct": 6.39,
-      "slPct": 3.07,
-      "tpPrice": 10.157,
-      "slPrice": 9.2539,
-      "allocUsdt": 6,
-      "allocTry": 214,
-      "qty": 0.6285,
-      "expectedProfitUsdt": 0.38
-    },
-    {
-      "symbol": "PENDLE",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "aave",
-        "babylon",
-        "lending proposal",
-        "lido",
-        "uniswap"
-      ],
-      "newsScore": 4.69,
-      "freshestMinutesAgo": 137,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
-          "minutesAgo": 137,
-          "catalystPoints": 3.51,
-          "directMention": false
-        },
-        {
-          "source": "BeInCrypto",
-          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
-          "minutesAgo": 233,
-          "catalystPoints": 0.68,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 1.931,
-      "change1hPct": 0.05,
-      "change24hPct": -11.786,
-      "lagVsLeader24h": 6.29,
-      "rsi1h": 27.9,
-      "volRatio": 0.31,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 61.5,
-      "tpPct": 7.5,
-      "slPct": 3.4,
-      "tpPrice": 2.0758,
-      "slPrice": 1.8653,
-      "allocUsdt": 6,
-      "allocTry": 214,
-      "qty": 3.107,
-      "expectedProfitUsdt": 0.45
-    },
-    {
-      "symbol": "STX",
-      "leaderSymbol": "BTC",
-      "ecosystems": [
-        "Bitcoin Layer-2, Ordinals, Runes & BTC DeFi"
-      ],
-      "matchedKeywords": [
-        "babylon",
-        "saylor"
-      ],
-      "newsScore": 4.55,
-      "freshestMinutesAgo": 137,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
-          "minutesAgo": 137,
-          "catalystPoints": 3.51,
+          "source": "CoinDesk",
+          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
+          "minutesAgo": 68,
+          "catalystPoints": 4.25,
           "directMention": false
         },
         {
           "source": "Decrypt",
-          "title": "Morning Minute: Move Over, Saylor, There’s a New Top Buyer in Town",
-          "minutesAgo": 1399,
-          "catalystPoints": 1.04,
+          "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
+          "minutesAgo": 2001,
+          "catalystPoints": 0.65,
           "directMention": false
         }
       ],
-      "lastPrice": 0.3996,
-      "change1hPct": 1.42,
-      "change24hPct": -8.892,
-      "lagVsLeader24h": 6.08,
-      "rsi1h": 34.24,
-      "volRatio": 0.59,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 52.8,
-      "tpPct": 7.5,
-      "slPct": 3.4,
-      "tpPrice": 0.42957,
-      "slPrice": 0.38601,
-      "allocUsdt": 6,
-      "allocTry": 214,
-      "qty": 15.02,
-      "expectedProfitUsdt": 0.45
-    }
-  ],
-  "allQualifiedOpportunities": [
-    {
-      "symbol": "AVAX",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "xrp",
-        "tokenized",
-        "blackrock",
-        "ripple"
-      ],
-      "newsScore": 10.78,
-      "freshestMinutesAgo": 147,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
-          "minutesAgo": 147,
-          "catalystPoints": 5.67,
-          "directMention": false
-        },
-        {
-          "source": "CoinTelegraph",
-          "title": "Bitcoin ETFs shed $261M as XRP funds buck weekly outflow trend",
-          "minutesAgo": 247,
-          "catalystPoints": 3.89,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 9.547,
+      "lastPrice": 0.2032,
       "change1hPct": -0.05,
-      "change24hPct": -6.475,
-      "lagVsLeader24h": 1.88,
-      "rsi1h": 28.96,
-      "volRatio": 0.39,
-      "fundingHourlyPct": -0.0038,
-      "totalScore": 87.8,
-      "tpPct": 6.39,
-      "slPct": 3.07,
-      "tpPrice": 10.157,
-      "slPrice": 9.2539,
-      "allocUsdt": 6,
-      "allocTry": 214,
-      "qty": 0.6285,
-      "expectedProfitUsdt": 0.38
-    },
-    {
-      "symbol": "ALGO",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "xrp",
-        "tokenized",
-        "blackrock",
-        "ripple"
-      ],
-      "newsScore": 10.78,
-      "freshestMinutesAgo": 147,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
-          "minutesAgo": 147,
-          "catalystPoints": 5.67,
-          "directMention": false
-        },
-        {
-          "source": "CoinTelegraph",
-          "title": "Bitcoin ETFs shed $261M as XRP funds buck weekly outflow trend",
-          "minutesAgo": 247,
-          "catalystPoints": 3.89,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.1089,
-      "change1hPct": 0.18,
-      "change24hPct": -9.776,
-      "lagVsLeader24h": 5.18,
-      "rsi1h": 26.71,
-      "volRatio": 0.36,
+      "change24hPct": 3.779,
+      "lagVsLeader24h": 0,
+      "rsi1h": 18.28,
+      "atr1hPct": 1.33,
+      "volRatio": 0.46,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 84.4,
-      "tpPct": 7.5,
-      "slPct": 3.4,
-      "tpPrice": 0.11707,
-      "slPrice": 0.1052
+      "totalScore": 52.2,
+      "tpPct": 7.21,
+      "slPct": 2,
+      "tpPrice": 0.21785,
+      "slPrice": 0.19914,
+      "allocUsdt": 9,
+      "allocTry": 321,
+      "qty": 44.29,
+      "expectedProfitUsdt": 0.65
     },
     {
-      "symbol": "OM",
-      "leaderSymbol": "XRP",
+      "symbol": "BOME",
+      "leaderSymbol": "SOL",
       "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
       ],
       "matchedKeywords": [
-        "xrp",
-        "tokenized",
-        "blackrock",
-        "ripple"
+        "solana"
       ],
-      "newsScore": 10.78,
-      "freshestMinutesAgo": 147,
+      "newsScore": 3.12,
+      "freshestMinutesAgo": 2061,
       "headlines": [
         {
-          "source": "BeInCrypto",
-          "title": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
-          "minutesAgo": 147,
-          "catalystPoints": 5.67,
-          "directMention": false
-        },
-        {
-          "source": "CoinTelegraph",
-          "title": "Bitcoin ETFs shed $261M as XRP funds buck weekly outflow trend",
-          "minutesAgo": 247,
-          "catalystPoints": 3.89,
+          "source": "Decrypt",
+          "title": "Solana Sets a Date for Its Next Major Upgrade",
+          "minutesAgo": 2061,
+          "catalystPoints": 3.12,
           "directMention": false
         }
       ],
-      "lastPrice": 0.0669,
-      "change1hPct": -4.43,
-      "change24hPct": -5.106,
-      "lagVsLeader24h": 0.51,
-      "rsi1h": 31.53,
-      "volRatio": 2.27,
-      "fundingHourlyPct": 0,
-      "totalScore": 81.6,
-      "tpPct": 6.01,
-      "slPct": 2.88,
-      "tpPrice": 0.070921,
-      "slPrice": 0.064973
-    },
-    {
-      "symbol": "ONDO",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "xrp",
-        "tokenized",
-        "blackrock",
-        "ripple"
-      ],
-      "newsScore": 10.78,
-      "freshestMinutesAgo": 147,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
-          "minutesAgo": 147,
-          "catalystPoints": 5.67,
-          "directMention": false
-        },
-        {
-          "source": "CoinTelegraph",
-          "title": "Bitcoin ETFs shed $261M as XRP funds buck weekly outflow trend",
-          "minutesAgo": 247,
-          "catalystPoints": 3.89,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.4287,
-      "change1hPct": 0.07,
-      "change24hPct": -7.548,
-      "lagVsLeader24h": 2.95,
-      "rsi1h": 32.16,
-      "volRatio": 0.33,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 79.9,
-      "tpPct": 6.76,
-      "slPct": 3.24,
-      "tpPrice": 0.45768,
-      "slPrice": 0.41481
-    },
-    {
-      "symbol": "LINK",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "xrp",
-        "tokenized",
-        "blackrock",
-        "ripple"
-      ],
-      "newsScore": 10.78,
-      "freshestMinutesAgo": 147,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
-          "minutesAgo": 147,
-          "catalystPoints": 5.67,
-          "directMention": false
-        },
-        {
-          "source": "CoinTelegraph",
-          "title": "Bitcoin ETFs shed $261M as XRP funds buck weekly outflow trend",
-          "minutesAgo": 247,
-          "catalystPoints": 3.89,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 12.067,
-      "change1hPct": 0.25,
-      "change24hPct": -6.414,
-      "lagVsLeader24h": 1.82,
-      "rsi1h": 33.51,
-      "volRatio": 0.53,
-      "fundingHourlyPct": 0,
-      "totalScore": 77.6,
-      "tpPct": 5.64,
-      "slPct": 2.71,
-      "tpPrice": 12.748,
-      "slPrice": 11.74
+      "lastPrice": 0.0006946,
+      "change1hPct": -0.8,
+      "change24hPct": 1.342,
+      "lagVsLeader24h": 2.03,
+      "rsi1h": 45.36,
+      "atr1hPct": 1.33,
+      "volRatio": 0.45,
+      "fundingHourlyPct": -0.0031,
+      "totalScore": 47.7,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.00072586,
+      "slPrice": 0.00068071,
+      "allocUsdt": 9,
+      "allocTry": 321,
+      "qty": 12960,
+      "expectedProfitUsdt": 0.4
     },
     {
       "symbol": "XRP",
@@ -380,659 +106,813 @@
         "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
-        "xrp",
         "tokenized",
-        "blackrock",
-        "ripple"
+        "ripple",
+        "xrp"
       ],
-      "newsScore": 14.54,
-      "freshestMinutesAgo": 147,
+      "newsScore": 2.33,
+      "freshestMinutesAgo": 611,
       "headlines": [
         {
-          "source": "BeInCrypto",
-          "title": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
-          "minutesAgo": 147,
-          "catalystPoints": 7.65,
+          "source": "CoinDesk",
+          "title": "EasyA hits $1.1 billion valuation, targets 2027 public listing and tokenized shares",
+          "minutesAgo": 2328,
+          "catalystPoints": 1.04,
+          "directMention": false
+        },
+        {
+          "source": "CryptoPotato",
+          "title": "Important Ripple News and XRP Price Update: October 15",
+          "minutesAgo": 1327,
+          "catalystPoints": 0.79,
           "directMention": true
-        },
-        {
-          "source": "CoinTelegraph",
-          "title": "Bitcoin ETFs shed $261M as XRP funds buck weekly outflow trend",
-          "minutesAgo": 247,
-          "catalystPoints": 5.25,
-          "directMention": true
         }
       ],
-      "lastPrice": 1.3082,
-      "change1hPct": -0.08,
-      "change24hPct": -4.595,
-      "lagVsLeader24h": 0,
-      "rsi1h": 38.11,
-      "volRatio": 0.17,
-      "fundingHourlyPct": -0.0013,
-      "totalScore": 76,
-      "tpPct": 4.79,
-      "slPct": 2.3,
-      "tpPrice": 1.3709,
-      "slPrice": 1.2781
-    },
-    {
-      "symbol": "XLM",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "xrp",
-        "tokenized",
-        "blackrock",
-        "ripple"
-      ],
-      "newsScore": 10.78,
-      "freshestMinutesAgo": 147,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
-          "minutesAgo": 147,
-          "catalystPoints": 5.67,
-          "directMention": false
-        },
-        {
-          "source": "CoinTelegraph",
-          "title": "Bitcoin ETFs shed $261M as XRP funds buck weekly outflow trend",
-          "minutesAgo": 247,
-          "catalystPoints": 3.89,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.1798,
-      "change1hPct": 0.06,
-      "change24hPct": -5.119,
-      "lagVsLeader24h": 0.52,
-      "rsi1h": 35.71,
-      "volRatio": 0.36,
-      "fundingHourlyPct": -0.0005,
-      "totalScore": 76,
-      "tpPct": 5.25,
-      "slPct": 2.52,
-      "tpPrice": 0.18924,
-      "slPrice": 0.17527
-    },
-    {
-      "symbol": "RSR",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "xrp",
-        "tokenized",
-        "blackrock",
-        "ripple"
-      ],
-      "newsScore": 10.78,
-      "freshestMinutesAgo": 147,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
-          "minutesAgo": 147,
-          "catalystPoints": 5.67,
-          "directMention": false
-        },
-        {
-          "source": "CoinTelegraph",
-          "title": "Bitcoin ETFs shed $261M as XRP funds buck weekly outflow trend",
-          "minutesAgo": 247,
-          "catalystPoints": 3.89,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.001922,
-      "change1hPct": -0.1,
-      "change24hPct": -3.611,
-      "lagVsLeader24h": -0.98,
-      "rsi1h": 44.88,
-      "volRatio": 0.19,
-      "fundingHourlyPct": -0.0077,
-      "totalScore": 76,
-      "tpPct": 7.5,
-      "slPct": 3.4,
-      "tpPrice": 0.0020662,
-      "slPrice": 0.0018567
-    },
-    {
-      "symbol": "HBAR",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "xrp",
-        "tokenized",
-        "blackrock",
-        "ripple"
-      ],
-      "newsScore": 10.78,
-      "freshestMinutesAgo": 147,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
-          "minutesAgo": 147,
-          "catalystPoints": 5.67,
-          "directMention": false
-        },
-        {
-          "source": "CoinTelegraph",
-          "title": "Bitcoin ETFs shed $261M as XRP funds buck weekly outflow trend",
-          "minutesAgo": 247,
-          "catalystPoints": 3.89,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.08142,
-      "change1hPct": 0.16,
-      "change24hPct": -5.512,
-      "lagVsLeader24h": 0.92,
-      "rsi1h": 29.17,
-      "volRatio": 0.33,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 75.8,
-      "tpPct": 5.56,
-      "slPct": 2.67,
-      "tpPrice": 0.085947,
-      "slPrice": 0.079246
-    },
-    {
-      "symbol": "PENDLE",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "aave",
-        "babylon",
-        "lending proposal",
-        "lido",
-        "uniswap"
-      ],
-      "newsScore": 4.69,
-      "freshestMinutesAgo": 137,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
-          "minutesAgo": 137,
-          "catalystPoints": 3.51,
-          "directMention": false
-        },
-        {
-          "source": "BeInCrypto",
-          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
-          "minutesAgo": 233,
-          "catalystPoints": 0.68,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 1.931,
-      "change1hPct": 0.05,
-      "change24hPct": -11.786,
-      "lagVsLeader24h": 6.29,
-      "rsi1h": 27.9,
-      "volRatio": 0.31,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 61.5,
-      "tpPct": 7.5,
-      "slPct": 3.4,
-      "tpPrice": 2.0758,
-      "slPrice": 1.8653,
-      "allocUsdt": 6,
-      "allocTry": 214,
-      "qty": 3.107,
-      "expectedProfitUsdt": 0.45
-    },
-    {
-      "symbol": "OP",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "aave",
-        "babylon",
-        "lending proposal",
-        "lido",
-        "uniswap"
-      ],
-      "newsScore": 4.69,
-      "freshestMinutesAgo": 137,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
-          "minutesAgo": 137,
-          "catalystPoints": 3.51,
-          "directMention": false
-        },
-        {
-          "source": "BeInCrypto",
-          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
-          "minutesAgo": 233,
-          "catalystPoints": 0.68,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.132,
-      "change1hPct": 0.3,
-      "change24hPct": -11.35,
-      "lagVsLeader24h": 5.85,
-      "rsi1h": 28.98,
-      "volRatio": 0.24,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 61.2,
-      "tpPct": 7.5,
-      "slPct": 3.4,
-      "tpPrice": 0.1419,
-      "slPrice": 0.12751
-    },
-    {
-      "symbol": "AAVE",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "aave",
-        "babylon",
-        "lending proposal",
-        "lido",
-        "uniswap"
-      ],
-      "newsScore": 5.92,
-      "freshestMinutesAgo": 137,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
-          "minutesAgo": 137,
-          "catalystPoints": 4.74,
-          "directMention": true
-        },
-        {
-          "source": "BeInCrypto",
-          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
-          "minutesAgo": 233,
-          "catalystPoints": 0.68,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 149.17,
-      "change1hPct": -0.01,
-      "change24hPct": -7.082,
-      "lagVsLeader24h": 1.58,
-      "rsi1h": 34.63,
-      "volRatio": 0.84,
-      "fundingHourlyPct": -0.0006,
-      "totalScore": 60.8,
-      "tpPct": 6.07,
-      "slPct": 2.91,
-      "tpPrice": 158.22,
-      "slPrice": 144.83
-    },
-    {
-      "symbol": "ETHFI",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "aave",
-        "babylon",
-        "lending proposal",
-        "lido",
-        "uniswap"
-      ],
-      "newsScore": 4.69,
-      "freshestMinutesAgo": 137,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
-          "minutesAgo": 137,
-          "catalystPoints": 3.51,
-          "directMention": false
-        },
-        {
-          "source": "BeInCrypto",
-          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
-          "minutesAgo": 233,
-          "catalystPoints": 0.68,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.6025,
+      "lastPrice": 1.3361,
       "change1hPct": 0.07,
-      "change24hPct": -9.33,
-      "lagVsLeader24h": 3.83,
-      "rsi1h": 32.61,
-      "volRatio": 0.27,
+      "change24hPct": 2.375,
+      "lagVsLeader24h": 0,
+      "rsi1h": 45.81,
+      "atr1hPct": 0.63,
+      "volRatio": 0.54,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 57.1,
-      "tpPct": 7.5,
-      "slPct": 3.4,
-      "tpPrice": 0.64769,
-      "slPrice": 0.58202
-    },
+      "totalScore": 29.6,
+      "tpPct": 4.5,
+      "slPct": 1.8,
+      "tpPrice": 1.3962,
+      "slPrice": 1.3121,
+      "allocUsdt": 9,
+      "allocTry": 321,
+      "qty": 6.736,
+      "expectedProfitUsdt": 0.4
+    }
+  ],
+  "allQualifiedOpportunities": [
     {
-      "symbol": "ENS",
-      "leaderSymbol": "ETH",
+      "symbol": "FET",
+      "leaderSymbol": "FET",
       "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
       ],
       "matchedKeywords": [
-        "aave",
-        "babylon",
-        "lending proposal",
-        "lido",
-        "uniswap"
+        "ai agent",
+        "ai agents",
+        "openai"
       ],
-      "newsScore": 4.69,
-      "freshestMinutesAgo": 137,
+      "newsScore": 5.23,
+      "freshestMinutesAgo": 68,
       "headlines": [
         {
-          "source": "CoinTelegraph",
-          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
-          "minutesAgo": 137,
-          "catalystPoints": 3.51,
-          "directMention": false
-        },
-        {
-          "source": "BeInCrypto",
-          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
-          "minutesAgo": 233,
-          "catalystPoints": 0.68,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 5.51,
-      "change1hPct": 0.55,
-      "change24hPct": -7.705,
-      "lagVsLeader24h": 2.21,
-      "rsi1h": 31.88,
-      "volRatio": 0.14,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 53.9,
-      "tpPct": 7.5,
-      "slPct": 3.4,
-      "tpPrice": 5.9232,
-      "slPrice": 5.3227
-    },
-    {
-      "symbol": "ARB",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "aave",
-        "babylon",
-        "lending proposal",
-        "lido",
-        "uniswap"
-      ],
-      "newsScore": 4.69,
-      "freshestMinutesAgo": 137,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
-          "minutesAgo": 137,
-          "catalystPoints": 3.51,
-          "directMention": false
-        },
-        {
-          "source": "BeInCrypto",
-          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
-          "minutesAgo": 233,
-          "catalystPoints": 0.68,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.1736,
-      "change1hPct": -0.23,
-      "change24hPct": -7.512,
-      "lagVsLeader24h": 2.01,
-      "rsi1h": 32.22,
-      "volRatio": 0.35,
-      "fundingHourlyPct": 0.0006,
-      "totalScore": 53.5,
-      "tpPct": 7.49,
-      "slPct": 3.4,
-      "tpPrice": 0.1866,
-      "slPrice": 0.1677
-    },
-    {
-      "symbol": "STX",
-      "leaderSymbol": "BTC",
-      "ecosystems": [
-        "Bitcoin Layer-2, Ordinals, Runes & BTC DeFi"
-      ],
-      "matchedKeywords": [
-        "babylon",
-        "saylor"
-      ],
-      "newsScore": 4.55,
-      "freshestMinutesAgo": 137,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
-          "minutesAgo": 137,
-          "catalystPoints": 3.51,
+          "source": "CoinDesk",
+          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
+          "minutesAgo": 68,
+          "catalystPoints": 4.25,
           "directMention": false
         },
         {
           "source": "Decrypt",
-          "title": "Morning Minute: Move Over, Saylor, There’s a New Top Buyer in Town",
-          "minutesAgo": 1399,
+          "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
+          "minutesAgo": 2001,
+          "catalystPoints": 0.65,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.2032,
+      "change1hPct": -0.05,
+      "change24hPct": 3.779,
+      "lagVsLeader24h": 0,
+      "rsi1h": 18.28,
+      "atr1hPct": 1.33,
+      "volRatio": 0.46,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 52.2,
+      "tpPct": 7.21,
+      "slPct": 2,
+      "tpPrice": 0.21785,
+      "slPrice": 0.19914,
+      "allocUsdt": 9,
+      "allocTry": 321,
+      "qty": 44.29,
+      "expectedProfitUsdt": 0.65
+    },
+    {
+      "symbol": "BOME",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 3.12,
+      "freshestMinutesAgo": 2061,
+      "headlines": [
+        {
+          "source": "Decrypt",
+          "title": "Solana Sets a Date for Its Next Major Upgrade",
+          "minutesAgo": 2061,
+          "catalystPoints": 3.12,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.0006946,
+      "change1hPct": -0.8,
+      "change24hPct": 1.342,
+      "lagVsLeader24h": 2.03,
+      "rsi1h": 45.36,
+      "atr1hPct": 1.33,
+      "volRatio": 0.45,
+      "fundingHourlyPct": -0.0031,
+      "totalScore": 47.7,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.00072586,
+      "slPrice": 0.00068071,
+      "allocUsdt": 9,
+      "allocTry": 321,
+      "qty": 12960,
+      "expectedProfitUsdt": 0.4
+    },
+    {
+      "symbol": "RENDER",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "ai agent",
+        "ai agents",
+        "openai"
+      ],
+      "newsScore": 5.23,
+      "freshestMinutesAgo": 68,
+      "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
+          "minutesAgo": 68,
+          "catalystPoints": 4.25,
+          "directMention": false
+        },
+        {
+          "source": "Decrypt",
+          "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
+          "minutesAgo": 2001,
+          "catalystPoints": 0.65,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 1.925,
+      "change1hPct": -0.1,
+      "change24hPct": 3.774,
+      "lagVsLeader24h": 0,
+      "rsi1h": 34.81,
+      "atr1hPct": 1.38,
+      "volRatio": 0.47,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 44.2,
+      "tpPct": 7.71,
+      "slPct": 2.07,
+      "tpPrice": 2.0734,
+      "slPrice": 1.8852
+    },
+    {
+      "symbol": "ARKM",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "ai agent",
+        "ai agents",
+        "openai"
+      ],
+      "newsScore": 5.23,
+      "freshestMinutesAgo": 68,
+      "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
+          "minutesAgo": 68,
+          "catalystPoints": 4.25,
+          "directMention": false
+        },
+        {
+          "source": "Decrypt",
+          "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
+          "minutesAgo": 2001,
+          "catalystPoints": 0.65,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.1232,
+      "change1hPct": 0,
+      "change24hPct": 3.791,
+      "lagVsLeader24h": -0.01,
+      "rsi1h": 39.76,
+      "atr1hPct": 1.11,
+      "volRatio": 0.21,
+      "fundingHourlyPct": 0,
+      "totalScore": 44.2,
+      "tpPct": 6.03,
+      "slPct": 1.8,
+      "tpPrice": 0.13063,
+      "slPrice": 0.12098
+    },
+    {
+      "symbol": "WLD",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "ai agent",
+        "ai agents",
+        "openai"
+      ],
+      "newsScore": 5.23,
+      "freshestMinutesAgo": 68,
+      "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
+          "minutesAgo": 68,
+          "catalystPoints": 4.25,
+          "directMention": false
+        },
+        {
+          "source": "Decrypt",
+          "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
+          "minutesAgo": 2001,
+          "catalystPoints": 0.65,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.4981,
+      "change1hPct": -0.54,
+      "change24hPct": 4.952,
+      "lagVsLeader24h": -1.17,
+      "rsi1h": 45.35,
+      "atr1hPct": 1.57,
+      "volRatio": 0.25,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 44.2,
+      "tpPct": 6.96,
+      "slPct": 2.35,
+      "tpPrice": 0.53277,
+      "slPrice": 0.48639
+    },
+    {
+      "symbol": "IO",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "ai agent",
+        "ai agents",
+        "openai"
+      ],
+      "newsScore": 5.23,
+      "freshestMinutesAgo": 68,
+      "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
+          "minutesAgo": 68,
+          "catalystPoints": 4.25,
+          "directMention": false
+        },
+        {
+          "source": "Decrypt",
+          "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
+          "minutesAgo": 2001,
+          "catalystPoints": 0.65,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.163,
+      "change1hPct": -0.06,
+      "change24hPct": 2.323,
+      "lagVsLeader24h": 1.46,
+      "rsi1h": 46.71,
+      "atr1hPct": 1.42,
+      "volRatio": 0.22,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 39.1,
+      "tpPct": 6.18,
+      "slPct": 2.13,
+      "tpPrice": 0.17307,
+      "slPrice": 0.15953
+    },
+    {
+      "symbol": "NEAR",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "ai agent",
+        "ai agents",
+        "openai"
+      ],
+      "newsScore": 5.23,
+      "freshestMinutesAgo": 68,
+      "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
+          "minutesAgo": 68,
+          "catalystPoints": 4.25,
+          "directMention": false
+        },
+        {
+          "source": "Decrypt",
+          "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
+          "minutesAgo": 2001,
+          "catalystPoints": 0.65,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 5.229,
+      "change1hPct": 0.5,
+      "change24hPct": 12.066,
+      "lagVsLeader24h": -8.29,
+      "rsi1h": 56.88,
+      "atr1hPct": 2.11,
+      "volRatio": 0.39,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 36.2,
+      "tpPct": 8.5,
+      "slPct": 3.17,
+      "tpPrice": 5.6735,
+      "slPrice": 5.0632
+    },
+    {
+      "symbol": "THETA",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "ai agent",
+        "ai agents",
+        "openai"
+      ],
+      "newsScore": 5.23,
+      "freshestMinutesAgo": 68,
+      "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
+          "minutesAgo": 68,
+          "catalystPoints": 4.25,
+          "directMention": false
+        },
+        {
+          "source": "Decrypt",
+          "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
+          "minutesAgo": 2001,
+          "catalystPoints": 0.65,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.1992,
+      "change1hPct": -0.1,
+      "change24hPct": 6.297,
+      "lagVsLeader24h": -2.52,
+      "rsi1h": 54.68,
+      "atr1hPct": 1,
+      "volRatio": 0.09,
+      "fundingHourlyPct": 0,
+      "totalScore": 36.2,
+      "tpPct": 5.59,
+      "slPct": 1.8,
+      "tpPrice": 0.21034,
+      "slPrice": 0.19561
+    },
+    {
+      "symbol": "GRT",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "ai agent",
+        "ai agents",
+        "openai"
+      ],
+      "newsScore": 5.23,
+      "freshestMinutesAgo": 68,
+      "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
+          "minutesAgo": 68,
+          "catalystPoints": 4.25,
+          "directMention": false
+        },
+        {
+          "source": "Decrypt",
+          "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
+          "minutesAgo": 2001,
+          "catalystPoints": 0.65,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.02535,
+      "change1hPct": 0.28,
+      "change24hPct": 6.468,
+      "lagVsLeader24h": -2.69,
+      "rsi1h": 57.07,
+      "atr1hPct": 1.07,
+      "volRatio": 0.29,
+      "fundingHourlyPct": 0,
+      "totalScore": 36.2,
+      "tpPct": 5.83,
+      "slPct": 1.8,
+      "tpPrice": 0.026828,
+      "slPrice": 0.024894
+    },
+    {
+      "symbol": "ICP",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "ai agent",
+        "ai agents",
+        "openai"
+      ],
+      "newsScore": 5.23,
+      "freshestMinutesAgo": 68,
+      "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
+          "minutesAgo": 68,
+          "catalystPoints": 4.25,
+          "directMention": false
+        },
+        {
+          "source": "Decrypt",
+          "title": "AI Agents Made 138 Million Crypto Payments in a Year. Most Were Tiny",
+          "minutesAgo": 2001,
+          "catalystPoints": 0.65,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 3.065,
+      "change1hPct": 0,
+      "change24hPct": 5.982,
+      "lagVsLeader24h": -2.2,
+      "rsi1h": 50.21,
+      "atr1hPct": 1.4,
+      "volRatio": 0.31,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 36.2,
+      "tpPct": 5.55,
+      "slPct": 2.1,
+      "tpPrice": 3.2351,
+      "slPrice": 3.0006
+    },
+    {
+      "symbol": "JUP",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 3.12,
+      "freshestMinutesAgo": 2061,
+      "headlines": [
+        {
+          "source": "Decrypt",
+          "title": "Solana Sets a Date for Its Next Major Upgrade",
+          "minutesAgo": 2061,
+          "catalystPoints": 3.12,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.3117,
+      "change1hPct": -0.35,
+      "change24hPct": 3.075,
+      "lagVsLeader24h": 0.3,
+      "rsi1h": 46.11,
+      "atr1hPct": 1.33,
+      "volRatio": 0.27,
+      "fundingHourlyPct": -0.0024,
+      "totalScore": 35.6,
+      "tpPct": 6.16,
+      "slPct": 2,
+      "tpPrice": 0.3309,
+      "slPrice": 0.30547
+    },
+    {
+      "symbol": "RAY",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 3.12,
+      "freshestMinutesAgo": 2061,
+      "headlines": [
+        {
+          "source": "Decrypt",
+          "title": "Solana Sets a Date for Its Next Major Upgrade",
+          "minutesAgo": 2061,
+          "catalystPoints": 3.12,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 1.8368,
+      "change1hPct": 0.17,
+      "change24hPct": 2.701,
+      "lagVsLeader24h": 0.67,
+      "rsi1h": 45.64,
+      "atr1hPct": 1.53,
+      "volRatio": 0.58,
+      "fundingHourlyPct": 0,
+      "totalScore": 33.6,
+      "tpPct": 5.26,
+      "slPct": 2.29,
+      "tpPrice": 1.9334,
+      "slPrice": 1.7947
+    },
+    {
+      "symbol": "PYTH",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 3.12,
+      "freshestMinutesAgo": 2061,
+      "headlines": [
+        {
+          "source": "Decrypt",
+          "title": "Solana Sets a Date for Its Next Major Upgrade",
+          "minutesAgo": 2061,
+          "catalystPoints": 3.12,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.09421,
+      "change1hPct": 0.24,
+      "change24hPct": 9.394,
+      "lagVsLeader24h": -6.02,
+      "rsi1h": 39.2,
+      "atr1hPct": 2.78,
+      "volRatio": 0.2,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 33.6,
+      "tpPct": 8.5,
+      "slPct": 3.8,
+      "tpPrice": 0.10222,
+      "slPrice": 0.09063
+    },
+    {
+      "symbol": "WIF",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 3.12,
+      "freshestMinutesAgo": 2061,
+      "headlines": [
+        {
+          "source": "Decrypt",
+          "title": "Solana Sets a Date for Its Next Major Upgrade",
+          "minutesAgo": 2061,
+          "catalystPoints": 3.12,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.2009,
+      "change1hPct": -0.2,
+      "change24hPct": 4.364,
+      "lagVsLeader24h": -0.99,
+      "rsi1h": 45.83,
+      "atr1hPct": 1.02,
+      "volRatio": 0.34,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 33.6,
+      "tpPct": 5.17,
+      "slPct": 1.8,
+      "tpPrice": 0.21129,
+      "slPrice": 0.19728
+    },
+    {
+      "symbol": "XRP",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "tokenized",
+        "ripple",
+        "xrp"
+      ],
+      "newsScore": 2.33,
+      "freshestMinutesAgo": 611,
+      "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "EasyA hits $1.1 billion valuation, targets 2027 public listing and tokenized shares",
+          "minutesAgo": 2328,
           "catalystPoints": 1.04,
           "directMention": false
+        },
+        {
+          "source": "CryptoPotato",
+          "title": "Important Ripple News and XRP Price Update: October 15",
+          "minutesAgo": 1327,
+          "catalystPoints": 0.79,
+          "directMention": true
         }
       ],
-      "lastPrice": 0.3996,
-      "change1hPct": 1.42,
-      "change24hPct": -8.892,
-      "lagVsLeader24h": 6.08,
-      "rsi1h": 34.24,
-      "volRatio": 0.59,
+      "lastPrice": 1.3361,
+      "change1hPct": 0.07,
+      "change24hPct": 2.375,
+      "lagVsLeader24h": 0,
+      "rsi1h": 45.81,
+      "atr1hPct": 0.63,
+      "volRatio": 0.54,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 52.8,
-      "tpPct": 7.5,
-      "slPct": 3.4,
-      "tpPrice": 0.42957,
-      "slPrice": 0.38601,
-      "allocUsdt": 6,
-      "allocTry": 214,
-      "qty": 15.02,
-      "expectedProfitUsdt": 0.45
+      "totalScore": 29.6,
+      "tpPct": 4.5,
+      "slPct": 1.8,
+      "tpPrice": 1.3962,
+      "slPrice": 1.3121,
+      "allocUsdt": 9,
+      "allocTry": 321,
+      "qty": 6.736,
+      "expectedProfitUsdt": 0.4
     },
     {
-      "symbol": "EIGEN",
-      "leaderSymbol": "ETH",
+      "symbol": "LINK",
+      "leaderSymbol": "XRP",
       "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
-        "aave",
-        "babylon",
-        "lending proposal",
-        "lido",
-        "uniswap"
+        "tokenized",
+        "ripple",
+        "xrp"
       ],
-      "newsScore": 4.69,
-      "freshestMinutesAgo": 137,
+      "newsScore": 2.13,
+      "freshestMinutesAgo": 611,
       "headlines": [
         {
-          "source": "CoinTelegraph",
-          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
-          "minutesAgo": 137,
-          "catalystPoints": 3.51,
+          "source": "CoinDesk",
+          "title": "EasyA hits $1.1 billion valuation, targets 2027 public listing and tokenized shares",
+          "minutesAgo": 2328,
+          "catalystPoints": 1.04,
           "directMention": false
         },
         {
-          "source": "BeInCrypto",
-          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
-          "minutesAgo": 233,
-          "catalystPoints": 0.68,
+          "source": "CryptoPotato",
+          "title": "Important Ripple News and XRP Price Update: October 15",
+          "minutesAgo": 1327,
+          "catalystPoints": 0.59,
           "directMention": false
         }
       ],
-      "lastPrice": 0.2256,
-      "change1hPct": -0.22,
-      "change24hPct": -6.545,
-      "lagVsLeader24h": 1.05,
-      "rsi1h": 31.3,
-      "volRatio": 0.67,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 51.6,
-      "tpPct": 6.21,
-      "slPct": 2.98,
-      "tpPrice": 0.23961,
-      "slPrice": 0.21888
+      "lastPrice": 12.464,
+      "change1hPct": -0.08,
+      "change24hPct": 3.017,
+      "lagVsLeader24h": -0.64,
+      "rsi1h": 42.92,
+      "atr1hPct": 0.82,
+      "volRatio": 0.23,
+      "fundingHourlyPct": 0.0011,
+      "totalScore": 28.6,
+      "tpPct": 4.5,
+      "slPct": 1.8,
+      "tpPrice": 13.025,
+      "slPrice": 12.24
     },
     {
-      "symbol": "LDO",
-      "leaderSymbol": "ETH",
+      "symbol": "BONK",
+      "leaderSymbol": "SOL",
       "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
       ],
       "matchedKeywords": [
-        "aave",
-        "babylon",
-        "lending proposal",
-        "lido",
-        "uniswap"
+        "solana"
       ],
-      "newsScore": 4.69,
-      "freshestMinutesAgo": 137,
+      "newsScore": 3.12,
+      "freshestMinutesAgo": 2061,
       "headlines": [
         {
-          "source": "CoinTelegraph",
-          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
-          "minutesAgo": 137,
-          "catalystPoints": 3.51,
-          "directMention": false
-        },
-        {
-          "source": "BeInCrypto",
-          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
-          "minutesAgo": 233,
-          "catalystPoints": 0.68,
+          "source": "Decrypt",
+          "title": "Solana Sets a Date for Its Next Major Upgrade",
+          "minutesAgo": 2061,
+          "catalystPoints": 3.12,
           "directMention": false
         }
       ],
-      "lastPrice": 0.3867,
-      "change1hPct": 0.1,
-      "change24hPct": -7.532,
-      "lagVsLeader24h": 2.04,
-      "rsi1h": 38.04,
-      "volRatio": 0.32,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 45.5,
-      "tpPct": 7.5,
-      "slPct": 3.4,
-      "tpPrice": 0.4157,
-      "slPrice": 0.37355
-    },
-    {
-      "symbol": "UNI",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "aave",
-        "babylon",
-        "lending proposal",
-        "lido",
-        "uniswap"
-      ],
-      "newsScore": 4.69,
-      "freshestMinutesAgo": 137,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
-          "minutesAgo": 137,
-          "catalystPoints": 3.51,
-          "directMention": false
-        },
-        {
-          "source": "BeInCrypto",
-          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
-          "minutesAgo": 233,
-          "catalystPoints": 0.68,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 6.88,
-      "change1hPct": -0.01,
-      "change24hPct": -6.216,
-      "lagVsLeader24h": 0.72,
-      "rsi1h": 36.9,
-      "volRatio": 0.29,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 41.5,
-      "tpPct": 5.75,
-      "slPct": 2.76,
-      "tpPrice": 7.2756,
-      "slPrice": 6.6901
-    },
-    {
-      "symbol": "METIS",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "aave",
-        "babylon",
-        "lending proposal",
-        "lido",
-        "uniswap"
-      ],
-      "newsScore": 4.69,
-      "freshestMinutesAgo": 137,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "Babylon advances native Bitcoin lending proposal on Aave V4",
-          "minutesAgo": 137,
-          "catalystPoints": 3.51,
-          "directMention": false
-        },
-        {
-          "source": "BeInCrypto",
-          "title": "Sectora Foundation Announces Final Testing of Four Products and $SECT Token Availability on Uniswap",
-          "minutesAgo": 233,
-          "catalystPoints": 0.68,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 3.79,
-      "change1hPct": 1.88,
-      "change24hPct": 4.121,
-      "lagVsLeader24h": -9.62,
-      "rsi1h": 63.49,
-      "volRatio": 2.05,
+      "lastPrice": 0.0000031,
+      "change1hPct": -0.32,
+      "change24hPct": 4.027,
+      "lagVsLeader24h": -0.66,
+      "rsi1h": 46.15,
+      "atr1hPct": 1.2,
+      "volRatio": 0.65,
       "fundingHourlyPct": 0,
-      "totalScore": 29.8,
-      "tpPct": 7.5,
-      "slPct": 3.4,
-      "tpPrice": 4.0743,
-      "slPrice": 3.6611
+      "totalScore": 25.6,
+      "tpPct": 4.5,
+      "slPct": 1.8,
+      "tpPrice": 0.0000032395,
+      "slPrice": 0.0000030442
+    },
+    {
+      "symbol": "JTO",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 3.12,
+      "freshestMinutesAgo": 2061,
+      "headlines": [
+        {
+          "source": "Decrypt",
+          "title": "Solana Sets a Date for Its Next Major Upgrade",
+          "minutesAgo": 2061,
+          "catalystPoints": 3.12,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.4819,
+      "change1hPct": 0.94,
+      "change24hPct": 5.982,
+      "lagVsLeader24h": -2.61,
+      "rsi1h": 60.62,
+      "atr1hPct": 1.69,
+      "volRatio": 0.4,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 15.6,
+      "tpPct": 7.51,
+      "slPct": 2.54,
+      "tpPrice": 0.51809,
+      "slPrice": 0.46966
+    },
+    {
+      "symbol": "ONDO",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "tokenized",
+        "ripple",
+        "xrp"
+      ],
+      "newsScore": 2.13,
+      "freshestMinutesAgo": 611,
+      "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "EasyA hits $1.1 billion valuation, targets 2027 public listing and tokenized shares",
+          "minutesAgo": 2328,
+          "catalystPoints": 1.04,
+          "directMention": false
+        },
+        {
+          "source": "CryptoPotato",
+          "title": "Important Ripple News and XRP Price Update: October 15",
+          "minutesAgo": 1327,
+          "catalystPoints": 0.59,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.4682,
+      "change1hPct": 0.54,
+      "change24hPct": 8.38,
+      "lagVsLeader24h": -6.01,
+      "rsi1h": 63.75,
+      "atr1hPct": 1.38,
+      "volRatio": 0.29,
+      "fundingHourlyPct": 0.0009,
+      "totalScore": 10.6,
+      "tpPct": 7.93,
+      "slPct": 2.07,
+      "tpPrice": 0.50533,
+      "slPrice": 0.45851
     }
   ]
 }

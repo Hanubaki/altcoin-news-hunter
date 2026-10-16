@@ -1,18 +1,15 @@
 #!/usr/bin/env node
 /**
- * AltcoinAutoTrader v5.0 — Autonomous News-to-Altcoin Execution Engine + Web Dashboard
+ * AltcoinAutoTrader v6.0 — Full-Protection Autonomous News-Sympathy Execution Engine
  *
- * Features:
- * 1. Scans 6 global crypto news feeds + 69 Binance Altcoins across 10 Ecosystems
- * 2. Automatic Buy Execution:
- *    - LIVE_TRADING=true  -> Executes real signed HMAC-SHA256 orders on Binance Spot (/api/v3/order)
- *    - LIVE_TRADING=false -> Executes against real-time Binance Orderbook Best Ask (Buy) & Best Bid (Sell)
- * 3. Autonomous Position Management (Every Cycle):
- *    - Take-Profit (TP) auto-sell
- *    - Stop-Loss (SL) auto-sell
- *    - Dynamic Trailing Stop: Once a coin rises +2.2%, SL automatically moves above entry (+0.6% profit lock)
- *      and trails 1.8% behind the highest price reached
- * 4. Built-in Live Web Control Panel at http://localhost:3847 (--daemon mode)
+ * 7 Built-in Institutional Protections & Profit Maximizers:
+ * 1. 🛡️ BTC Çöküş Kalkanı (BTC Crash Circuit Breaker): Halts new buys & tightens stops if BTC drops >= 1.8% in 1h
+ * 2. ⚖️ Tahta Duvar Kontrolü (Orderbook Depth Imbalance): Checks top-10 Bid vs Ask walls before buying
+ * 3. 💰 Kademeli Kâr Al + Sınırsız Roket Modu (50% Partial TP at +4.5% + Uncapped Moonbag Runner)
+ * 4. 📏 Dinamik ATR Volatilite Stop-Loss: Adapts stop distance to each coin's real hourly volatility
+ * 5. ⏱️ Zaman Kilidi (18h Time-Stop): Auto-exits stagnant coins that fail to move after 18 hours
+ * 6. 🧊 Zarar Sonrası Soğuma Kilidi (6h Cooldown Blacklist): Never re-buys a coin that hit SL for 6 hours
+ * 7. 📊 Otomatik TL Raporlayıcı: Automatically writes a clean, 100% Turkish Lira (TL) RAPOR.md on every cycle
  */
 
 import fs from 'node:fs';
@@ -23,6 +20,7 @@ import { runNewsScan } from './altcoin_news_hunter.mjs';
 
 const STATE_FILE = path.resolve('portfolio_state.json');
 const SIGNALS_FILE = path.resolve('altcoin_news_signals.json');
+const RAPOR_FILE = path.resolve('RAPOR.md');
 const ENV_FILE = path.resolve('.env');
 
 const BINANCE_API = 'https://api.binance.com/api/v3';
@@ -36,7 +34,7 @@ function loadEnv() {
     BANKROLL_TRY: Number(process.env.BANKROLL_TRY || 1000),
     BANKROLL_USDT: Number(process.env.BANKROLL_USDT || 28.01),
     MAX_OPEN_POSITIONS: Number(process.env.MAX_OPEN_POSITIONS || 3),
-    ORDER_SIZE_USDT: Number(process.env.ORDER_SIZE_USDT || 7.50),
+    ORDER_SIZE_USDT: Number(process.env.ORDER_SIZE_USDT || 9.30), // ~332 TL x 3 = ~1,000 TL tam kasa kullanımı
     SCAN_INTERVAL_SECONDS: Number(process.env.SCAN_INTERVAL_SECONDS || 45),
   };
 
@@ -66,9 +64,11 @@ function loadPortfolioState(cfg) {
   if (fs.existsSync(STATE_FILE)) {
     try {
       const raw = fs.readFileSync(STATE_FILE, 'utf8').replace(/^\uFEFF/, '');
-      return JSON.parse(raw);
+      const parsed = JSON.parse(raw);
+      if (!parsed.cooldowns) parsed.cooldowns = {};
+      return parsed;
     } catch {
-      // Fallback to fresh state
+      // Fallback
     }
   }
   return {
@@ -81,15 +81,103 @@ function loadPortfolioState(cfg) {
     realizedPnlUsdt: 0,
     winCount: 0,
     lossCount: 0,
+    cooldowns: {},
     openPositions: [],
     closedTrades: [],
     recentLogs: [],
   };
 }
 
+function toTL(usdt) {
+  return Number((Number(usdt || 0) * USD_TRY_RATE).toFixed(2)).toLocaleString('tr-TR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
+function writeCleanTlReport(state) {
+  const cashTry = toTL(state.cashUsdt);
+  const openValUsdt = state.openPositions.reduce((s, p) => s + p.currentPrice * p.qty, 0);
+  const openValTry = toTL(openValUsdt);
+  const totalTry = toTL(state.totalEquityUsdt);
+  const netPnlTryNum = Number((state.totalPnlUsdt * USD_TRY_RATE).toFixed(2));
+  const netPnlSign = netPnlTryNum >= 0 ? '+' : '';
+
+  const closedRows = state.closedTrades.length === 0
+    ? '| *Henüz kapanan işlem yok* | - | - | - | - |\n'
+    : state.closedTrades
+        .map(c => {
+          const investedTry = toTL(c.costUsdt);
+          const soldTry = toTL(c.costUsdt + c.netPnlUsdt);
+          const profitSign = c.netPnlUsdt >= 0 ? '+' : '';
+          const profitTry = toTL(c.netPnlUsdt);
+          return `| **${c.symbol}** | \`${investedTry} TL\` | \`${soldTry} TL\` | **\`${profitSign}${profitTry} TL\`** | ${c.exitReason} |`;
+        })
+        .join('\n') + '\n';
+
+  const openRows = state.openPositions.length === 0
+    ? '| *Şu an açık işlem yok (Yeni güçlü haber bekleniyor)* | - | - | - | - |\n'
+    : state.openPositions
+        .map(p => {
+          const investedTry = toTL(p.costUsdt);
+          const curTry = toTL(p.currentPrice * p.qty);
+          const pnlSign = p.unrealizedPnlUsdt >= 0 ? '+' : '';
+          const pnlTry = toTL(p.unrealizedPnlUsdt);
+          const statusNote = p.partialTpDone
+            ? `🚀 Yarısı satıldı, kalan yarısı Uçuş Modunda (Kâr Kilidi: $${p.stopLossPrice})`
+            : p.rocketMode
+              ? `🚀 Uçuş Modu Aktif (Tavan Sınırı Yok, Kâr Kilidi: $${p.stopLossPrice})`
+              : `+%4,5 olunca yarısı satılıp kalanı Uçuş Moduna geçecek`;
+          return `| **${p.symbol}** | \`${investedTry} TL\` | \`${curTry} TL\` | **\`${pnlSign}${pnlTry} TL (%${p.unrealizedPnlPct})\`** | ${statusNote} |`;
+        })
+        .join('\n') + '\n';
+
+  const md = `# 💰 KASA VE KÂR RAPORU (Sadece TL)
+
+**Son Güncelleme:** ${new Date().toLocaleString('tr-TR')}
+
+---
+
+## 1. GENEL KASA DURUMU
+
+* **Başlangıç Parası:** \`1.000,00 TL\`
+* **Şu Anki Toplam Para:** **\`${totalTry} TL\`**
+* **Toplam Net Kâr / Zarar:** **\`${netPnlSign}${toTL(state.totalPnlUsdt)} TL\` (\`${netPnlSign}%${state.totalPnlPct}\`)**
+* **Boşta Bekleyen Nakit:** \`${cashTry} TL\`
+* **Coinde Olan Para:** \`${openValTry} TL\`
+* **Başarılı / Zarar Kes Sayısı:** \`${state.winCount} Kârlı Satış / ${state.lossCount} Zarar Kes\`
+
+---
+
+## 2. SATILIP CEBE GİREN İŞLEMLER (BİTENLER)
+
+| Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
+| :--- | :--- | :--- | :--- | :--- |
+${closedRows}
+---
+
+## 3. ŞU AN AÇIK OLAN İŞLEMLER (DEVAM EDENLER)
+
+| Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
+| :--- | :--- | :--- | :--- | :--- |
+${openRows}
+---
+
+## 4. AKTİF KORUMA KALKANLARI
+
+1. **🛡️ BTC Çöküş Kalkanı:** Bitcoin 1 saatte \`-%1,8\`'den fazla düşerse yeni alımları anında durdurur ve açık coinlerin kâr kilidini sıkılaştırır.
+2. **💰 Kademeli Kâr Al + 🚀 Sınırsız Uçuş Modu:** Coin \`+%4,5\` yükseldiğinde **yarısını otomatik satıp kârı cebe atar**, kalan yarısının Stop-Loss'unu girişin üstüne kilitleyip **tavan sınırı olmadan (\`+%20\`, \`+%50\`, \`+%100\`)** yükseliş bitene kadar takip eder.
+3. **⚖️ Balina Satış Duvarı Kontrolü:** Alım yapmadan önce Binance tahtasındaki ilk 10 kademe alıcı/satıcı hacmini ölçer; önünde dev satış duvarı olan coine girmez.
+4. **⏱️ 18 Saat Zaman Kilidi & 6 Saat Soğuma Kalkanı:** 18 saatte hareket etmeyen ölü coinleri boşaltır; zarar kes (Stop) olan coini 6 saat boyunca kara listeye alır.
+`;
+
+  fs.writeFileSync(RAPOR_FILE, md, 'utf8');
+}
+
 function savePortfolioState(state) {
   state.updatedAt = new Date().toISOString();
   fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2), 'utf8');
+  writeCleanTlReport(state);
 }
 
 function logEvent(state, msg) {
@@ -107,7 +195,7 @@ async function fetchJson(url, options = {}, timeoutMs = 4500) {
       ...options,
       signal: controller.signal,
       headers: {
-        'User-Agent': 'AltcoinAutoTrader/5.0',
+        'User-Agent': 'AltcoinAutoTrader/6.0',
         Accept: 'application/json',
         ...(options.headers || {}),
       },
@@ -122,9 +210,6 @@ async function fetchJson(url, options = {}, timeoutMs = 4500) {
   }
 }
 
-/**
- * Fetch exact live Best Bid & Best Ask from Binance Orderbook (/api/v3/ticker/bookTicker)
- */
 async function getOrderbookQuotes(symbols) {
   if (symbols.length === 0) return {};
   const param = JSON.stringify(symbols.map(s => `${s}USDT`));
@@ -135,16 +220,27 @@ async function getOrderbookQuotes(symbols) {
     map[sym] = {
       bestBid: Number(item.bidPrice),
       bestAsk: Number(item.askPrice),
-      bidQty: Number(item.bidQty),
-      askQty: Number(item.askQty),
     };
   }
   return map;
 }
 
 /**
- * Execute real signed Binance Spot Market Order when LIVE_TRADING=true
+ * Protection #2: Orderbook Depth Imbalance Check (Top 10 Bid vs Ask Volume)
+ * Returns ratio between -1.0 (pure sell wall) and +1.0 (pure buy support)
  */
+async function checkOrderbookImbalance(symbol) {
+  try {
+    const depth = await fetchJson(`${BINANCE_API}/depth?symbol=${symbol}USDT&limit=10`, {}, 3000);
+    const bidVol = (depth.bids || []).reduce((s, b) => s + Number(b[0]) * Number(b[1]), 0);
+    const askVol = (depth.asks || []).reduce((s, a) => s + Number(a[0]) * Number(a[1]), 0);
+    if (bidVol + askVol === 0) return 0;
+    return Number(((bidVol - askVol) / (bidVol + askVol)).toFixed(2));
+  } catch {
+    return 0;
+  }
+}
+
 async function executeBinanceRealOrder(cfg, symbol, side, quantity, quoteOrderQty = null) {
   const timestamp = Date.now();
   const params = new URLSearchParams({
@@ -172,19 +268,12 @@ async function executeBinanceRealOrder(cfg, symbol, side, quantity, quoteOrderQt
   });
 }
 
-/**
- * Run a single full trading cycle:
- * 1. Refresh news catalyst signals via altcoin_news_hunter.mjs
- * 2. Monitor open positions against live Binance Bid/Ask -> trigger Trailing Stop / TP / SL
- * 3. Open new positions on top-scoring news altcoins if slots & cash available
- */
 async function runTradingCycle() {
   const cfg = loadEnv();
   const state = loadPortfolioState(cfg);
   state.mode = cfg.LIVE_TRADING && cfg.BINANCE_API_KEY ? 'LIVE_BINANCE' : 'REALTIME_ORDERBOOK_PAPER';
 
-  // Step 1: Run the 69-altcoin news scanner in-memory to get fresh signals
-  let signalsData = { top4AltcoinPicks: [], allQualifiedOpportunities: [] };
+  let signalsData = { top4AltcoinPicks: [], allQualifiedOpportunities: [], btcCrashAlert: false, btc1hChangePct: 0 };
   try {
     signalsData = await runNewsScan();
   } catch (err) {
@@ -206,8 +295,9 @@ async function runTradingCycle() {
   );
 
   const quotes = await getOrderbookQuotes(symbolsToQuote);
+  const nowMs = Date.now();
 
-  // Step 2: Manage existing open positions (Check TP, SL, and Trailing Stop)
+  // Manage existing open positions
   const remainingPositions = [];
   for (const pos of state.openPositions) {
     const q = quotes[pos.symbol];
@@ -222,27 +312,94 @@ async function runTradingCycle() {
     pos.unrealizedPnlUsdt = Number(((currentBid - pos.entryPrice) * pos.qty).toFixed(4));
     pos.unrealizedPnlPct = Number((((currentBid - pos.entryPrice) / pos.entryPrice) * 100).toFixed(2));
 
-    // Dynamic Trailing Stop Logic:
-    // Once coin reaches +2.2% profit, lock stop-loss above entry (+0.6%) and trail 1.8% behind peak
+    // Protection #1: If BTC is crashing (<= -1.8% in 1h), tighten stop-loss on open positions immediately
+    if (signalsData.btcCrashAlert && pos.unrealizedPnlPct > 0.5) {
+      const emergencyStop = Number((currentBid * 0.992).toPrecision(5));
+      if (emergencyStop > pos.stopLossPrice) {
+        pos.stopLossPrice = emergencyStop;
+        logEvent(state, `🛡️ [BTC Çöküş Kalkanı] ${pos.symbol} kârı korumaya alındı -> SL: $${pos.stopLossPrice}`);
+      }
+    }
+
+    // Protection #3: Partial Take-Profit (At +4.5% gain, sell 50% into cash and turn remaining 50% into Free-Roll Moonbag!)
+    if (!pos.partialTpDone && pos.unrealizedPnlPct >= 4.5) {
+      const sellQty = Number((pos.qty * 0.5).toPrecision(4));
+      const remainQty = Number((pos.qty - sellQty).toPrecision(4));
+      const halfCostUsdt = Number((pos.costUsdt * 0.5).toFixed(4));
+      const proceedsUsdt = Number((currentBid * sellQty).toFixed(4));
+      const netPnlUsdt = Number((proceedsUsdt - halfCostUsdt).toFixed(4));
+
+      if (state.mode === 'LIVE_BINANCE') {
+        await executeBinanceRealOrder(cfg, pos.symbol, 'SELL', sellQty);
+      }
+
+      state.cashUsdt = Number((state.cashUsdt + proceedsUsdt).toFixed(4));
+      state.realizedPnlUsdt = Number((state.realizedPnlUsdt + netPnlUsdt).toFixed(4));
+      state.winCount++;
+
+      state.closedTrades.unshift({
+        symbol: pos.symbol,
+        entryPrice: pos.entryPrice,
+        exitPrice: currentBid,
+        exitTime: new Date().toISOString(),
+        costUsdt: halfCostUsdt,
+        netPnlUsdt,
+        netPnlTry: Number((netPnlUsdt * USD_TRY_RATE).toFixed(2)),
+        exitReason: `💰 %50 KADEMELİ KÂR AL (+%${pos.unrealizedPnlPct} | Kalan %50 Uçuş Modunda)`,
+      });
+
+      pos.qty = remainQty;
+      pos.costUsdt = Number((pos.costUsdt - halfCostUsdt).toFixed(4));
+      pos.costTry = Math.round(pos.costUsdt * USD_TRY_RATE);
+      pos.partialTpDone = true;
+      pos.rocketMode = true;
+      pos.trailingActive = true;
+      pos.stopLossPrice = Math.max(
+        pos.stopLossPrice,
+        Number((pos.entryPrice * 1.012).toPrecision(5)),
+        Number((pos.highestPrice * 0.982).toPrecision(5))
+      );
+      pos.unrealizedPnlUsdt = Number(((currentBid - pos.entryPrice) * pos.qty).toFixed(4));
+
+      logEvent(
+        state,
+        `💰 [%50 KÂR CEBE ALINDI] ${pos.symbol} yarısı +%${pos.unrealizedPnlPct} kârla satıldı (+${toTL(netPnlUsdt)} TL)! Kalan yarısı tavan sınırsız 🚀 Uçuş Modunda!`
+      );
+    }
+
+    // Dynamic ATR / Rocket Trailing Stop Update
     const peakGainPct = ((pos.highestPrice - pos.entryPrice) / pos.entryPrice) * 100;
-    if (peakGainPct >= 2.2) {
-      const breakEvenPlus = Number((pos.entryPrice * 1.006).toPrecision(5));
-      const trailStop = Number((pos.highestPrice * 0.982).toPrecision(5));
+    const trailDist = pos.atr1hPct ? Math.max(0.015, Math.min(0.028, (pos.atr1hPct * 0.85) / 100)) : 0.018;
+
+    if (peakGainPct >= 4.5) {
+      const rocketTrailStop = Number((pos.highestPrice * (1 - trailDist)).toPrecision(5));
+      if (rocketTrailStop > pos.stopLossPrice) {
+        pos.stopLossPrice = rocketTrailStop;
+        pos.trailingActive = true;
+        pos.rocketMode = true;
+      }
+    } else if (peakGainPct >= 2.2) {
+      const breakEvenPlus = Number((pos.entryPrice * 1.008).toPrecision(5));
+      const trailStop = Number((pos.highestPrice * 0.978).toPrecision(5));
       const newStop = Math.max(pos.stopLossPrice, breakEvenPlus, trailStop);
       if (newStop > pos.stopLossPrice) {
         pos.stopLossPrice = newStop;
         pos.trailingActive = true;
-        logEvent(state, `🔒 [Trailing Stop] ${pos.symbol} kâr kilidi yükseltildi -> Yeni SL: $${pos.stopLossPrice}`);
       }
     }
 
+    // Protection #5: Stagnation Time-Stop (18 hours without reaching +1.0%)
+    const hoursHeld = (nowMs - new Date(pos.entryTime).getTime()) / (1000 * 3600);
     let exitReason = null;
-    if (currentBid >= pos.takeProfitPrice) {
-      exitReason = `HEDEF KÂR AL (TP +${pos.unrealizedPnlPct}%)`;
-    } else if (currentBid <= pos.stopLossPrice) {
-      exitReason = pos.trailingActive
-        ? `İZ SÜREN KÂR KİLİDİ (Trailing Stop ${pos.unrealizedPnlPct}%)`
-        : `ZARAR KES (SL ${pos.unrealizedPnlPct}%)`;
+
+    if (currentBid <= pos.stopLossPrice) {
+      exitReason = pos.rocketMode
+        ? `🚀 UÇUŞ MODU KÂR KİLİDİ (%${pos.unrealizedPnlPct})`
+        : pos.trailingActive
+          ? `🔒 İZ SÜREN KÂR KİLİDİ (%${pos.unrealizedPnlPct})`
+          : `🛑 ZARAR KES (SL %${pos.unrealizedPnlPct})`;
+    } else if (hoursHeld >= 18 && pos.unrealizedPnlPct < 1.0) {
+      exitReason = `⏱️ 18 SAAT ZAMAN KİLİDİ (Hareketsiz Coin Boşaltıldı %${pos.unrealizedPnlPct})`;
     }
 
     if (exitReason) {
@@ -253,8 +410,14 @@ async function runTradingCycle() {
       const netPnlUsdt = Number((proceedsUsdt - pos.costUsdt).toFixed(4));
       state.cashUsdt = Number((state.cashUsdt + proceedsUsdt).toFixed(4));
       state.realizedPnlUsdt = Number((state.realizedPnlUsdt + netPnlUsdt).toFixed(4));
-      if (netPnlUsdt >= 0) state.winCount++;
-      else state.lossCount++;
+
+      if (netPnlUsdt >= 0) {
+        state.winCount++;
+      } else {
+        state.lossCount++;
+        // Protection #6: 6-Hour Cooldown Blacklist after a loss
+        state.cooldowns[pos.symbol] = nowMs + 6 * 3600 * 1000;
+      }
 
       const closedRecord = {
         ...pos,
@@ -267,7 +430,7 @@ async function runTradingCycle() {
       state.closedTrades.unshift(closedRecord);
       logEvent(
         state,
-        `💰 [SATIŞ TAMAMLANDI] ${pos.symbol} @ $${currentBid} | Sebep: ${exitReason} | Net Kâr/Zarar: $${netPnlUsdt} (${closedRecord.netPnlTry} TL)`
+        `🏁 [POZİSYON KAPANDI] ${pos.symbol} @ $${currentBid} | ${exitReason} | Net: ${toTL(netPnlUsdt)} TL`
       );
     } else {
       remainingPositions.push(pos);
@@ -275,69 +438,88 @@ async function runTradingCycle() {
   }
   state.openPositions = remainingPositions;
 
-  // Step 3: Open new positions if we have free slots and cash
-  const usedLeaders = new Set(state.openPositions.map(p => p.leaderSymbol));
-  const heldSymbols = new Set(state.openPositions.map(p => p.symbol));
+  // Step 3: Open new positions if BTC is not crashing and slots/cash available
+  if (signalsData.btcCrashAlert) {
+    logEvent(state, `🛡️ [BTC ÇÖKÜŞ KALKANI AKTİF] BTC son 1 saatte %${signalsData.btc1hChangePct} düştüğü için yeni altcoin alımı durduruldu.`);
+  } else {
+    const usedLeaders = new Set(state.openPositions.map(p => p.leaderSymbol));
+    const heldSymbols = new Set(state.openPositions.map(p => p.symbol));
 
-  for (const cand of candidates) {
-    if (state.openPositions.length >= cfg.MAX_OPEN_POSITIONS) break;
-    if (state.cashUsdt < cfg.ORDER_SIZE_USDT) break;
-    if (heldSymbols.has(cand.symbol)) continue;
-    if (usedLeaders.has(cand.leaderSymbol)) continue;
-    if (cand.totalScore < 58) continue;
+    for (const cand of candidates) {
+      if (state.openPositions.length >= cfg.MAX_OPEN_POSITIONS) break;
+      if (state.cashUsdt < 4.50) break; // Minimum meaningful trade size (~160 TL)
+      if (heldSymbols.has(cand.symbol)) continue;
+      if (usedLeaders.has(cand.leaderSymbol)) continue;
+      if (cand.totalScore < 52) continue;
 
-    const q = quotes[cand.symbol];
-    if (!q || !q.bestAsk) continue;
+      // Protection #6: Check 6-Hour Cooldown Blacklist
+      if (state.cooldowns[cand.symbol] && state.cooldowns[cand.symbol] > nowMs) {
+        continue;
+      }
 
-    const buyPrice = q.bestAsk; // Realistic execution at Best Ask
-    const costUsdt = Number(Math.min(cfg.ORDER_SIZE_USDT, state.cashUsdt).toFixed(2));
-    const qty = Number((costUsdt / buyPrice).toPrecision(4));
+      const q = quotes[cand.symbol];
+      if (!q || !q.bestAsk) continue;
 
-    if (state.mode === 'LIVE_BINANCE') {
-      await executeBinanceRealOrder(cfg, cand.symbol, 'BUY', qty, costUsdt);
+      // Protection #2: Orderbook Depth Imbalance Check (Reject if heavy sell wall < -0.35)
+      const obImbalance = await checkOrderbookImbalance(cand.symbol);
+      if (obImbalance < -0.35) {
+        logEvent(state, `⚖️ [Tahta Kalkanı] ${cand.symbol} önünde yoğun satış duvarı var (Imbalance: ${obImbalance}), alım iptal.`);
+        continue;
+      }
+
+      const buyPrice = q.bestAsk;
+      const costUsdt = Number(Math.min(cfg.ORDER_SIZE_USDT, state.cashUsdt).toFixed(2));
+      const qty = Number((costUsdt / buyPrice).toPrecision(4));
+
+      if (state.mode === 'LIVE_BINANCE') {
+        await executeBinanceRealOrder(cfg, cand.symbol, 'BUY', qty, costUsdt);
+      }
+
+      const tpPrice = Number((buyPrice * (1 + cand.tpPct / 100)).toPrecision(5));
+      const slPrice = Number((buyPrice * (1 - cand.slPct / 100)).toPrecision(5));
+
+      const newPos = {
+        id: `pos_${Date.now()}_${cand.symbol}`,
+        symbol: cand.symbol,
+        leaderSymbol: cand.leaderSymbol,
+        ecosystem: cand.ecosystems?.[0] || 'Genel',
+        headline: cand.headlines?.[0]?.title || 'Pozitif Ekosistem Katalizörü',
+        newsSource: cand.headlines?.[0]?.source || 'RSS',
+        newsScore: cand.newsScore,
+        totalScore: cand.totalScore,
+        rsiAtEntry: cand.rsi1h,
+        atr1hPct: cand.atr1hPct || 2.2,
+        obImbalance,
+        entryTime: new Date().toISOString(),
+        entryPrice: buyPrice,
+        currentPrice: q.bestBid || buyPrice,
+        highestPrice: buyPrice,
+        qty,
+        costUsdt,
+        costTry: Math.round(costUsdt * USD_TRY_RATE),
+        takeProfitPrice: tpPrice,
+        stopLossPrice: slPrice,
+        tpPct: cand.tpPct,
+        slPct: cand.slPct,
+        partialTpDone: false,
+        trailingActive: false,
+        rocketMode: false,
+        unrealizedPnlUsdt: Number((((q.bestBid || buyPrice) - buyPrice) * qty).toFixed(4)),
+        unrealizedPnlPct: Number(((((q.bestBid || buyPrice) - buyPrice) / buyPrice) * 100).toFixed(2)),
+      };
+
+      state.cashUsdt = Number((state.cashUsdt - costUsdt).toFixed(4));
+      state.openPositions.push(newPos);
+      heldSymbols.add(cand.symbol);
+      usedLeaders.add(cand.leaderSymbol);
+
+      logEvent(
+        state,
+        `🟢 [OTOMATİK ALIM] ${cand.symbol} (${toTL(costUsdt)} TL) @ $${buyPrice} | Skor: ${cand.totalScore} | Tahta Dengesi: ${obImbalance} | SL: $${slPrice} (-%${cand.slPct})`
+      );
     }
-
-    const tpPrice = Number((buyPrice * (1 + cand.tpPct / 100)).toPrecision(5));
-    const slPrice = Number((buyPrice * (1 - cand.slPct / 100)).toPrecision(5));
-
-    const newPos = {
-      id: `pos_${Date.now()}_${cand.symbol}`,
-      symbol: cand.symbol,
-      leaderSymbol: cand.leaderSymbol,
-      ecosystem: cand.ecosystems?.[0] || 'Genel',
-      headline: cand.headlines?.[0]?.title || 'Pozitif Ekosistem Katalizörü',
-      newsSource: cand.headlines?.[0]?.source || 'RSS',
-      newsScore: cand.newsScore,
-      totalScore: cand.totalScore,
-      rsiAtEntry: cand.rsi1h,
-      entryTime: new Date().toISOString(),
-      entryPrice: buyPrice,
-      currentPrice: q.bestBid || buyPrice,
-      highestPrice: buyPrice,
-      qty,
-      costUsdt,
-      costTry: Math.round(costUsdt * USD_TRY_RATE),
-      takeProfitPrice: tpPrice,
-      stopLossPrice: slPrice,
-      tpPct: cand.tpPct,
-      slPct: cand.slPct,
-      trailingActive: false,
-      unrealizedPnlUsdt: Number((((q.bestBid || buyPrice) - buyPrice) * qty).toFixed(4)),
-      unrealizedPnlPct: Number(((((q.bestBid || buyPrice) - buyPrice) / buyPrice) * 100).toFixed(2)),
-    };
-
-    state.cashUsdt = Number((state.cashUsdt - costUsdt).toFixed(4));
-    state.openPositions.push(newPos);
-    heldSymbols.add(cand.symbol);
-    usedLeaders.add(cand.leaderSymbol);
-
-    logEvent(
-      state,
-      `🟢 [OTOMATİK ALIM] ${cand.symbol}USDT @ $${buyPrice} (Ask) | Tutar: $${costUsdt} (~${newPos.costTry} TL) | Skor: ${cand.totalScore} | TP: $${tpPrice} (+%${cand.tpPct}) | SL: $${slPrice} (-%${cand.slPct})`
-    );
   }
 
-  // Compute total equity
   const openMarketValueUsdt = state.openPositions.reduce(
     (sum, p) => sum + p.currentPrice * p.qty,
     0
@@ -357,7 +539,7 @@ function renderDashboardHtml() {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AltcoinAutoTrader v5.0 — Canlı Haber & Otomatik Al-Sat Paneli</title>
+  <title>AltcoinAutoTrader v6.0 — TL Bazlı Canlı Kontrol Paneli</title>
   <style>
     :root {
       --bg: #0b0f19;
@@ -368,7 +550,6 @@ function renderDashboardHtml() {
       --green: #10b981;
       --red: #ef4444;
       --accent: #3b82f6;
-      --amber: #f59e0b;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -388,16 +569,6 @@ function renderDashboardHtml() {
       border-radius: 12px;
       margin-bottom: 20px;
     }
-    .badge {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 700;
-      background: rgba(59, 130, 246, 0.2);
-      color: #60a5fa;
-      border: 1px solid rgba(59, 130, 246, 0.4);
-    }
     .btn {
       background: var(--accent);
       color: #fff;
@@ -407,7 +578,6 @@ function renderDashboardHtml() {
       font-weight: 600;
       cursor: pointer;
     }
-    .btn:hover { opacity: 0.9; }
     .grid-kpi {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -431,73 +601,52 @@ function renderDashboardHtml() {
     }
     .section h2 { font-size: 17px; margin-bottom: 14px; color: #f8fafc; }
     table { width: 100%; border-collapse: collapse; font-size: 14px; }
-    th, td {
-      text-align: left;
-      padding: 12px 10px;
-      border-bottom: 1px solid var(--border);
-    }
+    th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--border); }
     th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; }
     .pos { color: var(--green); font-weight: 600; }
     .neg { color: var(--red); font-weight: 600; }
-    .log-box {
-      background: #070a12;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 14px;
-      font-family: monospace;
-      font-size: 13px;
-      max-height: 220px;
-      overflow-y: auto;
-      color: #cbd5e1;
-    }
-    .log-line { margin-bottom: 6px; }
   </style>
 </head>
 <body>
   <div class="header">
     <div>
-      <h1 style="font-size: 20px;">🎯 AltcoinAutoTrader v5.0 — Canlı Haberden Otomatik Al-Sat</h1>
+      <h1 style="font-size: 20px;">💰 AltcoinAutoTrader v6.0 — Tam Korumalı TL Kasa Paneli</h1>
       <p style="font-size: 13px; color: var(--muted); margin-top: 4px;">
-        6 Küresel Haber Kaynağı + 69 Binance Altcoin + Otomatik Kar Al (TP) / İz Süren Stop (Trailing SL)
+        BTC Çöküş Kalkanı + %50 Kademeli Kâr Al + 🚀 Tavansız Uçuş Modu + Balina Duvar Kontrolü
       </p>
     </div>
-    <div style="display:flex; gap:12px; align-items:center;">
-      <span id="modeBadge" class="badge">YÜKLENİYOR...</span>
-      <button class="btn" onclick="triggerCycle()">⚡ Şimdi Tara & İşlem Yap</button>
-    </div>
+    <button class="btn" onclick="triggerCycle()">⚡ Şimdi Tara & Güncelle</button>
   </div>
 
   <div class="grid-kpi">
     <div class="kpi">
-      <div class="kpi-label">Toplam Portföy Değeri</div>
-      <div class="kpi-val" id="equityVal">$28.01 (1,000 TL)</div>
+      <div class="kpi-label">Toplam Kasa (TL)</div>
+      <div class="kpi-val" id="equityVal">1.000,00 TL</div>
     </div>
     <div class="kpi">
-      <div class="kpi-label">Boştaki Nakit (USDT)</div>
-      <div class="kpi-val" id="cashVal">$0.00</div>
+      <div class="kpi-label">Toplam Net Kâr (TL)</div>
+      <div class="kpi-val" id="pnlVal">+0,00 TL</div>
     </div>
     <div class="kpi">
-      <div class="kpi-label">Toplam Net Kâr / Zarar</div>
-      <div class="kpi-val" id="pnlVal">$0.00 (%0.00)</div>
+      <div class="kpi-label">Boştaki Nakit (TL)</div>
+      <div class="kpi-val" id="cashVal">0,00 TL</div>
     </div>
     <div class="kpi">
-      <div class="kpi-label">Kazanma Oranı (Win / Loss)</div>
-      <div class="kpi-val" id="winVal">0 W / 0 L</div>
+      <div class="kpi-label">Biten İşlemler</div>
+      <div class="kpi-val" id="winVal">0 Kârlı / 0 Stop</div>
     </div>
   </div>
 
   <div class="section">
-    <h2>🟢 Açık Altcoin Pozisyonları (Canlı Binance Orderbook Takibi)</h2>
+    <h2>🟢 Şu An Açık Olan İşlemler</h2>
     <table>
       <thead>
         <tr>
           <th>Coin</th>
-          <th>Yakaladığı Haber Katalizörü</th>
-          <th>Giriş (Ask)</th>
-          <th>Canlı Fiyat (Bid)</th>
-          <th>Tutar / Adet</th>
-          <th>Hedef TP / İz Süren SL</th>
-          <th>Anlık Kâr/Zarar</th>
+          <th>Yatırılan (TL)</th>
+          <th>Şu Anki Değer (TL)</th>
+          <th>Anlık Net Kâr (TL)</th>
+          <th>Durum / Otomatik Satış Planı</th>
         </tr>
       </thead>
       <tbody id="openBody"></tbody>
@@ -505,91 +654,72 @@ function renderDashboardHtml() {
   </div>
 
   <div class="section">
-    <h2>📜 Tamamlanan (Satılan) İşlemler</h2>
+    <h2>✅ Satılıp Cebe Giren İşlemler</h2>
     <table>
       <thead>
         <tr>
           <th>Coin</th>
-          <th>Giriş -> Çıkış</th>
-          <th>Çıkış Sebebi</th>
-          <th>Net Kâr/Zarar</th>
-          <th>Zaman</th>
+          <th>Yatırılan (TL)</th>
+          <th>Cebe Giren Net Kâr (TL)</th>
+          <th>Satış Sebebi</th>
         </tr>
       </thead>
       <tbody id="closedBody"></tbody>
     </table>
   </div>
 
-  <div class="section">
-    <h2>📡 Canlı Bot İşlem Kayıtları (Logs)</h2>
-    <div class="log-box" id="logBox"></div>
-  </div>
-
   <script>
+    const RATE = 35.7;
+    const fmtTL = u => (Number(u || 0) * RATE).toFixed(2) + ' TL';
+
     async function loadState() {
       const res = await fetch('/api/state');
       const data = await res.json();
       const s = data.state;
 
-      document.getElementById('modeBadge').textContent =
-        s.mode === 'LIVE_BINANCE' ? '🔴 GERÇEK BINANCE API MODU' : '🟢 CANLI TAHTA (PAPER) OTO AL-SAT';
-      document.getElementById('equityVal').textContent =
-        '$' + s.totalEquityUsdt.toFixed(2) + ' (~' + s.totalEquityTry + ' TL)';
-      document.getElementById('cashVal').textContent = '$' + s.cashUsdt.toFixed(2);
+      document.getElementById('equityVal').textContent = fmtTL(s.totalEquityUsdt);
+      document.getElementById('cashVal').textContent = fmtTL(s.cashUsdt);
 
       const pnlEl = document.getElementById('pnlVal');
       const sign = s.totalPnlUsdt >= 0 ? '+' : '';
-      pnlEl.textContent = sign + '$' + s.totalPnlUsdt.toFixed(3) + ' (' + sign + s.totalPnlPct + '%)';
+      pnlEl.textContent = sign + fmtTL(s.totalPnlUsdt) + ' (' + sign + '%' + s.totalPnlPct + ')';
       pnlEl.className = 'kpi-val ' + (s.totalPnlUsdt >= 0 ? 'pos' : 'neg');
 
-      document.getElementById('winVal').textContent = s.winCount + ' Başarılı / ' + s.lossCount + ' Stop';
+      document.getElementById('winVal').textContent = s.winCount + ' Kârlı / ' + s.lossCount + ' Stop';
 
       const openBody = document.getElementById('openBody');
-      if (!s.openPositions.length) {
-        openBody.innerHTML = '<tr><td colspan="7" style="color:#94a3b8;">Açık pozisyon yok.</td></tr>';
-      } else {
-        openBody.innerHTML = s.openPositions.map(p => {
-          const pClass = p.unrealizedPnlUsdt >= 0 ? 'pos' : 'neg';
-          const pSign = p.unrealizedPnlUsdt >= 0 ? '+' : '';
-          return '<tr>' +
-            '<td><strong>' + p.symbol + 'USDT</strong><br><small style="color:#94a3b8;">Lider: ' + p.leaderSymbol + ' | Skor: ' + p.totalScore + '</small></td>' +
-            '<td style="max-width:340px;">[' + p.newsSource + '] ' + p.headline + '</td>' +
-            '<td>$' + p.entryPrice + '</td>' +
-            '<td><strong>$' + p.currentPrice + '</strong></td>' +
-            '<td>$' + p.costUsdt + ' (' + p.qty + ' ' + p.symbol + ')</td>' +
-            '<td><span class="pos">TP: $' + p.takeProfitPrice + ' (+%' + p.tpPct + ')</span><br><span class="neg">SL: $' + p.stopLossPrice + ' (-%' + p.slPct + ')</span></td>' +
-            '<td class="' + pClass + '">' + pSign + '$' + p.unrealizedPnlUsdt + ' (' + pSign + p.unrealizedPnlPct + '%)</td>' +
-          '</tr>';
-        }).join('');
-      }
+      openBody.innerHTML = s.openPositions.map(p => {
+        const pClass = p.unrealizedPnlUsdt >= 0 ? 'pos' : 'neg';
+        const pSign = p.unrealizedPnlUsdt >= 0 ? '+' : '';
+        const modeTxt = p.partialTpDone
+          ? '🚀 %50 Kâr Alındı, Kalan %50 Tavansız Uçuş Modunda'
+          : '+%4,5 olunca yarısı satılıp kalanı Uçuş Moduna geçecek';
+        return '<tr>' +
+          '<td><strong>' + p.symbol + '</strong><br><small style="color:#94a3b8;">' + p.headline + '</small></td>' +
+          '<td>' + fmtTL(p.costUsdt) + '</td>' +
+          '<td><strong>' + fmtTL(p.currentPrice * p.qty) + '</strong></td>' +
+          '<td class="' + pClass + '">' + pSign + fmtTL(p.unrealizedPnlUsdt) + ' (' + pSign + '%' + p.unrealizedPnlPct + ')</td>' +
+          '<td>' + modeTxt + '</td>' +
+        '</tr>';
+      }).join('') || '<tr><td colspan="5">Açık işlem yok.</td></tr>';
 
       const closedBody = document.getElementById('closedBody');
-      if (!s.closedTrades.length) {
-        closedBody.innerHTML = '<tr><td colspan="5" style="color:#94a3b8;">Henüz kapanan işlem yok (TP veya SL bekleniyor).</td></tr>';
-      } else {
-        closedBody.innerHTML = s.closedTrades.map(c => {
-          const cClass = c.netPnlUsdt >= 0 ? 'pos' : 'neg';
-          const cSign = c.netPnlUsdt >= 0 ? '+' : '';
-          return '<tr>' +
-            '<td><strong>' + c.symbol + 'USDT</strong></td>' +
-            '<td>$' + c.entryPrice + ' -> $' + c.exitPrice + '</td>' +
-            '<td>' + c.exitReason + '</td>' +
-            '<td class="' + cClass + '">' + cSign + '$' + c.netPnlUsdt + ' (' + cSign + c.netPnlTry + ' TL)</td>' +
-            '<td>' + new Date(c.exitTime).toLocaleTimeString('tr-TR') + '</td>' +
-          '</tr>';
-        }).join('');
-      }
-
-      document.getElementById('logBox').innerHTML = (s.recentLogs || [])
-        .map(l => '<div class="log-line">' + l + '</div>')
-        .join('');
+      closedBody.innerHTML = s.closedTrades.map(c => {
+        const cClass = c.netPnlUsdt >= 0 ? 'pos' : 'neg';
+        const cSign = c.netPnlUsdt >= 0 ? '+' : '';
+        return '<tr>' +
+          '<td><strong>' + c.symbol + '</strong></td>' +
+          '<td>' + fmtTL(c.costUsdt) + '</td>' +
+          '<td class="' + cClass + '">' + cSign + fmtTL(c.netPnlUsdt) + '</td>' +
+          '<td>' + c.exitReason + '</td>' +
+        '</tr>';
+      }).join('') || '<tr><td colspan="4">Henüz kapanan işlem yok.</td></tr>';
     }
 
     async function triggerCycle() {
       await fetch('/api/cycle', { method: 'POST' });
       await loadState();
     }
-
     loadState();
     setInterval(loadState, 10000);
   </script>
@@ -600,16 +730,16 @@ function renderDashboardHtml() {
 async function main() {
   const isDaemon = process.argv.includes('--daemon');
   const result = await runTradingCycle();
+  const s = result.state;
 
   console.log('\n================================================================================');
-  console.log(`💼 [PORTFÖY ÖZETİ] Mod: ${result.state.mode}`);
-  console.log(`   Toplam Varlık: $${result.state.totalEquityUsdt} (~${result.state.totalEquityTry} TL) | Boştaki Nakit: $${result.state.cashUsdt}`);
-  console.log(`   Açık Pozisyon Sayısı: ${result.state.openPositions.length} | Kapanan İşlem: ${result.state.closedTrades.length}`);
+  console.log(`💰 [TL KASA ÖZETİ] Başlangıç: 1.000,00 TL -> Şu Anki Toplam: ${toTL(s.totalEquityUsdt)} TL`);
+  console.log(`   Net Kâr/Zarar: ${s.totalPnlUsdt >= 0 ? '+' : ''}${toTL(s.totalPnlUsdt)} TL (%${s.totalPnlPct}) | Boştaki Nakit: ${toTL(s.cashUsdt)} TL`);
   console.log('================================================================================');
 
-  for (const pos of result.state.openPositions) {
+  for (const pos of s.openPositions) {
     console.log(
-      `   📌 AÇIK: ${pos.symbol}USDT | Giriş: $${pos.entryPrice} -> Canlı Bid: $${pos.currentPrice} | Anlık PnL: $${pos.unrealizedPnlUsdt} (%${pos.unrealizedPnlPct}) | TP: $${pos.takeProfitPrice} | SL: $${pos.stopLossPrice}`
+      `   🟢 AÇIK: ${pos.symbol} | Yatırılan: ${toTL(pos.costUsdt)} TL -> Şu An: ${toTL(pos.currentPrice * pos.qty)} TL | Net Kâr: ${pos.unrealizedPnlUsdt >= 0 ? '+' : ''}${toTL(pos.unrealizedPnlUsdt)} TL (%${pos.unrealizedPnlPct})`
     );
   }
 
@@ -618,9 +748,8 @@ async function main() {
     const port = 3847;
     const server = http.createServer(async (req, res) => {
       if (req.url === '/api/state') {
-        const currentState = loadPortfolioState(cfg);
         res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
-        res.end(JSON.stringify({ state: currentState }));
+        res.end(JSON.stringify({ state: loadPortfolioState(cfg) }));
       } else if (req.url === '/api/cycle' && req.method === 'POST') {
         const updated = await runTradingCycle();
         res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
@@ -632,8 +761,7 @@ async function main() {
     });
 
     server.listen(port, () => {
-      console.log(`\n🌐 Canlı Web Kontrol Paneli Aktif: http://localhost:${port}`);
-      console.log(`⏱️  Otomatik Tarama & Al-Sat Döngüsü: Her ${cfg.SCAN_INTERVAL_SECONDS} saniyede bir çalışıyor...`);
+      console.log(`\n🌐 TL Bazlı Canlı Web Kontrol Paneli: http://localhost:${port}`);
     });
 
     setInterval(() => {

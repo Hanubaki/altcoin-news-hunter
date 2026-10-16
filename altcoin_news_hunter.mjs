@@ -344,6 +344,22 @@ function calcRSI(closes, period = 14) {
   return Number((100 - 100 / (1 + rs)).toFixed(2));
 }
 
+function calcATRPct(klines, period = 14) {
+  if (!Array.isArray(klines) || klines.length < 3) return 2.5;
+  const trs = [];
+  for (let i = 1; i < klines.length; i++) {
+    const high = Number(klines[i][2]);
+    const low = Number(klines[i][3]);
+    const prevClose = Number(klines[i - 1][4]);
+    const tr = Math.max(high - low, Math.abs(high - prevClose), Math.abs(low - prevClose));
+    if (prevClose > 0) trs.push((tr / prevClose) * 100);
+  }
+  if (trs.length === 0) return 2.5;
+  const slice = trs.slice(-period);
+  const avg = slice.reduce((a, b) => a + b, 0) / slice.length;
+  return Number(avg.toFixed(2));
+}
+
 async function main() {
   const t0 = Date.now();
   console.log('================================================================================');
@@ -395,11 +411,23 @@ async function main() {
     .sort((a, b) => b.newsScore - a.newsScore)
     .slice(0, 20);
 
-  const klineResults = await Promise.allSettled(
-    positiveNewsAlts.map(c =>
+  const [btcKlinesRes, ...klineResults] = await Promise.allSettled([
+    fetchJson(`${BINANCE_API}/klines?symbol=BTCUSDT&interval=15m&limit=5`, {}, 3500),
+    ...positiveNewsAlts.map(c =>
       fetchJson(`${BINANCE_API}/klines?symbol=${c.symbol}USDT&interval=1h&limit=20`, {}, 3500)
-    )
-  );
+    ),
+  ]);
+
+  let btc1hChangePct = 0;
+  if (btcKlinesRes.status === 'fulfilled' && Array.isArray(btcKlinesRes.value) && btcKlinesRes.value.length >= 4) {
+    const k = btcKlinesRes.value;
+    const open1hAgo = Number(k[0][1]);
+    const closeNow = Number(k[k.length - 1][4]);
+    if (open1hAgo > 0) {
+      btc1hChangePct = Number((((closeNow - open1hAgo) / open1hAgo) * 100).toFixed(2));
+    }
+  }
+  const btcCrashAlert = btc1hChangePct <= -1.8;
 
   const scoredOpportunities = [];
   for (let i = 0; i < positiveNewsAlts.length; i++) {
@@ -413,6 +441,7 @@ async function main() {
     const volumes = klines.map(k => Number(k[5]));
 
     const rsi1h = calcRSI(closes, 14);
+    const atr1hPct = calcATRPct(klines, 14);
     const change1hPct = closes.length >= 2
       ? Number((((closes[closes.length - 1] - closes[closes.length - 2]) / closes[closes.length - 2]) * 100).toFixed(2))
       : 0;
@@ -439,8 +468,9 @@ async function main() {
     if (volRatio >= 1.1) totalScore += Math.min(8, (volRatio - 1) * 6);
 
     const rangePct = mkt.low24h > 0 ? ((mkt.high24h - mkt.low24h) / mkt.low24h) * 100 : 4;
-    const tpPct = Number(Math.max(3.8, Math.min(7.5, rangePct * 0.62)).toFixed(2));
-    const slPct = Number(Math.max(1.8, Math.min(3.4, tpPct * 0.48)).toFixed(2));
+    const tpPct = Number(Math.max(4.5, Math.min(8.5, rangePct * 0.65)).toFixed(2));
+    // ATR Volatility Dynamic Stop-Loss (1.5x 1h ATR, bounded between 1.8% and 3.8%)
+    const slPct = Number(Math.max(1.8, Math.min(3.8, atr1hPct * 1.5)).toFixed(2));
 
     scoredOpportunities.push({
       symbol: sym,
@@ -455,6 +485,7 @@ async function main() {
       change24hPct: mkt.change24hPct,
       lagVsLeader24h,
       rsi1h,
+      atr1hPct,
       volRatio,
       fundingHourlyPct,
       totalScore: Number(totalScore.toFixed(1)),
@@ -467,7 +498,6 @@ async function main() {
 
   scoredOpportunities.sort((a, b) => b.totalScore - a.totalScore);
 
-  // Diversify: max 1 pick per ecosystem leader so all 4 picks represent distinct news catalysts!
   const selectedTop4 = [];
   const usedLeaders = new Set();
   for (const opp of scoredOpportunities) {
@@ -477,9 +507,9 @@ async function main() {
     if (selectedTop4.length === 4) break;
   }
 
-  console.log(`\n🔥 [1,000 TL ($${BANKROLL_USDT}) İçin 4 Farklı Ekosistemden En İyi "Haber + Bağlantılı Altcoin" Fırsatı]:`);
+  console.log(`🛡️ [BTC Çöküş Kalkanı]: BTC Son 1 Saat: %${btc1hChangePct} -> ${btcCrashAlert ? '🚨 ACİL FREN AKTİF (Alımlar Durduruldu!)' : '✅ PİYASA GÜVENLİ'}`);
 
-  const allocPerCoinUsdt = 6.00;
+  const allocPerCoinUsdt = 9.00;
   const allocPerCoinTry = Math.round(allocPerCoinUsdt * USD_TRY_RATE);
 
   selectedTop4.forEach((item, idx) => {
@@ -490,15 +520,10 @@ async function main() {
     item.qty = qty;
     item.expectedProfitUsdt = netProfitUsdt;
 
-    console.log(`\n${idx + 1}. 🎯 ${item.symbol}USDT (Ekosistem Lideri: ${item.leaderSymbol}) — Fırsat Skoru: ${item.totalScore}/100`);
-    console.log(`   • Bağlantılı Ekosistem: ${item.ecosystems.join(' + ')}`);
-    console.log(`   • Yakalanan Pozitif Katalizör Kelimeleri: [${item.matchedKeywords.join(', ')}]`);
+    console.log(`\n${idx + 1}. 🎯 ${item.symbol}USDT (Lider: ${item.leaderSymbol}) — Skor: ${item.totalScore}/100 | 1s RSI: ${item.rsi1h} | ATR: %${item.atr1hPct}`);
     item.headlines.forEach(h => {
-      console.log(`   • Pozitif Haber [${h.source} - ${h.minutesAgo}dk önce | +${h.catalystPoints}p]: "${h.title}"`);
+      console.log(`   • Haber [${h.source} - ${h.minutesAgo}dk önce]: "${h.title}"`);
     });
-    console.log(`   • Fiyat & Gecikme Analizi: Giriş $${item.lastPrice} | 1s Değişim: %${item.change1hPct} | 1s RSI: ${item.rsi1h} (Ucuz/Henüz Pompalanmamış) | Vadeli Fonlama: %${item.fundingHourlyPct}/s`);
-    console.log(`   • 1,000 TL Kasa Emri: $${item.allocUsdt} (~${item.allocTry} TL) -> ${item.qty} ${item.symbol}`);
-    console.log(`   • Kâr Al (TP +${item.tpPct}%): $${item.tpPrice} (+$${item.expectedProfitUsdt}) | Zarar Kes (SL -${item.slPct}%): $${item.slPrice}`);
   });
 
   const payload = {
@@ -506,6 +531,8 @@ async function main() {
     scanDurationMs: Date.now() - t0,
     bankrollTry: BANKROLL_TRY,
     bankrollUsdt: BANKROLL_USDT,
+    btc1hChangePct,
+    btcCrashAlert,
     totalHeadlinesScanned: newsScan.totalHeadlines,
     activeFeeds: newsScan.activeFeeds,
     top4AltcoinPicks: selectedTop4,
@@ -513,7 +540,7 @@ async function main() {
   };
 
   fs.writeFileSync(SIGNALS_FILE, JSON.stringify(payload, null, 2), 'utf8');
-  console.log(`\n✅ Tarama ${Date.now() - t0}ms içinde tamamlandı ve 'altcoin_news_signals.json' dosyasına kaydedildi.`);
+  console.log(`\n✅ Tarama ${Date.now() - t0}ms içinde tamamlandı.`);
   return payload;
 }
 
