@@ -832,30 +832,55 @@ async function main() {
   if ((groqKey || geminiKey || openrouterKey) && selectedTop4.length > 0) {
     await Promise.all(
       selectedTop4.map(async item => {
-        const prompt = `Sen TradingArena.ai şampiyonu kurumsal bir kripto fon yöneticisisin. Şu altcoin verisini analiz et ve SADECE tek satır JSON döndür: {"decision":"LONG" veya "WAIT","confidence":0-100,"reason":"En fazla 10 kelimelik Türkçe sebep"}. Coin: ${item.symbol}, Haber: "${item.headlines[0]?.title || ''}", RSI: ${item.rsi1h}, BalinaAlim: %${item.takerBuyRatioPct}, Destek: ${item.support}, Direnc: ${item.resistance}`;
-        try {
-          let txt = '';
-          if (groqKey) {
+        const prompt = `Sen TradingArena.ai şampiyonu kurumsal bir kripto fon yöneticisisin. Şu altcoin verisini analiz et ve SADECE tek satır geçerli bir JSON döndür (başka hiçbir açıklama veya <think> etiketi yazma): {"decision":"LONG","confidence":82,"reason":"Kısa Türkçe sebep (en fazla 10 kelime)"}. Eğer haber olumsuz/tuzaksa decision "WAIT" olsun. Coin: ${item.symbol}, Haber: "${item.headlines[0]?.title || ''}", RSI(14): ${item.rsi1h}, BalinaAlim: %${item.takerBuyRatioPct}, Destek: ${item.support}, Direnc: ${item.resistance}`;
+
+        const aiVerdicts = [];
+
+        if (groqKey) {
+          const groqModels = [
+            { id: 'openai/gpt-oss-120b', label: 'GPT-120B' },
+            { id: 'qwen/qwen3.8-27b', label: 'Qwen-3.8' },
+          ];
+          await Promise.all(
+            groqModels.map(async m => {
+              try {
+                const res = await fetchJson(
+                  'https://api.groq.com/openai/v1/chat/completions',
+                  {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      Authorization: `Bearer ${groqKey}`,
+                    },
+                    body: JSON.stringify({
+                      model: m.id,
+                      messages: [{ role: 'user', content: prompt }],
+                      temperature: 0.2,
+                      max_tokens: 180,
+                    }),
+                  },
+                  4000
+                );
+                const txt = (res?.choices?.[0]?.message?.content || '').replace(/<think>[\s\S]*?<\/think>/gi, '');
+                const jsonMatch = txt.match(/\{[\s\S]*?\}/);
+                if (jsonMatch) {
+                  const parsed = JSON.parse(jsonMatch[0]);
+                  aiVerdicts.push({
+                    model: m.label,
+                    decision: (parsed.decision || 'LONG').toUpperCase(),
+                    confidence: Number(parsed.confidence) || 78,
+                    reason: parsed.reason || '',
+                  });
+                }
+              } catch {}
+            })
+          );
+        }
+
+        if (geminiKey) {
+          try {
             const res = await fetchJson(
-              'https://api.groq.com/openai/v1/chat/completions',
-              {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${groqKey}`,
-                },
-                body: JSON.stringify({
-                  model: 'meta-llama/llama-4-maverick-17b-128e-instruct',
-                  messages: [{ role: 'user', content: prompt }],
-                  temperature: 0.2,
-                }),
-              },
-              3500
-            );
-            txt = res?.choices?.[0]?.message?.content || '';
-          } else if (geminiKey) {
-            const res = await fetchJson(
-              `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`,
+              `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
               {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -865,38 +890,35 @@ async function main() {
               },
               3500
             );
-            txt = res?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-          } else if (openrouterKey) {
-            const res = await fetchJson(
-              'https://openrouter.ai/api/v1/chat/completions',
-              {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${openrouterKey}`,
-                },
-                body: JSON.stringify({
-                  model: 'deepseek/deepseek-chat-v3-0324:free',
-                  messages: [{ role: 'user', content: prompt }],
-                }),
-              },
-              4000
-            );
-            txt = res?.choices?.[0]?.message?.content || '';
-          }
-          const jsonMatch = txt.match(/\{[\s\S]*?\}/);
-          if (jsonMatch) {
-            const parsed = JSON.parse(jsonMatch[0]);
-            item.liveLlmDecision = parsed.decision || 'LONG';
-            item.liveLlmConfidence = Number(parsed.confidence) || 80;
-            item.liveLlmReason = parsed.reason || '';
-            if (item.liveLlmDecision === 'LONG' && item.liveLlmConfidence >= 65) {
-              item.totalScore = Number(Math.min(99, item.totalScore + 6).toFixed(1));
-            } else if (item.liveLlmDecision === 'WAIT') {
-              item.totalScore = Number(Math.max(10, item.totalScore - 15).toFixed(1));
+            const txt = res?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+            const jsonMatch = txt.match(/\{[\s\S]*?\}/);
+            if (jsonMatch) {
+              const parsed = JSON.parse(jsonMatch[0]);
+              aiVerdicts.push({
+                model: 'Gemini-Flash',
+                decision: (parsed.decision || 'LONG').toUpperCase(),
+                confidence: Number(parsed.confidence) || 80,
+                reason: parsed.reason || '',
+              });
             }
+          } catch {}
+        }
+
+        if (aiVerdicts.length > 0) {
+          item.realApiVerdicts = aiVerdicts;
+          const longVotes = aiVerdicts.filter(v => v.decision === 'LONG' || v.decision === 'BUY');
+          const waitVotes = aiVerdicts.filter(v => v.decision === 'WAIT' || v.decision === 'SELL' || v.decision === 'AVOID');
+          const avgConf = Math.round(aiVerdicts.reduce((s, v) => s + v.confidence, 0) / aiVerdicts.length);
+          item.liveLlmDecision = longVotes.length >= waitVotes.length ? 'LONG' : 'WAIT';
+          item.liveLlmConfidence = avgConf;
+          item.liveLlmReason = aiVerdicts.map(v => `[${v.model}: ${v.decision} %${v.confidence}] ${v.reason}`).join(' | ');
+
+          if (item.liveLlmDecision === 'LONG' && avgConf >= 65) {
+            item.totalScore = Number(Math.min(99, item.totalScore + 6).toFixed(1));
+          } else if (item.liveLlmDecision === 'WAIT') {
+            item.totalScore = Number(Math.max(10, item.totalScore - 18).toFixed(1));
           }
-        } catch {}
+        }
       })
     );
   }
@@ -909,7 +931,7 @@ async function main() {
       `\n${idx + 1}. 🎯 ${item.symbol} (Skor: ${item.totalScore}/100 | 🤖 ${item.aiConsensusLabel}) | RSI: ${item.rsi1h}${item.hasRsiDivergence ? ' (Uyumsuzluk ✅)' : ''} | 🐋 Balina: %${item.takerBuyRatioPct} | Destek/Direnç: ${item.support}/${item.resistance}`
     );
     if (item.liveLlmReason) {
-      console.log(`   🧠 [Canlı Bulut AI (${item.liveLlmDecision} %${item.liveLlmConfidence})]: "${item.liveLlmReason}"`);
+      console.log(`   🧠 [Gerçek API AI Konseyi (${item.liveLlmDecision} Ort. Güven %${item.liveLlmConfidence})]: ${item.liveLlmReason}`);
     }
     item.headlines.forEach(h => {
       console.log(`   • [${h.source} - ${h.minutesAgo}dk önce]: "${h.title}"`);
