@@ -519,8 +519,11 @@ async function runTradingCycle() {
       state.cashUsdt = Number((state.cashUsdt + proceedsUsdt).toFixed(4));
       state.realizedPnlUsdt = Number((state.realizedPnlUsdt + netPnlUsdt).toFixed(4));
 
-      if (netPnlUsdt >= 0) {
+      if (netPnlUsdt >= 0 && !exitReason.includes('TUZAK HABER')) {
         state.winCount++;
+      } else if (exitReason.includes('TUZAK HABER')) {
+        if (netPnlUsdt >= 0) state.winCount++;
+        state.cooldowns[pos.symbol] = nowMs + 6 * 3600 * 1000;
       } else {
         state.lossCount++;
         state.cooldowns[pos.symbol] = nowMs + 6 * 3600 * 1000;
@@ -580,11 +583,17 @@ async function runTradingCycle() {
   if (!signalsData.btcCrashAlert) {
     const usedLeaders = new Set(state.openPositions.map(p => p.leaderSymbol));
     const heldSymbols = new Set(state.openPositions.map(p => p.symbol));
+    const aiWaitSymbols = new Set(
+      (signalsData.top4AltcoinPicks || [])
+        .filter(c => c.liveLlmDecision === 'WAIT')
+        .map(c => c.symbol)
+    );
 
     for (const cand of candidates) {
       if (state.openPositions.length >= cfg.MAX_OPEN_POSITIONS) break;
       if (state.cashUsdt < 4.50) break;
       if (heldSymbols.has(cand.symbol)) continue;
+      if (aiWaitSymbols.has(cand.symbol) || cand.liveLlmDecision === 'WAIT') continue;
       if (usedLeaders.has(cand.leaderSymbol)) continue;
       if (cand.totalScore < 50) continue;
       if (state.cooldowns[cand.symbol] && state.cooldowns[cand.symbol] > nowMs) continue;

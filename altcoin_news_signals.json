@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-16T06:40:08.315Z",
-  "scanDurationMs": 5170,
+  "updatedAt": "2026-10-16T06:41:42.691Z",
+  "scanDurationMs": 5339,
   "bankrollTry": 1000,
   "bankrollUsdt": 28.01,
-  "btc1hChangePct": -0.13,
+  "btc1hChangePct": -0.05,
   "btcCrashAlert": false,
   "marketBreadthPct": 94,
   "totalHeadlinesScanned": 92,
@@ -27,32 +27,32 @@
         "ai agents"
       ],
       "newsScore": 3.03,
-      "freshestMinutesAgo": 29,
+      "freshestMinutesAgo": 30,
       "headlines": [
         {
           "source": "CoinTelegraph",
           "title": "OpenAI model helped itself to testnet crypto, then kept quiet about it",
-          "minutesAgo": 29,
+          "minutesAgo": 30,
           "catalystPoints": 1.7,
           "directMention": false
         },
         {
           "source": "CoinDesk",
           "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
-          "minutesAgo": 131,
+          "minutesAgo": 132,
           "catalystPoints": 0.68,
           "directMention": false
         }
       ],
-      "lastPrice": 0.2047,
-      "change1hPct": 0.15,
-      "change24hPct": 4.921,
+      "lastPrice": 0.2055,
+      "change1hPct": 0.59,
+      "change24hPct": 5.331,
       "lagVsLeader24h": 0,
-      "rsi1h": 30.69,
+      "rsi1h": 36.36,
       "hasRsiDivergence": true,
       "atr1hPct": 1.26,
-      "bbPctB": 0.53,
-      "bbWidthPct": 9.53,
+      "bbPctB": 0.57,
+      "bbWidthPct": 9.55,
       "isSqueeze": false,
       "macdBullishTurn": true,
       "adx": 42.9,
@@ -60,7 +60,7 @@
       "regime": "DIP_TOPLAMA",
       "support": 0.1925,
       "resistance": 0.2111,
-      "roomToResistancePct": 3.13,
+      "roomToResistancePct": 2.73,
       "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -69,33 +69,33 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 57.6,
+      "takerBuyRatioPct": 58.2,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.55,
+      "volRatio": 0.58,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 59.6,
+      "totalScore": 53.6,
       "tpPct": 7.21,
       "slPct": 1.83,
-      "tpPrice": 0.21946,
-      "slPrice": 0.20095,
+      "tpPrice": 0.22032,
+      "slPrice": 0.20174,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
           "decision": "WAIT",
           "confidence": 95,
-          "reason": "OpenAI haber tuzak, RSI aşırı satım ama riskli."
+          "reason": "OpenAI haber tuzak, RSI zayıf, balina alımı riskli."
         },
         {
           "model": "GPT-120B",
           "decision": "WAIT",
           "confidence": 70,
-          "reason": "Şüpheli haber, temkinli bekle"
+          "reason": "Şüpheli haber, riskli"
         }
       ],
       "liveLlmDecision": "WAIT",
       "liveLlmConfidence": 83,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] OpenAI haber tuzak, RSI aşırı satım ama riskli. | [GPT-120B: WAIT %70] Şüpheli haber, temkinli bekle"
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] OpenAI haber tuzak, RSI zayıf, balina alımı riskli. | [GPT-120B: WAIT %70] Şüpheli haber, riskli"
     },
     {
       "symbol": "WIF",
@@ -107,25 +107,25 @@
         "solana"
       ],
       "newsScore": 3.12,
-      "freshestMinutesAgo": 2124,
+      "freshestMinutesAgo": 2126,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Solana Sets a Date for Its Next Major Upgrade",
-          "minutesAgo": 2124,
+          "minutesAgo": 2126,
           "catalystPoints": 3.12,
           "directMention": false
         }
       ],
-      "lastPrice": 0.2018,
-      "change1hPct": 0.15,
-      "change24hPct": 4.831,
-      "lagVsLeader24h": -1.08,
-      "rsi1h": 54.05,
+      "lastPrice": 0.2023,
+      "change1hPct": 0.4,
+      "change24hPct": 5.091,
+      "lagVsLeader24h": -1.15,
+      "rsi1h": 56.03,
       "hasRsiDivergence": true,
       "atr1hPct": 0.98,
-      "bbPctB": 0.65,
-      "bbWidthPct": 7.15,
+      "bbPctB": 0.68,
+      "bbWidthPct": 7.18,
       "isSqueeze": false,
       "macdBullishTurn": true,
       "adx": 4.6,
@@ -141,33 +141,33 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 54,
+      "takerBuyRatioPct": 54.2,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.22,
+      "volRatio": 0.23,
       "fundingHourlyPct": 0.0013,
       "totalScore": 66,
       "tpPct": 5.17,
       "slPct": 1.8,
-      "tpPrice": 0.21223,
-      "slPrice": 0.19817,
+      "tpPrice": 0.21276,
+      "slPrice": 0.19866,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
           "decision": "LONG",
           "confidence": 75,
-          "reason": "Solana yükseltmesi, balina alımı ve nötr RSI pozitif."
+          "reason": "Solana yükseltmesi, balina alımı ve nötr RSI destekli."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
-          "confidence": 78,
-          "reason": "Balina alımı yüksek, teknik destek güçlü"
+          "confidence": 80,
+          "reason": "Balina alımı yüksek, RSI orta, yükseliş potansiyeli"
         }
       ],
       "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 77,
-      "liveLlmReason": "[Qwen-3.8: LONG %75] Solana yükseltmesi, balina alımı ve nötr RSI pozitif. | [GPT-120B: LONG %78] Balina alımı yüksek, teknik destek güçlü"
+      "liveLlmConfidence": 78,
+      "liveLlmReason": "[Qwen-3.8: LONG %75] Solana yükseltmesi, balina alımı ve nötr RSI destekli. | [GPT-120B: LONG %80] Balina alımı yüksek, RSI orta, yükseliş potansiyeli"
     },
     {
       "symbol": "XRP",
@@ -181,32 +181,32 @@
         "tokenized"
       ],
       "newsScore": 1.56,
-      "freshestMinutesAgo": 864,
+      "freshestMinutesAgo": 866,
       "headlines": [
         {
           "source": "CryptoPotato",
           "title": "Important Ripple News and XRP Price Update: October 15",
-          "minutesAgo": 1389,
+          "minutesAgo": 1391,
           "catalystPoints": 0.79,
           "directMention": true
         },
         {
           "source": "CryptoPotato",
           "title": "Ripple Price Analysis: Is the Worst Over for XRP After Holding $1.30?",
-          "minutesAgo": 864,
+          "minutesAgo": 866,
           "catalystPoints": 0.44,
           "directMention": true
         }
       ],
-      "lastPrice": 1.3407,
-      "change1hPct": 0.17,
-      "change24hPct": 2.422,
+      "lastPrice": 1.3426,
+      "change1hPct": 0.34,
+      "change24hPct": 2.536,
       "lagVsLeader24h": 0,
-      "rsi1h": 55.7,
+      "rsi1h": 58.15,
       "hasRsiDivergence": true,
       "atr1hPct": 0.62,
-      "bbPctB": 0.66,
-      "bbWidthPct": 4.5,
+      "bbPctB": 0.69,
+      "bbWidthPct": 4.52,
       "isSqueeze": true,
       "macdBullishTurn": true,
       "adx": 20.8,
@@ -223,30 +223,30 @@
       "takerBuyRatioPct": 43.6,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.25,
+      "volRatio": 0.27,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 47,
+      "totalScore": 40,
       "tpPct": 4.5,
       "slPct": 1.8,
-      "tpPrice": 1.401,
-      "slPrice": 1.3166,
+      "tpPrice": 1.403,
+      "slPrice": 1.3184,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
           "decision": "LONG",
           "confidence": 75,
-          "reason": "Balina alımı güçlü, RSI nötr, yükseliş potansiyeli var."
+          "reason": "Balina alımı yüksek, RSI nötr, destek üstü."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
-          "confidence": 78,
-          "reason": "Whale alımı ve RSI pozitif, destek yakın"
+          "confidence": 80,
+          "reason": "Whale alımı ve RSI yükselişte"
         }
       ],
       "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 77,
-      "liveLlmReason": "[Qwen-3.8: LONG %75] Balina alımı güçlü, RSI nötr, yükseliş potansiyeli var. | [GPT-120B: LONG %78] Whale alımı ve RSI pozitif, destek yakın"
+      "liveLlmConfidence": 78,
+      "liveLlmReason": "[Qwen-3.8: LONG %75] Balina alımı yüksek, RSI nötr, destek üstü. | [GPT-120B: LONG %80] Whale alımı ve RSI yükselişte"
     }
   ],
   "allQualifiedOpportunities": [
@@ -262,32 +262,32 @@
         "ai agents"
       ],
       "newsScore": 3.03,
-      "freshestMinutesAgo": 29,
+      "freshestMinutesAgo": 30,
       "headlines": [
         {
           "source": "CoinTelegraph",
           "title": "OpenAI model helped itself to testnet crypto, then kept quiet about it",
-          "minutesAgo": 29,
+          "minutesAgo": 30,
           "catalystPoints": 1.7,
           "directMention": false
         },
         {
           "source": "CoinDesk",
           "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
-          "minutesAgo": 131,
+          "minutesAgo": 132,
           "catalystPoints": 0.68,
           "directMention": false
         }
       ],
-      "lastPrice": 0.2047,
-      "change1hPct": 0.15,
-      "change24hPct": 4.921,
+      "lastPrice": 0.2055,
+      "change1hPct": 0.59,
+      "change24hPct": 5.331,
       "lagVsLeader24h": 0,
-      "rsi1h": 30.69,
+      "rsi1h": 36.36,
       "hasRsiDivergence": true,
       "atr1hPct": 1.26,
-      "bbPctB": 0.53,
-      "bbWidthPct": 9.53,
+      "bbPctB": 0.57,
+      "bbWidthPct": 9.55,
       "isSqueeze": false,
       "macdBullishTurn": true,
       "adx": 42.9,
@@ -295,7 +295,7 @@
       "regime": "DIP_TOPLAMA",
       "support": 0.1925,
       "resistance": 0.2111,
-      "roomToResistancePct": 3.13,
+      "roomToResistancePct": 2.73,
       "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -304,33 +304,33 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 57.6,
+      "takerBuyRatioPct": 58.2,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.55,
+      "volRatio": 0.58,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 59.6,
+      "totalScore": 53.6,
       "tpPct": 7.21,
       "slPct": 1.83,
-      "tpPrice": 0.21946,
-      "slPrice": 0.20095,
+      "tpPrice": 0.22032,
+      "slPrice": 0.20174,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
           "decision": "WAIT",
           "confidence": 95,
-          "reason": "OpenAI haber tuzak, RSI aşırı satım ama riskli."
+          "reason": "OpenAI haber tuzak, RSI zayıf, balina alımı riskli."
         },
         {
           "model": "GPT-120B",
           "decision": "WAIT",
           "confidence": 70,
-          "reason": "Şüpheli haber, temkinli bekle"
+          "reason": "Şüpheli haber, riskli"
         }
       ],
       "liveLlmDecision": "WAIT",
       "liveLlmConfidence": 83,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] OpenAI haber tuzak, RSI aşırı satım ama riskli. | [GPT-120B: WAIT %70] Şüpheli haber, temkinli bekle"
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] OpenAI haber tuzak, RSI zayıf, balina alımı riskli. | [GPT-120B: WAIT %70] Şüpheli haber, riskli"
     },
     {
       "symbol": "IO",
@@ -344,31 +344,31 @@
         "ai agents"
       ],
       "newsScore": 3.03,
-      "freshestMinutesAgo": 29,
+      "freshestMinutesAgo": 30,
       "headlines": [
         {
           "source": "CoinTelegraph",
           "title": "OpenAI model helped itself to testnet crypto, then kept quiet about it",
-          "minutesAgo": 29,
+          "minutesAgo": 30,
           "catalystPoints": 1.7,
           "directMention": false
         },
         {
           "source": "CoinDesk",
           "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
-          "minutesAgo": 131,
+          "minutesAgo": 132,
           "catalystPoints": 0.68,
           "directMention": false
         }
       ],
-      "lastPrice": 0.1641,
-      "change1hPct": 0.49,
-      "change24hPct": 2.949,
-      "lagVsLeader24h": 1.97,
-      "rsi1h": 47.37,
+      "lastPrice": 0.1642,
+      "change1hPct": 0.55,
+      "change24hPct": 2.882,
+      "lagVsLeader24h": 2.45,
+      "rsi1h": 47.71,
       "hasRsiDivergence": true,
       "atr1hPct": 1.37,
-      "bbPctB": 0.54,
+      "bbPctB": 0.55,
       "bbWidthPct": 7.61,
       "isSqueeze": false,
       "macdBullishTurn": true,
@@ -377,7 +377,7 @@
       "regime": "DIP_TOPLAMA",
       "support": 0.1542,
       "resistance": 0.1681,
-      "roomToResistancePct": 2.44,
+      "roomToResistancePct": 2.38,
       "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -391,11 +391,11 @@
       "isTrending": false,
       "volRatio": 0.3,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 63.2,
+      "totalScore": 64,
       "tpPct": 6.18,
       "slPct": 1.99,
-      "tpPrice": 0.17424,
-      "slPrice": 0.16083
+      "tpPrice": 0.17435,
+      "slPrice": 0.16093
     },
     {
       "symbol": "WIF",
@@ -407,25 +407,25 @@
         "solana"
       ],
       "newsScore": 3.12,
-      "freshestMinutesAgo": 2124,
+      "freshestMinutesAgo": 2126,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Solana Sets a Date for Its Next Major Upgrade",
-          "minutesAgo": 2124,
+          "minutesAgo": 2126,
           "catalystPoints": 3.12,
           "directMention": false
         }
       ],
-      "lastPrice": 0.2018,
-      "change1hPct": 0.15,
-      "change24hPct": 4.831,
-      "lagVsLeader24h": -1.08,
-      "rsi1h": 54.05,
+      "lastPrice": 0.2023,
+      "change1hPct": 0.4,
+      "change24hPct": 5.091,
+      "lagVsLeader24h": -1.15,
+      "rsi1h": 56.03,
       "hasRsiDivergence": true,
       "atr1hPct": 0.98,
-      "bbPctB": 0.65,
-      "bbWidthPct": 7.15,
+      "bbPctB": 0.68,
+      "bbWidthPct": 7.18,
       "isSqueeze": false,
       "macdBullishTurn": true,
       "adx": 4.6,
@@ -441,33 +441,33 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 54,
+      "takerBuyRatioPct": 54.2,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.22,
+      "volRatio": 0.23,
       "fundingHourlyPct": 0.0013,
       "totalScore": 66,
       "tpPct": 5.17,
       "slPct": 1.8,
-      "tpPrice": 0.21223,
-      "slPrice": 0.19817,
+      "tpPrice": 0.21276,
+      "slPrice": 0.19866,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
           "decision": "LONG",
           "confidence": 75,
-          "reason": "Solana yükseltmesi, balina alımı ve nötr RSI pozitif."
+          "reason": "Solana yükseltmesi, balina alımı ve nötr RSI destekli."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
-          "confidence": 78,
-          "reason": "Balina alımı yüksek, teknik destek güçlü"
+          "confidence": 80,
+          "reason": "Balina alımı yüksek, RSI orta, yükseliş potansiyeli"
         }
       ],
       "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 77,
-      "liveLlmReason": "[Qwen-3.8: LONG %75] Solana yükseltmesi, balina alımı ve nötr RSI pozitif. | [GPT-120B: LONG %78] Balina alımı yüksek, teknik destek güçlü"
+      "liveLlmConfidence": 78,
+      "liveLlmReason": "[Qwen-3.8: LONG %75] Solana yükseltmesi, balina alımı ve nötr RSI destekli. | [GPT-120B: LONG %80] Balina alımı yüksek, RSI orta, yükseliş potansiyeli"
     },
     {
       "symbol": "BOME",
@@ -479,20 +479,20 @@
         "solana"
       ],
       "newsScore": 3.12,
-      "freshestMinutesAgo": 2124,
+      "freshestMinutesAgo": 2126,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Solana Sets a Date for Its Next Major Upgrade",
-          "minutesAgo": 2124,
+          "minutesAgo": 2126,
           "catalystPoints": 3.12,
           "directMention": false
         }
       ],
       "lastPrice": 0.0006987,
       "change1hPct": 0.4,
-      "change24hPct": 2.569,
-      "lagVsLeader24h": 1.18,
+      "change24hPct": 2.629,
+      "lagVsLeader24h": 1.31,
       "rsi1h": 53.2,
       "hasRsiDivergence": true,
       "atr1hPct": 1.27,
@@ -516,12 +516,67 @@
       "isGreenBounce": true,
       "isTrending": false,
       "volRatio": 0.27,
-      "fundingHourlyPct": -0.0072,
-      "totalScore": 57.2,
+      "fundingHourlyPct": -0.0073,
+      "totalScore": 57.4,
       "tpPct": 4.5,
       "slPct": 1.84,
       "tpPrice": 0.00073014,
       "slPrice": 0.00068584
+    },
+    {
+      "symbol": "JTO",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 3.12,
+      "freshestMinutesAgo": 2126,
+      "headlines": [
+        {
+          "source": "Decrypt",
+          "title": "Solana Sets a Date for Its Next Major Upgrade",
+          "minutesAgo": 2126,
+          "catalystPoints": 3.12,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.4792,
+      "change1hPct": -0.08,
+      "change24hPct": 4.697,
+      "lagVsLeader24h": -0.76,
+      "rsi1h": 58.42,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.63,
+      "bbPctB": 0.74,
+      "bbWidthPct": 8.04,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 21.1,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.4425,
+      "resistance": 0.4838,
+      "roomToResistancePct": 1.5,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 67.1,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.87,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 53,
+      "tpPct": 7.58,
+      "slPct": 2.36,
+      "tpPrice": 0.51552,
+      "slPrice": 0.46789
     },
     {
       "symbol": "BONK",
@@ -533,12 +588,12 @@
         "solana"
       ],
       "newsScore": 3.12,
-      "freshestMinutesAgo": 2124,
+      "freshestMinutesAgo": 2126,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Solana Sets a Date for Its Next Major Upgrade",
-          "minutesAgo": 2124,
+          "minutesAgo": 2126,
           "catalystPoints": 3.12,
           "directMention": false
         }
@@ -546,7 +601,7 @@
       "lastPrice": 0.00000313,
       "change1hPct": 0.97,
       "change24hPct": 5.034,
-      "lagVsLeader24h": -1.28,
+      "lagVsLeader24h": -1.1,
       "rsi1h": 60,
       "hasRsiDivergence": true,
       "atr1hPct": 1.16,
@@ -567,10 +622,10 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 63,
+      "takerBuyRatioPct": 63.1,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.81,
+      "volRatio": 0.82,
       "fundingHourlyPct": 0,
       "totalScore": 53,
       "tpPct": 4.5,
@@ -590,32 +645,32 @@
         "ai agents"
       ],
       "newsScore": 3.03,
-      "freshestMinutesAgo": 29,
+      "freshestMinutesAgo": 30,
       "headlines": [
         {
           "source": "CoinTelegraph",
           "title": "OpenAI model helped itself to testnet crypto, then kept quiet about it",
-          "minutesAgo": 29,
+          "minutesAgo": 30,
           "catalystPoints": 1.7,
           "directMention": false
         },
         {
           "source": "CoinDesk",
           "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
-          "minutesAgo": 131,
+          "minutesAgo": 132,
           "catalystPoints": 0.68,
           "directMention": false
         }
       ],
-      "lastPrice": 0.02544,
-      "change1hPct": 0.04,
-      "change24hPct": 6.846,
-      "lagVsLeader24h": -1.92,
-      "rsi1h": 64.41,
+      "lastPrice": 0.02541,
+      "change1hPct": -0.08,
+      "change24hPct": 6.72,
+      "lagVsLeader24h": -1.39,
+      "rsi1h": 63.48,
       "hasRsiDivergence": true,
       "atr1hPct": 1.04,
-      "bbPctB": 0.77,
-      "bbWidthPct": 8.15,
+      "bbPctB": 0.75,
+      "bbWidthPct": 8.13,
       "isSqueeze": false,
       "macdBullishTurn": true,
       "adx": 1.9,
@@ -639,8 +694,72 @@
       "totalScore": 52.6,
       "tpPct": 5.99,
       "slPct": 1.8,
-      "tpPrice": 0.026964,
-      "slPrice": 0.024982
+      "tpPrice": 0.026932,
+      "slPrice": 0.024953
+    },
+    {
+      "symbol": "ICP",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "openai",
+        "ai agent",
+        "ai agents"
+      ],
+      "newsScore": 3.03,
+      "freshestMinutesAgo": 30,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "OpenAI model helped itself to testnet crypto, then kept quiet about it",
+          "minutesAgo": 30,
+          "catalystPoints": 1.7,
+          "directMention": false
+        },
+        {
+          "source": "CoinDesk",
+          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
+          "minutesAgo": 132,
+          "catalystPoints": 0.68,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 3.102,
+      "change1hPct": 0.58,
+      "change24hPct": 6.452,
+      "lagVsLeader24h": -1.12,
+      "rsi1h": 63.1,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.38,
+      "bbPctB": 0.76,
+      "bbWidthPct": 8.7,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 2.2,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 2.869,
+      "resistance": 3.1,
+      "roomToResistancePct": 1.5,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 49,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.99,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 47.6,
+      "tpPct": 5.63,
+      "slPct": 2,
+      "tpPrice": 3.2766,
+      "slPrice": 3.04
     },
     {
       "symbol": "RENDER",
@@ -654,32 +773,32 @@
         "ai agents"
       ],
       "newsScore": 3.03,
-      "freshestMinutesAgo": 29,
+      "freshestMinutesAgo": 30,
       "headlines": [
         {
           "source": "CoinTelegraph",
           "title": "OpenAI model helped itself to testnet crypto, then kept quiet about it",
-          "minutesAgo": 29,
+          "minutesAgo": 30,
           "catalystPoints": 1.7,
           "directMention": false
         },
         {
           "source": "CoinDesk",
           "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
-          "minutesAgo": 131,
+          "minutesAgo": 132,
           "catalystPoints": 0.68,
           "directMention": false
         }
       ],
-      "lastPrice": 1.927,
-      "change1hPct": 0.05,
-      "change24hPct": 3.994,
-      "lagVsLeader24h": 0.93,
-      "rsi1h": 36.54,
+      "lastPrice": 1.931,
+      "change1hPct": 0.21,
+      "change24hPct": 4.153,
+      "lagVsLeader24h": 1.18,
+      "rsi1h": 37.74,
       "hasRsiDivergence": true,
       "atr1hPct": 1.27,
-      "bbPctB": 0.47,
-      "bbWidthPct": 10.89,
+      "bbPctB": 0.49,
+      "bbWidthPct": 10.88,
       "isSqueeze": false,
       "macdBullishTurn": false,
       "adx": 60.7,
@@ -687,7 +806,7 @@
       "regime": "DIP_TOPLAMA",
       "support": 1.807,
       "resistance": 2.005,
-      "roomToResistancePct": 4.05,
+      "roomToResistancePct": 3.83,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Scout",
@@ -697,67 +816,77 @@
       "takerBuyRatioPct": 42.5,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.25,
+      "volRatio": 0.26,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 46.3,
+      "totalScore": 46.8,
       "tpPct": 7.71,
       "slPct": 1.84,
-      "tpPrice": 2.0756,
-      "slPrice": 1.8915
+      "tpPrice": 2.0799,
+      "slPrice": 1.8955
     },
     {
-      "symbol": "JTO",
-      "leaderSymbol": "SOL",
+      "symbol": "WLD",
+      "leaderSymbol": "FET",
       "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
       ],
       "matchedKeywords": [
-        "solana"
+        "openai",
+        "ai agent",
+        "ai agents"
       ],
-      "newsScore": 3.12,
-      "freshestMinutesAgo": 2124,
+      "newsScore": 3.03,
+      "freshestMinutesAgo": 30,
       "headlines": [
         {
-          "source": "Decrypt",
-          "title": "Solana Sets a Date for Its Next Major Upgrade",
-          "minutesAgo": 2124,
-          "catalystPoints": 3.12,
+          "source": "CoinTelegraph",
+          "title": "OpenAI model helped itself to testnet crypto, then kept quiet about it",
+          "minutesAgo": 30,
+          "catalystPoints": 1.7,
+          "directMention": false
+        },
+        {
+          "source": "CoinDesk",
+          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
+          "minutesAgo": 132,
+          "catalystPoints": 0.68,
           "directMention": false
         }
       ],
-      "lastPrice": 0.4776,
-      "change1hPct": -0.4,
-      "change24hPct": 4.325,
-      "lagVsLeader24h": -0.57,
-      "rsi1h": 56.69,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.63,
-      "bbPctB": 0.7,
-      "bbWidthPct": 7.98,
+      "lastPrice": 0.5044,
+      "change1hPct": 0.62,
+      "change24hPct": 6.842,
+      "lagVsLeader24h": -1.51,
+      "rsi1h": 62.62,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.51,
+      "bbPctB": 0.65,
+      "bbWidthPct": 10.68,
       "isSqueeze": false,
       "macdBullishTurn": true,
-      "adx": 21.1,
+      "adx": 12.1,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
-      "support": 0.4425,
-      "resistance": 0.4838,
+      "support": 0.4632,
+      "resistance": 0.5117,
       "roomToResistancePct": 1.5,
-      "aiConsensusCount": 2,
+      "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 67.1,
-      "isGreenBounce": false,
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 49.5,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.87,
+      "volRatio": 0.36,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 46,
-      "tpPct": 7.58,
-      "slPct": 2.36,
-      "tpPrice": 0.5138,
-      "slPrice": 0.46633
+      "totalScore": 41.6,
+      "tpPct": 6.96,
+      "slPct": 2.19,
+      "tpPrice": 0.53951,
+      "slPrice": 0.49335
     },
     {
       "symbol": "PYTH",
@@ -769,21 +898,21 @@
         "solana"
       ],
       "newsScore": 3.12,
-      "freshestMinutesAgo": 2124,
+      "freshestMinutesAgo": 2126,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Solana Sets a Date for Its Next Major Upgrade",
-          "minutesAgo": 2124,
+          "minutesAgo": 2126,
           "catalystPoints": 3.12,
           "directMention": false
         }
       ],
-      "lastPrice": 0.09476,
-      "change1hPct": -0.24,
-      "change24hPct": 8.533,
-      "lagVsLeader24h": -4.78,
-      "rsi1h": 53.51,
+      "lastPrice": 0.09474,
+      "change1hPct": -0.26,
+      "change24hPct": 8.809,
+      "lagVsLeader24h": -4.87,
+      "rsi1h": 53.43,
       "hasRsiDivergence": true,
       "atr1hPct": 2.45,
       "bbPctB": 0.64,
@@ -795,14 +924,14 @@
       "regime": "DIP_TOPLAMA",
       "support": 0.08195,
       "resistance": 0.09917,
-      "roomToResistancePct": 4.65,
+      "roomToResistancePct": 4.68,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 58.3,
+      "takerBuyRatioPct": 58.4,
       "isGreenBounce": false,
       "isTrending": false,
       "volRatio": 0.31,
@@ -810,8 +939,187 @@
       "totalScore": 41,
       "tpPct": 9,
       "slPct": 3.55,
-      "tpPrice": 0.10329,
-      "slPrice": 0.091396
+      "tpPrice": 0.10327,
+      "slPrice": 0.091377
+    },
+    {
+      "symbol": "NEAR",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "openai",
+        "ai agent",
+        "ai agents"
+      ],
+      "newsScore": 3.03,
+      "freshestMinutesAgo": 30,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "OpenAI model helped itself to testnet crypto, then kept quiet about it",
+          "minutesAgo": 30,
+          "catalystPoints": 1.7,
+          "directMention": false
+        },
+        {
+          "source": "CoinDesk",
+          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
+          "minutesAgo": 132,
+          "catalystPoints": 0.68,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 5.218,
+      "change1hPct": -0.02,
+      "change24hPct": 12.505,
+      "lagVsLeader24h": -7.17,
+      "rsi1h": 55.9,
+      "hasRsiDivergence": false,
+      "atr1hPct": 2.06,
+      "bbPctB": 0.57,
+      "bbWidthPct": 19.96,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 7.2,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 4.539,
+      "resistance": 5.418,
+      "roomToResistancePct": 3.83,
+      "aiConsensusCount": 1,
+      "aiConsensusModels": [
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "1/4 AI ONAYLI",
+      "takerBuyRatioPct": 48,
+      "isGreenBounce": true,
+      "isTrending": true,
+      "volRatio": 0.55,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 40.6,
+      "tpPct": 9,
+      "slPct": 2.99,
+      "tpPrice": 5.6876,
+      "slPrice": 5.062
+    },
+    {
+      "symbol": "JUP",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 3.12,
+      "freshestMinutesAgo": 2126,
+      "headlines": [
+        {
+          "source": "Decrypt",
+          "title": "Solana Sets a Date for Its Next Major Upgrade",
+          "minutesAgo": 2126,
+          "catalystPoints": 3.12,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.3136,
+      "change1hPct": 0.58,
+      "change24hPct": 4.186,
+      "lagVsLeader24h": -0.25,
+      "rsi1h": 64.46,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.26,
+      "bbPctB": 0.67,
+      "bbWidthPct": 7.96,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 13,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.2911,
+      "resistance": 0.3163,
+      "roomToResistancePct": 1.5,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 48.8,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.16,
+      "fundingHourlyPct": -0.0035,
+      "totalScore": 37,
+      "tpPct": 6.16,
+      "slPct": 1.83,
+      "tpPrice": 0.33292,
+      "slPrice": 0.30786
+    },
+    {
+      "symbol": "THETA",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "openai",
+        "ai agent",
+        "ai agents"
+      ],
+      "newsScore": 3.03,
+      "freshestMinutesAgo": 30,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "OpenAI model helped itself to testnet crypto, then kept quiet about it",
+          "minutesAgo": 30,
+          "catalystPoints": 1.7,
+          "directMention": false
+        },
+        {
+          "source": "CoinDesk",
+          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
+          "minutesAgo": 132,
+          "catalystPoints": 0.68,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.2003,
+      "change1hPct": 0.1,
+      "change24hPct": 6.147,
+      "lagVsLeader24h": -0.82,
+      "rsi1h": 63.43,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.93,
+      "bbPctB": 0.74,
+      "bbWidthPct": 7.84,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 19,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.1868,
+      "resistance": 0.2003,
+      "roomToResistancePct": 1.5,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 40.8,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.15,
+      "fundingHourlyPct": 0,
+      "totalScore": 35.6,
+      "tpPct": 5.59,
+      "slPct": 1.8,
+      "tpPrice": 0.2115,
+      "slPrice": 0.19669
     },
     {
       "symbol": "XRP",
@@ -825,32 +1133,32 @@
         "tokenized"
       ],
       "newsScore": 1.56,
-      "freshestMinutesAgo": 864,
+      "freshestMinutesAgo": 866,
       "headlines": [
         {
           "source": "CryptoPotato",
           "title": "Important Ripple News and XRP Price Update: October 15",
-          "minutesAgo": 1389,
+          "minutesAgo": 1391,
           "catalystPoints": 0.79,
           "directMention": true
         },
         {
           "source": "CryptoPotato",
           "title": "Ripple Price Analysis: Is the Worst Over for XRP After Holding $1.30?",
-          "minutesAgo": 864,
+          "minutesAgo": 866,
           "catalystPoints": 0.44,
           "directMention": true
         }
       ],
-      "lastPrice": 1.3407,
-      "change1hPct": 0.17,
-      "change24hPct": 2.422,
+      "lastPrice": 1.3426,
+      "change1hPct": 0.34,
+      "change24hPct": 2.536,
       "lagVsLeader24h": 0,
-      "rsi1h": 55.7,
+      "rsi1h": 58.15,
       "hasRsiDivergence": true,
       "atr1hPct": 0.62,
-      "bbPctB": 0.66,
-      "bbWidthPct": 4.5,
+      "bbPctB": 0.69,
+      "bbWidthPct": 4.52,
       "isSqueeze": true,
       "macdBullishTurn": true,
       "adx": 20.8,
@@ -867,335 +1175,30 @@
       "takerBuyRatioPct": 43.6,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.25,
+      "volRatio": 0.27,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 47,
+      "totalScore": 40,
       "tpPct": 4.5,
       "slPct": 1.8,
-      "tpPrice": 1.401,
-      "slPrice": 1.3166,
+      "tpPrice": 1.403,
+      "slPrice": 1.3184,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
           "decision": "LONG",
           "confidence": 75,
-          "reason": "Balina alımı güçlü, RSI nötr, yükseliş potansiyeli var."
+          "reason": "Balina alımı yüksek, RSI nötr, destek üstü."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
-          "confidence": 78,
-          "reason": "Whale alımı ve RSI pozitif, destek yakın"
+          "confidence": 80,
+          "reason": "Whale alımı ve RSI yükselişte"
         }
       ],
       "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 77,
-      "liveLlmReason": "[Qwen-3.8: LONG %75] Balina alımı güçlü, RSI nötr, yükseliş potansiyeli var. | [GPT-120B: LONG %78] Whale alımı ve RSI pozitif, destek yakın"
-    },
-    {
-      "symbol": "NEAR",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "openai",
-        "ai agent",
-        "ai agents"
-      ],
-      "newsScore": 3.03,
-      "freshestMinutesAgo": 29,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "OpenAI model helped itself to testnet crypto, then kept quiet about it",
-          "minutesAgo": 29,
-          "catalystPoints": 1.7,
-          "directMention": false
-        },
-        {
-          "source": "CoinDesk",
-          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
-          "minutesAgo": 131,
-          "catalystPoints": 0.68,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 5.216,
-      "change1hPct": -0.11,
-      "change24hPct": 12.438,
-      "lagVsLeader24h": -7.52,
-      "rsi1h": 55.56,
-      "hasRsiDivergence": false,
-      "atr1hPct": 2.06,
-      "bbPctB": 0.56,
-      "bbWidthPct": 19.96,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 7.2,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 4.539,
-      "resistance": 5.418,
-      "roomToResistancePct": 3.87,
-      "aiConsensusCount": 1,
-      "aiConsensusModels": [
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "1/4 AI ONAYLI",
-      "takerBuyRatioPct": 48.1,
-      "isGreenBounce": true,
-      "isTrending": true,
-      "volRatio": 0.55,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 40.6,
-      "tpPct": 9,
-      "slPct": 2.99,
-      "tpPrice": 5.6854,
-      "slPrice": 5.06
-    },
-    {
-      "symbol": "JUP",
-      "leaderSymbol": "SOL",
-      "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "solana"
-      ],
-      "newsScore": 3.12,
-      "freshestMinutesAgo": 2124,
-      "headlines": [
-        {
-          "source": "Decrypt",
-          "title": "Solana Sets a Date for Its Next Major Upgrade",
-          "minutesAgo": 2124,
-          "catalystPoints": 3.12,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.3134,
-      "change1hPct": 0.48,
-      "change24hPct": 4.12,
-      "lagVsLeader24h": -0.37,
-      "rsi1h": 63.8,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.26,
-      "bbPctB": 0.66,
-      "bbWidthPct": 7.95,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 13,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.2911,
-      "resistance": 0.3163,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 48.7,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.15,
-      "fundingHourlyPct": -0.0035,
-      "totalScore": 37,
-      "tpPct": 6.16,
-      "slPct": 1.83,
-      "tpPrice": 0.33271,
-      "slPrice": 0.30766
-    },
-    {
-      "symbol": "THETA",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "openai",
-        "ai agent",
-        "ai agents"
-      ],
-      "newsScore": 3.03,
-      "freshestMinutesAgo": 29,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "OpenAI model helped itself to testnet crypto, then kept quiet about it",
-          "minutesAgo": 29,
-          "catalystPoints": 1.7,
-          "directMention": false
-        },
-        {
-          "source": "CoinDesk",
-          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
-          "minutesAgo": 131,
-          "catalystPoints": 0.68,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.2001,
-      "change1hPct": 0,
-      "change24hPct": 5.985,
-      "lagVsLeader24h": -1.06,
-      "rsi1h": 62.88,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.93,
-      "bbPctB": 0.73,
-      "bbWidthPct": 7.82,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 19,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.1868,
-      "resistance": 0.2003,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 40.7,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.15,
-      "fundingHourlyPct": 0,
-      "totalScore": 35.6,
-      "tpPct": 5.59,
-      "slPct": 1.8,
-      "tpPrice": 0.21129,
-      "slPrice": 0.1965
-    },
-    {
-      "symbol": "ICP",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "openai",
-        "ai agent",
-        "ai agents"
-      ],
-      "newsScore": 3.03,
-      "freshestMinutesAgo": 29,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "OpenAI model helped itself to testnet crypto, then kept quiet about it",
-          "minutesAgo": 29,
-          "catalystPoints": 1.7,
-          "directMention": false
-        },
-        {
-          "source": "CoinDesk",
-          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
-          "minutesAgo": 131,
-          "catalystPoints": 0.68,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 3.1,
-      "change1hPct": 0.49,
-      "change24hPct": 6.456,
-      "lagVsLeader24h": -1.54,
-      "rsi1h": 62.65,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.38,
-      "bbPctB": 0.75,
-      "bbWidthPct": 8.68,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 2.2,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 2.869,
-      "resistance": 3.1,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 48.9,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.98,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 35.6,
-      "tpPct": 5.63,
-      "slPct": 2,
-      "tpPrice": 3.2745,
-      "slPrice": 3.038
-    },
-    {
-      "symbol": "WLD",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "openai",
-        "ai agent",
-        "ai agents"
-      ],
-      "newsScore": 3.03,
-      "freshestMinutesAgo": 29,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "OpenAI model helped itself to testnet crypto, then kept quiet about it",
-          "minutesAgo": 29,
-          "catalystPoints": 1.7,
-          "directMention": false
-        },
-        {
-          "source": "CoinDesk",
-          "title": "An OpenAI agent ran out of Ethereum funds, and took from a wallet it did not own",
-          "minutesAgo": 131,
-          "catalystPoints": 0.68,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.5039,
-      "change1hPct": 0.46,
-      "change24hPct": 6.94,
-      "lagVsLeader24h": -2.02,
-      "rsi1h": 61.9,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.51,
-      "bbPctB": 0.63,
-      "bbWidthPct": 10.67,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 12.1,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.4632,
-      "resistance": 0.5117,
-      "roomToResistancePct": 1.55,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 49.2,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.33,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 29.6,
-      "tpPct": 6.96,
-      "slPct": 2.19,
-      "tpPrice": 0.53897,
-      "slPrice": 0.49286
+      "liveLlmConfidence": 78,
+      "liveLlmReason": "[Qwen-3.8: LONG %75] Balina alımı yüksek, RSI nötr, destek üstü. | [GPT-120B: LONG %80] Whale alımı ve RSI yükselişte"
     }
   ]
 }

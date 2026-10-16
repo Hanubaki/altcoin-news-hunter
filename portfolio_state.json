@@ -1,12 +1,12 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-16T06:40:09.463Z",
+  "updatedAt": "2026-10-16T06:41:43.760Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 28.01,
   "initialBankrollTry": 1000,
-  "cashUsdt": 8.7322,
-  "realizedPnlUsdt": 0.7722,
-  "winCount": 3,
+  "cashUsdt": 8.7439,
+  "realizedPnlUsdt": 0.8039,
+  "winCount": 4,
   "lossCount": 0,
   "openPositions": [
     {
@@ -21,18 +21,18 @@
       "rsiAtEntry": 29.07,
       "entryTime": "2026-10-15T11:25:39.425Z",
       "entryPrice": 9.549,
-      "currentPrice": 10.119,
-      "highestPrice": 10.119,
+      "currentPrice": 10.141,
+      "highestPrice": 10.141,
       "qty": 0.3927,
       "costUsdt": 3.75,
       "costTry": 134,
       "takeProfitPrice": 10.159,
-      "stopLossPrice": 9.9369,
+      "stopLossPrice": 9.9585,
       "tpPct": 6.39,
       "slPct": 3.07,
       "trailingActive": true,
-      "unrealizedPnlUsdt": 0.2238,
-      "unrealizedPnlPct": 5.97,
+      "unrealizedPnlUsdt": 0.2325,
+      "unrealizedPnlPct": 6.2,
       "partialTpDone": true,
       "rocketMode": true
     },
@@ -51,8 +51,8 @@
       "obImbalance": -0.01,
       "entryTime": "2026-10-16T05:46:43.422Z",
       "entryPrice": 1.838,
-      "currentPrice": 1.8852,
-      "highestPrice": 1.8852,
+      "currentPrice": 1.8883,
+      "highestPrice": 1.8883,
       "qty": 4.418,
       "costUsdt": 8.12,
       "costTry": 290,
@@ -64,9 +64,42 @@
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.2085,
-      "unrealizedPnlPct": 2.57
+      "unrealizedPnlUsdt": 0.2222,
+      "unrealizedPnlPct": 2.74
     },
+    {
+      "id": "pos_1792132903758_IO",
+      "symbol": "IO",
+      "leaderSymbol": "FET",
+      "ecosystem": "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı",
+      "headline": "OpenAI model helped itself to testnet crypto, then kept quiet about it",
+      "newsSource": "CoinTelegraph",
+      "newsScore": 3.03,
+      "totalScore": 64,
+      "rsiAtEntry": 47.71,
+      "atr1hPct": 1.37,
+      "takerBuyRatioPct": 49.2,
+      "obImbalance": 0.08,
+      "entryTime": "2026-10-16T06:41:43.758Z",
+      "entryPrice": 0.1644,
+      "currentPrice": 0.1643,
+      "highestPrice": 0.1644,
+      "qty": 49.88,
+      "costUsdt": 8.2,
+      "costTry": 293,
+      "takeProfitPrice": 0.17456,
+      "stopLossPrice": 0.16113,
+      "tpPct": 6.18,
+      "slPct": 1.99,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": -0.005,
+      "unrealizedPnlPct": -0.06
+    }
+  ],
+  "closedTrades": [
     {
       "id": "pos_1792132809384_FET",
       "symbol": "FET",
@@ -82,8 +115,8 @@
       "obImbalance": -0.09,
       "entryTime": "2026-10-16T06:40:09.384Z",
       "entryPrice": 0.2048,
-      "currentPrice": 0.2047,
-      "highestPrice": 0.2048,
+      "currentPrice": 0.2056,
+      "highestPrice": 0.2056,
       "qty": 39.94,
       "costUsdt": 8.18,
       "costTry": 292,
@@ -95,11 +128,14 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.004,
-      "unrealizedPnlPct": -0.05
-    }
-  ],
-  "closedTrades": [
+      "unrealizedPnlUsdt": 0.032,
+      "unrealizedPnlPct": 0.39,
+      "exitPrice": 0.2056,
+      "exitTime": "2026-10-16T06:41:43.477Z",
+      "exitReason": "🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — %0.39)",
+      "netPnlUsdt": 0.0317,
+      "netPnlTry": 1.13
+    },
     {
       "id": "pos_1792129053325_FET",
       "symbol": "FET",
@@ -176,6 +212,8 @@
     }
   ],
   "recentLogs": [
+    "[09:41:43] 🟢 [OTOMATİK ALIM] IO (292,74 TL) @ $0.1644 | Skor: 64 | Balina Alım: %49.2",
+    "[09:41:43] 🏁 [POZİSYON KAPANDI] FET @ $0.2056 | 🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — %0.39) | Net: 1,13 TL",
     "[09:40:09] 🟢 [OTOMATİK ALIM] FET (292,03 TL) @ $0.2048 | Skor: 59.6 | Balina Alım: %57.6",
     "[09:27:52] 🏁 [POZİSYON KAPANDI] FET @ $0.2034 | 🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — %0.05) | Net: 0,20 TL",
     "[08:46:43] 🟢 [OTOMATİK ALIM] RAY (289,88 TL) @ $1.838 | Skor: 51 | Balina Alım: %62.8",
@@ -190,9 +228,11 @@
     "[14:25:39] 🟢 [OTOMATİK ALIM] AVAXUSDT @ $9.549 (Ask) | Tutar: $7.5 (~268 TL) | Skor: 87.9 | TP: $10.159 (+%6.39) | SL: $9.2558 (-%3.07)",
     "[14:25:39] ⚠️ Haber tarayıcı uyarısı: spawnSync C:\\WINDOWS\\system32\\cmd.exe ETIMEDOUT"
   ],
-  "totalEquityUsdt": 29.2105,
-  "totalEquityTry": 1042.81,
-  "totalPnlUsdt": 1.2005,
-  "totalPnlPct": 4.29,
-  "cooldowns": {}
+  "totalEquityUsdt": 29.2641,
+  "totalEquityTry": 1044.73,
+  "totalPnlUsdt": 1.2541,
+  "totalPnlPct": 4.48,
+  "cooldowns": {
+    "FET": 1792154502952
+  }
 }
