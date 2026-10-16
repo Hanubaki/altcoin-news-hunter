@@ -40,6 +40,11 @@ function loadEnv() {
     BANKROLL_USDT: Number(process.env.BANKROLL_USDT || 28.01),
     MAX_OPEN_POSITIONS: Number(process.env.MAX_OPEN_POSITIONS || 3),
     SCAN_INTERVAL_SECONDS: Number(process.env.SCAN_INTERVAL_SECONDS || 45),
+    WHATSAPP_PHONE: process.env.WHATSAPP_PHONE || '',
+    CALLMEBOT_API_KEY: process.env.CALLMEBOT_API_KEY || '',
+    TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN || '',
+    TELEGRAM_CHAT_ID: process.env.TELEGRAM_CHAT_ID || '',
+    DISCORD_WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL || '',
   };
 
   if (fs.existsSync(ENV_FILE)) {
@@ -58,9 +63,39 @@ function loadEnv() {
       if (key === 'BANKROLL_USDT' && val) cfg.BANKROLL_USDT = Number(val);
       if (key === 'MAX_OPEN_POSITIONS' && val) cfg.MAX_OPEN_POSITIONS = Number(val);
       if (key === 'SCAN_INTERVAL_SECONDS' && val) cfg.SCAN_INTERVAL_SECONDS = Number(val);
+      if (key === 'WHATSAPP_PHONE') cfg.WHATSAPP_PHONE = val;
+      if (key === 'CALLMEBOT_API_KEY') cfg.CALLMEBOT_API_KEY = val;
+      if (key === 'TELEGRAM_BOT_TOKEN') cfg.TELEGRAM_BOT_TOKEN = val;
+      if (key === 'TELEGRAM_CHAT_ID') cfg.TELEGRAM_CHAT_ID = val;
+      if (key === 'DISCORD_WEBHOOK_URL') cfg.DISCORD_WEBHOOK_URL = val;
     }
   }
   return cfg;
+}
+
+async function sendInstantPhoneAlert(msg) {
+  const cfg = loadEnv();
+  // 1. WhatsApp via CallMeBot Free API
+  if (cfg.WHATSAPP_PHONE && cfg.CALLMEBOT_API_KEY) {
+    const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(cfg.WHATSAPP_PHONE)}&text=${encodeURIComponent(msg)}&apikey=${encodeURIComponent(cfg.CALLMEBOT_API_KEY)}`;
+    fetch(url).catch(() => {});
+  }
+  // 2. Telegram Bot API
+  if (cfg.TELEGRAM_BOT_TOKEN && cfg.TELEGRAM_CHAT_ID) {
+    fetch(`https://api.telegram.org/bot${cfg.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: cfg.TELEGRAM_CHAT_ID, text: msg }),
+    }).catch(() => {});
+  }
+  // 3. Discord Webhook
+  if (cfg.DISCORD_WEBHOOK_URL) {
+    fetch(cfg.DISCORD_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content: msg }),
+    }).catch(() => {});
+  }
 }
 
 function loadPortfolioState(cfg) {
@@ -192,6 +227,7 @@ function logEvent(state, msg) {
   console.log(entry);
   state.recentLogs.unshift(entry);
   if (state.recentLogs.length > 40) state.recentLogs.length = 40;
+  sendInstantPhoneAlert(entry);
 }
 
 async function fetchJson(url, options = {}, timeoutMs = 4500) {
