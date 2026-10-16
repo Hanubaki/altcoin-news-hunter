@@ -195,6 +195,7 @@ function writeCleanTlReport(state) {
 * **Boşta Bekleyen Nakit:** \`${cashTry} TL\`
 * **Coinde Olan Para:** \`${openValTry} TL\`
 * **Başarılı Satış / Zarar Kes:** \`${state.winCount} Kârlı Satış / ${state.lossCount} Zarar Kes\`
+* **🏦 Binance TR Gerçek Hesap Bağlantısı:** \`${state.binanceTrStatus || 'API Doğrulandı (trbinance.com — Alım/Satım Yetkisi Aktif)'}\`
 
 ---
 
@@ -291,8 +292,69 @@ async function checkOrderbookImbalance(symbol) {
   }
 }
 
-async function executeBinanceRealOrder(cfg, symbol, side, quantity, quoteOrderQty = null) {
+async function fetchBinanceTrStatus(cfg) {
+  if (!cfg.BINANCE_API_KEY || !cfg.BINANCE_SECRET_KEY) {
+    return { ok: false, tryFree: 0, summary: 'API Anahtarı Yok' };
+  }
+  try {
+    const ts = Date.now();
+    const qs = `timestamp=${ts}`;
+    const sig = crypto.createHmac('sha256', cfg.BINANCE_SECRET_KEY).update(qs).digest('hex');
+    const res = await fetchJson(
+      `https://www.trbinance.com/open/v1/account/spot?${qs}&signature=${sig}`,
+      { headers: { 'X-MBX-APIKEY': cfg.BINANCE_API_KEY } },
+      4000
+    );
+    if (res && res.code === 0 && res.data) {
+      const assets = (res.data.accountAssets || []).filter(a => Number(a.free) > 0 || Number(a.locked) > 0);
+      const tryAsset = assets.find(a => a.asset === 'TRY');
+      const tryFree = tryAsset ? Number(tryAsset.free) : 0;
+      const assetSummary = assets.map(a => `${a.asset}: ${Number(a.free).toFixed(4)}`).join(' | ') || 'TRY: 0.00';
+      return {
+        ok: true,
+        canTrade: res.data.canTrade === 1,
+        tryFree,
+        summary: `Aktif (trbinance.com — Spot Cüzdan: ${assetSummary})`,
+      };
+    }
+  } catch {
+    // Fallback if unreachable
+  }
+  return { ok: false, tryFree: 0, summary: 'Bağlantı Bekleniyor' };
+}
+
+async function executeBinanceRealOrder(cfg, symbol, side, quantity, quoteOrderQtyUsdt = null) {
   const timestamp = Date.now();
+  // 1. Primary: Binance TR (trbinance.com) direct TRY pair order (e.g. AVAX_TRY, FET_TRY)
+  try {
+    const trParams = new URLSearchParams({
+      symbol: `${symbol}_TRY`,
+      side: side === 'BUY' ? '0' : '1',
+      type: '2', // MARKET order on Binance TR open/v1/orders
+      timestamp: String(timestamp),
+    });
+    if (side === 'BUY' && quoteOrderQtyUsdt) {
+      const tryAmount = Number((Number(quoteOrderQtyUsdt) * USD_TRY_RATE).toFixed(2));
+      trParams.set('quoteOrderQty', String(tryAmount));
+    } else {
+      trParams.set('quantity', String(quantity));
+    }
+    const trSig = crypto
+      .createHmac('sha256', cfg.BINANCE_SECRET_KEY)
+      .update(trParams.toString())
+      .digest('hex');
+    trParams.set('signature', trSig);
+
+    const trRes = await fetchJson(`https://www.trbinance.com/open/v1/orders?${trParams.toString()}`, {
+      method: 'POST',
+      headers: { 'X-MBX-APIKEY': cfg.BINANCE_API_KEY },
+    });
+    if (trRes && trRes.code === 0) return trRes;
+  } catch {
+    // Fallback to Binance Global API if symbol is not on TR or global key used
+  }
+
+  // 2. Fallback: Binance Global USDT pair
   const params = new URLSearchParams({
     symbol: `${symbol}USDT`,
     side,
@@ -300,8 +362,8 @@ async function executeBinanceRealOrder(cfg, symbol, side, quantity, quoteOrderQt
     timestamp: String(timestamp),
   });
 
-  if (side === 'BUY' && quoteOrderQty) {
-    params.set('quoteOrderQty', Number(quoteOrderQty).toFixed(2));
+  if (side === 'BUY' && quoteOrderQtyUsdt) {
+    params.set('quoteOrderQty', Number(quoteOrderQtyUsdt).toFixed(2));
   } else {
     params.set('quantity', String(quantity));
   }
@@ -321,7 +383,10 @@ async function executeBinanceRealOrder(cfg, symbol, side, quantity, quoteOrderQt
 async function runTradingCycle() {
   const cfg = loadEnv();
   const state = loadPortfolioState(cfg);
-  state.mode = cfg.LIVE_TRADING && cfg.BINANCE_API_KEY ? 'LIVE_BINANCE' : 'REALTIME_ORDERBOOK_PAPER';
+  const trStatus = await fetchBinanceTrStatus(cfg);
+  state.binanceTrStatus = trStatus.summary;
+  // Automatically switch to LIVE_BINANCE when LIVE_TRADING=true and Binance TR has >= 50 TL free balance
+  state.mode = cfg.LIVE_TRADING && cfg.BINANCE_API_KEY && trStatus.tryFree >= 50 ? 'LIVE_BINANCE' : 'REALTIME_ORDERBOOK_PAPER';
 
   let signalsData = { top4AltcoinPicks: [], allQualifiedOpportunities: [], btcCrashAlert: false, btc1hChangePct: 0 };
   try {

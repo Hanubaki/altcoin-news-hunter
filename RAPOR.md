@@ -1,17 +1,18 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Ultra-Yield v7.0)
 
-**Son Güncelleme:** 16.10.2026 11:32:16
+**Son Güncelleme:** 16.10.2026 11:34:08
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.039,12 TL`**
-* **Toplam Net Kâr / Zarar:** **`+39,16 TL` (`+%3.92`)**
+* **Şu Anki Toplam Para:** **`1.038,72 TL`**
+* **Toplam Net Kâr / Zarar:** **`+38,76 TL` (`+%3.88`)**
 * **Boşta Bekleyen Nakit:** `312,16 TL`
-* **Coinde Olan Para:** `726,96 TL`
+* **Coinde Olan Para:** `726,56 TL`
 * **Başarılı Satış / Zarar Kes:** `4 Kârlı Satış / 0 Zarar Kes`
+* **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: BNB: 0.0004 | ETHW: 0.0010 | TRY: 0.0011)`
 
 ---
 
@@ -30,8 +31,8 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **AVAX** | `133,88 TL` | `142,51 TL` | **`+8,64 TL (%6.45)`** | 🚀 1. Kademe Satıldı, +%9'da 2. Kademe + Sınırsız Uçuş Modu |
-| **RAY** | `289,88 TL` | `294,37 TL` | **`+4,48 TL (%1.55)`** | +%4,0'da 1. Kademe, +%9,0'da 2. Kademe, Kalanı Sınırsız Uçuş |
+| **AVAX** | `133,88 TL` | `142,44 TL` | **`+8,56 TL (%6.4)`** | 🚀 1. Kademe Satıldı, +%9'da 2. Kademe + Sınırsız Uçuş Modu |
+| **RAY** | `289,88 TL` | `294,04 TL` | **`+4,15 TL (%1.43)`** | +%4,0'da 1. Kademe, +%9,0'da 2. Kademe, Kalanı Sınırsız Uçuş |
 | **IO** | `292,74 TL` | `290,08 TL` | **`-2,67 TL (%-0.91)`** | +%4,0'da 1. Kademe, +%9,0'da 2. Kademe, Kalanı Sınırsız Uçuş |
 
 ---
