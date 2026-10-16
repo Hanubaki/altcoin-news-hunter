@@ -1,18 +1,18 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Zero-Risk v9.0)
 
-**Son Güncelleme:** 16.10.2026 15:26:40
+**Son Güncelleme:** 16.10.2026 19:39:24
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.055,38 TL`**
-* **Toplam Net Kâr / Zarar:** **`+55,43 TL` (`+%5.54`)**
-* **Boşta Bekleyen Nakit:** `62,18 TL`
-* **Coinde Olan Para:** `993,21 TL`
-* **Başarılı Satış / Zarar Kes:** `8 Kârlı Satış / 0 Zarar Kes`
-* **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: BNB: 0.0004 | ETHW: 0.0010 | TRY: 0.0011)`
+* **Şu Anki Toplam Para:** **`1.031,16 TL`**
+* **Toplam Net Kâr / Zarar:** **`+31,20 TL` (`+%3.12`)**
+* **Boşta Bekleyen Nakit:** `845,35 TL`
+* **Coinde Olan Para:** `185,81 TL`
+* **Başarılı Satış / Zarar Kes:** `8 Kârlı Satış / 3 Zarar Kes`
+* **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Bağlantı Bekleniyor`
 
 ---
 
@@ -20,6 +20,9 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
+| **DOGE** | `189,57 TL` | `186,75 TL` | **`-2,82 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%-1.48) |
+| **BOME** | `399,48 TL` | `391,56 TL` | **`-7,92 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%-2) |
+| **FLOKI** | `401,63 TL` | `390,50 TL` | **`-11,12 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%-2.77) |
 | **AVAX** | `66,94 TL` | `71,91 TL` | **`+4,97 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (%7.4) |
 | **AVAX** | `66,94 TL` | `71,94 TL` | **`+5,00 TL`** | 🚀 2. KADEME (%30) DEV KÂR AL (+%7.5 | Kalan %30 Sınırsız Roket) |
 | **RAY** | `173,93 TL` | `182,42 TL` | **`+8,49 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (%4.87) |
@@ -35,9 +38,7 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **FLOKI** | `401,63 TL` | `400,67 TL` | **`-0,97 TL (%-0.24)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
-| **BOME** | `399,48 TL` | `402,75 TL` | **`+3,19 TL (%0.8)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
-| **DOGE (VURGUN)** | `189,57 TL` | `189,80 TL` | **`+0,23 TL (%0.12)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
+| **DOGE (VURGUN)** | `185,64 TL` | `185,81 TL` | **`+0,16 TL (%0.09)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
 
 ---
 
