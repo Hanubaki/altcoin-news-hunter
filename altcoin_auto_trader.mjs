@@ -448,6 +448,7 @@ async function runTradingCycle() {
     }
 
     const hoursHeld = (nowMs - new Date(pos.entryTime).getTime()) / (1000 * 3600);
+    const latestSig = candidates.find(c => c.symbol === pos.symbol);
     let exitReason = null;
 
     if (currentBid <= pos.stopLossPrice) {
@@ -456,6 +457,8 @@ async function runTradingCycle() {
         : pos.trailingActive
           ? `🔒 İZ SÜREN KÂR KİLİDİ (%${pos.unrealizedPnlPct})`
           : `🛑 ZARAR KES (SL %${pos.unrealizedPnlPct})`;
+    } else if (latestSig && latestSig.liveLlmDecision === 'WAIT' && latestSig.liveLlmConfidence >= 75 && !pos.rocketMode) {
+      exitReason = `🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — %${pos.unrealizedPnlPct})`;
     } else if (hoursHeld >= 18 && pos.unrealizedPnlPct < 1.0) {
       exitReason = `⏱️ 18 SAAT ZAMAN KİLİDİ (Hareketsiz Coin Boşaltıldı %${pos.unrealizedPnlPct})`;
     }

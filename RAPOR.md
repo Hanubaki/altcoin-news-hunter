@@ -1,17 +1,17 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Ultra-Yield v7.0)
 
-**Son Güncelleme:** 16.10.2026 09:26:35
+**Son Güncelleme:** 16.10.2026 09:27:52
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.038,72 TL`**
-* **Toplam Net Kâr / Zarar:** **`+38,77 TL` (`+%3.88`)**
-* **Boşta Bekleyen Nakit:** `271,56 TL`
-* **Coinde Olan Para:** `767,17 TL`
-* **Başarılı Satış / Zarar Kes:** `2 Kârlı Satış / 0 Zarar Kes`
+* **Şu Anki Toplam Para:** **`1.038,92 TL`**
+* **Toplam Net Kâr / Zarar:** **`+38,96 TL` (`+%3.9`)**
+* **Boşta Bekleyen Nakit:** `603,77 TL`
+* **Coinde Olan Para:** `435,15 TL`
+* **Başarılı Satış / Zarar Kes:** `3 Kârlı Satış / 0 Zarar Kes`
 
 ---
 
@@ -19,6 +19,7 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
+| **FET** | `332,01 TL` | `332,21 TL` | **`+0,20 TL`** | 🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — %0.05) |
 | **AVAX** | `133,88 TL` | `141,15 TL` | **`+7,27 TL`** | 💰 %50 KADEMELİ KÂR AL (+%5.44 | Kalan %50 Uçuş Modunda) |
 | **PENDLE** | `267,75 TL` | `287,85 TL` | **`+20,10 TL`** | HEDEF KÂR AL (TP +7.51%) |
 
@@ -28,9 +29,8 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **AVAX** | `133,88 TL` | `141,34 TL` | **`+7,47 TL (%5.58)`** | 🚀 1. Kademe Satıldı, +%9'da 2. Kademe + Sınırsız Uçuş Modu |
-| **FET** | `332,01 TL` | `332,21 TL` | **`+0,16 TL (%0.05)`** | +%4,0'da 1. Kademe, +%9,0'da 2. Kademe, Kalanı Sınırsız Uçuş |
-| **RAY** | `289,88 TL` | `293,62 TL` | **`+3,72 TL (%1.28)`** | +%4,0'da 1. Kademe, +%9,0'da 2. Kademe, Kalanı Sınırsız Uçuş |
+| **AVAX** | `133,88 TL` | `141,30 TL` | **`+7,43 TL (%5.55)`** | 🚀 1. Kademe Satıldı, +%9'da 2. Kademe + Sınırsız Uçuş Modu |
+| **RAY** | `289,88 TL` | `293,85 TL` | **`+3,96 TL (%1.37)`** | +%4,0'da 1. Kademe, +%9,0'da 2. Kademe, Kalanı Sınırsız Uçuş |
 
 ---
 
