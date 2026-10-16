@@ -1,0 +1,49 @@
+name: 24-7 Cloud Altcoin Auto-Trader (TradingArena AI v8.0)
+
+on:
+  schedule:
+    # 7/24 Bulut Otomatik Al-Sat Taraması (Bilgisayar kapalıyken bile çalışır)
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  trade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run Autonomous AI Trading Cycle & Evening 21:00 Summary
+        env:
+          TZ: 'Europe/Istanbul'
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          WHATSAPP_PHONE: ${{ secrets.WHATSAPP_PHONE }}
+          CALLMEBOT_API_KEY: ${{ secrets.CALLMEBOT_API_KEY }}
+          LIVE_TRADING: 'false'
+        run: |
+          HOUR=$(date +%H)
+          MIN=$(date +%M)
+          if [ "$HOUR" = "21" ] && [ "$MIN" -lt "20" ]; then
+            node altcoin_auto_trader.mjs --notify
+          else
+            node altcoin_auto_trader.mjs
+          fi
+
+      - name: Commit and Sync Updated Portfolio & RAPOR.md
+        run: |
+          git config user.name "AltcoinNewsHunter Cloud Bot"
+          git config user.email "bot@altcoin-news-hunter.local"
+          git add RAPOR.md portfolio_state.json altcoin_news_signals.json
+          git diff --staged --quiet || (git commit -m "chore(cloud): 7/24 otonom kasa ve RAPOR.md guncellemesi [skip ci]" && git pull --rebase origin main && git push origin main)

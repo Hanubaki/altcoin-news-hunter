@@ -18,7 +18,7 @@ const BANKROLL_TRY = 1000;
 const USD_TRY_RATE = 35.7;
 const BANKROLL_USDT = Number((BANKROLL_TRY / USD_TRY_RATE).toFixed(2)); // $28.01 USDT
 
-const BINANCE_API = 'https://api.binance.com/api/v3';
+const BINANCE_API = 'https://data-api.binance.vision/api/v3';
 const BINANCE_CMS_API = 'https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&pageNo=1&pageSize=12';
 const COINGECKO_TRENDING_API = 'https://api.coingecko.com/api/v3/search/trending';
 const HYPERLIQUID_API = 'https://api.hyperliquid.xyz/info';

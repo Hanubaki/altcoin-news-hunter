@@ -28,7 +28,7 @@ const SIGNALS_FILE = path.resolve('altcoin_news_signals.json');
 const RAPOR_FILE = path.resolve('RAPOR.md');
 const ENV_FILE = path.resolve('.env');
 
-const BINANCE_API = 'https://api.binance.com/api/v3';
+const BINANCE_API = 'https://data-api.binance.vision/api/v3';
 const USD_TRY_RATE = 35.7;
 
 function loadEnv() {
