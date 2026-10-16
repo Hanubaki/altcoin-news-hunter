@@ -856,13 +856,14 @@ async function main() {
                       model: m.id,
                       messages: [{ role: 'user', content: prompt }],
                       temperature: 0.2,
-                      max_tokens: 180,
+                      max_tokens: 700,
+                      response_format: { type: 'json_object' },
                     }),
                   },
-                  4000
+                  5500
                 );
                 const txt = (res?.choices?.[0]?.message?.content || '').replace(/<think>[\s\S]*?<\/think>/gi, '');
-                const jsonMatch = txt.match(/\{[\s\S]*?\}/);
+                const jsonMatch = txt.match(/\{[\s\S]*\}/);
                 if (jsonMatch) {
                   const parsed = JSON.parse(jsonMatch[0]);
                   aiVerdicts.push({
