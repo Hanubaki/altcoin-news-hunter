@@ -1,42 +1,14 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-16T12:12:42.298Z",
+  "updatedAt": "2026-10-16T12:14:54.811Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 28.01,
   "initialBankrollTry": 1000,
-  "cashUsdt": 5.0373,
-  "realizedPnlUsdt": 1.3423,
-  "winCount": 7,
+  "cashUsdt": 7.0516,
+  "realizedPnlUsdt": 1.4816,
+  "winCount": 8,
   "lossCount": 0,
   "openPositions": [
-    {
-      "id": "pos_1792063539425_AVAX",
-      "symbol": "AVAX",
-      "leaderSymbol": "XRP",
-      "ecosystem": "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar",
-      "headline": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
-      "newsSource": "BeInCrypto",
-      "newsScore": 10.78,
-      "totalScore": 87.9,
-      "rsiAtEntry": 29.07,
-      "entryTime": "2026-10-15T11:25:39.425Z",
-      "entryPrice": 9.549,
-      "currentPrice": 10.265,
-      "highestPrice": 10.375,
-      "qty": 0.1964,
-      "costUsdt": 1.875,
-      "costTry": 67,
-      "takeProfitPrice": 10.159,
-      "stopLossPrice": 10.261,
-      "tpPct": 6.39,
-      "slPct": 3.07,
-      "trailingActive": true,
-      "unrealizedPnlUsdt": 0.1406,
-      "unrealizedPnlPct": 7.5,
-      "partialTpDone": true,
-      "rocketMode": true,
-      "stage2TpDone": true
-    },
     {
       "id": "pos_1792150327175_FLOKI",
       "symbol": "FLOKI",
@@ -52,7 +24,7 @@
       "obImbalance": 0.11,
       "entryTime": "2026-10-16T11:32:07.175Z",
       "entryPrice": 0.00002489,
-      "currentPrice": 0.00002474,
+      "currentPrice": 0.00002471,
       "highestPrice": 0.0000249,
       "qty": 452000,
       "costUsdt": 11.25,
@@ -65,8 +37,8 @@
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0678,
-      "unrealizedPnlPct": -0.6
+      "unrealizedPnlUsdt": -0.0814,
+      "unrealizedPnlPct": -0.72
     },
     {
       "id": "pos_1792152338697_BOME",
@@ -83,7 +55,7 @@
       "obImbalance": 0.37,
       "entryTime": "2026-10-16T12:05:38.697Z",
       "entryPrice": 0.0006896,
-      "currentPrice": 0.000691,
+      "currentPrice": 0.000689,
       "highestPrice": 0.0006935,
       "qty": 16230,
       "costUsdt": 11.19,
@@ -96,11 +68,44 @@
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0227,
-      "unrealizedPnlPct": 0.2
+      "unrealizedPnlUsdt": -0.0097,
+      "unrealizedPnlPct": -0.09
     }
   ],
   "closedTrades": [
+    {
+      "id": "pos_1792063539425_AVAX",
+      "symbol": "AVAX",
+      "leaderSymbol": "XRP",
+      "ecosystem": "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar",
+      "headline": "Why Isn’t XRP Rising? 13 Weeks of ETF Inflows Haven’t Moved the Price",
+      "newsSource": "BeInCrypto",
+      "newsScore": 10.78,
+      "totalScore": 87.9,
+      "rsiAtEntry": 29.07,
+      "entryTime": "2026-10-15T11:25:39.425Z",
+      "entryPrice": 9.549,
+      "currentPrice": 10.256,
+      "highestPrice": 10.375,
+      "qty": 0.1964,
+      "costUsdt": 1.875,
+      "costTry": 67,
+      "takeProfitPrice": 10.159,
+      "stopLossPrice": 10.261,
+      "tpPct": 6.39,
+      "slPct": 3.07,
+      "trailingActive": true,
+      "unrealizedPnlUsdt": 0.1389,
+      "unrealizedPnlPct": 7.4,
+      "partialTpDone": true,
+      "rocketMode": true,
+      "stage2TpDone": true,
+      "exitPrice": 10.256,
+      "exitTime": "2026-10-16T12:14:54.220Z",
+      "exitReason": "🚀 UÇUŞ MODU KÂR KİLİDİ (%7.4)",
+      "netPnlUsdt": 0.1393,
+      "netPnlTry": 4.97
+    },
     {
       "symbol": "AVAX",
       "entryPrice": 9.549,
@@ -269,6 +274,7 @@
     }
   ],
   "recentLogs": [
+    "[15:14:54] 🏁 [POZİSYON KAPANDI] AVAX @ $10.256 | 🚀 UÇUŞ MODU KÂR KİLİDİ (%7.4) | Net: 4,97 TL",
     "[15:12:41] 🚀 [2. KADEME DEV KÂR ALINDI] AVAX +%7.5 kârla satıldı (+5,00 TL)! Son %30 sınırsız uçuşta!",
     "[15:05:38] 🟢 [OTOMATİK ALIM] BOME (399,48 TL) @ $0.0006896 | Skor: 99.8 | Balina Alım: %63.5",
     "[15:05:38] 🏁 [POZİSYON KAPANDI] RAY @ $1.9275 | 🚀 UÇUŞ MODU KÂR KİLİDİ (%4.87) | Net: 8,49 TL",
@@ -292,13 +298,13 @@
     "[14:25:39] 🟢 [OTOMATİK ALIM] AVAXUSDT @ $9.549 (Ask) | Tutar: $7.5 (~268 TL) | Skor: 87.9 | TP: $10.159 (+%6.39) | SL: $9.2558 (-%3.07)",
     "[14:25:39] ⚠️ Haber tarayıcı uyarısı: spawnSync C:\\WINDOWS\\system32\\cmd.exe ETIMEDOUT"
   ],
-  "totalEquityUsdt": 29.4508,
-  "totalEquityTry": 1051.39,
-  "totalPnlUsdt": 1.4408,
-  "totalPnlPct": 5.14,
+  "totalEquityUsdt": 29.403,
+  "totalEquityTry": 1049.69,
+  "totalPnlUsdt": 1.393,
+  "totalPnlPct": 4.97,
   "cooldowns": {
     "FET": 1792154502952
   },
   "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: BNB: 0.0004 | ETHW: 0.0010 | TRY: 0.0011)",
-  "lastWhatsAppReportAt": 1792152761964
+  "lastWhatsAppReportAt": 1792152894506
 }

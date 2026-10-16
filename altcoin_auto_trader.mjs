@@ -172,14 +172,18 @@ function writeCleanTlReport(state) {
           const curTry = toTL(p.currentPrice * p.qty);
           const pnlSign = p.unrealizedPnlUsdt >= 0 ? '+' : '';
           const pnlTry = toTL(p.unrealizedPnlUsdt);
-          const stageTxt = p.stage2TpDone
-            ? `🚀 2 Kademe Alındı, Kalan %30 Sıfır Riskle Sınırsız Roket Modunda`
-            : p.partialTpDone
-              ? `🔒 1. Kademe Cebimizde, Kalan %60 Sıfır Riskle +%7,5 Hedefinde`
-              : p.trailingActive
-                ? `🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış)`
-                : `🛡️ Sıkı Kalkan Aktif (+%1,0'da Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır)`;
-          return `| **${p.symbol}** | \`${investedTry} TL\` | \`${curTry} TL\` | **\`${pnlSign}${pnlTry} TL (%${p.unrealizedPnlPct})\`** | ${stageTxt} |`;
+          const stageTxt = p.isMoonshot
+            ? p.trailingActive
+              ? `🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde)`
+              : `🎰 VURGUN / KUMAR SLOTU (Erken Satış Yok — Doğrudan +%18 Vurgun Hedefi)`
+            : p.stage2TpDone
+              ? `🚀 2 Kademe Alındı, Kalan %30 Sıfır Riskle Sınırsız Roket Modunda`
+              : p.partialTpDone
+                ? `🔒 1. Kademe Cebimizde, Kalan %60 Sıfır Riskle +%7,5 Hedefinde`
+                : p.trailingActive
+                  ? `🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış)`
+                  : `🛡️ Sıkı Kalkan Aktif (+%1,0'da Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır)`;
+          return `| **${p.symbol}${p.isMoonshot ? ' (VURGUN)' : ''}** | \`${investedTry} TL\` | \`${curTry} TL\` | **\`${pnlSign}${pnlTry} TL (%${p.unrealizedPnlPct})\`** | ${stageTxt} |`;
         })
         .join('\n') + '\n';
 
@@ -449,9 +453,8 @@ async function runTradingCycle() {
       }
     }
 
-    // Engine #7A: ZERO-RISK "FREE-RIDE" (HOUSE MONEY) HARVEST at +2.8% (or +4.0%)
-    // Sells 40% to bank guaranteed cash profit early and locks the remaining 60% at +1.2% guaranteed profit!
-    if (!pos.partialTpDone && pos.unrealizedPnlPct >= 2.8) {
+    // Engine #7A: ZERO-RISK "FREE-RIDE" (HOUSE MONEY) HARVEST at +2.8% (for standard slots; Moonshot slot waits for +12% jackpot!)
+    if (!pos.partialTpDone && ((!pos.isMoonshot && pos.unrealizedPnlPct >= 2.8) || (pos.isMoonshot && pos.unrealizedPnlPct >= 12.0))) {
       const sellQty = Number((pos.qty * 0.4).toPrecision(4));
       const remainQty = Number((pos.qty - sellQty).toPrecision(4));
       const soldCostUsdt = Number((pos.costUsdt * 0.4).toFixed(4));
@@ -812,6 +815,77 @@ async function runTradingCycle() {
     }
   }
 
+  // Step 4: Engine #11 — ASYMMETRIC "VURGUN / KUMAR" SLOT (Barbell Moonshot Hunter)
+  // Dedicated 4th slot funded by profit/free cash (~12-17% of equity) that hunts high-beta whale pumps for +18% to +50% uncapped gains!
+  if (!signalsData.btcCrashAlert && !state.openPositions.some(p => p.isMoonshot) && state.cashUsdt >= 2.50) {
+    const heldNow = new Set(state.openPositions.map(p => p.symbol));
+    const moonCandidates = [...candidates]
+      .filter(c => !heldNow.has(c.symbol) && c.totalScore >= 45 && (c.takerBuyRatioPct || 50) >= 48)
+      .sort((a, b) => (b.takerBuyRatioPct || 50) * 1.2 + b.totalScore - ((a.takerBuyRatioPct || 50) * 1.2 + a.totalScore));
+
+    const moonPick = moonCandidates[0];
+    if (moonPick) {
+      let mq = quotes[moonPick.symbol];
+      if (!mq || !mq.bestAsk) {
+        const extraQuotes = await getOrderbookQuotes([moonPick.symbol]);
+        mq = extraQuotes[moonPick.symbol];
+      }
+      if (mq && mq.bestAsk) {
+        const moonAllocUsdt = Number(Math.min(state.cashUsdt, currentTotalEquity * 0.18).toFixed(2));
+        if (moonAllocUsdt >= 2.50) {
+          const buyPrice = mq.bestAsk;
+          const qty = Number((moonAllocUsdt / buyPrice).toPrecision(4));
+          if (state.mode === 'LIVE_BINANCE') {
+            await executeBinanceRealOrder(cfg, moonPick.symbol, 'BUY', qty, moonAllocUsdt);
+          }
+          const tpPct = 18.0; // Direct +18% Vurgun target (no early +2.8% partial sell!)
+          const slPct = 2.2;  // Tight asymmetric downside cap (~3-4 TL max risk from profit pool)
+          const tpPrice = Number((buyPrice * (1 + tpPct / 100)).toPrecision(5));
+          const slPrice = Number((buyPrice * (1 - slPct / 100)).toPrecision(5));
+
+          state.cashUsdt = Number((state.cashUsdt - moonAllocUsdt).toFixed(4));
+          state.openPositions.push({
+            id: `moon_${Date.now()}_${moonPick.symbol}`,
+            symbol: moonPick.symbol,
+            isMoonshot: true,
+            leaderSymbol: moonPick.leaderSymbol,
+            ecosystem: moonPick.ecosystems?.[0] || 'Vurgun',
+            headline: `🎰 VURGUN SLOTU: ${moonPick.headlines?.[0]?.title || 'Balina Hacim Patlaması'}`,
+            newsSource: moonPick.headlines?.[0]?.source || 'WhaleRadar',
+            newsScore: moonPick.newsScore,
+            totalScore: moonPick.totalScore,
+            rsiAtEntry: moonPick.rsi1h,
+            atr1hPct: moonPick.atr1hPct || 2.5,
+            takerBuyRatioPct: moonPick.takerBuyRatioPct || 55,
+            obImbalance: 0,
+            entryTime: new Date().toISOString(),
+            entryPrice: buyPrice,
+            currentPrice: mq.bestBid || buyPrice,
+            highestPrice: buyPrice,
+            qty,
+            costUsdt: moonAllocUsdt,
+            costTry: Math.round(moonAllocUsdt * USD_TRY_RATE),
+            takeProfitPrice: tpPrice,
+            stopLossPrice: slPrice,
+            tpPct,
+            slPct,
+            partialTpDone: false,
+            stage2TpDone: false,
+            trailingActive: false,
+            rocketMode: false,
+            unrealizedPnlUsdt: Number((((mq.bestBid || buyPrice) - buyPrice) * qty).toFixed(4)),
+            unrealizedPnlPct: Number(((((mq.bestBid || buyPrice) - buyPrice) / buyPrice) * 100).toFixed(2)),
+          });
+
+          logEvent(
+            state,
+            `🎰 [VURGUN SLOTU AÇILDI] ${moonPick.symbol} (${toTL(moonAllocUsdt)} TL) @ $${buyPrice} | Hedef: +%18 Vurgun | Balina: %${moonPick.takerBuyRatioPct}`
+          );
+        }
+      }
+    }
+  }
+
   const openMarketValueUsdt = state.openPositions.reduce(
     (sum, p) => sum + p.currentPrice * p.qty,
     0
@@ -850,7 +924,7 @@ function buildSimpleWhatsAppMessage(state) {
       const pnlTry = toTL(p.unrealizedPnlUsdt);
       const targetPrice = Math.max(Number(p.takeProfitPrice || 0), p.entryPrice * 1.09, p.currentPrice * 1.04);
       const targetTry = toTL(targetPrice * p.qty);
-      return `- ${p.symbol}: ${curTry} TL (Kar: ${pnlSign}${pnlTry} TL | Hedef: ${targetTry} TL)`;
+      return `- ${p.symbol}${p.isMoonshot ? ' (Vurgun)' : ''}: ${curTry} TL (Kar: ${pnlSign}${pnlTry} TL | Hedef: ${targetTry} TL)`;
     })
     .join('\n');
 

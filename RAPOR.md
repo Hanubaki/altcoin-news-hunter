@@ -1,17 +1,17 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Zero-Risk v9.0)
 
-**Son Güncelleme:** 16.10.2026 15:12:42
+**Son Güncelleme:** 16.10.2026 15:14:54
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.051,39 TL`**
-* **Toplam Net Kâr / Zarar:** **`+51,44 TL` (`+%5.14`)**
-* **Boşta Bekleyen Nakit:** `179,83 TL`
-* **Coinde Olan Para:** `871,56 TL`
-* **Başarılı Satış / Zarar Kes:** `7 Kârlı Satış / 0 Zarar Kes`
+* **Şu Anki Toplam Para:** **`1.049,69 TL`**
+* **Toplam Net Kâr / Zarar:** **`+49,73 TL` (`+%4.97`)**
+* **Boşta Bekleyen Nakit:** `251,74 TL`
+* **Coinde Olan Para:** `797,94 TL`
+* **Başarılı Satış / Zarar Kes:** `8 Kârlı Satış / 0 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: BNB: 0.0004 | ETHW: 0.0010 | TRY: 0.0011)`
 
 ---
@@ -20,6 +20,7 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
+| **AVAX** | `66,94 TL` | `71,91 TL` | **`+4,97 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (%7.4) |
 | **AVAX** | `66,94 TL` | `71,94 TL` | **`+5,00 TL`** | 🚀 2. KADEME (%30) DEV KÂR AL (+%7.5 | Kalan %30 Sınırsız Roket) |
 | **RAY** | `173,93 TL` | `182,42 TL` | **`+8,49 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (%4.87) |
 | **RAY** | `115,95 TL` | `123,28 TL` | **`+7,33 TL`** | 💰 1. KADEME (%40) KÂR AL (+%6.33) |
@@ -34,9 +35,8 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **AVAX** | `66,94 TL` | `71,97 TL` | **`+5,02 TL (%7.5)`** | 🚀 2 Kademe Alındı, Kalan %30 Sıfır Riskle Sınırsız Roket Modunda |
-| **FLOKI** | `401,63 TL` | `399,21 TL` | **`-2,42 TL (%-0.6)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
-| **BOME** | `399,48 TL` | `400,37 TL` | **`+0,81 TL (%0.2)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
+| **FLOKI** | `401,63 TL` | `398,73 TL` | **`-2,91 TL (%-0.72)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
+| **BOME** | `399,48 TL` | `399,21 TL` | **`-0,35 TL (%-0.09)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
 
 ---
 
