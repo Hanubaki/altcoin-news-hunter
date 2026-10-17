@@ -175,19 +175,19 @@ function writeCleanTlReport(state) {
           const stageTxt = p.isMoonshot
             ? p.trailingActive
               ? `🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde)`
-              : `🎰 VURGUN / KUMAR SLOTU (Erken Satış Yok — Doğrudan +%18 Vurgun Hedefi)`
+              : `🎰 KORUMALI VURGUN SLOTU (-%${p.slPct || 2.5} ATR Kalkanı | Hedef: +%18)`
             : p.stage2TpDone
               ? `🚀 2 Kademe Alındı, Kalan %30 Sıfır Riskle Sınırsız Roket Modunda`
               : p.partialTpDone
                 ? `🔒 1. Kademe Cebimizde, Kalan %60 Sıfır Riskle +%7,5 Hedefinde`
                 : p.trailingActive
                   ? `🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış)`
-                  : `🛡️ Sıkı Kalkan Aktif (+%1,0'da Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır)`;
+                  : `🛡️ ATR Kalkanı (-%${p.slPct || 2.4} Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır)`;
           return `| **${p.symbol}${p.isMoonshot ? ' (VURGUN)' : ''}** | \`${investedTry} TL\` | \`${curTry} TL\` | **\`${pnlSign}${pnlTry} TL (%${p.unrealizedPnlPct})\`** | ${stageTxt} |`;
         })
         .join('\n') + '\n';
 
-  const md = `# 💰 KASA VE KÂR RAPORU (Sadece TL — Zero-Risk v9.0)
+  const md = `# 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
 **Son Güncelleme:** ${new Date().toLocaleString('tr-TR')}
 
@@ -219,14 +219,13 @@ ${closedRows}
 ${openRows}
 ---
 
-## 4. AKTİF SIFIR RİSK (ZERO-RISK) VE MAKSİMUM KAZANÇ MOTORLARI (v9.0)
+## 4. AKTİF KORUMA VE MAKSİMUM KAZANÇ MOTORLARI (v9.1)
 
-1. **🛡️ +%1,0 Anında Sıfır Risk Kilidi (Micro-Breakeven Lock):** Bir coin alındıktan sonra sadece \`+%1,0\` yükseldiği anda Stop-Loss otomatik olarak maliyetin \`+%0,3\` üstüne çekilir; o işlemin zarara dönmesi matematiksel olarak imkansız hale gelir.
-2. **🎰 +%2,8 Bedava Sürüş (Free-Ride / House Money) Hasadı:** Coin \`+%2,8\` yaptığı anda \`%40\`'ı satılıp sıcak kâr cebe atılır, kalan \`%60\`'ın stopu \`+%1,2\` net kâra kilitlenir ve **%100 sıfır riskle** \`+%7,5\` ve sınırsız uçuşa bırakılır.
-3. **🪜 Adım Adım Kâr Merdiveni (Step-Lock Ratchet):** Fiyat yükseldikçe kâr kilidi tek yönlü yukarı tırmanır (\`+%1,8 -> +%0,9 kilit\`, \`+%4,5 -> +%3,3 kilit\`, \`+%7,0 -> +%6,0 kilit\`).
-4. **🧹 Sıfır Zarar Erken Tahliye (Zero-Loss Scratch):** Alınan bir coin 18 dakika içinde ivme yakalayamazsa ve tahta/balina alımı zayıflarsa stop olmasını beklemeden \`~0,00 TL\` başa baş noktasından erkenden tahliye edilir.
-5. **🚀 Uçuşa Geçen Coine Korumalı Güç Aktarımı (Winner Pyramiding):** Kalkışı kanıtlanan (\`+%1,8+\` ve \`%53+\` balina alımı) coine, zayıf coinler bozularak ve boştaki nakit eklenerek tam güç basılır; birleşik maliyetin üstüne anında sıfır risk kilidi konur.
-6. **🧠 4-AI Konseyi (GPT-120B + Qwen-3.8 + Gemini) & Balina Kalite Filtresi:** Sadece gerçek AI Konseyinin \`LONG\` dediği, balina alımı \`%52+\` olan ve tahtasında satış duvarı bulunmayan coinlere girilir.
+1. **📏 ATR Nefes Payı Kalkanı (-%2,0 ile -%3,2):** Coinlerin 15 dakikalık normal iğnelerde erken stop olmasını önleyen gerçek volatilite bazlı stop-loss mesafesi.
+2. **🛡️ +%1,5 Gerçek Sıfır Risk Kilidi (True Breakeven Lock):** Bir coin \`+%1,5\` yükseldiği anda Stop-Loss otomatik olarak maliyetin \`+%0,35\` üstüne çekilir; kâr kilidi sadece stop fiyatı gerçekten maliyetin üstündeyken aktif olur.
+3. **🎰 +%2,8 Bedava Sürüş (Free-Ride / House Money) Hasadı:** Coin \`+%2,8\` yaptığı anda \`%40\`'ı satılıp sıcak kâr cebe atılır, kalan \`%60\`'ın stopu \`+%1,2+\` net kâra kilitlenir ve **%100 sıfır riskle** \`+%7,5\` ve sınırsız uçuşa bırakılır.
+4. **🚫 Tepe (Overbought) ve Bayat Haber Engelleyici:** \`RSI > 55\` olan tepedeki coinlere ve son 12 saatte zarar yazmış bayat haber başlıklarına tekrar girilmez.
+5. **⚖️ Vurgun Slotu Tam Kalkanı:** Vurgun slotu da dahil tüm alımlarda Tahta Satış Duvarı (\`>-0.05\`), 6 Saat Cooldown, AI Konseyi \`LONG\` onayı ve \`%52.5+\` Balina Alım şartı zorunludur.
 `;
 
   fs.writeFileSync(RAPOR_FILE, md, 'utf8');
@@ -564,31 +563,28 @@ async function runTradingCycle() {
     }
 
     // Engine #8: ZERO-RISK STEP-LOCK RATCHET LADDER (Adim Adim Sifir Risk Merdiveni)
-    // Locks stop-loss above entry as soon as coin hits +1.0% so a winning trade can NEVER turn into a loss!
+    // Locks stop-loss above entry ONLY after coin genuinely proves +1.5% gain (prevents premature stop-outs on 15m noise)
     const peakGainPct = ((pos.highestPrice - pos.entryPrice) / pos.entryPrice) * 100;
     let stepFloorPrice = pos.stopLossPrice;
     if (peakGainPct >= 7.0) {
-      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.989).toPrecision(5)), Number((pos.entryPrice * 1.060).toPrecision(5)));
+      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.988).toPrecision(5)), Number((pos.entryPrice * 1.058).toPrecision(5)));
     } else if (peakGainPct >= 4.5) {
-      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.988).toPrecision(5)), Number((pos.entryPrice * 1.033).toPrecision(5)));
+      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.986).toPrecision(5)), Number((pos.entryPrice * 1.030).toPrecision(5)));
     } else if (peakGainPct >= 2.8) {
-      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.015).toPrecision(5)));
-    } else if (peakGainPct >= 1.8) {
-      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.009).toPrecision(5)));
-    } else if (peakGainPct >= 1.0) {
-      // Instant Break-Even Zero-Risk Lock at +1.0% peak!
-      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.003).toPrecision(5)));
+      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.014).toPrecision(5)));
+    } else if (peakGainPct >= 2.0) {
+      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.008).toPrecision(5)));
+    } else if (peakGainPct >= 1.5) {
+      // Break-Even Zero-Risk Lock once coin reaches +1.5% peak!
+      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.0035).toPrecision(5)));
     }
-    // Also enforce hard maximum downside cap of -1.25% on any existing position (Principal Shield)
-    const maxTightStop = Number((pos.entryPrice * 0.9875).toPrecision(5));
-    if (pos.stopLossPrice < maxTightStop && currentBid > maxTightStop) {
-      stepFloorPrice = Math.max(stepFloorPrice, maxTightStop);
-    }
+
     if (stepFloorPrice > pos.stopLossPrice && currentBid > stepFloorPrice) {
       pos.stopLossPrice = stepFloorPrice;
-      pos.trailingActive = true;
-      if (peakGainPct >= 2.8) pos.rocketMode = true;
     }
+    // Only mark trailingActive = true if stop-loss is genuinely above entry price (in profit)
+    pos.trailingActive = pos.stopLossPrice > pos.entryPrice;
+    if (peakGainPct >= 2.8 && pos.trailingActive) pos.rocketMode = true;
 
     const hoursHeld = (nowMs - new Date(pos.entryTime).getTime()) / (1000 * 3600);
     const minsHeld = hoursHeld * 60;
@@ -596,24 +592,25 @@ async function runTradingCycle() {
     let exitReason = null;
 
     // Engine #9: ZERO-LOSS EARLY SCRATCH (Sifir Zarar Erken Tahliye Kalkani)
-    // If a coin fails to move after 20+ mins and whale flow weakens or orderbook turns negative, exit near 0.00 TL instead of waiting for stop-loss!
+    // If a coin fails to move after 45+ mins and both whale flow (<45%) and orderbook (<-0.25) turn bearish near breakeven, scratch early
     let liveObForScratch = 0;
-    if (!pos.partialTpDone && pos.unrealizedPnlPct <= 0.15 && pos.unrealizedPnlPct >= -0.85 && minsHeld >= 18) {
+    if (!pos.partialTpDone && pos.unrealizedPnlPct <= 0.15 && pos.unrealizedPnlPct >= -0.60 && minsHeld >= 45) {
       liveObForScratch = await checkOrderbookImbalance(pos.symbol);
     }
 
     if (currentBid <= pos.stopLossPrice) {
-      exitReason = pos.rocketMode
-        ? `🚀 UÇUŞ MODU KÂR KİLİDİ (%${pos.unrealizedPnlPct})`
-        : pos.trailingActive
-          ? `🔒 SIFIR RİSK KÂR KİLİDİ (%${pos.unrealizedPnlPct})`
-          : `🛡️ SIKI KORUMA KALKANI (%${pos.unrealizedPnlPct})`;
-    } else if (latestSig && latestSig.liveLlmDecision === 'WAIT' && latestSig.liveLlmConfidence >= 70 && !pos.rocketMode) {
+      const isProfitLock = pos.stopLossPrice > pos.entryPrice && pos.unrealizedPnlPct >= 0;
+      exitReason = pos.rocketMode && isProfitLock
+        ? `🚀 UÇUŞ MODU KÂR KİLİDİ (+%${pos.unrealizedPnlPct})`
+        : isProfitLock
+          ? `🔒 SIFIR RİSK KÂR KİLİDİ (+%${pos.unrealizedPnlPct})`
+          : `🛡️ ATR KORUMA KALKANI (%${pos.unrealizedPnlPct})`;
+    } else if (latestSig && latestSig.liveLlmDecision === 'WAIT' && latestSig.liveLlmConfidence >= 75 && !pos.rocketMode) {
       exitReason = `🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — %${pos.unrealizedPnlPct})`;
-    } else if (!pos.partialTpDone && minsHeld >= 18 && pos.unrealizedPnlPct <= 0.1 && (liveObForScratch < -0.15 || (latestSig && latestSig.takerBuyRatioPct < 47))) {
-      exitReason = `🛡️ SIFIR RİSK ERKEN TAHLİYE (İvme Zayıfladı, Zarar Büyümeden Çıkıldı %${pos.unrealizedPnlPct})`;
-    } else if (hoursHeld >= 4 && pos.unrealizedPnlPct < 0.4 && !pos.partialTpDone) {
-      exitReason = `⏱️ SIFIR RİSK ZAMAN TAHLİYESİ (4 Saatte İvme Yakalayamayan Coin Boşaltıldı %${pos.unrealizedPnlPct})`;
+    } else if (!pos.partialTpDone && minsHeld >= 45 && pos.unrealizedPnlPct <= 0.1 && pos.unrealizedPnlPct >= -0.60 && liveObForScratch < -0.25 && latestSig && latestSig.takerBuyRatioPct < 45) {
+      exitReason = `🛡️ SIFIR RİSK ERKEN TAHLİYE (İvme Zayıfladı, Başa Baş Noktasında Çıkıldı %${pos.unrealizedPnlPct})`;
+    } else if (hoursHeld >= 6 && pos.unrealizedPnlPct < 0.3 && !pos.partialTpDone) {
+      exitReason = `⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %${pos.unrealizedPnlPct})`;
     }
 
     if (exitReason) {
@@ -627,8 +624,6 @@ async function runTradingCycle() {
 
       if (netPnlUsdt >= 0) {
         state.winCount++;
-      } else if (exitReason.includes('TUZAK HABER') || exitReason.includes('SIFIR RİSK ERKEN TAHLİYE') || exitReason.includes('ZAMAN TAHLİYESİ')) {
-        state.cooldowns[pos.symbol] = nowMs + 6 * 3600 * 1000;
       } else {
         state.lossCount++;
         state.cooldowns[pos.symbol] = nowMs + 6 * 3600 * 1000;
@@ -649,18 +644,19 @@ async function runTradingCycle() {
   }
   state.openPositions = remainingPositions;
 
-  // Engine #9: Smart Portfolio Rotation (Swap out a >2h stagnant coin if an 80+ score A+ breaking news catalyst arrives)
+  // Engine #9: Smart Portfolio Rotation (Swap out a >3h stagnant coin if an 85+ score A+ breaking news catalyst arrives)
   const bestCandidate = candidates[0];
   if (
     !signalsData.btcCrashAlert &&
     bestCandidate &&
-    bestCandidate.totalScore >= 80 &&
+    bestCandidate.totalScore >= 85 &&
+    (bestCandidate.rsi1h || 50) <= 50 &&
     state.openPositions.length >= cfg.MAX_OPEN_POSITIONS &&
     !state.openPositions.some(p => p.symbol === bestCandidate.symbol)
   ) {
     const stagnantIdx = state.openPositions.findIndex(p => {
       const hrs = (nowMs - new Date(p.entryTime).getTime()) / (1000 * 3600);
-      return hrs >= 2.0 && Math.abs(p.unrealizedPnlPct) <= 0.6 && !p.partialTpDone;
+      return hrs >= 3.0 && Math.abs(p.unrealizedPnlPct) <= 0.4 && !p.partialTpDone;
     });
 
     if (stagnantIdx !== -1) {
@@ -680,71 +676,18 @@ async function runTradingCycle() {
     }
   }
 
-  // Engine #10: Winner Pyramiding & Capital Concentration (Ucusa Gecen Coine Guc Aktarimi)
-  // If an open coin proves real takeoff (+1.8% to +4.5% gain, whale flow >= 53%, not yet exhausted),
-  // liquidate sluggish coins (<= +0.3% after 45m) and pour free cash into the confirmed rocket with break-even SL protection!
-  const confirmedRocket = state.openPositions.find(
-    p => !p.pyramided && p.unrealizedPnlPct >= 1.8 && p.unrealizedPnlPct <= 4.8 && (p.takerBuyRatioPct || 50) >= 53
-  );
-  if (!signalsData.btcCrashAlert && confirmedRocket) {
-    const rq = quotes[confirmedRocket.symbol];
-    const rOb = await checkOrderbookImbalance(confirmedRocket.symbol);
-    if (rq && rq.bestAsk && rOb >= -0.1) {
-      // Liquidate sluggish/flat positions to free up capital for the confirmed rocket
-      const keptPositions = [];
-      for (const p of state.openPositions) {
-        const minsHeld = (nowMs - new Date(p.entryTime).getTime()) / (1000 * 60);
-        if (p.symbol !== confirmedRocket.symbol && minsHeld >= 45 && p.unrealizedPnlPct <= 0.3 && !p.rocketMode) {
-          const pq = quotes[p.symbol];
-          if (pq && pq.bestBid) {
-            if (state.mode === 'LIVE_BINANCE') {
-              await executeBinanceRealOrder(cfg, p.symbol, 'SELL', p.qty);
-            }
-            const proceeds = Number((pq.bestBid * p.qty).toFixed(4));
-            const netPnl = Number((proceeds - p.costUsdt).toFixed(4));
-            state.cashUsdt = Number((state.cashUsdt + proceeds).toFixed(4));
-            state.realizedPnlUsdt = Number((state.realizedPnlUsdt + netPnl).toFixed(4));
-            logEvent(state, `🔄 [GÜÇ AKTARIMI] Zayıf ${p.symbol} satıldı, para uçuşa geçen ${confirmedRocket.symbol} coinine aktarılıyor!`);
-            continue;
-          }
-        }
-        keptPositions.push(p);
-      }
-      state.openPositions = keptPositions;
-
-      if (state.cashUsdt >= 4.50) {
-        const boostUsdt = Number((state.cashUsdt * 0.95).toFixed(2));
-        const addQty = Number((boostUsdt / rq.bestAsk).toPrecision(4));
-        if (state.mode === 'LIVE_BINANCE') {
-          await executeBinanceRealOrder(cfg, confirmedRocket.symbol, 'BUY', addQty, boostUsdt);
-        }
-        const totalCost = Number((confirmedRocket.costUsdt + boostUsdt).toFixed(4));
-        const totalQty = Number((confirmedRocket.qty + addQty).toPrecision(5));
-        confirmedRocket.entryPrice = Number((totalCost / totalQty).toPrecision(5));
-        confirmedRocket.qty = totalQty;
-        confirmedRocket.costUsdt = totalCost;
-        confirmedRocket.costTry = Math.round(totalCost * USD_TRY_RATE);
-        confirmedRocket.pyramided = true;
-        // Lock stop-loss at +0.5% above new blended entry so combined capital is protected
-        const safeStop = Number((confirmedRocket.entryPrice * 1.005).toPrecision(5));
-        if (safeStop > confirmedRocket.stopLossPrice && rq.bestBid > safeStop) {
-          confirmedRocket.stopLossPrice = safeStop;
-          confirmedRocket.trailingActive = true;
-        }
-        state.cashUsdt = Number((state.cashUsdt - boostUsdt).toFixed(4));
-        logEvent(
-          state,
-          `🚀 [TAM GÜÇ BASILDI] Uçuşa geçen ${confirmedRocket.symbol} coinine +${toTL(boostUsdt)} TL ek kasa basıldı (Toplam: ${toTL(totalCost)} TL | Kâr Kilidi Aktif)!`
-        );
-      }
-    }
-  }
-
   // Compute current total equity for Auto-Compounding Dynamic Position Sizing
   const currentOpenVal = state.openPositions.reduce((s, p) => s + p.currentPrice * p.qty, 0);
   const currentTotalEquity = state.cashUsdt + currentOpenVal;
 
-  // Step 3: Open new positions with Conviction-Based Auto-Compounding Sizing
+  // Build memory of headlines that caused a loss in the last 12 hours so we never re-buy the same stale trap news
+  const recentLosingHeadlines = new Set(
+    (state.closedTrades || [])
+      .filter(t => t.netPnlUsdt < 0 && t.headline && (!t.exitTime || nowMs - new Date(t.exitTime).getTime() < 12 * 3600 * 1000))
+      .map(t => t.headline.replace(/^🎰 VURGUN SLOTU:\s*/i, '').trim().toLowerCase())
+  );
+
+  // Step 3: Open new positions with Conviction-Based Auto-Compounding Sizing & Dip/Whale Quality Shields
   if (!signalsData.btcCrashAlert) {
     const usedLeaders = new Set(state.openPositions.map(p => p.leaderSymbol));
     const heldSymbols = new Set(state.openPositions.map(p => p.symbol));
@@ -760,9 +703,15 @@ async function runTradingCycle() {
       if (heldSymbols.has(cand.symbol)) continue;
       if (aiWaitSymbols.has(cand.symbol) || cand.liveLlmDecision !== 'LONG') continue;
       if (usedLeaders.has(cand.leaderSymbol)) continue;
-      if (cand.totalScore < 58) continue;
-      if ((cand.takerBuyRatioPct || 50) < 52) continue;
+      if (cand.totalScore < 62) continue;
+      if ((cand.rsi1h || 50) > 55) continue; // Reject top/overbought entries
+      if ((cand.takerBuyRatioPct || 50) < 52.5) continue;
       if (state.cooldowns[cand.symbol] && state.cooldowns[cand.symbol] > nowMs) continue;
+
+      const candHeadlineClean = (cand.headlines?.[0]?.title || '').trim().toLowerCase();
+      if (candHeadlineClean && recentLosingHeadlines.has(candHeadlineClean)) {
+        continue; // Skip stale news that already caused a loss
+      }
 
       const q = quotes[cand.symbol];
       if (!q || !q.bestAsk) continue;
@@ -774,8 +723,8 @@ async function runTradingCycle() {
       }
 
       // Engine #8: Conviction-Based Auto-Compounding Sizing
-      // 80+ score A+ catalyst -> 38% of total equity; 65-79 score -> 33%; 58-64 score -> 28%
-      const convictionPct = cand.totalScore >= 80 ? 0.38 : cand.totalScore >= 65 ? 0.33 : 0.28;
+      // 80+ score A+ catalyst -> 34% of total equity; 68-79 score -> 30%; 62-67 score -> 26%
+      const convictionPct = cand.totalScore >= 80 ? 0.34 : cand.totalScore >= 68 ? 0.30 : 0.26;
       const targetAllocUsdt = Number((currentTotalEquity * convictionPct).toFixed(2));
       const costUsdt = Number(Math.min(targetAllocUsdt, state.cashUsdt).toFixed(2));
       if (costUsdt < 4.50) continue;
@@ -787,7 +736,8 @@ async function runTradingCycle() {
         await executeBinanceRealOrder(cfg, cand.symbol, 'BUY', qty, costUsdt);
       }
 
-      const safeSlPct = Math.min(Number(cand.slPct || 1.25), 1.25);
+      // Use healthy ATR-based stop-loss (2.0% to 3.2%) so normal 15m volatility doesn't stop out the trade
+      const safeSlPct = Number(Math.max(2.0, Math.min(Number(cand.slPct || 2.4), 3.2)).toFixed(2));
       const tpPrice = Number((buyPrice * (1 + cand.tpPct / 100)).toPrecision(5));
       const slPrice = Number((buyPrice * (1 - safeSlPct / 100)).toPrecision(5));
 
@@ -814,7 +764,7 @@ async function runTradingCycle() {
         takeProfitPrice: tpPrice,
         stopLossPrice: slPrice,
         tpPct: cand.tpPct,
-        slPct: cand.slPct,
+        slPct: safeSlPct,
         partialTpDone: false,
         stage2TpDone: false,
         trailingActive: false,
@@ -830,35 +780,49 @@ async function runTradingCycle() {
 
       logEvent(
         state,
-        `🟢 [OTOMATİK ALIM] ${cand.symbol} (${toTL(costUsdt)} TL) @ $${buyPrice} | Skor: ${cand.totalScore} | Balina Alım: %${newPos.takerBuyRatioPct}`
+        `🟢 [OTOMATİK ALIM] ${cand.symbol} (${toTL(costUsdt)} TL) @ $${buyPrice} | Skor: ${cand.totalScore} | RSI: ${cand.rsi1h} | Balina: %${newPos.takerBuyRatioPct} | SL: -%${safeSlPct}`
       );
     }
   }
 
-  // Step 4: Engine #11 — ASYMMETRIC "VURGUN / KUMAR" SLOT (Barbell Moonshot Hunter)
-  // Dedicated 4th slot funded by profit/free cash (~12-17% of equity) that hunts high-beta whale pumps for +18% to +50% uncapped gains!
-  if (!signalsData.btcCrashAlert && !state.openPositions.some(p => p.isMoonshot) && state.cashUsdt >= 2.50) {
+  // Step 4: Engine #11 — PROTECTED ASYMMETRIC "VURGUN" SLOT (Only enters with AI LONG + Orderbook + Cooldown + RSI <= 52!)
+  if (!signalsData.btcCrashAlert && !state.openPositions.some(p => p.isMoonshot) && state.cashUsdt >= 3.50) {
     const heldNow = new Set(state.openPositions.map(p => p.symbol));
     const moonCandidates = [...candidates]
-      .filter(c => !heldNow.has(c.symbol) && c.totalScore >= 45 && (c.takerBuyRatioPct || 50) >= 48)
+      .filter(c => {
+        if (heldNow.has(c.symbol)) return false;
+        if (state.cooldowns[c.symbol] && state.cooldowns[c.symbol] > nowMs) return false;
+        if (c.liveLlmDecision && c.liveLlmDecision !== 'LONG') return false;
+        if ((c.rsi1h || 50) > 52) return false;
+        if (c.totalScore < 70 || (c.takerBuyRatioPct || 50) < 54) return false;
+        const hClean = (c.headlines?.[0]?.title || '').trim().toLowerCase();
+        if (hClean && recentLosingHeadlines.has(hClean)) return false;
+        return true;
+      })
       .sort((a, b) => (b.takerBuyRatioPct || 50) * 1.2 + b.totalScore - ((a.takerBuyRatioPct || 50) * 1.2 + a.totalScore));
 
     for (const moonPick of moonCandidates) {
+      const moonOb = await checkOrderbookImbalance(moonPick.symbol);
+      if (moonOb < -0.05) {
+        logEvent(state, `⚖️ [Tahta Kalkanı - Vurgun] ${moonPick.symbol} önünde satış duvarı (${moonOb}) var, pas geçildi.`);
+        continue;
+      }
+
       let mq = quotes[moonPick.symbol];
       if (!mq || !mq.bestAsk) {
         const extraQuotes = await getOrderbookQuotes([moonPick.symbol]);
         mq = extraQuotes[moonPick.symbol];
       }
       if (mq && mq.bestAsk > 0) {
-        const moonAllocUsdt = Number(Math.min(state.cashUsdt, currentTotalEquity * 0.18).toFixed(2));
-        if (moonAllocUsdt >= 2.50) {
+        const moonAllocUsdt = Number(Math.min(state.cashUsdt, currentTotalEquity * 0.16).toFixed(2));
+        if (moonAllocUsdt >= 3.50) {
           const buyPrice = mq.bestAsk;
           const qty = Number((moonAllocUsdt / buyPrice).toPrecision(4));
           if (state.mode === 'LIVE_BINANCE') {
             await executeBinanceRealOrder(cfg, moonPick.symbol, 'BUY', qty, moonAllocUsdt);
           }
-          const tpPct = 18.0; // Direct +18% Vurgun target (no early +2.8% partial sell!)
-          const slPct = 2.2;  // Tight asymmetric downside cap (~3-4 TL max risk from profit pool)
+          const tpPct = 18.0;
+          const slPct = Number(Math.max(2.4, Math.min(Number(moonPick.slPct || 2.6), 3.2)).toFixed(2));
           const tpPrice = Number((buyPrice * (1 + tpPct / 100)).toPrecision(5));
           const slPrice = Number((buyPrice * (1 - slPct / 100)).toPrecision(5));
 
@@ -876,7 +840,7 @@ async function runTradingCycle() {
             rsiAtEntry: moonPick.rsi1h,
             atr1hPct: moonPick.atr1hPct || 2.5,
             takerBuyRatioPct: moonPick.takerBuyRatioPct || 55,
-            obImbalance: 0,
+            obImbalance: moonOb,
             entryTime: new Date().toISOString(),
             entryPrice: buyPrice,
             currentPrice: mq.bestBid || buyPrice,
@@ -898,7 +862,7 @@ async function runTradingCycle() {
 
           logEvent(
             state,
-            `🎰 [VURGUN SLOTU AÇILDI] ${moonPick.symbol} (${toTL(moonAllocUsdt)} TL) @ $${buyPrice} | Hedef: +%18 Vurgun | Balina: %${moonPick.takerBuyRatioPct}`
+            `🎰 [VURGUN SLOTU AÇILDI] ${moonPick.symbol} (${toTL(moonAllocUsdt)} TL) @ $${buyPrice} | Hedef: +%18 | RSI: ${moonPick.rsi1h} | Balina: %${moonPick.takerBuyRatioPct} | SL: -%${slPct}`
           );
           break;
         }

@@ -703,9 +703,9 @@ async function main() {
 
     const lagVsLeader24h = Number((leaderMkt.change24hPct - mkt.change24hPct).toFixed(2));
 
-    // Anti-FOMO Guard + Bollinger Overextension + Whale Dump Rejection
-    if (rsi1h > 68 || bbPctB > 0.98 || change1hPct > 4.5 || mkt.change24hPct > 14) continue;
-    if (takerBuyRatio < 0.38) continue;
+    // Anti-FOMO Guard + Bollinger Overextension + Whale Dump Rejection (Reject overbought RSI > 55)
+    if (rsi1h > 55 || bbPctB > 0.85 || change1hPct > 3.5 || mkt.change24hPct > 11) continue;
+    if (takerBuyRatio < 0.42) continue;
 
     // TradingArena.ai 4-Model Hive-Mind Consensus
     const hiveMind = computeArenaHiveMind({
@@ -727,8 +727,8 @@ async function main() {
 
     let totalScore = Math.min(40, cat.newsScore * 4.5);
     if (rsi1h <= 34) totalScore += 20;
-    else if (rsi1h <= 46) totalScore += 14;
-    else if (rsi1h <= 58) totalScore += 7;
+    else if (rsi1h <= 45) totalScore += 14;
+    else if (rsi1h <= 55) totalScore += 6;
 
     // Bollinger Band Lower Dip Support & Squeeze Bonus
     if (bbPctB <= 0.35) totalScore += 5;
@@ -759,7 +759,7 @@ async function main() {
 
     const rangePct = mkt.low24h > 0 ? ((mkt.high24h - mkt.low24h) / mkt.low24h) * 100 : 4;
     const tpPct = Number(Math.max(4.5, Math.min(9.0, rangePct * 0.65)).toFixed(2));
-    const slPct = Number(Math.max(1.8, Math.min(3.6, atr1hPct * 1.45)).toFixed(2));
+    const slPct = Number(Math.max(2.0, Math.min(3.2, atr1hPct * 1.65)).toFixed(2));
 
     scoredOpportunities.push({
       symbol: sym,

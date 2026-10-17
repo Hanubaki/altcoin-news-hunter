@@ -20,7 +20,7 @@
       "symbol": "HBAR",
       "leaderSymbol": "XRP",
       "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
       ],
       "matchedKeywords": [
         "tokenized",
@@ -757,9 +757,9 @@
       "fundingHourlyPct": 0,
       "totalScore": 87.1,
       "tpPct": 6.3,
-      "slPct": 3.6,
+      "slPct": 3.2,
       "tpPrice": 0.071115,
-      "slPrice": 0.064492
+      "slPrice": 0.064759
     },
     {
       "symbol": "GRT",
@@ -944,7 +944,7 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 49.8,
+      "takerBuyRatioPct": 50.4,
       "isGreenBounce": true,
       "isTrending": false,
       "volRatio": 0.2,
@@ -1020,7 +1020,6 @@
       "roomToResistancePct": 4.4,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
-        "Llama-4-Maverick",
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],

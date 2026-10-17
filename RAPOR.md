@@ -1,4 +1,4 @@
-# 💰 KASA VE KÂR RAPORU (Sadece TL — Zero-Risk v9.0)
+# 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
 **Son Güncelleme:** 17.10.2026 19:25:05
 
@@ -49,11 +49,10 @@
 
 ---
 
-## 4. AKTİF SIFIR RİSK (ZERO-RISK) VE MAKSİMUM KAZANÇ MOTORLARI (v9.0)
+## 4. AKTİF KORUMA VE MAKSİMUM KAZANÇ MOTORLARI (v9.1)
 
-1. **🛡️ +%1,0 Anında Sıfır Risk Kilidi (Micro-Breakeven Lock):** Bir coin alındıktan sonra sadece `+%1,0` yükseldiği anda Stop-Loss otomatik olarak maliyetin `+%0,3` üstüne çekilir; o işlemin zarara dönmesi matematiksel olarak imkansız hale gelir.
-2. **🎰 +%2,8 Bedava Sürüş (Free-Ride / House Money) Hasadı:** Coin `+%2,8` yaptığı anda `%40`'ı satılıp sıcak kâr cebe atılır, kalan `%60`'ın stopu `+%1,2` net kâra kilitlenir ve **%100 sıfır riskle** `+%7,5` ve sınırsız uçuşa bırakılır.
-3. **🪜 Adım Adım Kâr Merdiveni (Step-Lock Ratchet):** Fiyat yükseldikçe kâr kilidi tek yönlü yukarı tırmanır (`+%1,8 -> +%0,9 kilit`, `+%4,5 -> +%3,3 kilit`, `+%7,0 -> +%6,0 kilit`).
-4. **🧹 Sıfır Zarar Erken Tahliye (Zero-Loss Scratch):** Alınan bir coin 18 dakika içinde ivme yakalayamazsa ve tahta/balina alımı zayıflarsa stop olmasını beklemeden `~0,00 TL` başa baş noktasından erkenden tahliye edilir.
-5. **🚀 Uçuşa Geçen Coine Korumalı Güç Aktarımı (Winner Pyramiding):** Kalkışı kanıtlanan (`+%1,8+` ve `%53+` balina alımı) coine, zayıf coinler bozularak ve boştaki nakit eklenerek tam güç basılır; birleşik maliyetin üstüne anında sıfır risk kilidi konur.
-6. **🧠 4-AI Konseyi (GPT-120B + Qwen-3.8 + Gemini) & Balina Kalite Filtresi:** Sadece gerçek AI Konseyinin `LONG` dediği, balina alımı `%52+` olan ve tahtasında satış duvarı bulunmayan coinlere girilir.
+1. **📏 ATR Nefes Payı Kalkanı (-%2,0 ile -%3,2):** Coinlerin 15 dakikalık normal iğnelerde erken stop olmasını önleyen gerçek volatilite bazlı stop-loss mesafesi.
+2. **🛡️ +%1,5 Gerçek Sıfır Risk Kilidi (True Breakeven Lock):** Bir coin `+%1,5` yükseldiği anda Stop-Loss otomatik olarak maliyetin `+%0,35` üstüne çekilir; kâr kilidi sadece stop fiyatı gerçekten maliyetin üstündeyken aktif olur.
+3. **🎰 +%2,8 Bedava Sürüş (Free-Ride / House Money) Hasadı:** Coin `+%2,8` yaptığı anda `%40`'ı satılıp sıcak kâr cebe atılır, kalan `%60`'ın stopu `+%1,2+` net kâra kilitlenir ve **%100 sıfır riskle** `+%7,5` ve sınırsız uçuşa bırakılır.
+4. **🚫 Tepe (Overbought) ve Bayat Haber Engelleyici:** `RSI > 55` olan tepedeki coinlere ve son 12 saatte zarar yazmış bayat haber başlıklarına tekrar girilmez.
+5. **⚖️ Vurgun Slotu Tam Kalkanı:** Vurgun slotu da dahil tüm alımlarda Tahta Satış Duvarı (`>-0.05`), 6 Saat Cooldown, AI Konseyi `LONG` onayı ve `%52.5+` Balina Alım şartı zorunludur.
