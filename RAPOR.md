@@ -1,17 +1,17 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 18.10.2026 00:00:35
+**Son Güncelleme:** 18.10.2026 02:01:17
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.042,59 TL`**
-* **Toplam Net Kâr / Zarar:** **`+42,63 TL` (`+%4.26`)**
-* **Boşta Bekleyen Nakit:** `386,95 TL`
-* **Coinde Olan Para:** `655,64 TL`
-* **Başarılı Satış / Zarar Kes:** `11 Kârlı Satış / 6 Zarar Kes`
+* **Şu Anki Toplam Para:** **`1.029,10 TL`**
+* **Toplam Net Kâr / Zarar:** **`+29,15 TL` (`+%2.91`)**
+* **Boşta Bekleyen Nakit:** `868,27 TL`
+* **Coinde Olan Para:** `160,83 TL`
+* **Başarılı Satış / Zarar Kes:** `12 Kârlı Satış / 7 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Bağlantı Bekleniyor`
 
 ---
@@ -20,6 +20,8 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
+| **TAO** | `245,26 TL` | `244,19 TL` | **`-1,07 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.45) |
+| **HBAR** | `233,05 TL` | `237,13 TL` | **`+4,08 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%1.71) |
 | **HBAR** | `155,37 TL` | `160,53 TL` | **`+5,16 TL`** | 💰 1. KADEME (%40) SIFIR RİSK KÂR AL (+%3.28) |
 | **BOME** | `185,28 TL` | `180,69 TL` | **`-4,59 TL`** | 🛡️ DAR STOP-LOSS (%-2.48) |
 | **SUI** | `341,65 TL` | `336,59 TL` | **`-5,06 TL`** | 🛡️ DAR STOP-LOSS (%-1.48) |
@@ -44,9 +46,7 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **HBAR** | `233,05 TL` | `241,01 TL` | **`+7,88 TL (%3.38)`** | 🔒 1. Kademe Cebimizde, Kalan %60 Sıfır Riskle +%7,5 Hedefinde |
-| **TAO** | `245,26 TL` | `248,39 TL` | **`+3,11 TL (%1.27)`** | 🛡️ ATR Kalkanı (-%2.4 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **WLD (VURGUN)** | `164,58 TL` | `166,23 TL` | **`+1,65 TL (%1)`** | 🎰 KORUMALI VURGUN SLOTU (-%2.62 ATR Kalkanı | Hedef: +%18) |
+| **WLD (VURGUN)** | `164,58 TL` | `160,83 TL` | **`-3,76 TL (%-2.28)`** | 🎰 KORUMALI VURGUN SLOTU (-%2.62 ATR Kalkanı | Hedef: +%18) |
 
 ---
 

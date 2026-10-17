@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-10-17T21:00:35.182Z",
-  "scanDurationMs": 2362,
+  "updatedAt": "2026-10-17T23:01:17.228Z",
+  "scanDurationMs": 2050,
   "bankrollTry": 1000,
   "bankrollUsdt": 28.01,
-  "btc1hChangePct": 0.07,
+  "btc1hChangePct": 0.26,
   "btcCrashAlert": false,
-  "marketBreadthPct": 27,
+  "marketBreadthPct": 8,
   "totalHeadlinesScanned": 102,
   "activeFeeds": [
     "CoinTelegraph (20)",
@@ -17,260 +17,42 @@
   ],
   "top4AltcoinPicks": [
     {
-      "symbol": "NEAR",
-      "leaderSymbol": "FET",
+      "symbol": "XLM",
+      "leaderSymbol": "XRP",
       "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
-        "ai agent"
+        "tokenized"
       ],
-      "newsScore": 3.2,
-      "freshestMinutesAgo": 359,
-      "headlines": [
-        {
-          "source": "Decrypt",
-          "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 359,
-          "catalystPoints": 3.2,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 4.996,
-      "change1hPct": -0.02,
-      "change24hPct": 0.382,
-      "lagVsLeader24h": -2.55,
-      "rsi1h": 38.7,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.41,
-      "bbPctB": 0.38,
-      "bbWidthPct": 6.89,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 12.5,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 4.851,
-      "resistance": 5.197,
-      "roomToResistancePct": 4.02,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 54.2,
-      "isGreenBounce": true,
-      "isTrending": true,
-      "volRatio": 0,
-      "fundingHourlyPct": -0.0005,
-      "totalScore": 85.4,
-      "tpPct": 4.97,
-      "slPct": 2.33,
-      "tpPrice": 5.2443,
-      "slPrice": 4.8796,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "Haber NEAR ile alakasız, tuzak riski yüksek."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 78,
-          "reason": "StepFun haberı NEAR ekosistemini destekliyor"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 87,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber NEAR ile alakasız, tuzak riski yüksek. | [GPT-120B: LONG %78] StepFun haberı NEAR ekosistemini destekliyor"
-    },
-    {
-      "symbol": "EIGEN",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "arbitrum"
-      ],
-      "newsScore": 1.6,
-      "freshestMinutesAgo": 288,
+      "newsScore": 5.76,
+      "freshestMinutesAgo": 48,
       "headlines": [
         {
           "source": "NewsBTC",
-          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 288,
-          "catalystPoints": 1.6,
+          "title": "Pantera Leads $10 Million Fission Funding Round To Solve Tokenized Fund Liquidity Problem",
+          "minutesAgo": 48,
+          "catalystPoints": 5.76,
           "directMention": false
         }
       ],
-      "lastPrice": 0.2537,
-      "change1hPct": -0.04,
-      "change24hPct": 2.796,
-      "lagVsLeader24h": -2.53,
-      "rsi1h": 29.05,
+      "lastPrice": 0.1766,
+      "change1hPct": 0,
+      "change24hPct": -2.753,
+      "lagVsLeader24h": 1.33,
+      "rsi1h": 40,
       "hasRsiDivergence": true,
-      "atr1hPct": 1.88,
-      "bbPctB": 0.22,
-      "bbWidthPct": 13.49,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 66.4,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.2475,
-      "resistance": 0.2814,
-      "roomToResistancePct": 10.92,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 58.5,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 77.2,
-      "tpPct": 9,
-      "slPct": 3.1,
-      "tpPrice": 0.27653,
-      "slPrice": 0.24584,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "Haber EIGEN ile alakasız, tuzak riski yüksek."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 78,
-          "reason": "RSI düşük, balina alımı yüksek"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 87,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber EIGEN ile alakasız, tuzak riski yüksek. | [GPT-120B: LONG %78] RSI düşük, balina alımı yüksek"
-    }
-  ],
-  "allQualifiedOpportunities": [
-    {
-      "symbol": "NEAR",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "ai agent"
-      ],
-      "newsScore": 3.2,
-      "freshestMinutesAgo": 359,
-      "headlines": [
-        {
-          "source": "Decrypt",
-          "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 359,
-          "catalystPoints": 3.2,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 4.996,
-      "change1hPct": -0.02,
-      "change24hPct": 0.382,
-      "lagVsLeader24h": -2.55,
-      "rsi1h": 38.7,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.41,
-      "bbPctB": 0.38,
-      "bbWidthPct": 6.89,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 12.5,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 4.851,
-      "resistance": 5.197,
-      "roomToResistancePct": 4.02,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 54.2,
-      "isGreenBounce": true,
-      "isTrending": true,
-      "volRatio": 0,
-      "fundingHourlyPct": -0.0005,
-      "totalScore": 85.4,
-      "tpPct": 4.97,
-      "slPct": 2.33,
-      "tpPrice": 5.2443,
-      "slPrice": 4.8796,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "Haber NEAR ile alakasız, tuzak riski yüksek."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 78,
-          "reason": "StepFun haberı NEAR ekosistemini destekliyor"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 87,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber NEAR ile alakasız, tuzak riski yüksek. | [GPT-120B: LONG %78] StepFun haberı NEAR ekosistemini destekliyor"
-    },
-    {
-      "symbol": "TAO",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "ai agent"
-      ],
-      "newsScore": 3.2,
-      "freshestMinutesAgo": 359,
-      "headlines": [
-        {
-          "source": "Decrypt",
-          "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 359,
-          "catalystPoints": 3.2,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 272.1,
-      "change1hPct": 0.04,
-      "change24hPct": 0.184,
-      "lagVsLeader24h": -2.35,
-      "rsi1h": 42.44,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.88,
-      "bbPctB": 0.46,
-      "bbWidthPct": 4.28,
+      "atr1hPct": 0.78,
+      "bbPctB": 0.15,
+      "bbWidthPct": 2.83,
       "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 22.9,
+      "macdBullishTurn": false,
+      "adx": 50.9,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 266.3,
-      "resistance": 277.3,
-      "roomToResistancePct": 1.91,
+      "support": 0.1759,
+      "resistance": 0.1811,
+      "roomToResistancePct": 2.55,
       "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -279,453 +61,146 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 54.2,
-      "isGreenBounce": true,
+      "takerBuyRatioPct": 51.9,
+      "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 73.4,
+      "volRatio": 0.02,
+      "fundingHourlyPct": -0.0019,
+      "totalScore": 88.3,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 284.34,
-      "slPrice": 266.66
-    },
-    {
-      "symbol": "EIGEN",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "arbitrum"
-      ],
-      "newsScore": 1.6,
-      "freshestMinutesAgo": 288,
-      "headlines": [
-        {
-          "source": "NewsBTC",
-          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 288,
-          "catalystPoints": 1.6,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.2537,
-      "change1hPct": -0.04,
-      "change24hPct": 2.796,
-      "lagVsLeader24h": -2.53,
-      "rsi1h": 29.05,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.88,
-      "bbPctB": 0.22,
-      "bbWidthPct": 13.49,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 66.4,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.2475,
-      "resistance": 0.2814,
-      "roomToResistancePct": 10.92,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 58.5,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 77.2,
-      "tpPct": 9,
-      "slPct": 3.1,
-      "tpPrice": 0.27653,
-      "slPrice": 0.24584,
+      "tpPrice": 0.18455,
+      "slPrice": 0.17307,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
           "decision": "WAIT",
-          "confidence": 95,
-          "reason": "Haber EIGEN ile alakasız, tuzak riski yüksek."
+          "confidence": 65,
+          "reason": "Haber XLM ile doğrudan ilgili değil, nötr sinyal."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
-          "confidence": 78,
-          "reason": "RSI düşük, balina alımı yüksek"
+          "confidence": 82,
+          "reason": "Pozitif fonlama ve yüksek balina alımı"
         }
       ],
       "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 87,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber EIGEN ile alakasız, tuzak riski yüksek. | [GPT-120B: LONG %78] RSI düşük, balina alımı yüksek"
-    },
+      "liveLlmConfidence": 74,
+      "liveLlmReason": "[Qwen-3.8: WAIT %65] Haber XLM ile doğrudan ilgili değil, nötr sinyal. | [GPT-120B: LONG %82] Pozitif fonlama ve yüksek balina alımı"
+    }
+  ],
+  "allQualifiedOpportunities": [
     {
-      "symbol": "AAVE",
-      "leaderSymbol": "ETH",
+      "symbol": "XLM",
+      "leaderSymbol": "XRP",
       "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
-        "arbitrum"
+        "tokenized"
       ],
-      "newsScore": 1.6,
-      "freshestMinutesAgo": 288,
+      "newsScore": 5.76,
+      "freshestMinutesAgo": 48,
       "headlines": [
         {
           "source": "NewsBTC",
-          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 288,
-          "catalystPoints": 1.6,
+          "title": "Pantera Leads $10 Million Fission Funding Round To Solve Tokenized Fund Liquidity Problem",
+          "minutesAgo": 48,
+          "catalystPoints": 5.76,
           "directMention": false
         }
       ],
-      "lastPrice": 153.31,
-      "change1hPct": 0.04,
-      "change24hPct": -1.491,
-      "lagVsLeader24h": 1.76,
-      "rsi1h": 34.45,
+      "lastPrice": 0.1766,
+      "change1hPct": 0,
+      "change24hPct": -2.753,
+      "lagVsLeader24h": 1.33,
+      "rsi1h": 40,
       "hasRsiDivergence": true,
-      "atr1hPct": 0.72,
-      "bbPctB": 0.34,
-      "bbWidthPct": 4.46,
+      "atr1hPct": 0.78,
+      "bbPctB": 0.15,
+      "bbWidthPct": 2.83,
       "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 52.5,
+      "macdBullishTurn": false,
+      "adx": 50.9,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 150.35,
-      "resistance": 156.89,
-      "roomToResistancePct": 2.34,
-      "aiConsensusCount": 3,
+      "support": 0.1759,
+      "resistance": 0.1811,
+      "roomToResistancePct": 2.55,
+      "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 55.8,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 69.4,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 160.21,
-      "slPrice": 150.24
-    },
-    {
-      "symbol": "ARB",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "arbitrum"
-      ],
-      "newsScore": 1.6,
-      "freshestMinutesAgo": 288,
-      "headlines": [
-        {
-          "source": "NewsBTC",
-          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 288,
-          "catalystPoints": 1.6,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.1839,
-      "change1hPct": 0,
-      "change24hPct": -4.169,
-      "lagVsLeader24h": 4.44,
-      "rsi1h": 32.59,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.88,
-      "bbPctB": 0.3,
-      "bbWidthPct": 6.25,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 39.1,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.1809,
-      "resistance": 0.1921,
-      "roomToResistancePct": 4.46,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 54.7,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.02,
-      "fundingHourlyPct": 0.0001,
-      "totalScore": 68.2,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.19218,
-      "slPrice": 0.18022
-    },
-    {
-      "symbol": "ENS",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "arbitrum"
-      ],
-      "newsScore": 1.6,
-      "freshestMinutesAgo": 288,
-      "headlines": [
-        {
-          "source": "NewsBTC",
-          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 288,
-          "catalystPoints": 1.6,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 5.59,
-      "change1hPct": 0,
-      "change24hPct": -1.411,
-      "lagVsLeader24h": 1.68,
-      "rsi1h": 39.29,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.64,
-      "bbPctB": 0.36,
-      "bbWidthPct": 4.15,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 44,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 5.49,
-      "resistance": 5.72,
-      "roomToResistancePct": 2.33,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 69.5,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 1,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 64.2,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 5.8415,
-      "slPrice": 5.4782
-    },
-    {
-      "symbol": "RENDER",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "ai agent"
-      ],
-      "newsScore": 3.2,
-      "freshestMinutesAgo": 359,
-      "headlines": [
-        {
-          "source": "Decrypt",
-          "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 359,
-          "catalystPoints": 3.2,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 1.869,
-      "change1hPct": 0,
-      "change24hPct": -1.632,
-      "lagVsLeader24h": -0.53,
-      "rsi1h": 32.88,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.9,
-      "bbPctB": 0.35,
-      "bbWidthPct": 6.31,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 50,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 1.826,
-      "resistance": 1.936,
-      "roomToResistancePct": 3.58,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 68.6,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 60.4,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 1.9531,
-      "slPrice": 1.8316
-    },
-    {
-      "symbol": "WLD",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "ai agent"
-      ],
-      "newsScore": 3.2,
-      "freshestMinutesAgo": 359,
-      "headlines": [
-        {
-          "source": "Decrypt",
-          "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 359,
-          "catalystPoints": 3.2,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.5048,
-      "change1hPct": 0,
-      "change24hPct": 0.099,
-      "lagVsLeader24h": -2.26,
-      "rsi1h": 32.43,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.38,
-      "bbPctB": 0.37,
-      "bbWidthPct": 10.51,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 41,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.4887,
-      "resistance": 0.5388,
-      "roomToResistancePct": 6.74,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 45.7,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0,
-      "fundingHourlyPct": -0.0028,
-      "totalScore": 59.4,
-      "tpPct": 7.11,
-      "slPct": 2.28,
-      "tpPrice": 0.54069,
-      "slPrice": 0.49329
-    },
-    {
-      "symbol": "ARKM",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "ai agent"
-      ],
-      "newsScore": 3.2,
-      "freshestMinutesAgo": 359,
-      "headlines": [
-        {
-          "source": "Decrypt",
-          "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 359,
-          "catalystPoints": 3.2,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.1201,
-      "change1hPct": 0,
-      "change24hPct": -1.959,
-      "lagVsLeader24h": -0.21,
-      "rsi1h": 41.35,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.04,
-      "bbPctB": 0.36,
-      "bbWidthPct": 6.63,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 31.8,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.1171,
-      "resistance": 0.1251,
-      "roomToResistancePct": 4.16,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
         "Llama-4-Scout",
         "Gemini-3.5-Flash",
         "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 51,
-      "isGreenBounce": true,
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 51.9,
+      "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0,
-      "fundingHourlyPct": 0,
-      "totalScore": 58.4,
-      "tpPct": 5.12,
+      "volRatio": 0.02,
+      "fundingHourlyPct": -0.0019,
+      "totalScore": 88.3,
+      "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 0.12625,
-      "slPrice": 0.1177
+      "tpPrice": 0.18455,
+      "slPrice": 0.17307,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 65,
+          "reason": "Haber XLM ile doğrudan ilgili değil, nötr sinyal."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 82,
+          "reason": "Pozitif fonlama ve yüksek balina alımı"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 74,
+      "liveLlmReason": "[Qwen-3.8: WAIT %65] Haber XLM ile doğrudan ilgili değil, nötr sinyal. | [GPT-120B: LONG %82] Pozitif fonlama ve yüksek balina alımı"
     },
     {
-      "symbol": "THETA",
-      "leaderSymbol": "FET",
+      "symbol": "ALGO",
+      "leaderSymbol": "XRP",
       "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
-        "ai agent"
+        "tokenized"
       ],
-      "newsScore": 3.2,
-      "freshestMinutesAgo": 359,
+      "newsScore": 5.76,
+      "freshestMinutesAgo": 48,
       "headlines": [
         {
-          "source": "Decrypt",
-          "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 359,
-          "catalystPoints": 3.2,
+          "source": "NewsBTC",
+          "title": "Pantera Leads $10 Million Fission Funding Round To Solve Tokenized Fund Liquidity Problem",
+          "minutesAgo": 48,
+          "catalystPoints": 5.76,
           "directMention": false
         }
       ],
-      "lastPrice": 0.1955,
-      "change1hPct": 0,
-      "change24hPct": -0.204,
-      "lagVsLeader24h": -1.96,
-      "rsi1h": 37.6,
+      "lastPrice": 0.1111,
+      "change1hPct": -0.18,
+      "change24hPct": -4.307,
+      "lagVsLeader24h": 2.88,
+      "rsi1h": 40,
       "hasRsiDivergence": true,
-      "atr1hPct": 0.81,
-      "bbPctB": 0.39,
-      "bbWidthPct": 4.62,
+      "atr1hPct": 1.05,
+      "bbPctB": 0.25,
+      "bbWidthPct": 4.26,
       "isSqueeze": true,
       "macdBullishTurn": true,
-      "adx": 20,
+      "adx": 39.8,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.1917,
-      "resistance": 0.1998,
-      "roomToResistancePct": 2.2,
+      "support": 0.1101,
+      "resistance": 0.1161,
+      "roomToResistancePct": 4.5,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -733,108 +208,218 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 48.1,
-      "isGreenBounce": true,
+      "takerBuyRatioPct": 44.9,
+      "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 1,
-      "fundingHourlyPct": 0,
-      "totalScore": 58.4,
+      "volRatio": 0,
+      "fundingHourlyPct": -0.0024,
+      "totalScore": 80.1,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 0.2043,
-      "slPrice": 0.19159
+      "tpPrice": 0.1161,
+      "slPrice": 0.10888
     },
     {
-      "symbol": "METIS",
-      "leaderSymbol": "ETH",
+      "symbol": "XRP",
+      "leaderSymbol": "XRP",
       "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
-        "arbitrum"
+        "tokenized"
       ],
-      "newsScore": 1.6,
-      "freshestMinutesAgo": 288,
+      "newsScore": 5.76,
+      "freshestMinutesAgo": 48,
       "headlines": [
         {
           "source": "NewsBTC",
-          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 288,
-          "catalystPoints": 1.6,
+          "title": "Pantera Leads $10 Million Fission Funding Round To Solve Tokenized Fund Liquidity Problem",
+          "minutesAgo": 48,
+          "catalystPoints": 5.76,
           "directMention": false
         }
       ],
-      "lastPrice": 3.9,
-      "change1hPct": 0,
-      "change24hPct": 1.828,
-      "lagVsLeader24h": -1.56,
-      "rsi1h": 34.55,
+      "lastPrice": 1.292,
+      "change1hPct": -0.06,
+      "change24hPct": -1.427,
+      "lagVsLeader24h": 0,
+      "rsi1h": 40.06,
       "hasRsiDivergence": true,
-      "atr1hPct": 1.84,
-      "bbPctB": 0.21,
-      "bbWidthPct": 10.64,
-      "isSqueeze": false,
+      "atr1hPct": 0.68,
+      "bbPctB": 0.19,
+      "bbWidthPct": 2.22,
+      "isSqueeze": true,
       "macdBullishTurn": true,
-      "adx": 51,
-      "ema20AboveEma50": false,
+      "adx": 60.1,
+      "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
-      "support": 3.85,
-      "resistance": 4.23,
-      "roomToResistancePct": 8.46,
+      "support": 1.2879,
+      "resistance": 1.3126,
+      "roomToResistancePct": 1.59,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 45.8,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.03,
+      "fundingHourlyPct": -0.0007,
+      "totalScore": 78.9,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 1.3501,
+      "slPrice": 1.2662
+    },
+    {
+      "symbol": "OM",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "tokenized"
+      ],
+      "newsScore": 5.76,
+      "freshestMinutesAgo": 48,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "Pantera Leads $10 Million Fission Funding Round To Solve Tokenized Fund Liquidity Problem",
+          "minutesAgo": 48,
+          "catalystPoints": 5.76,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.0669,
+      "change1hPct": -4.43,
+      "change24hPct": -5.106,
+      "lagVsLeader24h": 3.68,
+      "rsi1h": 31.53,
+      "hasRsiDivergence": true,
+      "atr1hPct": 3.26,
+      "bbPctB": -0.14,
+      "bbWidthPct": 6.33,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 2,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.068,
+      "resistance": 0.0737,
+      "roomToResistancePct": 10.16,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
         "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 48.6,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 1.75,
+      "fundingHourlyPct": 0,
+      "totalScore": 74.3,
+      "tpPct": 6.3,
+      "slPct": 3.2,
+      "tpPrice": 0.071115,
+      "slPrice": 0.064759
+    },
+    {
+      "symbol": "HBAR",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "tokenized"
+      ],
+      "newsScore": 5.76,
+      "freshestMinutesAgo": 48,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "Pantera Leads $10 Million Fission Funding Round To Solve Tokenized Fund Liquidity Problem",
+          "minutesAgo": 48,
+          "catalystPoints": 5.76,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.0843,
+      "change1hPct": -0.01,
+      "change24hPct": 0.657,
+      "lagVsLeader24h": -2.08,
+      "rsi1h": 54.1,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.16,
+      "bbPctB": 0.7,
+      "bbWidthPct": 3.73,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 0.6,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.08226,
+      "resistance": 0.08573,
+      "roomToResistancePct": 1.7,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash",
         "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 66.3,
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 50.3,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 1,
-      "fundingHourlyPct": 0,
-      "totalScore": 54.2,
-      "tpPct": 7.15,
-      "slPct": 3.04,
-      "tpPrice": 4.1788,
-      "slPrice": 3.7814
+      "volRatio": 0.01,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 64.9,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.088093,
+      "slPrice": 0.082614
     },
     {
-      "symbol": "GRT",
-      "leaderSymbol": "FET",
+      "symbol": "RSR",
+      "leaderSymbol": "XRP",
       "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
-        "ai agent"
+        "tokenized"
       ],
-      "newsScore": 3.2,
-      "freshestMinutesAgo": 359,
+      "newsScore": 5.76,
+      "freshestMinutesAgo": 48,
       "headlines": [
         {
-          "source": "Decrypt",
-          "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 359,
-          "catalystPoints": 3.2,
+          "source": "NewsBTC",
+          "title": "Pantera Leads $10 Million Fission Funding Round To Solve Tokenized Fund Liquidity Problem",
+          "minutesAgo": 48,
+          "catalystPoints": 5.76,
           "directMention": false
         }
       ],
-      "lastPrice": 0.02445,
-      "change1hPct": -0.04,
-      "change24hPct": -0.972,
-      "lagVsLeader24h": -1.19,
-      "rsi1h": 48.57,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.89,
-      "bbPctB": 0.53,
-      "bbWidthPct": 4.5,
-      "isSqueeze": true,
+      "lastPrice": 0.002022,
+      "change1hPct": -0.2,
+      "change24hPct": 4.93,
+      "lagVsLeader24h": -6.36,
+      "rsi1h": 47.93,
+      "hasRsiDivergence": false,
+      "atr1hPct": 2.48,
+      "bbPctB": 0.69,
+      "bbWidthPct": 6.66,
+      "isSqueeze": false,
       "macdBullishTurn": true,
-      "adx": 0,
-      "ema20AboveEma50": false,
+      "adx": 24.9,
+      "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
-      "support": 0.02382,
-      "resistance": 0.02489,
-      "roomToResistancePct": 1.8,
+      "support": 0.001916,
+      "resistance": 0.002105,
+      "roomToResistancePct": 4.1,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -842,282 +427,16 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 50.7,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.01,
-      "fundingHourlyPct": 0,
-      "totalScore": 48.4,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.02555,
-      "slPrice": 0.023961
-    },
-    {
-      "symbol": "LDO",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "arbitrum"
-      ],
-      "newsScore": 1.6,
-      "freshestMinutesAgo": 288,
-      "headlines": [
-        {
-          "source": "NewsBTC",
-          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 288,
-          "catalystPoints": 1.6,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.3936,
-      "change1hPct": 0,
-      "change24hPct": -1.279,
-      "lagVsLeader24h": 1.55,
-      "rsi1h": 41.06,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.88,
-      "bbPctB": 0.42,
-      "bbWidthPct": 5.54,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 32.3,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.3838,
-      "resistance": 0.4051,
-      "roomToResistancePct": 2.92,
-      "aiConsensusCount": 1,
-      "aiConsensusModels": [
-        "Llama-4-Scout"
-      ],
-      "aiConsensusLabel": "1/4 AI ONAYLI",
-      "takerBuyRatioPct": 58.7,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0,
-      "fundingHourlyPct": 0.0004,
-      "totalScore": 45,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.41131,
-      "slPrice": 0.38573
-    },
-    {
-      "symbol": "UNI",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "arbitrum"
-      ],
-      "newsScore": 1.6,
-      "freshestMinutesAgo": 288,
-      "headlines": [
-        {
-          "source": "NewsBTC",
-          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 288,
-          "catalystPoints": 1.6,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 7.181,
-      "change1hPct": -0.01,
-      "change24hPct": -0.733,
-      "lagVsLeader24h": 1,
-      "rsi1h": 37.18,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.94,
-      "bbPctB": 0.37,
-      "bbWidthPct": 5.02,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 39.7,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 7.015,
-      "resistance": 7.352,
-      "roomToResistancePct": 2.38,
-      "aiConsensusCount": 1,
-      "aiConsensusModels": [
-        "Llama-4-Scout"
-      ],
-      "aiConsensusLabel": "1/4 AI ONAYLI",
-      "takerBuyRatioPct": 57.3,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 44,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 7.5041,
-      "slPrice": 7.0374
-    },
-    {
-      "symbol": "OP",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "arbitrum"
-      ],
-      "newsScore": 1.6,
-      "freshestMinutesAgo": 288,
-      "headlines": [
-        {
-          "source": "NewsBTC",
-          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 288,
-          "catalystPoints": 1.6,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.1325,
-      "change1hPct": 0.08,
-      "change24hPct": -2.286,
-      "lagVsLeader24h": 2.55,
-      "rsi1h": 35.29,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.1,
-      "bbPctB": 0.41,
-      "bbWidthPct": 9.48,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 48.5,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.1285,
-      "resistance": 0.1406,
-      "roomToResistancePct": 6.11,
-      "aiConsensusCount": 1,
-      "aiConsensusModels": [
-        "Llama-4-Scout"
-      ],
-      "aiConsensusLabel": "1/4 AI ONAYLI",
-      "takerBuyRatioPct": 43.8,
+      "takerBuyRatioPct": 46.1,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 43.8,
-      "tpPct": 6.22,
-      "slPct": 2,
-      "tpPrice": 0.14074,
-      "slPrice": 0.12985
-    },
-    {
-      "symbol": "FET",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "ai agent"
-      ],
-      "newsScore": 3.2,
-      "freshestMinutesAgo": 359,
-      "headlines": [
-        {
-          "source": "Decrypt",
-          "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 359,
-          "catalystPoints": 3.2,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.1943,
-      "change1hPct": -0.1,
-      "change24hPct": -2.165,
-      "lagVsLeader24h": 0,
-      "rsi1h": 48.17,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.35,
-      "bbPctB": 0.59,
-      "bbWidthPct": 5.09,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 15,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.1853,
-      "resistance": 0.1996,
-      "roomToResistancePct": 2.73,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 56.1,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.01,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 41.4,
-      "tpPct": 5.79,
-      "slPct": 2.23,
-      "tpPrice": 0.20555,
-      "slPrice": 0.18997
-    },
-    {
-      "symbol": "ETHFI",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "arbitrum"
-      ],
-      "newsScore": 1.6,
-      "freshestMinutesAgo": 288,
-      "headlines": [
-        {
-          "source": "NewsBTC",
-          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 288,
-          "catalystPoints": 1.6,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.682,
-      "change1hPct": -0.07,
-      "change24hPct": 0.694,
-      "lagVsLeader24h": -0.43,
-      "rsi1h": 47.4,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.02,
-      "bbPctB": 0.53,
-      "bbWidthPct": 5.1,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 23.1,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.6595,
-      "resistance": 0.6974,
-      "roomToResistancePct": 2.26,
-      "aiConsensusCount": 1,
-      "aiConsensusModels": [
-        "Llama-4-Scout"
-      ],
-      "aiConsensusLabel": "1/4 AI ONAYLI",
-      "takerBuyRatioPct": 50,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.01,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 29.2,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.71269,
-      "slPrice": 0.66836
+      "volRatio": 0.04,
+      "fundingHourlyPct": -0.0305,
+      "totalScore": 61.9,
+      "tpPct": 7.17,
+      "slPct": 3.2,
+      "tpPrice": 0.002167,
+      "slPrice": 0.0019573
     }
   ]
 }
