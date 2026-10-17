@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-17T16:25:05.706Z",
-  "scanDurationMs": 3061,
+  "updatedAt": "2026-10-17T16:49:06.679Z",
+  "scanDurationMs": 3515,
   "bankrollTry": 1000,
   "bankrollUsdt": 28.01,
-  "btc1hChangePct": -0.37,
+  "btc1hChangePct": -0.17,
   "btcCrashAlert": false,
   "marketBreadthPct": 8,
   "totalHeadlinesScanned": 102,
@@ -17,88 +17,59 @@
   ],
   "top4AltcoinPicks": [
     {
-      "symbol": "HBAR",
-      "leaderSymbol": "XRP",
+      "symbol": "OP",
+      "leaderSymbol": "ETH",
       "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
       ],
       "matchedKeywords": [
-        "tokenized",
-        "xrp",
-        "ripple",
-        "rlusd",
-        "bstocks"
+        "arbitrum"
       ],
-      "newsScore": 8.66,
-      "freshestMinutesAgo": 192,
+      "newsScore": 2.88,
+      "freshestMinutesAgo": 36,
       "headlines": [
         {
-          "source": "CoinDesk",
-          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 1776,
-          "catalystPoints": 4.16,
-          "directMention": false
-        },
-        {
-          "source": "CryptoPotato",
-          "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
-          "minutesAgo": 1735,
-          "catalystPoints": 2.47,
+          "source": "NewsBTC",
+          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
+          "minutesAgo": 36,
+          "catalystPoints": 2.88,
           "directMention": false
         }
       ],
-      "lastPrice": 0.08279,
-      "change1hPct": -0.01,
-      "change24hPct": -1.382,
-      "lagVsLeader24h": -0.18,
-      "rsi1h": 31.89,
+      "lastPrice": 0.1293,
+      "change1hPct": 0.23,
+      "change24hPct": -6.032,
+      "lagVsLeader24h": 4.97,
+      "rsi1h": 15.75,
       "hasRsiDivergence": true,
-      "atr1hPct": 0.64,
-      "bbPctB": 0.08,
-      "bbWidthPct": 2.07,
-      "isSqueeze": true,
+      "atr1hPct": 1.39,
+      "bbPctB": 0.05,
+      "bbWidthPct": 9.51,
+      "isSqueeze": false,
       "macdBullishTurn": true,
-      "adx": 36.5,
+      "adx": 81.1,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.08212,
-      "resistance": 0.08448,
-      "roomToResistancePct": 2.04,
-      "aiConsensusCount": 4,
+      "support": 0.1285,
+      "resistance": 0.1406,
+      "roomToResistancePct": 8.74,
+      "aiConsensusCount": 3,
       "aiConsensusModels": [
-        "Llama-4-Maverick",
         "Llama-4-Scout",
         "Gemini-3.5-Flash",
         "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 55.9,
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 50.3,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.14,
+      "volRatio": 0.74,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 99,
-      "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 0.086516,
-      "slPrice": 0.0813,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "Haber HBAR ile alakasız, tuzak riski yüksek."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 78,
-          "reason": "RSI düşük, balina alımı yüksek, olumlu duygu"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 87,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber HBAR ile alakasız, tuzak riski yüksek. | [GPT-120B: LONG %78] RSI düşük, balina alımı yüksek, olumlu duygu"
+      "totalScore": 76,
+      "tpPct": 6.22,
+      "slPct": 2.29,
+      "tpPrice": 0.13734,
+      "slPrice": 0.12634
     },
     {
       "symbol": "TAO",
@@ -107,362 +78,36 @@
         "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
       ],
       "matchedKeywords": [
-        "openai",
-        "ai agent",
-        "ai agents"
+        "ai agent"
       ],
-      "newsScore": 7.13,
-      "freshestMinutesAgo": 84,
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 108,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 84,
-          "catalystPoints": 5.44,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "India&#39;s Cyber Agency Says AI Agents Read Confidential Business Records Without Authorization",
-          "minutesAgo": 1357,
-          "catalystPoints": 1.04,
+          "minutesAgo": 108,
+          "catalystPoints": 4.48,
           "directMention": false
         }
       ],
-      "lastPrice": 268.3,
-      "change1hPct": 0,
-      "change24hPct": -4.689,
-      "lagVsLeader24h": -1.04,
-      "rsi1h": 31.71,
+      "lastPrice": 267.6,
+      "change1hPct": -0.26,
+      "change24hPct": -4.052,
+      "lagVsLeader24h": -1.08,
+      "rsi1h": 30.41,
       "hasRsiDivergence": true,
-      "atr1hPct": 0.92,
-      "bbPctB": -0.02,
-      "bbWidthPct": 3.66,
+      "atr1hPct": 0.94,
+      "bbPctB": -0.07,
+      "bbWidthPct": 3.77,
       "isSqueeze": true,
       "macdBullishTurn": false,
-      "adx": 43.3,
+      "adx": 44.8,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 267.9,
+      "support": 267.4,
       "resistance": 277.4,
-      "roomToResistancePct": 3.39,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 57.9,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.91,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 99,
-      "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 280.37,
-      "slPrice": 263.47,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "Haber TAO ile doğrudan ilişkili değil, spekülatif."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 78,
-          "reason": "RSI düşük, balina alımı yüksek, olumlu sinyal"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 87,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber TAO ile doğrudan ilişkili değil, spekülatif. | [GPT-120B: LONG %78] RSI düşük, balina alımı yüksek, olumlu sinyal"
-    },
-    {
-      "symbol": "DOGE",
-      "leaderSymbol": "DOGE",
-      "ecosystems": [
-        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
-      ],
-      "matchedKeywords": [
-        "meme coin",
-        "elon musk"
-      ],
-      "newsScore": 6.57,
-      "freshestMinutesAgo": 1776,
-      "headlines": [
-        {
-          "source": "CoinDesk",
-          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 1776,
-          "catalystPoints": 4.16,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "GTA 6 Trailer Features Meme Coin—And Solana Copycat Soars 2,900%",
-          "minutesAgo": 1809,
-          "catalystPoints": 2.41,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.07934,
-      "change1hPct": 0.08,
-      "change24hPct": -1.916,
-      "lagVsLeader24h": 0,
-      "rsi1h": 36.39,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.53,
-      "bbPctB": -0.01,
-      "bbWidthPct": 2.28,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 35.1,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.07919,
-      "resistance": 0.081,
-      "roomToResistancePct": 2.09,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 49.8,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.2,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 89.6,
-      "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 0.08291,
-      "slPrice": 0.077912,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "Haber DOGE ile alakasız, manipülasyon riski yüksek."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 78,
-          "reason": "Whale alımı ve düşük RSI, potansiyel yükseliş"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 87,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber DOGE ile alakasız, manipülasyon riski yüksek. | [GPT-120B: LONG %78] Whale alımı ve düşük RSI, potansiyel yükseliş"
-    }
-  ],
-  "allQualifiedOpportunities": [
-    {
-      "symbol": "HBAR",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "tokenized",
-        "xrp",
-        "ripple",
-        "rlusd",
-        "bstocks"
-      ],
-      "newsScore": 8.66,
-      "freshestMinutesAgo": 192,
-      "headlines": [
-        {
-          "source": "CoinDesk",
-          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 1776,
-          "catalystPoints": 4.16,
-          "directMention": false
-        },
-        {
-          "source": "CryptoPotato",
-          "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
-          "minutesAgo": 1735,
-          "catalystPoints": 2.47,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.08279,
-      "change1hPct": -0.01,
-      "change24hPct": -1.382,
-      "lagVsLeader24h": -0.18,
-      "rsi1h": 31.89,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.64,
-      "bbPctB": 0.08,
-      "bbWidthPct": 2.07,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 36.5,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.08212,
-      "resistance": 0.08448,
-      "roomToResistancePct": 2.04,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 55.9,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.14,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 99,
-      "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 0.086516,
-      "slPrice": 0.0813,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "Haber HBAR ile alakasız, tuzak riski yüksek."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 78,
-          "reason": "RSI düşük, balina alımı yüksek, olumlu duygu"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 87,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber HBAR ile alakasız, tuzak riski yüksek. | [GPT-120B: LONG %78] RSI düşük, balina alımı yüksek, olumlu duygu"
-    },
-    {
-      "symbol": "ALGO",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "tokenized",
-        "xrp",
-        "ripple",
-        "rlusd",
-        "bstocks"
-      ],
-      "newsScore": 8.66,
-      "freshestMinutesAgo": 192,
-      "headlines": [
-        {
-          "source": "CoinDesk",
-          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 1776,
-          "catalystPoints": 4.16,
-          "directMention": false
-        },
-        {
-          "source": "CryptoPotato",
-          "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
-          "minutesAgo": 1735,
-          "catalystPoints": 2.47,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.1113,
-      "change1hPct": -0.09,
-      "change24hPct": -5.115,
-      "lagVsLeader24h": 3.55,
-      "rsi1h": 27.16,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.93,
-      "bbPctB": 0.1,
-      "bbWidthPct": 5.21,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 30.4,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.1111,
-      "resistance": 0.1164,
-      "roomToResistancePct": 4.58,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 53.5,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.52,
-      "fundingHourlyPct": -0.0021,
-      "totalScore": 105.4,
-      "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 0.11631,
-      "slPrice": 0.1093
-    },
-    {
-      "symbol": "ONDO",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "tokenized",
-        "xrp",
-        "ripple",
-        "rlusd",
-        "bstocks"
-      ],
-      "newsScore": 8.66,
-      "freshestMinutesAgo": 192,
-      "headlines": [
-        {
-          "source": "CoinDesk",
-          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 1776,
-          "catalystPoints": 4.16,
-          "directMention": false
-        },
-        {
-          "source": "CryptoPotato",
-          "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
-          "minutesAgo": 1735,
-          "catalystPoints": 2.47,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.4404,
-      "change1hPct": 0.11,
-      "change24hPct": -3.738,
-      "lagVsLeader24h": 2.18,
-      "rsi1h": 26.79,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.83,
-      "bbPctB": -0.02,
-      "bbWidthPct": 4.59,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 46.7,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.4398,
-      "resistance": 0.459,
-      "roomToResistancePct": 4.22,
+      "roomToResistancePct": 3.66,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -470,16 +115,16 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 38,
-      "isGreenBounce": true,
+      "takerBuyRatioPct": 57,
+      "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.21,
-      "fundingHourlyPct": -0.0009,
-      "totalScore": 99.9,
+      "volRatio": 1.39,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 75.1,
       "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 0.46022,
-      "slPrice": 0.43247
+      "slPct": 2,
+      "tpPrice": 279.64,
+      "slPrice": 262.25
     },
     {
       "symbol": "LINK",
@@ -489,46 +134,36 @@
       ],
       "matchedKeywords": [
         "tokenized",
-        "xrp",
-        "ripple",
-        "rlusd",
         "bstocks"
       ],
-      "newsScore": 8.66,
-      "freshestMinutesAgo": 192,
+      "newsScore": 1.5,
+      "freshestMinutesAgo": 216,
       "headlines": [
         {
-          "source": "CoinDesk",
-          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 1776,
-          "catalystPoints": 4.16,
-          "directMention": false
-        },
-        {
-          "source": "CryptoPotato",
-          "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
-          "minutesAgo": 1735,
-          "catalystPoints": 2.47,
+          "source": "NewsBTC",
+          "title": "Binance bStocks Hits $1 Billion As Tokenized Stock Trading Accelerates",
+          "minutesAgo": 216,
+          "catalystPoints": 1.5,
           "directMention": false
         }
       ],
-      "lastPrice": 11.946,
-      "change1hPct": 0.29,
-      "change24hPct": -3.731,
-      "lagVsLeader24h": 2.17,
-      "rsi1h": 14.42,
+      "lastPrice": 11.926,
+      "change1hPct": 0.13,
+      "change24hPct": -3.355,
+      "lagVsLeader24h": 2.22,
+      "rsi1h": 10.95,
       "hasRsiDivergence": true,
-      "atr1hPct": 0.6,
-      "bbPctB": 0.01,
-      "bbWidthPct": 4.44,
+      "atr1hPct": 0.61,
+      "bbPctB": -0.02,
+      "bbWidthPct": 4.5,
       "isSqueeze": true,
       "macdBullishTurn": false,
-      "adx": 86.7,
+      "adx": 87.2,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
       "support": 11.91,
       "resistance": 12.393,
-      "roomToResistancePct": 3.74,
+      "roomToResistancePct": 3.92,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -536,16 +171,73 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 45.7,
+      "takerBuyRatioPct": 45.2,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.45,
-      "fundingHourlyPct": -0.001,
-      "totalScore": 99.9,
+      "volRatio": 1.06,
+      "fundingHourlyPct": -0.0009,
+      "totalScore": 67.7,
       "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 12.484,
-      "slPrice": 11.731
+      "slPct": 2,
+      "tpPrice": 12.463,
+      "slPrice": 11.687
+    }
+  ],
+  "allQualifiedOpportunities": [
+    {
+      "symbol": "OP",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "arbitrum"
+      ],
+      "newsScore": 2.88,
+      "freshestMinutesAgo": 36,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
+          "minutesAgo": 36,
+          "catalystPoints": 2.88,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.1293,
+      "change1hPct": 0.23,
+      "change24hPct": -6.032,
+      "lagVsLeader24h": 4.97,
+      "rsi1h": 15.75,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.39,
+      "bbPctB": 0.05,
+      "bbWidthPct": 9.51,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 81.1,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.1285,
+      "resistance": 0.1406,
+      "roomToResistancePct": 8.74,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 50.3,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.74,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 76,
+      "tpPct": 6.22,
+      "slPct": 2.29,
+      "tpPrice": 0.13734,
+      "slPrice": 0.12634
     },
     {
       "symbol": "TAO",
@@ -554,129 +246,91 @@
         "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
       ],
       "matchedKeywords": [
-        "openai",
-        "ai agent",
-        "ai agents"
+        "ai agent"
       ],
-      "newsScore": 7.13,
-      "freshestMinutesAgo": 84,
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 108,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 84,
-          "catalystPoints": 5.44,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "India&#39;s Cyber Agency Says AI Agents Read Confidential Business Records Without Authorization",
-          "minutesAgo": 1357,
-          "catalystPoints": 1.04,
+          "minutesAgo": 108,
+          "catalystPoints": 4.48,
           "directMention": false
         }
       ],
-      "lastPrice": 268.3,
-      "change1hPct": 0,
-      "change24hPct": -4.689,
-      "lagVsLeader24h": -1.04,
-      "rsi1h": 31.71,
+      "lastPrice": 267.6,
+      "change1hPct": -0.26,
+      "change24hPct": -4.052,
+      "lagVsLeader24h": -1.08,
+      "rsi1h": 30.41,
       "hasRsiDivergence": true,
-      "atr1hPct": 0.92,
-      "bbPctB": -0.02,
-      "bbWidthPct": 3.66,
+      "atr1hPct": 0.94,
+      "bbPctB": -0.07,
+      "bbWidthPct": 3.77,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 44.8,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 267.4,
+      "resistance": 277.4,
+      "roomToResistancePct": 3.66,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 57,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 1.39,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 75.1,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 279.64,
+      "slPrice": 262.25
+    },
+    {
+      "symbol": "AAVE",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "arbitrum"
+      ],
+      "newsScore": 2.88,
+      "freshestMinutesAgo": 36,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
+          "minutesAgo": 36,
+          "catalystPoints": 2.88,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 151.16,
+      "change1hPct": -0.6,
+      "change24hPct": -3.498,
+      "lagVsLeader24h": 2.44,
+      "rsi1h": 29.01,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.74,
+      "bbPctB": -0.21,
+      "bbWidthPct": 3.43,
       "isSqueeze": true,
       "macdBullishTurn": false,
       "adx": 43.3,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 267.9,
-      "resistance": 277.4,
-      "roomToResistancePct": 3.39,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 57.9,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.91,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 99,
-      "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 280.37,
-      "slPrice": 263.47,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "Haber TAO ile doğrudan ilişkili değil, spekülatif."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 78,
-          "reason": "RSI düşük, balina alımı yüksek, olumlu sinyal"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 87,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber TAO ile doğrudan ilişkili değil, spekülatif. | [GPT-120B: LONG %78] RSI düşük, balina alımı yüksek, olumlu sinyal"
-    },
-    {
-      "symbol": "AVAX",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "tokenized",
-        "xrp",
-        "ripple",
-        "rlusd",
-        "bstocks"
-      ],
-      "newsScore": 8.66,
-      "freshestMinutesAgo": 192,
-      "headlines": [
-        {
-          "source": "CoinDesk",
-          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 1776,
-          "catalystPoints": 4.16,
-          "directMention": false
-        },
-        {
-          "source": "CryptoPotato",
-          "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
-          "minutesAgo": 1735,
-          "catalystPoints": 2.47,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 9.839,
-      "change1hPct": 0.14,
-      "change24hPct": -2.853,
-      "lagVsLeader24h": 1.29,
-      "rsi1h": 34.43,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.72,
-      "bbPctB": 0.04,
-      "bbWidthPct": 2.48,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 30,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 9.815,
-      "resistance": 10.102,
-      "roomToResistancePct": 2.67,
+      "support": 151.99,
+      "resistance": 157.01,
+      "roomToResistancePct": 3.87,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -684,82 +338,72 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 47.8,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.4,
-      "fundingHourlyPct": -0.0022,
-      "totalScore": 92.3,
-      "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 10.282,
-      "slPrice": 9.6619
-    },
-    {
-      "symbol": "OM",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "tokenized",
-        "xrp",
-        "ripple",
-        "rlusd",
-        "bstocks"
-      ],
-      "newsScore": 8.66,
-      "freshestMinutesAgo": 192,
-      "headlines": [
-        {
-          "source": "CoinDesk",
-          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 1776,
-          "catalystPoints": 4.16,
-          "directMention": false
-        },
-        {
-          "source": "CryptoPotato",
-          "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
-          "minutesAgo": 1735,
-          "catalystPoints": 2.47,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.0669,
-      "change1hPct": -4.43,
-      "change24hPct": -5.106,
-      "lagVsLeader24h": 3.54,
-      "rsi1h": 31.53,
-      "hasRsiDivergence": true,
-      "atr1hPct": 3.26,
-      "bbPctB": -0.14,
-      "bbWidthPct": 6.33,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 2,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.068,
-      "resistance": 0.0737,
-      "roomToResistancePct": 10.16,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 48.6,
+      "takerBuyRatioPct": 53.3,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 1.75,
-      "fundingHourlyPct": 0,
-      "totalScore": 87.1,
-      "tpPct": 6.3,
-      "slPct": 3.2,
-      "tpPrice": 0.071115,
-      "slPrice": 0.064759
+      "volRatio": 2.09,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 69.8,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 157.96,
+      "slPrice": 148.14
+    },
+    {
+      "symbol": "LINK",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "tokenized",
+        "bstocks"
+      ],
+      "newsScore": 1.5,
+      "freshestMinutesAgo": 216,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "Binance bStocks Hits $1 Billion As Tokenized Stock Trading Accelerates",
+          "minutesAgo": 216,
+          "catalystPoints": 1.5,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 11.926,
+      "change1hPct": 0.13,
+      "change24hPct": -3.355,
+      "lagVsLeader24h": 2.22,
+      "rsi1h": 10.95,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.61,
+      "bbPctB": -0.02,
+      "bbWidthPct": 4.5,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 87.2,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 11.91,
+      "resistance": 12.393,
+      "roomToResistancePct": 3.92,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 45.2,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 1.06,
+      "fundingHourlyPct": -0.0009,
+      "totalScore": 67.7,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 12.463,
+      "slPrice": 11.687
     },
     {
       "symbol": "GRT",
@@ -768,45 +412,36 @@
         "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
       ],
       "matchedKeywords": [
-        "openai",
-        "ai agent",
-        "ai agents"
+        "ai agent"
       ],
-      "newsScore": 7.13,
-      "freshestMinutesAgo": 84,
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 108,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 84,
-          "catalystPoints": 5.44,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "India&#39;s Cyber Agency Says AI Agents Read Confidential Business Records Without Authorization",
-          "minutesAgo": 1357,
-          "catalystPoints": 1.04,
+          "minutesAgo": 108,
+          "catalystPoints": 4.48,
           "directMention": false
         }
       ],
-      "lastPrice": 0.02402,
-      "change1hPct": 0.21,
-      "change24hPct": -4.455,
-      "lagVsLeader24h": -1.27,
-      "rsi1h": 22.31,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.72,
-      "bbPctB": 0.05,
-      "bbWidthPct": 4.43,
+      "lastPrice": 0.02397,
+      "change1hPct": 0,
+      "change24hPct": -3.889,
+      "lagVsLeader24h": -1.24,
+      "rsi1h": 19.2,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.73,
+      "bbPctB": 0.01,
+      "bbWidthPct": 4.51,
       "isSqueeze": true,
-      "macdBullishTurn": true,
+      "macdBullishTurn": false,
       "adx": 66.4,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.02396,
+      "support": 0.02392,
       "resistance": 0.02492,
-      "roomToResistancePct": 3.75,
+      "roomToResistancePct": 3.96,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -814,65 +449,54 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 47,
+      "takerBuyRatioPct": 45.9,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.38,
+      "volRatio": 0.65,
       "fundingHourlyPct": 0,
-      "totalScore": 87.1,
+      "totalScore": 64.2,
       "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 0.025101,
-      "slPrice": 0.023588
+      "slPct": 2,
+      "tpPrice": 0.025049,
+      "slPrice": 0.023491
     },
     {
-      "symbol": "XLM",
-      "leaderSymbol": "XRP",
+      "symbol": "ENS",
+      "leaderSymbol": "ETH",
       "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
       ],
       "matchedKeywords": [
-        "tokenized",
-        "xrp",
-        "ripple",
-        "rlusd",
-        "bstocks"
+        "arbitrum"
       ],
-      "newsScore": 8.66,
-      "freshestMinutesAgo": 192,
+      "newsScore": 2.88,
+      "freshestMinutesAgo": 36,
       "headlines": [
         {
-          "source": "CoinDesk",
-          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 1776,
-          "catalystPoints": 4.16,
-          "directMention": false
-        },
-        {
-          "source": "CryptoPotato",
-          "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
-          "minutesAgo": 1735,
-          "catalystPoints": 2.47,
+          "source": "NewsBTC",
+          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
+          "minutesAgo": 36,
+          "catalystPoints": 2.88,
           "directMention": false
         }
       ],
-      "lastPrice": 0.1769,
-      "change1hPct": -0.17,
-      "change24hPct": -2.534,
-      "lagVsLeader24h": 0.97,
-      "rsi1h": 22.22,
+      "lastPrice": 5.51,
+      "change1hPct": -0.54,
+      "change24hPct": -2.993,
+      "lagVsLeader24h": 1.93,
+      "rsi1h": 23.33,
       "hasRsiDivergence": false,
-      "atr1hPct": 0.47,
-      "bbPctB": 0,
-      "bbWidthPct": 2.89,
+      "atr1hPct": 0.7,
+      "bbPctB": -0.18,
+      "bbWidthPct": 3.65,
       "isSqueeze": true,
       "macdBullishTurn": false,
-      "adx": 69.2,
+      "adx": 53.8,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.1769,
-      "resistance": 0.1819,
-      "roomToResistancePct": 2.83,
+      "support": 5.54,
+      "resistance": 5.72,
+      "roomToResistancePct": 3.81,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -880,160 +504,16 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 47.3,
+      "takerBuyRatioPct": 73.9,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.43,
-      "fundingHourlyPct": -0.0009,
-      "totalScore": 84.7,
-      "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 0.18486,
-      "slPrice": 0.17372
-    },
-    {
-      "symbol": "DOGE",
-      "leaderSymbol": "DOGE",
-      "ecosystems": [
-        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
-      ],
-      "matchedKeywords": [
-        "meme coin",
-        "elon musk"
-      ],
-      "newsScore": 6.57,
-      "freshestMinutesAgo": 1776,
-      "headlines": [
-        {
-          "source": "CoinDesk",
-          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 1776,
-          "catalystPoints": 4.16,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "GTA 6 Trailer Features Meme Coin—And Solana Copycat Soars 2,900%",
-          "minutesAgo": 1809,
-          "catalystPoints": 2.41,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.07934,
-      "change1hPct": 0.08,
-      "change24hPct": -1.916,
-      "lagVsLeader24h": 0,
-      "rsi1h": 36.39,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.53,
-      "bbPctB": -0.01,
-      "bbWidthPct": 2.28,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 35.1,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.07919,
-      "resistance": 0.081,
-      "roomToResistancePct": 2.09,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 50.4,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.2,
+      "volRatio": 0.19,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 89.6,
+      "totalScore": 63.4,
       "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 0.08291,
-      "slPrice": 0.077912,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "Haber DOGE ile alakasız, manipülasyon riski yüksek."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 78,
-          "reason": "Whale alımı ve düşük RSI, potansiyel yükseliş"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 87,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber DOGE ile alakasız, manipülasyon riski yüksek. | [GPT-120B: LONG %78] Whale alımı ve düşük RSI, potansiyel yükseliş"
-    },
-    {
-      "symbol": "ICP",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "openai",
-        "ai agent",
-        "ai agents"
-      ],
-      "newsScore": 7.13,
-      "freshestMinutesAgo": 84,
-      "headlines": [
-        {
-          "source": "Decrypt",
-          "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 84,
-          "catalystPoints": 5.44,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "India&#39;s Cyber Agency Says AI Agents Read Confidential Business Records Without Authorization",
-          "minutesAgo": 1357,
-          "catalystPoints": 1.04,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 2.93,
-      "change1hPct": -0.07,
-      "change24hPct": -3.713,
-      "lagVsLeader24h": -2.01,
-      "rsi1h": 30.27,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.97,
-      "bbPctB": -0.01,
-      "bbWidthPct": 4.11,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 28,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 2.927,
-      "resistance": 3.059,
-      "roomToResistancePct": 4.4,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 41.2,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.39,
-      "fundingHourlyPct": -0.0013,
-      "totalScore": 82.1,
-      "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 3.0618,
-      "slPrice": 2.8773
+      "slPct": 2,
+      "tpPrice": 5.7579,
+      "slPrice": 5.3998
     },
     {
       "symbol": "NEAR",
@@ -1042,37 +522,28 @@
         "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
       ],
       "matchedKeywords": [
-        "openai",
-        "ai agent",
-        "ai agents"
+        "ai agent"
       ],
-      "newsScore": 7.13,
-      "freshestMinutesAgo": 84,
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 108,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 84,
-          "catalystPoints": 5.44,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "India&#39;s Cyber Agency Says AI Agents Read Confidential Business Records Without Authorization",
-          "minutesAgo": 1357,
-          "catalystPoints": 1.04,
+          "minutesAgo": 108,
+          "catalystPoints": 4.48,
           "directMention": false
         }
       ],
-      "lastPrice": 4.933,
-      "change1hPct": 0.86,
-      "change24hPct": -3.35,
-      "lagVsLeader24h": -2.37,
-      "rsi1h": 39.23,
+      "lastPrice": 4.91,
+      "change1hPct": 0.41,
+      "change24hPct": -3.06,
+      "lagVsLeader24h": -2.07,
+      "rsi1h": 36.55,
       "hasRsiDivergence": true,
       "atr1hPct": 1.49,
-      "bbPctB": 0.01,
-      "bbWidthPct": 5.3,
+      "bbPctB": -0.05,
+      "bbWidthPct": 5.48,
       "isSqueeze": false,
       "macdBullishTurn": false,
       "adx": 19.7,
@@ -1080,151 +551,298 @@
       "regime": "DIP_TOPLAMA",
       "support": 4.889,
       "resistance": 5.197,
-      "roomToResistancePct": 5.35,
+      "roomToResistancePct": 5.85,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 45.8,
+      "takerBuyRatioPct": 45.9,
       "isGreenBounce": true,
       "isTrending": true,
-      "volRatio": 0.41,
-      "fundingHourlyPct": -0.0003,
-      "totalScore": 80.1,
+      "volRatio": 0.71,
+      "fundingHourlyPct": 0.0005,
+      "totalScore": 61.2,
       "tpPct": 4.5,
-      "slPct": 2.16,
-      "tpPrice": 5.155,
-      "slPrice": 4.8264
+      "slPct": 2.46,
+      "tpPrice": 5.1309,
+      "slPrice": 4.7892
     },
     {
-      "symbol": "XRP",
-      "leaderSymbol": "XRP",
+      "symbol": "LDO",
+      "leaderSymbol": "ETH",
       "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
       ],
       "matchedKeywords": [
-        "tokenized",
-        "xrp",
-        "ripple",
-        "rlusd",
-        "bstocks"
+        "arbitrum"
       ],
-      "newsScore": 8.66,
-      "freshestMinutesAgo": 192,
+      "newsScore": 2.88,
+      "freshestMinutesAgo": 36,
       "headlines": [
         {
-          "source": "CoinDesk",
-          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 1776,
-          "catalystPoints": 4.16,
-          "directMention": false
-        },
-        {
-          "source": "CryptoPotato",
-          "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
-          "minutesAgo": 1735,
-          "catalystPoints": 2.47,
+          "source": "NewsBTC",
+          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
+          "minutesAgo": 36,
+          "catalystPoints": 2.88,
           "directMention": false
         }
       ],
-      "lastPrice": 1.2928,
-      "change1hPct": -0.02,
-      "change24hPct": -1.561,
-      "lagVsLeader24h": 0,
-      "rsi1h": 33.96,
+      "lastPrice": 0.3866,
+      "change1hPct": -0.31,
+      "change24hPct": -3.108,
+      "lagVsLeader24h": 2.05,
+      "rsi1h": 26.05,
       "hasRsiDivergence": false,
-      "atr1hPct": 0.45,
-      "bbPctB": -0.05,
-      "bbWidthPct": 1.72,
+      "atr1hPct": 1.09,
+      "bbPctB": -0.08,
+      "bbWidthPct": 4.72,
       "isSqueeze": true,
       "macdBullishTurn": false,
-      "adx": 41.3,
+      "adx": 61,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 1.2902,
-      "resistance": 1.3126,
-      "roomToResistancePct": 1.53,
-      "aiConsensusCount": 2,
+      "support": 0.3872,
+      "resistance": 0.4051,
+      "roomToResistancePct": 4.79,
+      "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
+        "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 44.3,
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 50.1,
       "isGreenBounce": false,
-      "isTrending": true,
-      "volRatio": 0.31,
-      "fundingHourlyPct": 0.0003,
-      "totalScore": 78,
+      "isTrending": false,
+      "volRatio": 0.4,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 58.6,
       "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 1.351,
-      "slPrice": 1.2695
+      "slPct": 2,
+      "tpPrice": 0.404,
+      "slPrice": 0.37887
     },
     {
-      "symbol": "ARKM",
+      "symbol": "FET",
       "leaderSymbol": "FET",
       "ecosystems": [
         "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
       ],
       "matchedKeywords": [
-        "openai",
-        "ai agent",
-        "ai agents"
+        "ai agent"
       ],
-      "newsScore": 7.13,
-      "freshestMinutesAgo": 84,
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 108,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 84,
-          "catalystPoints": 5.44,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "India&#39;s Cyber Agency Says AI Agents Read Confidential Business Records Without Authorization",
-          "minutesAgo": 1357,
-          "catalystPoints": 1.04,
+          "minutesAgo": 108,
+          "catalystPoints": 4.48,
           "directMention": false
         }
       ],
-      "lastPrice": 0.1186,
-      "change1hPct": 0.17,
-      "change24hPct": -4.123,
-      "lagVsLeader24h": -1.6,
-      "rsi1h": 16.67,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.09,
-      "bbPctB": 0.03,
-      "bbWidthPct": 5.96,
+      "lastPrice": 0.1885,
+      "change1hPct": -0.84,
+      "change24hPct": -5.133,
+      "lagVsLeader24h": 0,
+      "rsi1h": 22.69,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.08,
+      "bbPctB": -0.11,
+      "bbWidthPct": 5.07,
       "isSqueeze": false,
       "macdBullishTurn": false,
-      "adx": 46.5,
+      "adx": 62.5,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.1181,
-      "resistance": 0.1251,
-      "roomToResistancePct": 5.48,
-      "aiConsensusCount": 2,
+      "support": 0.19,
+      "resistance": 0.2006,
+      "roomToResistancePct": 6.42,
+      "aiConsensusCount": 3,
       "aiConsensusModels": [
+        "Llama-4-Maverick",
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 39.5,
-      "isGreenBounce": true,
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 42.1,
+      "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.84,
-      "fundingHourlyPct": 0,
-      "totalScore": 70.1,
+      "volRatio": 1.34,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 53.9,
+      "tpPct": 4.63,
+      "slPct": 2,
+      "tpPrice": 0.19723,
+      "slPrice": 0.18473
+    },
+    {
+      "symbol": "ETHFI",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "arbitrum"
+      ],
+      "newsScore": 2.88,
+      "freshestMinutesAgo": 36,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
+          "minutesAgo": 36,
+          "catalystPoints": 2.88,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.6666,
+      "change1hPct": -0.07,
+      "change24hPct": -2.998,
+      "lagVsLeader24h": 1.94,
+      "rsi1h": 22.91,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.07,
+      "bbPctB": -0.06,
+      "bbWidthPct": 4.23,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 59.5,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.6654,
+      "resistance": 0.6974,
+      "roomToResistancePct": 4.62,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 43.3,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.31,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 53.5,
       "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 0.12394,
-      "slPrice": 0.11647
+      "slPct": 2,
+      "tpPrice": 0.6966,
+      "slPrice": 0.65327
+    },
+    {
+      "symbol": "PENDLE",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "arbitrum"
+      ],
+      "newsScore": 2.88,
+      "freshestMinutesAgo": 36,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
+          "minutesAgo": 36,
+          "catalystPoints": 2.88,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 2.045,
+      "change1hPct": -0.29,
+      "change24hPct": -2.804,
+      "lagVsLeader24h": 1.74,
+      "rsi1h": 30.43,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.09,
+      "bbPctB": -0.04,
+      "bbWidthPct": 4.53,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 34.7,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 2.045,
+      "resistance": 2.138,
+      "roomToResistancePct": 4.55,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 45.8,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.7,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 53.1,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 2.137,
+      "slPrice": 2.0041
+    },
+    {
+      "symbol": "UNI",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "arbitrum"
+      ],
+      "newsScore": 2.88,
+      "freshestMinutesAgo": 36,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
+          "minutesAgo": 36,
+          "catalystPoints": 2.88,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 7.065,
+      "change1hPct": -0.62,
+      "change24hPct": -2.242,
+      "lagVsLeader24h": 1.18,
+      "rsi1h": 24.82,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.96,
+      "bbPctB": -0.13,
+      "bbWidthPct": 4.37,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 52.8,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 7.076,
+      "resistance": 7.352,
+      "roomToResistancePct": 4.06,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 46.2,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.57,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 52.1,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 7.3829,
+      "slPrice": 6.9237
     },
     {
       "symbol": "RENDER",
@@ -1233,108 +851,36 @@
         "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
       ],
       "matchedKeywords": [
-        "openai",
-        "ai agent",
-        "ai agents"
+        "ai agent"
       ],
-      "newsScore": 7.13,
-      "freshestMinutesAgo": 84,
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 108,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 84,
-          "catalystPoints": 5.44,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "India&#39;s Cyber Agency Says AI Agents Read Confidential Business Records Without Authorization",
-          "minutesAgo": 1357,
-          "catalystPoints": 1.04,
+          "minutesAgo": 108,
+          "catalystPoints": 4.48,
           "directMention": false
         }
       ],
-      "lastPrice": 1.839,
-      "change1hPct": -0.16,
-      "change24hPct": -4.912,
-      "lagVsLeader24h": -0.81,
-      "rsi1h": 22.03,
+      "lastPrice": 1.838,
+      "change1hPct": -0.22,
+      "change24hPct": -3.517,
+      "lagVsLeader24h": -1.62,
+      "rsi1h": 21.85,
       "hasRsiDivergence": false,
-      "atr1hPct": 0.9,
-      "bbPctB": -0.08,
-      "bbWidthPct": 5.67,
+      "atr1hPct": 0.92,
+      "bbPctB": -0.09,
+      "bbWidthPct": 5.69,
       "isSqueeze": false,
       "macdBullishTurn": false,
-      "adx": 67,
+      "adx": 68.5,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
       "support": 1.84,
       "resistance": 1.936,
-      "roomToResistancePct": 5.27,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 54.9,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.45,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 67.1,
-      "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 1.9218,
-      "slPrice": 1.8059
-    },
-    {
-      "symbol": "WLD",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "openai",
-        "ai agent",
-        "ai agents"
-      ],
-      "newsScore": 7.13,
-      "freshestMinutesAgo": 84,
-      "headlines": [
-        {
-          "source": "Decrypt",
-          "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 84,
-          "catalystPoints": 5.44,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "India&#39;s Cyber Agency Says AI Agents Read Confidential Business Records Without Authorization",
-          "minutesAgo": 1357,
-          "catalystPoints": 1.04,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.4951,
-      "change1hPct": -0.16,
-      "change24hPct": -3.602,
-      "lagVsLeader24h": -2.12,
-      "rsi1h": 26.66,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.69,
-      "bbPctB": 0.07,
-      "bbWidthPct": 9,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 25.4,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.4941,
-      "resistance": 0.5388,
-      "roomToResistancePct": 8.83,
+      "roomToResistancePct": 5.33,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Scout",
@@ -1344,141 +890,121 @@
       "takerBuyRatioPct": 52.9,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.33,
-      "fundingHourlyPct": 0.0001,
-      "totalScore": 62.1,
-      "tpPct": 6.18,
-      "slPct": 2.45,
-      "tpPrice": 0.5257,
-      "slPrice": 0.48297
+      "volRatio": 0.84,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 50.2,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 1.9207,
+      "slPrice": 1.8012
     },
     {
-      "symbol": "RSR",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "tokenized",
-        "xrp",
-        "ripple",
-        "rlusd",
-        "bstocks"
-      ],
-      "newsScore": 8.66,
-      "freshestMinutesAgo": 192,
-      "headlines": [
-        {
-          "source": "CoinDesk",
-          "title": "Tokenized Tesla surges as Elon Musk unveils SpaceX-powered flying Roadster prototype",
-          "minutesAgo": 1776,
-          "catalystPoints": 4.16,
-          "directMention": false
-        },
-        {
-          "source": "CryptoPotato",
-          "title": "Ripple Pushes RLUSD Deeper Into Banking With New Cross River Partnership",
-          "minutesAgo": 1735,
-          "catalystPoints": 2.47,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.001937,
-      "change1hPct": -1.53,
-      "change24hPct": 0.052,
-      "lagVsLeader24h": -1.61,
-      "rsi1h": 46.87,
-      "hasRsiDivergence": false,
-      "atr1hPct": 2.94,
-      "bbPctB": 0.29,
-      "bbWidthPct": 8.34,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 10.7,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.001886,
-      "resistance": 0.002105,
-      "roomToResistancePct": 8.67,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 44.2,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.63,
-      "fundingHourlyPct": -0.0059,
-      "totalScore": 62,
-      "tpPct": 8.36,
-      "slPct": 3.6,
-      "tpPrice": 0.0020989,
-      "slPrice": 0.0018673
-    },
-    {
-      "symbol": "FET",
+      "symbol": "WLD",
       "leaderSymbol": "FET",
       "ecosystems": [
         "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
       ],
       "matchedKeywords": [
-        "openai",
-        "ai agent",
-        "ai agents"
+        "ai agent"
       ],
-      "newsScore": 7.13,
-      "freshestMinutesAgo": 84,
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 108,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 84,
-          "catalystPoints": 5.44,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "India&#39;s Cyber Agency Says AI Agents Read Confidential Business Records Without Authorization",
-          "minutesAgo": 1357,
-          "catalystPoints": 1.04,
+          "minutesAgo": 108,
+          "catalystPoints": 4.48,
           "directMention": false
         }
       ],
-      "lastPrice": 0.1894,
-      "change1hPct": -0.42,
-      "change24hPct": -5.724,
-      "lagVsLeader24h": 0,
-      "rsi1h": 24.32,
+      "lastPrice": 0.4939,
+      "change1hPct": -0.36,
+      "change24hPct": -2.372,
+      "lagVsLeader24h": -2.76,
+      "rsi1h": 26.2,
       "hasRsiDivergence": false,
-      "atr1hPct": 1.06,
-      "bbPctB": -0.06,
-      "bbWidthPct": 4.87,
+      "atr1hPct": 1.73,
+      "bbPctB": 0.05,
+      "bbWidthPct": 9.07,
       "isSqueeze": false,
       "macdBullishTurn": false,
-      "adx": 60.4,
+      "adx": 28.6,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.19,
-      "resistance": 0.2006,
-      "roomToResistancePct": 5.91,
+      "support": 0.4929,
+      "resistance": 0.5388,
+      "roomToResistancePct": 9.09,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 43,
+      "takerBuyRatioPct": 52.5,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.8,
+      "volRatio": 0.83,
+      "fundingHourlyPct": 0.0003,
+      "totalScore": 50.2,
+      "tpPct": 6.34,
+      "slPct": 2.85,
+      "tpPrice": 0.52521,
+      "slPrice": 0.47982
+    },
+    {
+      "symbol": "EIGEN",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "arbitrum"
+      ],
+      "newsScore": 2.88,
+      "freshestMinutesAgo": 36,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
+          "minutesAgo": 36,
+          "catalystPoints": 2.88,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.2544,
+      "change1hPct": -0.74,
+      "change24hPct": 2.415,
+      "lagVsLeader24h": -3.48,
+      "rsi1h": 38.98,
+      "hasRsiDivergence": false,
+      "atr1hPct": 2.53,
+      "bbPctB": 0.27,
+      "bbWidthPct": 14.38,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 17.6,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.245,
+      "resistance": 0.2814,
+      "roomToResistancePct": 10.61,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 50,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.63,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 57.1,
-      "tpPct": 4.5,
-      "slPct": 1.8,
-      "tpPrice": 0.19792,
-      "slPrice": 0.18599
+      "totalScore": 41,
+      "tpPct": 9,
+      "slPct": 3.2,
+      "tpPrice": 0.2773,
+      "slPrice": 0.24626
     }
   ]
 }

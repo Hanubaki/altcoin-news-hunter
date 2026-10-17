@@ -318,8 +318,10 @@ async function scanAllNewsFeeds() {
       : bullHits - bearHits;
 
     if (netHeadlineSentiment <= 0.4) continue;
+    // Reject stale news older than 6 hours (360 mins) so yesterday's priced-in headlines never trigger late entries
+    if (item.minutesAgo > 360) continue;
 
-    const recencyWeight = item.minutesAgo <= 90 ? 1.7 : item.minutesAgo <= 240 ? 1.35 : item.minutesAgo <= 720 ? 1.0 : 0.65;
+    const recencyWeight = item.minutesAgo <= 60 ? 1.8 : item.minutesAgo <= 180 ? 1.4 : 1.0;
     const srcWeight = item.sourceWeight || 1.0;
 
     for (const eco of ECOSYSTEM_GRAPH) {

@@ -697,15 +697,22 @@ async function runTradingCycle() {
         .map(c => c.symbol)
     );
 
+    const isWeakMarket = (signalsData.marketBreadthPct ?? 50) < 22;
+
     for (const cand of candidates) {
       if (state.openPositions.length >= cfg.MAX_OPEN_POSITIONS) break;
       if (state.cashUsdt < 4.50) break;
       if (heldSymbols.has(cand.symbol)) continue;
       if (aiWaitSymbols.has(cand.symbol) || cand.liveLlmDecision !== 'LONG') continue;
       if (usedLeaders.has(cand.leaderSymbol)) continue;
-      if (cand.totalScore < 62) continue;
-      if ((cand.rsi1h || 50) > 55) continue; // Reject top/overbought entries
-      if ((cand.takerBuyRatioPct || 50) < 52.5) continue;
+      // When >78% of altcoins are bleeding red, only enter A+ fresh catalysts (score >= 82, whale >= 55%, RSI <= 42)
+      const minReqScore = isWeakMarket ? 82 : 64;
+      const minReqWhale = isWeakMarket ? 55 : 52.5;
+      const maxReqRsi = isWeakMarket ? 42 : 54;
+      if (cand.totalScore < minReqScore) continue;
+      if ((cand.rsi1h || 50) > maxReqRsi) continue; // Reject top/overbought entries
+      if ((cand.takerBuyRatioPct || 50) < minReqWhale) continue;
+      if ((cand.freshestMinutesAgo || 0) > 240) continue; // Only trade fresh catalysts <= 4h old
       if (state.cooldowns[cand.symbol] && state.cooldowns[cand.symbol] > nowMs) continue;
 
       const candHeadlineClean = (cand.headlines?.[0]?.title || '').trim().toLowerCase();
@@ -722,11 +729,11 @@ async function runTradingCycle() {
         continue;
       }
 
-      // Engine #8: Conviction-Based Auto-Compounding Sizing
-      // 80+ score A+ catalyst -> 34% of total equity; 68-79 score -> 30%; 62-67 score -> 26%
+      // Engine #8: Conviction-Based Auto-Compounding Sizing (Use Math.floor so cashUsdt never rounds below 0)
       const convictionPct = cand.totalScore >= 80 ? 0.34 : cand.totalScore >= 68 ? 0.30 : 0.26;
-      const targetAllocUsdt = Number((currentTotalEquity * convictionPct).toFixed(2));
-      const costUsdt = Number(Math.min(targetAllocUsdt, state.cashUsdt).toFixed(2));
+      const targetAllocUsdt = Math.floor(currentTotalEquity * convictionPct * 100) / 100;
+      const availCashUsdt = Math.floor(Math.max(0, state.cashUsdt) * 100) / 100;
+      const costUsdt = Number(Math.min(targetAllocUsdt, availCashUsdt).toFixed(2));
       if (costUsdt < 4.50) continue;
 
       const buyPrice = q.bestAsk;

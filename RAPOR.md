@@ -1,18 +1,18 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 17.10.2026 19:25:05
+**Son Güncelleme:** 17.10.2026 19:49:07
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.021,74 TL`**
-* **Toplam Net Kâr / Zarar:** **`+21,79 TL` (`+%2.18`)**
+* **Şu Anki Toplam Para:** **`1.021,12 TL`**
+* **Toplam Net Kâr / Zarar:** **`+21,16 TL` (`+%2.12`)**
 * **Boşta Bekleyen Nakit:** `-0,15 TL`
-* **Coinde Olan Para:** `1.021,89 TL`
+* **Coinde Olan Para:** `1.021,26 TL`
 * **Başarılı Satış / Zarar Kes:** `10 Kârlı Satış / 6 Zarar Kes`
-* **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Bağlantı Bekleniyor`
+* **🏦 Binance TR Gerçek Hesap Bağlantısı:** `API Anahtarı Yok`
 
 ---
 
@@ -21,13 +21,13 @@
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
 | **BOME** | `185,28 TL` | `180,69 TL` | **`-4,59 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%-2.48) |
-| **SUI** | `341,65 TL` | `336,59 TL` | **`-5,06 TL`** | 🛡️ SIKI KORUMA KALKANI (%-1.48) |
-| **XRP** | `185,28 TL` | `185,36 TL` | **`+0,08 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%0.04) |
-| **WIF** | `820,74 TL` | `826,18 TL` | **`+5,44 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%0.66) |
-| **DOGE** | `185,64 TL` | `183,22 TL` | **`-2,42 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%-1.31) |
-| **DOGE** | `189,57 TL` | `186,75 TL` | **`-2,82 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%-1.48) |
-| **BOME** | `399,48 TL` | `391,56 TL` | **`-7,92 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%-2) |
-| **FLOKI** | `401,63 TL` | `390,50 TL` | **`-11,12 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%-2.77) |
+| **SUI** | `341,65 TL` | `336,59 TL` | **`-5,06 TL`** | 🛡️ DAR STOP-LOSS (%-1.48) |
+| **XRP** | `185,28 TL` | `185,36 TL` | **`+0,08 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.04) |
+| **WIF** | `820,74 TL` | `826,18 TL` | **`+5,44 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.66) |
+| **DOGE** | `185,64 TL` | `183,22 TL` | **`-2,42 TL`** | 🛡️ DAR STOP-LOSS (%-1.31) |
+| **DOGE** | `189,57 TL` | `186,75 TL` | **`-2,82 TL`** | 🛡️ DAR STOP-LOSS (%-1.48) |
+| **BOME** | `399,48 TL` | `391,56 TL` | **`-7,92 TL`** | 🛡️ DAR STOP-LOSS (%-2) |
+| **FLOKI** | `401,63 TL` | `390,50 TL` | **`-11,12 TL`** | 🛡️ DAR STOP-LOSS (%-2.77) |
 | **AVAX** | `66,94 TL` | `71,91 TL` | **`+4,97 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (%7.4) |
 | **AVAX** | `66,94 TL` | `71,94 TL` | **`+5,00 TL`** | 🚀 2. KADEME (%30) DEV KÂR AL (+%7.5 | Kalan %30 Sınırsız Roket) |
 | **RAY** | `173,93 TL` | `182,42 TL` | **`+8,49 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (%4.87) |
@@ -43,9 +43,9 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **DOGE** | `390,92 TL` | `388,75 TL` | **`-2,26 TL (%-0.58)`** | 🛡️ Sıkı Kalkan Aktif (+%1,0'da Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **HBAR** | `388,42 TL` | `388,23 TL` | **`-0,33 TL (%-0.08)`** | 🛡️ Sıkı Kalkan Aktif (+%1,0'da Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **TAO** | `245,26 TL` | `244,92 TL` | **`-0,36 TL (%-0.15)`** | 🛡️ Sıkı Kalkan Aktif (+%1,0'da Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **DOGE** | `390,92 TL` | `389,09 TL` | **`-1,91 TL (%-0.49)`** | 🛡️ ATR Kalkanı (-%2.4 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **HBAR** | `388,42 TL` | `387,71 TL` | **`-0,85 TL (%-0.22)`** | 🛡️ ATR Kalkanı (-%1.8 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **TAO** | `245,26 TL` | `244,47 TL` | **`-0,82 TL (%-0.34)`** | 🛡️ ATR Kalkanı (-%1.8 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
 
 ---
 
