@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-17T00:32:07.796Z",
+  "updatedAt": "2026-10-17T05:01:23.686Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 28.01,
   "initialBankrollTry": 1000,
@@ -24,21 +24,21 @@
       "obImbalance": -0.03,
       "entryTime": "2026-10-16T19:42:51.413Z",
       "entryPrice": 0.20047,
-      "currentPrice": 0.2027,
-      "highestPrice": 0.2029,
+      "currentPrice": 0.2044,
+      "highestPrice": 0.2045,
       "qty": 114.68,
       "costUsdt": 22.99,
       "costTry": 821,
       "takeProfitPrice": 0.20743,
-      "stopLossPrice": 0.20147,
+      "stopLossPrice": 0.20227,
       "tpPct": 4.5,
       "slPct": 2.03,
       "partialTpDone": false,
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.2557,
-      "unrealizedPnlPct": 1.11,
+      "unrealizedPnlUsdt": 0.4507,
+      "unrealizedPnlPct": 1.96,
       "pyramided": true
     },
     {
@@ -57,7 +57,7 @@
       "obImbalance": 0,
       "entryTime": "2026-10-16T19:42:51.522Z",
       "entryPrice": 1.2969,
-      "currentPrice": 1.3062,
+      "currentPrice": 1.3092,
       "highestPrice": 1.3106,
       "qty": 4.002,
       "costUsdt": 5.19,
@@ -70,8 +70,8 @@
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0372,
-      "unrealizedPnlPct": 0.72
+      "unrealizedPnlUsdt": 0.0492,
+      "unrealizedPnlPct": 0.95
     }
   ],
   "closedTrades": [
@@ -459,10 +459,10 @@
     "[14:25:39] 🟢 [OTOMATİK ALIM] AVAXUSDT @ $9.549 (Ask) | Tutar: $7.5 (~268 TL) | Skor: 87.9 | TP: $10.159 (+%6.39) | SL: $9.2558 (-%3.07)",
     "[14:25:39] ⚠️ Haber tarayıcı uyarısı: spawnSync C:\\WINDOWS\\system32\\cmd.exe ETIMEDOUT"
   ],
-  "totalEquityUsdt": 29.1044,
-  "totalEquityTry": 1039.03,
-  "totalPnlUsdt": 1.0944,
-  "totalPnlPct": 3.91,
+  "totalEquityUsdt": 29.3114,
+  "totalEquityTry": 1046.42,
+  "totalPnlUsdt": 1.3014,
+  "totalPnlPct": 4.65,
   "cooldowns": {
     "FET": 1792154502952,
     "FLOKI": 1792190321265,
@@ -470,5 +470,5 @@
     "DOGE": 1792201371160
   },
   "binanceTrStatus": "Bağlantı Bekleniyor",
-  "lastWhatsAppReportAt": 1792197084563
+  "lastWhatsAppReportAt": 1792213240313
 }
