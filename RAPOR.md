@@ -1,17 +1,17 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Zero-Risk v9.0)
 
-**Son Güncelleme:** 17.10.2026 16:05:54
+**Son Güncelleme:** 17.10.2026 19:25:05
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.029,21 TL`**
-* **Toplam Net Kâr / Zarar:** **`+29,26 TL` (`+%2.93`)**
-* **Boşta Bekleyen Nakit:** `452,83 TL`
-* **Coinde Olan Para:** `576,38 TL`
-* **Başarılı Satış / Zarar Kes:** `10 Kârlı Satış / 5 Zarar Kes`
+* **Şu Anki Toplam Para:** **`1.021,74 TL`**
+* **Toplam Net Kâr / Zarar:** **`+21,79 TL` (`+%2.18`)**
+* **Boşta Bekleyen Nakit:** `-0,15 TL`
+* **Coinde Olan Para:** `1.021,89 TL`
+* **Başarılı Satış / Zarar Kes:** `10 Kârlı Satış / 6 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Bağlantı Bekleniyor`
 
 ---
@@ -20,6 +20,7 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
+| **BOME** | `185,28 TL` | `180,69 TL` | **`-4,59 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%-2.48) |
 | **SUI** | `341,65 TL` | `336,59 TL` | **`-5,06 TL`** | 🛡️ SIKI KORUMA KALKANI (%-1.48) |
 | **XRP** | `185,28 TL` | `185,36 TL` | **`+0,08 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%0.04) |
 | **WIF** | `820,74 TL` | `826,18 TL` | **`+5,44 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%0.66) |
@@ -42,8 +43,9 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **DOGE** | `390,92 TL` | `391,10 TL` | **`+0,10 TL (%0.03)`** | 🛡️ Sıkı Kalkan Aktif (+%1,0'da Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **BOME (VURGUN)** | `185,28 TL` | `185,28 TL` | **`+0,00 TL (%0)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
+| **DOGE** | `390,92 TL` | `388,75 TL` | **`-2,26 TL (%-0.58)`** | 🛡️ Sıkı Kalkan Aktif (+%1,0'da Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **HBAR** | `388,42 TL` | `388,23 TL` | **`-0,33 TL (%-0.08)`** | 🛡️ Sıkı Kalkan Aktif (+%1,0'da Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **TAO** | `245,26 TL` | `244,92 TL` | **`-0,36 TL (%-0.15)`** | 🛡️ Sıkı Kalkan Aktif (+%1,0'da Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
 
 ---
 
