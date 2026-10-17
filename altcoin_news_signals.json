@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-10-17T16:50:16.289Z",
-  "scanDurationMs": 5991,
+  "updatedAt": "2026-10-17T18:43:02.737Z",
+  "scanDurationMs": 2457,
   "bankrollTry": 1000,
   "bankrollUsdt": 28.01,
-  "btc1hChangePct": -0.17,
+  "btc1hChangePct": 0.34,
   "btcCrashAlert": false,
-  "marketBreadthPct": 10,
+  "marketBreadthPct": 25,
   "totalHeadlinesScanned": 102,
   "activeFeeds": [
     "CoinTelegraph (20)",
@@ -17,153 +17,51 @@
   ],
   "top4AltcoinPicks": [
     {
-      "symbol": "OP",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "arbitrum"
-      ],
-      "newsScore": 2.88,
-      "freshestMinutesAgo": 37,
-      "headlines": [
-        {
-          "source": "NewsBTC",
-          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 37,
-          "catalystPoints": 2.88,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.13,
-      "change1hPct": 0.85,
-      "change24hPct": -5.729,
-      "lagVsLeader24h": 4.69,
-      "rsi1h": 20.74,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.42,
-      "bbPctB": 0.1,
-      "bbWidthPct": 9.3,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 81.1,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.1285,
-      "resistance": 0.1406,
-      "roomToResistancePct": 8.15,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 51.4,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.81,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 76,
-      "tpPct": 6.22,
-      "slPct": 2.34,
-      "tpPrice": 0.13809,
-      "slPrice": 0.12696
-    },
-    {
-      "symbol": "TAO",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "ai agent"
-      ],
-      "newsScore": 4.48,
-      "freshestMinutesAgo": 109,
-      "headlines": [
-        {
-          "source": "Decrypt",
-          "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 109,
-          "catalystPoints": 4.48,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 267.6,
-      "change1hPct": -0.26,
-      "change24hPct": -4.052,
-      "lagVsLeader24h": -0.93,
-      "rsi1h": 30.41,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.94,
-      "bbPctB": -0.07,
-      "bbWidthPct": 3.77,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 44.8,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 267.4,
-      "resistance": 277.4,
-      "roomToResistancePct": 3.66,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 57.1,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 1.41,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 75.2,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 279.64,
-      "slPrice": 262.25
-    },
-    {
       "symbol": "LINK",
       "leaderSymbol": "XRP",
       "ecosystems": [
         "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
+        "tokenization",
         "tokenized",
         "bstocks"
       ],
-      "newsScore": 1.5,
-      "freshestMinutesAgo": 217,
+      "newsScore": 3.46,
+      "freshestMinutesAgo": 103,
       "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "Goldman, Wells Fargo, Morgan Stanley see tokenization as a growth play, not a threat",
+          "minutesAgo": 103,
+          "catalystPoints": 1.96,
+          "directMention": false
+        },
         {
           "source": "NewsBTC",
           "title": "Binance bStocks Hits $1 Billion As Tokenized Stock Trading Accelerates",
-          "minutesAgo": 217,
+          "minutesAgo": 330,
           "catalystPoints": 1.5,
           "directMention": false
         }
       ],
-      "lastPrice": 11.926,
-      "change1hPct": 0.13,
-      "change24hPct": -3.339,
-      "lagVsLeader24h": 2.24,
-      "rsi1h": 10.95,
+      "lastPrice": 12.037,
+      "change1hPct": 0.72,
+      "change24hPct": -2.17,
+      "lagVsLeader24h": 2.02,
+      "rsi1h": 28.36,
       "hasRsiDivergence": true,
-      "atr1hPct": 0.61,
-      "bbPctB": -0.02,
-      "bbWidthPct": 4.5,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 87.2,
+      "atr1hPct": 0.66,
+      "bbPctB": 0.27,
+      "bbWidthPct": 5.03,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 71.9,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 11.91,
-      "resistance": 12.393,
-      "roomToResistancePct": 3.92,
+      "support": 11.856,
+      "resistance": 12.37,
+      "roomToResistancePct": 2.77,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -171,73 +69,33 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 45.4,
+      "takerBuyRatioPct": 43.7,
       "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 1.1,
-      "fundingHourlyPct": -0.001,
-      "totalScore": 68.3,
+      "isTrending": true,
+      "volRatio": 1.89,
+      "fundingHourlyPct": -0.0011,
+      "totalScore": 95.7,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 12.463,
-      "slPrice": 11.687
-    }
-  ],
-  "allQualifiedOpportunities": [
-    {
-      "symbol": "OP",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "arbitrum"
-      ],
-      "newsScore": 2.88,
-      "freshestMinutesAgo": 37,
-      "headlines": [
+      "tpPrice": 12.579,
+      "slPrice": 11.796,
+      "realApiVerdicts": [
         {
-          "source": "NewsBTC",
-          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 37,
-          "catalystPoints": 2.88,
-          "directMention": false
+          "model": "Qwen-3.8",
+          "decision": "LONG",
+          "confidence": 85,
+          "reason": "Kurumsal destek ve aşırı satım bölgesi güçlü alım sinyali."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 84,
+          "reason": "Düşük RSI, balina alımı, olumlu haber"
         }
       ],
-      "lastPrice": 0.13,
-      "change1hPct": 0.85,
-      "change24hPct": -5.729,
-      "lagVsLeader24h": 4.69,
-      "rsi1h": 20.74,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.42,
-      "bbPctB": 0.1,
-      "bbWidthPct": 9.3,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 81.1,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.1285,
-      "resistance": 0.1406,
-      "roomToResistancePct": 8.15,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 51.4,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.81,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 76,
-      "tpPct": 6.22,
-      "slPct": 2.34,
-      "tpPrice": 0.13809,
-      "slPrice": 0.12696
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 85,
+      "liveLlmReason": "[Qwen-3.8: LONG %85] Kurumsal destek ve aşırı satım bölgesi güçlü alım sinyali. | [GPT-120B: LONG %84] Düşük RSI, balina alımı, olumlu haber"
     },
     {
       "symbol": "TAO",
@@ -248,51 +106,69 @@
       "matchedKeywords": [
         "ai agent"
       ],
-      "newsScore": 4.48,
-      "freshestMinutesAgo": 109,
+      "newsScore": 3.2,
+      "freshestMinutesAgo": 222,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 109,
-          "catalystPoints": 4.48,
+          "minutesAgo": 222,
+          "catalystPoints": 3.2,
           "directMention": false
         }
       ],
-      "lastPrice": 267.6,
-      "change1hPct": -0.26,
-      "change24hPct": -4.052,
-      "lagVsLeader24h": -0.93,
-      "rsi1h": 30.41,
+      "lastPrice": 270.3,
+      "change1hPct": 1.01,
+      "change24hPct": -1.638,
+      "lagVsLeader24h": -1.8,
+      "rsi1h": 35.53,
       "hasRsiDivergence": true,
-      "atr1hPct": 0.94,
-      "bbPctB": -0.07,
-      "bbWidthPct": 3.77,
+      "atr1hPct": 0.93,
+      "bbPctB": 0.27,
+      "bbWidthPct": 4.4,
       "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 44.8,
+      "macdBullishTurn": true,
+      "adx": 42.2,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 267.4,
-      "resistance": 277.4,
-      "roomToResistancePct": 3.66,
-      "aiConsensusCount": 3,
+      "support": 266.3,
+      "resistance": 277.3,
+      "roomToResistancePct": 2.59,
+      "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
         "Llama-4-Scout",
-        "Gemini-3.5-Flash"
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 57.1,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 1.41,
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 56.9,
+      "isGreenBounce": true,
+      "isTrending": true,
+      "volRatio": 0.66,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 75.2,
+      "totalScore": 93.4,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 279.64,
-      "slPrice": 262.25
+      "tpPrice": 282.46,
+      "slPrice": 264.89,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 75,
+          "reason": "Haber TAO ile doğrudan ilişkili değil, nötr."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 78,
+          "reason": "Düşük RSI ve balina alımı destek seviyesinde"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 77,
+      "liveLlmReason": "[Qwen-3.8: WAIT %75] Haber TAO ile doğrudan ilişkili değil, nötr. | [GPT-120B: LONG %78] Düşük RSI ve balina alımı destek seviyesinde"
     },
     {
       "symbol": "AAVE",
@@ -303,52 +179,72 @@
       "matchedKeywords": [
         "arbitrum"
       ],
-      "newsScore": 2.88,
-      "freshestMinutesAgo": 37,
+      "newsScore": 2.24,
+      "freshestMinutesAgo": 150,
       "headlines": [
         {
           "source": "NewsBTC",
           "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 37,
-          "catalystPoints": 2.88,
+          "minutesAgo": 150,
+          "catalystPoints": 2.24,
           "directMention": false
         }
       ],
-      "lastPrice": 151.14,
-      "change1hPct": -0.64,
-      "change24hPct": -3.517,
-      "lagVsLeader24h": 2.47,
-      "rsi1h": 28.82,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.74,
-      "bbPctB": -0.21,
-      "bbWidthPct": 3.45,
+      "lastPrice": 152.67,
+      "change1hPct": 0.53,
+      "change24hPct": -1.738,
+      "lagVsLeader24h": 1.8,
+      "rsi1h": 34.43,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.8,
+      "bbPctB": 0.19,
+      "bbWidthPct": 4.21,
       "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 43.3,
+      "macdBullishTurn": true,
+      "adx": 56.6,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 151.99,
-      "resistance": 157.01,
-      "roomToResistancePct": 3.88,
-      "aiConsensusCount": 3,
+      "support": 150.35,
+      "resistance": 156.89,
+      "roomToResistancePct": 2.76,
+      "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
         "Llama-4-Scout",
-        "Gemini-3.5-Flash"
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 53.1,
-      "isGreenBounce": false,
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 51.2,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 2.12,
+      "volRatio": 0.54,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 70,
+      "totalScore": 78.3,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 157.94,
-      "slPrice": 148.12
-    },
+      "tpPrice": 159.54,
+      "slPrice": 149.62,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 95,
+          "reason": "Haber AAVE ile doğrudan ilgili değil, riskli."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 78,
+          "reason": "Aşırı satım, balina alımı, yükseliş potansiyeli"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 87,
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber AAVE ile doğrudan ilgili değil, riskli. | [GPT-120B: LONG %78] Aşırı satım, balina alımı, yükseliş potansiyeli"
+    }
+  ],
+  "allQualifiedOpportunities": [
     {
       "symbol": "LINK",
       "leaderSymbol": "XRP",
@@ -356,37 +252,45 @@
         "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
+        "tokenization",
         "tokenized",
         "bstocks"
       ],
-      "newsScore": 1.5,
-      "freshestMinutesAgo": 217,
+      "newsScore": 3.46,
+      "freshestMinutesAgo": 103,
       "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "Goldman, Wells Fargo, Morgan Stanley see tokenization as a growth play, not a threat",
+          "minutesAgo": 103,
+          "catalystPoints": 1.96,
+          "directMention": false
+        },
         {
           "source": "NewsBTC",
           "title": "Binance bStocks Hits $1 Billion As Tokenized Stock Trading Accelerates",
-          "minutesAgo": 217,
+          "minutesAgo": 330,
           "catalystPoints": 1.5,
           "directMention": false
         }
       ],
-      "lastPrice": 11.926,
-      "change1hPct": 0.13,
-      "change24hPct": -3.339,
-      "lagVsLeader24h": 2.24,
-      "rsi1h": 10.95,
+      "lastPrice": 12.037,
+      "change1hPct": 0.72,
+      "change24hPct": -2.17,
+      "lagVsLeader24h": 2.02,
+      "rsi1h": 28.36,
       "hasRsiDivergence": true,
-      "atr1hPct": 0.61,
-      "bbPctB": -0.02,
-      "bbWidthPct": 4.5,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 87.2,
+      "atr1hPct": 0.66,
+      "bbPctB": 0.27,
+      "bbWidthPct": 5.03,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 71.9,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 11.91,
-      "resistance": 12.393,
-      "roomToResistancePct": 3.92,
+      "support": 11.856,
+      "resistance": 12.37,
+      "roomToResistancePct": 2.77,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -394,129 +298,36 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 45.4,
+      "takerBuyRatioPct": 43.7,
       "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 1.1,
-      "fundingHourlyPct": -0.001,
-      "totalScore": 68.3,
+      "isTrending": true,
+      "volRatio": 1.89,
+      "fundingHourlyPct": -0.0011,
+      "totalScore": 95.7,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 12.463,
-      "slPrice": 11.687
-    },
-    {
-      "symbol": "ETHFI",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "arbitrum"
-      ],
-      "newsScore": 2.88,
-      "freshestMinutesAgo": 37,
-      "headlines": [
+      "tpPrice": 12.579,
+      "slPrice": 11.796,
+      "realApiVerdicts": [
         {
-          "source": "NewsBTC",
-          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 37,
-          "catalystPoints": 2.88,
-          "directMention": false
+          "model": "Qwen-3.8",
+          "decision": "LONG",
+          "confidence": 85,
+          "reason": "Kurumsal destek ve aşırı satım bölgesi güçlü alım sinyali."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 84,
+          "reason": "Düşük RSI, balina alımı, olumlu haber"
         }
       ],
-      "lastPrice": 0.6673,
-      "change1hPct": 0.03,
-      "change24hPct": -2.896,
-      "lagVsLeader24h": 1.85,
-      "rsi1h": 23.57,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.07,
-      "bbPctB": -0.04,
-      "bbWidthPct": 4.18,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 59.5,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.6654,
-      "resistance": 0.6974,
-      "roomToResistancePct": 4.51,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 44.1,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.33,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 66.3,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.69733,
-      "slPrice": 0.65395
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 85,
+      "liveLlmReason": "[Qwen-3.8: LONG %85] Kurumsal destek ve aşırı satım bölgesi güçlü alım sinyali. | [GPT-120B: LONG %84] Düşük RSI, balina alımı, olumlu haber"
     },
     {
-      "symbol": "ENS",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "arbitrum"
-      ],
-      "newsScore": 2.88,
-      "freshestMinutesAgo": 37,
-      "headlines": [
-        {
-          "source": "NewsBTC",
-          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 37,
-          "catalystPoints": 2.88,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 5.51,
-      "change1hPct": -0.54,
-      "change24hPct": -2.993,
-      "lagVsLeader24h": 1.95,
-      "rsi1h": 23.33,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.7,
-      "bbPctB": -0.18,
-      "bbWidthPct": 3.65,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 53.8,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 5.54,
-      "resistance": 5.72,
-      "roomToResistancePct": 3.81,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 73.9,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.19,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 63.5,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 5.7579,
-      "slPrice": 5.3998
-    },
-    {
-      "symbol": "NEAR",
+      "symbol": "TAO",
       "leaderSymbol": "FET",
       "ecosystems": [
         "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
@@ -524,105 +335,69 @@
       "matchedKeywords": [
         "ai agent"
       ],
-      "newsScore": 4.48,
-      "freshestMinutesAgo": 109,
+      "newsScore": 3.2,
+      "freshestMinutesAgo": 222,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 109,
-          "catalystPoints": 4.48,
+          "minutesAgo": 222,
+          "catalystPoints": 3.2,
           "directMention": false
         }
       ],
-      "lastPrice": 4.911,
-      "change1hPct": 0.37,
-      "change24hPct": -2.945,
-      "lagVsLeader24h": -2.04,
-      "rsi1h": 36.29,
+      "lastPrice": 270.3,
+      "change1hPct": 1.01,
+      "change24hPct": -1.638,
+      "lagVsLeader24h": -1.8,
+      "rsi1h": 35.53,
       "hasRsiDivergence": true,
-      "atr1hPct": 1.49,
-      "bbPctB": -0.05,
-      "bbWidthPct": 5.5,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 19.7,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 4.889,
-      "resistance": 5.197,
-      "roomToResistancePct": 5.82,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 45.8,
-      "isGreenBounce": true,
-      "isTrending": true,
-      "volRatio": 0.72,
-      "fundingHourlyPct": 0.0005,
-      "totalScore": 61.2,
-      "tpPct": 4.5,
-      "slPct": 2.46,
-      "tpPrice": 5.132,
-      "slPrice": 4.7902
-    },
-    {
-      "symbol": "LDO",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "arbitrum"
-      ],
-      "newsScore": 2.88,
-      "freshestMinutesAgo": 37,
-      "headlines": [
-        {
-          "source": "NewsBTC",
-          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 37,
-          "catalystPoints": 2.88,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.3868,
-      "change1hPct": -0.28,
-      "change24hPct": -3.058,
-      "lagVsLeader24h": 2.01,
-      "rsi1h": 26.15,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.09,
-      "bbPctB": -0.08,
-      "bbWidthPct": 4.71,
+      "atr1hPct": 0.93,
+      "bbPctB": 0.27,
+      "bbWidthPct": 4.4,
       "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 61,
+      "macdBullishTurn": true,
+      "adx": 42.2,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.3872,
-      "resistance": 0.4051,
-      "roomToResistancePct": 4.73,
-      "aiConsensusCount": 3,
+      "support": 266.3,
+      "resistance": 277.3,
+      "roomToResistancePct": 2.59,
+      "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
         "Llama-4-Scout",
-        "Gemini-3.5-Flash"
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 50.2,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.41,
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 56.9,
+      "isGreenBounce": true,
+      "isTrending": true,
+      "volRatio": 0.66,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 58.6,
+      "totalScore": 93.4,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 0.40421,
-      "slPrice": 0.37906
+      "tpPrice": 282.46,
+      "slPrice": 264.89,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 75,
+          "reason": "Haber TAO ile doğrudan ilişkili değil, nötr."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 78,
+          "reason": "Düşük RSI ve balina alımı destek seviyesinde"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 77,
+      "liveLlmReason": "[Qwen-3.8: WAIT %75] Haber TAO ile doğrudan ilişkili değil, nötr. | [GPT-120B: LONG %78] Düşük RSI ve balina alımı destek seviyesinde"
     },
     {
       "symbol": "RENDER",
@@ -633,215 +408,181 @@
       "matchedKeywords": [
         "ai agent"
       ],
-      "newsScore": 4.48,
-      "freshestMinutesAgo": 109,
+      "newsScore": 3.2,
+      "freshestMinutesAgo": 222,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 109,
-          "catalystPoints": 4.48,
+          "minutesAgo": 222,
+          "catalystPoints": 3.2,
           "directMention": false
         }
       ],
-      "lastPrice": 1.84,
-      "change1hPct": -0.11,
-      "change24hPct": -3.311,
-      "lagVsLeader24h": -1.67,
-      "rsi1h": 22.22,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.92,
-      "bbPctB": -0.08,
-      "bbWidthPct": 5.64,
+      "lastPrice": 1.864,
+      "change1hPct": 1.19,
+      "change24hPct": -1.895,
+      "lagVsLeader24h": -1.55,
+      "rsi1h": 29.73,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.94,
+      "bbPctB": 0.25,
+      "bbWidthPct": 6.5,
       "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 68.5,
+      "macdBullishTurn": true,
+      "adx": 58.5,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 1.84,
+      "support": 1.826,
       "resistance": 1.936,
-      "roomToResistancePct": 5.22,
-      "aiConsensusCount": 2,
+      "roomToResistancePct": 3.86,
+      "aiConsensusCount": 4,
       "aiConsensusModels": [
+        "Llama-4-Maverick",
         "Llama-4-Scout",
-        "Gemini-3.5-Flash"
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 53,
-      "isGreenBounce": false,
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 59.8,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.86,
+      "volRatio": 1.48,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 55.2,
+      "totalScore": 81.8,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 1.9228,
-      "slPrice": 1.8032
+      "tpPrice": 1.9479,
+      "slPrice": 1.8267
     },
     {
-      "symbol": "FET",
-      "leaderSymbol": "FET",
+      "symbol": "XRP",
+      "leaderSymbol": "XRP",
       "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
-        "ai agent"
+        "tokenization",
+        "tokenized",
+        "bstocks"
       ],
-      "newsScore": 4.48,
-      "freshestMinutesAgo": 109,
+      "newsScore": 3.46,
+      "freshestMinutesAgo": 103,
       "headlines": [
         {
-          "source": "Decrypt",
-          "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 109,
-          "catalystPoints": 4.48,
+          "source": "CoinDesk",
+          "title": "Goldman, Wells Fargo, Morgan Stanley see tokenization as a growth play, not a threat",
+          "minutesAgo": 103,
+          "catalystPoints": 1.96,
+          "directMention": false
+        },
+        {
+          "source": "NewsBTC",
+          "title": "Binance bStocks Hits $1 Billion As Tokenized Stock Trading Accelerates",
+          "minutesAgo": 330,
+          "catalystPoints": 1.5,
           "directMention": false
         }
       ],
-      "lastPrice": 0.1887,
-      "change1hPct": -0.79,
-      "change24hPct": -4.985,
+      "lastPrice": 1.2979,
+      "change1hPct": 0.34,
+      "change24hPct": -0.154,
       "lagVsLeader24h": 0,
-      "rsi1h": 22.88,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.08,
-      "bbPctB": -0.11,
-      "bbWidthPct": 5.04,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 62.5,
+      "rsi1h": 38.84,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.47,
+      "bbPctB": 0.26,
+      "bbWidthPct": 1.93,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 45.7,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.19,
-      "resistance": 0.2006,
-      "roomToResistancePct": 6.31,
+      "support": 1.2882,
+      "resistance": 1.3126,
+      "roomToResistancePct": 1.5,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 42.1,
-      "isGreenBounce": false,
+      "takerBuyRatioPct": 49.1,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 1.35,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 53.9,
-      "tpPct": 4.63,
+      "volRatio": 0.44,
+      "fundingHourlyPct": -0.0001,
+      "totalScore": 76.6,
+      "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 0.19744,
-      "slPrice": 0.18493
+      "tpPrice": 1.3563,
+      "slPrice": 1.2719
     },
     {
-      "symbol": "PENDLE",
-      "leaderSymbol": "ETH",
+      "symbol": "AVAX",
+      "leaderSymbol": "XRP",
       "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
-        "arbitrum"
+        "tokenization",
+        "tokenized",
+        "bstocks"
       ],
-      "newsScore": 2.88,
-      "freshestMinutesAgo": 37,
+      "newsScore": 3.46,
+      "freshestMinutesAgo": 103,
       "headlines": [
         {
+          "source": "CoinDesk",
+          "title": "Goldman, Wells Fargo, Morgan Stanley see tokenization as a growth play, not a threat",
+          "minutesAgo": 103,
+          "catalystPoints": 1.96,
+          "directMention": false
+        },
+        {
           "source": "NewsBTC",
-          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 37,
-          "catalystPoints": 2.88,
+          "title": "Binance bStocks Hits $1 Billion As Tokenized Stock Trading Accelerates",
+          "minutesAgo": 330,
+          "catalystPoints": 1.5,
           "directMention": false
         }
       ],
-      "lastPrice": 2.047,
-      "change1hPct": -0.2,
-      "change24hPct": -2.477,
-      "lagVsLeader24h": 1.43,
-      "rsi1h": 30.88,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.09,
-      "bbPctB": -0.02,
-      "bbWidthPct": 4.49,
+      "lastPrice": 9.877,
+      "change1hPct": 1.05,
+      "change24hPct": -1.21,
+      "lagVsLeader24h": 1.06,
+      "rsi1h": 41.27,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.83,
+      "bbPctB": 0.33,
+      "bbWidthPct": 3.45,
       "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 34.7,
+      "macdBullishTurn": true,
+      "adx": 32,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 2.045,
-      "resistance": 2.138,
-      "roomToResistancePct": 4.45,
-      "aiConsensusCount": 3,
+      "support": 9.705,
+      "resistance": 10.055,
+      "roomToResistancePct": 1.8,
+      "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
         "Llama-4-Scout",
-        "Gemini-3.5-Flash"
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 45.8,
-      "isGreenBounce": false,
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 51.3,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.71,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 52.5,
+      "volRatio": 0.46,
+      "fundingHourlyPct": 0.0004,
+      "totalScore": 76.5,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 2.1391,
-      "slPrice": 2.0061
-    },
-    {
-      "symbol": "UNI",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "arbitrum"
-      ],
-      "newsScore": 2.88,
-      "freshestMinutesAgo": 37,
-      "headlines": [
-        {
-          "source": "NewsBTC",
-          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 37,
-          "catalystPoints": 2.88,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 7.062,
-      "change1hPct": -0.68,
-      "change24hPct": -2.378,
-      "lagVsLeader24h": 1.34,
-      "rsi1h": 24.59,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.96,
-      "bbPctB": -0.14,
-      "bbWidthPct": 4.4,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 52.8,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 7.076,
-      "resistance": 7.352,
-      "roomToResistancePct": 4.11,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 46.4,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.59,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 52.4,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 7.3798,
-      "slPrice": 6.9208
+      "tpPrice": 10.321,
+      "slPrice": 9.6795
     },
     {
       "symbol": "WLD",
@@ -852,53 +593,109 @@
       "matchedKeywords": [
         "ai agent"
       ],
-      "newsScore": 4.48,
-      "freshestMinutesAgo": 109,
+      "newsScore": 3.2,
+      "freshestMinutesAgo": 222,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 109,
-          "catalystPoints": 4.48,
+          "minutesAgo": 222,
+          "catalystPoints": 3.2,
           "directMention": false
         }
       ],
-      "lastPrice": 0.4936,
-      "change1hPct": -0.44,
-      "change24hPct": -2.508,
-      "lagVsLeader24h": -2.48,
-      "rsi1h": 26.02,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.73,
-      "bbPctB": 0.05,
-      "bbWidthPct": 9.1,
+      "lastPrice": 0.5001,
+      "change1hPct": 1.13,
+      "change24hPct": 0.14,
+      "lagVsLeader24h": -3.58,
+      "rsi1h": 23.2,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.59,
+      "bbPctB": 0.25,
+      "bbWidthPct": 10.26,
       "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 28.6,
+      "macdBullishTurn": true,
+      "adx": 60.6,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.4929,
+      "support": 0.4887,
       "resistance": 0.5388,
-      "roomToResistancePct": 9.16,
-      "aiConsensusCount": 2,
+      "roomToResistancePct": 7.74,
+      "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Scout",
-        "Gemini-3.5-Flash"
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 52.5,
-      "isGreenBounce": false,
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 54.1,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.84,
-      "fundingHourlyPct": 0.0003,
-      "totalScore": 50.2,
-      "tpPct": 6.34,
-      "slPct": 2.85,
-      "tpPrice": 0.52489,
-      "slPrice": 0.47953
+      "volRatio": 0.8,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 74.4,
+      "tpPct": 7.11,
+      "slPct": 2.62,
+      "tpPrice": 0.53566,
+      "slPrice": 0.487
     },
     {
-      "symbol": "EIGEN",
+      "symbol": "NEAR",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "ai agent"
+      ],
+      "newsScore": 3.2,
+      "freshestMinutesAgo": 222,
+      "headlines": [
+        {
+          "source": "Decrypt",
+          "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
+          "minutesAgo": 222,
+          "catalystPoints": 3.2,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 4.951,
+      "change1hPct": 1.35,
+      "change24hPct": -0.901,
+      "lagVsLeader24h": -2.54,
+      "rsi1h": 39.07,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.53,
+      "bbPctB": 0.22,
+      "bbWidthPct": 6.72,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 18.6,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 4.851,
+      "resistance": 5.197,
+      "roomToResistancePct": 4.97,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 49.8,
+      "isGreenBounce": true,
+      "isTrending": true,
+      "volRatio": 0.57,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 72.4,
+      "tpPct": 4.97,
+      "slPct": 2.52,
+      "tpPrice": 5.1971,
+      "slPrice": 4.8262
+    },
+    {
+      "symbol": "AAVE",
       "leaderSymbol": "ETH",
       "ecosystems": [
         "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
@@ -906,50 +703,425 @@
       "matchedKeywords": [
         "arbitrum"
       ],
-      "newsScore": 2.88,
-      "freshestMinutesAgo": 37,
+      "newsScore": 2.24,
+      "freshestMinutesAgo": 150,
       "headlines": [
         {
           "source": "NewsBTC",
           "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 37,
-          "catalystPoints": 2.88,
+          "minutesAgo": 150,
+          "catalystPoints": 2.24,
           "directMention": false
         }
       ],
-      "lastPrice": 0.2548,
-      "change1hPct": -0.66,
-      "change24hPct": 2.742,
-      "lagVsLeader24h": -3.79,
-      "rsi1h": 39.15,
-      "hasRsiDivergence": false,
-      "atr1hPct": 2.53,
-      "bbPctB": 0.27,
-      "bbWidthPct": 14.37,
+      "lastPrice": 152.67,
+      "change1hPct": 0.53,
+      "change24hPct": -1.738,
+      "lagVsLeader24h": 1.8,
+      "rsi1h": 34.43,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.8,
+      "bbPctB": 0.19,
+      "bbWidthPct": 4.21,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 56.6,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 150.35,
+      "resistance": 156.89,
+      "roomToResistancePct": 2.76,
+      "aiConsensusCount": 4,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 51.2,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.54,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 78.3,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 159.54,
+      "slPrice": 149.62,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 95,
+          "reason": "Haber AAVE ile doğrudan ilgili değil, riskli."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 78,
+          "reason": "Aşırı satım, balina alımı, yükseliş potansiyeli"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 87,
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber AAVE ile doğrudan ilgili değil, riskli. | [GPT-120B: LONG %78] Aşırı satım, balina alımı, yükseliş potansiyeli"
+    },
+    {
+      "symbol": "ARKM",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "ai agent"
+      ],
+      "newsScore": 3.2,
+      "freshestMinutesAgo": 222,
+      "headlines": [
+        {
+          "source": "Decrypt",
+          "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
+          "minutesAgo": 222,
+          "catalystPoints": 3.2,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.12,
+      "change1hPct": 1.18,
+      "change24hPct": -1.235,
+      "lagVsLeader24h": -2.21,
+      "rsi1h": 30.91,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.11,
+      "bbPctB": 0.31,
+      "bbWidthPct": 6.85,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 54.8,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.1171,
+      "resistance": 0.1251,
+      "roomToResistancePct": 4.25,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 43,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 2.83,
+      "fundingHourlyPct": 0,
+      "totalScore": 71.4,
+      "tpPct": 5.12,
+      "slPct": 2,
+      "tpPrice": 0.12614,
+      "slPrice": 0.1176
+    },
+    {
+      "symbol": "ICP",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "ai agent"
+      ],
+      "newsScore": 3.2,
+      "freshestMinutesAgo": 222,
+      "headlines": [
+        {
+          "source": "Decrypt",
+          "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
+          "minutesAgo": 222,
+          "catalystPoints": 3.2,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 2.956,
+      "change1hPct": 1.13,
+      "change24hPct": -1.924,
+      "lagVsLeader24h": -1.52,
+      "rsi1h": 31.67,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.99,
+      "bbPctB": 0.31,
+      "bbWidthPct": 5.14,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 52.7,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 2.892,
+      "resistance": 3.059,
+      "roomToResistancePct": 3.48,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 52.7,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.76,
+      "fundingHourlyPct": 0.0009,
+      "totalScore": 69.4,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 3.089,
+      "slPrice": 2.8969
+    },
+    {
+      "symbol": "XLM",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "tokenization",
+        "tokenized",
+        "bstocks"
+      ],
+      "newsScore": 3.46,
+      "freshestMinutesAgo": 103,
+      "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "Goldman, Wells Fargo, Morgan Stanley see tokenization as a growth play, not a threat",
+          "minutesAgo": 103,
+          "catalystPoints": 1.96,
+          "directMention": false
+        },
+        {
+          "source": "NewsBTC",
+          "title": "Binance bStocks Hits $1 Billion As Tokenized Stock Trading Accelerates",
+          "minutesAgo": 330,
+          "catalystPoints": 1.5,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.1787,
+      "change1hPct": 0.68,
+      "change24hPct": -0.997,
+      "lagVsLeader24h": 0.84,
+      "rsi1h": 44.83,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.57,
+      "bbPctB": 0.42,
+      "bbWidthPct": 2.85,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 37.3,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.1759,
+      "resistance": 0.1819,
+      "roomToResistancePct": 1.79,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 52.5,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.35,
+      "fundingHourlyPct": 0.0006,
+      "totalScore": 66.1,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.18674,
+      "slPrice": 0.17513
+    },
+    {
+      "symbol": "OM",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "tokenization",
+        "tokenized",
+        "bstocks"
+      ],
+      "newsScore": 3.46,
+      "freshestMinutesAgo": 103,
+      "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "Goldman, Wells Fargo, Morgan Stanley see tokenization as a growth play, not a threat",
+          "minutesAgo": 103,
+          "catalystPoints": 1.96,
+          "directMention": false
+        },
+        {
+          "source": "NewsBTC",
+          "title": "Binance bStocks Hits $1 Billion As Tokenized Stock Trading Accelerates",
+          "minutesAgo": 330,
+          "catalystPoints": 1.5,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.0669,
+      "change1hPct": -4.43,
+      "change24hPct": -5.106,
+      "lagVsLeader24h": 4.95,
+      "rsi1h": 31.53,
+      "hasRsiDivergence": true,
+      "atr1hPct": 3.26,
+      "bbPctB": -0.14,
+      "bbWidthPct": 6.33,
       "isSqueeze": false,
       "macdBullishTurn": false,
-      "adx": 17.6,
-      "ema20AboveEma50": true,
+      "adx": 2,
+      "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.245,
-      "resistance": 0.2814,
-      "roomToResistancePct": 10.44,
+      "support": 0.068,
+      "resistance": 0.0737,
+      "roomToResistancePct": 10.16,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 48.6,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 1.75,
+      "fundingHourlyPct": 0,
+      "totalScore": 65.3,
+      "tpPct": 6.3,
+      "slPct": 3.2,
+      "tpPrice": 0.071115,
+      "slPrice": 0.064759
+    },
+    {
+      "symbol": "HBAR",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "tokenization",
+        "tokenized",
+        "bstocks"
+      ],
+      "newsScore": 3.46,
+      "freshestMinutesAgo": 103,
+      "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "Goldman, Wells Fargo, Morgan Stanley see tokenization as a growth play, not a threat",
+          "minutesAgo": 103,
+          "catalystPoints": 1.96,
+          "directMention": false
+        },
+        {
+          "source": "NewsBTC",
+          "title": "Binance bStocks Hits $1 Billion As Tokenized Stock Trading Accelerates",
+          "minutesAgo": 330,
+          "catalystPoints": 1.5,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.08341,
+      "change1hPct": 0.83,
+      "change24hPct": 0.627,
+      "lagVsLeader24h": -0.78,
+      "rsi1h": 43.84,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.7,
+      "bbPctB": 0.47,
+      "bbWidthPct": 2.4,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 18,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.08212,
+      "resistance": 0.08448,
+      "roomToResistancePct": 1.5,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 52.7,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.5,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 64.6,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.087163,
+      "slPrice": 0.081742
+    },
+    {
+      "symbol": "UNI",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "arbitrum"
+      ],
+      "newsScore": 2.24,
+      "freshestMinutesAgo": 150,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
+          "minutesAgo": 150,
+          "catalystPoints": 2.24,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 7.156,
+      "change1hPct": 0.9,
+      "change24hPct": -0.39,
+      "lagVsLeader24h": 0.45,
+      "rsi1h": 33.95,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1,
+      "bbPctB": 0.25,
+      "bbWidthPct": 5.08,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 52.8,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 7.015,
+      "resistance": 7.352,
+      "roomToResistancePct": 2.74,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 50.2,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.64,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 41,
-      "tpPct": 9,
-      "slPct": 3.2,
-      "tpPrice": 0.27773,
-      "slPrice": 0.24665
+      "takerBuyRatioPct": 43.1,
+      "isGreenBounce": true,
+      "isTrending": true,
+      "volRatio": 0.3,
+      "fundingHourlyPct": 0.0011,
+      "totalScore": 62.1,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 7.478,
+      "slPrice": 7.0129
     },
     {
       "symbol": "GRT",
@@ -960,50 +1132,223 @@
       "matchedKeywords": [
         "ai agent"
       ],
-      "newsScore": 4.48,
-      "freshestMinutesAgo": 109,
+      "newsScore": 3.2,
+      "freshestMinutesAgo": 222,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 109,
-          "catalystPoints": 4.48,
+          "minutesAgo": 222,
+          "catalystPoints": 3.2,
           "directMention": false
         }
       ],
-      "lastPrice": 0.02399,
-      "change1hPct": 0,
-      "change24hPct": -3.809,
-      "lagVsLeader24h": -1.18,
-      "rsi1h": 50,
-      "hasRsiDivergence": false,
-      "atr1hPct": 2.5,
-      "bbPctB": 0.5,
-      "bbWidthPct": 5,
+      "lastPrice": 0.02436,
+      "change1hPct": 1.54,
+      "change24hPct": -0.976,
+      "lagVsLeader24h": -2.46,
+      "rsi1h": 36.65,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.83,
+      "bbPctB": 0.43,
+      "bbWidthPct": 4.88,
       "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 20,
-      "ema20AboveEma50": true,
-      "regime": "DENGELI",
-      "support": 0.0230304,
-      "resistance": 0.0254294,
-      "roomToResistancePct": 6,
+      "macdBullishTurn": true,
+      "adx": 42,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.02382,
+      "resistance": 0.02489,
+      "roomToResistancePct": 2.18,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 44.6,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 5.93,
+      "fundingHourlyPct": 0,
+      "totalScore": 60.4,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.025456,
+      "slPrice": 0.023873
+    },
+    {
+      "symbol": "PENDLE",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "arbitrum"
+      ],
+      "newsScore": 2.24,
+      "freshestMinutesAgo": 150,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
+          "minutesAgo": 150,
+          "catalystPoints": 2.24,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 2.057,
+      "change1hPct": 0.73,
+      "change24hPct": -1.673,
+      "lagVsLeader24h": 1.74,
+      "rsi1h": 28.08,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.01,
+      "bbPctB": 0.2,
+      "bbWidthPct": 5.55,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 66.2,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 2.028,
+      "resistance": 2.138,
+      "roomToResistancePct": 3.94,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 50,
-      "isGreenBounce": false,
+      "takerBuyRatioPct": 45.3,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 1,
-      "fundingHourlyPct": 0,
-      "totalScore": 35.2,
+      "volRatio": 0.36,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 56.2,
       "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 2.1496,
+      "slPrice": 2.0159
+    },
+    {
+      "symbol": "RSR",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "tokenization",
+        "tokenized",
+        "bstocks"
+      ],
+      "newsScore": 3.46,
+      "freshestMinutesAgo": 103,
+      "headlines": [
+        {
+          "source": "CoinDesk",
+          "title": "Goldman, Wells Fargo, Morgan Stanley see tokenization as a growth play, not a threat",
+          "minutesAgo": 103,
+          "catalystPoints": 1.96,
+          "directMention": false
+        },
+        {
+          "source": "NewsBTC",
+          "title": "Binance bStocks Hits $1 Billion As Tokenized Stock Trading Accelerates",
+          "minutesAgo": 330,
+          "catalystPoints": 1.5,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.001971,
+      "change1hPct": 0.87,
+      "change24hPct": 3.248,
+      "lagVsLeader24h": -3.4,
+      "rsi1h": 54.59,
+      "hasRsiDivergence": false,
+      "atr1hPct": 2.95,
+      "bbPctB": 0.47,
+      "bbWidthPct": 7.77,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 17.9,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.001895,
+      "resistance": 0.002105,
+      "roomToResistancePct": 6.8,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 47.1,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.3,
+      "fundingHourlyPct": -0.0088,
+      "totalScore": 51.6,
+      "tpPct": 8.36,
       "slPct": 3.2,
-      "tpPrice": 0.02507,
-      "slPrice": 0.023222
+      "tpPrice": 0.0021358,
+      "slPrice": 0.0019079
+    },
+    {
+      "symbol": "FET",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "ai agent"
+      ],
+      "newsScore": 3.2,
+      "freshestMinutesAgo": 222,
+      "headlines": [
+        {
+          "source": "Decrypt",
+          "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
+          "minutesAgo": 222,
+          "catalystPoints": 3.2,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.1908,
+      "change1hPct": 1.17,
+      "change24hPct": -3.441,
+      "lagVsLeader24h": 0,
+      "rsi1h": 40,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.29,
+      "bbPctB": 0.25,
+      "bbWidthPct": 5.85,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 47.7,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.1853,
+      "resistance": 0.1999,
+      "roomToResistancePct": 4.77,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 45,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.52,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 51.4,
+      "tpPct": 5.79,
+      "slPct": 2.13,
+      "tpPrice": 0.20185,
+      "slPrice": 0.18674
     }
   ]
 }
