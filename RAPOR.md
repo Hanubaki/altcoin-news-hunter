@@ -1,16 +1,16 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Zero-Risk v9.0)
 
-**Son Güncelleme:** 17.10.2026 01:13:44
+**Son Güncelleme:** 17.10.2026 03:32:07
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.037,20 TL`**
-* **Toplam Net Kâr / Zarar:** **`+37,24 TL` (`+%3.72`)**
+* **Şu Anki Toplam Para:** **`1.039,03 TL`**
+* **Toplam Net Kâr / Zarar:** **`+39,07 TL` (`+%3.91`)**
 * **Boşta Bekleyen Nakit:** `22,54 TL`
-* **Coinde Olan Para:** `1.014,66 TL`
+* **Coinde Olan Para:** `1.016,49 TL`
 * **Başarılı Satış / Zarar Kes:** `8 Kârlı Satış / 4 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Bağlantı Bekleniyor`
 
@@ -39,8 +39,8 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **WIF** | `820,74 TL` | `827,41 TL` | **`+6,67 TL (%0.81)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
-| **XRP (VURGUN)** | `185,28 TL` | `187,25 TL` | **`+1,96 TL (%1.06)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
+| **WIF** | `820,74 TL` | `829,87 TL` | **`+9,13 TL (%1.11)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
+| **XRP (VURGUN)** | `185,28 TL` | `186,62 TL` | **`+1,33 TL (%0.72)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
 
 ---
 
