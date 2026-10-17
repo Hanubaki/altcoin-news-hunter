@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-10-17T16:49:06.679Z",
-  "scanDurationMs": 3515,
+  "updatedAt": "2026-10-17T16:50:16.289Z",
+  "scanDurationMs": 5991,
   "bankrollTry": 1000,
   "bankrollUsdt": 28.01,
   "btc1hChangePct": -0.17,
   "btcCrashAlert": false,
-  "marketBreadthPct": 8,
+  "marketBreadthPct": 10,
   "totalHeadlinesScanned": 102,
   "activeFeeds": [
     "CoinTelegraph (20)",
@@ -26,25 +26,25 @@
         "arbitrum"
       ],
       "newsScore": 2.88,
-      "freshestMinutesAgo": 36,
+      "freshestMinutesAgo": 37,
       "headlines": [
         {
           "source": "NewsBTC",
           "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 36,
+          "minutesAgo": 37,
           "catalystPoints": 2.88,
           "directMention": false
         }
       ],
-      "lastPrice": 0.1293,
-      "change1hPct": 0.23,
-      "change24hPct": -6.032,
-      "lagVsLeader24h": 4.97,
-      "rsi1h": 15.75,
+      "lastPrice": 0.13,
+      "change1hPct": 0.85,
+      "change24hPct": -5.729,
+      "lagVsLeader24h": 4.69,
+      "rsi1h": 20.74,
       "hasRsiDivergence": true,
-      "atr1hPct": 1.39,
-      "bbPctB": 0.05,
-      "bbWidthPct": 9.51,
+      "atr1hPct": 1.42,
+      "bbPctB": 0.1,
+      "bbWidthPct": 9.3,
       "isSqueeze": false,
       "macdBullishTurn": true,
       "adx": 81.1,
@@ -52,7 +52,7 @@
       "regime": "DIP_TOPLAMA",
       "support": 0.1285,
       "resistance": 0.1406,
-      "roomToResistancePct": 8.74,
+      "roomToResistancePct": 8.15,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Scout",
@@ -60,16 +60,16 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 50.3,
+      "takerBuyRatioPct": 51.4,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.74,
+      "volRatio": 0.81,
       "fundingHourlyPct": 0.0013,
       "totalScore": 76,
       "tpPct": 6.22,
-      "slPct": 2.29,
-      "tpPrice": 0.13734,
-      "slPrice": 0.12634
+      "slPct": 2.34,
+      "tpPrice": 0.13809,
+      "slPrice": 0.12696
     },
     {
       "symbol": "TAO",
@@ -81,12 +81,12 @@
         "ai agent"
       ],
       "newsScore": 4.48,
-      "freshestMinutesAgo": 108,
+      "freshestMinutesAgo": 109,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 108,
+          "minutesAgo": 109,
           "catalystPoints": 4.48,
           "directMention": false
         }
@@ -94,7 +94,7 @@
       "lastPrice": 267.6,
       "change1hPct": -0.26,
       "change24hPct": -4.052,
-      "lagVsLeader24h": -1.08,
+      "lagVsLeader24h": -0.93,
       "rsi1h": 30.41,
       "hasRsiDivergence": true,
       "atr1hPct": 0.94,
@@ -115,12 +115,12 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 57,
+      "takerBuyRatioPct": 57.1,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 1.39,
+      "volRatio": 1.41,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 75.1,
+      "totalScore": 75.2,
       "tpPct": 4.5,
       "slPct": 2,
       "tpPrice": 279.64,
@@ -137,20 +137,20 @@
         "bstocks"
       ],
       "newsScore": 1.5,
-      "freshestMinutesAgo": 216,
+      "freshestMinutesAgo": 217,
       "headlines": [
         {
           "source": "NewsBTC",
           "title": "Binance bStocks Hits $1 Billion As Tokenized Stock Trading Accelerates",
-          "minutesAgo": 216,
+          "minutesAgo": 217,
           "catalystPoints": 1.5,
           "directMention": false
         }
       ],
       "lastPrice": 11.926,
       "change1hPct": 0.13,
-      "change24hPct": -3.355,
-      "lagVsLeader24h": 2.22,
+      "change24hPct": -3.339,
+      "lagVsLeader24h": 2.24,
       "rsi1h": 10.95,
       "hasRsiDivergence": true,
       "atr1hPct": 0.61,
@@ -171,12 +171,12 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 45.2,
+      "takerBuyRatioPct": 45.4,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 1.06,
-      "fundingHourlyPct": -0.0009,
-      "totalScore": 67.7,
+      "volRatio": 1.1,
+      "fundingHourlyPct": -0.001,
+      "totalScore": 68.3,
       "tpPct": 4.5,
       "slPct": 2,
       "tpPrice": 12.463,
@@ -194,25 +194,25 @@
         "arbitrum"
       ],
       "newsScore": 2.88,
-      "freshestMinutesAgo": 36,
+      "freshestMinutesAgo": 37,
       "headlines": [
         {
           "source": "NewsBTC",
           "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 36,
+          "minutesAgo": 37,
           "catalystPoints": 2.88,
           "directMention": false
         }
       ],
-      "lastPrice": 0.1293,
-      "change1hPct": 0.23,
-      "change24hPct": -6.032,
-      "lagVsLeader24h": 4.97,
-      "rsi1h": 15.75,
+      "lastPrice": 0.13,
+      "change1hPct": 0.85,
+      "change24hPct": -5.729,
+      "lagVsLeader24h": 4.69,
+      "rsi1h": 20.74,
       "hasRsiDivergence": true,
-      "atr1hPct": 1.39,
-      "bbPctB": 0.05,
-      "bbWidthPct": 9.51,
+      "atr1hPct": 1.42,
+      "bbPctB": 0.1,
+      "bbWidthPct": 9.3,
       "isSqueeze": false,
       "macdBullishTurn": true,
       "adx": 81.1,
@@ -220,7 +220,7 @@
       "regime": "DIP_TOPLAMA",
       "support": 0.1285,
       "resistance": 0.1406,
-      "roomToResistancePct": 8.74,
+      "roomToResistancePct": 8.15,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Scout",
@@ -228,16 +228,16 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 50.3,
+      "takerBuyRatioPct": 51.4,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.74,
+      "volRatio": 0.81,
       "fundingHourlyPct": 0.0013,
       "totalScore": 76,
       "tpPct": 6.22,
-      "slPct": 2.29,
-      "tpPrice": 0.13734,
-      "slPrice": 0.12634
+      "slPct": 2.34,
+      "tpPrice": 0.13809,
+      "slPrice": 0.12696
     },
     {
       "symbol": "TAO",
@@ -249,12 +249,12 @@
         "ai agent"
       ],
       "newsScore": 4.48,
-      "freshestMinutesAgo": 108,
+      "freshestMinutesAgo": 109,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 108,
+          "minutesAgo": 109,
           "catalystPoints": 4.48,
           "directMention": false
         }
@@ -262,7 +262,7 @@
       "lastPrice": 267.6,
       "change1hPct": -0.26,
       "change24hPct": -4.052,
-      "lagVsLeader24h": -1.08,
+      "lagVsLeader24h": -0.93,
       "rsi1h": 30.41,
       "hasRsiDivergence": true,
       "atr1hPct": 0.94,
@@ -283,12 +283,12 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 57,
+      "takerBuyRatioPct": 57.1,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 1.39,
+      "volRatio": 1.41,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 75.1,
+      "totalScore": 75.2,
       "tpPct": 4.5,
       "slPct": 2,
       "tpPrice": 279.64,
@@ -304,25 +304,25 @@
         "arbitrum"
       ],
       "newsScore": 2.88,
-      "freshestMinutesAgo": 36,
+      "freshestMinutesAgo": 37,
       "headlines": [
         {
           "source": "NewsBTC",
           "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 36,
+          "minutesAgo": 37,
           "catalystPoints": 2.88,
           "directMention": false
         }
       ],
-      "lastPrice": 151.16,
-      "change1hPct": -0.6,
-      "change24hPct": -3.498,
-      "lagVsLeader24h": 2.44,
-      "rsi1h": 29.01,
+      "lastPrice": 151.14,
+      "change1hPct": -0.64,
+      "change24hPct": -3.517,
+      "lagVsLeader24h": 2.47,
+      "rsi1h": 28.82,
       "hasRsiDivergence": false,
       "atr1hPct": 0.74,
       "bbPctB": -0.21,
-      "bbWidthPct": 3.43,
+      "bbWidthPct": 3.45,
       "isSqueeze": true,
       "macdBullishTurn": false,
       "adx": 43.3,
@@ -330,7 +330,7 @@
       "regime": "DIP_TOPLAMA",
       "support": 151.99,
       "resistance": 157.01,
-      "roomToResistancePct": 3.87,
+      "roomToResistancePct": 3.88,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -338,16 +338,16 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 53.3,
+      "takerBuyRatioPct": 53.1,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 2.09,
+      "volRatio": 2.12,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 69.8,
+      "totalScore": 70,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 157.96,
-      "slPrice": 148.14
+      "tpPrice": 157.94,
+      "slPrice": 148.12
     },
     {
       "symbol": "LINK",
@@ -360,20 +360,20 @@
         "bstocks"
       ],
       "newsScore": 1.5,
-      "freshestMinutesAgo": 216,
+      "freshestMinutesAgo": 217,
       "headlines": [
         {
           "source": "NewsBTC",
           "title": "Binance bStocks Hits $1 Billion As Tokenized Stock Trading Accelerates",
-          "minutesAgo": 216,
+          "minutesAgo": 217,
           "catalystPoints": 1.5,
           "directMention": false
         }
       ],
       "lastPrice": 11.926,
       "change1hPct": 0.13,
-      "change24hPct": -3.355,
-      "lagVsLeader24h": 2.22,
+      "change24hPct": -3.339,
+      "lagVsLeader24h": 2.24,
       "rsi1h": 10.95,
       "hasRsiDivergence": true,
       "atr1hPct": 0.61,
@@ -394,54 +394,54 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 45.2,
+      "takerBuyRatioPct": 45.4,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 1.06,
-      "fundingHourlyPct": -0.0009,
-      "totalScore": 67.7,
+      "volRatio": 1.1,
+      "fundingHourlyPct": -0.001,
+      "totalScore": 68.3,
       "tpPct": 4.5,
       "slPct": 2,
       "tpPrice": 12.463,
       "slPrice": 11.687
     },
     {
-      "symbol": "GRT",
-      "leaderSymbol": "FET",
+      "symbol": "ETHFI",
+      "leaderSymbol": "ETH",
       "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
       ],
       "matchedKeywords": [
-        "ai agent"
+        "arbitrum"
       ],
-      "newsScore": 4.48,
-      "freshestMinutesAgo": 108,
+      "newsScore": 2.88,
+      "freshestMinutesAgo": 37,
       "headlines": [
         {
-          "source": "Decrypt",
-          "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 108,
-          "catalystPoints": 4.48,
+          "source": "NewsBTC",
+          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
+          "minutesAgo": 37,
+          "catalystPoints": 2.88,
           "directMention": false
         }
       ],
-      "lastPrice": 0.02397,
-      "change1hPct": 0,
-      "change24hPct": -3.889,
-      "lagVsLeader24h": -1.24,
-      "rsi1h": 19.2,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.73,
-      "bbPctB": 0.01,
-      "bbWidthPct": 4.51,
+      "lastPrice": 0.6673,
+      "change1hPct": 0.03,
+      "change24hPct": -2.896,
+      "lagVsLeader24h": 1.85,
+      "rsi1h": 23.57,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.07,
+      "bbPctB": -0.04,
+      "bbWidthPct": 4.18,
       "isSqueeze": true,
       "macdBullishTurn": false,
-      "adx": 66.4,
+      "adx": 59.5,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.02392,
-      "resistance": 0.02492,
-      "roomToResistancePct": 3.96,
+      "support": 0.6654,
+      "resistance": 0.6974,
+      "roomToResistancePct": 4.51,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -449,16 +449,16 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 45.9,
+      "takerBuyRatioPct": 44.1,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.65,
-      "fundingHourlyPct": 0,
-      "totalScore": 64.2,
+      "volRatio": 0.33,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 66.3,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 0.025049,
-      "slPrice": 0.023491
+      "tpPrice": 0.69733,
+      "slPrice": 0.65395
     },
     {
       "symbol": "ENS",
@@ -470,12 +470,12 @@
         "arbitrum"
       ],
       "newsScore": 2.88,
-      "freshestMinutesAgo": 36,
+      "freshestMinutesAgo": 37,
       "headlines": [
         {
           "source": "NewsBTC",
           "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 36,
+          "minutesAgo": 37,
           "catalystPoints": 2.88,
           "directMention": false
         }
@@ -483,7 +483,7 @@
       "lastPrice": 5.51,
       "change1hPct": -0.54,
       "change24hPct": -2.993,
-      "lagVsLeader24h": 1.93,
+      "lagVsLeader24h": 1.95,
       "rsi1h": 23.33,
       "hasRsiDivergence": false,
       "atr1hPct": 0.7,
@@ -509,7 +509,7 @@
       "isTrending": false,
       "volRatio": 0.19,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 63.4,
+      "totalScore": 63.5,
       "tpPct": 4.5,
       "slPct": 2,
       "tpPrice": 5.7579,
@@ -525,25 +525,25 @@
         "ai agent"
       ],
       "newsScore": 4.48,
-      "freshestMinutesAgo": 108,
+      "freshestMinutesAgo": 109,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 108,
+          "minutesAgo": 109,
           "catalystPoints": 4.48,
           "directMention": false
         }
       ],
-      "lastPrice": 4.91,
-      "change1hPct": 0.41,
-      "change24hPct": -3.06,
-      "lagVsLeader24h": -2.07,
-      "rsi1h": 36.55,
+      "lastPrice": 4.911,
+      "change1hPct": 0.37,
+      "change24hPct": -2.945,
+      "lagVsLeader24h": -2.04,
+      "rsi1h": 36.29,
       "hasRsiDivergence": true,
       "atr1hPct": 1.49,
       "bbPctB": -0.05,
-      "bbWidthPct": 5.48,
+      "bbWidthPct": 5.5,
       "isSqueeze": false,
       "macdBullishTurn": false,
       "adx": 19.7,
@@ -551,23 +551,23 @@
       "regime": "DIP_TOPLAMA",
       "support": 4.889,
       "resistance": 5.197,
-      "roomToResistancePct": 5.85,
+      "roomToResistancePct": 5.82,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 45.9,
+      "takerBuyRatioPct": 45.8,
       "isGreenBounce": true,
       "isTrending": true,
-      "volRatio": 0.71,
+      "volRatio": 0.72,
       "fundingHourlyPct": 0.0005,
       "totalScore": 61.2,
       "tpPct": 4.5,
       "slPct": 2.46,
-      "tpPrice": 5.1309,
-      "slPrice": 4.7892
+      "tpPrice": 5.132,
+      "slPrice": 4.7902
     },
     {
       "symbol": "LDO",
@@ -579,25 +579,25 @@
         "arbitrum"
       ],
       "newsScore": 2.88,
-      "freshestMinutesAgo": 36,
+      "freshestMinutesAgo": 37,
       "headlines": [
         {
           "source": "NewsBTC",
           "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 36,
+          "minutesAgo": 37,
           "catalystPoints": 2.88,
           "directMention": false
         }
       ],
-      "lastPrice": 0.3866,
-      "change1hPct": -0.31,
-      "change24hPct": -3.108,
-      "lagVsLeader24h": 2.05,
-      "rsi1h": 26.05,
+      "lastPrice": 0.3868,
+      "change1hPct": -0.28,
+      "change24hPct": -3.058,
+      "lagVsLeader24h": 2.01,
+      "rsi1h": 26.15,
       "hasRsiDivergence": false,
       "atr1hPct": 1.09,
       "bbPctB": -0.08,
-      "bbWidthPct": 4.72,
+      "bbWidthPct": 4.71,
       "isSqueeze": true,
       "macdBullishTurn": false,
       "adx": 61,
@@ -605,7 +605,7 @@
       "regime": "DIP_TOPLAMA",
       "support": 0.3872,
       "resistance": 0.4051,
-      "roomToResistancePct": 4.79,
+      "roomToResistancePct": 4.73,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -613,236 +613,16 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 50.1,
+      "takerBuyRatioPct": 50.2,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.4,
+      "volRatio": 0.41,
       "fundingHourlyPct": 0.0013,
       "totalScore": 58.6,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 0.404,
-      "slPrice": 0.37887
-    },
-    {
-      "symbol": "FET",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "ai agent"
-      ],
-      "newsScore": 4.48,
-      "freshestMinutesAgo": 108,
-      "headlines": [
-        {
-          "source": "Decrypt",
-          "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 108,
-          "catalystPoints": 4.48,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.1885,
-      "change1hPct": -0.84,
-      "change24hPct": -5.133,
-      "lagVsLeader24h": 0,
-      "rsi1h": 22.69,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.08,
-      "bbPctB": -0.11,
-      "bbWidthPct": 5.07,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 62.5,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.19,
-      "resistance": 0.2006,
-      "roomToResistancePct": 6.42,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 42.1,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 1.34,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 53.9,
-      "tpPct": 4.63,
-      "slPct": 2,
-      "tpPrice": 0.19723,
-      "slPrice": 0.18473
-    },
-    {
-      "symbol": "ETHFI",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "arbitrum"
-      ],
-      "newsScore": 2.88,
-      "freshestMinutesAgo": 36,
-      "headlines": [
-        {
-          "source": "NewsBTC",
-          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 36,
-          "catalystPoints": 2.88,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.6666,
-      "change1hPct": -0.07,
-      "change24hPct": -2.998,
-      "lagVsLeader24h": 1.94,
-      "rsi1h": 22.91,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.07,
-      "bbPctB": -0.06,
-      "bbWidthPct": 4.23,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 59.5,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.6654,
-      "resistance": 0.6974,
-      "roomToResistancePct": 4.62,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 43.3,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.31,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 53.5,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.6966,
-      "slPrice": 0.65327
-    },
-    {
-      "symbol": "PENDLE",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "arbitrum"
-      ],
-      "newsScore": 2.88,
-      "freshestMinutesAgo": 36,
-      "headlines": [
-        {
-          "source": "NewsBTC",
-          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 36,
-          "catalystPoints": 2.88,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 2.045,
-      "change1hPct": -0.29,
-      "change24hPct": -2.804,
-      "lagVsLeader24h": 1.74,
-      "rsi1h": 30.43,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.09,
-      "bbPctB": -0.04,
-      "bbWidthPct": 4.53,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 34.7,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 2.045,
-      "resistance": 2.138,
-      "roomToResistancePct": 4.55,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 45.8,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.7,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 53.1,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 2.137,
-      "slPrice": 2.0041
-    },
-    {
-      "symbol": "UNI",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "arbitrum"
-      ],
-      "newsScore": 2.88,
-      "freshestMinutesAgo": 36,
-      "headlines": [
-        {
-          "source": "NewsBTC",
-          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 36,
-          "catalystPoints": 2.88,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 7.065,
-      "change1hPct": -0.62,
-      "change24hPct": -2.242,
-      "lagVsLeader24h": 1.18,
-      "rsi1h": 24.82,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.96,
-      "bbPctB": -0.13,
-      "bbWidthPct": 4.37,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 52.8,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 7.076,
-      "resistance": 7.352,
-      "roomToResistancePct": 4.06,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 46.2,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.57,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 52.1,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 7.3829,
-      "slPrice": 6.9237
+      "tpPrice": 0.40421,
+      "slPrice": 0.37906
     },
     {
       "symbol": "RENDER",
@@ -854,25 +634,25 @@
         "ai agent"
       ],
       "newsScore": 4.48,
-      "freshestMinutesAgo": 108,
+      "freshestMinutesAgo": 109,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 108,
+          "minutesAgo": 109,
           "catalystPoints": 4.48,
           "directMention": false
         }
       ],
-      "lastPrice": 1.838,
-      "change1hPct": -0.22,
-      "change24hPct": -3.517,
-      "lagVsLeader24h": -1.62,
-      "rsi1h": 21.85,
+      "lastPrice": 1.84,
+      "change1hPct": -0.11,
+      "change24hPct": -3.311,
+      "lagVsLeader24h": -1.67,
+      "rsi1h": 22.22,
       "hasRsiDivergence": false,
       "atr1hPct": 0.92,
-      "bbPctB": -0.09,
-      "bbWidthPct": 5.69,
+      "bbPctB": -0.08,
+      "bbWidthPct": 5.64,
       "isSqueeze": false,
       "macdBullishTurn": false,
       "adx": 68.5,
@@ -880,23 +660,188 @@
       "regime": "DIP_TOPLAMA",
       "support": 1.84,
       "resistance": 1.936,
-      "roomToResistancePct": 5.33,
+      "roomToResistancePct": 5.22,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 52.9,
+      "takerBuyRatioPct": 53,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.84,
+      "volRatio": 0.86,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 50.2,
+      "totalScore": 55.2,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 1.9207,
-      "slPrice": 1.8012
+      "tpPrice": 1.9228,
+      "slPrice": 1.8032
+    },
+    {
+      "symbol": "FET",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "ai agent"
+      ],
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 109,
+      "headlines": [
+        {
+          "source": "Decrypt",
+          "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
+          "minutesAgo": 109,
+          "catalystPoints": 4.48,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.1887,
+      "change1hPct": -0.79,
+      "change24hPct": -4.985,
+      "lagVsLeader24h": 0,
+      "rsi1h": 22.88,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.08,
+      "bbPctB": -0.11,
+      "bbWidthPct": 5.04,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 62.5,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.19,
+      "resistance": 0.2006,
+      "roomToResistancePct": 6.31,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 42.1,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 1.35,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 53.9,
+      "tpPct": 4.63,
+      "slPct": 2,
+      "tpPrice": 0.19744,
+      "slPrice": 0.18493
+    },
+    {
+      "symbol": "PENDLE",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "arbitrum"
+      ],
+      "newsScore": 2.88,
+      "freshestMinutesAgo": 37,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
+          "minutesAgo": 37,
+          "catalystPoints": 2.88,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 2.047,
+      "change1hPct": -0.2,
+      "change24hPct": -2.477,
+      "lagVsLeader24h": 1.43,
+      "rsi1h": 30.88,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.09,
+      "bbPctB": -0.02,
+      "bbWidthPct": 4.49,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 34.7,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 2.045,
+      "resistance": 2.138,
+      "roomToResistancePct": 4.45,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 45.8,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.71,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 52.5,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 2.1391,
+      "slPrice": 2.0061
+    },
+    {
+      "symbol": "UNI",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "arbitrum"
+      ],
+      "newsScore": 2.88,
+      "freshestMinutesAgo": 37,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
+          "minutesAgo": 37,
+          "catalystPoints": 2.88,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 7.062,
+      "change1hPct": -0.68,
+      "change24hPct": -2.378,
+      "lagVsLeader24h": 1.34,
+      "rsi1h": 24.59,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.96,
+      "bbPctB": -0.14,
+      "bbWidthPct": 4.4,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 52.8,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 7.076,
+      "resistance": 7.352,
+      "roomToResistancePct": 4.11,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 46.4,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.59,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 52.4,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 7.3798,
+      "slPrice": 6.9208
     },
     {
       "symbol": "WLD",
@@ -908,25 +853,25 @@
         "ai agent"
       ],
       "newsScore": 4.48,
-      "freshestMinutesAgo": 108,
+      "freshestMinutesAgo": 109,
       "headlines": [
         {
           "source": "Decrypt",
           "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
-          "minutesAgo": 108,
+          "minutesAgo": 109,
           "catalystPoints": 4.48,
           "directMention": false
         }
       ],
-      "lastPrice": 0.4939,
-      "change1hPct": -0.36,
-      "change24hPct": -2.372,
-      "lagVsLeader24h": -2.76,
-      "rsi1h": 26.2,
+      "lastPrice": 0.4936,
+      "change1hPct": -0.44,
+      "change24hPct": -2.508,
+      "lagVsLeader24h": -2.48,
+      "rsi1h": 26.02,
       "hasRsiDivergence": false,
       "atr1hPct": 1.73,
       "bbPctB": 0.05,
-      "bbWidthPct": 9.07,
+      "bbWidthPct": 9.1,
       "isSqueeze": false,
       "macdBullishTurn": false,
       "adx": 28.6,
@@ -934,7 +879,7 @@
       "regime": "DIP_TOPLAMA",
       "support": 0.4929,
       "resistance": 0.5388,
-      "roomToResistancePct": 9.09,
+      "roomToResistancePct": 9.16,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Scout",
@@ -944,13 +889,13 @@
       "takerBuyRatioPct": 52.5,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.83,
+      "volRatio": 0.84,
       "fundingHourlyPct": 0.0003,
       "totalScore": 50.2,
       "tpPct": 6.34,
       "slPct": 2.85,
-      "tpPrice": 0.52521,
-      "slPrice": 0.47982
+      "tpPrice": 0.52489,
+      "slPrice": 0.47953
     },
     {
       "symbol": "EIGEN",
@@ -962,25 +907,25 @@
         "arbitrum"
       ],
       "newsScore": 2.88,
-      "freshestMinutesAgo": 36,
+      "freshestMinutesAgo": 37,
       "headlines": [
         {
           "source": "NewsBTC",
           "title": "Arbitrum Courts European Investors Managing €800 Billion With New Revenue Pitch",
-          "minutesAgo": 36,
+          "minutesAgo": 37,
           "catalystPoints": 2.88,
           "directMention": false
         }
       ],
-      "lastPrice": 0.2544,
-      "change1hPct": -0.74,
-      "change24hPct": 2.415,
-      "lagVsLeader24h": -3.48,
-      "rsi1h": 38.98,
+      "lastPrice": 0.2548,
+      "change1hPct": -0.66,
+      "change24hPct": 2.742,
+      "lagVsLeader24h": -3.79,
+      "rsi1h": 39.15,
       "hasRsiDivergence": false,
       "atr1hPct": 2.53,
       "bbPctB": 0.27,
-      "bbWidthPct": 14.38,
+      "bbWidthPct": 14.37,
       "isSqueeze": false,
       "macdBullishTurn": false,
       "adx": 17.6,
@@ -988,7 +933,61 @@
       "regime": "DIP_TOPLAMA",
       "support": 0.245,
       "resistance": 0.2814,
-      "roomToResistancePct": 10.61,
+      "roomToResistancePct": 10.44,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 50.2,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.64,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 41,
+      "tpPct": 9,
+      "slPct": 3.2,
+      "tpPrice": 0.27773,
+      "slPrice": 0.24665
+    },
+    {
+      "symbol": "GRT",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "ai agent"
+      ],
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 109,
+      "headlines": [
+        {
+          "source": "Decrypt",
+          "title": "Chinese Startup StepFun Launches a Phone Built Around an AI Agent, Not Apps",
+          "minutesAgo": 109,
+          "catalystPoints": 4.48,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.02399,
+      "change1hPct": 0,
+      "change24hPct": -3.809,
+      "lagVsLeader24h": -1.18,
+      "rsi1h": 50,
+      "hasRsiDivergence": false,
+      "atr1hPct": 2.5,
+      "bbPctB": 0.5,
+      "bbWidthPct": 5,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 20,
+      "ema20AboveEma50": true,
+      "regime": "DENGELI",
+      "support": 0.0230304,
+      "resistance": 0.0254294,
+      "roomToResistancePct": 6,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Scout",
@@ -998,13 +997,13 @@
       "takerBuyRatioPct": 50,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.63,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 41,
-      "tpPct": 9,
+      "volRatio": 1,
+      "fundingHourlyPct": 0,
+      "totalScore": 35.2,
+      "tpPct": 4.5,
       "slPct": 3.2,
-      "tpPrice": 0.2773,
-      "slPrice": 0.24626
+      "tpPrice": 0.02507,
+      "slPrice": 0.023222
     }
   ]
 }

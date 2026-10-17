@@ -1,16 +1,16 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 17.10.2026 19:49:07
+**Son Güncelleme:** 17.10.2026 19:50:16
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.021,12 TL`**
-* **Toplam Net Kâr / Zarar:** **`+21,16 TL` (`+%2.12`)**
-* **Boşta Bekleyen Nakit:** `-0,15 TL`
-* **Coinde Olan Para:** `1.021,26 TL`
+* **Şu Anki Toplam Para:** **`1.020,13 TL`**
+* **Toplam Net Kâr / Zarar:** **`+20,17 TL` (`+%2.02`)**
+* **Boşta Bekleyen Nakit:** `0,00 TL`
+* **Coinde Olan Para:** `1.020,13 TL`
 * **Başarılı Satış / Zarar Kes:** `10 Kârlı Satış / 6 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `API Anahtarı Yok`
 
@@ -20,7 +20,7 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
-| **BOME** | `185,28 TL` | `180,69 TL` | **`-4,59 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%-2.48) |
+| **BOME** | `185,28 TL` | `180,69 TL` | **`-4,59 TL`** | 🛡️ DAR STOP-LOSS (%-2.48) |
 | **SUI** | `341,65 TL` | `336,59 TL` | **`-5,06 TL`** | 🛡️ DAR STOP-LOSS (%-1.48) |
 | **XRP** | `185,28 TL` | `185,36 TL` | **`+0,08 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.04) |
 | **WIF** | `820,74 TL` | `826,18 TL` | **`+5,44 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.66) |
@@ -43,9 +43,9 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **DOGE** | `390,92 TL` | `389,09 TL` | **`-1,91 TL (%-0.49)`** | 🛡️ ATR Kalkanı (-%2.4 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **HBAR** | `388,42 TL` | `387,71 TL` | **`-0,85 TL (%-0.22)`** | 🛡️ ATR Kalkanı (-%1.8 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **TAO** | `245,26 TL` | `244,47 TL` | **`-0,82 TL (%-0.34)`** | 🛡️ ATR Kalkanı (-%1.8 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **DOGE** | `390,92 TL` | `388,75 TL` | **`-2,26 TL (%-0.58)`** | 🛡️ ATR Kalkanı (-%2.4 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **HBAR** | `388,42 TL` | `387,19 TL` | **`-1,36 TL (%-0.35)`** | 🛡️ ATR Kalkanı (-%2.4 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **TAO** | `245,26 TL` | `244,19 TL` | **`-1,10 TL (%-0.45)`** | 🛡️ ATR Kalkanı (-%2.4 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
 
 ---
 

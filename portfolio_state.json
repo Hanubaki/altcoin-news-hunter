@@ -1,10 +1,10 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-17T16:49:07.191Z",
+  "updatedAt": "2026-10-17T16:50:16.850Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 28.01,
   "initialBankrollTry": 1000,
-  "cashUsdt": -0.0042,
+  "cashUsdt": 0,
   "realizedPnlUsdt": 0.6858,
   "winCount": 10,
   "lossCount": 6,
@@ -24,7 +24,7 @@
       "obImbalance": 0.11,
       "entryTime": "2026-10-17T13:05:11.528Z",
       "entryPrice": 0.07977,
-      "currentPrice": 0.07938,
+      "currentPrice": 0.07931,
       "highestPrice": 0.07979,
       "qty": 137.3,
       "costUsdt": 10.95,
@@ -37,8 +37,8 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0535,
-      "unrealizedPnlPct": -0.49
+      "unrealizedPnlUsdt": -0.0632,
+      "unrealizedPnlPct": -0.58
     },
     {
       "id": "pos_1792254261791_HBAR",
@@ -55,21 +55,21 @@
       "obImbalance": 0.07,
       "entryTime": "2026-10-17T16:24:21.791Z",
       "entryPrice": 0.08283,
-      "currentPrice": 0.08265,
+      "currentPrice": 0.08254,
       "highestPrice": 0.08283,
       "qty": 131.4,
       "costUsdt": 10.88,
       "costTry": 388,
       "takeProfitPrice": 0.086557,
-      "stopLossPrice": 0.081795,
+      "stopLossPrice": 0.08084,
       "tpPct": 4.5,
-      "slPct": 1.8,
+      "slPct": 2.4,
       "partialTpDone": false,
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0237,
-      "unrealizedPnlPct": -0.22
+      "unrealizedPnlUsdt": -0.0381,
+      "unrealizedPnlPct": -0.35
     },
     {
       "id": "pos_1792254261927_TAO",
@@ -86,21 +86,21 @@
       "obImbalance": 0.43,
       "entryTime": "2026-10-17T16:24:21.927Z",
       "entryPrice": 268.6,
-      "currentPrice": 267.7,
+      "currentPrice": 267.4,
       "highestPrice": 268.6,
       "qty": 0.02558,
       "costUsdt": 6.87,
       "costTry": 245,
       "takeProfitPrice": 280.69,
-      "stopLossPrice": 265.24,
+      "stopLossPrice": 262.15,
       "tpPct": 4.5,
-      "slPct": 1.8,
+      "slPct": 2.4,
       "partialTpDone": false,
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.023,
-      "unrealizedPnlPct": -0.34
+      "unrealizedPnlUsdt": -0.0307,
+      "unrealizedPnlPct": -0.45
     }
   ],
   "closedTrades": [
@@ -137,7 +137,7 @@
       "unrealizedPnlPct": -2.48,
       "exitPrice": 0.000646,
       "exitTime": "2026-10-17T16:24:21.627Z",
-      "exitReason": "🔒 SIFIR RİSK KÂR KİLİDİ (%-2.48)",
+      "exitReason": "🛡️ DAR STOP-LOSS (%-2.48)",
       "netPnlUsdt": -0.1286,
       "netPnlTry": -4.59
     },
@@ -639,10 +639,10 @@
     "[09:40:09] 🟢 [OTOMATİK ALIM] FET (292,03 TL) @ $0.2048 | Skor: 59.6 | Balina Alım: %57.6",
     "[09:27:52] 🏁 [POZİSYON KAPANDI] FET @ $0.2034 | 🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — %0.05) | Net: 0,20 TL"
   ],
-  "totalEquityUsdt": 28.6027,
-  "totalEquityTry": 1021.12,
-  "totalPnlUsdt": 0.5927,
-  "totalPnlPct": 2.12,
+  "totalEquityUsdt": 28.5751,
+  "totalEquityTry": 1020.13,
+  "totalPnlUsdt": 0.5651,
+  "totalPnlPct": 2.02,
   "cooldowns": {
     "FET": 1792154502952,
     "FLOKI": 1792190321265,
@@ -651,5 +651,5 @@
     "SUI": 1792263911165
   },
   "binanceTrStatus": "API Anahtarı Yok",
-  "lastWhatsAppReportAt": 1792254261927
+  "lastWhatsAppReportAt": 1792255816828
 }
