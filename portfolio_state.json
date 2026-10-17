@@ -1,12 +1,12 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-17T18:43:02.877Z",
+  "updatedAt": "2026-10-17T21:00:35.503Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 28.01,
   "initialBankrollTry": 1000,
-  "cashUsdt": 6.3424,
-  "realizedPnlUsdt": 0.6882,
-  "winCount": 10,
+  "cashUsdt": 10.8389,
+  "realizedPnlUsdt": 0.8327,
+  "winCount": 11,
   "lossCount": 6,
   "openPositions": [
     {
@@ -24,21 +24,21 @@
       "obImbalance": 0.07,
       "entryTime": "2026-10-17T16:24:21.791Z",
       "entryPrice": 0.08283,
-      "currentPrice": 0.08341,
-      "highestPrice": 0.08341,
-      "qty": 131.4,
-      "costUsdt": 10.88,
-      "costTry": 388,
+      "currentPrice": 0.08563,
+      "highestPrice": 0.08563,
+      "qty": 78.84,
+      "costUsdt": 6.528,
+      "costTry": 233,
       "takeProfitPrice": 0.086557,
-      "stopLossPrice": 0.08084,
+      "stopLossPrice": 0.084523,
       "tpPct": 4.5,
       "slPct": 2.4,
-      "partialTpDone": false,
+      "partialTpDone": true,
       "stage2TpDone": false,
-      "trailingActive": false,
-      "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0762,
-      "unrealizedPnlPct": 0.7
+      "trailingActive": true,
+      "rocketMode": true,
+      "unrealizedPnlUsdt": 0.2208,
+      "unrealizedPnlPct": 3.38
     },
     {
       "id": "pos_1792254261927_TAO",
@@ -55,8 +55,8 @@
       "obImbalance": 0.43,
       "entryTime": "2026-10-17T16:24:21.927Z",
       "entryPrice": 268.6,
-      "currentPrice": 270.3,
-      "highestPrice": 270.4,
+      "currentPrice": 272,
+      "highestPrice": 272,
       "qty": 0.02558,
       "costUsdt": 6.87,
       "costTry": 245,
@@ -68,8 +68,8 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0435,
-      "unrealizedPnlPct": 0.63
+      "unrealizedPnlUsdt": 0.087,
+      "unrealizedPnlPct": 1.27
     },
     {
       "id": "moon_1792262539470_WLD",
@@ -87,8 +87,8 @@
       "obImbalance": 0.04,
       "entryTime": "2026-10-17T18:42:19.470Z",
       "entryPrice": 0.4997,
-      "currentPrice": 0.5,
-      "highestPrice": 0.5,
+      "currentPrice": 0.5047,
+      "highestPrice": 0.5047,
       "qty": 9.226,
       "costUsdt": 4.61,
       "costTry": 165,
@@ -100,11 +100,21 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0028,
-      "unrealizedPnlPct": 0.06
+      "unrealizedPnlUsdt": 0.0461,
+      "unrealizedPnlPct": 1
     }
   ],
   "closedTrades": [
+    {
+      "symbol": "HBAR",
+      "entryPrice": 0.08283,
+      "exitPrice": 0.08555,
+      "exitTime": "2026-10-17T20:59:52.158Z",
+      "costUsdt": 4.352,
+      "netPnlUsdt": 0.1445,
+      "netPnlTry": 5.16,
+      "exitReason": "💰 1. KADEME (%40) SIFIR RİSK KÂR AL (+%3.28)"
+    },
     {
       "id": "moon_1792242311853_BOME",
       "symbol": "BOME",
@@ -599,6 +609,7 @@
     }
   ],
   "recentLogs": [
+    "[23:59:52] 💰 [SIFIR RİSK KÂR HASADI] HBAR %40'ı satıldı (+5,16 TL)! Kalan %60 Sıfır Riskle Bedava Uçuşta!",
     "[21:42:19] 🎰 [VURGUN SLOTU AÇILDI] WLD (164,58 TL) @ $0.4997 | Hedef: +%18 | RSI: 22.58 | Balina: %54 | SL: -%2.62",
     "[21:42:19] ⚖️ [Tahta Kalkanı - Vurgun] RENDER önünde satış duvarı (-0.54) var, pas geçildi.",
     "[21:42:19] ⚡ [AKILLI ROTASYON] Hareketsiz DOGE kapatıldı, yerine 95.7 puanlık dev fırsat (LINK) alınıyor!",
@@ -637,13 +648,12 @@
     "[15:05:34] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[14:32:07] 🟢 [OTOMATİK ALIM] FLOKI (401,63 TL) @ $0.00002489 | Skor: 84 | Balina Alım: %54.9",
     "[14:32:06] ⚡ [AKILLI ROTASYON] Hareketsiz IO kapatıldı, yerine 96 puanlık dev fırsat (PYTH) alınıyor!",
-    "[14:32:06] 💰 [1. KADEME KÂR CEBE ALINDI] RAY %40'ı satıldı (+7,33 TL)! Kalan %60 Uçuş Modunda!",
-    "[09:41:43] 🟢 [OTOMATİK ALIM] IO (292,74 TL) @ $0.1644 | Skor: 64 | Balina Alım: %49.2"
+    "[14:32:06] 💰 [1. KADEME KÂR CEBE ALINDI] RAY %40'ı satıldı (+7,33 TL)! Kalan %60 Uçuş Modunda!"
   ],
-  "totalEquityUsdt": 28.8297,
-  "totalEquityTry": 1029.22,
-  "totalPnlUsdt": 0.8197,
-  "totalPnlPct": 2.93,
+  "totalEquityUsdt": 29.2041,
+  "totalEquityTry": 1042.59,
+  "totalPnlUsdt": 1.1941,
+  "totalPnlPct": 4.26,
   "cooldowns": {
     "FET": 1792154502952,
     "FLOKI": 1792190321265,
@@ -652,5 +662,5 @@
     "SUI": 1792263911165
   },
   "binanceTrStatus": "Bağlantı Bekleniyor",
-  "lastWhatsAppReportAt": 1792262539474
+  "lastWhatsAppReportAt": 1792270792203
 }
