@@ -1,17 +1,17 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Zero-Risk v9.0)
 
-**Son Güncelleme:** 17.10.2026 12:21:23
+**Son Güncelleme:** 17.10.2026 16:05:54
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.035,31 TL`**
-* **Toplam Net Kâr / Zarar:** **`+35,36 TL` (`+%3.54`)**
-* **Boşta Bekleyen Nakit:** `507,08 TL`
-* **Coinde Olan Para:** `528,24 TL`
-* **Başarılı Satış / Zarar Kes:** `9 Kârlı Satış / 4 Zarar Kes`
+* **Şu Anki Toplam Para:** **`1.029,21 TL`**
+* **Toplam Net Kâr / Zarar:** **`+29,26 TL` (`+%2.93`)**
+* **Boşta Bekleyen Nakit:** `452,83 TL`
+* **Coinde Olan Para:** `576,38 TL`
+* **Başarılı Satış / Zarar Kes:** `10 Kârlı Satış / 5 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Bağlantı Bekleniyor`
 
 ---
@@ -20,6 +20,8 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
+| **SUI** | `341,65 TL` | `336,59 TL` | **`-5,06 TL`** | 🛡️ SIKI KORUMA KALKANI (%-1.48) |
+| **XRP** | `185,28 TL` | `185,36 TL` | **`+0,08 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%0.04) |
 | **WIF** | `820,74 TL` | `826,18 TL` | **`+5,44 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%0.66) |
 | **DOGE** | `185,64 TL` | `183,22 TL` | **`-2,42 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%-1.31) |
 | **DOGE** | `189,57 TL` | `186,75 TL` | **`-2,82 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (%-1.48) |
@@ -40,8 +42,8 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **XRP (VURGUN)** | `185,28 TL` | `186,62 TL` | **`+1,33 TL (%0.72)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
-| **SUI** | `341,65 TL` | `341,62 TL` | **`-0,04 TL (%-0.01)`** | 🛡️ Sıkı Kalkan Aktif (+%1,0'da Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **DOGE** | `390,92 TL` | `391,10 TL` | **`+0,10 TL (%0.03)`** | 🛡️ Sıkı Kalkan Aktif (+%1,0'da Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **BOME (VURGUN)** | `185,28 TL` | `185,28 TL` | **`+0,00 TL (%0)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
 
 ---
 
