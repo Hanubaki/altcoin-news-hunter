@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-10-18T10:23:56.913Z",
-  "scanDurationMs": 852,
+  "updatedAt": "2026-10-18T14:06:45.499Z",
+  "scanDurationMs": 2301,
   "bankrollTry": 1000,
   "bankrollUsdt": 28.01,
-  "btc1hChangePct": 0.25,
+  "btc1hChangePct": -0.86,
   "btcCrashAlert": false,
-  "marketBreadthPct": 13,
+  "marketBreadthPct": 3,
   "totalHeadlinesScanned": 102,
   "activeFeeds": [
     "CoinTelegraph (20)",
@@ -15,6 +15,798 @@
     "CryptoPotato (20)",
     "NewsBTC (10)"
   ],
-  "top4AltcoinPicks": [],
-  "allQualifiedOpportunities": []
+  "top4AltcoinPicks": [
+    {
+      "symbol": "DOGE",
+      "leaderSymbol": "DOGE",
+      "ecosystems": [
+        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
+      ],
+      "matchedKeywords": [
+        "dogecoin",
+        "doge"
+      ],
+      "newsScore": 6.99,
+      "freshestMinutesAgo": 109,
+      "headlines": [
+        {
+          "source": "CryptoPotato",
+          "title": "Analyst Maps Out 3 Reasons to Be Bullish on Dogecoin (DOGE): But Should You Really Be?",
+          "minutesAgo": 109,
+          "catalystPoints": 6.99,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.0778,
+      "change1hPct": -0.63,
+      "change24hPct": -2.518,
+      "lagVsLeader24h": 0,
+      "rsi1h": 30.05,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.72,
+      "bbPctB": -0.15,
+      "bbWidthPct": 2.83,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 28.9,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.07771,
+      "resistance": 0.08026,
+      "roomToResistancePct": 3.16,
+      "aiConsensusCount": 4,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 59,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.42,
+      "fundingHourlyPct": -0.0008,
+      "totalScore": 96.5,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.081301,
+      "slPrice": 0.076244,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 75,
+          "reason": "Haber başlığı şüpheci, RSI aşırı satımda ama balina alımı yüksek."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 78,
+          "reason": "Düşük RSI ve yüksek balina alımı"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 77,
+      "liveLlmReason": "[Qwen-3.8: WAIT %75] Haber başlığı şüpheci, RSI aşırı satımda ama balina alımı yüksek. | [GPT-120B: LONG %78] Düşük RSI ve yüksek balina alımı"
+    },
+    {
+      "symbol": "ONDO",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "xrp"
+      ],
+      "newsScore": 1.96,
+      "freshestMinutesAgo": 67,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "XRP ETFs End 13-Week Inflow Run With $1.84 Million In Withdrawals",
+          "minutesAgo": 67,
+          "catalystPoints": 1.96,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.4285,
+      "change1hPct": -0.95,
+      "change24hPct": -3.686,
+      "lagVsLeader24h": 1.74,
+      "rsi1h": 34.18,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1,
+      "bbPctB": -0.16,
+      "bbWidthPct": 3.51,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 10.8,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.4282,
+      "resistance": 0.4458,
+      "roomToResistancePct": 4.04,
+      "aiConsensusCount": 4,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 49.9,
+      "isGreenBounce": false,
+      "isTrending": true,
+      "volRatio": 0.92,
+      "fundingHourlyPct": -0.0019,
+      "totalScore": 75,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.44778,
+      "slPrice": 0.41993,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 95,
+          "reason": "XRP ETF çıkışı piyasa risk iştahını düşürüyor, genel baskı var."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 78,
+          "reason": "RSI düşük, balina alımı yüksek"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 87,
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] XRP ETF çıkışı piyasa risk iştahını düşürüyor, genel baskı var. | [GPT-120B: LONG %78] RSI düşük, balina alımı yüksek"
+    }
+  ],
+  "allQualifiedOpportunities": [
+    {
+      "symbol": "DOGE",
+      "leaderSymbol": "DOGE",
+      "ecosystems": [
+        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
+      ],
+      "matchedKeywords": [
+        "dogecoin",
+        "doge"
+      ],
+      "newsScore": 6.99,
+      "freshestMinutesAgo": 109,
+      "headlines": [
+        {
+          "source": "CryptoPotato",
+          "title": "Analyst Maps Out 3 Reasons to Be Bullish on Dogecoin (DOGE): But Should You Really Be?",
+          "minutesAgo": 109,
+          "catalystPoints": 6.99,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.0778,
+      "change1hPct": -0.63,
+      "change24hPct": -2.518,
+      "lagVsLeader24h": 0,
+      "rsi1h": 30.05,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.72,
+      "bbPctB": -0.15,
+      "bbWidthPct": 2.83,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 28.9,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.07771,
+      "resistance": 0.08026,
+      "roomToResistancePct": 3.16,
+      "aiConsensusCount": 4,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 59,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.42,
+      "fundingHourlyPct": -0.0008,
+      "totalScore": 96.5,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.081301,
+      "slPrice": 0.076244,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 75,
+          "reason": "Haber başlığı şüpheci, RSI aşırı satımda ama balina alımı yüksek."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 78,
+          "reason": "Düşük RSI ve yüksek balina alımı"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 77,
+      "liveLlmReason": "[Qwen-3.8: WAIT %75] Haber başlığı şüpheci, RSI aşırı satımda ama balina alımı yüksek. | [GPT-120B: LONG %78] Düşük RSI ve yüksek balina alımı"
+    },
+    {
+      "symbol": "FLOKI",
+      "leaderSymbol": "DOGE",
+      "ecosystems": [
+        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
+      ],
+      "matchedKeywords": [
+        "dogecoin",
+        "doge"
+      ],
+      "newsScore": 5.18,
+      "freshestMinutesAgo": 109,
+      "headlines": [
+        {
+          "source": "CryptoPotato",
+          "title": "Analyst Maps Out 3 Reasons to Be Bullish on Dogecoin (DOGE): But Should You Really Be?",
+          "minutesAgo": 109,
+          "catalystPoints": 5.18,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.00002301,
+      "change1hPct": -0.61,
+      "change24hPct": -3.116,
+      "lagVsLeader24h": 0.6,
+      "rsi1h": 29.45,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.71,
+      "bbPctB": -0.15,
+      "bbWidthPct": 3.37,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 24.6,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.00002305,
+      "resistance": 0.00002389,
+      "roomToResistancePct": 3.82,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 55.4,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.62,
+      "fundingHourlyPct": 0,
+      "totalScore": 70.3,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.000024045,
+      "slPrice": 0.00002255
+    },
+    {
+      "symbol": "ONDO",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "xrp"
+      ],
+      "newsScore": 1.96,
+      "freshestMinutesAgo": 67,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "XRP ETFs End 13-Week Inflow Run With $1.84 Million In Withdrawals",
+          "minutesAgo": 67,
+          "catalystPoints": 1.96,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.4285,
+      "change1hPct": -0.95,
+      "change24hPct": -3.686,
+      "lagVsLeader24h": 1.74,
+      "rsi1h": 34.18,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1,
+      "bbPctB": -0.16,
+      "bbWidthPct": 3.51,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 10.8,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.4282,
+      "resistance": 0.4458,
+      "roomToResistancePct": 4.04,
+      "aiConsensusCount": 4,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 49.9,
+      "isGreenBounce": false,
+      "isTrending": true,
+      "volRatio": 0.92,
+      "fundingHourlyPct": -0.0019,
+      "totalScore": 75,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.44778,
+      "slPrice": 0.41993,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 95,
+          "reason": "XRP ETF çıkışı piyasa risk iştahını düşürüyor, genel baskı var."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 78,
+          "reason": "RSI düşük, balina alımı yüksek"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 87,
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] XRP ETF çıkışı piyasa risk iştahını düşürüyor, genel baskı var. | [GPT-120B: LONG %78] RSI düşük, balina alımı yüksek"
+    },
+    {
+      "symbol": "PEPE",
+      "leaderSymbol": "DOGE",
+      "ecosystems": [
+        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
+      ],
+      "matchedKeywords": [
+        "dogecoin",
+        "doge"
+      ],
+      "newsScore": 5.18,
+      "freshestMinutesAgo": 109,
+      "headlines": [
+        {
+          "source": "CryptoPotato",
+          "title": "Analyst Maps Out 3 Reasons to Be Bullish on Dogecoin (DOGE): But Should You Really Be?",
+          "minutesAgo": 109,
+          "catalystPoints": 5.18,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.00000384,
+      "change1hPct": -1.03,
+      "change24hPct": -2.785,
+      "lagVsLeader24h": 0.27,
+      "rsi1h": 44.44,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.12,
+      "bbPctB": 0.07,
+      "bbWidthPct": 2.71,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 11.1,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.00000382,
+      "resistance": 0.00000394,
+      "roomToResistancePct": 2.6,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 49.1,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.37,
+      "fundingHourlyPct": 0,
+      "totalScore": 64.3,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.0000040128,
+      "slPrice": 0.0000037632
+    },
+    {
+      "symbol": "SHIB",
+      "leaderSymbol": "DOGE",
+      "ecosystems": [
+        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
+      ],
+      "matchedKeywords": [
+        "dogecoin",
+        "doge"
+      ],
+      "newsScore": 5.18,
+      "freshestMinutesAgo": 109,
+      "headlines": [
+        {
+          "source": "CryptoPotato",
+          "title": "Analyst Maps Out 3 Reasons to Be Bullish on Dogecoin (DOGE): But Should You Really Be?",
+          "minutesAgo": 109,
+          "catalystPoints": 5.18,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.0000049,
+      "change1hPct": -0.41,
+      "change24hPct": -2.39,
+      "lagVsLeader24h": -0.13,
+      "rsi1h": 31.58,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.76,
+      "bbPctB": -0.13,
+      "bbWidthPct": 2.31,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 18.2,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.00000489,
+      "resistance": 0.00000503,
+      "roomToResistancePct": 2.65,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 42.7,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.57,
+      "fundingHourlyPct": 0,
+      "totalScore": 60.3,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.0000051205,
+      "slPrice": 0.000004802
+    },
+    {
+      "symbol": "AVAX",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "xrp"
+      ],
+      "newsScore": 1.96,
+      "freshestMinutesAgo": 67,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "XRP ETFs End 13-Week Inflow Run With $1.84 Million In Withdrawals",
+          "minutesAgo": 67,
+          "catalystPoints": 1.96,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 9.583,
+      "change1hPct": -0.54,
+      "change24hPct": -2.77,
+      "lagVsLeader24h": 0.82,
+      "rsi1h": 35.44,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.87,
+      "bbPctB": -0.11,
+      "bbWidthPct": 3.24,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 17,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 9.575,
+      "resistance": 9.911,
+      "roomToResistancePct": 3.42,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 45.3,
+      "isGreenBounce": false,
+      "isTrending": true,
+      "volRatio": 0.36,
+      "fundingHourlyPct": -0.0061,
+      "totalScore": 57.3,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 10.014,
+      "slPrice": 9.3913
+    },
+    {
+      "symbol": "OM",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "xrp"
+      ],
+      "newsScore": 1.96,
+      "freshestMinutesAgo": 67,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "XRP ETFs End 13-Week Inflow Run With $1.84 Million In Withdrawals",
+          "minutesAgo": 67,
+          "catalystPoints": 1.96,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.0669,
+      "change1hPct": -4.43,
+      "change24hPct": -5.106,
+      "lagVsLeader24h": 3.16,
+      "rsi1h": 31.53,
+      "hasRsiDivergence": true,
+      "atr1hPct": 3.26,
+      "bbPctB": -0.14,
+      "bbWidthPct": 6.33,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 2,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.068,
+      "resistance": 0.0737,
+      "roomToResistancePct": 10.16,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 48.6,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 1.75,
+      "fundingHourlyPct": 0,
+      "totalScore": 56.3,
+      "tpPct": 6.3,
+      "slPct": 3.2,
+      "tpPrice": 0.071115,
+      "slPrice": 0.064759
+    },
+    {
+      "symbol": "XRP",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "xrp"
+      ],
+      "newsScore": 2.65,
+      "freshestMinutesAgo": 67,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "XRP ETFs End 13-Week Inflow Run With $1.84 Million In Withdrawals",
+          "minutesAgo": 67,
+          "catalystPoints": 2.65,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 1.2746,
+      "change1hPct": -0.64,
+      "change24hPct": -1.946,
+      "lagVsLeader24h": 0,
+      "rsi1h": 28.57,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.63,
+      "bbPctB": -0.27,
+      "bbWidthPct": 2.06,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 20,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 1.2745,
+      "resistance": 1.3056,
+      "roomToResistancePct": 2.43,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 42.5,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.6,
+      "fundingHourlyPct": -0.0023,
+      "totalScore": 55.9,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 1.332,
+      "slPrice": 1.2491
+    },
+    {
+      "symbol": "ALGO",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "xrp"
+      ],
+      "newsScore": 1.96,
+      "freshestMinutesAgo": 67,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "XRP ETFs End 13-Week Inflow Run With $1.84 Million In Withdrawals",
+          "minutesAgo": 67,
+          "catalystPoints": 1.96,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.1084,
+      "change1hPct": -0.82,
+      "change24hPct": -3.128,
+      "lagVsLeader24h": 1.18,
+      "rsi1h": 30.12,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1,
+      "bbPctB": -0.14,
+      "bbWidthPct": 3.88,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 26.2,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.1093,
+      "resistance": 0.113,
+      "roomToResistancePct": 4.24,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 45,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.55,
+      "fundingHourlyPct": -0.0025,
+      "totalScore": 54.9,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.11328,
+      "slPrice": 0.10623
+    },
+    {
+      "symbol": "RSR",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "xrp"
+      ],
+      "newsScore": 1.96,
+      "freshestMinutesAgo": 67,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "XRP ETFs End 13-Week Inflow Run With $1.84 Million In Withdrawals",
+          "minutesAgo": 67,
+          "catalystPoints": 1.96,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.001883,
+      "change1hPct": -1.57,
+      "change24hPct": -5.234,
+      "lagVsLeader24h": 3.29,
+      "rsi1h": 8.84,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.85,
+      "bbPctB": -0.05,
+      "bbWidthPct": 10.37,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 50,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.001912,
+      "resistance": 0.002102,
+      "roomToResistancePct": 11.63,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 46.9,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.35,
+      "fundingHourlyPct": -0.0048,
+      "totalScore": 46.7,
+      "tpPct": 8.8,
+      "slPct": 3.05,
+      "tpPrice": 0.0020487,
+      "slPrice": 0.0018256
+    },
+    {
+      "symbol": "HBAR",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "xrp"
+      ],
+      "newsScore": 1.96,
+      "freshestMinutesAgo": 67,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "XRP ETFs End 13-Week Inflow Run With $1.84 Million In Withdrawals",
+          "minutesAgo": 67,
+          "catalystPoints": 1.96,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.08659,
+      "change1hPct": -1.34,
+      "change24hPct": 4.363,
+      "lagVsLeader24h": -6.31,
+      "rsi1h": 53.82,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.81,
+      "bbPctB": 0.51,
+      "bbWidthPct": 6.6,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 25,
+      "ema20AboveEma50": true,
+      "regime": "GUCLU_TREND",
+      "support": 0.08226,
+      "resistance": 0.08953,
+      "roomToResistancePct": 3.4,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 48.7,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.66,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 23.8,
+      "tpPct": 6.08,
+      "slPct": 2.99,
+      "tpPrice": 0.091855,
+      "slPrice": 0.084001
+    }
+  ]
 }

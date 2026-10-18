@@ -1,16 +1,16 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 18.10.2026 13:23:56
+**Son Güncelleme:** 18.10.2026 17:06:45
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.030,65 TL`**
-* **Toplam Net Kâr / Zarar:** **`+30,69 TL` (`+%3.07`)**
-* **Boşta Bekleyen Nakit:** `1.030,65 TL`
-* **Coinde Olan Para:** `0,00 TL`
+* **Şu Anki Toplam Para:** **`1.030,30 TL`**
+* **Toplam Net Kâr / Zarar:** **`+30,35 TL` (`+%3.03`)**
+* **Boşta Bekleyen Nakit:** `680,43 TL`
+* **Coinde Olan Para:** `349,87 TL`
 * **Başarılı Satış / Zarar Kes:** `12 Kârlı Satış / 9 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Bağlantı Bekleniyor`
 
@@ -48,7 +48,7 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| *Şu an açık işlem yok* | - | - | - | - |
+| **DOGE** | `350,22 TL` | `349,87 TL` | **`-0,22 TL (%-0.06)`** | 🛡️ ATR Kalkanı (-%2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
 
 ---
 
