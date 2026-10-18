@@ -1,10 +1,10 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-18T14:06:45.661Z",
+  "updatedAt": "2026-10-18T17:23:19.059Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 28.01,
   "initialBankrollTry": 1000,
-  "cashUsdt": 19.0597,
+  "cashUsdt": 14.4397,
   "realizedPnlUsdt": 0.8555,
   "winCount": 12,
   "lossCount": 9,
@@ -24,8 +24,8 @@
       "obImbalance": 0.21,
       "entryTime": "2026-10-18T14:06:02.222Z",
       "entryPrice": 0.07783,
-      "currentPrice": 0.07778,
-      "highestPrice": 0.07783,
+      "currentPrice": 0.07794,
+      "highestPrice": 0.07794,
       "qty": 126,
       "costUsdt": 9.81,
       "costTry": 350,
@@ -37,8 +37,40 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0063,
-      "unrealizedPnlPct": -0.06
+      "unrealizedPnlUsdt": 0.0139,
+      "unrealizedPnlPct": 0.14
+    },
+    {
+      "id": "moon_1792344156112_SHIB",
+      "symbol": "SHIB",
+      "isMoonshot": true,
+      "leaderSymbol": "DOGE",
+      "ecosystem": "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri",
+      "headline": "🎰 VURGUN SLOTU: Analyst Maps Out 3 Reasons to Be Bullish on Dogecoin (DOGE): But Should You Really Be?",
+      "newsSource": "CryptoPotato",
+      "newsScore": 3.7,
+      "totalScore": 92.7,
+      "rsiAtEntry": 23.53,
+      "atr1hPct": 0.81,
+      "takerBuyRatioPct": 54.1,
+      "obImbalance": 0.04,
+      "entryTime": "2026-10-18T17:22:36.113Z",
+      "entryPrice": 0.00000492,
+      "currentPrice": 0.00000491,
+      "highestPrice": 0.00000492,
+      "qty": 939000,
+      "costUsdt": 4.62,
+      "costTry": 165,
+      "takeProfitPrice": 0.0000058056,
+      "stopLossPrice": 0.0000048019,
+      "tpPct": 18,
+      "slPct": 2.4,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": -0.0094,
+      "unrealizedPnlPct": -0.2
     }
   ],
   "closedTrades": [
@@ -692,6 +724,7 @@
     }
   ],
   "recentLogs": [
+    "[20:22:36] 🎰 [VURGUN SLOTU AÇILDI] SHIB (164,93 TL) @ $0.00000492 | Hedef: +%18 | RSI: 23.53 | Balina: %54.1 | SL: -%2.4",
     "[17:06:02] 🟢 [OTOMATİK ALIM] DOGE (350,22 TL) @ $0.07783 | Skor: 96.5 | RSI: 30.13 | Balina: %59 | SL: -%2",
     "[13:23:15] 🏁 [POZİSYON KAPANDI] FLOKI @ $0.00002357 | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.17) | Net: -0,26 TL",
     "[04:01:53] 🎰 [VURGUN SLOTU AÇILDI] FLOKI (164,93 TL) @ $0.00002361 | Hedef: +%18 | RSI: 41.58 | Balina: %67.1 | SL: -%2.4",
@@ -730,13 +763,12 @@
     "[15:24:34] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[15:23:04] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[15:20:50] 🎰 [VURGUN SLOTU AÇILDI] DOGE (189,57 TL) @ $0.08221 | Hedef: +%18 Vurgun | Balina: %60.6",
-    "[15:14:54] 🏁 [POZİSYON KAPANDI] AVAX @ $10.256 | 🚀 UÇUŞ MODU KÂR KİLİDİ (%7.4) | Net: 4,97 TL",
-    "[15:12:41] 🚀 [2. KADEME DEV KÂR ALINDI] AVAX +%7.5 kârla satıldı (+5,00 TL)! Son %30 sınırsız uçuşta!"
+    "[15:14:54] 🏁 [POZİSYON KAPANDI] AVAX @ $10.256 | 🚀 UÇUŞ MODU KÂR KİLİDİ (%7.4) | Net: 4,97 TL"
   ],
-  "totalEquityUsdt": 28.86,
-  "totalEquityTry": 1030.3,
-  "totalPnlUsdt": 0.85,
-  "totalPnlPct": 3.03,
+  "totalEquityUsdt": 28.8706,
+  "totalEquityTry": 1030.68,
+  "totalPnlUsdt": 0.8606,
+  "totalPnlPct": 3.07,
   "cooldowns": {
     "FET": 1792154502952,
     "FLOKI": 1792340594778,
@@ -747,5 +779,5 @@
     "WLD": 1792306912864
   },
   "binanceTrStatus": "Bağlantı Bekleniyor",
-  "lastWhatsAppReportAt": 1792332362635
+  "lastWhatsAppReportAt": 1792344156153
 }
