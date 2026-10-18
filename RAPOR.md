@@ -1,16 +1,16 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 19.10.2026 00:54:05
+**Son Güncelleme:** 19.10.2026 02:55:12
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.027,56 TL`**
-* **Toplam Net Kâr / Zarar:** **`+27,61 TL` (`+%2.76`)**
+* **Şu Anki Toplam Para:** **`1.031,25 TL`**
+* **Toplam Net Kâr / Zarar:** **`+31,29 TL` (`+%3.13`)**
 * **Boşta Bekleyen Nakit:** `864,65 TL`
-* **Coinde Olan Para:** `162,92 TL`
+* **Coinde Olan Para:** `166,61 TL`
 * **Başarılı Satış / Zarar Kes:** `12 Kârlı Satış / 10 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Bağlantı Bekleniyor`
 
@@ -49,7 +49,7 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **SHIB (VURGUN)** | `164,93 TL` | `162,92 TL` | **`-2,01 TL (%-1.22)`** | 🎰 KORUMALI VURGUN SLOTU (-%2.4 ATR Kalkanı | Hedef: +%18) |
+| **SHIB (VURGUN)** | `164,93 TL` | `166,61 TL` | **`+1,67 TL (%1.02)`** | 🎰 KORUMALI VURGUN SLOTU (-%2.4 ATR Kalkanı | Hedef: +%18) |
 
 ---
 

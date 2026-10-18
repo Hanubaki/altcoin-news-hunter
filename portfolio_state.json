@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-18T21:54:05.706Z",
+  "updatedAt": "2026-10-18T23:55:12.873Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 28.01,
   "initialBankrollTry": 1000,
@@ -25,8 +25,8 @@
       "obImbalance": 0.04,
       "entryTime": "2026-10-18T17:22:36.113Z",
       "entryPrice": 0.00000492,
-      "currentPrice": 0.00000486,
-      "highestPrice": 0.00000492,
+      "currentPrice": 0.00000497,
+      "highestPrice": 0.00000497,
       "qty": 939000,
       "costUsdt": 4.62,
       "costTry": 165,
@@ -38,8 +38,8 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0563,
-      "unrealizedPnlPct": -1.22
+      "unrealizedPnlUsdt": 0.0469,
+      "unrealizedPnlPct": 1.02
     }
   ],
   "closedTrades": [
@@ -729,6 +729,7 @@
     }
   ],
   "recentLogs": [
+    "[02:54:20] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[00:53:22] 🏁 [POZİSYON KAPANDI] DOGE @ $0.07762 | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.27) | Net: -1,07 TL",
     "[20:22:36] 🎰 [VURGUN SLOTU AÇILDI] SHIB (164,93 TL) @ $0.00000492 | Hedef: +%18 | RSI: 23.53 | Balina: %54.1 | SL: -%2.4",
     "[17:06:02] 🟢 [OTOMATİK ALIM] DOGE (350,22 TL) @ $0.07783 | Skor: 96.5 | RSI: 30.13 | Balina: %59 | SL: -%2",
@@ -767,13 +768,12 @@
     "[19:38:41] 🏁 [POZİSYON KAPANDI] BOME @ $0.0006758 | 🔒 SIFIR RİSK KÂR KİLİDİ (%-2) | Net: -7,92 TL",
     "[19:38:41] 🏁 [POZİSYON KAPANDI] FLOKI @ $0.0000242 | 🔒 SIFIR RİSK KÂR KİLİDİ (%-2.77) | Net: -11,12 TL",
     "[15:24:34] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
-    "[15:23:04] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
-    "[15:20:50] 🎰 [VURGUN SLOTU AÇILDI] DOGE (189,57 TL) @ $0.08221 | Hedef: +%18 Vurgun | Balina: %60.6"
+    "[15:23:04] ⚠️ Haber tarayıcı uyarısı: This operation was aborted"
   ],
-  "totalEquityUsdt": 28.7833,
-  "totalEquityTry": 1027.56,
-  "totalPnlUsdt": 0.7733,
-  "totalPnlPct": 2.76,
+  "totalEquityUsdt": 28.8866,
+  "totalEquityTry": 1031.25,
+  "totalPnlUsdt": 0.8766,
+  "totalPnlPct": 3.13,
   "cooldowns": {
     "FET": 1792154502952,
     "FLOKI": 1792340594778,
@@ -784,5 +784,5 @@
     "WLD": 1792306912864
   },
   "binanceTrStatus": "Bağlantı Bekleniyor",
-  "lastWhatsAppReportAt": 1792360402789
+  "lastWhatsAppReportAt": 1792367661376
 }
