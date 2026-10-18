@@ -1,17 +1,17 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 18.10.2026 22:32:50
+**Son Güncelleme:** 19.10.2026 00:54:05
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.024,80 TL`**
-* **Toplam Net Kâr / Zarar:** **`+24,84 TL` (`+%2.48`)**
-* **Boşta Bekleyen Nakit:** `515,50 TL`
-* **Coinde Olan Para:** `509,30 TL`
-* **Başarılı Satış / Zarar Kes:** `12 Kârlı Satış / 9 Zarar Kes`
+* **Şu Anki Toplam Para:** **`1.027,56 TL`**
+* **Toplam Net Kâr / Zarar:** **`+27,61 TL` (`+%2.76`)**
+* **Boşta Bekleyen Nakit:** `864,65 TL`
+* **Coinde Olan Para:** `162,92 TL`
+* **Başarılı Satış / Zarar Kes:** `12 Kârlı Satış / 10 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Bağlantı Bekleniyor`
 
 ---
@@ -20,6 +20,7 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
+| **DOGE** | `350,22 TL` | `349,15 TL` | **`-1,07 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.27) |
 | **FLOKI** | `164,93 TL` | `164,67 TL` | **`-0,26 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.17) |
 | **WLD** | `164,58 TL` | `162,64 TL` | **`-1,93 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-1.18) |
 | **TAO** | `245,26 TL` | `244,19 TL` | **`-1,07 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.45) |
@@ -48,8 +49,7 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **DOGE** | `350,22 TL` | `346,72 TL` | **`-3,37 TL (%-0.96)`** | 🛡️ ATR Kalkanı (-%2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **SHIB (VURGUN)** | `164,93 TL` | `162,58 TL` | **`-2,35 TL (%-1.42)`** | 🎰 KORUMALI VURGUN SLOTU (-%2.4 ATR Kalkanı | Hedef: +%18) |
+| **SHIB (VURGUN)** | `164,93 TL` | `162,92 TL` | **`-2,01 TL (%-1.22)`** | 🎰 KORUMALI VURGUN SLOTU (-%2.4 ATR Kalkanı | Hedef: +%18) |
 
 ---
 

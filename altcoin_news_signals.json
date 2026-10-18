@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-10-18T19:32:49.902Z",
-  "scanDurationMs": 2356,
+  "updatedAt": "2026-10-18T21:54:05.568Z",
+  "scanDurationMs": 2066,
   "bankrollTry": 1000,
   "bankrollUsdt": 28.01,
-  "btc1hChangePct": -0.24,
+  "btc1hChangePct": 0.36,
   "btcCrashAlert": false,
-  "marketBreadthPct": 1,
+  "marketBreadthPct": 4,
   "totalHeadlinesScanned": 102,
   "activeFeeds": [
     "CoinTelegraph (20)",
@@ -23,45 +23,36 @@
         "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
-        "ripple",
-        "xrp",
         "tokenized"
       ],
-      "newsScore": 5.44,
-      "freshestMinutesAgo": 93,
+      "newsScore": 1.6,
+      "freshestMinutesAgo": 234,
       "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 236,
-          "catalystPoints": 3.2,
-          "directMention": false
-        },
         {
           "source": "NewsBTC",
           "title": "Tokenized Stocks Reach $262 Million In DeFi, But The Growth Is Not All On Base",
-          "minutesAgo": 93,
-          "catalystPoints": 2.24,
+          "minutesAgo": 234,
+          "catalystPoints": 1.6,
           "directMention": false
         }
       ],
-      "lastPrice": 0.001874,
-      "change1hPct": -0.48,
-      "change24hPct": -7.685,
-      "lagVsLeader24h": 5.31,
-      "rsi1h": 13.86,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.43,
-      "bbPctB": 0.15,
-      "bbWidthPct": 12.96,
+      "lastPrice": 0.001863,
+      "change1hPct": 1.09,
+      "change24hPct": -5.766,
+      "lagVsLeader24h": 4.85,
+      "rsi1h": 19.9,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.54,
+      "bbPctB": 0.18,
+      "bbWidthPct": 12.45,
       "isSqueeze": false,
       "macdBullishTurn": true,
-      "adx": 58.9,
+      "adx": 59.8,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.001873,
+      "support": 0.001832,
       "resistance": 0.002102,
-      "roomToResistancePct": 12.17,
+      "roomToResistancePct": 12.83,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Scout",
@@ -69,104 +60,33 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 50,
-      "isGreenBounce": false,
+      "takerBuyRatioPct": 53.5,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.39,
-      "fundingHourlyPct": -0.01,
-      "totalScore": 87.5,
+      "volRatio": 0.33,
+      "fundingHourlyPct": -0.0207,
+      "totalScore": 88.2,
       "tpPct": 9,
-      "slPct": 2.36,
-      "tpPrice": 0.0020427,
-      "slPrice": 0.0018298,
+      "slPct": 2.54,
+      "tpPrice": 0.0020307,
+      "slPrice": 0.0018157,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
           "decision": "WAIT",
           "confidence": 95,
-          "reason": "Haber XRP/SOL odaklı, RSR için bağlamsız ve yanıltıcı."
+          "reason": "Haber RSR ile doğrudan alakasız, tuzak riski yüksek."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
           "confidence": 78,
-          "reason": "RSR aşırı satım, balina alımı destekli"
+          "reason": "Aşırı satım, balina alımı, destek yakın"
         }
       ],
       "liveLlmDecision": "LONG",
       "liveLlmConfidence": 87,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber XRP/SOL odaklı, RSR için bağlamsız ve yanıltıcı. | [GPT-120B: LONG %78] RSR aşırı satım, balina alımı destekli"
-    },
-    {
-      "symbol": "PYTH",
-      "leaderSymbol": "SOL",
-      "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "solana"
-      ],
-      "newsScore": 3.2,
-      "freshestMinutesAgo": 236,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 236,
-          "catalystPoints": 3.2,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.07382,
-      "change1hPct": -0.9,
-      "change24hPct": -10.888,
-      "lagVsLeader24h": 8.55,
-      "rsi1h": 32.58,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.64,
-      "bbPctB": 0.07,
-      "bbWidthPct": 9.59,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 33.2,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.07355,
-      "resistance": 0.08377,
-      "roomToResistancePct": 13.48,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 42,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.16,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 53.4,
-      "tpPct": 9,
-      "slPct": 2.71,
-      "tpPrice": 0.080464,
-      "slPrice": 0.071819,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "Haber XRP/SOL odaklı, PYTH için bağlamsız ve yanıltıcı."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 82,
-          "reason": "RSI düşük, balina alımı yüksek, destek yakın"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 89,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber XRP/SOL odaklı, PYTH için bağlamsız ve yanıltıcı. | [GPT-120B: LONG %82] RSI düşük, balina alımı yüksek, destek yakın"
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber RSR ile doğrudan alakasız, tuzak riski yüksek. | [GPT-120B: LONG %78] Aşırı satım, balina alımı, destek yakın"
     }
   ],
   "allQualifiedOpportunities": [
@@ -177,45 +97,36 @@
         "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
-        "ripple",
-        "xrp",
         "tokenized"
       ],
-      "newsScore": 5.44,
-      "freshestMinutesAgo": 93,
+      "newsScore": 1.6,
+      "freshestMinutesAgo": 234,
       "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 236,
-          "catalystPoints": 3.2,
-          "directMention": false
-        },
         {
           "source": "NewsBTC",
           "title": "Tokenized Stocks Reach $262 Million In DeFi, But The Growth Is Not All On Base",
-          "minutesAgo": 93,
-          "catalystPoints": 2.24,
+          "minutesAgo": 234,
+          "catalystPoints": 1.6,
           "directMention": false
         }
       ],
-      "lastPrice": 0.001874,
-      "change1hPct": -0.48,
-      "change24hPct": -7.685,
-      "lagVsLeader24h": 5.31,
-      "rsi1h": 13.86,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.43,
-      "bbPctB": 0.15,
-      "bbWidthPct": 12.96,
+      "lastPrice": 0.001863,
+      "change1hPct": 1.09,
+      "change24hPct": -5.766,
+      "lagVsLeader24h": 4.85,
+      "rsi1h": 19.9,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.54,
+      "bbPctB": 0.18,
+      "bbWidthPct": 12.45,
       "isSqueeze": false,
       "macdBullishTurn": true,
-      "adx": 58.9,
+      "adx": 59.8,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.001873,
+      "support": 0.001832,
       "resistance": 0.002102,
-      "roomToResistancePct": 12.17,
+      "roomToResistancePct": 12.83,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Scout",
@@ -223,33 +134,142 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 50,
-      "isGreenBounce": false,
+      "takerBuyRatioPct": 53.5,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.39,
-      "fundingHourlyPct": -0.01,
-      "totalScore": 87.5,
+      "volRatio": 0.33,
+      "fundingHourlyPct": -0.0207,
+      "totalScore": 88.2,
       "tpPct": 9,
-      "slPct": 2.36,
-      "tpPrice": 0.0020427,
-      "slPrice": 0.0018298,
+      "slPct": 2.54,
+      "tpPrice": 0.0020307,
+      "slPrice": 0.0018157,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
           "decision": "WAIT",
           "confidence": 95,
-          "reason": "Haber XRP/SOL odaklı, RSR için bağlamsız ve yanıltıcı."
+          "reason": "Haber RSR ile doğrudan alakasız, tuzak riski yüksek."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
           "confidence": 78,
-          "reason": "RSR aşırı satım, balina alımı destekli"
+          "reason": "Aşırı satım, balina alımı, destek yakın"
         }
       ],
       "liveLlmDecision": "LONG",
       "liveLlmConfidence": 87,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber XRP/SOL odaklı, RSR için bağlamsız ve yanıltıcı. | [GPT-120B: LONG %78] RSR aşırı satım, balina alımı destekli"
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber RSR ile doğrudan alakasız, tuzak riski yüksek. | [GPT-120B: LONG %78] Aşırı satım, balina alımı, destek yakın"
+    },
+    {
+      "symbol": "ONDO",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "tokenized"
+      ],
+      "newsScore": 1.6,
+      "freshestMinutesAgo": 234,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "Tokenized Stocks Reach $262 Million In DeFi, But The Growth Is Not All On Base",
+          "minutesAgo": 234,
+          "catalystPoints": 1.6,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.4181,
+      "change1hPct": 1.06,
+      "change24hPct": -3.486,
+      "lagVsLeader24h": 2.57,
+      "rsi1h": 24.73,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.22,
+      "bbPctB": 0.1,
+      "bbWidthPct": 8.23,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 61.9,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.4126,
+      "resistance": 0.444,
+      "roomToResistancePct": 6.19,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 46.4,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 1.96,
+      "fundingHourlyPct": -0.0016,
+      "totalScore": 73.6,
+      "tpPct": 5.39,
+      "slPct": 2.01,
+      "tpPrice": 0.44064,
+      "slPrice": 0.4097
+    },
+    {
+      "symbol": "ALGO",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "tokenized"
+      ],
+      "newsScore": 1.6,
+      "freshestMinutesAgo": 234,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "Tokenized Stocks Reach $262 Million In DeFi, But The Growth Is Not All On Base",
+          "minutesAgo": 234,
+          "catalystPoints": 1.6,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.1079,
+      "change1hPct": 0.75,
+      "change24hPct": -2.087,
+      "lagVsLeader24h": 1.17,
+      "rsi1h": 33.33,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.06,
+      "bbPctB": 0.22,
+      "bbWidthPct": 6.44,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 57,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.1065,
+      "resistance": 0.1127,
+      "roomToResistancePct": 4.45,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 42.2,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.61,
+      "fundingHourlyPct": -0.0012,
+      "totalScore": 59.3,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.11276,
+      "slPrice": 0.10574
     },
     {
       "symbol": "OM",
@@ -258,32 +278,23 @@
         "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
-        "ripple",
-        "xrp",
         "tokenized"
       ],
-      "newsScore": 5.44,
-      "freshestMinutesAgo": 93,
+      "newsScore": 1.6,
+      "freshestMinutesAgo": 234,
       "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 236,
-          "catalystPoints": 3.2,
-          "directMention": false
-        },
         {
           "source": "NewsBTC",
           "title": "Tokenized Stocks Reach $262 Million In DeFi, But The Growth Is Not All On Base",
-          "minutesAgo": 93,
-          "catalystPoints": 2.24,
+          "minutesAgo": 234,
+          "catalystPoints": 1.6,
           "directMention": false
         }
       ],
       "lastPrice": 0.0669,
       "change1hPct": -4.43,
       "change24hPct": -5.106,
-      "lagVsLeader24h": 2.73,
+      "lagVsLeader24h": 4.19,
       "rsi1h": 31.53,
       "hasRsiDivergence": true,
       "atr1hPct": 3.26,
@@ -309,58 +320,49 @@
       "isTrending": false,
       "volRatio": 1.75,
       "fundingHourlyPct": 0,
-      "totalScore": 71.1,
+      "totalScore": 56.5,
       "tpPct": 6.3,
       "slPct": 3.2,
       "tpPrice": 0.071115,
       "slPrice": 0.064759
     },
     {
-      "symbol": "XLM",
+      "symbol": "XRP",
       "leaderSymbol": "XRP",
       "ecosystems": [
         "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
-        "ripple",
-        "xrp",
         "tokenized"
       ],
-      "newsScore": 5.44,
-      "freshestMinutesAgo": 93,
+      "newsScore": 1.6,
+      "freshestMinutesAgo": 234,
       "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 236,
-          "catalystPoints": 3.2,
-          "directMention": false
-        },
         {
           "source": "NewsBTC",
           "title": "Tokenized Stocks Reach $262 Million In DeFi, But The Growth Is Not All On Base",
-          "minutesAgo": 93,
-          "catalystPoints": 2.24,
+          "minutesAgo": 234,
+          "catalystPoints": 1.6,
           "directMention": false
         }
       ],
-      "lastPrice": 0.1734,
-      "change1hPct": -0.46,
-      "change24hPct": -3.02,
-      "lagVsLeader24h": 0.64,
-      "rsi1h": 30.43,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.72,
-      "bbPctB": 0.01,
-      "bbWidthPct": 3.74,
+      "lastPrice": 1.2739,
+      "change1hPct": 0.76,
+      "change24hPct": -0.918,
+      "lagVsLeader24h": 0,
+      "rsi1h": 35.6,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.75,
+      "bbPctB": 0.27,
+      "bbWidthPct": 4.13,
       "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 46.3,
+      "macdBullishTurn": true,
+      "adx": 34.3,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.1736,
-      "resistance": 0.1794,
-      "roomToResistancePct": 3.46,
+      "support": 1.2569,
+      "resistance": 1.3042,
+      "roomToResistancePct": 2.38,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -368,16 +370,16 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 46,
-      "isGreenBounce": false,
+      "takerBuyRatioPct": 42.8,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.56,
-      "fundingHourlyPct": -0.0007,
-      "totalScore": 68.5,
+      "volRatio": 0.86,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 56.2,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 0.1812,
-      "slPrice": 0.16993
+      "tpPrice": 1.3312,
+      "slPrice": 1.2484
     },
     {
       "symbol": "HBAR",
@@ -386,45 +388,36 @@
         "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
-        "ripple",
-        "xrp",
         "tokenized"
       ],
-      "newsScore": 5.44,
-      "freshestMinutesAgo": 93,
+      "newsScore": 1.6,
+      "freshestMinutesAgo": 234,
       "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 236,
-          "catalystPoints": 3.2,
-          "directMention": false
-        },
         {
           "source": "NewsBTC",
           "title": "Tokenized Stocks Reach $262 Million In DeFi, But The Growth Is Not All On Base",
-          "minutesAgo": 93,
-          "catalystPoints": 2.24,
+          "minutesAgo": 234,
+          "catalystPoints": 1.6,
           "directMention": false
         }
       ],
-      "lastPrice": 0.08258,
-      "change1hPct": -2.22,
-      "change24hPct": -1.456,
-      "lagVsLeader24h": -0.92,
-      "rsi1h": 38.8,
-      "hasRsiDivergence": false,
-      "atr1hPct": 2.14,
-      "bbPctB": -0.14,
-      "bbWidthPct": 7.19,
+      "lastPrice": 0.08348,
+      "change1hPct": 0.85,
+      "change24hPct": -0.155,
+      "lagVsLeader24h": -0.76,
+      "rsi1h": 36.65,
+      "hasRsiDivergence": true,
+      "atr1hPct": 2.01,
+      "bbPctB": 0.14,
+      "bbWidthPct": 9,
       "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 19.7,
+      "macdBullishTurn": true,
+      "adx": 52.2,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
-      "support": 0.08264,
+      "support": 0.08179,
       "resistance": 0.08953,
-      "roomToResistancePct": 8.42,
+      "roomToResistancePct": 7.25,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -432,79 +425,16 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 42.2,
-      "isGreenBounce": false,
+      "takerBuyRatioPct": 44.8,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 1.24,
+      "volRatio": 0.48,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 55.7,
-      "tpPct": 5.72,
+      "totalScore": 55.2,
+      "tpPct": 6.61,
       "slPct": 3.2,
-      "tpPrice": 0.087304,
-      "slPrice": 0.079937
-    },
-    {
-      "symbol": "ONDO",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "ripple",
-        "xrp",
-        "tokenized"
-      ],
-      "newsScore": 5.44,
-      "freshestMinutesAgo": 93,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 236,
-          "catalystPoints": 3.2,
-          "directMention": false
-        },
-        {
-          "source": "NewsBTC",
-          "title": "Tokenized Stocks Reach $262 Million In DeFi, But The Growth Is Not All On Base",
-          "minutesAgo": 93,
-          "catalystPoints": 2.24,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.4221,
-      "change1hPct": -0.92,
-      "change24hPct": -4.761,
-      "lagVsLeader24h": 2.38,
-      "rsi1h": 21.45,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.02,
-      "bbPctB": 0,
-      "bbWidthPct": 5.83,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 51.9,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.424,
-      "resistance": 0.4458,
-      "roomToResistancePct": 5.61,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 45.9,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.42,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 53.8,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.44109,
-      "slPrice": 0.41366
+      "tpPrice": 0.088998,
+      "slPrice": 0.080809
     },
     {
       "symbol": "AVAX",
@@ -513,249 +443,52 @@
         "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
-        "ripple",
-        "xrp",
         "tokenized"
       ],
-      "newsScore": 5.44,
-      "freshestMinutesAgo": 93,
+      "newsScore": 1.6,
+      "freshestMinutesAgo": 234,
       "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 236,
-          "catalystPoints": 3.2,
-          "directMention": false
-        },
         {
           "source": "NewsBTC",
           "title": "Tokenized Stocks Reach $262 Million In DeFi, But The Growth Is Not All On Base",
-          "minutesAgo": 93,
-          "catalystPoints": 2.24,
+          "minutesAgo": 234,
+          "catalystPoints": 1.6,
           "directMention": false
         }
       ],
-      "lastPrice": 9.415,
-      "change1hPct": -1.24,
-      "change24hPct": -4.668,
-      "lagVsLeader24h": 2.29,
-      "rsi1h": 23.38,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.86,
-      "bbPctB": -0.03,
-      "bbWidthPct": 5.6,
+      "lastPrice": 9.462,
+      "change1hPct": 0.78,
+      "change24hPct": -1.796,
+      "lagVsLeader24h": 0.88,
+      "rsi1h": 29.4,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.03,
+      "bbPctB": 0.2,
+      "bbWidthPct": 6.77,
       "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 60.1,
+      "macdBullishTurn": true,
+      "adx": 57.6,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 9.489,
-      "resistance": 9.906,
-      "roomToResistancePct": 5.22,
+      "support": 9.321,
+      "resistance": 9.895,
+      "roomToResistancePct": 4.58,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 43.8,
-      "isGreenBounce": false,
+      "takerBuyRatioPct": 45.9,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.88,
-      "fundingHourlyPct": 0.0002,
-      "totalScore": 53.6,
+      "volRatio": 0.71,
+      "fundingHourlyPct": 0.0007,
+      "totalScore": 51.8,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 9.8387,
-      "slPrice": 9.2267
-    },
-    {
-      "symbol": "ALGO",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "ripple",
-        "xrp",
-        "tokenized"
-      ],
-      "newsScore": 5.44,
-      "freshestMinutesAgo": 93,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 236,
-          "catalystPoints": 3.2,
-          "directMention": false
-        },
-        {
-          "source": "NewsBTC",
-          "title": "Tokenized Stocks Reach $262 Million In DeFi, But The Growth Is Not All On Base",
-          "minutesAgo": 93,
-          "catalystPoints": 2.24,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.1071,
-      "change1hPct": -0.93,
-      "change24hPct": -4.46,
-      "lagVsLeader24h": 2.08,
-      "rsi1h": 24.14,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.05,
-      "bbPctB": 0.01,
-      "bbWidthPct": 5.81,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 49.4,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.1077,
-      "resistance": 0.113,
-      "roomToResistancePct": 5.51,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 44.4,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.83,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 53.2,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.11192,
-      "slPrice": 0.10496
-    },
-    {
-      "symbol": "PYTH",
-      "leaderSymbol": "SOL",
-      "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "solana"
-      ],
-      "newsScore": 3.2,
-      "freshestMinutesAgo": 236,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 236,
-          "catalystPoints": 3.2,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.07382,
-      "change1hPct": -0.9,
-      "change24hPct": -10.888,
-      "lagVsLeader24h": 8.55,
-      "rsi1h": 32.58,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.64,
-      "bbPctB": 0.07,
-      "bbWidthPct": 9.59,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 33.2,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.07355,
-      "resistance": 0.08377,
-      "roomToResistancePct": 13.48,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 42,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.16,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 53.4,
-      "tpPct": 9,
-      "slPct": 2.71,
-      "tpPrice": 0.080464,
-      "slPrice": 0.071819,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "Haber XRP/SOL odaklı, PYTH için bağlamsız ve yanıltıcı."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 82,
-          "reason": "RSI düşük, balina alımı yüksek, destek yakın"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 89,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber XRP/SOL odaklı, PYTH için bağlamsız ve yanıltıcı. | [GPT-120B: LONG %82] RSI düşük, balina alımı yüksek, destek yakın"
-    },
-    {
-      "symbol": "RAY",
-      "leaderSymbol": "SOL",
-      "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "solana"
-      ],
-      "newsScore": 3.2,
-      "freshestMinutesAgo": 236,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 236,
-          "catalystPoints": 3.2,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 1.7247,
-      "change1hPct": -1.18,
-      "change24hPct": -3.97,
-      "lagVsLeader24h": 1.63,
-      "rsi1h": 30.43,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.15,
-      "bbPctB": -0.01,
-      "bbWidthPct": 6.6,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 54.8,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 1.7352,
-      "resistance": 1.8416,
-      "roomToResistancePct": 6.78,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 47.9,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.66,
-      "fundingHourlyPct": 0,
-      "totalScore": 42.3,
-      "tpPct": 4.57,
-      "slPct": 2,
-      "tpPrice": 1.8035,
-      "slPrice": 1.6902
+      "tpPrice": 9.8878,
+      "slPrice": 9.2728
     }
   ]
 }
