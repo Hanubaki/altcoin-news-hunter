@@ -1,17 +1,17 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 18.10.2026 08:53:36
+**Son Güncelleme:** 18.10.2026 13:23:56
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.029,53 TL`**
-* **Toplam Net Kâr / Zarar:** **`+29,57 TL` (`+%2.96`)**
-* **Boşta Bekleyen Nakit:** `865,98 TL`
-* **Coinde Olan Para:** `163,55 TL`
-* **Başarılı Satış / Zarar Kes:** `12 Kârlı Satış / 8 Zarar Kes`
+* **Şu Anki Toplam Para:** **`1.030,65 TL`**
+* **Toplam Net Kâr / Zarar:** **`+30,69 TL` (`+%3.07`)**
+* **Boşta Bekleyen Nakit:** `1.030,65 TL`
+* **Coinde Olan Para:** `0,00 TL`
+* **Başarılı Satış / Zarar Kes:** `12 Kârlı Satış / 9 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Bağlantı Bekleniyor`
 
 ---
@@ -20,6 +20,7 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
+| **FLOKI** | `164,93 TL` | `164,67 TL` | **`-0,26 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.17) |
 | **WLD** | `164,58 TL` | `162,64 TL` | **`-1,93 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-1.18) |
 | **TAO** | `245,26 TL` | `244,19 TL` | **`-1,07 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.45) |
 | **HBAR** | `233,05 TL` | `237,13 TL` | **`+4,08 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%1.71) |
@@ -47,7 +48,7 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **FLOKI (VURGUN)** | `164,93 TL` | `163,55 TL` | **`-1,40 TL (%-0.85)`** | 🎰 KORUMALI VURGUN SLOTU (-%2.4 ATR Kalkanı | Hedef: +%18) |
+| *Şu an açık işlem yok* | - | - | - | - |
 
 ---
 

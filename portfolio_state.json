@@ -1,14 +1,15 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-18T05:53:36.769Z",
+  "updatedAt": "2026-10-18T10:23:56.914Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 28.01,
   "initialBankrollTry": 1000,
-  "cashUsdt": 24.2571,
-  "realizedPnlUsdt": 0.8629,
+  "cashUsdt": 28.8697,
+  "realizedPnlUsdt": 0.8555,
   "winCount": 12,
-  "lossCount": 8,
-  "openPositions": [
+  "lossCount": 9,
+  "openPositions": [],
+  "closedTrades": [
     {
       "id": "moon_1792285313066_FLOKI",
       "symbol": "FLOKI",
@@ -25,7 +26,7 @@
       "obImbalance": -0.05,
       "entryTime": "2026-10-18T01:01:53.066Z",
       "entryPrice": 0.00002361,
-      "currentPrice": 0.00002341,
+      "currentPrice": 0.00002357,
       "highestPrice": 0.00002361,
       "qty": 195700,
       "costUsdt": 4.62,
@@ -38,11 +39,14 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0391,
-      "unrealizedPnlPct": -0.85
-    }
-  ],
-  "closedTrades": [
+      "unrealizedPnlUsdt": -0.0078,
+      "unrealizedPnlPct": -0.17,
+      "exitPrice": 0.00002357,
+      "exitTime": "2026-10-18T10:23:15.334Z",
+      "exitReason": "⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.17)",
+      "netPnlUsdt": -0.0074,
+      "netPnlTry": -0.26
+    },
     {
       "id": "moon_1792262539470_WLD",
       "symbol": "WLD",
@@ -656,6 +660,7 @@
     }
   ],
   "recentLogs": [
+    "[13:23:15] 🏁 [POZİSYON KAPANDI] FLOKI @ $0.00002357 | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.17) | Net: -0,26 TL",
     "[04:01:53] 🎰 [VURGUN SLOTU AÇILDI] FLOKI (164,93 TL) @ $0.00002361 | Hedef: +%18 | RSI: 41.58 | Balina: %67.1 | SL: -%2.4",
     "[04:01:52] 🏁 [POZİSYON KAPANDI] WLD @ $0.4938 | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-1.18) | Net: -1,93 TL",
     "[02:00:34] 🏁 [POZİSYON KAPANDI] TAO @ $267.4 | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.45) | Net: -1,07 TL",
@@ -694,16 +699,15 @@
     "[15:20:50] 🎰 [VURGUN SLOTU AÇILDI] DOGE (189,57 TL) @ $0.08221 | Hedef: +%18 Vurgun | Balina: %60.6",
     "[15:14:54] 🏁 [POZİSYON KAPANDI] AVAX @ $10.256 | 🚀 UÇUŞ MODU KÂR KİLİDİ (%7.4) | Net: 4,97 TL",
     "[15:12:41] 🚀 [2. KADEME DEV KÂR ALINDI] AVAX +%7.5 kârla satıldı (+5,00 TL)! Son %30 sınırsız uçuşta!",
-    "[15:05:38] 🟢 [OTOMATİK ALIM] BOME (399,48 TL) @ $0.0006896 | Skor: 99.8 | Balina Alım: %63.5",
-    "[15:05:38] 🏁 [POZİSYON KAPANDI] RAY @ $1.9275 | 🚀 UÇUŞ MODU KÂR KİLİDİ (%4.87) | Net: 8,49 TL"
+    "[15:05:38] 🟢 [OTOMATİK ALIM] BOME (399,48 TL) @ $0.0006896 | Skor: 99.8 | Balina Alım: %63.5"
   ],
-  "totalEquityUsdt": 28.8384,
-  "totalEquityTry": 1029.53,
-  "totalPnlUsdt": 0.8284,
-  "totalPnlPct": 2.96,
+  "totalEquityUsdt": 28.8697,
+  "totalEquityTry": 1030.65,
+  "totalPnlUsdt": 0.8597,
+  "totalPnlPct": 3.07,
   "cooldowns": {
     "FET": 1792154502952,
-    "FLOKI": 1792190321265,
+    "FLOKI": 1792340594778,
     "BOME": 1792275861492,
     "DOGE": 1792201371160,
     "SUI": 1792263911165,
@@ -711,5 +715,5 @@
     "WLD": 1792306912864
   },
   "binanceTrStatus": "Bağlantı Bekleniyor",
-  "lastWhatsAppReportAt": 1792302775060
+  "lastWhatsAppReportAt": 1792318995358
 }

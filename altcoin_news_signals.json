@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-10-18T05:53:36.608Z",
-  "scanDurationMs": 881,
+  "updatedAt": "2026-10-18T10:23:56.913Z",
+  "scanDurationMs": 852,
   "bankrollTry": 1000,
   "bankrollUsdt": 28.01,
-  "btc1hChangePct": -0.14,
+  "btc1hChangePct": 0.25,
   "btcCrashAlert": false,
-  "marketBreadthPct": 6,
+  "marketBreadthPct": 13,
   "totalHeadlinesScanned": 102,
   "activeFeeds": [
     "CoinTelegraph (20)",
