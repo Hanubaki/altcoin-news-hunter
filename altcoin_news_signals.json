@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-17T23:01:17.228Z",
-  "scanDurationMs": 2050,
+  "updatedAt": "2026-10-18T01:02:36.015Z",
+  "scanDurationMs": 2380,
   "bankrollTry": 1000,
   "bankrollUsdt": 28.01,
-  "btc1hChangePct": 0.26,
+  "btc1hChangePct": 0.11,
   "btcCrashAlert": false,
   "marketBreadthPct": 8,
   "totalHeadlinesScanned": 102,
@@ -17,7 +17,7 @@
   ],
   "top4AltcoinPicks": [
     {
-      "symbol": "XLM",
+      "symbol": "AVAX",
       "leaderSymbol": "XRP",
       "ecosystems": [
         "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
@@ -25,34 +25,34 @@
       "matchedKeywords": [
         "tokenized"
       ],
-      "newsScore": 5.76,
-      "freshestMinutesAgo": 48,
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 170,
       "headlines": [
         {
           "source": "NewsBTC",
           "title": "Pantera Leads $10 Million Fission Funding Round To Solve Tokenized Fund Liquidity Problem",
-          "minutesAgo": 48,
-          "catalystPoints": 5.76,
+          "minutesAgo": 170,
+          "catalystPoints": 4.48,
           "directMention": false
         }
       ],
-      "lastPrice": 0.1766,
-      "change1hPct": 0,
-      "change24hPct": -2.753,
-      "lagVsLeader24h": 1.33,
-      "rsi1h": 40,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.78,
-      "bbPctB": 0.15,
-      "bbWidthPct": 2.83,
+      "lastPrice": 9.8,
+      "change1hPct": 0.25,
+      "change24hPct": -1.438,
+      "lagVsLeader24h": 0.94,
+      "rsi1h": 40.94,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.05,
+      "bbPctB": 0.35,
+      "bbWidthPct": 4.46,
       "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 50.9,
+      "macdBullishTurn": true,
+      "adx": 56.9,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.1759,
-      "resistance": 0.1811,
-      "roomToResistancePct": 2.55,
+      "support": 9.652,
+      "resistance": 10.055,
+      "roomToResistancePct": 2.6,
       "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -61,38 +61,111 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 51.9,
-      "isGreenBounce": false,
+      "takerBuyRatioPct": 53,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.02,
-      "fundingHourlyPct": -0.0019,
-      "totalScore": 88.3,
+      "volRatio": 0.03,
+      "fundingHourlyPct": -0.0026,
+      "totalScore": 92.9,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 0.18455,
-      "slPrice": 0.17307,
+      "tpPrice": 10.241,
+      "slPrice": 9.604,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
           "decision": "WAIT",
-          "confidence": 65,
-          "reason": "Haber XLM ile doğrudan ilgili değil, nötr sinyal."
+          "confidence": 75,
+          "reason": "Haber AVAX ile doğrudan ilişkili değil, nötr."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
-          "confidence": 82,
-          "reason": "Pozitif fonlama ve yüksek balina alımı"
+          "confidence": 78,
+          "reason": "Pozitif fon likidite haberi ve balina alımı"
         }
       ],
       "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 74,
-      "liveLlmReason": "[Qwen-3.8: WAIT %65] Haber XLM ile doğrudan ilgili değil, nötr sinyal. | [GPT-120B: LONG %82] Pozitif fonlama ve yüksek balina alımı"
+      "liveLlmConfidence": 77,
+      "liveLlmReason": "[Qwen-3.8: WAIT %75] Haber AVAX ile doğrudan ilişkili değil, nötr. | [GPT-120B: LONG %78] Pozitif fon likidite haberi ve balina alımı"
+    },
+    {
+      "symbol": "PNUT",
+      "leaderSymbol": "DOGE",
+      "ecosystems": [
+        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
+      ],
+      "matchedKeywords": [
+        "elon musk"
+      ],
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 105,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "China Unveils 13-Foot Robot, Elon Musk Teases Real-Life Optimus Prime",
+          "minutesAgo": 105,
+          "catalystPoints": 4.48,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.0445,
+      "change1hPct": 0,
+      "change24hPct": -3.888,
+      "lagVsLeader24h": 2.95,
+      "rsi1h": 39.02,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.07,
+      "bbPctB": 0.29,
+      "bbWidthPct": 4.67,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 47.4,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.044,
+      "resistance": 0.0465,
+      "roomToResistancePct": 4.49,
+      "aiConsensusCount": 4,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 53.6,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.07,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 89.5,
+      "tpPct": 4.95,
+      "slPct": 2,
+      "tpPrice": 0.046703,
+      "slPrice": 0.04361,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 95,
+          "reason": "Haber coin ile alakasız, tuzak riski yüksek."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 78,
+          "reason": "Balina alımı ve düşük RSI, yükseliş potansiyeli"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 87,
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber coin ile alakasız, tuzak riski yüksek. | [GPT-120B: LONG %78] Balina alımı ve düşük RSI, yükseliş potansiyeli"
     }
   ],
   "allQualifiedOpportunities": [
     {
-      "symbol": "XLM",
+      "symbol": "AVAX",
       "leaderSymbol": "XRP",
       "ecosystems": [
         "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
@@ -100,34 +173,34 @@
       "matchedKeywords": [
         "tokenized"
       ],
-      "newsScore": 5.76,
-      "freshestMinutesAgo": 48,
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 170,
       "headlines": [
         {
           "source": "NewsBTC",
           "title": "Pantera Leads $10 Million Fission Funding Round To Solve Tokenized Fund Liquidity Problem",
-          "minutesAgo": 48,
-          "catalystPoints": 5.76,
+          "minutesAgo": 170,
+          "catalystPoints": 4.48,
           "directMention": false
         }
       ],
-      "lastPrice": 0.1766,
-      "change1hPct": 0,
-      "change24hPct": -2.753,
-      "lagVsLeader24h": 1.33,
-      "rsi1h": 40,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.78,
-      "bbPctB": 0.15,
-      "bbWidthPct": 2.83,
+      "lastPrice": 9.8,
+      "change1hPct": 0.25,
+      "change24hPct": -1.438,
+      "lagVsLeader24h": 0.94,
+      "rsi1h": 40.94,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.05,
+      "bbPctB": 0.35,
+      "bbWidthPct": 4.46,
       "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 50.9,
+      "macdBullishTurn": true,
+      "adx": 56.9,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.1759,
-      "resistance": 0.1811,
-      "roomToResistancePct": 2.55,
+      "support": 9.652,
+      "resistance": 10.055,
+      "roomToResistancePct": 2.6,
       "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -136,88 +209,162 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 51.9,
-      "isGreenBounce": false,
+      "takerBuyRatioPct": 53,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.02,
-      "fundingHourlyPct": -0.0019,
-      "totalScore": 88.3,
+      "volRatio": 0.03,
+      "fundingHourlyPct": -0.0026,
+      "totalScore": 92.9,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 0.18455,
-      "slPrice": 0.17307,
+      "tpPrice": 10.241,
+      "slPrice": 9.604,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
           "decision": "WAIT",
-          "confidence": 65,
-          "reason": "Haber XLM ile doğrudan ilgili değil, nötr sinyal."
+          "confidence": 75,
+          "reason": "Haber AVAX ile doğrudan ilişkili değil, nötr."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
-          "confidence": 82,
-          "reason": "Pozitif fonlama ve yüksek balina alımı"
+          "confidence": 78,
+          "reason": "Pozitif fon likidite haberi ve balina alımı"
         }
       ],
       "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 74,
-      "liveLlmReason": "[Qwen-3.8: WAIT %65] Haber XLM ile doğrudan ilgili değil, nötr sinyal. | [GPT-120B: LONG %82] Pozitif fonlama ve yüksek balina alımı"
+      "liveLlmConfidence": 77,
+      "liveLlmReason": "[Qwen-3.8: WAIT %75] Haber AVAX ile doğrudan ilişkili değil, nötr. | [GPT-120B: LONG %78] Pozitif fon likidite haberi ve balina alımı"
     },
     {
-      "symbol": "ALGO",
-      "leaderSymbol": "XRP",
+      "symbol": "PNUT",
+      "leaderSymbol": "DOGE",
       "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
       ],
       "matchedKeywords": [
-        "tokenized"
+        "elon musk"
       ],
-      "newsScore": 5.76,
-      "freshestMinutesAgo": 48,
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 105,
       "headlines": [
         {
-          "source": "NewsBTC",
-          "title": "Pantera Leads $10 Million Fission Funding Round To Solve Tokenized Fund Liquidity Problem",
-          "minutesAgo": 48,
-          "catalystPoints": 5.76,
+          "source": "BeInCrypto",
+          "title": "China Unveils 13-Foot Robot, Elon Musk Teases Real-Life Optimus Prime",
+          "minutesAgo": 105,
+          "catalystPoints": 4.48,
           "directMention": false
         }
       ],
-      "lastPrice": 0.1111,
-      "change1hPct": -0.18,
-      "change24hPct": -4.307,
-      "lagVsLeader24h": 2.88,
-      "rsi1h": 40,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.05,
-      "bbPctB": 0.25,
-      "bbWidthPct": 4.26,
+      "lastPrice": 0.0445,
+      "change1hPct": 0,
+      "change24hPct": -3.888,
+      "lagVsLeader24h": 2.95,
+      "rsi1h": 39.02,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.07,
+      "bbPctB": 0.29,
+      "bbWidthPct": 4.67,
       "isSqueeze": true,
       "macdBullishTurn": true,
-      "adx": 39.8,
+      "adx": 47.4,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.1101,
-      "resistance": 0.1161,
-      "roomToResistancePct": 4.5,
-      "aiConsensusCount": 3,
+      "support": 0.044,
+      "resistance": 0.0465,
+      "roomToResistancePct": 4.49,
+      "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
         "Llama-4-Scout",
-        "Gemini-3.5-Flash"
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 44.9,
-      "isGreenBounce": false,
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 53.6,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0,
-      "fundingHourlyPct": -0.0024,
-      "totalScore": 80.1,
+      "volRatio": 0.07,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 89.5,
+      "tpPct": 4.95,
+      "slPct": 2,
+      "tpPrice": 0.046703,
+      "slPrice": 0.04361,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 95,
+          "reason": "Haber coin ile alakasız, tuzak riski yüksek."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 78,
+          "reason": "Balina alımı ve düşük RSI, yükseliş potansiyeli"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 87,
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber coin ile alakasız, tuzak riski yüksek. | [GPT-120B: LONG %78] Balina alımı ve düşük RSI, yükseliş potansiyeli"
+    },
+    {
+      "symbol": "SHIB",
+      "leaderSymbol": "DOGE",
+      "ecosystems": [
+        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
+      ],
+      "matchedKeywords": [
+        "elon musk"
+      ],
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 105,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "China Unveils 13-Foot Robot, Elon Musk Teases Real-Life Optimus Prime",
+          "minutesAgo": 105,
+          "catalystPoints": 4.48,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.00000498,
+      "change1hPct": 0.2,
+      "change24hPct": -1.775,
+      "lagVsLeader24h": 0.84,
+      "rsi1h": 37.14,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.87,
+      "bbPctB": 0.29,
+      "bbWidthPct": 3.33,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 51.5,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.00000494,
+      "resistance": 0.0000051,
+      "roomToResistancePct": 2.41,
+      "aiConsensusCount": 4,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 55.1,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.08,
+      "fundingHourlyPct": 0,
+      "totalScore": 79.7,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 0.1161,
-      "slPrice": 0.10888
+      "tpPrice": 0.0000052041,
+      "slPrice": 0.0000048804
     },
     {
       "symbol": "XRP",
@@ -228,50 +375,273 @@
       "matchedKeywords": [
         "tokenized"
       ],
-      "newsScore": 5.76,
-      "freshestMinutesAgo": 48,
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 170,
       "headlines": [
         {
           "source": "NewsBTC",
           "title": "Pantera Leads $10 Million Fission Funding Round To Solve Tokenized Fund Liquidity Problem",
-          "minutesAgo": 48,
-          "catalystPoints": 5.76,
+          "minutesAgo": 170,
+          "catalystPoints": 4.48,
           "directMention": false
         }
       ],
-      "lastPrice": 1.292,
-      "change1hPct": -0.06,
-      "change24hPct": -1.427,
+      "lastPrice": 1.2989,
+      "change1hPct": 0.13,
+      "change24hPct": -0.498,
       "lagVsLeader24h": 0,
-      "rsi1h": 40.06,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.68,
-      "bbPctB": 0.19,
-      "bbWidthPct": 2.22,
+      "rsi1h": 44.2,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.71,
+      "bbPctB": 0.48,
+      "bbWidthPct": 2.01,
       "isSqueeze": true,
       "macdBullishTurn": true,
-      "adx": 60.1,
+      "adx": 51.4,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
-      "support": 1.2879,
+      "support": 1.286,
       "resistance": 1.3126,
-      "roomToResistancePct": 1.59,
-      "aiConsensusCount": 2,
+      "roomToResistancePct": 1.5,
+      "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 45.8,
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 61.8,
       "isGreenBounce": true,
       "isTrending": false,
       "volRatio": 0.03,
-      "fundingHourlyPct": -0.0007,
-      "totalScore": 78.9,
+      "fundingHourlyPct": -0.0005,
+      "totalScore": 79.2,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 1.3501,
-      "slPrice": 1.2662
+      "tpPrice": 1.3574,
+      "slPrice": 1.2729
+    },
+    {
+      "symbol": "ONDO",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "tokenized"
+      ],
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 170,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "Pantera Leads $10 Million Fission Funding Round To Solve Tokenized Fund Liquidity Problem",
+          "minutesAgo": 170,
+          "catalystPoints": 4.48,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.4401,
+      "change1hPct": 0.36,
+      "change24hPct": -2.309,
+      "lagVsLeader24h": 1.81,
+      "rsi1h": 36.19,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.1,
+      "bbPctB": 0.32,
+      "bbWidthPct": 5.98,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 59,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.4345,
+      "resistance": 0.459,
+      "roomToResistancePct": 4.29,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 60.5,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.15,
+      "fundingHourlyPct": -0.0024,
+      "totalScore": 78.4,
+      "tpPct": 4.69,
+      "slPct": 2,
+      "tpPrice": 0.46074,
+      "slPrice": 0.4313
+    },
+    {
+      "symbol": "ALGO",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "tokenized"
+      ],
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 170,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "Pantera Leads $10 Million Fission Funding Round To Solve Tokenized Fund Liquidity Problem",
+          "minutesAgo": 170,
+          "catalystPoints": 4.48,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.112,
+      "change1hPct": 0.36,
+      "change24hPct": -2.524,
+      "lagVsLeader24h": 2.03,
+      "rsi1h": 45.79,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.08,
+      "bbPctB": 0.5,
+      "bbWidthPct": 3.39,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 34.7,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.1101,
+      "resistance": 0.1161,
+      "roomToResistancePct": 3.66,
+      "aiConsensusCount": 4,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 56.8,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.05,
+      "fundingHourlyPct": -0.0009,
+      "totalScore": 75.8,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.11704,
+      "slPrice": 0.10976
+    },
+    {
+      "symbol": "FLOKI",
+      "leaderSymbol": "DOGE",
+      "ecosystems": [
+        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
+      ],
+      "matchedKeywords": [
+        "elon musk"
+      ],
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 105,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "China Unveils 13-Foot Robot, Elon Musk Teases Real-Life Optimus Prime",
+          "minutesAgo": 105,
+          "catalystPoints": 4.48,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.00002361,
+      "change1hPct": 0.08,
+      "change24hPct": -2.155,
+      "lagVsLeader24h": 1.22,
+      "rsi1h": 41.88,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.9,
+      "bbPctB": 0.36,
+      "bbWidthPct": 3.47,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 44.4,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.00002332,
+      "resistance": 0.00002417,
+      "roomToResistancePct": 2.37,
+      "aiConsensusCount": 4,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 67.3,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.02,
+      "fundingHourlyPct": 0,
+      "totalScore": 75.4,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.000024672,
+      "slPrice": 0.000023138
+    },
+    {
+      "symbol": "XLM",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "tokenized"
+      ],
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 170,
+      "headlines": [
+        {
+          "source": "NewsBTC",
+          "title": "Pantera Leads $10 Million Fission Funding Round To Solve Tokenized Fund Liquidity Problem",
+          "minutesAgo": 170,
+          "catalystPoints": 4.48,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.1774,
+      "change1hPct": 0.17,
+      "change24hPct": -1.717,
+      "lagVsLeader24h": 1.22,
+      "rsi1h": 41.32,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.77,
+      "bbPctB": 0.35,
+      "bbWidthPct": 2.69,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 56.4,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.1759,
+      "resistance": 0.1805,
+      "roomToResistancePct": 1.75,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 49.7,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.05,
+      "fundingHourlyPct": 0,
+      "totalScore": 70.4,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.18538,
+      "slPrice": 0.17385
     },
     {
       "symbol": "OM",
@@ -282,21 +652,21 @@
       "matchedKeywords": [
         "tokenized"
       ],
-      "newsScore": 5.76,
-      "freshestMinutesAgo": 48,
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 170,
       "headlines": [
         {
           "source": "NewsBTC",
           "title": "Pantera Leads $10 Million Fission Funding Round To Solve Tokenized Fund Liquidity Problem",
-          "minutesAgo": 48,
-          "catalystPoints": 5.76,
+          "minutesAgo": 170,
+          "catalystPoints": 4.48,
           "directMention": false
         }
       ],
       "lastPrice": 0.0669,
       "change1hPct": -4.43,
       "change24hPct": -5.106,
-      "lagVsLeader24h": 3.68,
+      "lagVsLeader24h": 4.61,
       "rsi1h": 31.53,
       "hasRsiDivergence": true,
       "atr1hPct": 3.26,
@@ -322,48 +692,103 @@
       "isTrending": false,
       "volRatio": 1.75,
       "fundingHourlyPct": 0,
-      "totalScore": 74.3,
+      "totalScore": 69.9,
       "tpPct": 6.3,
       "slPct": 3.2,
       "tpPrice": 0.071115,
       "slPrice": 0.064759
     },
     {
-      "symbol": "HBAR",
-      "leaderSymbol": "XRP",
+      "symbol": "PEPE",
+      "leaderSymbol": "DOGE",
       "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
       ],
       "matchedKeywords": [
-        "tokenized"
+        "elon musk"
       ],
-      "newsScore": 5.76,
-      "freshestMinutesAgo": 48,
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 105,
       "headlines": [
         {
-          "source": "NewsBTC",
-          "title": "Pantera Leads $10 Million Fission Funding Round To Solve Tokenized Fund Liquidity Problem",
-          "minutesAgo": 48,
-          "catalystPoints": 5.76,
+          "source": "BeInCrypto",
+          "title": "China Unveils 13-Foot Robot, Elon Musk Teases Real-Life Optimus Prime",
+          "minutesAgo": 105,
+          "catalystPoints": 4.48,
           "directMention": false
         }
       ],
-      "lastPrice": 0.0843,
-      "change1hPct": -0.01,
-      "change24hPct": 0.657,
-      "lagVsLeader24h": -2.08,
-      "rsi1h": 54.1,
+      "lastPrice": 0.00000387,
+      "change1hPct": 0,
+      "change24hPct": -3.731,
+      "lagVsLeader24h": 2.8,
+      "rsi1h": 34.38,
       "hasRsiDivergence": false,
-      "atr1hPct": 1.16,
-      "bbPctB": 0.7,
-      "bbWidthPct": 3.73,
+      "atr1hPct": 1.22,
+      "bbPctB": 0.24,
+      "bbWidthPct": 5.45,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 62.5,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.00000382,
+      "resistance": 0.00000405,
+      "roomToResistancePct": 4.65,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 50.7,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.02,
+      "fundingHourlyPct": 0,
+      "totalScore": 68.2,
+      "tpPct": 4.81,
+      "slPct": 2.01,
+      "tpPrice": 0.0000040561,
+      "slPrice": 0.0000037922
+    },
+    {
+      "symbol": "DOGE",
+      "leaderSymbol": "DOGE",
+      "ecosystems": [
+        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
+      ],
+      "matchedKeywords": [
+        "elon musk"
+      ],
+      "newsScore": 4.48,
+      "freshestMinutesAgo": 105,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "China Unveils 13-Foot Robot, Elon Musk Teases Real-Life Optimus Prime",
+          "minutesAgo": 105,
+          "catalystPoints": 4.48,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.07946,
+      "change1hPct": 0.13,
+      "change24hPct": -0.935,
+      "lagVsLeader24h": 0,
+      "rsi1h": 42.79,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.91,
+      "bbPctB": 0.37,
+      "bbWidthPct": 3.02,
       "isSqueeze": true,
       "macdBullishTurn": true,
-      "adx": 0.6,
-      "ema20AboveEma50": true,
+      "adx": 53.8,
+      "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.08226,
-      "resistance": 0.08573,
+      "support": 0.07841,
+      "resistance": 0.08081,
       "roomToResistancePct": 1.7,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
@@ -372,71 +797,16 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 50.3,
+      "takerBuyRatioPct": 49.6,
       "isGreenBounce": true,
       "isTrending": false,
       "volRatio": 0.01,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 64.9,
+      "totalScore": 63.2,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 0.088093,
-      "slPrice": 0.082614
-    },
-    {
-      "symbol": "RSR",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "tokenized"
-      ],
-      "newsScore": 5.76,
-      "freshestMinutesAgo": 48,
-      "headlines": [
-        {
-          "source": "NewsBTC",
-          "title": "Pantera Leads $10 Million Fission Funding Round To Solve Tokenized Fund Liquidity Problem",
-          "minutesAgo": 48,
-          "catalystPoints": 5.76,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.002022,
-      "change1hPct": -0.2,
-      "change24hPct": 4.93,
-      "lagVsLeader24h": -6.36,
-      "rsi1h": 47.93,
-      "hasRsiDivergence": false,
-      "atr1hPct": 2.48,
-      "bbPctB": 0.69,
-      "bbWidthPct": 6.66,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 24.9,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.001916,
-      "resistance": 0.002105,
-      "roomToResistancePct": 4.1,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 46.1,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.04,
-      "fundingHourlyPct": -0.0305,
-      "totalScore": 61.9,
-      "tpPct": 7.17,
-      "slPct": 3.2,
-      "tpPrice": 0.002167,
-      "slPrice": 0.0019573
+      "tpPrice": 0.083036,
+      "slPrice": 0.077871
     }
   ]
 }
