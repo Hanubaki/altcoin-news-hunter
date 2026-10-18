@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-18T01:02:36.178Z",
+  "updatedAt": "2026-10-18T05:53:36.769Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 28.01,
   "initialBankrollTry": 1000,
@@ -25,7 +25,7 @@
       "obImbalance": -0.05,
       "entryTime": "2026-10-18T01:01:53.066Z",
       "entryPrice": 0.00002361,
-      "currentPrice": 0.00002361,
+      "currentPrice": 0.00002341,
       "highestPrice": 0.00002361,
       "qty": 195700,
       "costUsdt": 4.62,
@@ -38,8 +38,8 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0,
-      "unrealizedPnlPct": 0
+      "unrealizedPnlUsdt": -0.0391,
+      "unrealizedPnlPct": -0.85
     }
   ],
   "closedTrades": [
@@ -697,10 +697,10 @@
     "[15:05:38] 🟢 [OTOMATİK ALIM] BOME (399,48 TL) @ $0.0006896 | Skor: 99.8 | Balina Alım: %63.5",
     "[15:05:38] 🏁 [POZİSYON KAPANDI] RAY @ $1.9275 | 🚀 UÇUŞ MODU KÂR KİLİDİ (%4.87) | Net: 8,49 TL"
   ],
-  "totalEquityUsdt": 28.8776,
-  "totalEquityTry": 1030.93,
-  "totalPnlUsdt": 0.8676,
-  "totalPnlPct": 3.1,
+  "totalEquityUsdt": 28.8384,
+  "totalEquityTry": 1029.53,
+  "totalPnlUsdt": 0.8284,
+  "totalPnlPct": 2.96,
   "cooldowns": {
     "FET": 1792154502952,
     "FLOKI": 1792190321265,
@@ -711,5 +711,5 @@
     "WLD": 1792306912864
   },
   "binanceTrStatus": "Bağlantı Bekleniyor",
-  "lastWhatsAppReportAt": 1792285313066
+  "lastWhatsAppReportAt": 1792302775060
 }
