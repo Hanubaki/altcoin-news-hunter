@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-18T17:23:19.059Z",
+  "updatedAt": "2026-10-18T19:32:50.058Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 28.01,
   "initialBankrollTry": 1000,
@@ -24,7 +24,7 @@
       "obImbalance": 0.21,
       "entryTime": "2026-10-18T14:06:02.222Z",
       "entryPrice": 0.07783,
-      "currentPrice": 0.07794,
+      "currentPrice": 0.07708,
       "highestPrice": 0.07794,
       "qty": 126,
       "costUsdt": 9.81,
@@ -37,8 +37,8 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0139,
-      "unrealizedPnlPct": 0.14
+      "unrealizedPnlUsdt": -0.0945,
+      "unrealizedPnlPct": -0.96
     },
     {
       "id": "moon_1792344156112_SHIB",
@@ -56,7 +56,7 @@
       "obImbalance": 0.04,
       "entryTime": "2026-10-18T17:22:36.113Z",
       "entryPrice": 0.00000492,
-      "currentPrice": 0.00000491,
+      "currentPrice": 0.00000485,
       "highestPrice": 0.00000492,
       "qty": 939000,
       "costUsdt": 4.62,
@@ -69,8 +69,8 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0094,
-      "unrealizedPnlPct": -0.2
+      "unrealizedPnlUsdt": -0.0657,
+      "unrealizedPnlPct": -1.42
     }
   ],
   "closedTrades": [
@@ -765,10 +765,10 @@
     "[15:20:50] 🎰 [VURGUN SLOTU AÇILDI] DOGE (189,57 TL) @ $0.08221 | Hedef: +%18 Vurgun | Balina: %60.6",
     "[15:14:54] 🏁 [POZİSYON KAPANDI] AVAX @ $10.256 | 🚀 UÇUŞ MODU KÂR KİLİDİ (%7.4) | Net: 4,97 TL"
   ],
-  "totalEquityUsdt": 28.8706,
-  "totalEquityTry": 1030.68,
-  "totalPnlUsdt": 0.8606,
-  "totalPnlPct": 3.07,
+  "totalEquityUsdt": 28.7059,
+  "totalEquityTry": 1024.8,
+  "totalPnlUsdt": 0.6959,
+  "totalPnlPct": 2.48,
   "cooldowns": {
     "FET": 1792154502952,
     "FLOKI": 1792340594778,
@@ -779,5 +779,5 @@
     "WLD": 1792306912864
   },
   "binanceTrStatus": "Bağlantı Bekleniyor",
-  "lastWhatsAppReportAt": 1792344156153
+  "lastWhatsAppReportAt": 1792351926885
 }

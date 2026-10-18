@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-10-18T17:23:18.842Z",
-  "scanDurationMs": 1860,
+  "updatedAt": "2026-10-18T19:32:49.902Z",
+  "scanDurationMs": 2356,
   "bankrollTry": 1000,
   "bankrollUsdt": 28.01,
-  "btc1hChangePct": 0.03,
+  "btc1hChangePct": -0.24,
   "btcCrashAlert": false,
-  "marketBreadthPct": 4,
+  "marketBreadthPct": 1,
   "totalHeadlinesScanned": 102,
   "activeFeeds": [
     "CoinTelegraph (20)",
@@ -17,123 +17,51 @@
   ],
   "top4AltcoinPicks": [
     {
-      "symbol": "XLM",
+      "symbol": "RSR",
       "leaderSymbol": "XRP",
       "ecosystems": [
         "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
         "ripple",
-        "xrp"
+        "xrp",
+        "tokenized"
       ],
-      "newsScore": 5.88,
-      "freshestMinutesAgo": 107,
+      "newsScore": 5.44,
+      "freshestMinutesAgo": 93,
       "headlines": [
         {
           "source": "CryptoPotato",
           "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 107,
-          "catalystPoints": 4.48,
+          "minutesAgo": 236,
+          "catalystPoints": 3.2,
           "directMention": false
         },
         {
           "source": "NewsBTC",
-          "title": "XRP ETFs End 13-Week Inflow Run With $1.84 Million In Withdrawals",
-          "minutesAgo": 263,
-          "catalystPoints": 1.4,
+          "title": "Tokenized Stocks Reach $262 Million In DeFi, But The Growth Is Not All On Base",
+          "minutesAgo": 93,
+          "catalystPoints": 2.24,
           "directMention": false
         }
       ],
-      "lastPrice": 0.1745,
-      "change1hPct": 0.17,
-      "change24hPct": -1.357,
-      "lagVsLeader24h": -0.01,
-      "rsi1h": 29.29,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.71,
-      "bbPctB": 0.03,
-      "bbWidthPct": 2.94,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 47.1,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.174,
-      "resistance": 0.1794,
-      "roomToResistancePct": 2.81,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 49.6,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.21,
-      "fundingHourlyPct": -0.0011,
-      "totalScore": 99,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.18235,
-      "slPrice": 0.17101,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "Haber XRP odaklı, XLM için bağlamsız ve yanıltıcı."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 78,
-          "reason": "RSI düşük, balina alımı, destek yakın"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 87,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber XRP odaklı, XLM için bağlamsız ve yanıltıcı. | [GPT-120B: LONG %78] RSI düşük, balina alımı, destek yakın"
-    },
-    {
-      "symbol": "BOME",
-      "leaderSymbol": "SOL",
-      "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "solana"
-      ],
-      "newsScore": 4.48,
-      "freshestMinutesAgo": 107,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 107,
-          "catalystPoints": 4.48,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.0006023,
-      "change1hPct": 0.53,
-      "change24hPct": -6.736,
-      "lagVsLeader24h": 5.82,
-      "rsi1h": 13.23,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.2,
-      "bbPctB": 0.08,
-      "bbWidthPct": 9.82,
+      "lastPrice": 0.001874,
+      "change1hPct": -0.48,
+      "change24hPct": -7.685,
+      "lagVsLeader24h": 5.31,
+      "rsi1h": 13.86,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.43,
+      "bbPctB": 0.15,
+      "bbWidthPct": 12.96,
       "isSqueeze": false,
       "macdBullishTurn": true,
-      "adx": 81.8,
+      "adx": 58.9,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.0005981,
-      "resistance": 0.0006541,
-      "roomToResistancePct": 8.6,
+      "support": 0.001873,
+      "resistance": 0.002102,
+      "roomToResistancePct": 12.17,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Scout",
@@ -141,187 +69,36 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 49.7,
-      "isGreenBounce": true,
+      "takerBuyRatioPct": 50,
+      "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.46,
-      "fundingHourlyPct": -0.0025,
-      "totalScore": 96.2,
-      "tpPct": 6.26,
-      "slPct": 2,
-      "tpPrice": 0.00064,
-      "slPrice": 0.00059025,
-      "realApiVerdicts": [
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 78,
-          "reason": "Aşırı satım, balina alımı, yükseliş potansiyeli"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 78,
-      "liveLlmReason": "[GPT-120B: LONG %78] Aşırı satım, balina alımı, yükseliş potansiyeli"
-    },
-    {
-      "symbol": "SHIB",
-      "leaderSymbol": "DOGE",
-      "ecosystems": [
-        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
-      ],
-      "matchedKeywords": [
-        "dogecoin",
-        "doge"
-      ],
-      "newsScore": 3.7,
-      "freshestMinutesAgo": 306,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Analyst Maps Out 3 Reasons to Be Bullish on Dogecoin (DOGE): But Should You Really Be?",
-          "minutesAgo": 306,
-          "catalystPoints": 3.7,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.00000491,
-      "change1hPct": 0.2,
-      "change24hPct": -1.406,
-      "lagVsLeader24h": -0.14,
-      "rsi1h": 23.53,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.81,
-      "bbPctB": 0.12,
-      "bbWidthPct": 2.56,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 33.3,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.00000487,
-      "resistance": 0.00000503,
-      "roomToResistancePct": 2.44,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 54.1,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.27,
-      "fundingHourlyPct": 0,
-      "totalScore": 92.7,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.0000051309,
-      "slPrice": 0.0000048118,
+      "volRatio": 0.39,
+      "fundingHourlyPct": -0.01,
+      "totalScore": 87.5,
+      "tpPct": 9,
+      "slPct": 2.36,
+      "tpPrice": 0.0020427,
+      "slPrice": 0.0018298,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
           "decision": "WAIT",
           "confidence": 95,
-          "reason": "Haber DOGE hakkında, SHIB için geçersiz ve yanıltıcı."
+          "reason": "Haber XRP/SOL odaklı, RSR için bağlamsız ve yanıltıcı."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
           "confidence": 78,
-          "reason": "Düşük RSI ve balina alımı destekli"
+          "reason": "RSR aşırı satım, balina alımı destekli"
         }
       ],
       "liveLlmDecision": "LONG",
       "liveLlmConfidence": 87,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber DOGE hakkında, SHIB için geçersiz ve yanıltıcı. | [GPT-120B: LONG %78] Düşük RSI ve balina alımı destekli"
-    }
-  ],
-  "allQualifiedOpportunities": [
-    {
-      "symbol": "XLM",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "ripple",
-        "xrp"
-      ],
-      "newsScore": 5.88,
-      "freshestMinutesAgo": 107,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 107,
-          "catalystPoints": 4.48,
-          "directMention": false
-        },
-        {
-          "source": "NewsBTC",
-          "title": "XRP ETFs End 13-Week Inflow Run With $1.84 Million In Withdrawals",
-          "minutesAgo": 263,
-          "catalystPoints": 1.4,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.1745,
-      "change1hPct": 0.17,
-      "change24hPct": -1.357,
-      "lagVsLeader24h": -0.01,
-      "rsi1h": 29.29,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.71,
-      "bbPctB": 0.03,
-      "bbWidthPct": 2.94,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 47.1,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.174,
-      "resistance": 0.1794,
-      "roomToResistancePct": 2.81,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 49.6,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.21,
-      "fundingHourlyPct": -0.0011,
-      "totalScore": 99,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.18235,
-      "slPrice": 0.17101,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "Haber XRP odaklı, XLM için bağlamsız ve yanıltıcı."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 78,
-          "reason": "RSI düşük, balina alımı, destek yakın"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 87,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber XRP odaklı, XLM için bağlamsız ve yanıltıcı. | [GPT-120B: LONG %78] RSI düşük, balina alımı, destek yakın"
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber XRP/SOL odaklı, RSR için bağlamsız ve yanıltıcı. | [GPT-120B: LONG %78] RSR aşırı satım, balina alımı destekli"
     },
     {
-      "symbol": "BOME",
+      "symbol": "PYTH",
       "leaderSymbol": "SOL",
       "ecosystems": [
         "Solana (SOL) & DEX / Likidite Ekosistemi"
@@ -329,313 +106,70 @@
       "matchedKeywords": [
         "solana"
       ],
-      "newsScore": 4.48,
-      "freshestMinutesAgo": 107,
+      "newsScore": 3.2,
+      "freshestMinutesAgo": 236,
       "headlines": [
         {
           "source": "CryptoPotato",
           "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 107,
-          "catalystPoints": 4.48,
+          "minutesAgo": 236,
+          "catalystPoints": 3.2,
           "directMention": false
         }
       ],
-      "lastPrice": 0.0006023,
-      "change1hPct": 0.53,
-      "change24hPct": -6.736,
-      "lagVsLeader24h": 5.82,
-      "rsi1h": 13.23,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.2,
-      "bbPctB": 0.08,
-      "bbWidthPct": 9.82,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 81.8,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.0005981,
-      "resistance": 0.0006541,
-      "roomToResistancePct": 8.6,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 49.7,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.46,
-      "fundingHourlyPct": -0.0025,
-      "totalScore": 96.2,
-      "tpPct": 6.26,
-      "slPct": 2,
-      "tpPrice": 0.00064,
-      "slPrice": 0.00059025,
-      "realApiVerdicts": [
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 78,
-          "reason": "Aşırı satım, balina alımı, yükseliş potansiyeli"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 78,
-      "liveLlmReason": "[GPT-120B: LONG %78] Aşırı satım, balina alımı, yükseliş potansiyeli"
-    },
-    {
-      "symbol": "AVAX",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "ripple",
-        "xrp"
-      ],
-      "newsScore": 5.88,
-      "freshestMinutesAgo": 107,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 107,
-          "catalystPoints": 4.48,
-          "directMention": false
-        },
-        {
-          "source": "NewsBTC",
-          "title": "XRP ETFs End 13-Week Inflow Run With $1.84 Million In Withdrawals",
-          "minutesAgo": 263,
-          "catalystPoints": 1.4,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 9.547,
-      "change1hPct": 0.23,
-      "change24hPct": -2.092,
-      "lagVsLeader24h": 0.72,
-      "rsi1h": 24.36,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.87,
+      "lastPrice": 0.07382,
+      "change1hPct": -0.9,
+      "change24hPct": -10.888,
+      "lagVsLeader24h": 8.55,
+      "rsi1h": 32.58,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.64,
       "bbPctB": 0.07,
-      "bbWidthPct": 4.48,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 59.9,
+      "bbWidthPct": 9.59,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 33.2,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 9.499,
-      "resistance": 9.906,
-      "roomToResistancePct": 3.76,
-      "aiConsensusCount": 3,
+      "support": 0.07355,
+      "resistance": 0.08377,
+      "roomToResistancePct": 13.48,
+      "aiConsensusCount": 2,
       "aiConsensusModels": [
-        "Llama-4-Maverick",
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 46.7,
-      "isGreenBounce": true,
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 42,
+      "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.21,
-      "fundingHourlyPct": -0.0003,
-      "totalScore": 88.5,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 9.9766,
-      "slPrice": 9.3561
-    },
-    {
-      "symbol": "SHIB",
-      "leaderSymbol": "DOGE",
-      "ecosystems": [
-        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
-      ],
-      "matchedKeywords": [
-        "dogecoin",
-        "doge"
-      ],
-      "newsScore": 3.7,
-      "freshestMinutesAgo": 306,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Analyst Maps Out 3 Reasons to Be Bullish on Dogecoin (DOGE): But Should You Really Be?",
-          "minutesAgo": 306,
-          "catalystPoints": 3.7,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.00000491,
-      "change1hPct": 0.2,
-      "change24hPct": -1.406,
-      "lagVsLeader24h": -0.14,
-      "rsi1h": 23.53,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.81,
-      "bbPctB": 0.12,
-      "bbWidthPct": 2.56,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 33.3,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.00000487,
-      "resistance": 0.00000503,
-      "roomToResistancePct": 2.44,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 54.1,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.27,
-      "fundingHourlyPct": 0,
-      "totalScore": 92.7,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.0000051309,
-      "slPrice": 0.0000048118,
+      "volRatio": 0.16,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 53.4,
+      "tpPct": 9,
+      "slPct": 2.71,
+      "tpPrice": 0.080464,
+      "slPrice": 0.071819,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
           "decision": "WAIT",
           "confidence": 95,
-          "reason": "Haber DOGE hakkında, SHIB için geçersiz ve yanıltıcı."
+          "reason": "Haber XRP/SOL odaklı, PYTH için bağlamsız ve yanıltıcı."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
-          "confidence": 78,
-          "reason": "Düşük RSI ve balina alımı destekli"
+          "confidence": 82,
+          "reason": "RSI düşük, balina alımı yüksek, destek yakın"
         }
       ],
       "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 87,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber DOGE hakkında, SHIB için geçersiz ve yanıltıcı. | [GPT-120B: LONG %78] Düşük RSI ve balina alımı destekli"
-    },
-    {
-      "symbol": "FLOKI",
-      "leaderSymbol": "DOGE",
-      "ecosystems": [
-        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
-      ],
-      "matchedKeywords": [
-        "dogecoin",
-        "doge"
-      ],
-      "newsScore": 3.7,
-      "freshestMinutesAgo": 306,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Analyst Maps Out 3 Reasons to Be Bullish on Dogecoin (DOGE): But Should You Really Be?",
-          "minutesAgo": 306,
-          "catalystPoints": 3.7,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.00002299,
-      "change1hPct": 0.26,
-      "change24hPct": -2.129,
-      "lagVsLeader24h": 0.59,
-      "rsi1h": 25.34,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.76,
-      "bbPctB": 0.08,
-      "bbWidthPct": 4.22,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 50.8,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.00002285,
-      "resistance": 0.00002389,
-      "roomToResistancePct": 3.91,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 53,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.21,
-      "fundingHourlyPct": 0,
-      "totalScore": 86.7,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.000024025,
-      "slPrice": 0.00002253
-    },
-    {
-      "symbol": "PNUT",
-      "leaderSymbol": "DOGE",
-      "ecosystems": [
-        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
-      ],
-      "matchedKeywords": [
-        "dogecoin",
-        "doge"
-      ],
-      "newsScore": 3.7,
-      "freshestMinutesAgo": 306,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Analyst Maps Out 3 Reasons to Be Bullish on Dogecoin (DOGE): But Should You Really Be?",
-          "minutesAgo": 306,
-          "catalystPoints": 3.7,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.0419,
-      "change1hPct": 0.24,
-      "change24hPct": -5.843,
-      "lagVsLeader24h": 4.3,
-      "rsi1h": 17.07,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.18,
-      "bbPctB": 0.04,
-      "bbWidthPct": 8.54,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 82.4,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.0417,
-      "resistance": 0.0451,
-      "roomToResistancePct": 7.64,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 56.2,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.07,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 84.4,
-      "tpPct": 5.3,
-      "slPct": 2,
-      "tpPrice": 0.044121,
-      "slPrice": 0.041062
-    },
+      "liveLlmConfidence": 89,
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber XRP/SOL odaklı, PYTH için bağlamsız ve yanıltıcı. | [GPT-120B: LONG %82] RSI düşük, balina alımı yüksek, destek yakın"
+    }
+  ],
+  "allQualifiedOpportunities": [
     {
       "symbol": "RSR",
       "leaderSymbol": "XRP",
@@ -644,43 +178,44 @@
       ],
       "matchedKeywords": [
         "ripple",
-        "xrp"
+        "xrp",
+        "tokenized"
       ],
-      "newsScore": 5.88,
-      "freshestMinutesAgo": 107,
+      "newsScore": 5.44,
+      "freshestMinutesAgo": 93,
       "headlines": [
         {
           "source": "CryptoPotato",
           "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 107,
-          "catalystPoints": 4.48,
+          "minutesAgo": 236,
+          "catalystPoints": 3.2,
           "directMention": false
         },
         {
           "source": "NewsBTC",
-          "title": "XRP ETFs End 13-Week Inflow Run With $1.84 Million In Withdrawals",
-          "minutesAgo": 263,
-          "catalystPoints": 1.4,
+          "title": "Tokenized Stocks Reach $262 Million In DeFi, But The Growth Is Not All On Base",
+          "minutesAgo": 93,
+          "catalystPoints": 2.24,
           "directMention": false
         }
       ],
-      "lastPrice": 0.001898,
-      "change1hPct": 0.69,
-      "change24hPct": -2.165,
-      "lagVsLeader24h": 0.8,
-      "rsi1h": 17.07,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.54,
+      "lastPrice": 0.001874,
+      "change1hPct": -0.48,
+      "change24hPct": -7.685,
+      "lagVsLeader24h": 5.31,
+      "rsi1h": 13.86,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.43,
       "bbPctB": 0.15,
-      "bbWidthPct": 12.26,
+      "bbWidthPct": 12.96,
       "isSqueeze": false,
       "macdBullishTurn": true,
-      "adx": 72.7,
+      "adx": 58.9,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.001883,
+      "support": 0.001873,
       "resistance": 0.002102,
-      "roomToResistancePct": 10.75,
+      "roomToResistancePct": 12.17,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Scout",
@@ -688,245 +223,33 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 49.7,
-      "isGreenBounce": true,
+      "takerBuyRatioPct": 50,
+      "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.13,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 81.5,
-      "tpPct": 8.8,
-      "slPct": 2.54,
-      "tpPrice": 0.002065,
-      "slPrice": 0.0018498
-    },
-    {
-      "symbol": "ONDO",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "ripple",
-        "xrp"
-      ],
-      "newsScore": 5.88,
-      "freshestMinutesAgo": 107,
-      "headlines": [
+      "volRatio": 0.39,
+      "fundingHourlyPct": -0.01,
+      "totalScore": 87.5,
+      "tpPct": 9,
+      "slPct": 2.36,
+      "tpPrice": 0.0020427,
+      "slPrice": 0.0018298,
+      "realApiVerdicts": [
         {
-          "source": "CryptoPotato",
-          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 107,
-          "catalystPoints": 4.48,
-          "directMention": false
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 95,
+          "reason": "Haber XRP/SOL odaklı, RSR için bağlamsız ve yanıltıcı."
         },
         {
-          "source": "NewsBTC",
-          "title": "XRP ETFs End 13-Week Inflow Run With $1.84 Million In Withdrawals",
-          "minutesAgo": 263,
-          "catalystPoints": 1.4,
-          "directMention": false
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 78,
+          "reason": "RSR aşırı satım, balina alımı destekli"
         }
       ],
-      "lastPrice": 0.4265,
-      "change1hPct": 0.14,
-      "change24hPct": -2.67,
-      "lagVsLeader24h": 1.3,
-      "rsi1h": 20.68,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.01,
-      "bbPctB": 0.02,
-      "bbWidthPct": 4.7,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 50.5,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.4252,
-      "resistance": 0.4458,
-      "roomToResistancePct": 4.53,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 48,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.31,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 78.8,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.44569,
-      "slPrice": 0.41797
-    },
-    {
-      "symbol": "WIF",
-      "leaderSymbol": "SOL",
-      "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "solana"
-      ],
-      "newsScore": 4.48,
-      "freshestMinutesAgo": 107,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 107,
-          "catalystPoints": 4.48,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.1927,
-      "change1hPct": 0.21,
-      "change24hPct": -2.775,
-      "lagVsLeader24h": 1.85,
-      "rsi1h": 21.6,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.91,
-      "bbPctB": 0.03,
-      "bbWidthPct": 4.26,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 53.2,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.1922,
-      "resistance": 0.2008,
-      "roomToResistancePct": 4.2,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 44.6,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.11,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 78.5,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.20137,
-      "slPrice": 0.18885
-    },
-    {
-      "symbol": "BONK",
-      "leaderSymbol": "SOL",
-      "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "solana"
-      ],
-      "newsScore": 4.48,
-      "freshestMinutesAgo": 107,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 107,
-          "catalystPoints": 4.48,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.0000029,
-      "change1hPct": 0.35,
-      "change24hPct": -2.357,
-      "lagVsLeader24h": 1.44,
-      "rsi1h": 23.53,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.04,
-      "bbPctB": 0.13,
-      "bbWidthPct": 4.35,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 41.2,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.00000287,
-      "resistance": 0.00000302,
-      "roomToResistancePct": 4.14,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 47.5,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.28,
-      "fundingHourlyPct": 0,
-      "totalScore": 77.8,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.0000030305,
-      "slPrice": 0.000002842
-    },
-    {
-      "symbol": "DOGE",
-      "leaderSymbol": "DOGE",
-      "ecosystems": [
-        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
-      ],
-      "matchedKeywords": [
-        "dogecoin",
-        "doge"
-      ],
-      "newsScore": 5,
-      "freshestMinutesAgo": 306,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Analyst Maps Out 3 Reasons to Be Bullish on Dogecoin (DOGE): But Should You Really Be?",
-          "minutesAgo": 306,
-          "catalystPoints": 5,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 0.07795,
-      "change1hPct": 0.45,
-      "change24hPct": -1.541,
-      "lagVsLeader24h": 0,
-      "rsi1h": 27.83,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.78,
-      "bbPctB": 0.13,
-      "bbWidthPct": 3.49,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 51.6,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.07721,
-      "resistance": 0.08026,
-      "roomToResistancePct": 2.96,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 48.6,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.24,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 77.5,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.081458,
-      "slPrice": 0.076391
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 87,
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber XRP/SOL odaklı, RSR için bağlamsız ve yanıltıcı. | [GPT-120B: LONG %78] RSR aşırı satım, balina alımı destekli"
     },
     {
       "symbol": "OM",
@@ -936,30 +259,31 @@
       ],
       "matchedKeywords": [
         "ripple",
-        "xrp"
+        "xrp",
+        "tokenized"
       ],
-      "newsScore": 5.88,
-      "freshestMinutesAgo": 107,
+      "newsScore": 5.44,
+      "freshestMinutesAgo": 93,
       "headlines": [
         {
           "source": "CryptoPotato",
           "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 107,
-          "catalystPoints": 4.48,
+          "minutesAgo": 236,
+          "catalystPoints": 3.2,
           "directMention": false
         },
         {
           "source": "NewsBTC",
-          "title": "XRP ETFs End 13-Week Inflow Run With $1.84 Million In Withdrawals",
-          "minutesAgo": 263,
-          "catalystPoints": 1.4,
+          "title": "Tokenized Stocks Reach $262 Million In DeFi, But The Growth Is Not All On Base",
+          "minutesAgo": 93,
+          "catalystPoints": 2.24,
           "directMention": false
         }
       ],
       "lastPrice": 0.0669,
       "change1hPct": -4.43,
       "change24hPct": -5.106,
-      "lagVsLeader24h": 3.74,
+      "lagVsLeader24h": 2.73,
       "rsi1h": 31.53,
       "hasRsiDivergence": true,
       "atr1hPct": 3.26,
@@ -985,11 +309,265 @@
       "isTrending": false,
       "volRatio": 1.75,
       "fundingHourlyPct": 0,
-      "totalScore": 74.9,
+      "totalScore": 71.1,
       "tpPct": 6.3,
       "slPct": 3.2,
       "tpPrice": 0.071115,
       "slPrice": 0.064759
+    },
+    {
+      "symbol": "XLM",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "ripple",
+        "xrp",
+        "tokenized"
+      ],
+      "newsScore": 5.44,
+      "freshestMinutesAgo": 93,
+      "headlines": [
+        {
+          "source": "CryptoPotato",
+          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
+          "minutesAgo": 236,
+          "catalystPoints": 3.2,
+          "directMention": false
+        },
+        {
+          "source": "NewsBTC",
+          "title": "Tokenized Stocks Reach $262 Million In DeFi, But The Growth Is Not All On Base",
+          "minutesAgo": 93,
+          "catalystPoints": 2.24,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.1734,
+      "change1hPct": -0.46,
+      "change24hPct": -3.02,
+      "lagVsLeader24h": 0.64,
+      "rsi1h": 30.43,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.72,
+      "bbPctB": 0.01,
+      "bbWidthPct": 3.74,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 46.3,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.1736,
+      "resistance": 0.1794,
+      "roomToResistancePct": 3.46,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 46,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.56,
+      "fundingHourlyPct": -0.0007,
+      "totalScore": 68.5,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.1812,
+      "slPrice": 0.16993
+    },
+    {
+      "symbol": "HBAR",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "ripple",
+        "xrp",
+        "tokenized"
+      ],
+      "newsScore": 5.44,
+      "freshestMinutesAgo": 93,
+      "headlines": [
+        {
+          "source": "CryptoPotato",
+          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
+          "minutesAgo": 236,
+          "catalystPoints": 3.2,
+          "directMention": false
+        },
+        {
+          "source": "NewsBTC",
+          "title": "Tokenized Stocks Reach $262 Million In DeFi, But The Growth Is Not All On Base",
+          "minutesAgo": 93,
+          "catalystPoints": 2.24,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.08258,
+      "change1hPct": -2.22,
+      "change24hPct": -1.456,
+      "lagVsLeader24h": -0.92,
+      "rsi1h": 38.8,
+      "hasRsiDivergence": false,
+      "atr1hPct": 2.14,
+      "bbPctB": -0.14,
+      "bbWidthPct": 7.19,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 19.7,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.08264,
+      "resistance": 0.08953,
+      "roomToResistancePct": 8.42,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 42.2,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 1.24,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 55.7,
+      "tpPct": 5.72,
+      "slPct": 3.2,
+      "tpPrice": 0.087304,
+      "slPrice": 0.079937
+    },
+    {
+      "symbol": "ONDO",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "ripple",
+        "xrp",
+        "tokenized"
+      ],
+      "newsScore": 5.44,
+      "freshestMinutesAgo": 93,
+      "headlines": [
+        {
+          "source": "CryptoPotato",
+          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
+          "minutesAgo": 236,
+          "catalystPoints": 3.2,
+          "directMention": false
+        },
+        {
+          "source": "NewsBTC",
+          "title": "Tokenized Stocks Reach $262 Million In DeFi, But The Growth Is Not All On Base",
+          "minutesAgo": 93,
+          "catalystPoints": 2.24,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.4221,
+      "change1hPct": -0.92,
+      "change24hPct": -4.761,
+      "lagVsLeader24h": 2.38,
+      "rsi1h": 21.45,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.02,
+      "bbPctB": 0,
+      "bbWidthPct": 5.83,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 51.9,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.424,
+      "resistance": 0.4458,
+      "roomToResistancePct": 5.61,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 45.9,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.42,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 53.8,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.44109,
+      "slPrice": 0.41366
+    },
+    {
+      "symbol": "AVAX",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "ripple",
+        "xrp",
+        "tokenized"
+      ],
+      "newsScore": 5.44,
+      "freshestMinutesAgo": 93,
+      "headlines": [
+        {
+          "source": "CryptoPotato",
+          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
+          "minutesAgo": 236,
+          "catalystPoints": 3.2,
+          "directMention": false
+        },
+        {
+          "source": "NewsBTC",
+          "title": "Tokenized Stocks Reach $262 Million In DeFi, But The Growth Is Not All On Base",
+          "minutesAgo": 93,
+          "catalystPoints": 2.24,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 9.415,
+      "change1hPct": -1.24,
+      "change24hPct": -4.668,
+      "lagVsLeader24h": 2.29,
+      "rsi1h": 23.38,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.86,
+      "bbPctB": -0.03,
+      "bbWidthPct": 5.6,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 60.1,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 9.489,
+      "resistance": 9.906,
+      "roomToResistancePct": 5.22,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 43.8,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.88,
+      "fundingHourlyPct": 0.0002,
+      "totalScore": 53.6,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 9.8387,
+      "slPrice": 9.2267
     },
     {
       "symbol": "ALGO",
@@ -999,113 +577,60 @@
       ],
       "matchedKeywords": [
         "ripple",
-        "xrp"
+        "xrp",
+        "tokenized"
       ],
-      "newsScore": 5.88,
-      "freshestMinutesAgo": 107,
+      "newsScore": 5.44,
+      "freshestMinutesAgo": 93,
       "headlines": [
         {
           "source": "CryptoPotato",
           "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 107,
-          "catalystPoints": 4.48,
+          "minutesAgo": 236,
+          "catalystPoints": 3.2,
           "directMention": false
         },
         {
           "source": "NewsBTC",
-          "title": "XRP ETFs End 13-Week Inflow Run With $1.84 Million In Withdrawals",
-          "minutesAgo": 263,
-          "catalystPoints": 1.4,
+          "title": "Tokenized Stocks Reach $262 Million In DeFi, But The Growth Is Not All On Base",
+          "minutesAgo": 93,
+          "catalystPoints": 2.24,
           "directMention": false
         }
       ],
-      "lastPrice": 0.1083,
-      "change1hPct": 0,
-      "change24hPct": -2.344,
-      "lagVsLeader24h": 0.97,
-      "rsi1h": 24.36,
+      "lastPrice": 0.1071,
+      "change1hPct": -0.93,
+      "change24hPct": -4.46,
+      "lagVsLeader24h": 2.08,
+      "rsi1h": 24.14,
       "hasRsiDivergence": false,
       "atr1hPct": 1.05,
-      "bbPctB": 0.05,
-      "bbWidthPct": 4.82,
+      "bbPctB": 0.01,
+      "bbWidthPct": 5.81,
       "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 45.5,
+      "macdBullishTurn": false,
+      "adx": 49.4,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.108,
+      "support": 0.1077,
       "resistance": 0.113,
-      "roomToResistancePct": 4.34,
+      "roomToResistancePct": 5.51,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 48,
-      "isGreenBounce": true,
+      "takerBuyRatioPct": 44.4,
+      "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.55,
-      "fundingHourlyPct": -0.0021,
-      "totalScore": 72.2,
+      "volRatio": 0.83,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 53.2,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 0.11317,
-      "slPrice": 0.10613
-    },
-    {
-      "symbol": "JUP",
-      "leaderSymbol": "SOL",
-      "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "solana"
-      ],
-      "newsScore": 4.48,
-      "freshestMinutesAgo": 107,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 107,
-          "catalystPoints": 4.48,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.2817,
-      "change1hPct": 0.07,
-      "change24hPct": -3.857,
-      "lagVsLeader24h": 2.94,
-      "rsi1h": 20.57,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.9,
-      "bbPctB": 0.08,
-      "bbWidthPct": 5.57,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 64.3,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.2804,
-      "resistance": 0.2965,
-      "roomToResistancePct": 5.25,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 46.2,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.18,
-      "fundingHourlyPct": 0.0002,
-      "totalScore": 68.5,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.29438,
-      "slPrice": 0.27607
+      "tpPrice": 0.11192,
+      "slPrice": 0.10496
     },
     {
       "symbol": "PYTH",
@@ -1116,167 +641,121 @@
       "matchedKeywords": [
         "solana"
       ],
-      "newsScore": 4.48,
-      "freshestMinutesAgo": 107,
+      "newsScore": 3.2,
+      "freshestMinutesAgo": 236,
       "headlines": [
         {
           "source": "CryptoPotato",
           "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 107,
-          "catalystPoints": 4.48,
+          "minutesAgo": 236,
+          "catalystPoints": 3.2,
           "directMention": false
         }
       ],
-      "lastPrice": 0.07538,
-      "change1hPct": 0.47,
-      "change24hPct": -7.225,
-      "lagVsLeader24h": 6.3,
-      "rsi1h": 34.85,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.68,
-      "bbPctB": 0.17,
-      "bbWidthPct": 8.52,
+      "lastPrice": 0.07382,
+      "change1hPct": -0.9,
+      "change24hPct": -10.888,
+      "lagVsLeader24h": 8.55,
+      "rsi1h": 32.58,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.64,
+      "bbPctB": 0.07,
+      "bbWidthPct": 9.59,
       "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 32.6,
+      "macdBullishTurn": false,
+      "adx": 33.2,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
       "support": 0.07355,
-      "resistance": 0.08384,
-      "roomToResistancePct": 11.22,
+      "resistance": 0.08377,
+      "roomToResistancePct": 13.48,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 44,
-      "isGreenBounce": true,
+      "takerBuyRatioPct": 42,
+      "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.13,
+      "volRatio": 0.16,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 65.2,
+      "totalScore": 53.4,
       "tpPct": 9,
-      "slPct": 2.77,
-      "tpPrice": 0.082164,
-      "slPrice": 0.073292
-    },
-    {
-      "symbol": "PEPE",
-      "leaderSymbol": "DOGE",
-      "ecosystems": [
-        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
-      ],
-      "matchedKeywords": [
-        "dogecoin",
-        "doge"
-      ],
-      "newsScore": 3.7,
-      "freshestMinutesAgo": 306,
-      "headlines": [
+      "slPct": 2.71,
+      "tpPrice": 0.080464,
+      "slPrice": 0.071819,
+      "realApiVerdicts": [
         {
-          "source": "CryptoPotato",
-          "title": "Analyst Maps Out 3 Reasons to Be Bullish on Dogecoin (DOGE): But Should You Really Be?",
-          "minutesAgo": 306,
-          "catalystPoints": 3.7,
-          "directMention": false
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 95,
+          "reason": "Haber XRP/SOL odaklı, PYTH için bağlamsız ve yanıltıcı."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 82,
+          "reason": "RSI düşük, balina alımı yüksek, destek yakın"
         }
       ],
-      "lastPrice": 0.00000387,
-      "change1hPct": 0.52,
-      "change24hPct": 0,
-      "lagVsLeader24h": -1.54,
-      "rsi1h": 39.13,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.16,
-      "bbPctB": 0.39,
-      "bbWidthPct": 2.16,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 0,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.00000381,
-      "resistance": 0.00000393,
-      "roomToResistancePct": 1.55,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 46.2,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.24,
-      "fundingHourlyPct": 0,
-      "totalScore": 53.7,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.0000040442,
-      "slPrice": 0.0000037926
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 89,
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber XRP/SOL odaklı, PYTH için bağlamsız ve yanıltıcı. | [GPT-120B: LONG %82] RSI düşük, balina alımı yüksek, destek yakın"
     },
     {
-      "symbol": "HBAR",
-      "leaderSymbol": "XRP",
+      "symbol": "RAY",
+      "leaderSymbol": "SOL",
       "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
       ],
       "matchedKeywords": [
-        "ripple",
-        "xrp"
+        "solana"
       ],
-      "newsScore": 5.88,
-      "freshestMinutesAgo": 107,
+      "newsScore": 3.2,
+      "freshestMinutesAgo": 236,
       "headlines": [
         {
           "source": "CryptoPotato",
           "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 107,
-          "catalystPoints": 4.48,
-          "directMention": false
-        },
-        {
-          "source": "NewsBTC",
-          "title": "XRP ETFs End 13-Week Inflow Run With $1.84 Million In Withdrawals",
-          "minutesAgo": 263,
-          "catalystPoints": 1.4,
+          "minutesAgo": 236,
+          "catalystPoints": 3.2,
           "directMention": false
         }
       ],
-      "lastPrice": 0.08544,
-      "change1hPct": -0.67,
-      "change24hPct": 3.652,
-      "lagVsLeader24h": -5.02,
-      "rsi1h": 46.63,
+      "lastPrice": 1.7247,
+      "change1hPct": -1.18,
+      "change24hPct": -3.97,
+      "lagVsLeader24h": 1.63,
+      "rsi1h": 30.43,
       "hasRsiDivergence": false,
-      "atr1hPct": 2.02,
-      "bbPctB": 0.25,
-      "bbWidthPct": 5.87,
+      "atr1hPct": 1.15,
+      "bbPctB": -0.01,
+      "bbWidthPct": 6.6,
       "isSqueeze": false,
       "macdBullishTurn": false,
-      "adx": 1,
-      "ema20AboveEma50": true,
+      "adx": 54.8,
+      "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.08273,
-      "resistance": 0.08953,
-      "roomToResistancePct": 4.79,
+      "support": 1.7352,
+      "resistance": 1.8416,
+      "roomToResistancePct": 6.78,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 44.7,
+      "takerBuyRatioPct": 47.9,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.54,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 41.5,
-      "tpPct": 5.99,
-      "slPct": 3.2,
-      "tpPrice": 0.090558,
-      "slPrice": 0.082706
+      "volRatio": 0.66,
+      "fundingHourlyPct": 0,
+      "totalScore": 42.3,
+      "tpPct": 4.57,
+      "slPct": 2,
+      "tpPrice": 1.8035,
+      "slPrice": 1.6902
     }
   ]
 }

@@ -1,16 +1,16 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 18.10.2026 20:23:19
+**Son Güncelleme:** 18.10.2026 22:32:50
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.030,68 TL`**
-* **Toplam Net Kâr / Zarar:** **`+30,72 TL` (`+%3.07`)**
+* **Şu Anki Toplam Para:** **`1.024,80 TL`**
+* **Toplam Net Kâr / Zarar:** **`+24,84 TL` (`+%2.48`)**
 * **Boşta Bekleyen Nakit:** `515,50 TL`
-* **Coinde Olan Para:** `515,18 TL`
+* **Coinde Olan Para:** `509,30 TL`
 * **Başarılı Satış / Zarar Kes:** `12 Kârlı Satış / 9 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Bağlantı Bekleniyor`
 
@@ -48,8 +48,8 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **DOGE** | `350,22 TL` | `350,59 TL` | **`+0,50 TL (%0.14)`** | 🛡️ ATR Kalkanı (-%2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **SHIB (VURGUN)** | `164,93 TL` | `164,59 TL` | **`-0,34 TL (%-0.2)`** | 🎰 KORUMALI VURGUN SLOTU (-%2.4 ATR Kalkanı | Hedef: +%18) |
+| **DOGE** | `350,22 TL` | `346,72 TL` | **`-3,37 TL (%-0.96)`** | 🛡️ ATR Kalkanı (-%2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **SHIB (VURGUN)** | `164,93 TL` | `162,58 TL` | **`-2,35 TL (%-1.42)`** | 🎰 KORUMALI VURGUN SLOTU (-%2.4 ATR Kalkanı | Hedef: +%18) |
 
 ---
 
