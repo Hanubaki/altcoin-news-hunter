@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-10-19T08:55:19.892Z",
-  "scanDurationMs": 5722,
+  "updatedAt": "2026-10-19T09:00:53.959Z",
+  "scanDurationMs": 6897,
   "bankrollTry": 1000,
   "bankrollUsdt": 28.01,
-  "btc1hChangePct": -0.03,
+  "btc1hChangePct": 0.04,
   "btcCrashAlert": false,
-  "marketBreadthPct": 61,
+  "marketBreadthPct": 57,
   "totalHeadlinesScanned": 52,
   "activeFeeds": [
     "Decrypt (20)",
@@ -13,238 +13,6 @@
     "CryptoPotato (20)"
   ],
   "top4AltcoinPicks": [
-    {
-      "symbol": "HBAR",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "ripple",
-        "xrp"
-      ],
-      "newsScore": 5.44,
-      "freshestMinutesAgo": 157,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 941,
-          "catalystPoints": 3.2,
-          "directMention": false
-        },
-        {
-          "source": "CryptoPotato",
-          "title": "Ripple Price Analysis: What’s Next for XRP After Holding Key Support?",
-          "minutesAgo": 157,
-          "catalystPoints": 2.24,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.08465,
-      "change1hPct": 0.18,
-      "change24hPct": -3.894,
-      "lagVsLeader24h": 5.63,
-      "rsi1h": 51.17,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.26,
-      "bbPctB": 0.48,
-      "bbWidthPct": 6.27,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 5,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.08179,
-      "resistance": 0.08953,
-      "roomToResistancePct": 5.76,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 56.4,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.38,
-      "fundingHourlyPct": 0,
-      "totalScore": 73.5,
-      "tpPct": 6.61,
-      "slPct": 2.08,
-      "tpPrice": 0.090245,
-      "slPrice": 0.082889,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "Haber XRP ve SOL odaklı, HBAR için doğrudan katalizör yok."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 82,
-          "reason": "Balina alımı yüksek, RSI nötr, pozitif yön"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 89,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber XRP ve SOL odaklı, HBAR için doğrudan katalizör yok. | [GPT-120B: LONG %82] Balina alımı yüksek, RSI nötr, pozitif yön"
-    },
-    {
-      "symbol": "PYTH",
-      "leaderSymbol": "SOL",
-      "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "solana"
-      ],
-      "newsScore": 3.2,
-      "freshestMinutesAgo": 941,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 941,
-          "catalystPoints": 3.2,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.07515,
-      "change1hPct": -0.05,
-      "change24hPct": -3.998,
-      "lagVsLeader24h": 6.38,
-      "rsi1h": 53.78,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.72,
-      "bbPctB": 0.66,
-      "bbWidthPct": 5.48,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 8.2,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.07166,
-      "resistance": 0.07972,
-      "roomToResistancePct": 6.08,
-      "aiConsensusCount": 1,
-      "aiConsensusModels": [
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "1/4 AI ONAYLI",
-      "takerBuyRatioPct": 52.5,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.67,
-      "fundingHourlyPct": 0,
-      "totalScore": 44.4,
-      "tpPct": 7.95,
-      "slPct": 2.84,
-      "tpPrice": 0.081124,
-      "slPrice": 0.073016,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 78,
-          "reason": "Haber PYTH ile doğrudan ilgili değil, nötr piyasa verisi."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 82,
-          "reason": "Whale alımı yüksek, RSI destek yakın"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 80,
-      "liveLlmReason": "[Qwen-3.8: WAIT %78] Haber PYTH ile doğrudan ilgili değil, nötr piyasa verisi. | [GPT-120B: LONG %82] Whale alımı yüksek, RSI destek yakın"
-    }
-  ],
-  "allQualifiedOpportunities": [
-    {
-      "symbol": "HBAR",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "ripple",
-        "xrp"
-      ],
-      "newsScore": 5.44,
-      "freshestMinutesAgo": 157,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 941,
-          "catalystPoints": 3.2,
-          "directMention": false
-        },
-        {
-          "source": "CryptoPotato",
-          "title": "Ripple Price Analysis: What’s Next for XRP After Holding Key Support?",
-          "minutesAgo": 157,
-          "catalystPoints": 2.24,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.08465,
-      "change1hPct": 0.18,
-      "change24hPct": -3.894,
-      "lagVsLeader24h": 5.63,
-      "rsi1h": 51.17,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.26,
-      "bbPctB": 0.48,
-      "bbWidthPct": 6.27,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 5,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.08179,
-      "resistance": 0.08953,
-      "roomToResistancePct": 5.76,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 56.4,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.38,
-      "fundingHourlyPct": 0,
-      "totalScore": 73.5,
-      "tpPct": 6.61,
-      "slPct": 2.08,
-      "tpPrice": 0.090245,
-      "slPrice": 0.082889,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "Haber XRP ve SOL odaklı, HBAR için doğrudan katalizör yok."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 82,
-          "reason": "Balina alımı yüksek, RSI nötr, pozitif yön"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 89,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber XRP ve SOL odaklı, HBAR için doğrudan katalizör yok. | [GPT-120B: LONG %82] Balina alımı yüksek, RSI nötr, pozitif yön"
-    },
     {
       "symbol": "RSR",
       "leaderSymbol": "XRP",
@@ -273,51 +41,71 @@
           "directMention": false
         }
       ],
-      "lastPrice": 0.001837,
-      "change1hPct": -0.33,
-      "change24hPct": -7.222,
-      "lagVsLeader24h": 8.96,
-      "rsi1h": 40.57,
+      "lastPrice": 0.001831,
+      "change1hPct": -0.27,
+      "change24hPct": -8.082,
+      "lagVsLeader24h": 9.52,
+      "rsi1h": 46.92,
       "hasRsiDivergence": false,
-      "atr1hPct": 1.75,
+      "atr1hPct": 1.52,
       "bbPctB": 0.09,
-      "bbWidthPct": 5.72,
+      "bbWidthPct": 5.95,
       "isSqueeze": false,
       "macdBullishTurn": false,
-      "adx": 8.1,
+      "adx": 10.3,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
       "support": 0.001831,
-      "resistance": 0.001986,
-      "roomToResistancePct": 8.11,
+      "resistance": 0.001963,
+      "roomToResistancePct": 7.21,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 47.8,
-      "isGreenBounce": true,
+      "takerBuyRatioPct": 45,
+      "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.61,
+      "volRatio": 0.02,
       "fundingHourlyPct": 0,
-      "totalScore": 58.5,
+      "totalScore": 49.5,
       "tpPct": 6.12,
-      "slPct": 2.89,
-      "tpPrice": 0.0019494,
-      "slPrice": 0.0017839
-    },
+      "slPct": 2.51,
+      "tpPrice": 0.0019431,
+      "slPrice": 0.001785,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 75,
+          "reason": "Haber XRP odaklı, RSR için bağlamsız ve nötr."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 78,
+          "reason": "Balina alımı, RSI nötr, destek yakın"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 77,
+      "liveLlmReason": "[Qwen-3.8: WAIT %75] Haber XRP odaklı, RSR için bağlamsız ve nötr. | [GPT-120B: LONG %78] Balina alımı, RSI nötr, destek yakın"
+    }
+  ],
+  "allQualifiedOpportunities": [
     {
-      "symbol": "PYTH",
-      "leaderSymbol": "SOL",
+      "symbol": "RSR",
+      "leaderSymbol": "XRP",
       "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
-        "solana"
+        "ripple",
+        "xrp"
       ],
-      "newsScore": 3.2,
-      "freshestMinutesAgo": 941,
+      "newsScore": 5.44,
+      "freshestMinutesAgo": 157,
       "headlines": [
         {
           "source": "CryptoPotato",
@@ -325,57 +113,65 @@
           "minutesAgo": 941,
           "catalystPoints": 3.2,
           "directMention": false
+        },
+        {
+          "source": "CryptoPotato",
+          "title": "Ripple Price Analysis: What’s Next for XRP After Holding Key Support?",
+          "minutesAgo": 157,
+          "catalystPoints": 2.24,
+          "directMention": false
         }
       ],
-      "lastPrice": 0.07515,
-      "change1hPct": -0.05,
-      "change24hPct": -3.998,
-      "lagVsLeader24h": 6.38,
-      "rsi1h": 53.78,
+      "lastPrice": 0.001831,
+      "change1hPct": -0.27,
+      "change24hPct": -8.082,
+      "lagVsLeader24h": 9.52,
+      "rsi1h": 46.92,
       "hasRsiDivergence": false,
-      "atr1hPct": 1.72,
-      "bbPctB": 0.66,
-      "bbWidthPct": 5.48,
+      "atr1hPct": 1.52,
+      "bbPctB": 0.09,
+      "bbWidthPct": 5.95,
       "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 8.2,
+      "macdBullishTurn": false,
+      "adx": 10.3,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.07166,
-      "resistance": 0.07972,
-      "roomToResistancePct": 6.08,
-      "aiConsensusCount": 1,
+      "support": 0.001831,
+      "resistance": 0.001963,
+      "roomToResistancePct": 7.21,
+      "aiConsensusCount": 2,
       "aiConsensusModels": [
+        "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
-      "aiConsensusLabel": "1/4 AI ONAYLI",
-      "takerBuyRatioPct": 52.5,
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 45,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.67,
+      "volRatio": 0.02,
       "fundingHourlyPct": 0,
-      "totalScore": 44.4,
-      "tpPct": 7.95,
-      "slPct": 2.84,
-      "tpPrice": 0.081124,
-      "slPrice": 0.073016,
+      "totalScore": 49.5,
+      "tpPct": 6.12,
+      "slPct": 2.51,
+      "tpPrice": 0.0019431,
+      "slPrice": 0.001785,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
           "decision": "WAIT",
-          "confidence": 78,
-          "reason": "Haber PYTH ile doğrudan ilgili değil, nötr piyasa verisi."
+          "confidence": 75,
+          "reason": "Haber XRP odaklı, RSR için bağlamsız ve nötr."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
-          "confidence": 82,
-          "reason": "Whale alımı yüksek, RSI destek yakın"
+          "confidence": 78,
+          "reason": "Balina alımı, RSI nötr, destek yakın"
         }
       ],
       "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 80,
-      "liveLlmReason": "[Qwen-3.8: WAIT %78] Haber PYTH ile doğrudan ilgili değil, nötr piyasa verisi. | [GPT-120B: LONG %82] Whale alımı yüksek, RSI destek yakın"
+      "liveLlmConfidence": 77,
+      "liveLlmReason": "[Qwen-3.8: WAIT %75] Haber XRP odaklı, RSR için bağlamsız ve nötr. | [GPT-120B: LONG %78] Balina alımı, RSI nötr, destek yakın"
     }
   ]
 }

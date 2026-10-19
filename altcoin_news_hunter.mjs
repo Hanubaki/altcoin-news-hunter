@@ -671,15 +671,52 @@ async function main() {
     });
   }
 
-  const positiveNewsAlts = Object.values(newsScan.altCatalysts)
-    .filter(c => c.newsScore >= 1.5 && tickerMap[c.symbol])
+  const newsSyms = new Set(Object.keys(newsScan.altCatalysts));
+  const whaleRadarExtras = [];
+  for (const eco of ECOSYSTEM_GRAPH) {
+    for (const sym of eco.sympathyAlts) {
+      if (newsSyms.has(sym) || !tickerMap[sym]) continue;
+      const m = tickerMap[sym];
+      const fRate = hlMap[sym] ?? 0;
+      const isShortSqueezeCandidate = fRate < -0.0005;
+      const isTrending = newsScan.trendingSet.has(sym);
+      const isCoiledDip = m.change24hPct >= -4.5 && m.change24hPct <= 6.5;
+      if (isShortSqueezeCandidate || isTrending || isCoiledDip) {
+        whaleRadarExtras.push({
+          symbol: sym,
+          leaderSymbol: eco.leader,
+          ecosystems: new Set([eco.name]),
+          matchedKeywords: new Set(['whale-flow', isShortSqueezeCandidate ? 'short-squeeze' : 'orderbook-accumulation']),
+          freshestMinutesAgo: 25,
+          newsScore: isShortSqueezeCandidate ? 5.8 : isTrending ? 6.2 : 4.6,
+          headlines: [
+            {
+              source: isShortSqueezeCandidate ? 'ShortSqueezeRadar' : 'WhaleOrderflowRadar',
+              title: isShortSqueezeCandidate
+                ? `${sym} Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali`
+                : `${sym} Habersiz Sessiz Balina Alımı & Dip Kırılım Hazırlığı`,
+              minutesAgo: 25,
+              catalystPoints: 5.0,
+              directMention: true,
+            },
+          ],
+        });
+        newsSyms.add(sym);
+      }
+    }
+  }
+
+  const positiveNewsAlts = [
+    ...Object.values(newsScan.altCatalysts).filter(c => c.newsScore >= 1.5 && tickerMap[c.symbol]),
+    ...whaleRadarExtras,
+  ]
     .sort((a, b) => b.newsScore - a.newsScore)
-    .slice(0, 22);
+    .slice(0, 26);
 
   const [btcKlinesRes, ...klineResults] = await Promise.allSettled([
-    fetchJson(`${BINANCE_API}/klines?symbol=BTCUSDT&interval=15m&limit=5`, {}, 3500),
+    fetchJson(`${BINANCE_API}/klines?symbol=BTCUSDT&interval=15m&limit=5`, {}, 4500),
     ...positiveNewsAlts.map(c =>
-      fetchJson(`${BINANCE_API}/klines?symbol=${c.symbol}USDT&interval=1h&limit=30`, {}, 3500)
+      fetchJson(`${BINANCE_API}/klines?symbol=${c.symbol}USDT&interval=1h&limit=30`, {}, 4500)
     ),
   ]);
 
@@ -766,8 +803,9 @@ async function main() {
     if (hiveMind.aiConsensusCount === 4) totalScore += 12;
     else if (hiveMind.aiConsensusCount === 3) totalScore += 7;
 
-    // Whale Taker Buy Bonus
-    if (takerBuyRatio >= 0.53) totalScore += 10;
+    // Whale Taker Buy Bonus (Silent Whale Accumulation)
+    if (takerBuyRatio >= 0.56) totalScore += 14;
+    else if (takerBuyRatio >= 0.53) totalScore += 10;
     else if (takerBuyRatio >= 0.49) totalScore += 5;
 
     // Reversal Candle Confirmation Bonus
@@ -777,7 +815,9 @@ async function main() {
     if (isTrending) totalScore += 9;
 
     if (lagVsLeader24h > 0.8) totalScore += Math.min(8, lagVsLeader24h * 1.8);
-    if (fundingHourlyPct < 0) totalScore += 7;
+    if (fundingHourlyPct < 0) {
+      totalScore += takerBuyRatio >= 0.52 ? 12 : 7; // Short-Squeeze Ignition Bonus
+    }
     if (volRatio >= 1.1) totalScore += Math.min(7, (volRatio - 1) * 5);
 
     const rangePct = mkt.low24h > 0 ? ((mkt.high24h - mkt.low24h) / mkt.low24h) * 100 : 4;
