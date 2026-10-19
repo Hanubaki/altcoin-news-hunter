@@ -716,6 +716,18 @@ async function runTradingCycle() {
 
     const isWeakMarket = (signalsData.marketBreadthPct ?? 50) < 22;
 
+    // Engine #13: Kasa Erime Sigortası (Anti-Meltdown & Consecutive-Loss Shield)
+    state.highWaterMarkUsdt = Number(Math.max(state.highWaterMarkUsdt || state.initialBankrollUsdt, currentTotalEquity).toFixed(4));
+    const drawdownFromPeakPct = state.highWaterMarkUsdt > 0
+      ? ((state.highWaterMarkUsdt - currentTotalEquity) / state.highWaterMarkUsdt) * 100
+      : 0;
+    let consecutiveLosses = 0;
+    for (const ct of state.closedTrades || []) {
+      if (ct.netPnlUsdt < -0.05) consecutiveLosses++;
+      else if (ct.netPnlUsdt > 0.02) break;
+    }
+    const isAntiMeltdownActive = consecutiveLosses >= 2 || drawdownFromPeakPct >= 4.0;
+
     for (const cand of candidates) {
       if (state.openPositions.length >= cfg.MAX_OPEN_POSITIONS) break;
       if (state.cashUsdt < 4.50) break;
@@ -723,9 +735,9 @@ async function runTradingCycle() {
       // Only skip if AI explicitly flagged WAIT with ultra-high trap confidence (>=92) AND whale flow is weak (<53%)
       if (cand.liveLlmDecision === 'WAIT' && (cand.liveLlmConfidence || 0) >= 92 && (cand.takerBuyRatioPct || 50) < 53) continue;
       if (usedLeaders.has(cand.leaderSymbol)) continue;
-      const minReqScore = isWeakMarket ? 78 : 58;
-      const minReqWhale = isWeakMarket ? 54 : 51.5;
-      const maxReqRsi = isWeakMarket ? 45 : (cand.takerBuyRatioPct || 50) >= 54 ? 68 : 56;
+      const minReqScore = isWeakMarket ? 78 : isAntiMeltdownActive ? 72 : 58;
+      const minReqWhale = isWeakMarket ? 54 : isAntiMeltdownActive ? 54.0 : 51.5;
+      const maxReqRsi = isWeakMarket ? 45 : isAntiMeltdownActive ? 48 : (cand.takerBuyRatioPct || 50) >= 54 ? 68 : 56;
       if (cand.totalScore < minReqScore) continue;
       if ((cand.rsi1h || 50) > maxReqRsi) continue; // Reject top/overbought entries
       if ((cand.takerBuyRatioPct || 50) < minReqWhale) continue;
@@ -745,8 +757,9 @@ async function runTradingCycle() {
         continue;
       }
 
-      // Engine #8: High-Utilization Auto-Compounding Sizing (42% for 80+ score, 36% for 68+, 32% otherwise)
-      const convictionPct = cand.totalScore >= 80 ? 0.42 : cand.totalScore >= 68 ? 0.36 : 0.32;
+      // Engine #8 + #13: Auto-Compounding Sizing with Anti-Meltdown Throttle (cuts risk by 40% during a 2-loss streak)
+      const baseConvictionPct = cand.totalScore >= 80 ? 0.42 : cand.totalScore >= 68 ? 0.36 : 0.32;
+      const convictionPct = isAntiMeltdownActive ? Number((baseConvictionPct * 0.6).toFixed(3)) : baseConvictionPct;
       const targetAllocUsdt = Math.floor(currentTotalEquity * convictionPct * 100) / 100;
       const availCashUsdt = Math.floor(Math.max(0, state.cashUsdt) * 100) / 100;
       const costUsdt = Number(Math.min(targetAllocUsdt, availCashUsdt).toFixed(2));
