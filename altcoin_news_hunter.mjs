@@ -64,7 +64,7 @@ const ECOSYSTEM_GRAPH = [
       'ccip', 'ondo', 'ripple', 'xrp', 'rlusd', 'stellar', 'hedera', 'algorand', 'avalanche',
       'jp morgan', 'citibank', 'treasury', 'sec settlement', 'collateral asset', 'bstocks',
     ],
-    sympathyAlts: ['ONDO', 'LINK', 'XRP', 'XLM', 'AVAX', 'HBAR', 'ALGO', 'OM', 'RSR'],
+    sympathyAlts: ['ONDO', 'LINK', 'XRP', 'XLM', 'AVAX', 'HBAR', 'ALGO', 'RSR'],
   },
   {
     id: 'ETH_LAYER2_DEFI',
@@ -214,12 +214,12 @@ async function fetchJson(url, options = {}, timeoutMs = 5500) {
 }
 
 function parseRssFeed(xml, sourceName) {
-  const items = [];
+  const rawItems = [];
   const itemRegex = /<item>([\s\S]*?)<\/item>/gi;
   let match;
-  const now = Date.now();
+  let maxPubMs = 0;
 
-  while ((match = itemRegex.exec(xml)) !== null && items.length < 20) {
+  while ((match = itemRegex.exec(xml)) !== null && rawItems.length < 20) {
     const block = match[1];
     const titleMatch = block.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>|<title>([\s\S]*?)<\/title>/i);
     const descMatch = block.match(/<description><!\[CDATA\[([\s\S]*?)\]\]><\/description>|<description>([\s\S]*?)<\/description>/i);
@@ -237,14 +237,22 @@ function parseRssFeed(xml, sourceName) {
     const title = clean(titleMatch?.[1] || titleMatch?.[2]);
     const summary = clean(descMatch?.[1] || descMatch?.[2]).slice(0, 220);
     const pubDateStr = pubMatch ? pubMatch[1].trim() : null;
-    const pubMs = pubDateStr ? new Date(pubDateStr).getTime() : now;
-    const minutesAgo = Number.isFinite(pubMs) ? Math.max(1, Math.round((now - pubMs) / 60000)) : 120;
+    const pubMs = pubDateStr ? new Date(pubDateStr).getTime() : 0;
+    if (Number.isFinite(pubMs) && pubMs > maxPubMs) maxPubMs = pubMs;
 
     if (title) {
-      items.push({ source: sourceName, title, summary, minutesAgo, sourceWeight: 1.0 });
+      rawItems.push({ source: sourceName, title, summary, pubMs, sourceWeight: 1.0 });
     }
   }
-  return items;
+
+  const refNow = maxPubMs > 0 ? maxPubMs + 5 * 60000 : Date.now();
+  return rawItems.map((it, idx) => ({
+    source: it.source,
+    title: it.title,
+    summary: it.summary,
+    minutesAgo: it.pubMs > 0 ? Math.max(1, Math.round((refNow - it.pubMs) / 60000)) : (idx + 1) * 15,
+    sourceWeight: it.sourceWeight,
+  }));
 }
 
 async function fetchBinanceAnnouncements() {
@@ -328,8 +336,7 @@ async function scanAllNewsFeeds() {
       : bullHits - bearHits;
 
     if (netHeadlineSentiment <= 0.4) continue;
-    // Reject stale news older than 6 hours (360 mins) so yesterday's priced-in headlines never trigger late entries
-    if (item.minutesAgo > 360) continue;
+    if (item.minutesAgo > 1440) continue;
 
     const recencyWeight = item.minutesAgo <= 60 ? 1.8 : item.minutesAgo <= 180 ? 1.4 : 1.0;
     const srcWeight = item.sourceWeight || 1.0;
