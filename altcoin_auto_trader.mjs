@@ -38,8 +38,8 @@ function loadEnv() {
     BINANCE_API_KEY: process.env.BINANCE_API_KEY || '',
     BINANCE_SECRET_KEY: process.env.BINANCE_SECRET_KEY || '',
     LIVE_TRADING: process.env.LIVE_TRADING === 'true',
-    BANKROLL_TRY: Number(process.env.BANKROLL_TRY || 1000),
-    BANKROLL_USDT: Number(process.env.BANKROLL_USDT || 28.01),
+    BANKROLL_TRY: Number(process.env.BANKROLL_TRY || 3000),
+    BANKROLL_USDT: Number(process.env.BANKROLL_USDT || 84.03),
     MAX_OPEN_POSITIONS: Number(process.env.MAX_OPEN_POSITIONS || 3),
     SCAN_INTERVAL_SECONDS: Number(process.env.SCAN_INTERVAL_SECONDS || 45),
     WHATSAPP_PHONE: process.env.WHATSAPP_PHONE || '',
@@ -207,7 +207,7 @@ function writeCleanTlReport(state) {
 
 ## 1. GENEL KASA DURUMU
 
-* **Başlangıç Parası:** \`1.000,00 TL\`
+* **Başlangıç Parası:** \`${toTL(state.initialBankrollUsdt)} TL\`
 * **Şu Anki Toplam Para:** **\`${totalTry} TL\`**
 * **Toplam Net Kâr / Zarar:** **\`${netPnlSign}${toTL(state.totalPnlUsdt)} TL\` (\`${netPnlSign}%${state.totalPnlPct}\`)**
 * **Boşta Bekleyen Nakit:** \`${cashTry} TL\`
@@ -1151,7 +1151,7 @@ async function main() {
   const s = result.state;
 
   console.log('\n================================================================================');
-  console.log(`💰 [TL KASA ÖZETİ v7.0] Başlangıç: 1.000,00 TL -> Şu Anki Toplam: ${toTL(s.totalEquityUsdt)} TL`);
+  console.log(`💰 [TL KASA ÖZETİ v7.0] Başlangıç: ${toTL(s.initialBankrollUsdt)} TL -> Şu Anki Toplam: ${toTL(s.totalEquityUsdt)} TL`);
   console.log(`   Net Kâr/Zarar: ${s.totalPnlUsdt >= 0 ? '+' : ''}${toTL(s.totalPnlUsdt)} TL (%${s.totalPnlPct}) | Boştaki Nakit: ${toTL(s.cashUsdt)} TL`);
   console.log('================================================================================');
 

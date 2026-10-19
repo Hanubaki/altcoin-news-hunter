@@ -1,16 +1,16 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 19.10.2026 12:11:25
+**Son Güncelleme:** 19.10.2026 12:17:27
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
-* **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.029,07 TL`**
-* **Toplam Net Kâr / Zarar:** **`+29,12 TL` (`+%2.91`)**
-* **Boşta Bekleyen Nakit:** `101,38 TL`
-* **Coinde Olan Para:** `927,69 TL`
+* **Başlangıç Parası:** `2.999,87 TL`
+* **Şu Anki Toplam Para:** **`3.089,67 TL`**
+* **Toplam Net Kâr / Zarar:** **`+89,80 TL` (`+%2.99`)**
+* **Boşta Bekleyen Nakit:** `304,14 TL`
+* **Coinde Olan Para:** `2.785,53 TL`
 * **Başarılı Satış / Zarar Kes:** `12 Kârlı Satış / 10 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Bağlantı Bekleniyor`
 
@@ -20,28 +20,28 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
-| **DOGE** | `350,22 TL` | `349,15 TL` | **`-1,07 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.27) |
-| **FLOKI** | `164,93 TL` | `164,67 TL` | **`-0,26 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.17) |
-| **WLD** | `164,58 TL` | `162,64 TL` | **`-1,93 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-1.18) |
-| **TAO** | `245,26 TL` | `244,19 TL` | **`-1,07 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.45) |
-| **HBAR** | `233,05 TL` | `237,13 TL` | **`+4,08 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%1.71) |
-| **HBAR** | `155,37 TL` | `160,53 TL` | **`+5,16 TL`** | 💰 1. KADEME (%40) SIFIR RİSK KÂR AL (+%3.28) |
-| **BOME** | `185,28 TL` | `180,69 TL` | **`-4,59 TL`** | 🛡️ DAR STOP-LOSS (%-2.48) |
-| **SUI** | `341,65 TL` | `336,59 TL` | **`-5,06 TL`** | 🛡️ DAR STOP-LOSS (%-1.48) |
-| **XRP** | `185,28 TL` | `185,36 TL` | **`+0,08 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.04) |
-| **WIF** | `820,74 TL` | `826,18 TL` | **`+5,44 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.66) |
-| **DOGE** | `185,64 TL` | `183,22 TL` | **`-2,42 TL`** | 🛡️ DAR STOP-LOSS (%-1.31) |
-| **DOGE** | `189,57 TL` | `186,75 TL` | **`-2,82 TL`** | 🛡️ DAR STOP-LOSS (%-1.48) |
-| **BOME** | `399,48 TL` | `391,56 TL` | **`-7,92 TL`** | 🛡️ DAR STOP-LOSS (%-2) |
-| **FLOKI** | `401,63 TL` | `390,50 TL` | **`-11,12 TL`** | 🛡️ DAR STOP-LOSS (%-2.77) |
-| **AVAX** | `66,94 TL` | `71,91 TL` | **`+4,97 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (%7.4) |
-| **AVAX** | `66,94 TL` | `71,94 TL` | **`+5,00 TL`** | 🚀 2. KADEME (%30) DEV KÂR AL (+%7.5 | Kalan %30 Sınırsız Roket) |
-| **RAY** | `173,93 TL` | `182,42 TL` | **`+8,49 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (%4.87) |
-| **RAY** | `115,95 TL` | `123,28 TL` | **`+7,33 TL`** | 💰 1. KADEME (%40) KÂR AL (+%6.33) |
-| **FET** | `292,03 TL` | `293,16 TL` | **`+1,13 TL`** | 🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — %0.39) |
-| **FET** | `332,01 TL` | `332,21 TL` | **`+0,20 TL`** | 🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — %0.05) |
-| **AVAX** | `133,88 TL` | `141,15 TL` | **`+7,27 TL`** | 💰 %50 KADEMELİ KÂR AL (+%5.44 | Kalan %50 Uçuş Modunda) |
-| **PENDLE** | `267,75 TL` | `287,85 TL` | **`+20,10 TL`** | HEDEF KÂR AL (TP +7.51%) |
+| **DOGE** | `1.050,65 TL` | `1.047,45 TL` | **`-3,20 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.27) |
+| **FLOKI** | `494,80 TL` | `494,01 TL` | **`-0,79 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.17) |
+| **WLD** | `493,73 TL` | `487,93 TL` | **`-5,80 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-1.18) |
+| **TAO** | `735,78 TL` | `732,57 TL` | **`-3,20 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.45) |
+| **HBAR** | `699,15 TL` | `711,39 TL` | **`+12,24 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%1.71) |
+| **HBAR** | `466,10 TL` | `481,58 TL` | **`+15,48 TL`** | 💰 1. KADEME (%40) SIFIR RİSK KÂR AL (+%3.28) |
+| **BOME** | `555,85 TL` | `542,08 TL` | **`-13,77 TL`** | 🛡️ DAR STOP-LOSS (%-2.48) |
+| **SUI** | `1.024,95 TL` | `1.009,78 TL` | **`-15,17 TL`** | 🛡️ DAR STOP-LOSS (%-1.48) |
+| **XRP** | `555,85 TL` | `556,08 TL` | **`+0,24 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.04) |
+| **WIF** | `2.462,23 TL` | `2.478,55 TL` | **`+16,32 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.66) |
+| **DOGE** | `556,92 TL` | `549,65 TL` | **`-7,27 TL`** | 🛡️ DAR STOP-LOSS (%-1.31) |
+| **DOGE** | `568,70 TL` | `560,25 TL` | **`-8,45 TL`** | 🛡️ DAR STOP-LOSS (%-1.48) |
+| **BOME** | `1.198,45 TL` | `1.174,69 TL` | **`-23,75 TL`** | 🛡️ DAR STOP-LOSS (%-2) |
+| **FLOKI** | `1.204,88 TL` | `1.171,50 TL` | **`-33,37 TL`** | 🛡️ DAR STOP-LOSS (%-2.77) |
+| **AVAX** | `200,81 TL` | `215,73 TL` | **`+14,92 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (%7.4) |
+| **AVAX** | `200,81 TL` | `215,81 TL` | **`+14,99 TL`** | 🚀 2. KADEME (%30) DEV KÂR AL (+%7.5 | Kalan %30 Sınırsız Roket) |
+| **RAY** | `521,79 TL` | `547,26 TL` | **`+25,47 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (%4.87) |
+| **RAY** | `347,86 TL` | `369,84 TL` | **`+21,98 TL`** | 💰 1. KADEME (%40) KÂR AL (+%6.33) |
+| **FET** | `876,08 TL` | `879,47 TL` | **`+3,40 TL`** | 🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — %0.39) |
+| **FET** | `996,03 TL` | `996,63 TL` | **`+0,60 TL`** | 🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — %0.05) |
+| **AVAX** | `401,63 TL` | `423,44 TL` | **`+21,82 TL`** | 💰 %50 KADEMELİ KÂR AL (+%5.44 | Kalan %50 Uçuş Modunda) |
+| **PENDLE** | `803,25 TL` | `863,54 TL` | **`+60,29 TL`** | HEDEF KÂR AL (TP +7.51%) |
 
 ---
 
@@ -49,9 +49,9 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **SHIB (VURGUN)** | `164,93 TL` | `168,28 TL` | **`+3,35 TL (%2.03)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
-| **HBAR** | `330,58 TL` | `328,12 TL` | **`-2,37 TL (%-0.72)`** | 🛡️ ATR Kalkanı (-%2.08 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **ID** | `432,68 TL` | `431,29 TL` | **`-1,41 TL (%-0.33)`** | 🛡️ ATR Kalkanı (-%2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **SHIB (VURGUN)** | `494,80 TL` | `504,85 TL` | **`+10,06 TL (%2.03)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
+| **HBAR** | `991,75 TL` | `986,82 TL` | **`-4,67 TL (%-0.47)`** | 🛡️ ATR Kalkanı (-%2.08 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **ID** | `1.298,05 TL` | `1.293,86 TL` | **`-4,23 TL (%-0.33)`** | 🛡️ ATR Kalkanı (-%2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
 
 ---
 

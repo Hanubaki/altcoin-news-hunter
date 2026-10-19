@@ -1,11 +1,11 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-19T09:11:25.889Z",
+  "updatedAt": "2026-10-19T09:17:27.674Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
-  "initialBankrollUsdt": 28.01,
-  "initialBankrollTry": 1000,
-  "cashUsdt": 2.8398,
-  "realizedPnlUsdt": 0.8256,
+  "initialBankrollUsdt": 84.03,
+  "initialBankrollTry": 3000,
+  "cashUsdt": 8.5194,
+  "realizedPnlUsdt": 2.4768,
   "winCount": 12,
   "lossCount": 10,
   "openPositions": [
@@ -27,9 +27,9 @@
       "entryPrice": 0.00000492,
       "currentPrice": 0.00000502,
       "highestPrice": 0.00000504,
-      "qty": 939000,
-      "costUsdt": 4.62,
-      "costTry": 165,
+      "qty": 2817000,
+      "costUsdt": 13.86,
+      "costTry": 495,
       "takeProfitPrice": 0.0000058056,
       "stopLossPrice": 0.0000049594,
       "tpPct": 18,
@@ -38,7 +38,7 @@
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0939,
+      "unrealizedPnlUsdt": 0.2817,
       "unrealizedPnlPct": 2.03
     },
     {
@@ -56,11 +56,11 @@
       "obImbalance": 0.05,
       "entryTime": "2026-10-19T08:42:04.565Z",
       "entryPrice": 0.08501,
-      "currentPrice": 0.0844,
+      "currentPrice": 0.08461,
       "highestPrice": 0.08501,
-      "qty": 108.9,
-      "costUsdt": 9.26,
-      "costTry": 331,
+      "qty": 326.7,
+      "costUsdt": 27.78,
+      "costTry": 992,
       "takeProfitPrice": 0.090629,
       "stopLossPrice": 0.083242,
       "tpPct": 6.61,
@@ -69,8 +69,8 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0664,
-      "unrealizedPnlPct": -0.72
+      "unrealizedPnlUsdt": -0.1307,
+      "unrealizedPnlPct": -0.47
     },
     {
       "id": "pos_1792401085560_ID",
@@ -89,9 +89,9 @@
       "entryPrice": 0.0307,
       "currentPrice": 0.0306,
       "highestPrice": 0.0307,
-      "qty": 394.8,
-      "costUsdt": 12.12,
-      "costTry": 433,
+      "qty": 1184.4,
+      "costUsdt": 36.36,
+      "costTry": 1298,
       "takeProfitPrice": 0.032174,
       "stopLossPrice": 0.030086,
       "tpPct": 4.8,
@@ -100,7 +100,7 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0395,
+      "unrealizedPnlUsdt": -0.1184,
       "unrealizedPnlPct": -0.33
     }
   ],
@@ -122,8 +122,8 @@
       "entryPrice": 0.07783,
       "currentPrice": 0.07762,
       "highestPrice": 0.07794,
-      "qty": 126,
-      "costUsdt": 9.81,
+      "qty": 378,
+      "costUsdt": 29.43,
       "costTry": 350,
       "takeProfitPrice": 0.081332,
       "stopLossPrice": 0.076273,
@@ -138,7 +138,7 @@
       "exitPrice": 0.07762,
       "exitTime": "2026-10-18T21:53:22.755Z",
       "exitReason": "⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.27)",
-      "netPnlUsdt": -0.0299,
+      "netPnlUsdt": -0.0897,
       "netPnlTry": -1.07
     },
     {
@@ -159,8 +159,8 @@
       "entryPrice": 0.00002361,
       "currentPrice": 0.00002357,
       "highestPrice": 0.00002361,
-      "qty": 195700,
-      "costUsdt": 4.62,
+      "qty": 587100,
+      "costUsdt": 13.86,
       "costTry": 165,
       "takeProfitPrice": 0.00002786,
       "stopLossPrice": 0.000023043,
@@ -175,7 +175,7 @@
       "exitPrice": 0.00002357,
       "exitTime": "2026-10-18T10:23:15.334Z",
       "exitReason": "⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.17)",
-      "netPnlUsdt": -0.0074,
+      "netPnlUsdt": -0.0222,
       "netPnlTry": -0.26
     },
     {
@@ -196,8 +196,8 @@
       "entryPrice": 0.4997,
       "currentPrice": 0.4938,
       "highestPrice": 0.5047,
-      "qty": 9.226,
-      "costUsdt": 4.61,
+      "qty": 27.678,
+      "costUsdt": 13.83,
       "costTry": 165,
       "takeProfitPrice": 0.58965,
       "stopLossPrice": 0.48661,
@@ -212,7 +212,7 @@
       "exitPrice": 0.4938,
       "exitTime": "2026-10-18T01:01:52.864Z",
       "exitReason": "⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-1.18)",
-      "netPnlUsdt": -0.0542,
+      "netPnlUsdt": -0.1626,
       "netPnlTry": -1.93
     },
     {
@@ -232,8 +232,8 @@
       "entryPrice": 268.6,
       "currentPrice": 267.4,
       "highestPrice": 272,
-      "qty": 0.02558,
-      "costUsdt": 6.87,
+      "qty": 0.07674,
+      "costUsdt": 20.61,
       "costTry": 245,
       "takeProfitPrice": 280.69,
       "stopLossPrice": 262.15,
@@ -248,7 +248,7 @@
       "exitPrice": 267.4,
       "exitTime": "2026-10-17T23:00:34.235Z",
       "exitReason": "⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.45)",
-      "netPnlUsdt": -0.0299,
+      "netPnlUsdt": -0.0897,
       "netPnlTry": -1.07
     },
     {
@@ -268,8 +268,8 @@
       "entryPrice": 0.08283,
       "currentPrice": 0.08425,
       "highestPrice": 0.08563,
-      "qty": 78.84,
-      "costUsdt": 6.528,
+      "qty": 236.52,
+      "costUsdt": 19.584,
       "costTry": 233,
       "takeProfitPrice": 0.086557,
       "stopLossPrice": 0.084523,
@@ -284,7 +284,7 @@
       "exitPrice": 0.08425,
       "exitTime": "2026-10-17T23:00:33.853Z",
       "exitReason": "🚀 UÇUŞ MODU KÂR KİLİDİ (+%1.71)",
-      "netPnlUsdt": 0.1143,
+      "netPnlUsdt": 0.3429,
       "netPnlTry": 4.08
     },
     {
@@ -292,8 +292,8 @@
       "entryPrice": 0.08283,
       "exitPrice": 0.08555,
       "exitTime": "2026-10-17T20:59:52.158Z",
-      "costUsdt": 4.352,
-      "netPnlUsdt": 0.1445,
+      "costUsdt": 13.056,
+      "netPnlUsdt": 0.4335,
       "netPnlTry": 5.16,
       "exitReason": "💰 1. KADEME (%40) SIFIR RİSK KÂR AL (+%3.28)"
     },
@@ -315,8 +315,8 @@
       "entryPrice": 0.0006624,
       "currentPrice": 0.000646,
       "highestPrice": 0.0006624,
-      "qty": 7835,
-      "costUsdt": 5.19,
+      "qty": 23505,
+      "costUsdt": 15.57,
       "costTry": 185,
       "takeProfitPrice": 0.00078163,
       "stopLossPrice": 0.0006458,
@@ -331,7 +331,7 @@
       "exitPrice": 0.000646,
       "exitTime": "2026-10-17T16:24:21.627Z",
       "exitReason": "🛡️ DAR STOP-LOSS (%-2.48)",
-      "netPnlUsdt": -0.1286,
+      "netPnlUsdt": -0.3858,
       "netPnlTry": -4.59
     },
     {
@@ -351,8 +351,8 @@
       "entryPrice": 1.0059,
       "currentPrice": 0.991,
       "highestPrice": 1.0059,
-      "qty": 9.514,
-      "costUsdt": 9.57,
+      "qty": 28.542,
+      "costUsdt": 28.71,
       "costTry": 342,
       "takeProfitPrice": 1.0512,
       "stopLossPrice": 0.99333,
@@ -367,7 +367,7 @@
       "exitPrice": 0.991,
       "exitTime": "2026-10-17T13:05:11.367Z",
       "exitReason": "🛡️ DAR STOP-LOSS (%-1.48)",
-      "netPnlUsdt": -0.1416,
+      "netPnlUsdt": -0.4248,
       "netPnlTry": -5.06
     },
     {
@@ -388,8 +388,8 @@
       "entryPrice": 1.2969,
       "currentPrice": 1.2974,
       "highestPrice": 1.3106,
-      "qty": 4.002,
-      "costUsdt": 5.19,
+      "qty": 12.006,
+      "costUsdt": 15.57,
       "costTry": 185,
       "takeProfitPrice": 1.5303,
       "stopLossPrice": 1.3008,
@@ -404,7 +404,7 @@
       "exitPrice": 1.2974,
       "exitTime": "2026-10-17T13:05:11.326Z",
       "exitReason": "🔒 SIFIR RİSK KÂR KİLİDİ (+%0.04)",
-      "netPnlUsdt": 0.0022,
+      "netPnlUsdt": 0.0066,
       "netPnlTry": 0.08
     },
     {
@@ -424,8 +424,8 @@
       "entryPrice": 0.20047,
       "currentPrice": 0.2018,
       "highestPrice": 0.2045,
-      "qty": 114.68,
-      "costUsdt": 22.99,
+      "qty": 344.04,
+      "costUsdt": 68.97,
       "costTry": 821,
       "takeProfitPrice": 0.20743,
       "stopLossPrice": 0.20227,
@@ -441,7 +441,7 @@
       "exitPrice": 0.2018,
       "exitTime": "2026-10-17T09:20:39.256Z",
       "exitReason": "🔒 SIFIR RİSK KÂR KİLİDİ (+%0.66)",
-      "netPnlUsdt": 0.1524,
+      "netPnlUsdt": 0.4572,
       "netPnlTry": 5.44
     },
     {
@@ -462,8 +462,8 @@
       "entryPrice": 0.081,
       "currentPrice": 0.07994,
       "highestPrice": 0.08107,
-      "qty": 64.2,
-      "costUsdt": 5.2,
+      "qty": 192.6,
+      "costUsdt": 15.6,
       "costTry": 186,
       "takeProfitPrice": 0.09558,
       "stopLossPrice": 0.079988,
@@ -478,7 +478,7 @@
       "exitPrice": 0.07994,
       "exitTime": "2026-10-16T19:42:51.160Z",
       "exitReason": "🛡️ DAR STOP-LOSS (%-1.31)",
-      "netPnlUsdt": -0.0679,
+      "netPnlUsdt": -0.2037,
       "netPnlTry": -2.42
     },
     {
@@ -499,8 +499,8 @@
       "entryPrice": 0.08221,
       "currentPrice": 0.08099,
       "highestPrice": 0.08231,
-      "qty": 64.59,
-      "costUsdt": 5.31,
+      "qty": 193.77,
+      "costUsdt": 15.93,
       "costTry": 190,
       "takeProfitPrice": 0.097008,
       "stopLossPrice": 0.081182,
@@ -515,7 +515,7 @@
       "exitPrice": 0.08099,
       "exitTime": "2026-10-16T16:38:41.334Z",
       "exitReason": "🛡️ DAR STOP-LOSS (%-1.48)",
-      "netPnlUsdt": -0.0789,
+      "netPnlUsdt": -0.2367,
       "netPnlTry": -2.82
     },
     {
@@ -535,8 +535,8 @@
       "entryPrice": 0.0006896,
       "currentPrice": 0.0006758,
       "highestPrice": 0.0006951,
-      "qty": 16230,
-      "costUsdt": 11.19,
+      "qty": 48690,
+      "costUsdt": 33.57,
       "costTry": 399,
       "takeProfitPrice": 0.00072063,
       "stopLossPrice": 0.00068098,
@@ -551,7 +551,7 @@
       "exitPrice": 0.0006758,
       "exitTime": "2026-10-16T16:38:41.334Z",
       "exitReason": "🛡️ DAR STOP-LOSS (%-2)",
-      "netPnlUsdt": -0.2218,
+      "netPnlUsdt": -0.6654,
       "netPnlTry": -7.92
     },
     {
@@ -571,8 +571,8 @@
       "entryPrice": 0.00002489,
       "currentPrice": 0.0000242,
       "highestPrice": 0.0000249,
-      "qty": 452000,
-      "costUsdt": 11.25,
+      "qty": 1356000,
+      "costUsdt": 33.75,
       "costTry": 402,
       "takeProfitPrice": 0.000026132,
       "stopLossPrice": 0.000024579,
@@ -587,7 +587,7 @@
       "exitPrice": 0.0000242,
       "exitTime": "2026-10-16T16:38:41.265Z",
       "exitReason": "🛡️ DAR STOP-LOSS (%-2.77)",
-      "netPnlUsdt": -0.3116,
+      "netPnlUsdt": -0.9348,
       "netPnlTry": -11.12
     },
     {
@@ -604,8 +604,8 @@
       "entryPrice": 9.549,
       "currentPrice": 10.256,
       "highestPrice": 10.375,
-      "qty": 0.1964,
-      "costUsdt": 1.875,
+      "qty": 0.5892,
+      "costUsdt": 5.625,
       "costTry": 67,
       "takeProfitPrice": 10.159,
       "stopLossPrice": 10.261,
@@ -620,7 +620,7 @@
       "exitPrice": 10.256,
       "exitTime": "2026-10-16T12:14:54.220Z",
       "exitReason": "🚀 UÇUŞ MODU KÂR KİLİDİ (%7.4)",
-      "netPnlUsdt": 0.1393,
+      "netPnlUsdt": 0.4179,
       "netPnlTry": 4.97
     },
     {
@@ -628,8 +628,8 @@
       "entryPrice": 9.549,
       "exitPrice": 10.265,
       "exitTime": "2026-10-16T12:12:41.680Z",
-      "costUsdt": 1.875,
-      "netPnlUsdt": 0.14,
+      "costUsdt": 5.625,
+      "netPnlUsdt": 0.42,
       "netPnlTry": 5,
       "exitReason": "🚀 2. KADEME (%30) DEV KÂR AL (+%7.5 | Kalan %30 Sınırsız Roket)"
     },
@@ -650,8 +650,8 @@
       "entryPrice": 1.838,
       "currentPrice": 1.9275,
       "highestPrice": 1.9653,
-      "qty": 2.651,
-      "costUsdt": 4.872,
+      "qty": 7.953,
+      "costUsdt": 14.616,
       "costTry": 174,
       "takeProfitPrice": 1.9347,
       "stopLossPrice": 1.9358,
@@ -666,7 +666,7 @@
       "exitPrice": 1.9275,
       "exitTime": "2026-10-16T12:05:38.565Z",
       "exitReason": "🚀 UÇUŞ MODU KÂR KİLİDİ (%4.87)",
-      "netPnlUsdt": 0.2378,
+      "netPnlUsdt": 0.7134,
       "netPnlTry": 8.49
     },
     {
@@ -674,8 +674,8 @@
       "entryPrice": 1.838,
       "exitPrice": 1.9543,
       "exitTime": "2026-10-16T11:32:06.829Z",
-      "costUsdt": 3.248,
-      "netPnlUsdt": 0.2052,
+      "costUsdt": 9.744,
+      "netPnlUsdt": 0.6156,
       "netPnlTry": 7.33,
       "exitReason": "💰 1. KADEME (%40) KÂR AL (+%6.33)"
     },
@@ -696,8 +696,8 @@
       "entryPrice": 0.2048,
       "currentPrice": 0.2056,
       "highestPrice": 0.2056,
-      "qty": 39.94,
-      "costUsdt": 8.18,
+      "qty": 119.82,
+      "costUsdt": 24.54,
       "costTry": 292,
       "takeProfitPrice": 0.21957,
       "stopLossPrice": 0.20105,
@@ -712,7 +712,7 @@
       "exitPrice": 0.2056,
       "exitTime": "2026-10-16T06:41:43.477Z",
       "exitReason": "🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — %0.39)",
-      "netPnlUsdt": 0.0317,
+      "netPnlUsdt": 0.0951,
       "netPnlTry": 1.13
     },
     {
@@ -731,8 +731,8 @@
       "entryPrice": 0.2033,
       "currentPrice": 0.2034,
       "highestPrice": 0.2041,
-      "qty": 45.75,
-      "costUsdt": 9.3,
+      "qty": 137.25,
+      "costUsdt": 27.9,
       "costTry": 332,
       "takeProfitPrice": 0.21796,
       "stopLossPrice": 0.19923,
@@ -746,7 +746,7 @@
       "exitPrice": 0.2034,
       "exitTime": "2026-10-16T06:27:52.935Z",
       "exitReason": "🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — %0.05)",
-      "netPnlUsdt": 0.0056,
+      "netPnlUsdt": 0.0168,
       "netPnlTry": 0.2
     },
     {
@@ -754,8 +754,8 @@
       "entryPrice": 9.549,
       "exitPrice": 10.068,
       "exitTime": "2026-10-16T05:37:32.962Z",
-      "costUsdt": 3.75,
-      "netPnlUsdt": 0.2037,
+      "costUsdt": 11.25,
+      "netPnlUsdt": 0.6111,
       "netPnlTry": 7.27,
       "exitReason": "💰 %50 KADEMELİ KÂR AL (+%5.44 | Kalan %50 Uçuş Modunda)"
     },
@@ -773,8 +773,8 @@
       "entryPrice": 1.932,
       "currentPrice": 2.077,
       "highestPrice": 2.077,
-      "qty": 3.882,
-      "costUsdt": 7.5,
+      "qty": 11.646,
+      "costUsdt": 22.5,
       "costTry": 268,
       "takeProfitPrice": 2.0769,
       "stopLossPrice": 2.0396,
@@ -786,7 +786,7 @@
       "exitPrice": 2.077,
       "exitTime": "2026-10-16T05:19:38.290Z",
       "exitReason": "HEDEF KÂR AL (TP +7.51%)",
-      "netPnlUsdt": 0.5629,
+      "netPnlUsdt": 1.6887,
       "netPnlTry": 20.1
     }
   ],
@@ -832,10 +832,10 @@
     "[22:42:51] ⚖️ [Tahta Kalkanı] XRP önünde satış duvarı (-0.37) var, pas geçildi.",
     "[22:42:51] 🏁 [POZİSYON KAPANDI] DOGE @ $0.07994 | 🔒 SIFIR RİSK KÂR KİLİDİ (%-1.31) | Net: -2,42 TL"
   ],
-  "totalEquityUsdt": 28.8256,
-  "totalEquityTry": 1029.07,
-  "totalPnlUsdt": 0.8156,
-  "totalPnlPct": 2.91,
+  "totalEquityUsdt": 86.5455,
+  "totalEquityTry": 3089.67,
+  "totalPnlUsdt": 2.5155,
+  "totalPnlPct": 2.99,
   "cooldowns": {
     "FET": 1792154502952,
     "FLOKI": 1792340594778,
@@ -846,5 +846,5 @@
     "WLD": 1792306912864
   },
   "binanceTrStatus": "Bağlantı Bekleniyor",
-  "lastWhatsAppReportAt": 1792401085889
+  "lastWhatsAppReportAt": 1792401362986
 }
