@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-19T19:35:19.299Z",
+  "updatedAt": "2026-10-19T21:13:03.136Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 84.03,
   "initialBankrollTry": 3000,
@@ -87,21 +87,21 @@
       "obImbalance": -0.02,
       "entryTime": "2026-10-19T16:27:59.657Z",
       "entryPrice": 0.00183,
-      "currentPrice": 0.001856,
-      "highestPrice": 0.001856,
+      "currentPrice": 0.001861,
+      "highestPrice": 0.001861,
       "qty": 11830,
       "costUsdt": 21.64,
       "costTry": 773,
       "takeProfitPrice": 0.0019123,
-      "stopLossPrice": 0.0017868,
+      "stopLossPrice": 0.0018364,
       "tpPct": 4.5,
       "slPct": 2.36,
       "partialTpDone": false,
       "stage2TpDone": false,
-      "trailingActive": false,
+      "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.3076,
-      "unrealizedPnlPct": 1.42
+      "unrealizedPnlUsdt": 0.3667,
+      "unrealizedPnlPct": 1.69
     }
   ],
   "closedTrades": [
@@ -868,10 +868,10 @@
     "[19:24:21] 🏁 [POZİSYON KAPANDI] BOME @ $0.000646 | 🔒 SIFIR RİSK KÂR KİLİDİ (%-2.48) | Net: -4,59 TL",
     "[16:05:11] 🎰 [VURGUN SLOTU AÇILDI] BOME (185,28 TL) @ $0.0006624 | Hedef: +%18 Vurgun | Balina: %52.5"
   ],
-  "totalEquityUsdt": 85.812,
-  "totalEquityTry": 3063.49,
-  "totalPnlUsdt": 1.782,
-  "totalPnlPct": 2.12,
+  "totalEquityUsdt": 85.8711,
+  "totalEquityTry": 3065.6,
+  "totalPnlUsdt": 1.8411,
+  "totalPnlPct": 2.19,
   "cooldowns": {
     "FET": 1792154502952,
     "FLOKI": 1792340594778,
@@ -882,7 +882,7 @@
     "WLD": 1792306912864,
     "HBAR": 1792448879120
   },
-  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: BNB: 0.0004 | ETHW: 0.0010 | TRY: 0.0011)",
-  "lastWhatsAppReportAt": 1792427280446,
+  "binanceTrStatus": "Bağlantı Bekleniyor",
+  "lastWhatsAppReportAt": 1792444339438,
   "highWaterMarkUsdt": 86.652
 }

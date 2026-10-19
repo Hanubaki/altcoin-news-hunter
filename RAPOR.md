@@ -1,18 +1,18 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 19.10.2026 22:35:19
+**Son Güncelleme:** 20.10.2026 00:13:03
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `2.999,87 TL`
-* **Şu Anki Toplam Para:** **`3.063,49 TL`**
-* **Toplam Net Kâr / Zarar:** **`+63,62 TL` (`+%2.12`)**
+* **Şu Anki Toplam Para:** **`3.065,60 TL`**
+* **Toplam Net Kâr / Zarar:** **`+65,73 TL` (`+%2.19`)**
 * **Boşta Bekleyen Nakit:** `492,41 TL`
-* **Coinde Olan Para:** `2.571,08 TL`
+* **Coinde Olan Para:** `2.573,19 TL`
 * **Başarılı Satış / Zarar Kes:** `12 Kârlı Satış / 11 Zarar Kes`
-* **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: BNB: 0.0004 | ETHW: 0.0010 | TRY: 0.0011)`
+* **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Bağlantı Bekleniyor`
 
 ---
 
@@ -52,7 +52,7 @@
 | :--- | :--- | :--- | :--- | :--- |
 | **SHIB (VURGUN)** | `494,80 TL` | `501,83 TL` | **`+7,04 TL (%1.42)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
 | **ID** | `1.298,05 TL` | `1.285,41 TL` | **`-12,68 TL (%-0.98)`** | 🛡️ ATR Kalkanı (-%2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **RSR** | `772,55 TL` | `783,85 TL` | **`+10,98 TL (%1.42)`** | 🛡️ ATR Kalkanı (-%2.36 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **RSR** | `772,55 TL` | `785,96 TL` | **`+13,09 TL (%1.69)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
 
 ---
 
