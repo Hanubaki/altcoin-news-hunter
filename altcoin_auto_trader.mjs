@@ -77,14 +77,23 @@ function loadEnv() {
 
 async function sendInstantPhoneAlert(msg) {
   const cfg = loadEnv();
+  let waDelivered = false;
   const tasks = [];
-  // 1. WhatsApp via CallMeBot Free API
+  // 1. WhatsApp via CallMeBot Free API (18s timeout because CallMeBot queue takes ~6-9s)
   if (cfg.WHATSAPP_PHONE && cfg.CALLMEBOT_API_KEY) {
     let phone = cfg.WHATSAPP_PHONE.replace(/\s+/g, '');
     if (phone.startsWith('05')) phone = '+9' + phone;
     else if (phone.startsWith('5')) phone = '+90' + phone;
     const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(phone)}&text=${encodeURIComponent(msg)}&apikey=${encodeURIComponent(cfg.CALLMEBOT_API_KEY)}`;
-    tasks.push(fetch(url, { signal: AbortSignal.timeout(5000) }).then(r => r.text()).catch(() => ''));
+    tasks.push(
+      fetch(url, { signal: AbortSignal.timeout(18000) })
+        .then(async r => {
+          const body = await r.text();
+          if (r.ok && body.includes('Message queued')) waDelivered = true;
+          return body;
+        })
+        .catch(() => '')
+    );
   }
   // 2. Telegram Bot API
   if (cfg.TELEGRAM_BOT_TOKEN && cfg.TELEGRAM_CHAT_ID) {
@@ -93,7 +102,7 @@ async function sendInstantPhoneAlert(msg) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ chat_id: cfg.TELEGRAM_CHAT_ID, text: msg }),
-        signal: AbortSignal.timeout(4000),
+        signal: AbortSignal.timeout(6000),
       }).catch(() => {})
     );
   }
@@ -104,11 +113,12 @@ async function sendInstantPhoneAlert(msg) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: msg }),
-        signal: AbortSignal.timeout(4000),
+        signal: AbortSignal.timeout(6000),
       }).catch(() => {})
     );
   }
-  return Promise.allSettled(tasks);
+  await Promise.allSettled(tasks);
+  return waDelivered;
 }
 
 function loadPortfolioState(cfg) {
@@ -897,8 +907,8 @@ async function runTradingCycle() {
 
   const msSinceLastWa = Date.now() - Number(state.lastWhatsAppReportAt || 0);
   if (cycleEvents.length > 0 || msSinceLastWa >= 25 * 60 * 1000) {
-    state.lastWhatsAppReportAt = Date.now();
-    await sendInstantPhoneAlert(buildSimpleWhatsAppMessage(state));
+    const waOk = await sendInstantPhoneAlert(buildSimpleWhatsAppMessage(state));
+    if (waOk) state.lastWhatsAppReportAt = Date.now();
   }
 
   savePortfolioState(state);
@@ -1151,9 +1161,13 @@ async function main() {
     );
   }
 
-  if (shouldNotify) {
-    await sendInstantPhoneAlert(buildSimpleWhatsAppMessage(s));
-    console.log('WhatsApp Kasa Raporu telefonuna gonderildi!');
+  if (shouldNotify && Date.now() - Number(s.lastWhatsAppReportAt || 0) > 10000) {
+    const waOk = await sendInstantPhoneAlert(buildSimpleWhatsAppMessage(s));
+    if (waOk) {
+      s.lastWhatsAppReportAt = Date.now();
+      savePortfolioState(s);
+    }
+    console.log(waOk ? 'WhatsApp Kasa Raporu telefonuna gonderildi!' : 'WhatsApp kuyrugu mesgul, sonraki turda tekrar denenecek.');
   }
 
   if (isDaemon) {

@@ -1,14 +1,13 @@
 {
-  "updatedAt": "2026-10-19T08:42:01.628Z",
-  "scanDurationMs": 10635,
+  "updatedAt": "2026-10-19T08:55:19.892Z",
+  "scanDurationMs": 5722,
   "bankrollTry": 1000,
   "bankrollUsdt": 28.01,
-  "btc1hChangePct": 0.06,
+  "btc1hChangePct": -0.03,
   "btcCrashAlert": false,
-  "marketBreadthPct": 67,
-  "totalHeadlinesScanned": 72,
+  "marketBreadthPct": 61,
+  "totalHeadlinesScanned": 52,
   "activeFeeds": [
-    "CoinTelegraph (20)",
     "Decrypt (20)",
     "BeInCrypto (12)",
     "CryptoPotato (20)"
@@ -42,14 +41,14 @@
           "directMention": false
         }
       ],
-      "lastPrice": 0.08501,
-      "change1hPct": 0.6,
-      "change24hPct": -3.409,
-      "lagVsLeader24h": 5.37,
-      "rsi1h": 52.89,
+      "lastPrice": 0.08465,
+      "change1hPct": 0.18,
+      "change24hPct": -3.894,
+      "lagVsLeader24h": 5.63,
+      "rsi1h": 51.17,
       "hasRsiDivergence": false,
       "atr1hPct": 1.26,
-      "bbPctB": 0.54,
+      "bbPctB": 0.48,
       "bbWidthPct": 6.27,
       "isSqueeze": false,
       "macdBullishTurn": true,
@@ -58,23 +57,41 @@
       "regime": "DIP_TOPLAMA",
       "support": 0.08179,
       "resistance": 0.08953,
-      "roomToResistancePct": 5.32,
-      "aiConsensusCount": 2,
+      "roomToResistancePct": 5.76,
+      "aiConsensusCount": 3,
       "aiConsensusModels": [
+        "Llama-4-Scout",
         "Gemini-3.5-Flash",
         "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 57.9,
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 56.4,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.27,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 60.5,
+      "volRatio": 0.38,
+      "fundingHourlyPct": 0,
+      "totalScore": 73.5,
       "tpPct": 6.61,
       "slPct": 2.08,
-      "tpPrice": 0.090629,
-      "slPrice": 0.083242
+      "tpPrice": 0.090245,
+      "slPrice": 0.082889,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 95,
+          "reason": "Haber XRP ve SOL odaklı, HBAR için doğrudan katalizör yok."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 82,
+          "reason": "Balina alımı yüksek, RSI nötr, pozitif yön"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 89,
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber XRP ve SOL odaklı, HBAR için doğrudan katalizör yok. | [GPT-120B: LONG %82] Balina alımı yüksek, RSI nötr, pozitif yön"
     },
     {
       "symbol": "PYTH",
@@ -96,15 +113,15 @@
           "directMention": false
         }
       ],
-      "lastPrice": 0.07536,
-      "change1hPct": 0.23,
-      "change24hPct": -3.471,
-      "lagVsLeader24h": 6.11,
-      "rsi1h": 54.92,
+      "lastPrice": 0.07515,
+      "change1hPct": -0.05,
+      "change24hPct": -3.998,
+      "lagVsLeader24h": 6.38,
+      "rsi1h": 53.78,
       "hasRsiDivergence": false,
       "atr1hPct": 1.72,
-      "bbPctB": 0.7,
-      "bbWidthPct": 5.52,
+      "bbPctB": 0.66,
+      "bbWidthPct": 5.48,
       "isSqueeze": false,
       "macdBullishTurn": true,
       "adx": 8.2,
@@ -112,23 +129,39 @@
       "regime": "DIP_TOPLAMA",
       "support": 0.07166,
       "resistance": 0.07972,
-      "roomToResistancePct": 5.79,
-      "aiConsensusCount": 2,
+      "roomToResistancePct": 6.08,
+      "aiConsensusCount": 1,
       "aiConsensusModels": [
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
+        "Gemini-3.5-Flash"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 52.9,
-      "isGreenBounce": true,
+      "aiConsensusLabel": "1/4 AI ONAYLI",
+      "takerBuyRatioPct": 52.5,
+      "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.59,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 45.4,
+      "volRatio": 0.67,
+      "fundingHourlyPct": 0,
+      "totalScore": 44.4,
       "tpPct": 7.95,
       "slPct": 2.84,
-      "tpPrice": 0.081351,
-      "slPrice": 0.07322
+      "tpPrice": 0.081124,
+      "slPrice": 0.073016,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 78,
+          "reason": "Haber PYTH ile doğrudan ilgili değil, nötr piyasa verisi."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 82,
+          "reason": "Whale alımı yüksek, RSI destek yakın"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 80,
+      "liveLlmReason": "[Qwen-3.8: WAIT %78] Haber PYTH ile doğrudan ilgili değil, nötr piyasa verisi. | [GPT-120B: LONG %82] Whale alımı yüksek, RSI destek yakın"
     }
   ],
   "allQualifiedOpportunities": [
@@ -160,14 +193,14 @@
           "directMention": false
         }
       ],
-      "lastPrice": 0.08501,
-      "change1hPct": 0.6,
-      "change24hPct": -3.409,
-      "lagVsLeader24h": 5.37,
-      "rsi1h": 52.89,
+      "lastPrice": 0.08465,
+      "change1hPct": 0.18,
+      "change24hPct": -3.894,
+      "lagVsLeader24h": 5.63,
+      "rsi1h": 51.17,
       "hasRsiDivergence": false,
       "atr1hPct": 1.26,
-      "bbPctB": 0.54,
+      "bbPctB": 0.48,
       "bbWidthPct": 6.27,
       "isSqueeze": false,
       "macdBullishTurn": true,
@@ -176,23 +209,41 @@
       "regime": "DIP_TOPLAMA",
       "support": 0.08179,
       "resistance": 0.08953,
-      "roomToResistancePct": 5.32,
-      "aiConsensusCount": 2,
+      "roomToResistancePct": 5.76,
+      "aiConsensusCount": 3,
       "aiConsensusModels": [
+        "Llama-4-Scout",
         "Gemini-3.5-Flash",
         "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 57.9,
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 56.4,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.27,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 60.5,
+      "volRatio": 0.38,
+      "fundingHourlyPct": 0,
+      "totalScore": 73.5,
       "tpPct": 6.61,
       "slPct": 2.08,
-      "tpPrice": 0.090629,
-      "slPrice": 0.083242
+      "tpPrice": 0.090245,
+      "slPrice": 0.082889,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 95,
+          "reason": "Haber XRP ve SOL odaklı, HBAR için doğrudan katalizör yok."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 82,
+          "reason": "Balina alımı yüksek, RSI nötr, pozitif yön"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 89,
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber XRP ve SOL odaklı, HBAR için doğrudan katalizör yok. | [GPT-120B: LONG %82] Balina alımı yüksek, RSI nötr, pozitif yön"
     },
     {
       "symbol": "RSR",
@@ -222,15 +273,15 @@
           "directMention": false
         }
       ],
-      "lastPrice": 0.001841,
-      "change1hPct": -0.11,
-      "change24hPct": -6.596,
-      "lagVsLeader24h": 8.56,
-      "rsi1h": 41.25,
+      "lastPrice": 0.001837,
+      "change1hPct": -0.33,
+      "change24hPct": -7.222,
+      "lagVsLeader24h": 8.96,
+      "rsi1h": 40.57,
       "hasRsiDivergence": false,
       "atr1hPct": 1.75,
-      "bbPctB": 0.12,
-      "bbWidthPct": 5.65,
+      "bbPctB": 0.09,
+      "bbWidthPct": 5.72,
       "isSqueeze": false,
       "macdBullishTurn": false,
       "adx": 8.1,
@@ -238,23 +289,23 @@
       "regime": "DIP_TOPLAMA",
       "support": 0.001831,
       "resistance": 0.001986,
-      "roomToResistancePct": 7.88,
+      "roomToResistancePct": 8.11,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 46.7,
+      "takerBuyRatioPct": 47.8,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.5,
-      "fundingHourlyPct": 0.0013,
+      "volRatio": 0.61,
+      "fundingHourlyPct": 0,
       "totalScore": 58.5,
       "tpPct": 6.12,
       "slPct": 2.89,
-      "tpPrice": 0.0019537,
-      "slPrice": 0.0017878
+      "tpPrice": 0.0019494,
+      "slPrice": 0.0017839
     },
     {
       "symbol": "PYTH",
@@ -276,15 +327,15 @@
           "directMention": false
         }
       ],
-      "lastPrice": 0.07536,
-      "change1hPct": 0.23,
-      "change24hPct": -3.471,
-      "lagVsLeader24h": 6.11,
-      "rsi1h": 54.92,
+      "lastPrice": 0.07515,
+      "change1hPct": -0.05,
+      "change24hPct": -3.998,
+      "lagVsLeader24h": 6.38,
+      "rsi1h": 53.78,
       "hasRsiDivergence": false,
       "atr1hPct": 1.72,
-      "bbPctB": 0.7,
-      "bbWidthPct": 5.52,
+      "bbPctB": 0.66,
+      "bbWidthPct": 5.48,
       "isSqueeze": false,
       "macdBullishTurn": true,
       "adx": 8.2,
@@ -292,23 +343,39 @@
       "regime": "DIP_TOPLAMA",
       "support": 0.07166,
       "resistance": 0.07972,
-      "roomToResistancePct": 5.79,
-      "aiConsensusCount": 2,
+      "roomToResistancePct": 6.08,
+      "aiConsensusCount": 1,
       "aiConsensusModels": [
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
+        "Gemini-3.5-Flash"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 52.9,
-      "isGreenBounce": true,
+      "aiConsensusLabel": "1/4 AI ONAYLI",
+      "takerBuyRatioPct": 52.5,
+      "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.59,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 45.4,
+      "volRatio": 0.67,
+      "fundingHourlyPct": 0,
+      "totalScore": 44.4,
       "tpPct": 7.95,
       "slPct": 2.84,
-      "tpPrice": 0.081351,
-      "slPrice": 0.07322
+      "tpPrice": 0.081124,
+      "slPrice": 0.073016,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 78,
+          "reason": "Haber PYTH ile doğrudan ilgili değil, nötr piyasa verisi."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 82,
+          "reason": "Whale alımı yüksek, RSI destek yakın"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 80,
+      "liveLlmReason": "[Qwen-3.8: WAIT %78] Haber PYTH ile doğrudan ilgili değil, nötr piyasa verisi. | [GPT-120B: LONG %82] Whale alımı yüksek, RSI destek yakın"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-19T08:42:09.664Z",
+  "updatedAt": "2026-10-19T08:55:20.743Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 28.01,
   "initialBankrollTry": 1000,
@@ -26,7 +26,7 @@
       "entryTime": "2026-10-18T17:22:36.113Z",
       "entryPrice": 0.00000492,
       "currentPrice": 0.00000503,
-      "highestPrice": 0.00000503,
+      "highestPrice": 0.00000504,
       "qty": 939000,
       "costUsdt": 4.62,
       "costTry": 165,
@@ -56,7 +56,7 @@
       "obImbalance": 0.05,
       "entryTime": "2026-10-19T08:42:04.565Z",
       "entryPrice": 0.08501,
-      "currentPrice": 0.085,
+      "currentPrice": 0.08464,
       "highestPrice": 0.08501,
       "qty": 108.9,
       "costUsdt": 9.26,
@@ -69,8 +69,8 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0011,
-      "unrealizedPnlPct": -0.01
+      "unrealizedPnlUsdt": -0.0403,
+      "unrealizedPnlPct": -0.44
     }
   ],
   "closedTrades": [
@@ -801,10 +801,10 @@
     "[22:42:51] 🏁 [POZİSYON KAPANDI] DOGE @ $0.07994 | 🔒 SIFIR RİSK KÂR KİLİDİ (%-1.31) | Net: -2,42 TL",
     "[19:38:41] 🎰 [VURGUN SLOTU AÇILDI] DOGE (185,64 TL) @ $0.081 | Hedef: +%18 Vurgun | Balina: %58.6"
   ],
-  "totalEquityUsdt": 28.9395,
-  "totalEquityTry": 1033.14,
-  "totalPnlUsdt": 0.9295,
-  "totalPnlPct": 3.32,
+  "totalEquityUsdt": 28.9003,
+  "totalEquityTry": 1031.74,
+  "totalPnlUsdt": 0.8903,
+  "totalPnlPct": 3.18,
   "cooldowns": {
     "FET": 1792154502952,
     "FLOKI": 1792340594778,
@@ -815,5 +815,5 @@
     "WLD": 1792306912864
   },
   "binanceTrStatus": "Bağlantı Bekleniyor",
-  "lastWhatsAppReportAt": 1792399324648
+  "lastWhatsAppReportAt": 1792400120743
 }
