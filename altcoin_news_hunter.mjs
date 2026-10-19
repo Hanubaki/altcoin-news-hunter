@@ -205,14 +205,7 @@ async function fetchJson(url, options = {}, timeoutMs = 5500) {
       clearTimeout(timer);
     }
   };
-  try {
-    return await tryFetch(url);
-  } catch (err) {
-    if (url.includes('data-api.binance.vision')) {
-      return await tryFetch(url.replace('data-api.binance.vision', 'api1.binance.com'));
-    }
-    throw err;
-  }
+  return await tryFetch(url);
 }
 
 function parseRssFeed(xml, sourceName) {
@@ -634,9 +627,7 @@ async function main() {
 
   const [newsScan, tickersRes, hlMetaRes] = await Promise.all([
     scanAllNewsFeeds(),
-    fetchJson(`${BINANCE_API}/ticker/24hr?symbols=${encodeURIComponent(symbolsParam)}`, {}, 9000).catch(() =>
-      fetchJson(`${BINANCE_API}/ticker/24hr`, {}, 9000)
-    ),
+    fetchJson(`${BINANCE_API}/ticker/24hr?symbols=${encodeURIComponent(symbolsParam)}`, {}, 8000),
     fetchJson(HYPERLIQUID_API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -671,32 +662,42 @@ async function main() {
     });
   }
 
-  const newsSyms = new Set(Object.keys(newsScan.altCatalysts));
+  const qualifiedNewsCats = Object.values(newsScan.altCatalysts).filter(c => c.newsScore >= 1.5 && tickerMap[c.symbol]);
+  const newsSyms = new Set(qualifiedNewsCats.map(c => c.symbol));
   const whaleRadarExtras = [];
   for (const eco of ECOSYSTEM_GRAPH) {
+    const leaderMkt = tickerMap[eco.leader];
     for (const sym of eco.sympathyAlts) {
       if (newsSyms.has(sym) || !tickerMap[sym]) continue;
       const m = tickerMap[sym];
       const fRate = hlMap[sym] ?? 0;
       const isShortSqueezeCandidate = fRate < -0.0005;
       const isTrending = newsScan.trendingSet.has(sym);
-      const isCoiledDip = m.change24hPct >= -4.5 && m.change24hPct <= 6.5;
+      const range24 = Math.max(0.0000001, m.high24h - m.low24h);
+      const posIn24h = (m.lastPrice - m.low24h) / range24;
+      const lag24h = leaderMkt ? leaderMkt.change24hPct - m.change24hPct : 0;
+      const isCoiledDip = posIn24h <= 0.62 && m.change24hPct >= -5.5 && m.change24hPct <= 6.0;
       if (isShortSqueezeCandidate || isTrending || isCoiledDip) {
+        const dipBonus = Math.max(0, (0.65 - posIn24h) * 3.2);
+        const lagBonus = Math.max(0, Math.min(1.6, lag24h * 0.35));
+        const preScore = Number(
+          (4.4 + (isShortSqueezeCandidate ? 1.5 : 0) + (isTrending ? 1.6 : 0) + dipBonus + lagBonus).toFixed(2)
+        );
         whaleRadarExtras.push({
           symbol: sym,
           leaderSymbol: eco.leader,
           ecosystems: new Set([eco.name]),
-          matchedKeywords: new Set(['whale-flow', isShortSqueezeCandidate ? 'short-squeeze' : 'orderbook-accumulation']),
-          freshestMinutesAgo: 25,
-          newsScore: isShortSqueezeCandidate ? 5.8 : isTrending ? 6.2 : 4.6,
+          matchedKeywords: new Set(['whale-flow', isShortSqueezeCandidate ? 'short-squeeze' : 'laggard-dip-accumulation']),
+          freshestMinutesAgo: 20,
+          newsScore: preScore,
           headlines: [
             {
               source: isShortSqueezeCandidate ? 'ShortSqueezeRadar' : 'WhaleOrderflowRadar',
               title: isShortSqueezeCandidate
                 ? `${sym} Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali`
-                : `${sym} Habersiz Sessiz Balina Alımı & Dip Kırılım Hazırlığı`,
-              minutesAgo: 25,
-              catalystPoints: 5.0,
+                : `${sym} Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı`,
+              minutesAgo: 20,
+              catalystPoints: preScore,
               directMention: true,
             },
           ],
@@ -707,11 +708,11 @@ async function main() {
   }
 
   const positiveNewsAlts = [
-    ...Object.values(newsScan.altCatalysts).filter(c => c.newsScore >= 1.5 && tickerMap[c.symbol]),
+    ...qualifiedNewsCats,
     ...whaleRadarExtras,
   ]
     .sort((a, b) => b.newsScore - a.newsScore)
-    .slice(0, 26);
+    .slice(0, 55);
 
   const [btcKlinesRes, ...klineResults] = await Promise.allSettled([
     fetchJson(`${BINANCE_API}/klines?symbol=BTCUSDT&interval=15m&limit=5`, {}, 4500),
@@ -763,8 +764,10 @@ async function main() {
 
     const lagVsLeader24h = Number((leaderMkt.change24hPct - mkt.change24hPct).toFixed(2));
 
-    // Anti-FOMO Guard + Bollinger Overextension + Whale Dump Rejection (Reject overbought RSI > 55)
-    if (rsi1h > 55 || bbPctB > 0.85 || change1hPct > 3.5 || mkt.change24hPct > 11) continue;
+    // Anti-FOMO Guard + Bollinger Overextension + Whale Dump Rejection
+    // Allow up to RSI 68 when strong Whale Accumulation (>= 54%) or Negative-Funding Short-Squeeze is active
+    const maxAllowedRsi = takerBuyRatio >= 0.56 ? 69 : (takerBuyRatio >= 0.53 || fundingHourlyPct <= -0.002) ? 66 : 55;
+    if (rsi1h > maxAllowedRsi || bbPctB > 0.90 || change1hPct > 4.2 || mkt.change24hPct > 12.5) continue;
     if (takerBuyRatio < 0.42) continue;
 
     // TradingArena.ai 4-Model Hive-Mind Consensus
@@ -789,6 +792,7 @@ async function main() {
     if (rsi1h <= 34) totalScore += 20;
     else if (rsi1h <= 45) totalScore += 14;
     else if (rsi1h <= 55) totalScore += 6;
+    else if (rsi1h <= 69 && (takerBuyRatio >= 0.53 || fundingHourlyPct <= -0.002)) totalScore += 6;
 
     // Bollinger Band Lower Dip Support & Squeeze Bonus
     if (bbPctB <= 0.35) totalScore += 5;

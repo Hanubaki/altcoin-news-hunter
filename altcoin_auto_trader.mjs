@@ -725,7 +725,7 @@ async function runTradingCycle() {
       if (usedLeaders.has(cand.leaderSymbol)) continue;
       const minReqScore = isWeakMarket ? 78 : 58;
       const minReqWhale = isWeakMarket ? 54 : 51.5;
-      const maxReqRsi = isWeakMarket ? 45 : 56;
+      const maxReqRsi = isWeakMarket ? 45 : (cand.takerBuyRatioPct || 50) >= 54 ? 68 : 56;
       if (cand.totalScore < minReqScore) continue;
       if ((cand.rsi1h || 50) > maxReqRsi) continue; // Reject top/overbought entries
       if ((cand.takerBuyRatioPct || 50) < minReqWhale) continue;

@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-10-19T09:00:53.959Z",
-  "scanDurationMs": 6897,
+  "updatedAt": "2026-10-19T09:11:24.687Z",
+  "scanDurationMs": 5867,
   "bankrollTry": 1000,
   "bankrollUsdt": 28.01,
-  "btc1hChangePct": 0.04,
+  "btc1hChangePct": 0.07,
   "btcCrashAlert": false,
-  "marketBreadthPct": 57,
+  "marketBreadthPct": 53,
   "totalHeadlinesScanned": 52,
   "activeFeeds": [
     "Decrypt (20)",
@@ -14,7 +14,153 @@
   ],
   "top4AltcoinPicks": [
     {
-      "symbol": "RSR",
+      "symbol": "ID",
+      "leaderSymbol": "BNB",
+      "ecosystems": [
+        "Binance / BNB Chain, Launchpool & DEX Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 6.75,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "ID Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 6.75,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.0306,
+      "change1hPct": 0,
+      "change24hPct": -3.47,
+      "lagVsLeader24h": 4.09,
+      "rsi1h": 65,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.14,
+      "bbPctB": 0.52,
+      "bbWidthPct": 3.45,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 40,
+      "ema20AboveEma50": false,
+      "regime": "GUCLU_TREND",
+      "support": 0.0299,
+      "resistance": 0.0317,
+      "roomToResistancePct": 3.59,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 54.1,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.1,
+      "fundingHourlyPct": 0,
+      "totalScore": 83.7,
+      "tpPct": 4.8,
+      "slPct": 2,
+      "tpPrice": 0.032069,
+      "slPrice": 0.029988,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "LONG",
+          "confidence": 78,
+          "reason": "Balina alımı ve laggard potansiyeli güçlü sinyal veriyor."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 82,
+          "reason": "Balina alımı ve RSI destekli yükseliş"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 80,
+      "liveLlmReason": "[Qwen-3.8: LONG %78] Balina alımı ve laggard potansiyeli güçlü sinyal veriyor. | [GPT-120B: LONG %82] Balina alımı ve RSI destekli yükseliş"
+    },
+    {
+      "symbol": "PORTAL",
+      "leaderSymbol": "IMX",
+      "ecosystems": [
+        "Web3 Oyun (GameFi), Immutable, Ronin & Metaverse"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 5.68,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "PORTAL Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 5.68,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.0143,
+      "change1hPct": 0,
+      "change24hPct": -3.182,
+      "lagVsLeader24h": 1.57,
+      "rsi1h": 65.93,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.91,
+      "bbPctB": 0.5,
+      "bbWidthPct": 3.68,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 37.2,
+      "ema20AboveEma50": false,
+      "regime": "GUCLU_TREND",
+      "support": 0.01395,
+      "resistance": 0.0147,
+      "roomToResistancePct": 2.8,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 53,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.1,
+      "fundingHourlyPct": 0,
+      "totalScore": 74.4,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.014943,
+      "slPrice": 0.014014,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "LONG",
+          "confidence": 82,
+          "reason": "Balina alımı ve laggard toparlanma potansiyeli güçlü."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "WAIT",
+          "confidence": 70,
+          "reason": "Ekosistem geride, riskli"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 76,
+      "liveLlmReason": "[Qwen-3.8: LONG %82] Balina alımı ve laggard toparlanma potansiyeli güçlü. | [GPT-120B: WAIT %70] Ekosistem geride, riskli"
+    },
+    {
+      "symbol": "HBAR",
       "leaderSymbol": "XRP",
       "ecosystems": [
         "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
@@ -23,79 +169,297 @@
         "ripple",
         "xrp"
       ],
-      "newsScore": 5.44,
-      "freshestMinutesAgo": 157,
+      "newsScore": 4.8,
+      "freshestMinutesAgo": 275,
       "headlines": [
         {
           "source": "CryptoPotato",
           "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 941,
+          "minutesAgo": 1059,
           "catalystPoints": 3.2,
           "directMention": false
         },
         {
           "source": "CryptoPotato",
           "title": "Ripple Price Analysis: What’s Next for XRP After Holding Key Support?",
-          "minutesAgo": 157,
-          "catalystPoints": 2.24,
+          "minutesAgo": 275,
+          "catalystPoints": 1.6,
           "directMention": false
         }
       ],
-      "lastPrice": 0.001831,
-      "change1hPct": -0.27,
-      "change24hPct": -8.082,
-      "lagVsLeader24h": 9.52,
-      "rsi1h": 46.92,
+      "lastPrice": 0.08441,
+      "change1hPct": -0.28,
+      "change24hPct": -4.794,
+      "lagVsLeader24h": 5.96,
+      "rsi1h": 66.98,
       "hasRsiDivergence": false,
-      "atr1hPct": 1.52,
-      "bbPctB": 0.09,
-      "bbWidthPct": 5.95,
+      "atr1hPct": 1.03,
+      "bbPctB": 0.46,
+      "bbWidthPct": 5.37,
       "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 10.3,
+      "macdBullishTurn": true,
+      "adx": 39.8,
       "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.001831,
-      "resistance": 0.001963,
-      "roomToResistancePct": 7.21,
+      "regime": "GUCLU_TREND",
+      "support": 0.08179,
+      "resistance": 0.08953,
+      "roomToResistancePct": 6.07,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 45,
+      "takerBuyRatioPct": 57,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.02,
+      "volRatio": 0.05,
       "fundingHourlyPct": 0,
-      "totalScore": 49.5,
-      "tpPct": 6.12,
-      "slPct": 2.51,
-      "tpPrice": 0.0019431,
-      "slPrice": 0.001785,
+      "totalScore": 60.6,
+      "tpPct": 6.61,
+      "slPct": 2,
+      "tpPrice": 0.08999,
+      "slPrice": 0.082722,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
           "decision": "WAIT",
-          "confidence": 75,
-          "reason": "Haber XRP odaklı, RSR için bağlamsız ve nötr."
+          "confidence": 95,
+          "reason": "Haber XRP/SOL odaklı, HBAR için bağlamsız ve yanıltıcı."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
-          "confidence": 78,
-          "reason": "Balina alımı, RSI nötr, destek yakın"
+          "confidence": 82,
+          "reason": "Whale alımı yüksek, RSI güçlü, pozitif trend"
         }
       ],
       "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 77,
-      "liveLlmReason": "[Qwen-3.8: WAIT %75] Haber XRP odaklı, RSR için bağlamsız ve nötr. | [GPT-120B: LONG %78] Balina alımı, RSI nötr, destek yakın"
+      "liveLlmConfidence": 89,
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber XRP/SOL odaklı, HBAR için bağlamsız ve yanıltıcı. | [GPT-120B: LONG %82] Whale alımı yüksek, RSI güçlü, pozitif trend"
+    },
+    {
+      "symbol": "IOTX",
+      "leaderSymbol": "FIL",
+      "ecosystems": [
+        "DePIN, Merkeziyetsiz Bulut Depolama & IoT Donanım"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 6.32,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "IOTX Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 6.32,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.003836,
+      "change1hPct": -1.08,
+      "change24hPct": -1.337,
+      "lagVsLeader24h": 0.28,
+      "rsi1h": 36.78,
+      "hasRsiDivergence": false,
+      "atr1hPct": 2.17,
+      "bbPctB": 0.05,
+      "bbWidthPct": 7.01,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 25.1,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.003817,
+      "resistance": 0.0041,
+      "roomToResistancePct": 6.88,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 44.3,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.74,
+      "fundingHourlyPct": 0,
+      "totalScore": 57.4,
+      "tpPct": 5.53,
+      "slPct": 3.2,
+      "tpPrice": 0.0040481,
+      "slPrice": 0.0037132,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "LONG",
+          "confidence": 85,
+          "reason": "Balina alımı ve düşük RSI güçlü destek sinyali veriyor."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 82,
+          "reason": "Sessiz balina alımı, RSI düşük, alım fırsatı"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 84,
+      "liveLlmReason": "[Qwen-3.8: LONG %85] Balina alımı ve düşük RSI güçlü destek sinyali veriyor. | [GPT-120B: LONG %82] Sessiz balina alımı, RSI düşük, alım fırsatı"
     }
   ],
   "allQualifiedOpportunities": [
     {
-      "symbol": "RSR",
+      "symbol": "ID",
+      "leaderSymbol": "BNB",
+      "ecosystems": [
+        "Binance / BNB Chain, Launchpool & DEX Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 6.75,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "ID Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 6.75,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.0306,
+      "change1hPct": 0,
+      "change24hPct": -3.47,
+      "lagVsLeader24h": 4.09,
+      "rsi1h": 65,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.14,
+      "bbPctB": 0.52,
+      "bbWidthPct": 3.45,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 40,
+      "ema20AboveEma50": false,
+      "regime": "GUCLU_TREND",
+      "support": 0.0299,
+      "resistance": 0.0317,
+      "roomToResistancePct": 3.59,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 54.1,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.1,
+      "fundingHourlyPct": 0,
+      "totalScore": 83.7,
+      "tpPct": 4.8,
+      "slPct": 2,
+      "tpPrice": 0.032069,
+      "slPrice": 0.029988,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "LONG",
+          "confidence": 78,
+          "reason": "Balina alımı ve laggard potansiyeli güçlü sinyal veriyor."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 82,
+          "reason": "Balina alımı ve RSI destekli yükseliş"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 80,
+      "liveLlmReason": "[Qwen-3.8: LONG %78] Balina alımı ve laggard potansiyeli güçlü sinyal veriyor. | [GPT-120B: LONG %82] Balina alımı ve RSI destekli yükseliş"
+    },
+    {
+      "symbol": "PORTAL",
+      "leaderSymbol": "IMX",
+      "ecosystems": [
+        "Web3 Oyun (GameFi), Immutable, Ronin & Metaverse"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 5.68,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "PORTAL Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 5.68,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.0143,
+      "change1hPct": 0,
+      "change24hPct": -3.182,
+      "lagVsLeader24h": 1.57,
+      "rsi1h": 65.93,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.91,
+      "bbPctB": 0.5,
+      "bbWidthPct": 3.68,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 37.2,
+      "ema20AboveEma50": false,
+      "regime": "GUCLU_TREND",
+      "support": 0.01395,
+      "resistance": 0.0147,
+      "roomToResistancePct": 2.8,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 53,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.1,
+      "fundingHourlyPct": 0,
+      "totalScore": 74.4,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.014943,
+      "slPrice": 0.014014,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "LONG",
+          "confidence": 82,
+          "reason": "Balina alımı ve laggard toparlanma potansiyeli güçlü."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "WAIT",
+          "confidence": 70,
+          "reason": "Ekosistem geride, riskli"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 76,
+      "liveLlmReason": "[Qwen-3.8: LONG %82] Balina alımı ve laggard toparlanma potansiyeli güçlü. | [GPT-120B: WAIT %70] Ekosistem geride, riskli"
+    },
+    {
+      "symbol": "HBAR",
       "leaderSymbol": "XRP",
       "ecosystems": [
         "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
@@ -104,74 +468,199 @@
         "ripple",
         "xrp"
       ],
-      "newsScore": 5.44,
-      "freshestMinutesAgo": 157,
+      "newsScore": 4.8,
+      "freshestMinutesAgo": 275,
       "headlines": [
         {
           "source": "CryptoPotato",
           "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
-          "minutesAgo": 941,
+          "minutesAgo": 1059,
           "catalystPoints": 3.2,
           "directMention": false
         },
         {
           "source": "CryptoPotato",
           "title": "Ripple Price Analysis: What’s Next for XRP After Holding Key Support?",
-          "minutesAgo": 157,
-          "catalystPoints": 2.24,
+          "minutesAgo": 275,
+          "catalystPoints": 1.6,
           "directMention": false
         }
       ],
-      "lastPrice": 0.001831,
-      "change1hPct": -0.27,
-      "change24hPct": -8.082,
-      "lagVsLeader24h": 9.52,
-      "rsi1h": 46.92,
+      "lastPrice": 0.08441,
+      "change1hPct": -0.28,
+      "change24hPct": -4.794,
+      "lagVsLeader24h": 5.96,
+      "rsi1h": 66.98,
       "hasRsiDivergence": false,
-      "atr1hPct": 1.52,
-      "bbPctB": 0.09,
-      "bbWidthPct": 5.95,
+      "atr1hPct": 1.03,
+      "bbPctB": 0.46,
+      "bbWidthPct": 5.37,
       "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 10.3,
+      "macdBullishTurn": true,
+      "adx": 39.8,
       "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.001831,
-      "resistance": 0.001963,
-      "roomToResistancePct": 7.21,
+      "regime": "GUCLU_TREND",
+      "support": 0.08179,
+      "resistance": 0.08953,
+      "roomToResistancePct": 6.07,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 45,
+      "takerBuyRatioPct": 57,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.02,
+      "volRatio": 0.05,
       "fundingHourlyPct": 0,
-      "totalScore": 49.5,
-      "tpPct": 6.12,
-      "slPct": 2.51,
-      "tpPrice": 0.0019431,
-      "slPrice": 0.001785,
+      "totalScore": 60.6,
+      "tpPct": 6.61,
+      "slPct": 2,
+      "tpPrice": 0.08999,
+      "slPrice": 0.082722,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
           "decision": "WAIT",
-          "confidence": 75,
-          "reason": "Haber XRP odaklı, RSR için bağlamsız ve nötr."
+          "confidence": 95,
+          "reason": "Haber XRP/SOL odaklı, HBAR için bağlamsız ve yanıltıcı."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
-          "confidence": 78,
-          "reason": "Balina alımı, RSI nötr, destek yakın"
+          "confidence": 82,
+          "reason": "Whale alımı yüksek, RSI güçlü, pozitif trend"
         }
       ],
       "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 77,
-      "liveLlmReason": "[Qwen-3.8: WAIT %75] Haber XRP odaklı, RSR için bağlamsız ve nötr. | [GPT-120B: LONG %78] Balina alımı, RSI nötr, destek yakın"
+      "liveLlmConfidence": 89,
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber XRP/SOL odaklı, HBAR için bağlamsız ve yanıltıcı. | [GPT-120B: LONG %82] Whale alımı yüksek, RSI güçlü, pozitif trend"
+    },
+    {
+      "symbol": "IOTX",
+      "leaderSymbol": "FIL",
+      "ecosystems": [
+        "DePIN, Merkeziyetsiz Bulut Depolama & IoT Donanım"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 6.32,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "IOTX Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 6.32,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.003836,
+      "change1hPct": -1.08,
+      "change24hPct": -1.337,
+      "lagVsLeader24h": 0.28,
+      "rsi1h": 36.78,
+      "hasRsiDivergence": false,
+      "atr1hPct": 2.17,
+      "bbPctB": 0.05,
+      "bbWidthPct": 7.01,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 25.1,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.003817,
+      "resistance": 0.0041,
+      "roomToResistancePct": 6.88,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 44.3,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.74,
+      "fundingHourlyPct": 0,
+      "totalScore": 57.4,
+      "tpPct": 5.53,
+      "slPct": 3.2,
+      "tpPrice": 0.0040481,
+      "slPrice": 0.0037132,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "LONG",
+          "confidence": 85,
+          "reason": "Balina alımı ve düşük RSI güçlü destek sinyali veriyor."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 82,
+          "reason": "Sessiz balina alımı, RSI düşük, alım fırsatı"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 84,
+      "liveLlmReason": "[Qwen-3.8: LONG %85] Balina alımı ve düşük RSI güçlü destek sinyali veriyor. | [GPT-120B: LONG %82] Sessiz balina alımı, RSI düşük, alım fırsatı"
+    },
+    {
+      "symbol": "PYTH",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 3.2,
+      "freshestMinutesAgo": 1059,
+      "headlines": [
+        {
+          "source": "CryptoPotato",
+          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
+          "minutesAgo": 1059,
+          "catalystPoints": 3.2,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.07507,
+      "change1hPct": -0.15,
+      "change24hPct": -5.298,
+      "lagVsLeader24h": 6.94,
+      "rsi1h": 67.97,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.55,
+      "bbPctB": 0.64,
+      "bbWidthPct": 5.5,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 39.9,
+      "ema20AboveEma50": false,
+      "regime": "GUCLU_TREND",
+      "support": 0.07166,
+      "resistance": 0.07931,
+      "roomToResistancePct": 5.65,
+      "aiConsensusCount": 1,
+      "aiConsensusModels": [
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "1/4 AI ONAYLI",
+      "takerBuyRatioPct": 57.6,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.3,
+      "fundingHourlyPct": 0,
+      "totalScore": 47.4,
+      "tpPct": 7.95,
+      "slPct": 2.56,
+      "tpPrice": 0.081038,
+      "slPrice": 0.073148
     }
   ]
 }

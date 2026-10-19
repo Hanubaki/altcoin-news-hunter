@@ -1,10 +1,10 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-19T09:00:55.341Z",
+  "updatedAt": "2026-10-19T09:11:25.889Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 28.01,
   "initialBankrollTry": 1000,
-  "cashUsdt": 14.9598,
+  "cashUsdt": 2.8398,
   "realizedPnlUsdt": 0.8256,
   "winCount": 12,
   "lossCount": 10,
@@ -56,7 +56,7 @@
       "obImbalance": 0.05,
       "entryTime": "2026-10-19T08:42:04.565Z",
       "entryPrice": 0.08501,
-      "currentPrice": 0.0845,
+      "currentPrice": 0.0844,
       "highestPrice": 0.08501,
       "qty": 108.9,
       "costUsdt": 9.26,
@@ -69,8 +69,39 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0555,
-      "unrealizedPnlPct": -0.6
+      "unrealizedPnlUsdt": -0.0664,
+      "unrealizedPnlPct": -0.72
+    },
+    {
+      "id": "pos_1792401085560_ID",
+      "symbol": "ID",
+      "leaderSymbol": "BNB",
+      "ecosystem": "Binance / BNB Chain, Launchpool & DEX Ekosistemi",
+      "headline": "ID Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+      "newsSource": "WhaleOrderflowRadar",
+      "newsScore": 6.75,
+      "totalScore": 83.7,
+      "rsiAtEntry": 65,
+      "atr1hPct": 1.14,
+      "takerBuyRatioPct": 54.1,
+      "obImbalance": 0.1,
+      "entryTime": "2026-10-19T09:11:25.560Z",
+      "entryPrice": 0.0307,
+      "currentPrice": 0.0306,
+      "highestPrice": 0.0307,
+      "qty": 394.8,
+      "costUsdt": 12.12,
+      "costTry": 433,
+      "takeProfitPrice": 0.032174,
+      "stopLossPrice": 0.030086,
+      "tpPct": 4.8,
+      "slPct": 2,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": -0.0395,
+      "unrealizedPnlPct": -0.33
     }
   ],
   "closedTrades": [
@@ -760,6 +791,7 @@
     }
   ],
   "recentLogs": [
+    "[12:11:25] 🟢 [OTOMATİK ALIM] ID (432,68 TL) @ $0.0307 | Skor: 83.7 | RSI: 65 | Balina: %54.1 | SL: -%2",
     "[11:42:04] 🟢 [OTOMATİK ALIM] HBAR (330,58 TL) @ $0.08501 | Skor: 60.5 | RSI: 52.89 | Balina: %57.9 | SL: -%2.08",
     "[11:39:50] ⚠️ Haber tarayıcı uyarısı: fetch failed",
     "[11:35:57] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
@@ -798,13 +830,12 @@
     "[22:42:51] ⚖️ [Tahta Kalkanı] XRP önünde satış duvarı (-0.38) var, pas geçildi.",
     "[22:42:51] 🟢 [OTOMATİK ALIM] WIF (390,92 TL) @ $0.1985 | Skor: 97.8 | Balina Alım: %62.9",
     "[22:42:51] ⚖️ [Tahta Kalkanı] XRP önünde satış duvarı (-0.37) var, pas geçildi.",
-    "[22:42:51] 🏁 [POZİSYON KAPANDI] DOGE @ $0.07994 | 🔒 SIFIR RİSK KÂR KİLİDİ (%-1.31) | Net: -2,42 TL",
-    "[19:38:41] 🎰 [VURGUN SLOTU AÇILDI] DOGE (185,64 TL) @ $0.081 | Hedef: +%18 Vurgun | Balina: %58.6"
+    "[22:42:51] 🏁 [POZİSYON KAPANDI] DOGE @ $0.07994 | 🔒 SIFIR RİSK KÂR KİLİDİ (%-1.31) | Net: -2,42 TL"
   ],
-  "totalEquityUsdt": 28.8756,
-  "totalEquityTry": 1030.86,
-  "totalPnlUsdt": 0.8656,
-  "totalPnlPct": 3.09,
+  "totalEquityUsdt": 28.8256,
+  "totalEquityTry": 1029.07,
+  "totalPnlUsdt": 0.8156,
+  "totalPnlPct": 2.91,
   "cooldowns": {
     "FET": 1792154502952,
     "FLOKI": 1792340594778,
@@ -815,5 +846,5 @@
     "WLD": 1792306912864
   },
   "binanceTrStatus": "Bağlantı Bekleniyor",
-  "lastWhatsAppReportAt": 1792400120743
+  "lastWhatsAppReportAt": 1792401085889
 }
