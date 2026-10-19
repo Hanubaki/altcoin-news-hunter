@@ -338,9 +338,30 @@ async function checkOrderbookImbalance(symbol) {
   }
 }
 
+let _trSymbolsCache = null;
+async function getBinanceTrSymbolRules(symbol) {
+  try {
+    if (!_trSymbolsCache) {
+      const res = await fetchJson('https://www.trbinance.com/open/v1/common/symbols', {}, 4500);
+      _trSymbolsCache = res?.data?.list || [];
+    }
+    return _trSymbolsCache.find(s => s.symbol === `${symbol}_TRY`) || null;
+  } catch {
+    return null;
+  }
+}
+
+function roundToStepSize(qty, stepSizeStr) {
+  const step = Number(stepSizeStr || 0);
+  if (!step || step <= 0) return Number(Number(qty).toPrecision(4));
+  const decimals = (stepSizeStr.split('.')[1] || '').replace(/0+$/, '').length;
+  const floored = Math.floor(Number(qty) / step) * step;
+  return Number(floored.toFixed(decimals));
+}
+
 async function fetchBinanceTrStatus(cfg) {
   if (!cfg.BINANCE_API_KEY || !cfg.BINANCE_SECRET_KEY) {
-    return { ok: false, tryFree: 0, summary: 'API Anahtarı Yok' };
+    return { ok: false, tryFree: 0, assetsMap: {}, summary: 'API Anahtarı Yok' };
   }
   try {
     const ts = Date.now();
@@ -353,6 +374,8 @@ async function fetchBinanceTrStatus(cfg) {
     );
     if (res && res.code === 0 && res.data) {
       const assets = (res.data.accountAssets || []).filter(a => Number(a.free) > 0 || Number(a.locked) > 0);
+      const assetsMap = {};
+      for (const a of assets) assetsMap[a.asset] = Number(a.free);
       const tryAsset = assets.find(a => a.asset === 'TRY');
       const tryFree = tryAsset ? Number(tryAsset.free) : 0;
       const assetSummary = assets.map(a => `${a.asset}: ${Number(a.free).toFixed(4)}`).join(' | ') || 'TRY: 0.00';
@@ -360,19 +383,36 @@ async function fetchBinanceTrStatus(cfg) {
         ok: true,
         canTrade: res.data.canTrade === 1,
         tryFree,
+        assetsMap,
         summary: `Aktif (trbinance.com — Spot Cüzdan: ${assetSummary})`,
       };
     }
   } catch {
     // Fallback if unreachable
   }
-  return { ok: false, tryFree: 0, summary: 'Bağlantı Bekleniyor' };
+  return { ok: false, tryFree: 0, assetsMap: {}, summary: 'Bağlantı Bekleniyor' };
 }
 
 async function executeBinanceRealOrder(cfg, symbol, side, quantity, quoteOrderQtyUsdt = null) {
   const timestamp = Date.now();
   // 1. Primary: Binance TR (trbinance.com) direct TRY pair order (e.g. AVAX_TRY, FET_TRY)
   try {
+    const rule = await getBinanceTrSymbolRules(symbol);
+    let adjQty = quantity;
+    if (side === 'SELL') {
+      const status = await fetchBinanceTrStatus(cfg);
+      const walletFree = status.assetsMap?.[symbol];
+      if (walletFree && walletFree > 0 && adjQty > walletFree) {
+        adjQty = walletFree;
+      }
+    }
+    if (rule) {
+      const lotFilter = (rule.filters || []).find(f => f.filterType === 'LOT_SIZE');
+      if (lotFilter?.stepSize) {
+        adjQty = roundToStepSize(adjQty, lotFilter.stepSize);
+      }
+    }
+
     const trParams = new URLSearchParams({
       symbol: `${symbol}_TRY`,
       side: side === 'BUY' ? '0' : '1',
@@ -383,7 +423,7 @@ async function executeBinanceRealOrder(cfg, symbol, side, quantity, quoteOrderQt
       const tryAmount = Number((Number(quoteOrderQtyUsdt) * USD_TRY_RATE).toFixed(2));
       trParams.set('quoteOrderQty', String(tryAmount));
     } else {
-      trParams.set('quantity', String(quantity));
+      trParams.set('quantity', String(adjQty));
     }
     const trSig = crypto
       .createHmac('sha256', cfg.BINANCE_SECRET_KEY)
@@ -431,8 +471,35 @@ async function runTradingCycle() {
   const state = loadPortfolioState(cfg);
   const trStatus = await fetchBinanceTrStatus(cfg);
   state.binanceTrStatus = trStatus.summary;
-  // Automatically switch to LIVE_BINANCE when LIVE_TRADING=true and Binance TR has >= 50 TL free balance
-  state.mode = cfg.LIVE_TRADING && cfg.BINANCE_API_KEY && trStatus.tryFree >= 50 ? 'LIVE_BINANCE' : 'REALTIME_ORDERBOOK_PAPER';
+
+  // Automatic Paper -> Live Cutover the moment >= 50 TL is deposited to Binance TR!
+  if (cfg.LIVE_TRADING && cfg.BINANCE_API_KEY && trStatus.ok && trStatus.tryFree >= 50 && state.mode !== 'LIVE_BINANCE') {
+    const depositedTry = Number(trStatus.tryFree.toFixed(2));
+    const depositedUsdt = Number((depositedTry / USD_TRY_RATE).toFixed(4));
+    state.mode = 'LIVE_BINANCE';
+    state.liveActivated = true;
+    state.initialBankrollTry = depositedTry;
+    state.initialBankrollUsdt = depositedUsdt;
+    state.highWaterMarkUsdt = depositedUsdt;
+    state.cashUsdt = depositedUsdt;
+    state.realizedPnlUsdt = 0;
+    state.winCount = 0;
+    state.lossCount = 0;
+    state.openPositions = [];
+    state.closedTrades = [];
+    state.cooldowns = {};
+    logEvent(
+      state,
+      `🏦 [GERÇEK HESAP BAŞLATILDI] Binance TR cüzdanında ${toTL(depositedUsdt)} TL tespit edildi! Sanal simülasyon sıfırlandı ve %100 Gerçek Al-Sat aktif edildi!`
+    );
+  } else if (state.liveActivated || state.mode === 'LIVE_BINANCE') {
+    state.mode = 'LIVE_BINANCE';
+    if (trStatus.ok) {
+      state.cashUsdt = Number((trStatus.tryFree / USD_TRY_RATE).toFixed(4));
+    }
+  } else {
+    state.mode = 'REALTIME_ORDERBOOK_PAPER';
+  }
 
   let signalsData = { top4AltcoinPicks: [], allQualifiedOpportunities: [], btcCrashAlert: false, btc1hChangePct: 0 };
   try {
@@ -751,6 +818,11 @@ async function runTradingCycle() {
       const q = quotes[cand.symbol];
       if (!q || !q.bestAsk) continue;
 
+      if (state.mode === 'LIVE_BINANCE') {
+        const trRule = await getBinanceTrSymbolRules(cand.symbol);
+        if (!trRule || trRule.spotTradingEnable !== 1) continue;
+      }
+
       const obImbalance = await checkOrderbookImbalance(cand.symbol);
       if (obImbalance < -0.08) {
         logEvent(state, `⚖️ [Tahta Kalkanı] ${cand.symbol} önünde satış duvarı (${obImbalance}) var, pas geçildi.`);
@@ -838,6 +910,11 @@ async function runTradingCycle() {
       .sort((a, b) => (b.takerBuyRatioPct || 50) * 1.2 + b.totalScore - ((a.takerBuyRatioPct || 50) * 1.2 + a.totalScore));
 
     for (const moonPick of moonCandidates) {
+      if (state.mode === 'LIVE_BINANCE') {
+        const trRule = await getBinanceTrSymbolRules(moonPick.symbol);
+        if (!trRule || trRule.spotTradingEnable !== 1) continue;
+      }
+
       const moonOb = await checkOrderbookImbalance(moonPick.symbol);
       if (moonOb < -0.05) {
         logEvent(state, `⚖️ [Tahta Kalkanı - Vurgun] ${moonPick.symbol} önünde satış duvarı (${moonOb}) var, pas geçildi.`);
