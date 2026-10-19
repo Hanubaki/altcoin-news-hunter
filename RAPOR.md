@@ -1,17 +1,17 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 19.10.2026 12:38:55
+**Son Güncelleme:** 19.10.2026 19:28:42
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `2.999,87 TL`
-* **Şu Anki Toplam Para:** **`3.093,48 TL`**
-* **Toplam Net Kâr / Zarar:** **`+93,61 TL` (`+%3.12`)**
-* **Boşta Bekleyen Nakit:** `304,14 TL`
-* **Coinde Olan Para:** `2.789,34 TL`
-* **Başarılı Satış / Zarar Kes:** `12 Kârlı Satış / 10 Zarar Kes`
+* **Şu Anki Toplam Para:** **`3.073,28 TL`**
+* **Toplam Net Kâr / Zarar:** **`+73,41 TL` (`+%2.45`)**
+* **Boşta Bekleyen Nakit:** `492,41 TL`
+* **Coinde Olan Para:** `2.580,88 TL`
+* **Başarılı Satış / Zarar Kes:** `12 Kârlı Satış / 11 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Bağlantı Bekleniyor`
 
 ---
@@ -20,6 +20,7 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
+| **HBAR** | `991,75 TL` | `960,81 TL` | **`-30,93 TL`** | 🛡️ ATR KORUMA KALKANI (%-3.09) |
 | **DOGE** | `1.050,65 TL` | `1.047,45 TL` | **`-3,20 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.27) |
 | **FLOKI** | `494,80 TL` | `494,01 TL` | **`-0,79 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.17) |
 | **WLD** | `493,73 TL` | `487,93 TL` | **`-5,80 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-1.18) |
@@ -49,9 +50,9 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **SHIB (VURGUN)** | `494,80 TL` | `505,85 TL` | **`+11,06 TL (%2.24)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
-| **HBAR** | `991,75 TL` | `989,62 TL` | **`-1,87 TL (%-0.19)`** | 🛡️ ATR Kalkanı (-%2.08 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **ID** | `1.298,05 TL` | `1.293,86 TL` | **`-4,23 TL (%-0.33)`** | 🛡️ ATR Kalkanı (-%2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **SHIB (VURGUN)** | `494,80 TL` | `504,85 TL` | **`+10,06 TL (%2.03)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
+| **ID** | `1.298,05 TL` | `1.302,32 TL` | **`+4,23 TL (%0.33)`** | 🛡️ ATR Kalkanı (-%2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **RSR** | `772,55 TL` | `773,71 TL` | **`+0,85 TL (%0.11)`** | 🛡️ ATR Kalkanı (-%2.36 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
 
 ---
 
