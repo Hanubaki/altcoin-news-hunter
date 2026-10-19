@@ -615,7 +615,9 @@ async function main() {
 
   const [newsScan, tickersRes, hlMetaRes] = await Promise.all([
     scanAllNewsFeeds(),
-    fetchJson(`${BINANCE_API}/ticker/24hr?symbols=${encodeURIComponent(symbolsParam)}`),
+    fetchJson(`${BINANCE_API}/ticker/24hr?symbols=${encodeURIComponent(symbolsParam)}`, {}, 9000).catch(() =>
+      fetchJson(`${BINANCE_API}/ticker/24hr`, {}, 9000)
+    ),
     fetchJson(HYPERLIQUID_API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

@@ -609,8 +609,8 @@ async function runTradingCycle() {
       exitReason = `🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — %${pos.unrealizedPnlPct})`;
     } else if (!pos.partialTpDone && minsHeld >= 45 && pos.unrealizedPnlPct <= 0.1 && pos.unrealizedPnlPct >= -0.60 && liveObForScratch < -0.25 && latestSig && latestSig.takerBuyRatioPct < 45) {
       exitReason = `🛡️ SIFIR RİSK ERKEN TAHLİYE (İvme Zayıfladı, Başa Baş Noktasında Çıkıldı %${pos.unrealizedPnlPct})`;
-    } else if (hoursHeld >= 6 && pos.unrealizedPnlPct < 0.3 && !pos.partialTpDone) {
-      exitReason = `⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %${pos.unrealizedPnlPct})`;
+    } else if (hoursHeld >= 12 && pos.unrealizedPnlPct >= 0.15 && pos.unrealizedPnlPct < 0.6 && !pos.partialTpDone) {
+      exitReason = `⏱️ KÂRLI ZAMAN ROTASYONU (12 Saatte Yavaş Kalan Coin Kârla Boşaltıldı +${pos.unrealizedPnlPct}%)`;
     }
 
     if (exitReason) {
@@ -656,7 +656,7 @@ async function runTradingCycle() {
   ) {
     const stagnantIdx = state.openPositions.findIndex(p => {
       const hrs = (nowMs - new Date(p.entryTime).getTime()) / (1000 * 3600);
-      return hrs >= 3.0 && Math.abs(p.unrealizedPnlPct) <= 0.4 && !p.partialTpDone;
+      return hrs >= 3.0 && p.unrealizedPnlPct >= 0 && p.unrealizedPnlPct <= 0.5 && !p.partialTpDone;
     });
 
     if (stagnantIdx !== -1) {
@@ -687,15 +687,10 @@ async function runTradingCycle() {
       .map(t => t.headline.replace(/^🎰 VURGUN SLOTU:\s*/i, '').trim().toLowerCase())
   );
 
-  // Step 3: Open new positions with Conviction-Based Auto-Compounding Sizing & Dip/Whale Quality Shields
+  // Step 3: Open new positions with High-Utilization Auto-Compounding Sizing (No idle cash!)
   if (!signalsData.btcCrashAlert) {
     const usedLeaders = new Set(state.openPositions.map(p => p.leaderSymbol));
     const heldSymbols = new Set(state.openPositions.map(p => p.symbol));
-    const aiWaitSymbols = new Set(
-      (signalsData.top4AltcoinPicks || [])
-        .filter(c => c.liveLlmDecision === 'WAIT')
-        .map(c => c.symbol)
-    );
 
     const isWeakMarket = (signalsData.marketBreadthPct ?? 50) < 22;
 
@@ -703,16 +698,15 @@ async function runTradingCycle() {
       if (state.openPositions.length >= cfg.MAX_OPEN_POSITIONS) break;
       if (state.cashUsdt < 4.50) break;
       if (heldSymbols.has(cand.symbol)) continue;
-      if (aiWaitSymbols.has(cand.symbol) || cand.liveLlmDecision !== 'LONG') continue;
+      // Only skip if AI explicitly flagged WAIT with ultra-high trap confidence (>=92) AND whale flow is weak (<53%)
+      if (cand.liveLlmDecision === 'WAIT' && (cand.liveLlmConfidence || 0) >= 92 && (cand.takerBuyRatioPct || 50) < 53) continue;
       if (usedLeaders.has(cand.leaderSymbol)) continue;
-      // When >78% of altcoins are bleeding red, only enter A+ fresh catalysts (score >= 82, whale >= 55%, RSI <= 42)
-      const minReqScore = isWeakMarket ? 82 : 64;
-      const minReqWhale = isWeakMarket ? 55 : 52.5;
-      const maxReqRsi = isWeakMarket ? 42 : 54;
+      const minReqScore = isWeakMarket ? 78 : 58;
+      const minReqWhale = isWeakMarket ? 54 : 51.5;
+      const maxReqRsi = isWeakMarket ? 45 : 56;
       if (cand.totalScore < minReqScore) continue;
       if ((cand.rsi1h || 50) > maxReqRsi) continue; // Reject top/overbought entries
       if ((cand.takerBuyRatioPct || 50) < minReqWhale) continue;
-      if ((cand.freshestMinutesAgo || 0) > 240) continue; // Only trade fresh catalysts <= 4h old
       if (state.cooldowns[cand.symbol] && state.cooldowns[cand.symbol] > nowMs) continue;
 
       const candHeadlineClean = (cand.headlines?.[0]?.title || '').trim().toLowerCase();
@@ -724,13 +718,13 @@ async function runTradingCycle() {
       if (!q || !q.bestAsk) continue;
 
       const obImbalance = await checkOrderbookImbalance(cand.symbol);
-      if (obImbalance < -0.05) {
+      if (obImbalance < -0.08) {
         logEvent(state, `⚖️ [Tahta Kalkanı] ${cand.symbol} önünde satış duvarı (${obImbalance}) var, pas geçildi.`);
         continue;
       }
 
-      // Engine #8: Conviction-Based Auto-Compounding Sizing (Use Math.floor so cashUsdt never rounds below 0)
-      const convictionPct = cand.totalScore >= 80 ? 0.34 : cand.totalScore >= 68 ? 0.30 : 0.26;
+      // Engine #8: High-Utilization Auto-Compounding Sizing (42% for 80+ score, 36% for 68+, 32% otherwise)
+      const convictionPct = cand.totalScore >= 80 ? 0.42 : cand.totalScore >= 68 ? 0.36 : 0.32;
       const targetAllocUsdt = Math.floor(currentTotalEquity * convictionPct * 100) / 100;
       const availCashUsdt = Math.floor(Math.max(0, state.cashUsdt) * 100) / 100;
       const costUsdt = Number(Math.min(targetAllocUsdt, availCashUsdt).toFixed(2));

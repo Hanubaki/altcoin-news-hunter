@@ -1,6 +1,6 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 19.10.2026 06:15:13
+**Son Güncelleme:** 19.10.2026 11:33:10
 
 ---
 
