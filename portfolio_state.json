@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-19T16:28:42.751Z",
+  "updatedAt": "2026-10-19T19:35:19.299Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 84.03,
   "initialBankrollTry": 3000,
@@ -25,7 +25,7 @@
       "obImbalance": 0.04,
       "entryTime": "2026-10-18T17:22:36.113Z",
       "entryPrice": 0.00000492,
-      "currentPrice": 0.00000502,
+      "currentPrice": 0.00000499,
       "highestPrice": 0.00000504,
       "qty": 2817000,
       "costUsdt": 13.86,
@@ -38,8 +38,8 @@
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.2817,
-      "unrealizedPnlPct": 2.03
+      "unrealizedPnlUsdt": 0.1972,
+      "unrealizedPnlPct": 1.42
     },
     {
       "id": "pos_1792401085560_ID",
@@ -56,7 +56,7 @@
       "obImbalance": 0.1,
       "entryTime": "2026-10-19T09:11:25.560Z",
       "entryPrice": 0.0307,
-      "currentPrice": 0.0308,
+      "currentPrice": 0.0304,
       "highestPrice": 0.0308,
       "qty": 1184.4,
       "costUsdt": 36.36,
@@ -69,8 +69,8 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.1184,
-      "unrealizedPnlPct": 0.33
+      "unrealizedPnlUsdt": -0.3553,
+      "unrealizedPnlPct": -0.98
     },
     {
       "id": "pos_1792427279657_RSR",
@@ -87,8 +87,8 @@
       "obImbalance": -0.02,
       "entryTime": "2026-10-19T16:27:59.657Z",
       "entryPrice": 0.00183,
-      "currentPrice": 0.001832,
-      "highestPrice": 0.001832,
+      "currentPrice": 0.001856,
+      "highestPrice": 0.001856,
       "qty": 11830,
       "costUsdt": 21.64,
       "costTry": 773,
@@ -100,8 +100,8 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0237,
-      "unrealizedPnlPct": 0.11
+      "unrealizedPnlUsdt": 0.3076,
+      "unrealizedPnlPct": 1.42
     }
   ],
   "closedTrades": [
@@ -868,10 +868,10 @@
     "[19:24:21] 🏁 [POZİSYON KAPANDI] BOME @ $0.000646 | 🔒 SIFIR RİSK KÂR KİLİDİ (%-2.48) | Net: -4,59 TL",
     "[16:05:11] 🎰 [VURGUN SLOTU AÇILDI] BOME (185,28 TL) @ $0.0006624 | Hedef: +%18 Vurgun | Balina: %52.5"
   ],
-  "totalEquityUsdt": 86.0863,
-  "totalEquityTry": 3073.28,
-  "totalPnlUsdt": 2.0563,
-  "totalPnlPct": 2.45,
+  "totalEquityUsdt": 85.812,
+  "totalEquityTry": 3063.49,
+  "totalPnlUsdt": 1.782,
+  "totalPnlPct": 2.12,
   "cooldowns": {
     "FET": 1792154502952,
     "FLOKI": 1792340594778,
@@ -882,7 +882,7 @@
     "WLD": 1792306912864,
     "HBAR": 1792448879120
   },
-  "binanceTrStatus": "Bağlantı Bekleniyor",
+  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: BNB: 0.0004 | ETHW: 0.0010 | TRY: 0.0011)",
   "lastWhatsAppReportAt": 1792427280446,
   "highWaterMarkUsdt": 86.652
 }
