@@ -14,6 +14,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 const BANKROLL_TRY = 1000;
 const USD_TRY_RATE = 35.7;
 const BANKROLL_USDT = Number((BANKROLL_TRY / USD_TRY_RATE).toFixed(2)); // $28.01 USDT

@@ -23,6 +23,8 @@ import crypto from 'node:crypto';
 import http from 'node:http';
 import { runNewsScan } from './altcoin_news_hunter.mjs';
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 const STATE_FILE = path.resolve('portfolio_state.json');
 const SIGNALS_FILE = path.resolve('altcoin_news_signals.json');
 const RAPOR_FILE = path.resolve('RAPOR.md');

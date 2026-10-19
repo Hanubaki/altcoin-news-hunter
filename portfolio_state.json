@@ -1,10 +1,10 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-19T08:39:59.380Z",
+  "updatedAt": "2026-10-19T08:42:09.664Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 28.01,
   "initialBankrollTry": 1000,
-  "cashUsdt": 24.2198,
+  "cashUsdt": 14.9598,
   "realizedPnlUsdt": 0.8256,
   "winCount": 12,
   "lossCount": 10,
@@ -25,8 +25,8 @@
       "obImbalance": 0.04,
       "entryTime": "2026-10-18T17:22:36.113Z",
       "entryPrice": 0.00000492,
-      "currentPrice": 0.00000501,
-      "highestPrice": 0.00000502,
+      "currentPrice": 0.00000503,
+      "highestPrice": 0.00000503,
       "qty": 939000,
       "costUsdt": 4.62,
       "costTry": 165,
@@ -38,8 +38,39 @@
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0845,
-      "unrealizedPnlPct": 1.83
+      "unrealizedPnlUsdt": 0.1033,
+      "unrealizedPnlPct": 2.24
+    },
+    {
+      "id": "pos_1792399324565_HBAR",
+      "symbol": "HBAR",
+      "leaderSymbol": "XRP",
+      "ecosystem": "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar",
+      "headline": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
+      "newsSource": "CryptoPotato",
+      "newsScore": 5.44,
+      "totalScore": 60.5,
+      "rsiAtEntry": 52.89,
+      "atr1hPct": 1.26,
+      "takerBuyRatioPct": 57.9,
+      "obImbalance": 0.05,
+      "entryTime": "2026-10-19T08:42:04.565Z",
+      "entryPrice": 0.08501,
+      "currentPrice": 0.085,
+      "highestPrice": 0.08501,
+      "qty": 108.9,
+      "costUsdt": 9.26,
+      "costTry": 331,
+      "takeProfitPrice": 0.090629,
+      "stopLossPrice": 0.083242,
+      "tpPct": 6.61,
+      "slPct": 2.08,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": -0.0011,
+      "unrealizedPnlPct": -0.01
     }
   ],
   "closedTrades": [
@@ -729,6 +760,7 @@
     }
   ],
   "recentLogs": [
+    "[11:42:04] 🟢 [OTOMATİK ALIM] HBAR (330,58 TL) @ $0.08501 | Skor: 60.5 | RSI: 52.89 | Balina: %57.9 | SL: -%2.08",
     "[11:39:50] ⚠️ Haber tarayıcı uyarısı: fetch failed",
     "[11:35:57] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[11:32:56] ⚠️ Haber tarayıcı uyarısı: fetch failed",
@@ -767,13 +799,12 @@
     "[22:42:51] 🟢 [OTOMATİK ALIM] WIF (390,92 TL) @ $0.1985 | Skor: 97.8 | Balina Alım: %62.9",
     "[22:42:51] ⚖️ [Tahta Kalkanı] XRP önünde satış duvarı (-0.37) var, pas geçildi.",
     "[22:42:51] 🏁 [POZİSYON KAPANDI] DOGE @ $0.07994 | 🔒 SIFIR RİSK KÂR KİLİDİ (%-1.31) | Net: -2,42 TL",
-    "[19:38:41] 🎰 [VURGUN SLOTU AÇILDI] DOGE (185,64 TL) @ $0.081 | Hedef: +%18 Vurgun | Balina: %58.6",
-    "[19:38:41] 🏁 [POZİSYON KAPANDI] DOGE @ $0.08099 | 🔒 SIFIR RİSK KÂR KİLİDİ (%-1.48) | Net: -2,82 TL"
+    "[19:38:41] 🎰 [VURGUN SLOTU AÇILDI] DOGE (185,64 TL) @ $0.081 | Hedef: +%18 Vurgun | Balina: %58.6"
   ],
-  "totalEquityUsdt": 28.9242,
-  "totalEquityTry": 1032.59,
-  "totalPnlUsdt": 0.9142,
-  "totalPnlPct": 3.26,
+  "totalEquityUsdt": 28.9395,
+  "totalEquityTry": 1033.14,
+  "totalPnlUsdt": 0.9295,
+  "totalPnlPct": 3.32,
   "cooldowns": {
     "FET": 1792154502952,
     "FLOKI": 1792340594778,
@@ -784,5 +815,5 @@
     "WLD": 1792306912864
   },
   "binanceTrStatus": "Bağlantı Bekleniyor",
-  "lastWhatsAppReportAt": 1792399199095
+  "lastWhatsAppReportAt": 1792399324648
 }

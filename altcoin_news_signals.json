@@ -1,20 +1,314 @@
 {
-  "updatedAt": "2026-10-19T03:15:13.135Z",
-  "scanDurationMs": 956,
+  "updatedAt": "2026-10-19T08:42:01.628Z",
+  "scanDurationMs": 10635,
   "bankrollTry": 1000,
   "bankrollUsdt": 28.01,
   "btc1hChangePct": 0.06,
   "btcCrashAlert": false,
-  "marketBreadthPct": 34,
-  "totalHeadlinesScanned": 102,
+  "marketBreadthPct": 67,
+  "totalHeadlinesScanned": 72,
   "activeFeeds": [
     "CoinTelegraph (20)",
     "Decrypt (20)",
-    "CoinDesk (20)",
     "BeInCrypto (12)",
-    "CryptoPotato (20)",
-    "NewsBTC (10)"
+    "CryptoPotato (20)"
   ],
-  "top4AltcoinPicks": [],
-  "allQualifiedOpportunities": []
+  "top4AltcoinPicks": [
+    {
+      "symbol": "HBAR",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "ripple",
+        "xrp"
+      ],
+      "newsScore": 5.44,
+      "freshestMinutesAgo": 157,
+      "headlines": [
+        {
+          "source": "CryptoPotato",
+          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
+          "minutesAgo": 941,
+          "catalystPoints": 3.2,
+          "directMention": false
+        },
+        {
+          "source": "CryptoPotato",
+          "title": "Ripple Price Analysis: What’s Next for XRP After Holding Key Support?",
+          "minutesAgo": 157,
+          "catalystPoints": 2.24,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.08501,
+      "change1hPct": 0.6,
+      "change24hPct": -3.409,
+      "lagVsLeader24h": 5.37,
+      "rsi1h": 52.89,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.26,
+      "bbPctB": 0.54,
+      "bbWidthPct": 6.27,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 5,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.08179,
+      "resistance": 0.08953,
+      "roomToResistancePct": 5.32,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 57.9,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.27,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 60.5,
+      "tpPct": 6.61,
+      "slPct": 2.08,
+      "tpPrice": 0.090629,
+      "slPrice": 0.083242
+    },
+    {
+      "symbol": "PYTH",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 3.2,
+      "freshestMinutesAgo": 941,
+      "headlines": [
+        {
+          "source": "CryptoPotato",
+          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
+          "minutesAgo": 941,
+          "catalystPoints": 3.2,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.07536,
+      "change1hPct": 0.23,
+      "change24hPct": -3.471,
+      "lagVsLeader24h": 6.11,
+      "rsi1h": 54.92,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.72,
+      "bbPctB": 0.7,
+      "bbWidthPct": 5.52,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 8.2,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.07166,
+      "resistance": 0.07972,
+      "roomToResistancePct": 5.79,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 52.9,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.59,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 45.4,
+      "tpPct": 7.95,
+      "slPct": 2.84,
+      "tpPrice": 0.081351,
+      "slPrice": 0.07322
+    }
+  ],
+  "allQualifiedOpportunities": [
+    {
+      "symbol": "HBAR",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "ripple",
+        "xrp"
+      ],
+      "newsScore": 5.44,
+      "freshestMinutesAgo": 157,
+      "headlines": [
+        {
+          "source": "CryptoPotato",
+          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
+          "minutesAgo": 941,
+          "catalystPoints": 3.2,
+          "directMention": false
+        },
+        {
+          "source": "CryptoPotato",
+          "title": "Ripple Price Analysis: What’s Next for XRP After Holding Key Support?",
+          "minutesAgo": 157,
+          "catalystPoints": 2.24,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.08501,
+      "change1hPct": 0.6,
+      "change24hPct": -3.409,
+      "lagVsLeader24h": 5.37,
+      "rsi1h": 52.89,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.26,
+      "bbPctB": 0.54,
+      "bbWidthPct": 6.27,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 5,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.08179,
+      "resistance": 0.08953,
+      "roomToResistancePct": 5.32,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 57.9,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.27,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 60.5,
+      "tpPct": 6.61,
+      "slPct": 2.08,
+      "tpPrice": 0.090629,
+      "slPrice": 0.083242
+    },
+    {
+      "symbol": "RSR",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "ripple",
+        "xrp"
+      ],
+      "newsScore": 5.44,
+      "freshestMinutesAgo": 157,
+      "headlines": [
+        {
+          "source": "CryptoPotato",
+          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
+          "minutesAgo": 941,
+          "catalystPoints": 3.2,
+          "directMention": false
+        },
+        {
+          "source": "CryptoPotato",
+          "title": "Ripple Price Analysis: What’s Next for XRP After Holding Key Support?",
+          "minutesAgo": 157,
+          "catalystPoints": 2.24,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.001841,
+      "change1hPct": -0.11,
+      "change24hPct": -6.596,
+      "lagVsLeader24h": 8.56,
+      "rsi1h": 41.25,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.75,
+      "bbPctB": 0.12,
+      "bbWidthPct": 5.65,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 8.1,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.001831,
+      "resistance": 0.001986,
+      "roomToResistancePct": 7.88,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 46.7,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.5,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 58.5,
+      "tpPct": 6.12,
+      "slPct": 2.89,
+      "tpPrice": 0.0019537,
+      "slPrice": 0.0017878
+    },
+    {
+      "symbol": "PYTH",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 3.2,
+      "freshestMinutesAgo": 941,
+      "headlines": [
+        {
+          "source": "CryptoPotato",
+          "title": "Spot Ripple (XRP) ETFs Reach the End of an Era, Solana (SOL) Funds Can't Catch a Break",
+          "minutesAgo": 941,
+          "catalystPoints": 3.2,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.07536,
+      "change1hPct": 0.23,
+      "change24hPct": -3.471,
+      "lagVsLeader24h": 6.11,
+      "rsi1h": 54.92,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.72,
+      "bbPctB": 0.7,
+      "bbWidthPct": 5.52,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 8.2,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.07166,
+      "resistance": 0.07972,
+      "roomToResistancePct": 5.79,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 52.9,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.59,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 45.4,
+      "tpPct": 7.95,
+      "slPct": 2.84,
+      "tpPrice": 0.081351,
+      "slPrice": 0.07322
+    }
+  ]
 }
