@@ -183,23 +183,33 @@ async function fetchText(url, timeoutMs = 3500) {
   }
 }
 
-async function fetchJson(url, options = {}, timeoutMs = 4200) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
+async function fetchJson(url, options = {}, timeoutMs = 5500) {
+  const tryFetch = async targetUrl => {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const res = await fetch(targetUrl, {
+        ...options,
+        signal: controller.signal,
+        headers: {
+          'User-Agent': 'AltcoinNewsHunter/7.0',
+          Accept: 'application/json',
+          ...(options.headers || {}),
+        },
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.json();
+    } finally {
+      clearTimeout(timer);
+    }
+  };
   try {
-    const res = await fetch(url, {
-      ...options,
-      signal: controller.signal,
-      headers: {
-        'User-Agent': 'AltcoinNewsHunter/7.0',
-        Accept: 'application/json',
-        ...(options.headers || {}),
-      },
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return await res.json();
-  } finally {
-    clearTimeout(timer);
+    return await tryFetch(url);
+  } catch (err) {
+    if (url.includes('data-api.binance.vision')) {
+      return await tryFetch(url.replace('data-api.binance.vision', 'api1.binance.com'));
+    }
+    throw err;
   }
 }
 

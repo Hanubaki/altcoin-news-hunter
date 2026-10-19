@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-19T08:33:10.098Z",
+  "updatedAt": "2026-10-19T08:36:23.294Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 28.01,
   "initialBankrollTry": 1000,
@@ -729,6 +729,7 @@
     }
   ],
   "recentLogs": [
+    "[11:35:57] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[11:32:56] ⚠️ Haber tarayıcı uyarısı: fetch failed",
     "[11:30:02] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[02:54:20] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
@@ -767,8 +768,7 @@
     "[22:42:51] 🏁 [POZİSYON KAPANDI] DOGE @ $0.07994 | 🔒 SIFIR RİSK KÂR KİLİDİ (%-1.31) | Net: -2,42 TL",
     "[19:38:41] 🎰 [VURGUN SLOTU AÇILDI] DOGE (185,64 TL) @ $0.081 | Hedef: +%18 Vurgun | Balina: %58.6",
     "[19:38:41] 🏁 [POZİSYON KAPANDI] DOGE @ $0.08099 | 🔒 SIFIR RİSK KÂR KİLİDİ (%-1.48) | Net: -2,82 TL",
-    "[19:38:41] 🏁 [POZİSYON KAPANDI] BOME @ $0.0006758 | 🔒 SIFIR RİSK KÂR KİLİDİ (%-2) | Net: -7,92 TL",
-    "[19:38:41] 🏁 [POZİSYON KAPANDI] FLOKI @ $0.0000242 | 🔒 SIFIR RİSK KÂR KİLİDİ (%-2.77) | Net: -11,12 TL"
+    "[19:38:41] 🏁 [POZİSYON KAPANDI] BOME @ $0.0006758 | 🔒 SIFIR RİSK KÂR KİLİDİ (%-2) | Net: -7,92 TL"
   ],
   "totalEquityUsdt": 28.9242,
   "totalEquityTry": 1032.59,
@@ -784,5 +784,5 @@
     "WLD": 1792306912864
   },
   "binanceTrStatus": "Bağlantı Bekleniyor",
-  "lastWhatsAppReportAt": 1792398789432
+  "lastWhatsAppReportAt": 1792398982757
 }

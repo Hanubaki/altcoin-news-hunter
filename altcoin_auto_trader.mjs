@@ -246,26 +246,36 @@ function logEvent(state, msg) {
   state._cycleEvents.push(entry);
 }
 
-async function fetchJson(url, options = {}, timeoutMs = 4500) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    const res = await fetch(url, {
-      ...options,
-      signal: controller.signal,
-      headers: {
-        'User-Agent': 'AltcoinAutoTrader/7.0',
-        Accept: 'application/json',
-        ...(options.headers || {}),
-      },
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) {
-      throw new Error(`HTTP ${res.status}: ${JSON.stringify(data)}`);
+async function fetchJson(url, options = {}, timeoutMs = 5500) {
+  const tryFetch = async targetUrl => {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const res = await fetch(targetUrl, {
+        ...options,
+        signal: controller.signal,
+        headers: {
+          'User-Agent': 'AltcoinAutoTrader/7.0',
+          Accept: 'application/json',
+          ...(options.headers || {}),
+        },
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}: ${JSON.stringify(data)}`);
+      }
+      return data;
+    } finally {
+      clearTimeout(timer);
     }
-    return data;
-  } finally {
-    clearTimeout(timer);
+  };
+  try {
+    return await tryFetch(url);
+  } catch (err) {
+    if (url.includes('data-api.binance.vision')) {
+      return await tryFetch(url.replace('data-api.binance.vision', 'api1.binance.com'));
+    }
+    throw err;
   }
 }
 
