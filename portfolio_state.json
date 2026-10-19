@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-19T09:17:27.674Z",
+  "updatedAt": "2026-10-19T09:38:55.822Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 84.03,
   "initialBankrollTry": 3000,
@@ -25,7 +25,7 @@
       "obImbalance": 0.04,
       "entryTime": "2026-10-18T17:22:36.113Z",
       "entryPrice": 0.00000492,
-      "currentPrice": 0.00000502,
+      "currentPrice": 0.00000503,
       "highestPrice": 0.00000504,
       "qty": 2817000,
       "costUsdt": 13.86,
@@ -38,8 +38,8 @@
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.2817,
-      "unrealizedPnlPct": 2.03
+      "unrealizedPnlUsdt": 0.3099,
+      "unrealizedPnlPct": 2.24
     },
     {
       "id": "pos_1792399324565_HBAR",
@@ -56,7 +56,7 @@
       "obImbalance": 0.05,
       "entryTime": "2026-10-19T08:42:04.565Z",
       "entryPrice": 0.08501,
-      "currentPrice": 0.08461,
+      "currentPrice": 0.08485,
       "highestPrice": 0.08501,
       "qty": 326.7,
       "costUsdt": 27.78,
@@ -69,8 +69,8 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.1307,
-      "unrealizedPnlPct": -0.47
+      "unrealizedPnlUsdt": -0.0523,
+      "unrealizedPnlPct": -0.19
     },
     {
       "id": "pos_1792401085560_ID",
@@ -791,6 +791,21 @@
     }
   ],
   "recentLogs": [
+    "[12:35:09] ⚠️ Haber tarayıcı uyarısı: fetch failed",
+    "[12:34:30] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
+    "[12:33:45] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
+    "[12:33:00] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
+    "[12:32:11] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
+    "[12:31:30] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
+    "[12:30:45] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
+    "[12:30:00] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
+    "[12:29:15] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
+    "[12:28:30] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
+    "[12:27:45] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
+    "[12:26:23] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
+    "[12:24:18] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
+    "[12:23:21] ⚠️ Haber tarayıcı uyarısı: fetch failed",
+    "[12:22:36] ⚠️ Haber tarayıcı uyarısı: fetch failed",
     "[12:11:25] 🟢 [OTOMATİK ALIM] ID (432,68 TL) @ $0.0307 | Skor: 83.7 | RSI: 65 | Balina: %54.1 | SL: -%2",
     "[11:42:04] 🟢 [OTOMATİK ALIM] HBAR (330,58 TL) @ $0.08501 | Skor: 60.5 | RSI: 52.89 | Balina: %57.9 | SL: -%2.08",
     "[11:39:50] ⚠️ Haber tarayıcı uyarısı: fetch failed",
@@ -815,27 +830,12 @@
     "[19:24:21] 🏁 [POZİSYON KAPANDI] BOME @ $0.000646 | 🔒 SIFIR RİSK KÂR KİLİDİ (%-2.48) | Net: -4,59 TL",
     "[16:05:11] 🎰 [VURGUN SLOTU AÇILDI] BOME (185,28 TL) @ $0.0006624 | Hedef: +%18 Vurgun | Balina: %52.5",
     "[16:05:11] ⚖️ [Tahta Kalkanı] BOME önünde satış duvarı (-0.18) var, pas geçildi.",
-    "[16:05:11] ⚖️ [Tahta Kalkanı] BOME önünde satış duvarı (-0.18) var, pas geçildi.",
-    "[16:05:11] 🟢 [OTOMATİK ALIM] DOGE (390,92 TL) @ $0.07977 | Skor: 99 | Balina Alım: %54.8",
-    "[16:05:11] 🏁 [POZİSYON KAPANDI] SUI @ $0.991 | 🛡️ SIKI KORUMA KALKANI (%-1.48) | Net: -5,06 TL",
-    "[16:05:11] 🏁 [POZİSYON KAPANDI] XRP @ $1.2974 | 🔒 SIFIR RİSK KÂR KİLİDİ (%0.04) | Net: 0,08 TL",
-    "[12:21:22] ⚖️ [Tahta Kalkanı] FLOKI önünde satış duvarı (-0.07) var, pas geçildi.",
-    "[12:21:22] 🟢 [OTOMATİK ALIM] SUI (341,65 TL) @ $1.0059 | Skor: 65.4 | Balina Alım: %52.8",
-    "[12:21:22] ⚖️ [Tahta Kalkanı] FLOKI önünde satış duvarı (-0.07) var, pas geçildi.",
-    "[12:20:39] ⚖️ [Tahta Kalkanı] FLOKI önünde satış duvarı (-0.07) var, pas geçildi.",
-    "[12:20:39] ⚖️ [Tahta Kalkanı] FLOKI önünde satış duvarı (-0.07) var, pas geçildi.",
-    "[12:20:39] 🏁 [POZİSYON KAPANDI] WIF @ $0.2018 | 🔒 SIFIR RİSK KÂR KİLİDİ (%0.66) | Net: 5,44 TL",
-    "[01:13:01] 🚀 [TAM GÜÇ BASILDI] Uçuşa geçen WIF coinine +429,83 TL ek kasa basıldı (Toplam: 820,74 TL | Kâr Kilidi Aktif)!",
-    "[22:42:51] 🎰 [VURGUN SLOTU AÇILDI] XRP (185,28 TL) @ $1.2969 | Hedef: +%18 Vurgun | Balina: %52.8",
-    "[22:42:51] ⚖️ [Tahta Kalkanı] XRP önünde satış duvarı (-0.38) var, pas geçildi.",
-    "[22:42:51] 🟢 [OTOMATİK ALIM] WIF (390,92 TL) @ $0.1985 | Skor: 97.8 | Balina Alım: %62.9",
-    "[22:42:51] ⚖️ [Tahta Kalkanı] XRP önünde satış duvarı (-0.37) var, pas geçildi.",
-    "[22:42:51] 🏁 [POZİSYON KAPANDI] DOGE @ $0.07994 | 🔒 SIFIR RİSK KÂR KİLİDİ (%-1.31) | Net: -2,42 TL"
+    "[16:05:11] ⚖️ [Tahta Kalkanı] BOME önünde satış duvarı (-0.18) var, pas geçildi."
   ],
-  "totalEquityUsdt": 86.5455,
-  "totalEquityTry": 3089.67,
-  "totalPnlUsdt": 2.5155,
-  "totalPnlPct": 2.99,
+  "totalEquityUsdt": 86.652,
+  "totalEquityTry": 3093.48,
+  "totalPnlUsdt": 2.622,
+  "totalPnlPct": 3.12,
   "cooldowns": {
     "FET": 1792154502952,
     "FLOKI": 1792340594778,
@@ -846,5 +846,6 @@
     "WLD": 1792306912864
   },
   "binanceTrStatus": "Bağlantı Bekleniyor",
-  "lastWhatsAppReportAt": 1792401362986
+  "lastWhatsAppReportAt": 1792402536487,
+  "highWaterMarkUsdt": 86.652
 }
