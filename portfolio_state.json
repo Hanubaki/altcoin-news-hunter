@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-18T23:55:12.873Z",
+  "updatedAt": "2026-10-19T03:15:13.861Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 28.01,
   "initialBankrollTry": 1000,
@@ -25,21 +25,21 @@
       "obImbalance": 0.04,
       "entryTime": "2026-10-18T17:22:36.113Z",
       "entryPrice": 0.00000492,
-      "currentPrice": 0.00000497,
-      "highestPrice": 0.00000497,
+      "currentPrice": 0.00000501,
+      "highestPrice": 0.00000502,
       "qty": 939000,
       "costUsdt": 4.62,
       "costTry": 165,
       "takeProfitPrice": 0.0000058056,
-      "stopLossPrice": 0.0000048019,
+      "stopLossPrice": 0.0000049594,
       "tpPct": 18,
       "slPct": 2.4,
       "partialTpDone": false,
       "stage2TpDone": false,
-      "trailingActive": false,
+      "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0469,
-      "unrealizedPnlPct": 1.02
+      "unrealizedPnlUsdt": 0.0845,
+      "unrealizedPnlPct": 1.83
     }
   ],
   "closedTrades": [
@@ -770,10 +770,10 @@
     "[15:24:34] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[15:23:04] ⚠️ Haber tarayıcı uyarısı: This operation was aborted"
   ],
-  "totalEquityUsdt": 28.8866,
-  "totalEquityTry": 1031.25,
-  "totalPnlUsdt": 0.8766,
-  "totalPnlPct": 3.13,
+  "totalEquityUsdt": 28.9242,
+  "totalEquityTry": 1032.59,
+  "totalPnlUsdt": 0.9142,
+  "totalPnlPct": 3.26,
   "cooldowns": {
     "FET": 1792154502952,
     "FLOKI": 1792340594778,
@@ -784,5 +784,5 @@
     "WLD": 1792306912864
   },
   "binanceTrStatus": "Bağlantı Bekleniyor",
-  "lastWhatsAppReportAt": 1792367661376
+  "lastWhatsAppReportAt": 1792379671168
 }
