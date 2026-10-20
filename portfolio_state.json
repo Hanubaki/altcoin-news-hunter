@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-20T12:19:45.760Z",
+  "updatedAt": "2026-10-20T12:28:47.089Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.2184,
@@ -25,8 +25,8 @@
       "obImbalance": 0.1,
       "entryTime": "2026-10-20T12:12:35.709Z",
       "entryPrice": 2.161,
-      "currentPrice": 2.167,
-      "highestPrice": 2.167,
+      "currentPrice": 2.171,
+      "highestPrice": 2.172,
       "qty": 3.91216,
       "costUsdt": 8.4883,
       "costTry": 420,
@@ -38,8 +38,8 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0235,
-      "unrealizedPnlPct": 0.28
+      "unrealizedPnlUsdt": 0.0391,
+      "unrealizedPnlPct": 0.46
     },
     {
       "id": "pos_1792498356933_LDO",
@@ -56,8 +56,8 @@
       "obImbalance": 0.12,
       "entryTime": "2026-10-20T12:12:36.933Z",
       "entryPrice": 0.3884,
-      "currentPrice": 0.3904,
-      "highestPrice": 0.3904,
+      "currentPrice": 0.3918,
+      "highestPrice": 0.3922,
       "qty": 21.79632,
       "costUsdt": 8.4883,
       "costTry": 420,
@@ -69,8 +69,8 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0436,
-      "unrealizedPnlPct": 0.51
+      "unrealizedPnlUsdt": 0.0741,
+      "unrealizedPnlPct": 0.88
     },
     {
       "id": "moon_1792498358090_SEI",
@@ -88,8 +88,8 @@
       "obImbalance": 0.19,
       "entryTime": "2026-10-20T12:12:38.090Z",
       "entryPrice": 0.06008,
-      "currentPrice": 0.06037,
-      "highestPrice": 0.06037,
+      "currentPrice": 0.06058,
+      "highestPrice": 0.06068,
       "qty": 53.5926,
       "costUsdt": 3.2337,
       "costTry": 160,
@@ -101,8 +101,8 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0155,
-      "unrealizedPnlPct": 0.48
+      "unrealizedPnlUsdt": 0.0268,
+      "unrealizedPnlPct": 0.83
     }
   ],
   "closedTrades": [],
@@ -148,12 +148,12 @@
     "[02:54:20] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[00:53:22] 🏁 [POZİSYON KAPANDI] DOGE @ $0.07762 | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.27) | Net: -1,07 TL"
   ],
-  "totalEquityUsdt": 20.2504,
-  "totalEquityTry": 1001.58,
-  "totalPnlUsdt": 0.032,
-  "totalPnlPct": 0.16,
+  "totalEquityUsdt": 20.3078,
+  "totalEquityTry": 1004.42,
+  "totalPnlUsdt": 0.0894,
+  "totalPnlPct": 0.44,
   "cooldowns": {},
-  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: BNB: 0.0004 | CAKE: 3.9122 | ETHW: 0.0010 | LDO: 21.7963 | SEI: 53.5926 | TRY: 1.3916)",
-  "lastWhatsAppReportAt": 1792490621891,
+  "binanceTrStatus": "Bağlantı Bekleniyor",
+  "lastWhatsAppReportAt": 1792499283065,
   "highWaterMarkUsdt": 28.0112
 }
