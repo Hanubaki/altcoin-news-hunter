@@ -1174,7 +1174,7 @@ function renderDashboardHtml() {
   </div>
 
   <script>
-    const RATE = ;
+    const RATE = 49.46;
     const fmtTL = u => (Number(u || 0) * RATE).toFixed(2) + ' TL';
 
     async function loadState() {
