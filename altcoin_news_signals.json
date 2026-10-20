@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-10-20T05:07:05.216Z",
-  "scanDurationMs": 2582,
+  "updatedAt": "2026-10-20T10:04:23.908Z",
+  "scanDurationMs": 1855,
   "bankrollTry": 1000,
   "bankrollUsdt": 28.01,
-  "btc1hChangePct": -0.14,
+  "btc1hChangePct": 0.01,
   "btcCrashAlert": false,
-  "marketBreadthPct": 53,
+  "marketBreadthPct": 23,
   "totalHeadlinesScanned": 102,
   "activeFeeds": [
     "CoinTelegraph (20)",
@@ -17,391 +17,7 @@
   ],
   "top4AltcoinPicks": [
     {
-      "symbol": "XRP",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "treasury",
-        "xrp",
-        "ripple"
-      ],
-      "newsScore": 16.16,
-      "freshestMinutesAgo": 5,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Major XRP Adoption News Sparks Excitement Across Ripple's Community: Details",
-          "minutesAgo": 531,
-          "catalystPoints": 8.64,
-          "directMention": true
-        },
-        {
-          "source": "CryptoPotato",
-          "title": "BTC, ETH, and XRP at Turning Points: Major Breakout or Deep Correction Coming Next?",
-          "minutesAgo": 812,
-          "catalystPoints": 4.32,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 1.305,
-      "change1hPct": 0.01,
-      "change24hPct": -0.442,
-      "lagVsLeader24h": 0,
-      "rsi1h": 60.6,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.59,
-      "bbPctB": 0.64,
-      "bbWidthPct": 0.85,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 34.6,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 1.2936,
-      "resistance": 1.3178,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 63.8,
-      "isGreenBounce": true,
-      "isTrending": true,
-      "volRatio": 0.09,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 99,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 1.3637,
-      "slPrice": 1.2789,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "LONG",
-          "confidence": 85,
-          "reason": "Balina alımı ve olumlu haber momentumu güçlü."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 82,
-          "reason": "Pozitif haber ve yüksek balina alımı destekli"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 84,
-      "liveLlmReason": "[Qwen-3.8: LONG %85] Balina alımı ve olumlu haber momentumu güçlü. | [GPT-120B: LONG %82] Pozitif haber ve yüksek balina alımı destekli"
-    },
-    {
-      "symbol": "STX",
-      "leaderSymbol": "BTC",
-      "ecosystems": [
-        "Bitcoin Layer-2, Ordinals, Runes & BTC DeFi"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "laggard-dip-accumulation"
-      ],
-      "newsScore": 7.12,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "WhaleOrderflowRadar",
-          "title": "STX Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
-          "minutesAgo": 20,
-          "catalystPoints": 7.12,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 0.3559,
-      "change1hPct": 0.25,
-      "change24hPct": -3.55,
-      "lagVsLeader24h": 2.83,
-      "rsi1h": 42.57,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.38,
-      "bbPctB": 0.26,
-      "bbWidthPct": 6.82,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 0.5,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.3529,
-      "resistance": 0.3837,
-      "roomToResistancePct": 7.81,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 58.9,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.08,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 99,
-      "tpPct": 5.87,
-      "slPct": 2.28,
-      "tpPrice": 0.37679,
-      "slPrice": 0.34779,
-      "realApiVerdicts": [
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 82,
-          "reason": "Balina alımı ve düşük RSI, yükseliş sinyali"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 82,
-      "liveLlmReason": "[GPT-120B: LONG %82] Balina alımı ve düşük RSI, yükseliş sinyali"
-    },
-    {
-      "symbol": "UNI",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "short-squeeze"
-      ],
-      "newsScore": 7.24,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "ShortSqueezeRadar",
-          "title": "UNI Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
-          "minutesAgo": 20,
-          "catalystPoints": 7.24,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 7.273,
-      "change1hPct": -0.38,
-      "change24hPct": -1.276,
-      "lagVsLeader24h": 0.62,
-      "rsi1h": 47.74,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.07,
-      "bbPctB": 0.4,
-      "bbWidthPct": 2.57,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 11,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 7.179,
-      "resistance": 7.45,
-      "roomToResistancePct": 2.43,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 53.6,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.08,
-      "fundingHourlyPct": -0.001,
-      "totalScore": 87.6,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 7.6003,
-      "slPrice": 7.1275,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "LONG",
-          "confidence": 75,
-          "reason": "Balina alımı ve short-squeeze potansiyeli güçlü."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "WAIT",
-          "confidence": 70,
-          "reason": "Negatif fonlama ve balina sinyali"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 73,
-      "liveLlmReason": "[Qwen-3.8: LONG %75] Balina alımı ve short-squeeze potansiyeli güçlü. | [GPT-120B: WAIT %70] Negatif fonlama ve balina sinyali"
-    },
-    {
-      "symbol": "JUP",
-      "leaderSymbol": "SOL",
-      "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "solana"
-      ],
-      "newsScore": 6.08,
-      "freshestMinutesAgo": 21,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "Solana treasury firm SkyAI sells all SOL holdings, launches $201M buyback",
-          "minutesAgo": 428,
-          "catalystPoints": 3.2,
-          "directMention": false
-        },
-        {
-          "source": "BeInCrypto",
-          "title": "StakerX's AI Agent Surpasses Passes $40M Staked Assets on Solana Within Three Months of Launch",
-          "minutesAgo": 21,
-          "catalystPoints": 2.88,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.2973,
-      "change1hPct": -0.34,
-      "change24hPct": 0.951,
-      "lagVsLeader24h": -1.27,
-      "rsi1h": 62.02,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.99,
-      "bbPctB": 0.82,
-      "bbWidthPct": 3.01,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 7.7,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.29,
-      "resistance": 0.2989,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 57.7,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.09,
-      "fundingHourlyPct": -0.0034,
-      "totalScore": 62.4,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.31068,
-      "slPrice": 0.29135,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "SkyAI SOL satışı piyasa için ciddi satış baskısı yaratır."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "WAIT",
-          "confidence": 70,
-          "reason": "Solana satışı, JUP riskli"
-        }
-      ],
-      "liveLlmDecision": "WAIT",
-      "liveLlmConfidence": 83,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] SkyAI SOL satışı piyasa için ciddi satış baskısı yaratır. | [GPT-120B: WAIT %70] Solana satışı, JUP riskli"
-    }
-  ],
-  "allQualifiedOpportunities": [
-    {
-      "symbol": "XRP",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "treasury",
-        "xrp",
-        "ripple"
-      ],
-      "newsScore": 16.16,
-      "freshestMinutesAgo": 5,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Major XRP Adoption News Sparks Excitement Across Ripple's Community: Details",
-          "minutesAgo": 531,
-          "catalystPoints": 8.64,
-          "directMention": true
-        },
-        {
-          "source": "CryptoPotato",
-          "title": "BTC, ETH, and XRP at Turning Points: Major Breakout or Deep Correction Coming Next?",
-          "minutesAgo": 812,
-          "catalystPoints": 4.32,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 1.305,
-      "change1hPct": 0.01,
-      "change24hPct": -0.442,
-      "lagVsLeader24h": 0,
-      "rsi1h": 60.6,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.59,
-      "bbPctB": 0.64,
-      "bbWidthPct": 0.85,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 34.6,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 1.2936,
-      "resistance": 1.3178,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 63.8,
-      "isGreenBounce": true,
-      "isTrending": true,
-      "volRatio": 0.09,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 99,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 1.3637,
-      "slPrice": 1.2789,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "LONG",
-          "confidence": 85,
-          "reason": "Balina alımı ve olumlu haber momentumu güçlü."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 82,
-          "reason": "Pozitif haber ve yüksek balina alımı destekli"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 84,
-      "liveLlmReason": "[Qwen-3.8: LONG %85] Balina alımı ve olumlu haber momentumu güçlü. | [GPT-120B: LONG %82] Pozitif haber ve yüksek balina alımı destekli"
-    },
-    {
-      "symbol": "AVAX",
+      "symbol": "HBAR",
       "leaderSymbol": "XRP",
       "ecosystems": [
         "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
@@ -412,40 +28,40 @@
         "ripple"
       ],
       "newsScore": 12.8,
-      "freshestMinutesAgo": 5,
+      "freshestMinutesAgo": 314,
       "headlines": [
         {
           "source": "CryptoPotato",
           "title": "Major XRP Adoption News Sparks Excitement Across Ripple's Community: Details",
-          "minutesAgo": 531,
+          "minutesAgo": 840,
           "catalystPoints": 6.4,
           "directMention": false
         },
         {
           "source": "CoinTelegraph",
           "title": "Solana treasury firm SkyAI sells all SOL holdings, launches $201M buyback",
-          "minutesAgo": 428,
+          "minutesAgo": 715,
           "catalystPoints": 3.2,
           "directMention": false
         }
       ],
-      "lastPrice": 9.599,
-      "change1hPct": 0.01,
-      "change24hPct": -1.518,
-      "lagVsLeader24h": 1.08,
-      "rsi1h": 53.85,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.87,
-      "bbPctB": 0.49,
-      "bbWidthPct": 2.32,
+      "lastPrice": 0.08271,
+      "change1hPct": 0.19,
+      "change24hPct": -1.641,
+      "lagVsLeader24h": 0.25,
+      "rsi1h": 57.87,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.93,
+      "bbPctB": 0.47,
+      "bbWidthPct": 2.48,
       "isSqueeze": true,
       "macdBullishTurn": true,
-      "adx": 14.3,
-      "ema20AboveEma50": false,
+      "adx": 3.2,
+      "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
-      "support": 9.487,
-      "resistance": 9.798,
-      "roomToResistancePct": 2.07,
+      "support": 0.08185,
+      "resistance": 0.08414,
+      "roomToResistancePct": 1.73,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -453,19 +69,36 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 66.5,
+      "takerBuyRatioPct": 58.9,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.07,
-      "fundingHourlyPct": -0.0004,
-      "totalScore": 97.9,
+      "volRatio": 0.05,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 99,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 10.031,
-      "slPrice": 9.407
+      "tpPrice": 0.086432,
+      "slPrice": 0.081056,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 95,
+          "reason": "Haber XRP'ye ait, HBAR için alakasız ve yanıltıcı."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 82,
+          "reason": "Whale alımları ve RSI pozitif"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 89,
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber XRP'ye ait, HBAR için alakasız ve yanıltıcı. | [GPT-120B: LONG %82] Whale alımları ve RSI pozitif"
     },
     {
-      "symbol": "STX",
+      "symbol": "BCH",
       "leaderSymbol": "BTC",
       "ecosystems": [
         "Bitcoin Layer-2, Ordinals, Runes & BTC DeFi"
@@ -474,101 +107,34 @@
         "whale-flow",
         "laggard-dip-accumulation"
       ],
-      "newsScore": 7.12,
+      "newsScore": 6.29,
       "freshestMinutesAgo": 20,
       "headlines": [
         {
           "source": "WhaleOrderflowRadar",
-          "title": "STX Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "title": "BCH Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
           "minutesAgo": 20,
-          "catalystPoints": 7.12,
+          "catalystPoints": 6.29,
           "directMention": true
         }
       ],
-      "lastPrice": 0.3559,
-      "change1hPct": 0.25,
-      "change24hPct": -3.55,
-      "lagVsLeader24h": 2.83,
-      "rsi1h": 42.57,
+      "lastPrice": 273.3,
+      "change1hPct": 0.11,
+      "change24hPct": -2.218,
+      "lagVsLeader24h": 0.66,
+      "rsi1h": 36.36,
       "hasRsiDivergence": true,
-      "atr1hPct": 1.38,
-      "bbPctB": 0.26,
-      "bbWidthPct": 6.82,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 0.5,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.3529,
-      "resistance": 0.3837,
-      "roomToResistancePct": 7.81,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 58.9,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.08,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 99,
-      "tpPct": 5.87,
-      "slPct": 2.28,
-      "tpPrice": 0.37679,
-      "slPrice": 0.34779,
-      "realApiVerdicts": [
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 82,
-          "reason": "Balina alımı ve düşük RSI, yükseliş sinyali"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 82,
-      "liveLlmReason": "[GPT-120B: LONG %82] Balina alımı ve düşük RSI, yükseliş sinyali"
-    },
-    {
-      "symbol": "UNI",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "short-squeeze"
-      ],
-      "newsScore": 7.24,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "ShortSqueezeRadar",
-          "title": "UNI Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
-          "minutesAgo": 20,
-          "catalystPoints": 7.24,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 7.273,
-      "change1hPct": -0.38,
-      "change24hPct": -1.276,
-      "lagVsLeader24h": 0.62,
-      "rsi1h": 47.74,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.07,
-      "bbPctB": 0.4,
-      "bbWidthPct": 2.57,
+      "atr1hPct": 0.83,
+      "bbPctB": 0.03,
+      "bbWidthPct": 3.21,
       "isSqueeze": true,
       "macdBullishTurn": false,
-      "adx": 11,
-      "ema20AboveEma50": true,
+      "adx": 44.3,
+      "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 7.179,
-      "resistance": 7.45,
-      "roomToResistancePct": 2.43,
+      "support": 272.9,
+      "resistance": 281.2,
+      "roomToResistancePct": 2.89,
       "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -577,338 +143,309 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 53.6,
-      "isGreenBounce": false,
+      "takerBuyRatioPct": 63.9,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.08,
-      "fundingHourlyPct": -0.001,
-      "totalScore": 87.6,
+      "volRatio": 0.06,
+      "fundingHourlyPct": 0.001,
+      "totalScore": 97.3,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 7.6003,
-      "slPrice": 7.1275,
+      "tpPrice": 285.6,
+      "slPrice": 267.83,
       "realApiVerdicts": [
         {
-          "model": "Qwen-3.8",
-          "decision": "LONG",
-          "confidence": 75,
-          "reason": "Balina alımı ve short-squeeze potansiyeli güçlü."
-        },
-        {
           "model": "GPT-120B",
-          "decision": "WAIT",
-          "confidence": 70,
-          "reason": "Negatif fonlama ve balina sinyali"
+          "decision": "LONG",
+          "confidence": 78,
+          "reason": "Balina alımı, düşük RSI, destek yakın"
         }
       ],
       "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 73,
-      "liveLlmReason": "[Qwen-3.8: LONG %75] Balina alımı ve short-squeeze potansiyeli güçlü. | [GPT-120B: WAIT %70] Negatif fonlama ve balina sinyali"
+      "liveLlmConfidence": 78,
+      "liveLlmReason": "[GPT-120B: LONG %78] Balina alımı, düşük RSI, destek yakın"
     },
     {
-      "symbol": "JUP",
-      "leaderSymbol": "SOL",
-      "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "solana"
-      ],
-      "newsScore": 6.08,
-      "freshestMinutesAgo": 21,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "Solana treasury firm SkyAI sells all SOL holdings, launches $201M buyback",
-          "minutesAgo": 428,
-          "catalystPoints": 3.2,
-          "directMention": false
-        },
-        {
-          "source": "BeInCrypto",
-          "title": "StakerX's AI Agent Surpasses Passes $40M Staked Assets on Solana Within Three Months of Launch",
-          "minutesAgo": 21,
-          "catalystPoints": 2.88,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.2973,
-      "change1hPct": -0.34,
-      "change24hPct": 0.951,
-      "lagVsLeader24h": -1.27,
-      "rsi1h": 62.02,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.99,
-      "bbPctB": 0.82,
-      "bbWidthPct": 3.01,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 7.7,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.29,
-      "resistance": 0.2989,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 57.7,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.09,
-      "fundingHourlyPct": -0.0034,
-      "totalScore": 62.4,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.31068,
-      "slPrice": 0.29135,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "SkyAI SOL satışı piyasa için ciddi satış baskısı yaratır."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "WAIT",
-          "confidence": 70,
-          "reason": "Solana satışı, JUP riskli"
-        }
-      ],
-      "liveLlmDecision": "WAIT",
-      "liveLlmConfidence": 83,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] SkyAI SOL satışı piyasa için ciddi satış baskısı yaratır. | [GPT-120B: WAIT %70] Solana satışı, JUP riskli"
-    },
-    {
-      "symbol": "ONDO",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "treasury",
-        "xrp",
-        "ripple"
-      ],
-      "newsScore": 12.8,
-      "freshestMinutesAgo": 5,
-      "headlines": [
-        {
-          "source": "CryptoPotato",
-          "title": "Major XRP Adoption News Sparks Excitement Across Ripple's Community: Details",
-          "minutesAgo": 531,
-          "catalystPoints": 6.4,
-          "directMention": false
-        },
-        {
-          "source": "CoinTelegraph",
-          "title": "Solana treasury firm SkyAI sells all SOL holdings, launches $201M buyback",
-          "minutesAgo": 428,
-          "catalystPoints": 3.2,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.4391,
-      "change1hPct": -0.11,
-      "change24hPct": 1.175,
-      "lagVsLeader24h": -1.62,
-      "rsi1h": 62.98,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.14,
-      "bbPctB": 0.83,
-      "bbWidthPct": 2.97,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 14.9,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.4283,
-      "resistance": 0.444,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 59.8,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.1,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 74,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.45886,
-      "slPrice": 0.43032
-    },
-    {
-      "symbol": "ETHFI",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "laggard-dip-accumulation"
-      ],
-      "newsScore": 6.33,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "WhaleOrderflowRadar",
-          "title": "ETHFI Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
-          "minutesAgo": 20,
-          "catalystPoints": 6.33,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 0.6806,
-      "change1hPct": -0.29,
-      "change24hPct": -2.423,
-      "lagVsLeader24h": 1.77,
-      "rsi1h": 47.89,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.27,
-      "bbPctB": 0.37,
-      "bbWidthPct": 4.56,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 0.7,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.6693,
-      "resistance": 0.716,
-      "roomToResistancePct": 5.2,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 57.1,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.02,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 72.7,
-      "tpPct": 5,
-      "slPct": 2.1,
-      "tpPrice": 0.71463,
-      "slPrice": 0.66631
-    },
-    {
-      "symbol": "TAO",
+      "symbol": "NEAR",
       "leaderSymbol": "FET",
       "ecosystems": [
         "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
       ],
       "matchedKeywords": [
         "anthropic",
+        "openai",
         "ai agent"
       ],
-      "newsScore": 3.78,
-      "freshestMinutesAgo": 21,
+      "newsScore": 2.8,
+      "freshestMinutesAgo": 163,
       "headlines": [
         {
           "source": "BeInCrypto",
           "title": "StakerX's AI Agent Surpasses Passes $40M Staked Assets on Solana Within Three Months of Launch",
-          "minutesAgo": 21,
-          "catalystPoints": 2.88,
+          "minutesAgo": 449,
+          "catalystPoints": 1.6,
           "directMention": false
         },
         {
-          "source": "Decrypt",
-          "title": "Anthropic Gives 5% of Itself to the Public. Musk Answers by Giving Away SpaceX Shares",
-          "minutesAgo": 36,
-          "catalystPoints": 0.9,
+          "source": "BeInCrypto",
+          "title": "What Anthropic’s IPO Filing Could Reveal and Why OpenAI Is Racing It",
+          "minutesAgo": 163,
+          "catalystPoints": 0.7,
           "directMention": false
         }
       ],
-      "lastPrice": 266.7,
-      "change1hPct": -0.07,
-      "change24hPct": -2.343,
-      "lagVsLeader24h": 2.5,
-      "rsi1h": 43.88,
+      "lastPrice": 4.706,
+      "change1hPct": 0,
+      "change24hPct": -6.996,
+      "lagVsLeader24h": 5.74,
+      "rsi1h": 23.84,
       "hasRsiDivergence": false,
-      "atr1hPct": 1.05,
-      "bbPctB": 0.35,
-      "bbWidthPct": 2.83,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 21.5,
+      "atr1hPct": 1.45,
+      "bbPctB": 0.03,
+      "bbWidthPct": 6.32,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 60.5,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 264.1,
-      "resistance": 274.7,
-      "roomToResistancePct": 3,
+      "support": 4.695,
+      "resistance": 5.026,
+      "roomToResistancePct": 6.8,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
-        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 53.9,
+      "isGreenBounce": true,
+      "isTrending": true,
+      "volRatio": 0.12,
+      "fundingHourlyPct": -0.0018,
+      "totalScore": 96.6,
+      "tpPct": 5.18,
+      "slPct": 2.39,
+      "tpPrice": 4.9498,
+      "slPrice": 4.5935,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 95,
+          "reason": "Haber Solana'ya ait, NEAR ile alakasız tuzak."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 78,
+          "reason": "Aşırı satım, balina alımı, yükseliş potansiyeli"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 87,
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber Solana'ya ait, NEAR ile alakasız tuzak. | [GPT-120B: LONG %78] Aşırı satım, balina alımı, yükseliş potansiyeli"
+    },
+    {
+      "symbol": "SAND",
+      "leaderSymbol": "IMX",
+      "ecosystems": [
+        "Web3 Oyun (GameFi), Immutable, Ronin & Metaverse"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "short-squeeze"
+      ],
+      "newsScore": 8.24,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "ShortSqueezeRadar",
+          "title": "SAND Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
+          "minutesAgo": 20,
+          "catalystPoints": 8.24,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.057,
+      "change1hPct": 0.28,
+      "change24hPct": -2.514,
+      "lagVsLeader24h": 1.92,
+      "rsi1h": 23.06,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.49,
+      "bbPctB": 0.19,
+      "bbWidthPct": 6.82,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 69.2,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.05655,
+      "resistance": 0.06036,
+      "roomToResistancePct": 5.89,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 59.5,
-      "isGreenBounce": false,
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 46.5,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.03,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 71.5,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 278.7,
-      "slPrice": 261.37
-    },
+      "volRatio": 0.08,
+      "fundingHourlyPct": -0.0178,
+      "totalScore": 96.5,
+      "tpPct": 4.53,
+      "slPct": 2.46,
+      "tpPrice": 0.059582,
+      "slPrice": 0.055598,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "LONG",
+          "confidence": 85,
+          "reason": "RSI aşırı satım, balina alımı güçlü, short-squeeze potansiyeli."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "WAIT",
+          "confidence": 70,
+          "reason": "Negatif haber ve düşük RSI"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 78,
+      "liveLlmReason": "[Qwen-3.8: LONG %85] RSI aşırı satım, balina alımı güçlü, short-squeeze potansiyeli. | [GPT-120B: WAIT %70] Negatif haber ve düşük RSI"
+    }
+  ],
+  "allQualifiedOpportunities": [
     {
-      "symbol": "BONK",
-      "leaderSymbol": "SOL",
+      "symbol": "HBAR",
+      "leaderSymbol": "XRP",
       "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
-        "solana"
+        "treasury",
+        "xrp",
+        "ripple"
       ],
-      "newsScore": 6.08,
-      "freshestMinutesAgo": 21,
+      "newsScore": 12.8,
+      "freshestMinutesAgo": 314,
       "headlines": [
         {
-          "source": "CoinTelegraph",
-          "title": "Solana treasury firm SkyAI sells all SOL holdings, launches $201M buyback",
-          "minutesAgo": 428,
-          "catalystPoints": 3.2,
+          "source": "CryptoPotato",
+          "title": "Major XRP Adoption News Sparks Excitement Across Ripple's Community: Details",
+          "minutesAgo": 840,
+          "catalystPoints": 6.4,
           "directMention": false
         },
         {
-          "source": "BeInCrypto",
-          "title": "StakerX's AI Agent Surpasses Passes $40M Staked Assets on Solana Within Three Months of Launch",
-          "minutesAgo": 21,
-          "catalystPoints": 2.88,
+          "source": "CoinTelegraph",
+          "title": "Solana treasury firm SkyAI sells all SOL holdings, launches $201M buyback",
+          "minutesAgo": 715,
+          "catalystPoints": 3.2,
           "directMention": false
         }
       ],
-      "lastPrice": 0.00000295,
-      "change1hPct": 0.34,
-      "change24hPct": 0.34,
-      "lagVsLeader24h": -0.66,
-      "rsi1h": 59.09,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.05,
-      "bbPctB": 0.8,
-      "bbWidthPct": 2.47,
+      "lastPrice": 0.08271,
+      "change1hPct": 0.19,
+      "change24hPct": -1.641,
+      "lagVsLeader24h": 0.25,
+      "rsi1h": 57.87,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.93,
+      "bbPctB": 0.47,
+      "bbWidthPct": 2.48,
       "isSqueeze": true,
       "macdBullishTurn": true,
-      "adx": 14.3,
+      "adx": 3.2,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
-      "support": 0.00000289,
-      "resistance": 0.00000297,
+      "support": 0.08185,
+      "resistance": 0.08414,
+      "roomToResistancePct": 1.73,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 58.9,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.05,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 99,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.086432,
+      "slPrice": 0.081056,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 95,
+          "reason": "Haber XRP'ye ait, HBAR için alakasız ve yanıltıcı."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 82,
+          "reason": "Whale alımları ve RSI pozitif"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 89,
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber XRP'ye ait, HBAR için alakasız ve yanıltıcı. | [GPT-120B: LONG %82] Whale alımları ve RSI pozitif"
+    },
+    {
+      "symbol": "XLM",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "treasury",
+        "xrp",
+        "ripple"
+      ],
+      "newsScore": 12.8,
+      "freshestMinutesAgo": 314,
+      "headlines": [
+        {
+          "source": "CryptoPotato",
+          "title": "Major XRP Adoption News Sparks Excitement Across Ripple's Community: Details",
+          "minutesAgo": 840,
+          "catalystPoints": 6.4,
+          "directMention": false
+        },
+        {
+          "source": "CoinTelegraph",
+          "title": "Solana treasury firm SkyAI sells all SOL holdings, launches $201M buyback",
+          "minutesAgo": 715,
+          "catalystPoints": 3.2,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.1758,
+      "change1hPct": 0.11,
+      "change24hPct": -1.347,
+      "lagVsLeader24h": -0.05,
+      "rsi1h": 44.12,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.62,
+      "bbPctB": 0.18,
+      "bbWidthPct": 1.76,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 43.6,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.175,
+      "resistance": 0.1782,
       "roomToResistancePct": 1.5,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
@@ -917,16 +454,301 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 55.1,
+      "takerBuyRatioPct": 52.3,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.32,
-      "fundingHourlyPct": 0,
-      "totalScore": 71.4,
+      "volRatio": 0.11,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 93,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 0.0000030827,
-      "slPrice": 0.000002891
+      "tpPrice": 0.18371,
+      "slPrice": 0.17228
+    },
+    {
+      "symbol": "BCH",
+      "leaderSymbol": "BTC",
+      "ecosystems": [
+        "Bitcoin Layer-2, Ordinals, Runes & BTC DeFi"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 6.29,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "BCH Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 6.29,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 273.3,
+      "change1hPct": 0.11,
+      "change24hPct": -2.218,
+      "lagVsLeader24h": 0.66,
+      "rsi1h": 36.36,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.83,
+      "bbPctB": 0.03,
+      "bbWidthPct": 3.21,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 44.3,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 272.9,
+      "resistance": 281.2,
+      "roomToResistancePct": 2.89,
+      "aiConsensusCount": 4,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 63.9,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.06,
+      "fundingHourlyPct": 0.001,
+      "totalScore": 97.3,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 285.6,
+      "slPrice": 267.83,
+      "realApiVerdicts": [
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 78,
+          "reason": "Balina alımı, düşük RSI, destek yakın"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 78,
+      "liveLlmReason": "[GPT-120B: LONG %78] Balina alımı, düşük RSI, destek yakın"
+    },
+    {
+      "symbol": "RSR",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "treasury",
+        "xrp",
+        "ripple"
+      ],
+      "newsScore": 12.8,
+      "freshestMinutesAgo": 314,
+      "headlines": [
+        {
+          "source": "CryptoPotato",
+          "title": "Major XRP Adoption News Sparks Excitement Across Ripple's Community: Details",
+          "minutesAgo": 840,
+          "catalystPoints": 6.4,
+          "directMention": false
+        },
+        {
+          "source": "CoinTelegraph",
+          "title": "Solana treasury firm SkyAI sells all SOL holdings, launches $201M buyback",
+          "minutesAgo": 715,
+          "catalystPoints": 3.2,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.001837,
+      "change1hPct": 0.05,
+      "change24hPct": -0.271,
+      "lagVsLeader24h": -1.12,
+      "rsi1h": 42,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.44,
+      "bbPctB": 0.21,
+      "bbWidthPct": 4.76,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 22.7,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.001814,
+      "resistance": 0.001914,
+      "roomToResistancePct": 4.19,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 55.6,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.07,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 91,
+      "tpPct": 4.5,
+      "slPct": 2.38,
+      "tpPrice": 0.0019197,
+      "slPrice": 0.0017933
+    },
+    {
+      "symbol": "NEAR",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "anthropic",
+        "openai",
+        "ai agent"
+      ],
+      "newsScore": 2.8,
+      "freshestMinutesAgo": 163,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "StakerX's AI Agent Surpasses Passes $40M Staked Assets on Solana Within Three Months of Launch",
+          "minutesAgo": 449,
+          "catalystPoints": 1.6,
+          "directMention": false
+        },
+        {
+          "source": "BeInCrypto",
+          "title": "What Anthropic’s IPO Filing Could Reveal and Why OpenAI Is Racing It",
+          "minutesAgo": 163,
+          "catalystPoints": 0.7,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 4.706,
+      "change1hPct": 0,
+      "change24hPct": -6.996,
+      "lagVsLeader24h": 5.74,
+      "rsi1h": 23.84,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.45,
+      "bbPctB": 0.03,
+      "bbWidthPct": 6.32,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 60.5,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 4.695,
+      "resistance": 5.026,
+      "roomToResistancePct": 6.8,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 53.9,
+      "isGreenBounce": true,
+      "isTrending": true,
+      "volRatio": 0.12,
+      "fundingHourlyPct": -0.0018,
+      "totalScore": 96.6,
+      "tpPct": 5.18,
+      "slPct": 2.39,
+      "tpPrice": 4.9498,
+      "slPrice": 4.5935,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 95,
+          "reason": "Haber Solana'ya ait, NEAR ile alakasız tuzak."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "LONG",
+          "confidence": 78,
+          "reason": "Aşırı satım, balina alımı, yükseliş potansiyeli"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 87,
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber Solana'ya ait, NEAR ile alakasız tuzak. | [GPT-120B: LONG %78] Aşırı satım, balina alımı, yükseliş potansiyeli"
+    },
+    {
+      "symbol": "SAND",
+      "leaderSymbol": "IMX",
+      "ecosystems": [
+        "Web3 Oyun (GameFi), Immutable, Ronin & Metaverse"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "short-squeeze"
+      ],
+      "newsScore": 8.24,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "ShortSqueezeRadar",
+          "title": "SAND Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
+          "minutesAgo": 20,
+          "catalystPoints": 8.24,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.057,
+      "change1hPct": 0.28,
+      "change24hPct": -2.514,
+      "lagVsLeader24h": 1.92,
+      "rsi1h": 23.06,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.49,
+      "bbPctB": 0.19,
+      "bbWidthPct": 6.82,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 69.2,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.05655,
+      "resistance": 0.06036,
+      "roomToResistancePct": 5.89,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 46.5,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.08,
+      "fundingHourlyPct": -0.0178,
+      "totalScore": 96.5,
+      "tpPct": 4.53,
+      "slPct": 2.46,
+      "tpPrice": 0.059582,
+      "slPrice": 0.055598,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "LONG",
+          "confidence": 85,
+          "reason": "RSI aşırı satım, balina alımı güçlü, short-squeeze potansiyeli."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "WAIT",
+          "confidence": 70,
+          "reason": "Negatif haber ve düşük RSI"
+        }
+      ],
+      "liveLlmDecision": "LONG",
+      "liveLlmConfidence": 78,
+      "liveLlmReason": "[Qwen-3.8: LONG %85] RSI aşırı satım, balina alımı güçlü, short-squeeze potansiyeli. | [GPT-120B: WAIT %70] Negatif haber ve düşük RSI"
     },
     {
       "symbol": "LINK",
@@ -940,59 +762,124 @@
         "ripple"
       ],
       "newsScore": 12.8,
-      "freshestMinutesAgo": 5,
+      "freshestMinutesAgo": 314,
       "headlines": [
         {
           "source": "CryptoPotato",
           "title": "Major XRP Adoption News Sparks Excitement Across Ripple's Community: Details",
-          "minutesAgo": 531,
+          "minutesAgo": 840,
           "catalystPoints": 6.4,
           "directMention": false
         },
         {
           "source": "CoinTelegraph",
           "title": "Solana treasury firm SkyAI sells all SOL holdings, launches $201M buyback",
-          "minutesAgo": 428,
+          "minutesAgo": 715,
           "catalystPoints": 3.2,
           "directMention": false
         }
       ],
-      "lastPrice": 12.046,
-      "change1hPct": -0.08,
-      "change24hPct": -0.57,
-      "lagVsLeader24h": 0.13,
-      "rsi1h": 58.02,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.83,
-      "bbPctB": 0.65,
-      "bbWidthPct": 2.19,
+      "lastPrice": 11.931,
+      "change1hPct": 0.02,
+      "change24hPct": -1.802,
+      "lagVsLeader24h": 0.41,
+      "rsi1h": 51.15,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.76,
+      "bbPctB": 0.31,
+      "bbWidthPct": 1.93,
       "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 5.1,
-      "ema20AboveEma50": true,
+      "macdBullishTurn": false,
+      "adx": 13.6,
+      "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
       "support": 11.843,
-      "resistance": 12.215,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 2,
+      "resistance": 12.14,
+      "roomToResistancePct": 1.75,
+      "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 55.2,
-      "isGreenBounce": false,
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 58.9,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.03,
-      "fundingHourlyPct": 0.0005,
-      "totalScore": 70,
+      "volRatio": 0.04,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 90,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 12.588,
-      "slPrice": 11.805
+      "tpPrice": 12.468,
+      "slPrice": 11.692
     },
     {
-      "symbol": "ENS",
+      "symbol": "AVAX",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "treasury",
+        "xrp",
+        "ripple"
+      ],
+      "newsScore": 12.8,
+      "freshestMinutesAgo": 314,
+      "headlines": [
+        {
+          "source": "CryptoPotato",
+          "title": "Major XRP Adoption News Sparks Excitement Across Ripple's Community: Details",
+          "minutesAgo": 840,
+          "catalystPoints": 6.4,
+          "directMention": false
+        },
+        {
+          "source": "CoinTelegraph",
+          "title": "Solana treasury firm SkyAI sells all SOL holdings, launches $201M buyback",
+          "minutesAgo": 715,
+          "catalystPoints": 3.2,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 9.441,
+      "change1hPct": 0.1,
+      "change24hPct": -3.308,
+      "lagVsLeader24h": 1.91,
+      "rsi1h": 38.6,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.82,
+      "bbPctB": 0.01,
+      "bbWidthPct": 2.29,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 38.1,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 9.428,
+      "resistance": 9.744,
+      "roomToResistancePct": 3.21,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 47,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.02,
+      "fundingHourlyPct": 0.0005,
+      "totalScore": 87.4,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 9.8658,
+      "slPrice": 9.2522
+    },
+    {
+      "symbol": "PENDLE",
       "leaderSymbol": "ETH",
       "ecosystems": [
         "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
@@ -1001,522 +888,223 @@
         "whale-flow",
         "laggard-dip-accumulation"
       ],
-      "newsScore": 4.88,
+      "newsScore": 5.74,
       "freshestMinutesAgo": 20,
       "headlines": [
         {
           "source": "WhaleOrderflowRadar",
-          "title": "ENS Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "title": "PENDLE Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
           "minutesAgo": 20,
-          "catalystPoints": 4.88,
+          "catalystPoints": 5.74,
           "directMention": true
         }
       ],
-      "lastPrice": 5.48,
-      "change1hPct": 0,
-      "change24hPct": -0.544,
-      "lagVsLeader24h": -0.11,
-      "rsi1h": 53.13,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.78,
-      "bbPctB": 0.57,
-      "bbWidthPct": 1.84,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 0,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 5.42,
-      "resistance": 5.57,
-      "roomToResistancePct": 1.64,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 66.3,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.08,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 70,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 5.7266,
-      "slPrice": 5.3704
-    },
-    {
-      "symbol": "NEAR",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "anthropic",
-        "ai agent"
-      ],
-      "newsScore": 3.78,
-      "freshestMinutesAgo": 21,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "StakerX's AI Agent Surpasses Passes $40M Staked Assets on Solana Within Three Months of Launch",
-          "minutesAgo": 21,
-          "catalystPoints": 2.88,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "Anthropic Gives 5% of Itself to the Public. Musk Answers by Giving Away SpaceX Shares",
-          "minutesAgo": 36,
-          "catalystPoints": 0.9,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 4.802,
-      "change1hPct": 0,
-      "change24hPct": -4.911,
-      "lagVsLeader24h": 5.07,
-      "rsi1h": 38.12,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.62,
-      "bbPctB": 0.04,
-      "bbWidthPct": 4.57,
+      "lastPrice": 2.056,
+      "change1hPct": 0.1,
+      "change24hPct": -1.862,
+      "lagVsLeader24h": -0.25,
+      "rsi1h": 51.98,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.43,
+      "bbPctB": 0.3,
+      "bbWidthPct": 3.6,
       "isSqueeze": true,
       "macdBullishTurn": false,
-      "adx": 33.6,
-      "ema20AboveEma50": false,
+      "adx": 2.7,
+      "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
-      "support": 4.789,
-      "resistance": 5.103,
-      "roomToResistancePct": 6.27,
-      "aiConsensusCount": 3,
+      "support": 2.038,
+      "resistance": 2.116,
+      "roomToResistancePct": 2.92,
+      "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
         "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 43.5,
-      "isGreenBounce": false,
-      "isTrending": true,
-      "volRatio": 0.09,
-      "fundingHourlyPct": 0.0012,
-      "totalScore": 65,
-      "tpPct": 4.82,
-      "slPct": 2.67,
-      "tpPrice": 5.0335,
-      "slPrice": 4.6738
-    },
-    {
-      "symbol": "CAKE",
-      "leaderSymbol": "BNB",
-      "ecosystems": [
-        "Binance / BNB Chain, Launchpool & DEX Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "laggard-dip-accumulation"
-      ],
-      "newsScore": 6.15,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "WhaleOrderflowRadar",
-          "title": "CAKE Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
-          "minutesAgo": 20,
-          "catalystPoints": 6.15,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 2.174,
-      "change1hPct": 0,
-      "change24hPct": -1.272,
-      "lagVsLeader24h": 1.8,
-      "rsi1h": 53.01,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.66,
-      "bbPctB": 0.46,
-      "bbWidthPct": 1.75,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 1.1,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 2.158,
-      "resistance": 2.206,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
         "Gemini-3.5-Flash",
         "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 51.6,
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 57.5,
       "isGreenBounce": true,
       "isTrending": false,
       "volRatio": 0.02,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 64.9,
+      "totalScore": 84.8,
       "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 2.2718,
-      "slPrice": 2.1305
+      "slPct": 2.36,
+      "tpPrice": 2.1485,
+      "slPrice": 2.0075
     },
     {
-      "symbol": "SEI",
-      "leaderSymbol": "SUI",
+      "symbol": "AAVE",
+      "leaderSymbol": "ETH",
       "ecosystems": [
-        "Move VM & Yeni Nesil Yüksek Hızlı L1 (Sui / Aptos / Sei / Injective)"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "short-squeeze"
-      ],
-      "newsScore": 6.71,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "ShortSqueezeRadar",
-          "title": "SEI Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
-          "minutesAgo": 20,
-          "catalystPoints": 6.71,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 0.06049,
-      "change1hPct": -0.26,
-      "change24hPct": -0.608,
-      "lagVsLeader24h": 0.01,
-      "rsi1h": 47.06,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.31,
-      "bbPctB": 0.58,
-      "bbWidthPct": 2.75,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 26,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.05936,
-      "resistance": 0.06175,
-      "roomToResistancePct": 2.08,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 48,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.11,
-      "fundingHourlyPct": -0.0012,
-      "totalScore": 64.2,
-      "tpPct": 4.5,
-      "slPct": 2.16,
-      "tpPrice": 0.063212,
-      "slPrice": 0.059183
-    },
-    {
-      "symbol": "PYTH",
-      "leaderSymbol": "SOL",
-      "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "solana"
-      ],
-      "newsScore": 6.08,
-      "freshestMinutesAgo": 21,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "Solana treasury firm SkyAI sells all SOL holdings, launches $201M buyback",
-          "minutesAgo": 428,
-          "catalystPoints": 3.2,
-          "directMention": false
-        },
-        {
-          "source": "BeInCrypto",
-          "title": "StakerX's AI Agent Surpasses Passes $40M Staked Assets on Solana Within Three Months of Launch",
-          "minutesAgo": 21,
-          "catalystPoints": 2.88,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.07277,
-      "change1hPct": -0.12,
-      "change24hPct": -2.531,
-      "lagVsLeader24h": 2.21,
-      "rsi1h": 39.74,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.57,
-      "bbPctB": 0.39,
-      "bbWidthPct": 3.64,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 8.6,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.07173,
-      "resistance": 0.0757,
-      "roomToResistancePct": 4.03,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 48,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.17,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 62.3,
-      "tpPct": 4.63,
-      "slPct": 2.59,
-      "tpPrice": 0.076139,
-      "slPrice": 0.070885
-    },
-    {
-      "symbol": "LTC",
-      "leaderSymbol": "BTC",
-      "ecosystems": [
-        "Bitcoin Layer-2, Ordinals, Runes & BTC DeFi"
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
       ],
       "matchedKeywords": [
         "whale-flow",
         "laggard-dip-accumulation"
       ],
-      "newsScore": 4.6,
+      "newsScore": 6.09,
       "freshestMinutesAgo": 20,
       "headlines": [
         {
           "source": "WhaleOrderflowRadar",
-          "title": "LTC Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "title": "AAVE Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
           "minutesAgo": 20,
-          "catalystPoints": 4.6,
+          "catalystPoints": 6.09,
           "directMention": true
         }
       ],
-      "lastPrice": 59.8,
-      "change1hPct": -0.08,
-      "change24hPct": 0.656,
-      "lagVsLeader24h": -1.37,
-      "rsi1h": 50.37,
+      "lastPrice": 148.11,
+      "change1hPct": 0.08,
+      "change24hPct": -2.993,
+      "lagVsLeader24h": 0.88,
+      "rsi1h": 49.6,
       "hasRsiDivergence": true,
-      "atr1hPct": 0.8,
-      "bbPctB": 0.54,
-      "bbWidthPct": 1.35,
+      "atr1hPct": 1.11,
+      "bbPctB": 0.31,
+      "bbWidthPct": 3.45,
       "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 46.7,
-      "ema20AboveEma50": true,
+      "macdBullishTurn": false,
+      "adx": 6.5,
+      "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 59.16,
-      "resistance": 60.35,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 2,
+      "support": 147,
+      "resistance": 152.46,
+      "roomToResistancePct": 2.94,
+      "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 59,
-      "isGreenBounce": false,
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 63.7,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.02,
+      "fundingHourlyPct": 0.0009,
+      "totalScore": 84,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 154.77,
+      "slPrice": 145.15
+    },
+    {
+      "symbol": "AR",
+      "leaderSymbol": "FIL",
+      "ecosystems": [
+        "DePIN, Merkeziyetsiz Bulut Depolama & IoT Donanım"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 5.97,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "AR Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 5.97,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 3.742,
+      "change1hPct": 0.08,
+      "change24hPct": -3.582,
+      "lagVsLeader24h": 0.22,
+      "rsi1h": 54.06,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.2,
+      "bbPctB": 0.29,
+      "bbWidthPct": 3.04,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 26.7,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 3.716,
+      "resistance": 3.839,
+      "roomToResistancePct": 2.59,
+      "aiConsensusCount": 4,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 58.3,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.02,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 81.9,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 3.9104,
+      "slPrice": 3.6672
+    },
+    {
+      "symbol": "LDO",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 5,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "LDO Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 5,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.3911,
+      "change1hPct": 0.26,
+      "change24hPct": -0.962,
+      "lagVsLeader24h": -1.15,
+      "rsi1h": 59.13,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.14,
+      "bbPctB": 0.51,
+      "bbWidthPct": 3.38,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 11.7,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.3846,
+      "resistance": 0.3987,
+      "roomToResistancePct": 1.94,
+      "aiConsensusCount": 4,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 59.2,
+      "isGreenBounce": true,
       "isTrending": false,
       "volRatio": 0.05,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 60.7,
+      "fundingHourlyPct": 0.0001,
+      "totalScore": 81.5,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 62.491,
-      "slPrice": 58.604
-    },
-    {
-      "symbol": "GRT",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "anthropic",
-        "ai agent"
-      ],
-      "newsScore": 3.78,
-      "freshestMinutesAgo": 21,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "StakerX's AI Agent Surpasses Passes $40M Staked Assets on Solana Within Three Months of Launch",
-          "minutesAgo": 21,
-          "catalystPoints": 2.88,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "Anthropic Gives 5% of Itself to the Public. Musk Answers by Giving Away SpaceX Shares",
-          "minutesAgo": 36,
-          "catalystPoints": 0.9,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.02374,
-      "change1hPct": 0,
-      "change24hPct": -0.461,
-      "lagVsLeader24h": 0.62,
-      "rsi1h": 40,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.02,
-      "bbPctB": 0.39,
-      "bbWidthPct": 1.83,
-      "isSqueeze": true,
-      "macdBullishTurn": false,
-      "adx": 39.1,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.02352,
-      "resistance": 0.02417,
-      "roomToResistancePct": 1.81,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 51,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.03,
-      "fundingHourlyPct": 0,
-      "totalScore": 58,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.024808,
-      "slPrice": 0.023265
-    },
-    {
-      "symbol": "RAY",
-      "leaderSymbol": "SOL",
-      "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "solana"
-      ],
-      "newsScore": 6.08,
-      "freshestMinutesAgo": 21,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "Solana treasury firm SkyAI sells all SOL holdings, launches $201M buyback",
-          "minutesAgo": 428,
-          "catalystPoints": 3.2,
-          "directMention": false
-        },
-        {
-          "source": "BeInCrypto",
-          "title": "StakerX's AI Agent Surpasses Passes $40M Staked Assets on Solana Within Three Months of Launch",
-          "minutesAgo": 21,
-          "catalystPoints": 2.88,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 1.9147,
-      "change1hPct": -0.1,
-      "change24hPct": 1.759,
-      "lagVsLeader24h": -2.08,
-      "rsi1h": 51.67,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.24,
-      "bbPctB": 0.64,
-      "bbWidthPct": 4.41,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 15.5,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 1.8633,
-      "resistance": 1.9544,
-      "roomToResistancePct": 2.07,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 53.7,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.02,
-      "fundingHourlyPct": 0,
-      "totalScore": 57.4,
-      "tpPct": 4.5,
-      "slPct": 2.05,
-      "tpPrice": 2.0009,
-      "slPrice": 1.8754
-    },
-    {
-      "symbol": "TWT",
-      "leaderSymbol": "BNB",
-      "ecosystems": [
-        "Binance / BNB Chain, Launchpool & DEX Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "laggard-dip-accumulation"
-      ],
-      "newsScore": 4.79,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "WhaleOrderflowRadar",
-          "title": "TWT Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
-          "minutesAgo": 20,
-          "catalystPoints": 4.79,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 0.4563,
-      "change1hPct": -0.04,
-      "change24hPct": 2.126,
-      "lagVsLeader24h": -1.59,
-      "rsi1h": 64.89,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.64,
-      "bbPctB": 0.74,
-      "bbWidthPct": 2.12,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 26.3,
-      "ema20AboveEma50": true,
-      "regime": "GUCLU_TREND",
-      "support": 0.4498,
-      "resistance": 0.4611,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 63.2,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.04,
-      "fundingHourlyPct": 0,
-      "totalScore": 55.6,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.47683,
-      "slPrice": 0.44717
+      "tpPrice": 0.4087,
+      "slPrice": 0.38328
     },
     {
       "symbol": "INJ",
@@ -1528,34 +1116,34 @@
         "whale-flow",
         "laggard-dip-accumulation"
       ],
-      "newsScore": 5.09,
+      "newsScore": 6.7,
       "freshestMinutesAgo": 20,
       "headlines": [
         {
           "source": "WhaleOrderflowRadar",
           "title": "INJ Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
           "minutesAgo": 20,
-          "catalystPoints": 5.09,
+          "catalystPoints": 6.7,
           "directMention": true
         }
       ],
-      "lastPrice": 8.526,
-      "change1hPct": -0.19,
-      "change24hPct": 0.471,
-      "lagVsLeader24h": -1.07,
-      "rsi1h": 48.21,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.62,
-      "bbPctB": 0.36,
-      "bbWidthPct": 2.56,
+      "lastPrice": 8.525,
+      "change1hPct": 0.28,
+      "change24hPct": -0.641,
+      "lagVsLeader24h": -1.05,
+      "rsi1h": 48.97,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.44,
+      "bbPctB": 0.35,
+      "bbWidthPct": 2.4,
       "isSqueeze": true,
       "macdBullishTurn": false,
-      "adx": 14,
+      "adx": 9,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
-      "support": 8.398,
+      "support": 8.427,
       "resistance": 8.729,
-      "roomToResistancePct": 2.38,
+      "roomToResistancePct": 2.39,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -1563,172 +1151,112 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 53.7,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.05,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 54.9,
-      "tpPct": 4.5,
-      "slPct": 2.67,
-      "tpPrice": 8.9097,
-      "slPrice": 8.2984
-    },
-    {
-      "symbol": "THETA",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "anthropic",
-        "ai agent"
-      ],
-      "newsScore": 3.78,
-      "freshestMinutesAgo": 21,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "StakerX's AI Agent Surpasses Passes $40M Staked Assets on Solana Within Three Months of Launch",
-          "minutesAgo": 21,
-          "catalystPoints": 2.88,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "Anthropic Gives 5% of Itself to the Public. Musk Answers by Giving Away SpaceX Shares",
-          "minutesAgo": 36,
-          "catalystPoints": 0.9,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.1878,
-      "change1hPct": -0.27,
-      "change24hPct": 0.107,
-      "lagVsLeader24h": 0.05,
-      "rsi1h": 63.16,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.86,
-      "bbPctB": 0.7,
-      "bbWidthPct": 2.69,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 7.7,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.1843,
-      "resistance": 0.1895,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 66.1,
-      "isGreenBounce": false,
-      "isTrending": false,
+      "takerBuyRatioPct": 43.5,
+      "isGreenBounce": true,
+      "isTrending": true,
       "volRatio": 0.09,
-      "fundingHourlyPct": 0,
-      "totalScore": 51,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 79.2,
       "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.19625,
-      "slPrice": 0.18404
+      "slPct": 2.38,
+      "tpPrice": 8.9086,
+      "slPrice": 8.3221
     },
     {
-      "symbol": "TIA",
-      "leaderSymbol": "SUI",
+      "symbol": "AXS",
+      "leaderSymbol": "IMX",
       "ecosystems": [
-        "Move VM & Yeni Nesil Yüksek Hızlı L1 (Sui / Aptos / Sei / Injective)"
+        "Web3 Oyun (GameFi), Immutable, Ronin & Metaverse"
       ],
       "matchedKeywords": [
         "whale-flow",
         "laggard-dip-accumulation"
       ],
-      "newsScore": 4.95,
+      "newsScore": 5.8,
       "freshestMinutesAgo": 20,
       "headlines": [
         {
           "source": "WhaleOrderflowRadar",
-          "title": "TIA Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "title": "AXS Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
           "minutesAgo": 20,
-          "catalystPoints": 4.95,
+          "catalystPoints": 5.8,
           "directMention": true
         }
       ],
-      "lastPrice": 0.6131,
-      "change1hPct": 0.15,
-      "change24hPct": 0.855,
-      "lagVsLeader24h": -1.45,
-      "rsi1h": 52.82,
+      "lastPrice": 0.993,
+      "change1hPct": -0.1,
+      "change24hPct": -1.096,
+      "lagVsLeader24h": 0.51,
+      "rsi1h": 47.17,
       "hasRsiDivergence": false,
-      "atr1hPct": 1.92,
-      "bbPctB": 0.61,
-      "bbWidthPct": 4.34,
+      "atr1hPct": 0.76,
+      "bbPctB": 0.21,
+      "bbWidthPct": 1.84,
       "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 26.4,
+      "macdBullishTurn": false,
+      "adx": 25.9,
       "ema20AboveEma50": true,
-      "regime": "GUCLU_TREND",
-      "support": 0.5992,
-      "resistance": 0.6281,
-      "roomToResistancePct": 2.45,
-      "aiConsensusCount": 2,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.987,
+      "resistance": 1.011,
+      "roomToResistancePct": 1.81,
+      "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 46.3,
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 58.2,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.04,
+      "volRatio": 0,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 49.3,
-      "tpPct": 4.92,
-      "slPct": 3.17,
-      "tpPrice": 0.64326,
-      "slPrice": 0.59366
+      "totalScore": 79.1,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 1.0377,
+      "slPrice": 0.97314
     },
     {
-      "symbol": "FIL",
-      "leaderSymbol": "FIL",
+      "symbol": "PNUT",
+      "leaderSymbol": "DOGE",
       "ecosystems": [
-        "DePIN, Merkeziyetsiz Bulut Depolama & IoT Donanım"
+        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
       ],
       "matchedKeywords": [
         "whale-flow",
         "laggard-dip-accumulation"
       ],
-      "newsScore": 5.61,
+      "newsScore": 5.83,
       "freshestMinutesAgo": 20,
       "headlines": [
         {
           "source": "WhaleOrderflowRadar",
-          "title": "FIL Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "title": "PNUT Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
           "minutesAgo": 20,
-          "catalystPoints": 5.61,
+          "catalystPoints": 5.83,
           "directMention": true
         }
       ],
-      "lastPrice": 1.0164,
-      "change1hPct": -0.14,
-      "change24hPct": -2.071,
-      "lagVsLeader24h": 0,
-      "rsi1h": 52.27,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.18,
-      "bbPctB": 0.47,
-      "bbWidthPct": 3.31,
+      "lastPrice": 0.0427,
+      "change1hPct": -0.23,
+      "change24hPct": -2.064,
+      "lagVsLeader24h": 1.19,
+      "rsi1h": 44.44,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.44,
+      "bbPctB": 0.3,
+      "bbWidthPct": 4.23,
       "isSqueeze": true,
       "macdBullishTurn": true,
-      "adx": 4.6,
+      "adx": 11.8,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 1.0012,
-      "resistance": 1.0554,
-      "roomToResistancePct": 3.84,
+      "support": 0.042,
+      "resistance": 0.0443,
+      "roomToResistancePct": 3.75,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -1736,257 +1264,16 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 47.2,
-      "isGreenBounce": false,
+      "takerBuyRatioPct": 48.3,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.06,
-      "fundingHourlyPct": 0.001,
-      "totalScore": 48.2,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 1.0621,
-      "slPrice": 0.99607
-    },
-    {
-      "symbol": "ICP",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "anthropic",
-        "ai agent"
-      ],
-      "newsScore": 3.78,
-      "freshestMinutesAgo": 21,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "StakerX's AI Agent Surpasses Passes $40M Staked Assets on Solana Within Three Months of Launch",
-          "minutesAgo": 21,
-          "catalystPoints": 2.88,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "Anthropic Gives 5% of Itself to the Public. Musk Answers by Giving Away SpaceX Shares",
-          "minutesAgo": 36,
-          "catalystPoints": 0.9,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 2.848,
-      "change1hPct": -0.42,
-      "change24hPct": -1.623,
-      "lagVsLeader24h": 1.78,
-      "rsi1h": 47.71,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.97,
-      "bbPctB": 0.36,
-      "bbWidthPct": 2.02,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 16.8,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 2.814,
-      "resistance": 2.935,
-      "roomToResistancePct": 3.05,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 49.3,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.04,
+      "volRatio": 0,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 48.2,
+      "totalScore": 77.4,
       "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 2.9762,
-      "slPrice": 2.791
-    },
-    {
-      "symbol": "WIF",
-      "leaderSymbol": "SOL",
-      "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "solana"
-      ],
-      "newsScore": 6.08,
-      "freshestMinutesAgo": 21,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "Solana treasury firm SkyAI sells all SOL holdings, launches $201M buyback",
-          "minutesAgo": 428,
-          "catalystPoints": 3.2,
-          "directMention": false
-        },
-        {
-          "source": "BeInCrypto",
-          "title": "StakerX's AI Agent Surpasses Passes $40M Staked Assets on Solana Within Three Months of Launch",
-          "minutesAgo": 21,
-          "catalystPoints": 2.88,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.2,
-      "change1hPct": -0.1,
-      "change24hPct": 0.452,
-      "lagVsLeader24h": -0.77,
-      "rsi1h": 54.05,
-      "hasRsiDivergence": false,
-      "atr1hPct": 0.97,
-      "bbPctB": 0.6,
-      "bbWidthPct": 1.83,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 5.8,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.1969,
-      "resistance": 0.2024,
-      "roomToResistancePct": 1.5,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 48,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.08,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 47.4,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.209,
-      "slPrice": 0.196
-    },
-    {
-      "symbol": "EIGEN",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "laggard-dip-accumulation"
-      ],
-      "newsScore": 4.57,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "WhaleOrderflowRadar",
-          "title": "EIGEN Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
-          "minutesAgo": 20,
-          "catalystPoints": 4.57,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 0.2408,
-      "change1hPct": -0.29,
-      "change24hPct": 2.95,
-      "lagVsLeader24h": -3.6,
-      "rsi1h": 52.19,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.54,
-      "bbPctB": 0.74,
-      "bbWidthPct": 4.55,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 21.1,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.2331,
-      "resistance": 0.2452,
-      "roomToResistancePct": 1.83,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 44.1,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.13,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 40.6,
-      "tpPct": 4.5,
-      "slPct": 2.54,
-      "tpPrice": 0.25164,
-      "slPrice": 0.23468
-    },
-    {
-      "symbol": "FET",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "anthropic",
-        "ai agent"
-      ],
-      "newsScore": 3.78,
-      "freshestMinutesAgo": 21,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "StakerX's AI Agent Surpasses Passes $40M Staked Assets on Solana Within Three Months of Launch",
-          "minutesAgo": 21,
-          "catalystPoints": 2.88,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "Anthropic Gives 5% of Itself to the Public. Musk Answers by Giving Away SpaceX Shares",
-          "minutesAgo": 36,
-          "catalystPoints": 0.9,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.1906,
-      "change1hPct": -0.26,
-      "change24hPct": 0.158,
-      "lagVsLeader24h": 0,
-      "rsi1h": 54.84,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.3,
-      "bbPctB": 0.67,
-      "bbWidthPct": 3.24,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 6.2,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.1862,
-      "resistance": 0.1937,
-      "roomToResistancePct": 1.63,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 47.6,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.06,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 37,
-      "tpPct": 4.5,
-      "slPct": 2.15,
-      "tpPrice": 0.19918,
-      "slPrice": 0.1865
+      "slPct": 2.38,
+      "tpPrice": 0.044622,
+      "slPrice": 0.041684
     },
     {
       "symbol": "PORTAL",
@@ -1998,50 +1285,1329 @@
         "whale-flow",
         "laggard-dip-accumulation"
       ],
-      "newsScore": 4.73,
+      "newsScore": 5.35,
       "freshestMinutesAgo": 20,
       "headlines": [
         {
           "source": "WhaleOrderflowRadar",
           "title": "PORTAL Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
           "minutesAgo": 20,
-          "catalystPoints": 4.73,
+          "catalystPoints": 5.35,
           "directMention": true
         }
       ],
-      "lastPrice": 0.01468,
+      "lastPrice": 0.01447,
       "change1hPct": -0.14,
-      "change24hPct": 2.586,
-      "lagVsLeader24h": -1.46,
-      "rsi1h": 46.75,
+      "change24hPct": 1.331,
+      "lagVsLeader24h": -1.92,
+      "rsi1h": 40,
       "hasRsiDivergence": false,
-      "atr1hPct": 1.33,
-      "bbPctB": 0.54,
-      "bbWidthPct": 5.7,
-      "isSqueeze": false,
+      "atr1hPct": 1,
+      "bbPctB": 0.11,
+      "bbWidthPct": 3.99,
+      "isSqueeze": true,
       "macdBullishTurn": false,
-      "adx": 2.2,
+      "adx": 34.7,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
       "support": 0.01416,
       "resistance": 0.01514,
-      "roomToResistancePct": 3.13,
-      "aiConsensusCount": 2,
+      "roomToResistancePct": 4.63,
+      "aiConsensusCount": 4,
       "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 52.8,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0,
+      "fundingHourlyPct": 0,
+      "totalScore": 76.1,
+      "tpPct": 4.98,
+      "slPct": 2,
+      "tpPrice": 0.015191,
+      "slPrice": 0.014181
+    },
+    {
+      "symbol": "CAKE",
+      "leaderSymbol": "BNB",
+      "ecosystems": [
+        "Binance / BNB Chain, Launchpool & DEX Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 6.57,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "CAKE Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 6.57,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 2.162,
+      "change1hPct": 0.09,
+      "change24hPct": -0.871,
+      "lagVsLeader24h": 1.17,
+      "rsi1h": 42.59,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.69,
+      "bbPctB": 0.21,
+      "bbWidthPct": 1.92,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 20,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 2.158,
+      "resistance": 2.206,
+      "roomToResistancePct": 2.04,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 50.5,
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 45.5,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.02,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 75.7,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 2.2593,
+      "slPrice": 2.1188
+    },
+    {
+      "symbol": "FLOKI",
+      "leaderSymbol": "DOGE",
+      "ecosystems": [
+        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 5.8,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "FLOKI Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 5.8,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.00002339,
+      "change1hPct": -0.17,
+      "change24hPct": -0.722,
+      "lagVsLeader24h": -0.16,
+      "rsi1h": 41.84,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.75,
+      "bbPctB": 0.2,
+      "bbWidthPct": 2.13,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 45.9,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.00002324,
+      "resistance": 0.00002384,
+      "roomToResistancePct": 1.92,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 63.1,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.04,
+      "volRatio": 0.08,
       "fundingHourlyPct": 0,
-      "totalScore": 36.3,
-      "tpPct": 4.98,
-      "slPct": 2.19,
-      "tpPrice": 0.015411,
-      "slPrice": 0.014359
+      "totalScore": 75.1,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.000024443,
+      "slPrice": 0.000022922
+    },
+    {
+      "symbol": "UNI",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 6.8,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "UNI Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 6.8,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 7.123,
+      "change1hPct": -0.06,
+      "change24hPct": -3.782,
+      "lagVsLeader24h": 1.67,
+      "rsi1h": 37.33,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.1,
+      "bbPctB": 0.03,
+      "bbWidthPct": 3.45,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 30.9,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 7.1,
+      "resistance": 7.424,
+      "roomToResistancePct": 4.23,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 53.9,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.03,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 74.6,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 7.4435,
+      "slPrice": 6.9805
+    },
+    {
+      "symbol": "DOGE",
+      "leaderSymbol": "DOGE",
+      "ecosystems": [
+        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 5.28,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "DOGE Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 5.28,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.0791,
+      "change1hPct": 0.1,
+      "change24hPct": -0.877,
+      "lagVsLeader24h": 0,
+      "rsi1h": 45.12,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.59,
+      "bbPctB": 0.24,
+      "bbWidthPct": 1.21,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 34.5,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.07862,
+      "resistance": 0.08005,
+      "roomToResistancePct": 1.5,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 50.2,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.03,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 73.8,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.082659,
+      "slPrice": 0.077518
+    },
+    {
+      "symbol": "FET",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "anthropic",
+        "openai",
+        "ai agent"
+      ],
+      "newsScore": 2.8,
+      "freshestMinutesAgo": 163,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "StakerX's AI Agent Surpasses Passes $40M Staked Assets on Solana Within Three Months of Launch",
+          "minutesAgo": 449,
+          "catalystPoints": 1.6,
+          "directMention": false
+        },
+        {
+          "source": "BeInCrypto",
+          "title": "What Anthropic’s IPO Filing Could Reveal and Why OpenAI Is Racing It",
+          "minutesAgo": 163,
+          "catalystPoints": 0.7,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.1879,
+      "change1hPct": 0.11,
+      "change24hPct": -1.261,
+      "lagVsLeader24h": 0,
+      "rsi1h": 48.34,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.22,
+      "bbPctB": 0.24,
+      "bbWidthPct": 3.26,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 6.2,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.1862,
+      "resistance": 0.1931,
+      "roomToResistancePct": 2.77,
+      "aiConsensusCount": 4,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 57.1,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.08,
+      "fundingHourlyPct": 0.0004,
+      "totalScore": 71.6,
+      "tpPct": 4.5,
+      "slPct": 2.01,
+      "tpPrice": 0.19636,
+      "slPrice": 0.18412
+    },
+    {
+      "symbol": "LTC",
+      "leaderSymbol": "BTC",
+      "ecosystems": [
+        "Bitcoin Layer-2, Ordinals, Runes & BTC DeFi"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 5.94,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "LTC Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 5.94,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 59.13,
+      "change1hPct": 0.05,
+      "change24hPct": -1.483,
+      "lagVsLeader24h": -0.08,
+      "rsi1h": 38.11,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.72,
+      "bbPctB": 0.08,
+      "bbWidthPct": 1.75,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 67.2,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 58.9,
+      "resistance": 60.35,
+      "roomToResistancePct": 2.06,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 47.2,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.03,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 70.7,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 61.791,
+      "slPrice": 57.947
+    },
+    {
+      "symbol": "SUI",
+      "leaderSymbol": "SUI",
+      "ecosystems": [
+        "Move VM & Yeni Nesil Yüksek Hızlı L1 (Sui / Aptos / Sei / Injective)"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 5.29,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "SUI Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 5.29,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.9894,
+      "change1hPct": 0.04,
+      "change24hPct": -1.689,
+      "lagVsLeader24h": 0,
+      "rsi1h": 52.87,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.01,
+      "bbPctB": 0.35,
+      "bbWidthPct": 2.03,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 13.3,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.9804,
+      "resistance": 1.009,
+      "roomToResistancePct": 1.98,
+      "aiConsensusCount": 4,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 52.5,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.04,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 69.8,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 1.0339,
+      "slPrice": 0.96961
+    },
+    {
+      "symbol": "PYTH",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 4.8,
+      "freshestMinutesAgo": 449,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "Solana treasury firm SkyAI sells all SOL holdings, launches $201M buyback",
+          "minutesAgo": 715,
+          "catalystPoints": 3.2,
+          "directMention": false
+        },
+        {
+          "source": "BeInCrypto",
+          "title": "StakerX's AI Agent Surpasses Passes $40M Staked Assets on Solana Within Three Months of Launch",
+          "minutesAgo": 449,
+          "catalystPoints": 1.6,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.0724,
+      "change1hPct": 0.03,
+      "change24hPct": -3.364,
+      "lagVsLeader24h": 2,
+      "rsi1h": 51.09,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.43,
+      "bbPctB": 0.33,
+      "bbWidthPct": 3.1,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 14.2,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.07173,
+      "resistance": 0.07493,
+      "roomToResistancePct": 3.49,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 54.3,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.01,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 69.2,
+      "tpPct": 4.5,
+      "slPct": 2.36,
+      "tpPrice": 0.075658,
+      "slPrice": 0.070691
+    },
+    {
+      "symbol": "IOTX",
+      "leaderSymbol": "FIL",
+      "ecosystems": [
+        "DePIN, Merkeziyetsiz Bulut Depolama & IoT Donanım"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 5.35,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "IOTX Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 5.35,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.003865,
+      "change1hPct": 0.03,
+      "change24hPct": 0.73,
+      "lagVsLeader24h": -4.1,
+      "rsi1h": 53.83,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.32,
+      "bbPctB": 0.37,
+      "bbWidthPct": 6.01,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 13.4,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.00378,
+      "resistance": 0.004016,
+      "roomToResistancePct": 3.91,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 81.8,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.16,
+      "fundingHourlyPct": 0,
+      "totalScore": 69.1,
+      "tpPct": 4.55,
+      "slPct": 2.18,
+      "tpPrice": 0.0040409,
+      "slPrice": 0.0037807
+    },
+    {
+      "symbol": "EIGEN",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 6.05,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "EIGEN Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 6.05,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.2345,
+      "change1hPct": 0.3,
+      "change24hPct": -0.929,
+      "lagVsLeader24h": -1.18,
+      "rsi1h": 47.28,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.51,
+      "bbPctB": 0.2,
+      "bbWidthPct": 4.7,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 6.6,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.2331,
+      "resistance": 0.2452,
+      "roomToResistancePct": 4.56,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 47,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.1,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 67.2,
+      "tpPct": 4.5,
+      "slPct": 2.49,
+      "tpPrice": 0.24505,
+      "slPrice": 0.22866
+    },
+    {
+      "symbol": "OP",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 5.95,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "OP Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 5.95,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.1238,
+      "change1hPct": 0.16,
+      "change24hPct": -2.057,
+      "lagVsLeader24h": -0.06,
+      "rsi1h": 51.96,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.62,
+      "bbPctB": 0.33,
+      "bbWidthPct": 4.11,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 11.1,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.123,
+      "resistance": 0.1285,
+      "roomToResistancePct": 3.8,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 44.5,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.02,
+      "fundingHourlyPct": 0.0007,
+      "totalScore": 66.8,
+      "tpPct": 4.5,
+      "slPct": 2.67,
+      "tpPrice": 0.12937,
+      "slPrice": 0.12049
+    },
+    {
+      "symbol": "ORDI",
+      "leaderSymbol": "BTC",
+      "ecosystems": [
+        "Bitcoin Layer-2, Ordinals, Runes & BTC DeFi"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 4.78,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "ORDI Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 4.78,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 3.743,
+      "change1hPct": 0.16,
+      "change24hPct": -0.133,
+      "lagVsLeader24h": -1.43,
+      "rsi1h": 57.06,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.83,
+      "bbPctB": 0.52,
+      "bbWidthPct": 3.05,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 1.6,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 3.675,
+      "resistance": 3.802,
+      "roomToResistancePct": 1.58,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 53.6,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.04,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 66.5,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 3.9114,
+      "slPrice": 3.6681
+    },
+    {
+      "symbol": "ENS",
+      "leaderSymbol": "ETH",
+      "ecosystems": [
+        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 5.88,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "ENS Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 5.88,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 5.41,
+      "change1hPct": 0,
+      "change24hPct": -1.636,
+      "lagVsLeader24h": -0.48,
+      "rsi1h": 42.31,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.77,
+      "bbPctB": 0.11,
+      "bbWidthPct": 2.18,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 25,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 5.39,
+      "resistance": 5.53,
+      "roomToResistancePct": 2.22,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 43.9,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 1,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 64.5,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 5.6534,
+      "slPrice": 5.3018
+    },
+    {
+      "symbol": "RUNE",
+      "leaderSymbol": "BTC",
+      "ecosystems": [
+        "Bitcoin Layer-2, Ordinals, Runes & BTC DeFi"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 5.55,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "RUNE Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 5.55,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.643,
+      "change1hPct": 0,
+      "change24hPct": -1.531,
+      "lagVsLeader24h": -0.03,
+      "rsi1h": 51.43,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.95,
+      "bbPctB": 0.47,
+      "bbWidthPct": 2.11,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 12,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.637,
+      "resistance": 0.654,
+      "roomToResistancePct": 1.71,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 50.1,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.04,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 64,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.67193,
+      "slPrice": 0.63014
+    },
+    {
+      "symbol": "BOME",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 4.8,
+      "freshestMinutesAgo": 449,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "Solana treasury firm SkyAI sells all SOL holdings, launches $201M buyback",
+          "minutesAgo": 715,
+          "catalystPoints": 3.2,
+          "directMention": false
+        },
+        {
+          "source": "BeInCrypto",
+          "title": "StakerX's AI Agent Surpasses Passes $40M Staked Assets on Solana Within Three Months of Launch",
+          "minutesAgo": 449,
+          "catalystPoints": 1.6,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.0005935,
+      "change1hPct": -0.2,
+      "change24hPct": -3.653,
+      "lagVsLeader24h": 2.29,
+      "rsi1h": 34.6,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.95,
+      "bbPctB": -0.04,
+      "bbWidthPct": 2.69,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 37.5,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.0005933,
+      "resistance": 0.0006152,
+      "roomToResistancePct": 3.66,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 44.5,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.01,
+      "fundingHourlyPct": -0.0057,
+      "totalScore": 63.7,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.00062021,
+      "slPrice": 0.00058163
+    },
+    {
+      "symbol": "SHIB",
+      "leaderSymbol": "DOGE",
+      "ecosystems": [
+        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 6.08,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "SHIB Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 6.08,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.00000496,
+      "change1hPct": 0,
+      "change24hPct": -1.392,
+      "lagVsLeader24h": 0.51,
+      "rsi1h": 40,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.74,
+      "bbPctB": 0.01,
+      "bbWidthPct": 1.52,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 41.7,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.00000494,
+      "resistance": 0.00000504,
+      "roomToResistancePct": 1.61,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 44.3,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0,
+      "fundingHourlyPct": 0,
+      "totalScore": 62.4,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.0000051832,
+      "slPrice": 0.0000048608
+    },
+    {
+      "symbol": "BONK",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 4.8,
+      "freshestMinutesAgo": 449,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "Solana treasury firm SkyAI sells all SOL holdings, launches $201M buyback",
+          "minutesAgo": 715,
+          "catalystPoints": 3.2,
+          "directMention": false
+        },
+        {
+          "source": "BeInCrypto",
+          "title": "StakerX's AI Agent Surpasses Passes $40M Staked Assets on Solana Within Three Months of Launch",
+          "minutesAgo": 449,
+          "catalystPoints": 1.6,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.00000292,
+      "change1hPct": 0.34,
+      "change24hPct": -0.68,
+      "lagVsLeader24h": -0.68,
+      "rsi1h": 50,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.05,
+      "bbPctB": 0.37,
+      "bbWidthPct": 2.42,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 12.5,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.00000289,
+      "resistance": 0.00000297,
+      "roomToResistancePct": 1.71,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 49.7,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0,
+      "fundingHourlyPct": 0,
+      "totalScore": 61.6,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.0000030514,
+      "slPrice": 0.0000028616
+    },
+    {
+      "symbol": "RENDER",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "anthropic",
+        "openai",
+        "ai agent"
+      ],
+      "newsScore": 2.8,
+      "freshestMinutesAgo": 163,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "StakerX's AI Agent Surpasses Passes $40M Staked Assets on Solana Within Three Months of Launch",
+          "minutesAgo": 449,
+          "catalystPoints": 1.6,
+          "directMention": false
+        },
+        {
+          "source": "BeInCrypto",
+          "title": "What Anthropic’s IPO Filing Could Reveal and Why OpenAI Is Racing It",
+          "minutesAgo": 163,
+          "catalystPoints": 0.7,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 1.796,
+      "change1hPct": 0.34,
+      "change24hPct": -1.156,
+      "lagVsLeader24h": -0.1,
+      "rsi1h": 50.83,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.03,
+      "bbPctB": 0.35,
+      "bbWidthPct": 2.09,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 12.3,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 1.779,
+      "resistance": 1.829,
+      "roomToResistancePct": 1.84,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 42.9,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.02,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 57.6,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 1.8768,
+      "slPrice": 1.7601
+    },
+    {
+      "symbol": "IMX",
+      "leaderSymbol": "IMX",
+      "ecosystems": [
+        "Web3 Oyun (GameFi), Immutable, Ronin & Metaverse"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 5.12,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "IMX Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 5.12,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.1518,
+      "change1hPct": 0.07,
+      "change24hPct": -0.589,
+      "lagVsLeader24h": 0,
+      "rsi1h": 52.63,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.74,
+      "bbPctB": 0.3,
+      "bbWidthPct": 1.97,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 13.9,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.1502,
+      "resistance": 0.1543,
+      "roomToResistancePct": 1.65,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 44.8,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.01,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 56,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.15863,
+      "slPrice": 0.14876
+    },
+    {
+      "symbol": "JASMY",
+      "leaderSymbol": "FIL",
+      "ecosystems": [
+        "DePIN, Merkeziyetsiz Bulut Depolama & IoT Donanım"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 5.2,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "JASMY Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 5.2,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.00471,
+      "change1hPct": -0.21,
+      "change24hPct": -0.842,
+      "lagVsLeader24h": -2.52,
+      "rsi1h": 46.67,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.38,
+      "bbPctB": 0.38,
+      "bbWidthPct": 3.33,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 9.1,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.00463,
+      "resistance": 0.00482,
+      "roomToResistancePct": 2.34,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 45.5,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.01,
+      "fundingHourlyPct": 0,
+      "totalScore": 52.4,
+      "tpPct": 4.5,
+      "slPct": 2.28,
+      "tpPrice": 0.0049219,
+      "slPrice": 0.0046026
+    },
+    {
+      "symbol": "RAY",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 4.8,
+      "freshestMinutesAgo": 449,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "Solana treasury firm SkyAI sells all SOL holdings, launches $201M buyback",
+          "minutesAgo": 715,
+          "catalystPoints": 3.2,
+          "directMention": false
+        },
+        {
+          "source": "BeInCrypto",
+          "title": "StakerX's AI Agent Surpasses Passes $40M Staked Assets on Solana Within Three Months of Launch",
+          "minutesAgo": 449,
+          "catalystPoints": 1.6,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 1.8789,
+      "change1hPct": 0,
+      "change24hPct": -2.542,
+      "lagVsLeader24h": 1.18,
+      "rsi1h": 52.78,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.13,
+      "bbPctB": 0.31,
+      "bbWidthPct": 3.64,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 11.2,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 1.8633,
+      "resistance": 1.9431,
+      "roomToResistancePct": 3.42,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 45.3,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.03,
+      "fundingHourlyPct": 0,
+      "totalScore": 50.7,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 1.9635,
+      "slPrice": 1.8413
+    },
+    {
+      "symbol": "WIF",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 4.8,
+      "freshestMinutesAgo": 449,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "Solana treasury firm SkyAI sells all SOL holdings, launches $201M buyback",
+          "minutesAgo": 715,
+          "catalystPoints": 3.2,
+          "directMention": false
+        },
+        {
+          "source": "BeInCrypto",
+          "title": "StakerX's AI Agent Surpasses Passes $40M Staked Assets on Solana Within Three Months of Launch",
+          "minutesAgo": 449,
+          "catalystPoints": 1.6,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.1994,
+      "change1hPct": 0.05,
+      "change24hPct": -0.449,
+      "lagVsLeader24h": -0.92,
+      "rsi1h": 51.58,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.85,
+      "bbPctB": 0.4,
+      "bbWidthPct": 1.51,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 5.3,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.1969,
+      "resistance": 0.2024,
+      "roomToResistancePct": 1.5,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 48.5,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.01,
+      "fundingHourlyPct": 0.0013,
+      "totalScore": 49.6,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.20837,
+      "slPrice": 0.19541
     }
   ]
 }
