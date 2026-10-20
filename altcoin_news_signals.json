@@ -12,8 +12,7 @@
     "Decrypt (20)",
     "CoinDesk (20)",
     "BeInCrypto (12)",
-    "CryptoPotato (20)",
-    "NewsBTC (10)"
+    "CryptoPotato (20)"
   ],
   "top4AltcoinPicks": [
     {
@@ -23,10 +22,11 @@
         "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
+        "rwa",
         "xrp",
         "treasury",
-        "ripple",
-        "blackrock"
+        "blackrock",
+        "ripple"
       ],
       "newsScore": 16.76,
       "freshestMinutesAgo": 101,
@@ -41,8 +41,15 @@
         {
           "source": "CryptoPotato",
           "title": "Major XRP Adoption News Sparks Excitement Across Ripple's Community: Details",
-          "minutesAgo": 1016,
+          "minutesAgo": 1282,
           "catalystPoints": 6.4,
+          "directMention": false
+        },
+        {
+          "source": "BeInCrypto",
+          "title": "Grvt Completes First GRVT Token Burn, Unveils Roadmap to Yield and Zero-Fee RWA Trading",
+          "minutesAgo": 114,
+          "catalystPoints": 4.9,
           "directMention": false
         }
       ],
@@ -254,10 +261,75 @@
       "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber NEAR ile doğrudan ilişkili değil, tuzak riski var. | [GPT-120B: LONG %78] Düşük RSI ve balina alımı, alım fırsatı"
     },
     {
-      "symbol": "CAKE",
-      "leaderSymbol": "BNB",
+      "symbol": "ICP",
+      "leaderSymbol": "FET",
       "ecosystems": [
-        "Binance / BNB Chain, Launchpool & DEX Ekosistemi"
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "ai agent",
+        "anthropic",
+        "nvidia",
+        "worldcoin"
+      ],
+      "newsScore": 7.88,
+      "freshestMinutesAgo": 31,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "Germany and NVIDIA Expand AI Partnership With a $10 Billion Commitment",
+          "minutesAgo": 149,
+          "catalystPoints": 4.48,
+          "directMention": false
+        },
+        {
+          "source": "Decrypt",
+          "title": "Mastercard Opens Up AI Agent Payments With Early Access and Live Demo",
+          "minutesAgo": 31,
+          "catalystPoints": 1.8,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 2.88,
+      "change1hPct": 0.52,
+      "change24hPct": 0.488,
+      "lagVsLeader24h": 1.25,
+      "rsi1h": 54.27,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.26,
+      "bbPctB": 0.78,
+      "bbWidthPct": 4.02,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 21.7,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 2.8,
+      "resistance": 2.931,
+      "roomToResistancePct": 1.77,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 50.5,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 2.59,
+      "fundingHourlyPct": -0.0011,
+      "totalScore": 96.7,
+      "tpPct": 4.5,
+      "slPct": 2.08,
+      "tpPrice": 3.0096,
+      "slPrice": 2.8201
+    },
+    {
+      "symbol": "STX",
+      "leaderSymbol": "BTC",
+      "ecosystems": [
+        "Bitcoin Layer-2, Ordinals, Runes & BTC DeFi"
       ],
       "matchedKeywords": [
         "whale-flow",
@@ -335,10 +407,11 @@
         "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
+        "rwa",
         "xrp",
         "treasury",
-        "ripple",
-        "blackrock"
+        "blackrock",
+        "ripple"
       ],
       "newsScore": 16.76,
       "freshestMinutesAgo": 101,
@@ -353,8 +426,15 @@
         {
           "source": "CryptoPotato",
           "title": "Major XRP Adoption News Sparks Excitement Across Ripple's Community: Details",
-          "minutesAgo": 1016,
+          "minutesAgo": 1282,
           "catalystPoints": 6.4,
+          "directMention": false
+        },
+        {
+          "source": "BeInCrypto",
+          "title": "Grvt Completes First GRVT Token Burn, Unveils Roadmap to Yield and Zero-Fee RWA Trading",
+          "minutesAgo": 114,
+          "catalystPoints": 4.9,
           "directMention": false
         }
       ],
@@ -461,7 +541,6 @@
       "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
-        "Llama-4-Scout",
         "Gemini-3.5-Flash",
         "Claude-Opus-4.8"
       ],
@@ -813,7 +892,7 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 54.5,
+      "takerBuyRatioPct": 51.2,
       "isGreenBounce": true,
       "isTrending": false,
       "volRatio": 0.29,
@@ -982,7 +1061,7 @@
       "adx": 45,
       "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
-      "support": 0.1883,
+      "support": 0.1866,
       "resistance": 0.2027,
       "roomToResistancePct": 6.74,
       "aiConsensusCount": 3,
@@ -1129,6 +1208,62 @@
       "leaderSymbol": "ETH",
       "ecosystems": [
         "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "short-squeeze"
+      ],
+      "newsScore": 6.44,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "ShortSqueezeRadar",
+          "title": "AAVE Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
+          "minutesAgo": 20,
+          "catalystPoints": 6.44,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 152.24,
+      "change1hPct": 0.03,
+      "change24hPct": 2.127,
+      "lagVsLeader24h": -0.39,
+      "rsi1h": 51.81,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.6,
+      "bbPctB": 0.72,
+      "bbWidthPct": 5.95,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 31.6,
+      "ema20AboveEma50": true,
+      "regime": "GUCLU_TREND",
+      "support": 147.34,
+      "resistance": 157.79,
+      "roomToResistancePct": 3.65,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 47.6,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.58,
+      "fundingHourlyPct": -0.002,
+      "totalScore": 71,
+      "tpPct": 4.98,
+      "slPct": 2.64,
+      "tpPrice": 159.82,
+      "slPrice": 148.22
+    },
+    {
+      "symbol": "FIL",
+      "leaderSymbol": "FIL",
+      "ecosystems": [
+        "DePIN, Merkeziyetsiz Bulut Depolama & IoT Donanım"
       ],
       "matchedKeywords": [
         "whale-flow",

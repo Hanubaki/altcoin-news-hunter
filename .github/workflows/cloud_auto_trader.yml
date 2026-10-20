@@ -37,13 +37,7 @@ jobs:
         run: |
           node altcoin_auto_trader.mjs
           sleep 40
-          HOUR=$(date +%H)
-          MIN=$(date +%M)
-          if [ "$HOUR" = "21" ] && [ "$MIN" -lt "20" ]; then
-            node altcoin_auto_trader.mjs --notify
-          else
-            node altcoin_auto_trader.mjs
-          fi
+          node altcoin_auto_trader.mjs --notify
 
       - name: Commit and Sync Updated Portfolio & RAPOR.md
         run: |

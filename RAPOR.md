@@ -20,7 +20,10 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
-| *Henüz kapanan işlem yok* | - | - | - | - |
+| **LDO** | `251,90 TL` | `264,34 TL` | **`+12,44 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%5.2) |
+| **SEI** | `159,94 TL` | `167,28 TL` | **`+7,34 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%5.04) |
+| **CAKE** | `167,93 TL` | `171,99 TL` | **`+4,06 TL`** | 💰 1. KADEME (%40) SIFIR RİSK KÂR AL (+%2.82) |
+| **LDO** | `167,93 TL` | `172,75 TL` | **`+4,82 TL`** | 💰 1. KADEME (%40) SIFIR RİSK KÂR AL (+%3.14) |
 
 ---
 
