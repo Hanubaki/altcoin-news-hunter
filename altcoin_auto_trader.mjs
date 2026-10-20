@@ -1120,7 +1120,7 @@ function renderDashboardHtml() {
         Binance Resmi Duyuru + Balina Akışı + 3 Kademeli Kâr Hasadı + 🚀 Sınırsız Uçuş Modu
       </p>
     </div>
-    <button class="btn" onclick="triggerCycle()">⚡ Şimdi Tara & Güncelle</button>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;"><button class="btn" style="background:#10b981;" onclick="triggerWhatsApp()" id="waBtn">📲 WhatsApp Rapor Gönder</button><button class="btn" onclick="triggerCycle()" id="scanBtn">⚡ Şimdi Tara & Güncelle</button></div>
   </div>
 
   <div class="grid-kpi">
@@ -1277,7 +1277,7 @@ async function main() {
       }
     });
 
-    server.listen(port, () => {
+    server.listen(port, '0.0.0.0', () => {
       console.log(`\n🌐 TL Bazlı Canlı Web Kontrol Paneli: http://localhost:${port}`);
     });
 
