@@ -1,18 +1,18 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 20.10.2026 15:28:47
+**Son Güncelleme:** 20.10.2026 19:46:04
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.004,42 TL`**
-* **Toplam Net Kâr / Zarar:** **`+4,42 TL` (`+%0.44`)**
-* **Boşta Bekleyen Nakit:** `1,39 TL`
-* **Coinde Olan Para:** `1.003,04 TL`
-* **Başarılı Satış / Zarar Kes:** `0 Kârlı Satış / 0 Zarar Kes`
-* **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Bağlantı Bekleniyor`
+* **Şu Anki Toplam Para:** **`1.031,33 TL`**
+* **Toplam Net Kâr / Zarar:** **`+31,33 TL` (`+%3.13`)**
+* **Boşta Bekleyen Nakit:** `774,67 TL`
+* **Coinde Olan Para:** `256,66 TL`
+* **Başarılı Satış / Zarar Kes:** `4 Kârlı Satış / 0 Zarar Kes`
+* **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: BNB: 0.0004 | CAKE: 2.3522 | ETHW: 0.0010 | LDO: 0.0063 | SEI: 0.0926 | TRY: 774.6728)`
 
 ---
 
@@ -31,9 +31,7 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **CAKE** | `419,83 TL` | `420,08 TL` | **`+1,93 TL (%0.46)`** | 🛡️ ATR Kalkanı (-%2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **LDO** | `419,83 TL` | `422,38 TL` | **`+3,66 TL (%0.88)`** | 🛡️ ATR Kalkanı (-%2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **SEI (VURGUN)** | `159,94 TL` | `160,58 TL` | **`+1,33 TL (%0.83)`** | 🎰 KORUMALI VURGUN SLOTU (-%2.4 ATR Kalkanı | Hedef: +%18) |
+| **CAKE** | `251,90 TL` | `256,66 TL` | **`+5,80 TL (%2.31)`** | 🔒 1. Kademe Cebimizde, Kalan %60 Sıfır Riskle +%7,5 Hedefinde |
 
 ---
 
