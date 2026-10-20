@@ -1,17 +1,17 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 20.10.2026 00:13:03
+**Son Güncelleme:** 20.10.2026 03:23:10
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `2.999,87 TL`
-* **Şu Anki Toplam Para:** **`3.065,60 TL`**
-* **Toplam Net Kâr / Zarar:** **`+65,73 TL` (`+%2.19`)**
-* **Boşta Bekleyen Nakit:** `492,41 TL`
-* **Coinde Olan Para:** `2.573,19 TL`
-* **Başarılı Satış / Zarar Kes:** `12 Kârlı Satış / 11 Zarar Kes`
+* **Şu Anki Toplam Para:** **`3.077,25 TL`**
+* **Toplam Net Kâr / Zarar:** **`+77,38 TL` (`+%2.58`)**
+* **Boşta Bekleyen Nakit:** `502,38 TL`
+* **Coinde Olan Para:** `2.574,87 TL`
+* **Başarılı Satış / Zarar Kes:** `13 Kârlı Satış / 11 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Bağlantı Bekleniyor`
 
 ---
@@ -20,6 +20,7 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
+| **ID** | `1.298,05 TL` | `1.302,32 TL` | **`+4,27 TL`** | ⏱️ KÂRLI ZAMAN ROTASYONU (12 Saatte Yavaş Kalan Coin Kârla Boşaltıldı +0.33%) |
 | **HBAR** | `991,75 TL` | `960,81 TL` | **`-30,93 TL`** | 🛡️ ATR KORUMA KALKANI (%-3.09) |
 | **DOGE** | `1.050,65 TL` | `1.047,45 TL` | **`-3,20 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.27) |
 | **FLOKI** | `494,80 TL` | `494,01 TL` | **`-0,79 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.17) |
@@ -51,8 +52,8 @@
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
 | **SHIB (VURGUN)** | `494,80 TL` | `501,83 TL` | **`+7,04 TL (%1.42)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
-| **ID** | `1.298,05 TL` | `1.285,41 TL` | **`-12,68 TL (%-0.98)`** | 🛡️ ATR Kalkanı (-%2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **RSR** | `772,55 TL` | `785,96 TL` | **`+13,09 TL (%1.69)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
+| **RSR** | `772,55 TL` | `780,89 TL` | **`+8,03 TL (%1.04)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
+| **OP** | `1.292,34 TL` | `1.292,15 TL` | **`+0,00 TL (%0)`** | 🛡️ ATR Kalkanı (-%2.43 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
 
 ---
 
