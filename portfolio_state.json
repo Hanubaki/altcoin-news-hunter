@@ -1,12 +1,12 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-20T00:23:10.622Z",
+  "updatedAt": "2026-10-20T05:07:05.856Z",
   "mode": "REALTIME_ORDERBOOK_PAPER",
   "initialBankrollUsdt": 84.03,
   "initialBankrollTry": 3000,
-  "cashUsdt": 14.0724,
-  "realizedPnlUsdt": 1.7298,
-  "winCount": 13,
+  "cashUsdt": 28.9548,
+  "realizedPnlUsdt": 2.1322,
+  "winCount": 14,
   "lossCount": 11,
   "openPositions": [
     {
@@ -25,7 +25,7 @@
       "obImbalance": 0.04,
       "entryTime": "2026-10-18T17:22:36.113Z",
       "entryPrice": 0.00000492,
-      "currentPrice": 0.00000499,
+      "currentPrice": 0.00000501,
       "highestPrice": 0.00000504,
       "qty": 2817000,
       "costUsdt": 13.86,
@@ -38,8 +38,8 @@
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.1972,
-      "unrealizedPnlPct": 1.42
+      "unrealizedPnlUsdt": 0.2535,
+      "unrealizedPnlPct": 1.83
     },
     {
       "id": "pos_1792427279657_RSR",
@@ -56,21 +56,21 @@
       "obImbalance": -0.02,
       "entryTime": "2026-10-19T16:27:59.657Z",
       "entryPrice": 0.00183,
-      "currentPrice": 0.001849,
-      "highestPrice": 0.001861,
+      "currentPrice": 0.001875,
+      "highestPrice": 0.001875,
       "qty": 11830,
       "costUsdt": 21.64,
       "costTry": 773,
       "takeProfitPrice": 0.0019123,
-      "stopLossPrice": 0.0018364,
+      "stopLossPrice": 0.0018446,
       "tpPct": 4.5,
       "slPct": 2.36,
       "partialTpDone": false,
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.2248,
-      "unrealizedPnlPct": 1.04
+      "unrealizedPnlUsdt": 0.5323,
+      "unrealizedPnlPct": 2.46
     },
     {
       "id": "pos_1792455747420_OP",
@@ -87,24 +87,34 @@
       "obImbalance": 0,
       "entryTime": "2026-10-20T00:22:27.420Z",
       "entryPrice": 0.1237,
-      "currentPrice": 0.1237,
-      "highestPrice": 0.1237,
-      "qty": 292.6,
-      "costUsdt": 36.2,
-      "costTry": 1292,
+      "currentPrice": 0.1272,
+      "highestPrice": 0.1272,
+      "qty": 175.6,
+      "costUsdt": 21.72,
+      "costTry": 775,
       "takeProfitPrice": 0.12927,
-      "stopLossPrice": 0.12069,
+      "stopLossPrice": 0.12567,
       "tpPct": 4.5,
       "slPct": 2.43,
-      "partialTpDone": false,
+      "partialTpDone": true,
       "stage2TpDone": false,
-      "trailingActive": false,
-      "rocketMode": false,
-      "unrealizedPnlUsdt": 0,
-      "unrealizedPnlPct": 0
+      "trailingActive": true,
+      "rocketMode": true,
+      "unrealizedPnlUsdt": 0.6146,
+      "unrealizedPnlPct": 2.83
     }
   ],
   "closedTrades": [
+    {
+      "symbol": "OP",
+      "entryPrice": 0.1237,
+      "exitPrice": 0.1272,
+      "exitTime": "2026-10-20T05:06:22.035Z",
+      "costUsdt": 14.48,
+      "netPnlUsdt": 0.4024,
+      "netPnlTry": 14.37,
+      "exitReason": "💰 1. KADEME (%40) SIFIR RİSK KÂR AL (+%2.83)"
+    },
     {
       "id": "pos_1792401085560_ID",
       "symbol": "ID",
@@ -863,6 +873,7 @@
     }
   ],
   "recentLogs": [
+    "[08:06:22] 💰 [SIFIR RİSK KÂR HASADI] OP %40'ı satıldı (+14,37 TL)! Kalan %60 Sıfır Riskle Bedava Uçuşta!",
     "[03:22:27] 🟢 [OTOMATİK ALIM] OP (1.292,34 TL) @ $0.1237 | Skor: 96 | RSI: 41.67 | Balina: %56.3 | SL: -%2.43",
     "[03:22:27] 🏁 [POZİSYON KAPANDI] ID @ $0.0308 | ⏱️ KÂRLI ZAMAN ROTASYONU (12 Saatte Yavaş Kalan Coin Kârla Boşaltıldı +0.33%) | Net: 4,27 TL",
     "[19:27:59] 🟢 [OTOMATİK ALIM] RSR (772,55 TL) @ $0.00183 | Skor: 99 | RSI: 31.65 | Balina: %64.3 | SL: -%2.36",
@@ -901,13 +912,12 @@
     "[21:42:19] 🎰 [VURGUN SLOTU AÇILDI] WLD (164,58 TL) @ $0.4997 | Hedef: +%18 | RSI: 22.58 | Balina: %54 | SL: -%2.62",
     "[21:42:19] ⚖️ [Tahta Kalkanı - Vurgun] RENDER önünde satış duvarı (-0.54) var, pas geçildi.",
     "[21:42:19] ⚡ [AKILLI ROTASYON] Hareketsiz DOGE kapatıldı, yerine 95.7 puanlık dev fırsat (LINK) alınıyor!",
-    "[19:24:21] 🟢 [OTOMATİK ALIM] TAO (245,26 TL) @ $268.6 | Skor: 99 | Balina Alım: %57.9",
-    "[19:24:21] 🟢 [OTOMATİK ALIM] HBAR (388,42 TL) @ $0.08283 | Skor: 99 | Balina Alım: %55.8"
+    "[19:24:21] 🟢 [OTOMATİK ALIM] TAO (245,26 TL) @ $268.6 | Skor: 99 | Balina Alım: %57.9"
   ],
-  "totalEquityUsdt": 86.1975,
-  "totalEquityTry": 3077.25,
-  "totalPnlUsdt": 2.1675,
-  "totalPnlPct": 2.58,
+  "totalEquityUsdt": 87.5855,
+  "totalEquityTry": 3126.8,
+  "totalPnlUsdt": 3.5555,
+  "totalPnlPct": 4.23,
   "cooldowns": {
     "FET": 1792154502952,
     "FLOKI": 1792340594778,
@@ -919,6 +929,6 @@
     "HBAR": 1792448879120
   },
   "binanceTrStatus": "Bağlantı Bekleniyor",
-  "lastWhatsAppReportAt": 1792455747861,
-  "highWaterMarkUsdt": 86.652
+  "lastWhatsAppReportAt": 1792472782495,
+  "highWaterMarkUsdt": 87.5855
 }

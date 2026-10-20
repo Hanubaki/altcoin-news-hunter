@@ -1,17 +1,17 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 20.10.2026 03:23:10
+**Son Güncelleme:** 20.10.2026 08:07:05
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `2.999,87 TL`
-* **Şu Anki Toplam Para:** **`3.077,25 TL`**
-* **Toplam Net Kâr / Zarar:** **`+77,38 TL` (`+%2.58`)**
-* **Boşta Bekleyen Nakit:** `502,38 TL`
-* **Coinde Olan Para:** `2.574,87 TL`
-* **Başarılı Satış / Zarar Kes:** `13 Kârlı Satış / 11 Zarar Kes`
+* **Şu Anki Toplam Para:** **`3.126,80 TL`**
+* **Toplam Net Kâr / Zarar:** **`+126,93 TL` (`+%4.23`)**
+* **Boşta Bekleyen Nakit:** `1.033,69 TL`
+* **Coinde Olan Para:** `2.093,12 TL`
+* **Başarılı Satış / Zarar Kes:** `14 Kârlı Satış / 11 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Bağlantı Bekleniyor`
 
 ---
@@ -20,6 +20,7 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
+| **OP** | `516,94 TL` | `531,30 TL` | **`+14,37 TL`** | 💰 1. KADEME (%40) SIFIR RİSK KÂR AL (+%2.83) |
 | **ID** | `1.298,05 TL` | `1.302,32 TL` | **`+4,27 TL`** | ⏱️ KÂRLI ZAMAN ROTASYONU (12 Saatte Yavaş Kalan Coin Kârla Boşaltıldı +0.33%) |
 | **HBAR** | `991,75 TL` | `960,81 TL` | **`-30,93 TL`** | 🛡️ ATR KORUMA KALKANI (%-3.09) |
 | **DOGE** | `1.050,65 TL` | `1.047,45 TL` | **`-3,20 TL`** | ⏱️ ZAMAN TAHLİYESİ (6 Saatte İvme Yakalayamayan Coin Boşaltıldı %-0.27) |
@@ -51,9 +52,9 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **SHIB (VURGUN)** | `494,80 TL` | `501,83 TL` | **`+7,04 TL (%1.42)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
-| **RSR** | `772,55 TL` | `780,89 TL` | **`+8,03 TL (%1.04)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
-| **OP** | `1.292,34 TL` | `1.292,15 TL` | **`+0,00 TL (%0)`** | 🛡️ ATR Kalkanı (-%2.43 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **SHIB (VURGUN)** | `494,80 TL` | `503,84 TL` | **`+9,05 TL (%1.83)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
+| **RSR** | `772,55 TL` | `791,87 TL` | **`+19,00 TL (%2.46)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
+| **OP** | `775,40 TL` | `797,41 TL` | **`+21,94 TL (%2.83)`** | 🔒 1. Kademe Cebimizde, Kalan %60 Sıfır Riskle +%7,5 Hedefinde |
 
 ---
 
