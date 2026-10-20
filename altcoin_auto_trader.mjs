@@ -31,7 +31,7 @@ const RAPOR_FILE = path.resolve('RAPOR.md');
 const ENV_FILE = path.resolve('.env');
 
 const BINANCE_API = 'https://data-api.binance.vision/api/v3';
-const USD_TRY_RATE = 35.7;
+const USD_TRY_RATE = 49.46;
 
 function loadEnv() {
   const cfg = {
