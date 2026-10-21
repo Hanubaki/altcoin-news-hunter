@@ -1,18 +1,18 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 21.10.2026 14:56:09
+**Son Güncelleme:** 21.10.2026 15:02:04
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.044,72 TL`**
-* **Toplam Net Kâr / Zarar:** **`+44,72 TL` (`+%4.47`)**
-* **Boşta Bekleyen Nakit:** `55,17 TL`
-* **Coinde Olan Para:** `968,03 TL`
-* **Başarılı Satış / Zarar Kes:** `12 Kârlı Satış / 2 Zarar Kes`
-* **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 1052.8900 | BNB: 0.0004 | CAKE: 0.0022 | EDU: 63.8720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 40.9180 | ICP: 0.0002 | JASMY: 1692.6080 | LDO: 0.0063 | RSR: 0.9660 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TIA: 0.0058 | TRY: 55.1758)`
+* **Şu Anki Toplam Para:** **`1.042,75 TL`**
+* **Toplam Net Kâr / Zarar:** **`+42,75 TL` (`+%4.28`)**
+* **Boşta Bekleyen Nakit:** `2,39 TL`
+* **Coinde Olan Para:** `1.015,67 TL`
+* **Başarılı Satış / Zarar Kes:** `13 Kârlı Satış / 2 Zarar Kes`
+* **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 1052.8900 | BNB: 0.0004 | CAKE: 0.0022 | EDU: 0.8720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 40.9180 | ICP: 0.0002 | INJ: 0.6487 | JASMY: 1692.6080 | LDO: 0.0063 | RSR: 0.9660 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TIA: 0.0058 | TRY: 2.3922)`
 
 ---
 
@@ -20,6 +20,7 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
+| **EDU** | `230,66 TL` | `232,56 TL` | **`+1,89 TL`** | ⚡ AKILLI ROTASYON (INJ [103.9p] Fırsatına Geçildi) |
 | **TIA** | `217,92 TL` | `216,66 TL` | **`-1,26 TL`** | 🛡️ ATR KORUMA KALKANI (%-0.58) |
 | **STX** | `168,24 TL` | `172,64 TL` | **`+4,40 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%2.61) |
 | **SAND** | `192,40 TL` | `187,92 TL` | **`-4,48 TL`** | 🛡️ ATR KORUMA KALKANI (%-2.33) |
@@ -41,19 +42,20 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **EDU** | `230,66 TL` | `233,19 TL` | **`+2,53 TL (%1.1)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
 | **JASMY** | `401,08 TL` | `399,41 TL` | **`-1,68 TL (%-0.42)`** | 🛡️ ATR Kalkanı (-%3.2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **HBAR** | `168,76 TL` | `171,77 TL` | **`+3,02 TL (%1.79)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
-| **BEAMX (VURGUN)** | `163,34 TL` | `163,66 TL` | **`+0,31 TL (%0.19)`** | 🎰 KORUMALI VURGUN SLOTU (-%2.4 ATR Kalkanı | Hedef: +%18) |
+| **HBAR** | `168,76 TL` | `171,79 TL` | **`+3,04 TL (%1.8)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
+| **BEAMX (VURGUN)** | `163,34 TL` | `163,19 TL` | **`-0,16 TL (%-0.1)`** | 🎰 KORUMALI VURGUN SLOTU (-%2.4 ATR Kalkanı | Hedef: +%18) |
+| **INJ** | `280,99 TL` | `281,28 TL` | **`+0,29 TL (%0.1)`** | 🛡️ ATR Kalkanı (-%3.2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
 
 ---
 
 ## 4. 🧠 ÖZ-ÖĞRENME HAFIZASI VE HATA OTOPSİSİ (Engine #15 — Adaptive Self-Learning)
 
-> Sistem kapattığı her işlemi (`14 işlem`) otonom olarak otopsiye alır; zarar eden coinlerin giriş şartlarını kalıcı olarak sıkılaştırırken, istikrarlı kâr bırakan coinlere ve haber kaynaklarına ek konsey puanı tanımlar.
+> Sistem kapattığı her işlemi (`15 işlem`) otonom olarak otopsiye alır; zarar eden coinlerin giriş şartlarını kalıcı olarak sıkılaştırırken, istikrarlı kâr bırakan coinlere ve haber kaynaklarına ek konsey puanı tanımlar.
 
 | Coin | Geçmiş Performans | Toplam Net Kâr/Zarar | Öğrenilen Otonom Kural & Parametre Evrimi |
 | :--- | :--- | :--- | :--- |
+| **EDU** | `1G / 0Z` | **`+1.89 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+3` Puan (Standart Filtre) |
 | **TIA** | `0G / 1Z` | **`-1.26 TL`** | 🛑 **Sıkılaştırıldı:** Max RSI `<=38`, Min Balina `>=%60`, Skor Cezası `-10` Puan |
 | **STX** | `2G / 0Z` | **`+7.87 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+6` Puan (Standart Filtre) |
 | **SAND** | `0G / 1Z` | **`-4.47 TL`** | 🛑 **Sıkılaştırıldı:** Max RSI `<=44`, Min Balina `>=%60`, Skor Cezası `-10` Puan |
@@ -72,11 +74,11 @@
 
 * **Banka & Entegrasyon:** `İş Bankası (İşCep & Gmail Bildirim Entegreli)`
 * **İş Bankası Güncel Bakiye:** **`0,00 TL`**
-* **Toplam Kişisel Servet (İş Bankası + Binance TR):** **`1.044,72 TL`**
+* **Toplam Kişisel Servet (İş Bankası + Binance TR):** **`1.042,75 TL`**
 * **Beklenen Aylık Gelir Akışı:** `Staj Maaşı: 8.000 TL | Mevcut Burs: 3.000 TL | Yeni Başvurulan Burs: 3.500 TL (Toplam: 14.500 TL/Ay)`
 * **Aylık Dokunulmaz Yaşam & Nakit Kalkanı:** `5.500 TL` *(Haftalık Harcama Limiti: `1.375 TL` | Bu Hafta Harcanan: `0 TL`)*
 * **💡 Günün Otonom CFO Tüyoları & Bütçe Emirleri:**
-  - 📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %85.7 isabetle (12G/2Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1044.72 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle ("Performans Ödülü" usulü) ekleme yap.
+  - 📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %86.7 isabetle (13G/2Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1042.75 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle ("Performans Ödülü" usulü) ekleme yap.
   - 🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız.
 
 ---

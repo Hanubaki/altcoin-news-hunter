@@ -738,7 +738,21 @@ async function runTradingCycle() {
   const state = loadPortfolioState(cfg);
   state.usdTryRate = USD_TRY_RATE;
   let trStatus = await fetchBinanceTrStatus(cfg);
-  if (trStatus.ok) { state.binanceTrStatus = trStatus.summary; state.walletAssetsMap = trStatus.assetsMap; } else if (state.walletAssetsMap) { trStatus.assetsMap = state.walletAssetsMap; } else { state.binanceTrStatus = trStatus.summary; }
+  if (trStatus.ok) {
+    state.binanceTrStatus = trStatus.summary;
+    state.walletAssetsMap = trStatus.assetsMap;
+    state._apiFailCount = 0;
+  } else {
+    state._apiFailCount = (state._apiFailCount || 0) + 1;
+    if (state._apiFailCount === 2) {
+      await sendInstantPhoneAlert('🚨 UYARI: Binance TR API anahtari yanit vermiyor (Kod 3701 veya IP/Izin hatasi). Lutfen API anahtarini kontrol et!');
+    }
+    if (state.walletAssetsMap) {
+      trStatus.assetsMap = state.walletAssetsMap;
+    } else {
+      state.binanceTrStatus = trStatus.summary;
+    }
+  }
 
   // Automatic Paper -> Live Cutover the moment >= 50 TL is deposited to Binance TR!
   if (cfg.LIVE_TRADING && cfg.BINANCE_API_KEY && trStatus.ok && trStatus.tryFree >= 50 && state.mode !== 'LIVE_BINANCE') {
