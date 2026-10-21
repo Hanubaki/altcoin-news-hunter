@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-21T09:41:30.567Z",
+  "updatedAt": "2026-10-21T10:03:39.318Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.2143,
@@ -25,7 +25,7 @@
       "obImbalance": 0.1,
       "entryTime": "2026-10-20T23:03:44.825Z",
       "entryPrice": 0.073,
-      "currentPrice": 0.0724,
+      "currentPrice": 0.0726,
       "highestPrice": 0.0733,
       "qty": 63.872,
       "costUsdt": 4.6627,
@@ -38,10 +38,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0383,
-      "unrealizedPnlPct": -0.82,
-      "currentPriceTry": 3.5816,
-      "currentValueTry": 228.77
+      "unrealizedPnlUsdt": -0.0255,
+      "unrealizedPnlPct": -0.55,
+      "currentPriceTry": 3.5915,
+      "currentValueTry": 229.4
     },
     {
       "id": "moon_1792537703047_TIA",
@@ -59,7 +59,7 @@
       "obImbalance": -0.04,
       "entryTime": "2026-10-20T23:08:23.047Z",
       "entryPrice": 0.6208,
-      "currentPrice": 0.6248,
+      "currentPrice": 0.6196,
       "highestPrice": 0.6421,
       "qty": 7.09578,
       "costUsdt": 4.4051,
@@ -72,10 +72,10 @@
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": true,
-      "unrealizedPnlUsdt": 0.0284,
-      "unrealizedPnlPct": 0.64,
-      "currentPriceTry": 30.9089,
-      "currentValueTry": 219.32
+      "unrealizedPnlUsdt": -0.0085,
+      "unrealizedPnlPct": -0.19,
+      "currentPriceTry": 30.6516,
+      "currentValueTry": 217.5
     },
     {
       "id": "pos_1792549300584_JASMY",
@@ -92,7 +92,7 @@
       "obImbalance": 0.04,
       "entryTime": "2026-10-21T02:21:40.584Z",
       "entryPrice": 0.00479,
-      "currentPrice": 0.0048,
+      "currentPrice": 0.00477,
       "highestPrice": 0.00483,
       "qty": 1692.608,
       "costUsdt": 8.1076,
@@ -105,10 +105,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0169,
-      "unrealizedPnlPct": 0.21,
-      "currentPriceTry": 0.2375,
-      "currentValueTry": 401.92
+      "unrealizedPnlUsdt": -0.0339,
+      "unrealizedPnlPct": -0.42,
+      "currentPriceTry": 0.236,
+      "currentValueTry": 399.41
     },
     {
       "id": "pos_1792552108604_HBAR",
@@ -125,7 +125,7 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-21T03:08:28.604Z",
       "entryPrice": 0.08337,
-      "currentPrice": 0.08492,
+      "currentPrice": 0.08459,
       "highestPrice": 0.08523,
       "qty": 40.918,
       "costUsdt": 3.4113,
@@ -138,10 +138,10 @@
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0634,
-      "unrealizedPnlPct": 1.86,
-      "currentPriceTry": 4.201,
-      "currentValueTry": 171.9
+      "unrealizedPnlUsdt": 0.0499,
+      "unrealizedPnlPct": 1.46,
+      "currentPriceTry": 4.1847,
+      "currentValueTry": 171.23
     }
   ],
   "closedTrades": [
@@ -595,10 +595,10 @@
     "[01:57:25] 🏁 [POZİSYON KAPANDI] RSR @ $0.001907 | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26) | Net: 1,11 TL",
     "[22:04:57] 🟢 [OTOMATİK ALIM] RSR (425,25 TL) @ $0.001902 | Skor: 102 | RSI: 55.31 | Balina: %54.7 | SL: -%2.76"
   ],
-  "totalEquityUsdt": 21.1449,
-  "totalEquityTry": 1046.04,
-  "totalPnlUsdt": 0.9307,
-  "totalPnlPct": 4.6,
+  "totalEquityUsdt": 21.0546,
+  "totalEquityTry": 1041.57,
+  "totalPnlUsdt": 0.8403,
+  "totalPnlPct": 4.16,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286
@@ -608,104 +608,8 @@
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
   "usdTryRate": 49.47,
-  "totalPnlTry": 46.04,
+  "totalPnlTry": 41.57,
   "equityHistory": [
-    {
-      "t": "11:14",
-      "v": 1051.32
-    },
-    {
-      "t": "11:15",
-      "v": 1050.57
-    },
-    {
-      "t": "11:16",
-      "v": 1050.84
-    },
-    {
-      "t": "11:17",
-      "v": 1050.59
-    },
-    {
-      "t": "11:18",
-      "v": 1051.13
-    },
-    {
-      "t": "11:19",
-      "v": 1051.18
-    },
-    {
-      "t": "11:20",
-      "v": 1051.31
-    },
-    {
-      "t": "11:21",
-      "v": 1050.78
-    },
-    {
-      "t": "11:22",
-      "v": 1051.38
-    },
-    {
-      "t": "11:23",
-      "v": 1051.24
-    },
-    {
-      "t": "11:24",
-      "v": 1052.02
-    },
-    {
-      "t": "11:25",
-      "v": 1052.13
-    },
-    {
-      "t": "11:26",
-      "v": 1050.65
-    },
-    {
-      "t": "11:26",
-      "v": 1051.21
-    },
-    {
-      "t": "11:27",
-      "v": 1049.64
-    },
-    {
-      "t": "11:28",
-      "v": 1051.13
-    },
-    {
-      "t": "11:29",
-      "v": 1051.36
-    },
-    {
-      "t": "11:30",
-      "v": 1050.33
-    },
-    {
-      "t": "11:31",
-      "v": 1049.41
-    },
-    {
-      "t": "11:32",
-      "v": 1049.3
-    },
-    {
-      "t": "11:33",
-      "v": 1050.93
-    },
-    {
-      "t": "11:34",
-      "v": 1049.85
-    },
-    {
-      "t": "11:35",
-      "v": 1049.2
-    },
-    {
-      "t": "11:35",
-      "v": 1050.35
-    },
     {
       "t": "11:36",
       "v": 1049
@@ -993,6 +897,102 @@
     {
       "t": "12:41",
       "v": 1046.04
+    },
+    {
+      "t": "12:42",
+      "v": 1045.79
+    },
+    {
+      "t": "12:42",
+      "v": 1044.29
+    },
+    {
+      "t": "12:43",
+      "v": 1044.34
+    },
+    {
+      "t": "12:44",
+      "v": 1044.23
+    },
+    {
+      "t": "12:45",
+      "v": 1044.33
+    },
+    {
+      "t": "12:45",
+      "v": 1043.48
+    },
+    {
+      "t": "12:46",
+      "v": 1043.88
+    },
+    {
+      "t": "12:48",
+      "v": 1043.37
+    },
+    {
+      "t": "12:49",
+      "v": 1043.47
+    },
+    {
+      "t": "12:50",
+      "v": 1044.29
+    },
+    {
+      "t": "12:51",
+      "v": 1044.27
+    },
+    {
+      "t": "12:52",
+      "v": 1043.86
+    },
+    {
+      "t": "12:53",
+      "v": 1043.51
+    },
+    {
+      "t": "12:54",
+      "v": 1044.42
+    },
+    {
+      "t": "12:55",
+      "v": 1044.53
+    },
+    {
+      "t": "12:56",
+      "v": 1044.39
+    },
+    {
+      "t": "12:57",
+      "v": 1044.04
+    },
+    {
+      "t": "12:58",
+      "v": 1044.12
+    },
+    {
+      "t": "12:58",
+      "v": 1043.27
+    },
+    {
+      "t": "12:59",
+      "v": 1042.7
+    },
+    {
+      "t": "13:00",
+      "v": 1042.89
+    },
+    {
+      "t": "13:01",
+      "v": 1042.72
+    },
+    {
+      "t": "13:02",
+      "v": 1042.56
+    },
+    {
+      "t": "13:03",
+      "v": 1041.57
     }
   ],
   "walletAssetsMap": {
@@ -1014,10 +1014,10 @@
     "TIA": 7.0958,
     "TRY": 2.7455
   },
-  "dustAssetsUsdt": 0.4323,
-  "dustAssetsTry": 21.39,
+  "dustAssetsUsdt": 0.4304,
+  "dustAssetsTry": 21.29,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-21T09:41:30.567Z",
+    "updatedAt": "2026-10-21T10:03:39.318Z",
     "totalAnalyzedTrades": 13,
     "coinStats": {
       "STX": {
@@ -1270,12 +1270,12 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 1046.04,
+    "totalNetWorthTry": 1041.57,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
-      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %92.3 isabetle (12G/1Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1046.04 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
+      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %92.3 isabetle (12G/1Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1041.57 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-21T09:41:30.567Z"
+    "updatedAt": "2026-10-21T10:03:39.318Z"
   }
 }
