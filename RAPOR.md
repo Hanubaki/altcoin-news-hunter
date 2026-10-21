@@ -1,16 +1,16 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 21.10.2026 11:03:30
+**Son Güncelleme:** 21.10.2026 11:11:32
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.050,28 TL`**
-* **Toplam Net Kâr / Zarar:** **`+50,28 TL` (`+%5.03`)**
+* **Şu Anki Toplam Para:** **`1.051,60 TL`**
+* **Toplam Net Kâr / Zarar:** **`+51,60 TL` (`+%5.16`)**
 * **Boşta Bekleyen Nakit:** `2,75 TL`
-* **Coinde Olan Para:** `1.026,21 TL`
+* **Coinde Olan Para:** `1.027,55 TL`
 * **Başarılı Satış / Zarar Kes:** `12 Kârlı Satış / 1 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BNB: 0.0004 | CAKE: 0.0022 | EDU: 63.8720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 40.9180 | ICP: 0.0002 | JASMY: 1692.6080 | LDO: 0.0063 | RSR: 0.9660 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TIA: 7.0958 | TRY: 2.7455)`
 
@@ -41,16 +41,35 @@
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
 | **EDU** | `230,38 TL` | `229,12 TL` | **`-1,26 TL (%-0.55)`** | 🛡️ ATR Kalkanı (-%2.76 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **TIA (VURGUN)** | `217,66 TL` | `223,86 TL` | **`+6,21 TL (%2.85)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
+| **TIA (VURGUN)** | `217,66 TL` | `225,12 TL` | **`+7,47 TL (%3.43)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
 | **JASMY** | `400,60 TL` | `402,27 TL` | **`+1,67 TL (%0.42)`** | 🛡️ ATR Kalkanı (-%3.2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **HBAR** | `168,55 TL` | `170,96 TL` | **`+2,41 TL (%1.43)`** | 🛡️ ATR Kalkanı (-%2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **HBAR** | `168,55 TL` | `171,04 TL` | **`+2,49 TL (%1.48)`** | 🛡️ ATR Kalkanı (-%2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
 
 ---
 
-## 4. AKTİF KORUMA VE MAKSİMUM KAZANÇ MOTORLARI (v9.1)
+## 4. 🧠 ÖZ-ÖĞRENME HAFIZASI VE HATA OTOPSİSİ (Engine #15 — Adaptive Self-Learning)
+
+> Sistem kapattığı her işlemi (`13 işlem`) otonom olarak otopsiye alır; zarar eden coinlerin giriş şartlarını kalıcı olarak sıkılaştırırken, istikrarlı kâr bırakan coinlere ve haber kaynaklarına ek konsey puanı tanımlar.
+
+| Coin | Geçmiş Performans | Toplam Net Kâr/Zarar | Öğrenilen Otonom Kural & Parametre Evrimi |
+| :--- | :--- | :--- | :--- |
+| **STX** | `2G / 0Z` | **`+7.87 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+6` Puan (Standart Filtre) |
+| **SAND** | `0G / 1Z` | **`-4.47 TL`** | 🛑 **Sıkılaştırıldı:** Max RSI `<=44`, Min Balina `>=%60`, Skor Cezası `-10` Puan |
+| **FET** | `1G / 0Z` | **`+0.87 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+3` Puan (Standart Filtre) |
+| **RSR** | `1G / 0Z` | **`+0.89 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+3` Puan (Standart Filtre) |
+| **ARB** | `1G / 0Z` | **`+1.12 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+3` Puan (Standart Filtre) |
+| **AVAX** | `1G / 0Z` | **`+0.53 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+3` Puan (Standart Filtre) |
+| **ICP** | `1G / 0Z` | **`+1.25 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+3` Puan (Standart Filtre) |
+| **CAKE** | `2G / 0Z` | **`+10.06 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+6` Puan (Standart Filtre) |
+| **LDO** | `2G / 0Z` | **`+17.26 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+6` Puan (Standart Filtre) |
+| **SEI** | `1G / 0Z` | **`+7.34 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+3` Puan (Standart Filtre) |
+
+---
+
+## 5. AKTİF KORUMA VE MAKSİMUM KAZANÇ MOTORLARI (v9.5)
 
 1. **📏 ATR Nefes Payı Kalkanı (-%2,0 ile -%3,2):** Coinlerin 15 dakikalık normal iğnelerde erken stop olmasını önleyen gerçek volatilite bazlı stop-loss mesafesi.
 2. **🛡️ +%1,5 Gerçek Sıfır Risk Kilidi (True Breakeven Lock):** Bir coin `+%1,5` yükseldiği anda Stop-Loss otomatik olarak maliyetin `+%0,35` üstüne çekilir; kâr kilidi sadece stop fiyatı gerçekten maliyetin üstündeyken aktif olur.
 3. **🎰 +%2,8 Bedava Sürüş (Free-Ride / House Money) Hasadı:** Coin `+%2,8` yaptığı anda `%40`'ı satılıp sıcak kâr cebe atılır, kalan `%60`'ın stopu `+%1,2+` net kâra kilitlenir ve **%100 sıfır riskle** `+%7,5` ve sınırsız uçuşa bırakılır.
 4. **🚫 Tepe (Overbought) ve Bayat Haber Engelleyici:** `RSI > 55` olan tepedeki coinlere ve son 12 saatte zarar yazmış bayat haber başlıklarına tekrar girilmez.
-5. **⚖️ Vurgun Slotu Tam Kalkanı:** Vurgun slotu da dahil tüm alımlarda Tahta Satış Duvarı (`>-0.05`), 6 Saat Cooldown, AI Konseyi `LONG` onayı ve `%52.5+` Balina Alım şartı zorunludur.
+5. **🧠 Engine #15 — Otonom Hata Otopsisi ve Öz-Öğrenme Motoru:** Zarar edilen her işlemden sonra ilgili coinin RSI tavanını, minimum Balina giriş oranını ve Konsey güven puanını otonom olarak günceller; aynı hatayı ikinci kez yapmaz.

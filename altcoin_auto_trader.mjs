@@ -220,7 +220,94 @@ function toTL(usdt) {
   });
 }
 
+function runAdaptiveLearningEngine(state) {
+  const closed = state.closedTrades || [];
+  const coinStats = {};
+  const sourceStats = {};
+  const lessons = [];
+
+  for (const t of closed) {
+    const sym = t.symbol;
+    if (!sym) continue;
+    if (!coinStats[sym]) {
+      coinStats[sym] = {
+        wins: 0,
+        losses: 0,
+        netPnlUsdt: 0,
+        netPnlTry: 0,
+        lossRsis: [],
+        lossWhales: [],
+        winRsis: [],
+        winWhales: [],
+        scoreMod: 0,
+        maxRsi: 55,
+        minWhale: 51.0,
+        lessonNote: '',
+      };
+    }
+    const cs = coinStats[sym];
+    const pnlU = Number(t.netPnlUsdt || 0);
+    const pnlT = Number(t.netPnlTry ?? pnlU * USD_TRY_RATE);
+    cs.netPnlUsdt = Number((cs.netPnlUsdt + pnlU).toFixed(4));
+    cs.netPnlTry = Number((cs.netPnlTry + pnlT).toFixed(2));
+
+    const src = t.newsSource || 'RSS';
+    if (!sourceStats[src]) sourceStats[src] = { wins: 0, losses: 0, netPnlUsdt: 0, scoreMod: 0 };
+    sourceStats[src].netPnlUsdt = Number((sourceStats[src].netPnlUsdt + pnlU).toFixed(4));
+
+    if (pnlU >= 0) {
+      cs.wins++;
+      sourceStats[src].wins++;
+      if (t.rsiAtEntry) cs.winRsis.push(Number(t.rsiAtEntry));
+      if (t.takerBuyRatioPct) cs.winWhales.push(Number(t.takerBuyRatioPct));
+    } else {
+      cs.losses++;
+      sourceStats[src].losses++;
+      if (t.rsiAtEntry) cs.lossRsis.push(Number(t.rsiAtEntry));
+      if (t.takerBuyRatioPct) cs.lossWhales.push(Number(t.takerBuyRatioPct));
+    }
+  }
+
+  for (const [sym, cs] of Object.entries(coinStats)) {
+    if (cs.losses > 0 && cs.netPnlUsdt < 0) {
+      const avgLossRsi = cs.lossRsis.length ? cs.lossRsis.reduce((a, b) => a + b, 0) / cs.lossRsis.length : 49.4;
+      const avgLossWhale = cs.lossWhales.length ? cs.lossWhales.reduce((a, b) => a + b, 0) / cs.lossWhales.length : 53.0;
+      cs.maxRsi = Number(Math.max(38, Math.min(44, Math.floor(avgLossRsi - 4))).toFixed(1));
+      cs.minWhale = Number(Math.max(55.0, Math.min(60.0, avgLossWhale + 2.0)).toFixed(1));
+      cs.scoreMod = -10 * cs.losses;
+      cs.lessonNote = `🛑 HATA OTOPSİSİ: ${sym} işleminde RSI ${avgLossRsi.toFixed(1)} ve Balina %${avgLossWhale.toFixed(1)} seviyesinde sahte kırılım (fakeout) yaşandı (${cs.netPnlTry} TL). Yeni Kural: ${sym} için RSI tavanı <= ${cs.maxRsi}, Balina şartı >= %${cs.minWhale} ve Skor Cezası ${cs.scoreMod} puan olarak sıkılaştırıldı.`;
+      lessons.push(cs.lessonNote);
+    } else if (cs.wins > 0 && cs.netPnlUsdt > 0) {
+      cs.scoreMod = Math.min(8, cs.wins * 3);
+      cs.maxRsi = 55;
+      cs.minWhale = 50.8;
+      cs.lessonNote = `✅ BAŞARI HAFIZASI: ${sym} (${cs.wins} Kâr / ${cs.losses} Zarar, Net +${cs.netPnlTry.toFixed(2)} TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +${cs.scoreMod} puan.`;
+      lessons.push(cs.lessonNote);
+    }
+  }
+
+  for (const [, ss] of Object.entries(sourceStats)) {
+    const total = ss.wins + ss.losses;
+    const winRate = total > 0 ? ss.wins / total : 0.5;
+    if (ss.losses > ss.wins && ss.netPnlUsdt < 0) {
+      ss.scoreMod = -6;
+    } else if (winRate >= 0.75 && ss.wins >= 2) {
+      ss.scoreMod = +4;
+    }
+  }
+
+  state.adaptiveMemory = {
+    updatedAt: new Date().toISOString(),
+    totalAnalyzedTrades: closed.length,
+    coinStats,
+    sourceStats,
+    lessons,
+  };
+  return state.adaptiveMemory;
+}
+
 function writeCleanTlReport(state) {
+  const mem = state.adaptiveMemory || runAdaptiveLearningEngine(state);
   const cashTry = toTL(state.cashUsdt);
   const openValUsdt = state.openPositions.reduce((s, p) => s + p.currentPrice * p.qty, 0);
   const openValTry = toTL(openValUsdt);
@@ -295,19 +382,39 @@ ${closedRows}
 ${openRows}
 ---
 
-## 4. AKTİF KORUMA VE MAKSİMUM KAZANÇ MOTORLARI (v9.1)
+## 4. 🧠 ÖZ-ÖĞRENME HAFIZASI VE HATA OTOPSİSİ (Engine #15 — Adaptive Self-Learning)
+
+> Sistem kapattığı her işlemi (\`${mem?.totalAnalyzedTrades || 0} işlem\`) otonom olarak otopsiye alır; zarar eden coinlerin giriş şartlarını kalıcı olarak sıkılaştırırken, istikrarlı kâr bırakan coinlere ve haber kaynaklarına ek konsey puanı tanımlar.
+
+| Coin | Geçmiş Performans | Toplam Net Kâr/Zarar | Öğrenilen Otonom Kural & Parametre Evrimi |
+| :--- | :--- | :--- | :--- |
+${Object.entries(mem?.coinStats || {})
+  .map(([sym, cs]) => {
+    const sign = cs.netPnlTry >= 0 ? '+' : '';
+    const modSign = cs.scoreMod >= 0 ? '+' : '';
+    const ruleTxt = cs.netPnlUsdt < 0
+      ? `🛑 **Sıkılaştırıldı:** Max RSI \`<=${cs.maxRsi}\`, Min Balina \`>=%${cs.minWhale}\`, Skor Cezası \`${modSign}${cs.scoreMod}\` Puan`
+      : `✅ **Ödüllendirildi:** Konsey Skor Bonusu \`${modSign}${cs.scoreMod}\` Puan (Standart Filtre)`;
+    return `| **${sym}** | \`${cs.wins}G / ${cs.losses}Z\` | **\`${sign}${cs.netPnlTry.toFixed(2)} TL\`** | ${ruleTxt} |`;
+  })
+  .join('\n') || '| *Henüz tamamlanan işlem analizi yok* | - | - | - |'}
+
+---
+
+## 5. AKTİF KORUMA VE MAKSİMUM KAZANÇ MOTORLARI (v9.5)
 
 1. **📏 ATR Nefes Payı Kalkanı (-%2,0 ile -%3,2):** Coinlerin 15 dakikalık normal iğnelerde erken stop olmasını önleyen gerçek volatilite bazlı stop-loss mesafesi.
 2. **🛡️ +%1,5 Gerçek Sıfır Risk Kilidi (True Breakeven Lock):** Bir coin \`+%1,5\` yükseldiği anda Stop-Loss otomatik olarak maliyetin \`+%0,35\` üstüne çekilir; kâr kilidi sadece stop fiyatı gerçekten maliyetin üstündeyken aktif olur.
 3. **🎰 +%2,8 Bedava Sürüş (Free-Ride / House Money) Hasadı:** Coin \`+%2,8\` yaptığı anda \`%40\`'ı satılıp sıcak kâr cebe atılır, kalan \`%60\`'ın stopu \`+%1,2+\` net kâra kilitlenir ve **%100 sıfır riskle** \`+%7,5\` ve sınırsız uçuşa bırakılır.
 4. **🚫 Tepe (Overbought) ve Bayat Haber Engelleyici:** \`RSI > 55\` olan tepedeki coinlere ve son 12 saatte zarar yazmış bayat haber başlıklarına tekrar girilmez.
-5. **⚖️ Vurgun Slotu Tam Kalkanı:** Vurgun slotu da dahil tüm alımlarda Tahta Satış Duvarı (\`>-0.05\`), 6 Saat Cooldown, AI Konseyi \`LONG\` onayı ve \`%52.5+\` Balina Alım şartı zorunludur.
+5. **🧠 Engine #15 — Otonom Hata Otopsisi ve Öz-Öğrenme Motoru:** Zarar edilen her işlemden sonra ilgili coinin RSI tavanını, minimum Balina giriş oranını ve Konsey güven puanını otonom olarak günceller; aynı hatayı ikinci kez yapmaz.
 `;
 
   fs.writeFileSync(RAPOR_FILE, md, 'utf8');
 }
 
 function savePortfolioState(state) {
+  runAdaptiveLearningEngine(state);
   state.updatedAt = new Date().toISOString();
   fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2), 'utf8');
   writeCleanTlReport(state);
@@ -924,17 +1031,24 @@ async function runTradingCycle() {
       // Only skip if AI explicitly flagged WAIT with ultra-high trap confidence (>=92) AND whale flow is weak (<53%)
       if (cand.liveLlmDecision === 'WAIT' && (cand.liveLlmConfidence || 0) >= 92 && (cand.takerBuyRatioPct || 50) < 53) continue;
       if (usedLeaders.has(cand.leaderSymbol) && !(isCashIdleTooLong && cand.totalScore >= 75)) continue;
+      const adaptiveMem = state.adaptiveMemory || runAdaptiveLearningEngine(state);
+      const coinMem = adaptiveMem?.coinStats?.[cand.symbol];
+      const srcMem = adaptiveMem?.sourceStats?.[cand.headlines?.[0]?.source || 'RSS'];
+      const learnedScoreMod = (coinMem?.scoreMod || 0) + (srcMem?.scoreMod || 0);
+      const effectiveTotalScore = Number((cand.totalScore + learnedScoreMod).toFixed(1));
       const hasInstitutionalWhaleSurge = (cand.topWhaleLongPct || 0) >= 60 && (cand.oiChange15mPct || 0) >= 0.2;
       const minReqScore = isWeakMarket ? 78 : isAntiMeltdownActive ? 72 : 58;
-      const minReqWhale = isWeakMarket ? 54 : isAntiMeltdownActive ? 54.0 : hasInstitutionalWhaleSurge ? 47.5 : isCashIdleTooLong ? 50.2 : 51.0;
-      const maxReqRsi = isWeakMarket ? 45 : isAntiMeltdownActive ? 48 : isCashIdleTooLong ? 57 : 55;
-      if (cand.totalScore < minReqScore) continue;
+      const baseMinWhale = isWeakMarket ? 54 : isAntiMeltdownActive ? 54.0 : hasInstitutionalWhaleSurge ? 47.5 : isCashIdleTooLong ? 50.2 : 51.0;
+      const baseMaxRsi = isWeakMarket ? 45 : isAntiMeltdownActive ? 48 : isCashIdleTooLong ? 57 : 55;
+      const minReqWhale = coinMem ? Math.max(baseMinWhale, coinMem.minWhale) : baseMinWhale;
+      const maxReqRsi = coinMem ? Math.min(baseMaxRsi, coinMem.maxRsi) : baseMaxRsi;
+      if (effectiveTotalScore < minReqScore) continue;
       if ((cand.freshestMinutesAgo || 0) > 180) continue; // Reject stale news older than 3 hours
       const isSynthCand = ['WhaleOrderflowRadar', 'ShortSqueezeRadar'].includes(cand.headlines?.[0]?.source);
       if (isSynthCand && ((cand.takerBuyRatioPct || 50) < 55.0 || (cand.rsi1h || 50) > 50 || (cand.aiConsensusCount || 0) < 3)) {
         continue; // Synthetic no-news signals require >=55% Whale Taker Buy, RSI <= 50, and >=3/4 AI Consensus
       }
-      if ((cand.rsi1h || 50) > maxReqRsi) continue; // Reject top/overbought entries
+      if ((cand.rsi1h || 50) > maxReqRsi) continue; // Reject top/overbought entries (or learned tighter RSI cap)
       if ((cand.takerBuyRatioPct || 50) < minReqWhale) continue;
       if (cand.topWhaleLongPct && cand.topWhaleLongPct < 42) continue; // Reject if Binance Top 20% Whales are shorting
       if (state.cooldowns[cand.symbol] && state.cooldowns[cand.symbol] > nowMs) continue;
