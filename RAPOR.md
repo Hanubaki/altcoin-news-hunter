@@ -1,16 +1,16 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 21.10.2026 08:23:43
+**Son Güncelleme:** 21.10.2026 08:26:45
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.027,77 TL`**
-* **Toplam Net Kâr / Zarar:** **`+27,77 TL` (`+%2.78`)**
+* **Şu Anki Toplam Para:** **`1.026,98 TL`**
+* **Toplam Net Kâr / Zarar:** **`+26,98 TL` (`+%2.7`)**
 * **Boşta Bekleyen Nakit:** `2,74 TL`
-* **Coinde Olan Para:** `1.003,88 TL`
+* **Coinde Olan Para:** `1.003,11 TL`
 * **Başarılı Satış / Zarar Kes:** `12 Kârlı Satış / 1 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BNB: 0.0004 | CAKE: 0.0022 | EDU: 63.8720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 40.9180 | ICP: 0.0002 | JASMY: 1692.6080 | LDO: 0.0063 | RSR: 0.9660 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TIA: 7.0958 | TRY: 2.7455)`
 
@@ -41,9 +41,9 @@
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
 | **EDU** | `229,87 TL` | `227,66 TL` | **`-2,20 TL (%-0.96)`** | 🛡️ ATR Kalkanı (-%2.76 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **TIA (VURGUN)** | `217,17 TL` | `215,46 TL` | **`-1,72 TL (%-0.79)`** | 🎰 KORUMALI VURGUN SLOTU (-%3.2 ATR Kalkanı | Hedef: +%18) |
+| **TIA (VURGUN)** | `217,17 TL` | `214,72 TL` | **`-2,45 TL (%-1.13)`** | 🎰 KORUMALI VURGUN SLOTU (-%3.2 ATR Kalkanı | Hedef: +%18) |
 | **JASMY** | `399,70 TL` | `393,03 TL` | **`-6,68 TL (%-1.67)`** | 🛡️ ATR Kalkanı (-%3.2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **HBAR** | `168,18 TL` | `167,73 TL` | **`-0,44 TL (%-0.26)`** | 🛡️ ATR Kalkanı (-%2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **HBAR** | `168,18 TL` | `167,69 TL` | **`-0,48 TL (%-0.29)`** | 🛡️ ATR Kalkanı (-%2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
 
 ---
 

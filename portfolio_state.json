@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-21T05:23:43.672Z",
+  "updatedAt": "2026-10-21T05:26:45.800Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.284,
@@ -59,7 +59,7 @@
       "obImbalance": -0.04,
       "entryTime": "2026-10-20T23:08:23.047Z",
       "entryPrice": 0.6208,
-      "currentPrice": 0.6159,
+      "currentPrice": 0.6138,
       "highestPrice": 0.6254,
       "qty": 7.09578,
       "costUsdt": 4.4051,
@@ -72,10 +72,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0348,
-      "unrealizedPnlPct": -0.79,
-      "currentPriceTry": 30.3639,
-      "currentValueTry": 215.46
+      "unrealizedPnlUsdt": -0.0497,
+      "unrealizedPnlPct": -1.13,
+      "currentPriceTry": 30.2603,
+      "currentValueTry": 214.72
     },
     {
       "id": "pos_1792549300584_JASMY",
@@ -125,7 +125,7 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-21T03:08:28.604Z",
       "entryPrice": 0.08337,
-      "currentPrice": 0.08315,
+      "currentPrice": 0.08313,
       "highestPrice": 0.08355,
       "qty": 40.918,
       "costUsdt": 3.4113,
@@ -138,10 +138,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.009,
-      "unrealizedPnlPct": -0.26,
-      "currentPriceTry": 4.0993,
-      "currentValueTry": 167.73
+      "unrealizedPnlUsdt": -0.0098,
+      "unrealizedPnlPct": -0.29,
+      "currentPriceTry": 4.0983,
+      "currentValueTry": 167.69
     }
   ],
   "closedTrades": [
@@ -595,10 +595,10 @@
     "[19:12:52] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.41) var, pas geçildi.",
     "[18:51:53] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.1) var, pas geçildi."
   ],
-  "totalEquityUsdt": 20.8473,
-  "totalEquityTry": 1027.77,
-  "totalPnlUsdt": 0.5633,
-  "totalPnlPct": 2.78,
+  "totalEquityUsdt": 20.8312,
+  "totalEquityTry": 1026.98,
+  "totalPnlUsdt": 0.5473,
+  "totalPnlPct": 2.7,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286
@@ -608,20 +608,8 @@
   "highWaterMarkUsdt": 20.8128,
   "cashIdleSince": null,
   "usdTryRate": 49.3,
-  "totalPnlTry": 27.77,
+  "totalPnlTry": 26.98,
   "equityHistory": [
-    {
-      "t": "05:46",
-      "v": 1038.29
-    },
-    {
-      "t": "05:47",
-      "v": 1038.02
-    },
-    {
-      "t": "05:48",
-      "v": 1039.03
-    },
     {
       "t": "05:49",
       "v": 1038.07
@@ -993,6 +981,18 @@
     {
       "t": "08:23",
       "v": 1027.77
+    },
+    {
+      "t": "08:24",
+      "v": 1027.21
+    },
+    {
+      "t": "08:25",
+      "v": 1026.89
+    },
+    {
+      "t": "08:26",
+      "v": 1026.98
     }
   ],
   "walletAssetsMap": {
@@ -1014,6 +1014,6 @@
     "TIA": 7.0958,
     "TRY": 2.7455
   },
-  "dustAssetsUsdt": 0.429,
-  "dustAssetsTry": 21.15
+  "dustAssetsUsdt": 0.4286,
+  "dustAssetsTry": 21.13
 }

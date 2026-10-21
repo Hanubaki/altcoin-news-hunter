@@ -1,21 +1,22 @@
 {
-  "updatedAt": "2026-10-21T05:23:36.844Z",
-  "scanDurationMs": 9012,
+  "updatedAt": "2026-10-21T05:26:36.817Z",
+  "scanDurationMs": 8679,
   "bankrollTry": 1000,
   "bankrollUsdt": 20.22,
-  "btc1hChangePct": 0.09,
+  "btc1hChangePct": 0.04,
   "btcCrashAlert": false,
   "marketBreadthPct": 90,
   "fearGreedVal": 63,
   "fearGreedClass": "Greed",
   "btcDominancePct": 57.38,
-  "totalHeadlinesScanned": 76,
+  "totalHeadlinesScanned": 96,
   "activeFeeds": [
     "BinanceCMS (4)",
     "CoinTelegraph (20)",
     "Decrypt (20)",
     "CoinDesk (20)",
-    "BeInCrypto (12)"
+    "BeInCrypto (12)",
+    "CryptoPotato (20)"
   ],
   "top4AltcoinPicks": [
     {
@@ -28,27 +29,27 @@
         "whale-flow",
         "short-squeeze"
       ],
-      "newsScore": 5.05,
+      "newsScore": 5.09,
       "freshestMinutesAgo": 20,
       "headlines": [
         {
           "source": "ShortSqueezeRadar",
           "title": "IMX Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
           "minutesAgo": 20,
-          "catalystPoints": 5.05,
+          "catalystPoints": 5.09,
           "directMention": true
         }
       ],
-      "lastPrice": 0.1532,
+      "lastPrice": 0.1531,
       "vwap24h": 0.15351,
       "aboveVwap": true,
-      "change1hPct": 0,
-      "change24hPct": -0.13,
+      "change1hPct": -0.07,
+      "change24hPct": -0.455,
       "lagVsLeader24h": 0,
-      "rsi1h": 35,
+      "rsi1h": 34.43,
       "hasRsiDivergence": true,
       "atr1hPct": 0.79,
-      "bbPctB": 0.43,
+      "bbPctB": 0.41,
       "bbWidthPct": 3.44,
       "isSqueeze": true,
       "macdBullishTurn": false,
@@ -57,7 +58,7 @@
       "regime": "DIP_TOPLAMA",
       "support": 0.151,
       "resistance": 0.1579,
-      "roomToResistancePct": 3.07,
+      "roomToResistancePct": 3.14,
       "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -67,36 +68,36 @@
       ],
       "aiConsensusLabel": "4/4 AI ONAYLI",
       "takerBuyRatioPct": 62.7,
-      "last1hTakerBuyPct": 55.1,
-      "isGreenBounce": true,
+      "last1hTakerBuyPct": 55,
+      "isGreenBounce": false,
       "isTrending": false,
       "volRatio": 0.23,
       "fundingHourlyPct": -0.0047,
-      "basisSpreadPct": 0.175,
+      "basisSpreadPct": 0.249,
       "totalScore": 99,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 0.16009,
-      "slPrice": 0.15014,
+      "tpPrice": 0.15999,
+      "slPrice": 0.15004,
       "topWhaleLongPct": 64.6,
       "oiChange15mPct": 0.03,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
           "decision": "LONG",
-          "confidence": 82,
-          "reason": "Balina alımı ve RSI dip bölgesinde güçlü sinyal."
+          "confidence": 85,
+          "reason": "Balina alımı ve short-squeeze potansiyeli güçlü."
         },
         {
           "model": "GPT-120B",
           "decision": "WAIT",
           "confidence": 70,
-          "reason": "Negatif fonlama, riskli sinyal"
+          "reason": "Negatif fonlama ve tuzak sinyali"
         }
       ],
       "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 76,
-      "liveLlmReason": "[Qwen-3.8: LONG %82] Balina alımı ve RSI dip bölgesinde güçlü sinyal. | [GPT-120B: WAIT %70] Negatif fonlama, riskli sinyal"
+      "liveLlmConfidence": 78,
+      "liveLlmReason": "[Qwen-3.8: LONG %85] Balina alımı ve short-squeeze potansiyeli güçlü. | [GPT-120B: WAIT %70] Negatif fonlama ve tuzak sinyali"
     },
     {
       "symbol": "EIGEN",
@@ -108,36 +109,36 @@
         "whale-flow",
         "laggard-dip-accumulation"
       ],
-      "newsScore": 4.99,
+      "newsScore": 5.1,
       "freshestMinutesAgo": 20,
       "headlines": [
         {
           "source": "WhaleOrderflowRadar",
           "title": "EIGEN Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
           "minutesAgo": 20,
-          "catalystPoints": 4.99,
+          "catalystPoints": 5.1,
           "directMention": true
         }
       ],
-      "lastPrice": 0.2354,
-      "vwap24h": 0.23758,
+      "lastPrice": 0.2347,
+      "vwap24h": 0.23757,
       "aboveVwap": false,
-      "change1hPct": 0,
-      "change24hPct": -2.526,
-      "lagVsLeader24h": 4.11,
-      "rsi1h": 40.36,
+      "change1hPct": -0.3,
+      "change24hPct": -2.775,
+      "lagVsLeader24h": 4.4,
+      "rsi1h": 38.73,
       "hasRsiDivergence": false,
       "atr1hPct": 1.28,
-      "bbPctB": 0.33,
-      "bbWidthPct": 5.77,
+      "bbPctB": 0.29,
+      "bbWidthPct": 5.82,
       "isSqueeze": false,
       "macdBullishTurn": false,
-      "adx": 62.5,
+      "adx": 62.8,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
       "support": 0.2311,
       "resistance": 0.2462,
-      "roomToResistancePct": 4.59,
+      "roomToResistancePct": 4.9,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Scout",
@@ -145,18 +146,18 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 62.7,
-      "last1hTakerBuyPct": 65.6,
-      "isGreenBounce": true,
+      "takerBuyRatioPct": 61.7,
+      "last1hTakerBuyPct": 61.8,
+      "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.32,
-      "fundingHourlyPct": -0.0001,
-      "basisSpreadPct": 0.144,
+      "volRatio": 0.36,
+      "fundingHourlyPct": -0.0004,
+      "basisSpreadPct": 0.162,
       "totalScore": 99,
       "tpPct": 4.7,
       "slPct": 2.11,
-      "tpPrice": 0.24646,
-      "slPrice": 0.23043,
+      "tpPrice": 0.24573,
+      "slPrice": 0.22975,
       "topWhaleLongPct": 73.4,
       "oiChange15mPct": 0.17,
       "realApiVerdicts": [
@@ -164,97 +165,18 @@
           "model": "Qwen-3.8",
           "decision": "LONG",
           "confidence": 78,
-          "reason": "Balina alımı ve laggard toparlanma potansiyeli güçlü."
+          "reason": "Balina alımı ve düşük RSI destekli geri dönüş potansiyeli."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
           "confidence": 78,
-          "reason": "Balina alımı, fiyat yükselişi potansiyeli"
+          "reason": "Balina alımı, düşük RSI, alım fırsatı"
         }
       ],
       "liveLlmDecision": "LONG",
       "liveLlmConfidence": 78,
-      "liveLlmReason": "[Qwen-3.8: LONG %78] Balina alımı ve laggard toparlanma potansiyeli güçlü. | [GPT-120B: LONG %78] Balina alımı, fiyat yükselişi potansiyeli"
-    },
-    {
-      "symbol": "BOME",
-      "leaderSymbol": "SOL",
-      "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "short-squeeze"
-      ],
-      "newsScore": 4.6,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "ShortSqueezeRadar",
-          "title": "BOME Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
-          "minutesAgo": 20,
-          "catalystPoints": 4.6,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 0.0006149,
-      "vwap24h": 0.00061792,
-      "aboveVwap": true,
-      "change1hPct": 0.23,
-      "change24hPct": 2.296,
-      "lagVsLeader24h": -1.42,
-      "rsi1h": 38.46,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.04,
-      "bbPctB": 0.49,
-      "bbWidthPct": 6.76,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 29.9,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.0005902,
-      "resistance": 0.0006359,
-      "roomToResistancePct": 3.42,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 67.6,
-      "last1hTakerBuyPct": 58.1,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.55,
-      "fundingHourlyPct": -0.002,
-      "basisSpreadPct": 0.132,
-      "totalScore": 99,
-      "tpPct": 5.44,
-      "slPct": 2,
-      "tpPrice": 0.00064835,
-      "slPrice": 0.0006026,
-      "topWhaleLongPct": 56.1,
-      "oiChange15mPct": 0.11,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 75,
-          "reason": "Negatif fonlama riski nedeniyle beklemede kalınmalı."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 78,
-          "reason": "Balina alımı ve short-squeeze olumlu"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 77,
-      "liveLlmReason": "[Qwen-3.8: WAIT %75] Negatif fonlama riski nedeniyle beklemede kalınmalı. | [GPT-120B: LONG %78] Balina alımı ve short-squeeze olumlu"
+      "liveLlmReason": "[Qwen-3.8: LONG %78] Balina alımı ve düşük RSI destekli geri dönüş potansiyeli. | [GPT-120B: LONG %78] Balina alımı, düşük RSI, alım fırsatı"
     },
     {
       "symbol": "RSR",
@@ -269,34 +191,34 @@
         "treasury"
       ],
       "newsScore": 14.08,
-      "freshestMinutesAgo": 112,
+      "freshestMinutesAgo": 115,
       "headlines": [
         {
           "source": "BinanceListingSniper",
           "title": "Binance Will Add 5 bStocks Tokenized Securities as Collateral Asset - 2026-10-21",
-          "minutesAgo": 112,
+          "minutesAgo": 115,
           "catalystPoints": 8.32,
           "directMention": false
         },
         {
           "source": "BinanceListingSniper",
           "title": "Binance Exchange Adds RoboStrategy Inc (BOTB), Berkshire Hathaway (BRKBB), KraneShares STAR Market 50 ETF (KSTRB), Direxion Daily 20 Year Treasury Bull 3X ETF (TMFB) and Vistra Corp (VSTB) bStocks Trading Pairs on Binance Spot/Convert - 2026-10-21",
-          "minutesAgo": 143,
+          "minutesAgo": 146,
           "catalystPoints": 4.16,
           "directMention": false
         }
       ],
-      "lastPrice": 0.001939,
+      "lastPrice": 0.001937,
       "vwap24h": 0.0018907,
       "aboveVwap": true,
-      "change1hPct": -0.51,
-      "change24hPct": 3.248,
-      "lagVsLeader24h": -0.68,
-      "rsi1h": 53.33,
+      "change1hPct": -0.62,
+      "change24hPct": 3.252,
+      "lagVsLeader24h": -0.71,
+      "rsi1h": 52.69,
       "hasRsiDivergence": false,
       "atr1hPct": 1.04,
-      "bbPctB": 0.72,
-      "bbWidthPct": 7.01,
+      "bbPctB": 0.71,
+      "bbWidthPct": 6.99,
       "isSqueeze": false,
       "macdBullishTurn": true,
       "adx": 39.5,
@@ -312,18 +234,18 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 59.3,
-      "last1hTakerBuyPct": 35.7,
+      "takerBuyRatioPct": 59.2,
+      "last1hTakerBuyPct": 35.5,
       "isGreenBounce": false,
       "isTrending": false,
       "volRatio": 0.15,
-      "fundingHourlyPct": -0.0203,
-      "basisSpreadPct": 0.088,
+      "fundingHourlyPct": -0.0207,
+      "basisSpreadPct": 0.106,
       "totalScore": 99,
       "tpPct": 4.94,
       "slPct": 2,
-      "tpPrice": 0.0020348,
-      "slPrice": 0.0019002,
+      "tpPrice": 0.0020327,
+      "slPrice": 0.0018983,
       "topWhaleLongPct": 57.2,
       "oiChange15mPct": -0.47,
       "realApiVerdicts": [
@@ -331,18 +253,97 @@
           "model": "Qwen-3.8",
           "decision": "WAIT",
           "confidence": 95,
-          "reason": "Haber RSR ile alakasız, tokenized securities odaklı."
+          "reason": "Haber RSR ile alakasız, genel piyasa haberi."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
           "confidence": 78,
-          "reason": "Balina alımı yüksek, RSI nötr, destek yakın"
+          "reason": "Balina alımı ve destek seviyesi güçlü"
         }
       ],
       "liveLlmDecision": "LONG",
       "liveLlmConfidence": 87,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber RSR ile alakasız, tokenized securities odaklı. | [GPT-120B: LONG %78] Balina alımı yüksek, RSI nötr, destek yakın"
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber RSR ile alakasız, genel piyasa haberi. | [GPT-120B: LONG %78] Balina alımı ve destek seviyesi güçlü"
+    },
+    {
+      "symbol": "BOME",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "short-squeeze"
+      ],
+      "newsScore": 4.65,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "ShortSqueezeRadar",
+          "title": "BOME Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
+          "minutesAgo": 20,
+          "catalystPoints": 4.65,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.0006139,
+      "vwap24h": 0.00061791,
+      "aboveVwap": true,
+      "change1hPct": 0.07,
+      "change24hPct": 2.129,
+      "lagVsLeader24h": -1.06,
+      "rsi1h": 36.59,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.04,
+      "bbPctB": 0.46,
+      "bbWidthPct": 6.76,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 29.9,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.0005902,
+      "resistance": 0.0006359,
+      "roomToResistancePct": 3.58,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 67.5,
+      "last1hTakerBuyPct": 58.2,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.59,
+      "fundingHourlyPct": -0.0021,
+      "basisSpreadPct": 0.166,
+      "totalScore": 77.9,
+      "tpPct": 5.44,
+      "slPct": 2,
+      "tpPrice": 0.0006473,
+      "slPrice": 0.00060162,
+      "topWhaleLongPct": 56.1,
+      "oiChange15mPct": 0.11,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 75,
+          "reason": "Negatif fonlama riski nedeniyle beklenmeli."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "WAIT",
+          "confidence": 70,
+          "reason": "Negatif fonlama ve balina sinyali"
+        }
+      ],
+      "liveLlmDecision": "WAIT",
+      "liveLlmConfidence": 73,
+      "liveLlmReason": "[Qwen-3.8: WAIT %75] Negatif fonlama riski nedeniyle beklenmeli. | [GPT-120B: WAIT %70] Negatif fonlama ve balina sinyali"
     }
   ],
   "allQualifiedOpportunities": [
@@ -356,27 +357,27 @@
         "whale-flow",
         "short-squeeze"
       ],
-      "newsScore": 5.05,
+      "newsScore": 5.09,
       "freshestMinutesAgo": 20,
       "headlines": [
         {
           "source": "ShortSqueezeRadar",
           "title": "IMX Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
           "minutesAgo": 20,
-          "catalystPoints": 5.05,
+          "catalystPoints": 5.09,
           "directMention": true
         }
       ],
-      "lastPrice": 0.1532,
+      "lastPrice": 0.1531,
       "vwap24h": 0.15351,
       "aboveVwap": true,
-      "change1hPct": 0,
-      "change24hPct": -0.13,
+      "change1hPct": -0.07,
+      "change24hPct": -0.455,
       "lagVsLeader24h": 0,
-      "rsi1h": 35,
+      "rsi1h": 34.43,
       "hasRsiDivergence": true,
       "atr1hPct": 0.79,
-      "bbPctB": 0.43,
+      "bbPctB": 0.41,
       "bbWidthPct": 3.44,
       "isSqueeze": true,
       "macdBullishTurn": false,
@@ -385,7 +386,7 @@
       "regime": "DIP_TOPLAMA",
       "support": 0.151,
       "resistance": 0.1579,
-      "roomToResistancePct": 3.07,
+      "roomToResistancePct": 3.14,
       "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -395,36 +396,36 @@
       ],
       "aiConsensusLabel": "4/4 AI ONAYLI",
       "takerBuyRatioPct": 62.7,
-      "last1hTakerBuyPct": 55.1,
-      "isGreenBounce": true,
+      "last1hTakerBuyPct": 55,
+      "isGreenBounce": false,
       "isTrending": false,
       "volRatio": 0.23,
       "fundingHourlyPct": -0.0047,
-      "basisSpreadPct": 0.175,
+      "basisSpreadPct": 0.249,
       "totalScore": 99,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 0.16009,
-      "slPrice": 0.15014,
+      "tpPrice": 0.15999,
+      "slPrice": 0.15004,
       "topWhaleLongPct": 64.6,
       "oiChange15mPct": 0.03,
       "realApiVerdicts": [
         {
           "model": "Qwen-3.8",
           "decision": "LONG",
-          "confidence": 82,
-          "reason": "Balina alımı ve RSI dip bölgesinde güçlü sinyal."
+          "confidence": 85,
+          "reason": "Balina alımı ve short-squeeze potansiyeli güçlü."
         },
         {
           "model": "GPT-120B",
           "decision": "WAIT",
           "confidence": 70,
-          "reason": "Negatif fonlama, riskli sinyal"
+          "reason": "Negatif fonlama ve tuzak sinyali"
         }
       ],
       "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 76,
-      "liveLlmReason": "[Qwen-3.8: LONG %82] Balina alımı ve RSI dip bölgesinde güçlü sinyal. | [GPT-120B: WAIT %70] Negatif fonlama, riskli sinyal"
+      "liveLlmConfidence": 78,
+      "liveLlmReason": "[Qwen-3.8: LONG %85] Balina alımı ve short-squeeze potansiyeli güçlü. | [GPT-120B: WAIT %70] Negatif fonlama ve tuzak sinyali"
     },
     {
       "symbol": "EIGEN",
@@ -436,36 +437,36 @@
         "whale-flow",
         "laggard-dip-accumulation"
       ],
-      "newsScore": 4.99,
+      "newsScore": 5.1,
       "freshestMinutesAgo": 20,
       "headlines": [
         {
           "source": "WhaleOrderflowRadar",
           "title": "EIGEN Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
           "minutesAgo": 20,
-          "catalystPoints": 4.99,
+          "catalystPoints": 5.1,
           "directMention": true
         }
       ],
-      "lastPrice": 0.2354,
-      "vwap24h": 0.23758,
+      "lastPrice": 0.2347,
+      "vwap24h": 0.23757,
       "aboveVwap": false,
-      "change1hPct": 0,
-      "change24hPct": -2.526,
-      "lagVsLeader24h": 4.11,
-      "rsi1h": 40.36,
+      "change1hPct": -0.3,
+      "change24hPct": -2.775,
+      "lagVsLeader24h": 4.4,
+      "rsi1h": 38.73,
       "hasRsiDivergence": false,
       "atr1hPct": 1.28,
-      "bbPctB": 0.33,
-      "bbWidthPct": 5.77,
+      "bbPctB": 0.29,
+      "bbWidthPct": 5.82,
       "isSqueeze": false,
       "macdBullishTurn": false,
-      "adx": 62.5,
+      "adx": 62.8,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
       "support": 0.2311,
       "resistance": 0.2462,
-      "roomToResistancePct": 4.59,
+      "roomToResistancePct": 4.9,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Scout",
@@ -473,18 +474,18 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 62.7,
-      "last1hTakerBuyPct": 65.6,
-      "isGreenBounce": true,
+      "takerBuyRatioPct": 61.7,
+      "last1hTakerBuyPct": 61.8,
+      "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.32,
-      "fundingHourlyPct": -0.0001,
-      "basisSpreadPct": 0.144,
+      "volRatio": 0.36,
+      "fundingHourlyPct": -0.0004,
+      "basisSpreadPct": 0.162,
       "totalScore": 99,
       "tpPct": 4.7,
       "slPct": 2.11,
-      "tpPrice": 0.24646,
-      "slPrice": 0.23043,
+      "tpPrice": 0.24573,
+      "slPrice": 0.22975,
       "topWhaleLongPct": 73.4,
       "oiChange15mPct": 0.17,
       "realApiVerdicts": [
@@ -492,97 +493,18 @@
           "model": "Qwen-3.8",
           "decision": "LONG",
           "confidence": 78,
-          "reason": "Balina alımı ve laggard toparlanma potansiyeli güçlü."
+          "reason": "Balina alımı ve düşük RSI destekli geri dönüş potansiyeli."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
           "confidence": 78,
-          "reason": "Balina alımı, fiyat yükselişi potansiyeli"
+          "reason": "Balina alımı, düşük RSI, alım fırsatı"
         }
       ],
       "liveLlmDecision": "LONG",
       "liveLlmConfidence": 78,
-      "liveLlmReason": "[Qwen-3.8: LONG %78] Balina alımı ve laggard toparlanma potansiyeli güçlü. | [GPT-120B: LONG %78] Balina alımı, fiyat yükselişi potansiyeli"
-    },
-    {
-      "symbol": "BOME",
-      "leaderSymbol": "SOL",
-      "ecosystems": [
-        "Solana (SOL) & DEX / Likidite Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "short-squeeze"
-      ],
-      "newsScore": 4.6,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "ShortSqueezeRadar",
-          "title": "BOME Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
-          "minutesAgo": 20,
-          "catalystPoints": 4.6,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 0.0006149,
-      "vwap24h": 0.00061792,
-      "aboveVwap": true,
-      "change1hPct": 0.23,
-      "change24hPct": 2.296,
-      "lagVsLeader24h": -1.42,
-      "rsi1h": 38.46,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.04,
-      "bbPctB": 0.49,
-      "bbWidthPct": 6.76,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 29.9,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.0005902,
-      "resistance": 0.0006359,
-      "roomToResistancePct": 3.42,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 67.6,
-      "last1hTakerBuyPct": 58.1,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.55,
-      "fundingHourlyPct": -0.002,
-      "basisSpreadPct": 0.132,
-      "totalScore": 99,
-      "tpPct": 5.44,
-      "slPct": 2,
-      "tpPrice": 0.00064835,
-      "slPrice": 0.0006026,
-      "topWhaleLongPct": 56.1,
-      "oiChange15mPct": 0.11,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 75,
-          "reason": "Negatif fonlama riski nedeniyle beklemede kalınmalı."
-        },
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 78,
-          "reason": "Balina alımı ve short-squeeze olumlu"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 77,
-      "liveLlmReason": "[Qwen-3.8: WAIT %75] Negatif fonlama riski nedeniyle beklemede kalınmalı. | [GPT-120B: LONG %78] Balina alımı ve short-squeeze olumlu"
+      "liveLlmReason": "[Qwen-3.8: LONG %78] Balina alımı ve düşük RSI destekli geri dönüş potansiyeli. | [GPT-120B: LONG %78] Balina alımı, düşük RSI, alım fırsatı"
     },
     {
       "symbol": "RSR",
@@ -597,34 +519,34 @@
         "treasury"
       ],
       "newsScore": 14.08,
-      "freshestMinutesAgo": 112,
+      "freshestMinutesAgo": 115,
       "headlines": [
         {
           "source": "BinanceListingSniper",
           "title": "Binance Will Add 5 bStocks Tokenized Securities as Collateral Asset - 2026-10-21",
-          "minutesAgo": 112,
+          "minutesAgo": 115,
           "catalystPoints": 8.32,
           "directMention": false
         },
         {
           "source": "BinanceListingSniper",
           "title": "Binance Exchange Adds RoboStrategy Inc (BOTB), Berkshire Hathaway (BRKBB), KraneShares STAR Market 50 ETF (KSTRB), Direxion Daily 20 Year Treasury Bull 3X ETF (TMFB) and Vistra Corp (VSTB) bStocks Trading Pairs on Binance Spot/Convert - 2026-10-21",
-          "minutesAgo": 143,
+          "minutesAgo": 146,
           "catalystPoints": 4.16,
           "directMention": false
         }
       ],
-      "lastPrice": 0.001939,
+      "lastPrice": 0.001937,
       "vwap24h": 0.0018907,
       "aboveVwap": true,
-      "change1hPct": -0.51,
-      "change24hPct": 3.248,
-      "lagVsLeader24h": -0.68,
-      "rsi1h": 53.33,
+      "change1hPct": -0.62,
+      "change24hPct": 3.252,
+      "lagVsLeader24h": -0.71,
+      "rsi1h": 52.69,
       "hasRsiDivergence": false,
       "atr1hPct": 1.04,
-      "bbPctB": 0.72,
-      "bbWidthPct": 7.01,
+      "bbPctB": 0.71,
+      "bbWidthPct": 6.99,
       "isSqueeze": false,
       "macdBullishTurn": true,
       "adx": 39.5,
@@ -640,18 +562,18 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 59.3,
-      "last1hTakerBuyPct": 35.7,
+      "takerBuyRatioPct": 59.2,
+      "last1hTakerBuyPct": 35.5,
       "isGreenBounce": false,
       "isTrending": false,
       "volRatio": 0.15,
-      "fundingHourlyPct": -0.0203,
-      "basisSpreadPct": 0.088,
+      "fundingHourlyPct": -0.0207,
+      "basisSpreadPct": 0.106,
       "totalScore": 99,
       "tpPct": 4.94,
       "slPct": 2,
-      "tpPrice": 0.0020348,
-      "slPrice": 0.0019002,
+      "tpPrice": 0.0020327,
+      "slPrice": 0.0018983,
       "topWhaleLongPct": 57.2,
       "oiChange15mPct": -0.47,
       "realApiVerdicts": [
@@ -659,18 +581,18 @@
           "model": "Qwen-3.8",
           "decision": "WAIT",
           "confidence": 95,
-          "reason": "Haber RSR ile alakasız, tokenized securities odaklı."
+          "reason": "Haber RSR ile alakasız, genel piyasa haberi."
         },
         {
           "model": "GPT-120B",
           "decision": "LONG",
           "confidence": 78,
-          "reason": "Balina alımı yüksek, RSI nötr, destek yakın"
+          "reason": "Balina alımı ve destek seviyesi güçlü"
         }
       ],
       "liveLlmDecision": "LONG",
       "liveLlmConfidence": 87,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber RSR ile alakasız, tokenized securities odaklı. | [GPT-120B: LONG %78] Balina alımı yüksek, RSI nötr, destek yakın"
+      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber RSR ile alakasız, genel piyasa haberi. | [GPT-120B: LONG %78] Balina alımı ve destek seviyesi güçlü"
     },
     {
       "symbol": "HBAR",
@@ -685,42 +607,42 @@
         "treasury"
       ],
       "newsScore": 14.08,
-      "freshestMinutesAgo": 112,
+      "freshestMinutesAgo": 115,
       "headlines": [
         {
           "source": "BinanceListingSniper",
           "title": "Binance Will Add 5 bStocks Tokenized Securities as Collateral Asset - 2026-10-21",
-          "minutesAgo": 112,
+          "minutesAgo": 115,
           "catalystPoints": 8.32,
           "directMention": false
         },
         {
           "source": "BinanceListingSniper",
           "title": "Binance Exchange Adds RoboStrategy Inc (BOTB), Berkshire Hathaway (BRKBB), KraneShares STAR Market 50 ETF (KSTRB), Direxion Daily 20 Year Treasury Bull 3X ETF (TMFB) and Vistra Corp (VSTB) bStocks Trading Pairs on Binance Spot/Convert - 2026-10-21",
-          "minutesAgo": 143,
+          "minutesAgo": 146,
           "catalystPoints": 4.16,
           "directMention": false
         }
       ],
-      "lastPrice": 0.08318,
-      "vwap24h": 0.08352,
+      "lastPrice": 0.08314,
+      "vwap24h": 0.083519,
       "aboveVwap": true,
-      "change1hPct": -0.18,
-      "change24hPct": -0.156,
-      "lagVsLeader24h": 2.73,
-      "rsi1h": 46.48,
+      "change1hPct": -0.23,
+      "change24hPct": -0.204,
+      "lagVsLeader24h": 2.74,
+      "rsi1h": 45.92,
       "hasRsiDivergence": false,
-      "atr1hPct": 0.81,
-      "bbPctB": 0.37,
+      "atr1hPct": 0.82,
+      "bbPctB": 0.36,
       "bbWidthPct": 3.69,
       "isSqueeze": true,
       "macdBullishTurn": false,
-      "adx": 29.4,
+      "adx": 31.9,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
       "support": 0.08199,
       "resistance": 0.08556,
-      "roomToResistancePct": 2.86,
+      "roomToResistancePct": 2.91,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -728,20 +650,99 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 61.3,
-      "last1hTakerBuyPct": 58.7,
+      "takerBuyRatioPct": 61.2,
+      "last1hTakerBuyPct": 58.4,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.23,
+      "volRatio": 0.25,
       "fundingHourlyPct": 0.0013,
-      "basisSpreadPct": 0.07,
+      "basisSpreadPct": 0.091,
       "totalScore": 96.9,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 0.086923,
-      "slPrice": 0.081516,
+      "tpPrice": 0.086881,
+      "slPrice": 0.081477,
       "topWhaleLongPct": 75.5,
       "oiChange15mPct": -0.03
+    },
+    {
+      "symbol": "BOME",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "short-squeeze"
+      ],
+      "newsScore": 4.65,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "ShortSqueezeRadar",
+          "title": "BOME Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
+          "minutesAgo": 20,
+          "catalystPoints": 4.65,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.0006139,
+      "vwap24h": 0.00061791,
+      "aboveVwap": true,
+      "change1hPct": 0.07,
+      "change24hPct": 2.129,
+      "lagVsLeader24h": -1.06,
+      "rsi1h": 36.59,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.04,
+      "bbPctB": 0.46,
+      "bbWidthPct": 6.76,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 29.9,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.0005902,
+      "resistance": 0.0006359,
+      "roomToResistancePct": 3.58,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 67.5,
+      "last1hTakerBuyPct": 58.2,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.59,
+      "fundingHourlyPct": -0.0021,
+      "basisSpreadPct": 0.166,
+      "totalScore": 77.9,
+      "tpPct": 5.44,
+      "slPct": 2,
+      "tpPrice": 0.0006473,
+      "slPrice": 0.00060162,
+      "topWhaleLongPct": 56.1,
+      "oiChange15mPct": 0.11,
+      "realApiVerdicts": [
+        {
+          "model": "Qwen-3.8",
+          "decision": "WAIT",
+          "confidence": 75,
+          "reason": "Negatif fonlama riski nedeniyle beklenmeli."
+        },
+        {
+          "model": "GPT-120B",
+          "decision": "WAIT",
+          "confidence": 70,
+          "reason": "Negatif fonlama ve balina sinyali"
+        }
+      ],
+      "liveLlmDecision": "WAIT",
+      "liveLlmConfidence": 73,
+      "liveLlmReason": "[Qwen-3.8: WAIT %75] Negatif fonlama riski nedeniyle beklenmeli. | [GPT-120B: WAIT %70] Negatif fonlama ve balina sinyali"
     },
     {
       "symbol": "AR",
@@ -753,54 +754,55 @@
         "whale-flow",
         "laggard-dip-accumulation"
       ],
-      "newsScore": 3.69,
+      "newsScore": 3.81,
       "freshestMinutesAgo": 20,
       "headlines": [
         {
           "source": "WhaleOrderflowRadar",
           "title": "AR Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
           "minutesAgo": 20,
-          "catalystPoints": 3.69,
+          "catalystPoints": 3.81,
           "directMention": true
         }
       ],
-      "lastPrice": 3.828,
+      "lastPrice": 3.815,
       "vwap24h": 3.8643,
       "aboveVwap": false,
-      "change1hPct": -0.08,
-      "change24hPct": 0.976,
-      "lagVsLeader24h": 0.55,
-      "rsi1h": 40.07,
+      "change1hPct": -0.42,
+      "change24hPct": 0.793,
+      "lagVsLeader24h": 0.56,
+      "rsi1h": 38.21,
       "hasRsiDivergence": false,
-      "atr1hPct": 1.14,
-      "bbPctB": 0.36,
-      "bbWidthPct": 6.23,
+      "atr1hPct": 1.16,
+      "bbPctB": 0.31,
+      "bbWidthPct": 6.27,
       "isSqueeze": false,
       "macdBullishTurn": false,
-      "adx": 58.6,
+      "adx": 61.1,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
       "support": 3.721,
       "resistance": 4.005,
-      "roomToResistancePct": 4.62,
-      "aiConsensusCount": 2,
+      "roomToResistancePct": 4.98,
+      "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Scout",
-        "Gemini-3.5-Flash"
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 67.1,
-      "last1hTakerBuyPct": 53.1,
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 65.5,
+      "last1hTakerBuyPct": 47.8,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.26,
-      "fundingHourlyPct": 0.0003,
-      "basisSpreadPct": 0.073,
-      "totalScore": 55.6,
+      "volRatio": 0.3,
+      "fundingHourlyPct": -0.0002,
+      "basisSpreadPct": 0.103,
+      "totalScore": 85.1,
       "tpPct": 5.23,
       "slPct": 2,
-      "tpPrice": 4.0282,
-      "slPrice": 3.7514,
+      "tpPrice": 4.0145,
+      "slPrice": 3.7387,
       "topWhaleLongPct": 77.5,
       "oiChange15mPct": -0.02
     },
@@ -825,15 +827,15 @@
         }
       ],
       "lastPrice": 0.0000045,
-      "vwap24h": 0.0000044588,
+      "vwap24h": 0.0000044589,
       "aboveVwap": true,
-      "change1hPct": -0.22,
+      "change1hPct": -0.44,
       "change24hPct": 7.143,
-      "lagVsLeader24h": -4.5,
-      "rsi1h": 46.34,
+      "lagVsLeader24h": -4.45,
+      "rsi1h": 45.24,
       "hasRsiDivergence": false,
       "atr1hPct": 1.74,
-      "bbPctB": 0.52,
+      "bbPctB": 0.5,
       "bbWidthPct": 12.06,
       "isSqueeze": false,
       "macdBullishTurn": false,
@@ -849,11 +851,11 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 53.1,
-      "last1hTakerBuyPct": 40.2,
+      "takerBuyRatioPct": 53,
+      "last1hTakerBuyPct": 40.6,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.24,
+      "volRatio": 0.25,
       "fundingHourlyPct": 0,
       "basisSpreadPct": 0,
       "totalScore": 31.2,
@@ -861,6 +863,64 @@
       "slPct": 2.87,
       "tpPrice": 0.0000048663,
       "slPrice": 0.0000043709
+    },
+    {
+      "symbol": "SHIB",
+      "leaderSymbol": "DOGE",
+      "ecosystems": [
+        "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri"
+      ],
+      "matchedKeywords": [
+        "elon musk"
+      ],
+      "newsScore": 1.6,
+      "freshestMinutesAgo": 165,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "Elon Musk Teases Tesla Merger and $1 Trillion Milestone for SpaceX",
+          "minutesAgo": 165,
+          "catalystPoints": 1.6,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.00000511,
+      "vwap24h": 0.000005083,
+      "aboveVwap": true,
+      "change1hPct": -0.2,
+      "change24hPct": 1.996,
+      "lagVsLeader24h": 0.69,
+      "rsi1h": 52.63,
+      "hasRsiDivergence": false,
+      "atr1hPct": 0.67,
+      "bbPctB": 0.57,
+      "bbWidthPct": 4.56,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 0,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.00000495,
+      "resistance": 0.00000516,
+      "roomToResistancePct": 1.5,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 47.6,
+      "last1hTakerBuyPct": 54.4,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.21,
+      "fundingHourlyPct": 0,
+      "basisSpreadPct": 0,
+      "totalScore": 26.2,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.0000053399,
+      "slPrice": 0.0000050078
     }
   ]
 }
