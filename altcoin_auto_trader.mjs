@@ -1969,6 +1969,13 @@ async function startTelegramCommandBot() {
         if (!cfg.TELEGRAM_CHAT_ID && fs.existsSync(ENV_FILE)) {
           const envRaw = fs.readFileSync(ENV_FILE, 'utf8').replace(/TELEGRAM_CHAT_ID=.*/g, `TELEGRAM_CHAT_ID=${chatId}`);
           fs.writeFileSync(ENV_FILE, envRaw, 'utf8');
+          cfg.TELEGRAM_CHAT_ID = chatId;
+        }
+
+        // Security Shield: Only allow the authorized owner's Telegram Chat ID
+        if (cfg.TELEGRAM_CHAT_ID && chatId !== String(cfg.TELEGRAM_CHAT_ID).trim()) {
+          console.warn(`🛡️ [Güvenlik Zırhı] Yetkisiz Telegram erişim denemesi reddedildi (ChatID: ${chatId})`);
+          continue;
         }
 
         let reply = '';
@@ -2140,8 +2147,8 @@ async function main() {
       }
     });
 
-    server.listen(port, '0.0.0.0', () => {
-      console.log(`\n🌐 TL Bazlı Canlı Web Kontrol Paneli: http://localhost:${port}`);
+    server.listen(port, '127.0.0.1', () => {
+      console.log(`\n🌐 TL Bazlı Canlı Web Kontrol Paneli (Sadece Yerel Cihaz Korumalı): http://localhost:${port}`);
     });
 
     setInterval(() => {
