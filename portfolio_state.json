@@ -1,13 +1,13 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-21T12:46:40.553Z",
+  "updatedAt": "2026-10-21T15:11:12.281Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.2143,
   "initialBankrollTry": 1000,
-  "cashUsdt": 0.7662,
-  "realizedPnlUsdt": 0.8638,
-  "winCount": 13,
+  "cashUsdt": 0.7598,
+  "realizedPnlUsdt": 0.8859,
+  "winCount": 14,
   "lossCount": 3,
   "openPositions": [
     {
@@ -25,57 +25,23 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-21T03:08:28.604Z",
       "entryPrice": 0.08337,
-      "currentPrice": 0.085,
-      "highestPrice": 0.08523,
+      "currentPrice": 0.08557,
+      "highestPrice": 0.08557,
       "qty": 40.918,
       "costUsdt": 3.4113,
       "costTry": 168.76,
       "takeProfitPrice": 0.087122,
-      "stopLossPrice": 0.08387,
+      "stopLossPrice": 0.084454,
       "tpPct": 4.5,
       "slPct": 2,
       "partialTpDone": false,
       "stage2TpDone": false,
       "trailingActive": true,
-      "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0667,
-      "unrealizedPnlPct": 1.96,
-      "currentPriceTry": 4.205,
-      "currentValueTry": 172.06
-    },
-    {
-      "id": "moon_1792583549706_BEAMX",
-      "symbol": "BEAMX",
-      "isMoonshot": true,
-      "leaderSymbol": "IMX",
-      "ecosystem": "Web3 Oyun (GameFi), Immutable, Ronin & Metaverse",
-      "headline": "🎰 VURGUN SLOTU: BEAMX Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
-      "newsSource": "WhaleOrderflowRadar",
-      "newsScore": 4.81,
-      "totalScore": 99,
-      "rsiAtEntry": 36.25,
-      "atr1hPct": 1.42,
-      "takerBuyRatioPct": 63.5,
-      "obImbalance": -0.03,
-      "entryTime": "2026-10-21T11:52:29.707Z",
-      "entryPrice": 0.003136,
-      "currentPrice": 0.003111,
-      "highestPrice": 0.003142,
-      "qty": 1052.89,
-      "costUsdt": 3.3019,
-      "costTry": 163.34,
-      "takeProfitPrice": 0.0037005,
-      "stopLossPrice": 0.0030607,
-      "tpPct": 18,
-      "slPct": 2.4,
-      "partialTpDone": false,
-      "stage2TpDone": false,
-      "trailingActive": false,
-      "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0263,
-      "unrealizedPnlPct": -0.8,
-      "currentPriceTry": 0.1539,
-      "currentValueTry": 162.04
+      "rocketMode": true,
+      "unrealizedPnlUsdt": 0.09,
+      "unrealizedPnlPct": 2.64,
+      "currentPriceTry": 4.2331,
+      "currentValueTry": 173.21
     },
     {
       "id": "pos_1792583857876_INJ",
@@ -92,8 +58,8 @@
       "obImbalance": 0.55,
       "entryTime": "2026-10-21T11:57:37.877Z",
       "entryPrice": 8.756,
-      "currentPrice": 8.723,
-      "highestPrice": 8.791,
+      "currentPrice": 8.802,
+      "highestPrice": 8.802,
       "qty": 0.6487,
       "costUsdt": 5.68,
       "costTry": 280.99,
@@ -105,10 +71,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0214,
-      "unrealizedPnlPct": -0.38,
-      "currentPriceTry": 431.5268,
-      "currentValueTry": 279.93
+      "unrealizedPnlUsdt": 0.0298,
+      "unrealizedPnlPct": 0.53,
+      "currentPriceTry": 435.4349,
+      "currentValueTry": 282.47
     },
     {
       "id": "pos_1792585747684_EDU",
@@ -125,8 +91,8 @@
       "obImbalance": 0.12,
       "entryTime": "2026-10-21T12:29:07.684Z",
       "entryPrice": 0.0732,
-      "currentPrice": 0.0725,
-      "highestPrice": 0.0732,
+      "currentPrice": 0.0739,
+      "highestPrice": 0.0739,
       "qty": 100.672,
       "costUsdt": 7.3692,
       "costTry": 364.55,
@@ -138,13 +104,86 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0705,
-      "unrealizedPnlPct": -0.96,
-      "currentPriceTry": 3.5866,
-      "currentValueTry": 361.07
+      "unrealizedPnlUsdt": 0.0705,
+      "unrealizedPnlPct": 0.96,
+      "currentPriceTry": 3.6558,
+      "currentValueTry": 368.04
+    },
+    {
+      "id": "moon_1792595469092_THETA",
+      "symbol": "THETA",
+      "isMoonshot": true,
+      "leaderSymbol": "FET",
+      "ecosystem": "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı",
+      "headline": "🎰 VURGUN SLOTU: THETA Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+      "newsSource": "WhaleOrderflowRadar",
+      "newsScore": 4.55,
+      "totalScore": 99.6,
+      "rsiAtEntry": 40.54,
+      "atr1hPct": 0.94,
+      "takerBuyRatioPct": 57.5,
+      "obImbalance": -0.02,
+      "entryTime": "2026-10-21T15:11:09.092Z",
+      "entryPrice": 0.2073,
+      "currentPrice": 0.2072,
+      "highestPrice": 0.2073,
+      "qty": 16.02,
+      "costUsdt": 3.3209,
+      "costTry": 164.28,
+      "takeProfitPrice": 0.24461,
+      "stopLossPrice": 0.20232,
+      "tpPct": 18,
+      "slPct": 2.4,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": -0.0016,
+      "unrealizedPnlPct": -0.05,
+      "currentPriceTry": 10.2502,
+      "currentValueTry": 164.21
     }
   ],
   "closedTrades": [
+    {
+      "id": "moon_1792583549706_BEAMX",
+      "symbol": "BEAMX",
+      "isMoonshot": true,
+      "leaderSymbol": "IMX",
+      "ecosystem": "Web3 Oyun (GameFi), Immutable, Ronin & Metaverse",
+      "headline": "🎰 VURGUN SLOTU: BEAMX Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+      "newsSource": "WhaleOrderflowRadar",
+      "newsScore": 4.81,
+      "totalScore": 99,
+      "rsiAtEntry": 36.25,
+      "atr1hPct": 1.42,
+      "takerBuyRatioPct": 63.5,
+      "obImbalance": -0.03,
+      "entryTime": "2026-10-21T11:52:29.707Z",
+      "entryPrice": 0.003136,
+      "currentPrice": 0.003157,
+      "highestPrice": 0.003157,
+      "qty": 1052.89,
+      "costUsdt": 3.3019,
+      "costTry": 163.34,
+      "takeProfitPrice": 0.0037005,
+      "stopLossPrice": 0.0030607,
+      "tpPct": 18,
+      "slPct": 2.4,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": 0.0221,
+      "unrealizedPnlPct": 0.67,
+      "currentPriceTry": 0.1539,
+      "currentValueTry": 162.04,
+      "exitPrice": 0.003157,
+      "exitTime": "2026-10-21T15:11:06.152Z",
+      "exitReason": "⚡ AKILLI ROTASYON (UNI [100.2p] Fırsatına Geçildi)",
+      "netPnlUsdt": 0.0221,
+      "netPnlTry": 1.09
+    },
     {
       "id": "pos_1792549300584_JASMY",
       "symbol": "JASMY",
@@ -669,6 +708,8 @@
     }
   ],
   "recentLogs": [
+    "[18:11:09] 🎰 [VURGUN SLOTU AÇILDI] THETA (164,24 TL) @ $0.2073 | Hedef: +%18 | RSI: 40.54 | Balina: %57.5 | SL: -%2.4",
+    "[18:11:06] ⚡ [AKILLI ROTASYON] BEAMX kapatıldı, yerine 100.2 puanlık dev fırsat (UNI) alınıyor!",
     "[15:29:07] 🟢 [OTOMATİK ALIM] EDU (365,58 TL) @ $0.0732 | Skor: 73.9 | RSI: 52.17 | Balina: %63.8 | SL: -%2",
     "[15:29:04] ⚡ [AKILLI ROTASYON] JASMY kapatıldı, yerine 105.7 puanlık dev fırsat (JTO) alınıyor!",
     "[14:57:37] 🟢 [OTOMATİK ALIM] INJ (283,96 TL) @ $8.756 | Skor: 103.9 | RSI: 46.34 | Balina: %58.7 | SL: -%3.2",
@@ -706,30 +747,24 @@
     "[06:08:28] 🟢 [OTOMATİK ALIM] HBAR (171,28 TL) @ $0.08337 | Skor: 95.5 | RSI: 51.93 | Balina: %57.2 | SL: -%2",
     "[06:08:25] 🏁 [POZİSYON KAPANDI] STX @ $0.3572 | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%2.61) | Net: 4,39 TL",
     "[05:21:40] 🟢 [OTOMATİK ALIM] JASMY (402,78 TL) @ $0.00479 | Skor: 109.6 | RSI: 50 | Balina: %63.2 | SL: -%3.2",
-    "[05:14:53] 🏁 [POZİSYON KAPANDI] SAND @ $0.05741 | 🛡️ ATR KORUMA KALKANI (%-2.33) | Net: -4,47 TL",
-    "[04:45:37] 💰 [SIFIR RİSK KÂR HASADI] STX %35'i satıldı (+3,48 TL)! Kalan %65 Sıfır Riskle Bedava Uçuşta!",
-    "[02:08:23] 🎰 [VURGUN SLOTU AÇILDI] TIA (218,30 TL) @ $0.6208 | Hedef: +%18 | RSI: 41.08 | Balina: %59.1 | SL: -%3.2"
+    "[05:14:53] 🏁 [POZİSYON KAPANDI] SAND @ $0.05741 | 🛡️ ATR KORUMA KALKANI (%-2.33) | Net: -4,47 TL"
   ],
-  "totalEquityUsdt": 20.9143,
-  "totalEquityTry": 1034.63,
-  "totalPnlUsdt": 0.7,
-  "totalPnlPct": 3.46,
+  "totalEquityUsdt": 21.174,
+  "totalEquityTry": 1047.48,
+  "totalPnlUsdt": 0.9598,
+  "totalPnlPct": 4.75,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
     "TIA": 1792605145178
   },
-  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 1052.8900 | BNB: 0.0004 | CAKE: 0.0022 | EDU: 100.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 40.9180 | ICP: 0.0002 | INJ: 0.6487 | JASMY: 0.6080 | LDO: 0.0063 | RSR: 0.9660 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TIA: 0.0058 | TRY: 37.9056)",
-  "lastWhatsAppReportAt": 1792585751309,
+  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0022 | EDU: 100.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 40.9180 | ICP: 0.0002 | INJ: 0.6487 | JASMY: 0.6080 | LDO: 0.0063 | RSR: 0.9660 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | THETA: 15.9680 | TIA: 0.0058 | TRY: 37.5863)",
+  "lastWhatsAppReportAt": 1792595472280,
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
   "usdTryRate": 49.47,
-  "totalPnlTry": 34.63,
+  "totalPnlTry": 47.48,
   "equityHistory": [
-    {
-      "t": "14:18",
-      "v": 1046.12
-    },
     {
       "t": "14:19",
       "v": 1046.9
@@ -1109,12 +1144,16 @@
     {
       "t": "15:46",
       "v": 1034.63
+    },
+    {
+      "t": "18:11",
+      "v": 1047.48
     }
   ],
   "walletAssetsMap": {
     "ARB": 0.009,
     "AVAX": 0.0082,
-    "BEAMX": 1052.89,
+    "BEAMX": 0.89,
     "BNB": 0.00039996,
     "CAKE": 0.00216,
     "EDU": 100.672,
@@ -1129,15 +1168,34 @@
     "SAND": 0.0674,
     "SEI": 0.0926,
     "STX": 0.07,
+    "THETA": 15.968,
     "TIA": 0.00578,
-    "TRY": 37.9055596
+    "TRY": 37.5863252
   },
-  "dustAssetsUsdt": 0.4372,
-  "dustAssetsTry": 21.63,
+  "dustAssetsUsdt": 0.444,
+  "dustAssetsTry": 21.97,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-21T12:46:40.553Z",
-    "totalAnalyzedTrades": 16,
+    "updatedAt": "2026-10-21T15:11:12.281Z",
+    "totalAnalyzedTrades": 17,
     "coinStats": {
+      "BEAMX": {
+        "wins": 1,
+        "losses": 0,
+        "netPnlUsdt": 0.0221,
+        "netPnlTry": 1.09,
+        "lossRsis": [],
+        "lossWhales": [],
+        "winRsis": [
+          36.25
+        ],
+        "winWhales": [
+          63.5
+        ],
+        "scoreMod": 3,
+        "maxRsi": 55,
+        "minWhale": 50.8,
+        "lessonNote": "✅ BAŞARI HAFIZASI: BEAMX (1 Kâr / 0 Zarar, Net +1.09 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan."
+      },
       "JASMY": {
         "wins": 0,
         "losses": 1,
@@ -1374,16 +1432,16 @@
       }
     },
     "sourceStats": {
+      "WhaleOrderflowRadar": {
+        "wins": 2,
+        "losses": 0,
+        "netPnlUsdt": 0.0604,
+        "scoreMod": 4
+      },
       "ShortSqueezeRadar": {
         "wins": 5,
         "losses": 2,
         "netPnlUsdt": 0.5258,
-        "scoreMod": 0
-      },
-      "WhaleOrderflowRadar": {
-        "wins": 1,
-        "losses": 0,
-        "netPnlUsdt": 0.0383,
         "scoreMod": 0
       },
       "CoinTelegraph": {
@@ -1418,6 +1476,7 @@
       }
     },
     "lessons": [
+      "✅ BAŞARI HAFIZASI: BEAMX (1 Kâr / 0 Zarar, Net +1.09 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
       "🛑 HATA OTOPSİSİ: JASMY işleminde RSI 50.0 ve Balina %63.2 seviyesinde sahte kırılım (fakeout) yaşandı (-0.84 TL). Yeni Kural: JASMY için RSI tavanı <= 44, Balina şartı >= %60 ve Skor Cezası -10 puan olarak sıkılaştırıldı.",
       "✅ BAŞARI HAFIZASI: EDU (1 Kâr / 0 Zarar, Net +1.89 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
       "🛑 HATA OTOPSİSİ: TIA işleminde RSI 41.1 ve Balina %59.1 seviyesinde sahte kırılım (fakeout) yaşandı (-1.26 TL). Yeni Kural: TIA için RSI tavanı <= 38, Balina şartı >= %60 ve Skor Cezası -10 puan olarak sıkılaştırıldı.",
@@ -1457,13 +1516,13 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 1034.63,
+    "totalNetWorthTry": 1047.48,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
-      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %81.3 isabetle (13G/3Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1034.63 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
+      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %82.4 isabetle (14G/3Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1047.48 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-21T12:46:40.553Z"
+    "updatedAt": "2026-10-21T15:11:12.281Z"
   },
   "_apiFailCount": 0
 }
