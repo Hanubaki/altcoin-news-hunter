@@ -1003,6 +1003,8 @@ async function runTradingCycle() {
       exitReason = `🛡️ SIFIR RİSK ERKEN TAHLİYE (İvme Zayıfladı, Başa Baş Noktasında Çıkıldı %${pos.unrealizedPnlPct})`;
     } else if (pos.partialTpDone && hoursHeld >= 4.5 && pos.unrealizedPnlPct >= 1.5 && (pos.atr1hPct || 1.5) < 1.0 && currentBid <= pos.highestPrice * 0.996) {
       exitReason = `💰 HIZLI KÂR HASADI & ROTASYON (Yavaşlayan Kârlı Coin Cebe Alındı +%${pos.unrealizedPnlPct})`;
+    } else if (pos.isMoonshot) {
+      exitReason = `🔄 SEÇENEK 2 GEÇİŞİ (Vurgun Slotu Kapatılıp 3 Ana Slota Aktarıldı %${pos.unrealizedPnlPct})`;
     } else if (hoursHeld >= 12 && pos.unrealizedPnlPct >= 0.15 && pos.unrealizedPnlPct < 0.6 && !pos.partialTpDone) {
       exitReason = `⏱️ KÂRLI ZAMAN ROTASYONU (12 Saatte Yavaş Kalan Coin Kârla Boşaltıldı +${pos.unrealizedPnlPct}%)`;
     }
@@ -1186,9 +1188,11 @@ async function runTradingCycle() {
       const srcMem = adaptiveMem?.sourceStats?.[cand.headlines?.[0]?.source || 'RSS'];
       const learnedScoreMod = (coinMem?.scoreMod || 0) + (srcMem?.scoreMod || 0);
       const effectiveTotalScore = Number((cand.totalScore + learnedScoreMod).toFixed(1));
-      const hasInstitutionalWhaleSurge = (cand.topWhaleLongPct || 0) >= 60 && (cand.oiChange15mPct || 0) >= 0.2;
+      const hasInstitutionalWhaleSurge =
+        ((cand.topWhaleLongPct || 0) >= 60 && (cand.oiChange15mPct || 0) >= 0.2) ||
+        ((cand.topWhaleLongPct || 0) >= 65 && (cand.oiChange15mPct || 0) >= 0 && (cand.rsi1h || 50) <= 45 && (cand.freshestMinutesAgo || 999) <= 60);
       const minReqScore = isWeakMarket ? 78 : isAntiMeltdownActive ? 72 : 58;
-      const baseMinWhale = isWeakMarket ? 54 : isAntiMeltdownActive ? 54.0 : hasInstitutionalWhaleSurge ? 47.5 : isCashIdleTooLong ? 50.2 : 51.0;
+      const baseMinWhale = isWeakMarket ? 54 : isAntiMeltdownActive ? 54.0 : hasInstitutionalWhaleSurge ? 46.0 : isCashIdleTooLong ? 50.2 : 51.0;
       const baseMaxRsi = isWeakMarket ? 45 : isAntiMeltdownActive ? 48 : isCashIdleTooLong ? 57 : 55;
       const minReqWhale = coinMem ? Math.max(baseMinWhale, coinMem.minWhale) : baseMinWhale;
       const maxReqRsi = coinMem ? Math.min(baseMaxRsi, coinMem.maxRsi) : baseMaxRsi;
@@ -1288,15 +1292,8 @@ async function runTradingCycle() {
     }
   }
 
-  // Step 4: Engine #11 — SNIPER ASYMMETRIC "VURGUN" SLOT (Option 1) with Automatic Fallback to Option 2 (3 Core Slots Only) if Moonshot underperforms!
-  const moonClosedHistory = (state.closedTrades || []).filter(t => t.isMoonshot || (t.headline || '').includes('VURGUN'));
-  const moonTotalNetUsdt = moonClosedHistory.reduce((s, t) => s + Number(t.netPnlUsdt || 0), 0);
-  const moonTwoLossesInRow = moonClosedHistory.length >= 2 && Number(moonClosedHistory[0].netPnlUsdt || 0) < 0 && Number(moonClosedHistory[1].netPnlUsdt || 0) < 0;
-  const isMoonshotAutoDisabled = Boolean(moonTotalNetUsdt < 0 || moonTwoLossesInRow);
-  if (isMoonshotAutoDisabled && !state._loggedMoonDisable) {
-    state._loggedMoonDisable = true;
-    logEvent(state, `🔄 [OTONOM STRATEJİ EVRİMİ -> SEÇENEK 2] Vurgun Slotu verimsiz tespit edildi, otomatik kapatıldı! Tüm kasa 3 Ana Slota yönlendirildi.`);
-  }
+  // Step 4: Engine #11 — OPTION 2 ACTIVE: Moonshot ("Vurgun") Slot permanently disabled so 100% of capital compounds across the 3 Core Slots!
+  const isMoonshotAutoDisabled = true;
 
   if (!isMoonshotAutoDisabled && !signalsData.btcCrashAlert && !state.openPositions.some(p => p.isMoonshot) && state.cashUsdt >= 2.50) {
     const heldNow = new Set(state.openPositions.map(p => p.symbol));

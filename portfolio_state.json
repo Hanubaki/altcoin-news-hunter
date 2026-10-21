@@ -1,49 +1,15 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-21T19:40:07.122Z",
+  "updatedAt": "2026-10-21T20:40:14.679Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
-  "initialBankrollUsdt": 20.247,
+  "initialBankrollUsdt": 20.2716,
   "initialBankrollTry": 1000,
-  "cashUsdt": 0.0046,
-  "realizedPnlUsdt": 1.0991,
+  "cashUsdt": 0.0241,
+  "realizedPnlUsdt": 1.0491,
   "winCount": 19,
-  "lossCount": 3,
+  "lossCount": 5,
   "openPositions": [
-    {
-      "id": "moon_1792595469092_THETA",
-      "symbol": "THETA",
-      "isMoonshot": true,
-      "leaderSymbol": "FET",
-      "ecosystem": "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı",
-      "headline": "🎰 VURGUN SLOTU: THETA Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
-      "newsSource": "WhaleOrderflowRadar",
-      "newsScore": 4.55,
-      "totalScore": 99.6,
-      "rsiAtEntry": 40.54,
-      "atr1hPct": 0.94,
-      "takerBuyRatioPct": 57.5,
-      "obImbalance": -0.02,
-      "entryTime": "2026-10-21T15:11:09.092Z",
-      "entryPrice": 0.2073,
-      "currentPrice": 0.2058,
-      "highestPrice": 0.2077,
-      "qty": 15.968,
-      "costUsdt": 3.3102,
-      "costTry": 163.49,
-      "takeProfitPrice": 0.24461,
-      "stopLossPrice": 0.20232,
-      "tpPct": 18,
-      "slPct": 2.4,
-      "partialTpDone": false,
-      "stage2TpDone": false,
-      "trailingActive": false,
-      "rocketMode": false,
-      "unrealizedPnlUsdt": -0.024,
-      "unrealizedPnlPct": -0.72,
-      "currentPriceTry": 10.1645,
-      "currentValueTry": 162.31
-    },
     {
       "id": "pos_1792609353993_RAY",
       "symbol": "RAY",
@@ -59,11 +25,11 @@
       "obImbalance": 0.76,
       "entryTime": "2026-10-21T19:02:33.993Z",
       "entryPrice": 1.9851,
-      "currentPrice": 1.9976,
-      "highestPrice": 1.998,
+      "currentPrice": 1.9979,
+      "highestPrice": 2.0073,
       "qty": 4.2854,
       "costUsdt": 8.5069,
-      "costTry": 420.16,
+      "costTry": 419.65,
       "takeProfitPrice": 2.0814,
       "stopLossPrice": 1.9383,
       "tpPct": 4.85,
@@ -72,10 +38,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0536,
-      "unrealizedPnlPct": 0.63,
-      "currentPriceTry": 98.6615,
-      "currentValueTry": 422.8
+      "unrealizedPnlUsdt": 0.0549,
+      "unrealizedPnlPct": 0.64,
+      "currentPriceTry": 98.5564,
+      "currentValueTry": 422.35
     },
     {
       "id": "pos_1792609356799_ZRO",
@@ -92,11 +58,11 @@
       "obImbalance": 0.36,
       "entryTime": "2026-10-21T19:02:36.799Z",
       "entryPrice": 2.032,
-      "currentPrice": 2.039,
+      "currentPrice": 2.016,
       "highestPrice": 2.052,
       "qty": 3.15368,
       "costUsdt": 6.4083,
-      "costTry": 316.51,
+      "costTry": 316.12,
       "takeProfitPrice": 2.1919,
       "stopLossPrice": 1.967,
       "tpPct": 7.87,
@@ -105,11 +71,46 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0221,
-      "unrealizedPnlPct": 0.34,
-      "currentPriceTry": 100.7062,
-      "currentValueTry": 317.6
+      "unrealizedPnlUsdt": -0.0505,
+      "unrealizedPnlPct": -0.79,
+      "currentPriceTry": 99.4493,
+      "currentValueTry": 313.63
     },
+    {
+      "id": "pos_1792614212214_WLD",
+      "symbol": "WLD",
+      "leaderSymbol": "FET",
+      "ecosystem": "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı",
+      "headline": "Nvidia Unveils Its Full-Stack Blueprint to Contain and Monitor AI Agents",
+      "newsSource": "Decrypt",
+      "newsScore": 6.08,
+      "totalScore": 89.3,
+      "rsiAtEntry": 40.45,
+      "atr1hPct": 1.58,
+      "takerBuyRatioPct": 47,
+      "obImbalance": -0.04,
+      "entryTime": "2026-10-21T20:23:32.214Z",
+      "entryPrice": 0.5704,
+      "currentPrice": 0.5738,
+      "highestPrice": 0.575,
+      "qty": 9.2814,
+      "costUsdt": 5.2941,
+      "costTry": 261.16,
+      "takeProfitPrice": 0.59607,
+      "stopLossPrice": 0.55551,
+      "tpPct": 4.5,
+      "slPct": 2.61,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": 0.0316,
+      "unrealizedPnlPct": 0.6,
+      "currentPriceTry": 28.3056,
+      "currentValueTry": 262.72
+    }
+  ],
+  "closedTrades": [
     {
       "id": "pos_1792611383507_PYTH",
       "symbol": "PYTH",
@@ -125,11 +126,11 @@
       "obImbalance": 0.38,
       "entryTime": "2026-10-21T19:36:23.507Z",
       "entryPrice": 0.07981,
-      "currentPrice": 0.07976,
-      "highestPrice": 0.07981,
+      "currentPrice": 0.07973,
+      "highestPrice": 0.07989,
       "qty": 26.2474,
       "costUsdt": 2.0948,
-      "costTry": 103.46,
+      "costTry": 103.4,
       "takeProfitPrice": 0.083401,
       "stopLossPrice": 0.077823,
       "tpPct": 4.5,
@@ -138,13 +139,55 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0013,
-      "unrealizedPnlPct": -0.06,
-      "currentPriceTry": 3.9393,
-      "currentValueTry": 103.4
-    }
-  ],
-  "closedTrades": [
+      "unrealizedPnlUsdt": -0.0021,
+      "unrealizedPnlPct": -0.1,
+      "currentPriceTry": 3.9355,
+      "currentValueTry": 103.3,
+      "exitPrice": 0.07979,
+      "exitTime": "2026-10-21T20:22:28.698Z",
+      "exitReason": "📲 TELEFONDAN MANUEL SATIŞ (Kâr/Nakit Alındı)",
+      "netPnlUsdt": -0.0005,
+      "netPnlTry": -0.02
+    },
+    {
+      "id": "moon_1792595469092_THETA",
+      "symbol": "THETA",
+      "isMoonshot": true,
+      "leaderSymbol": "FET",
+      "ecosystem": "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı",
+      "headline": "🎰 VURGUN SLOTU: THETA Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+      "newsSource": "WhaleOrderflowRadar",
+      "newsScore": 4.55,
+      "totalScore": 99.6,
+      "rsiAtEntry": 40.54,
+      "atr1hPct": 0.94,
+      "takerBuyRatioPct": 57.5,
+      "obImbalance": -0.02,
+      "entryTime": "2026-10-21T15:11:09.092Z",
+      "entryPrice": 0.2073,
+      "currentPrice": 0.2042,
+      "highestPrice": 0.2077,
+      "qty": 15.968,
+      "costUsdt": 3.3102,
+      "costTry": 163.39,
+      "takeProfitPrice": 0.24461,
+      "stopLossPrice": 0.20232,
+      "tpPct": 18,
+      "slPct": 2.4,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": -0.0495,
+      "unrealizedPnlPct": -1.5,
+      "currentPriceTry": 10.0744,
+      "currentValueTry": 160.87,
+      "exitPrice": 0.2042,
+      "exitTime": "2026-10-21T20:21:44.712Z",
+      "exitReason": "🔄 SEÇENEK 2 GEÇİŞİ (Vurgun Slotu Kapatılıp 3 Ana Slota Aktarıldı %-1.5)",
+      "netPnlUsdt": -0.0495,
+      "netPnlTry": -2.44
+    },
     {
       "id": "pos_1792598542406_UNI",
       "symbol": "UNI",
@@ -898,6 +941,9 @@
     }
   ],
   "recentLogs": [
+    "[23:23:32] 🟢 [OTOMATİK ALIM] WLD (262,60 TL) @ $0.5704 | Skor: 89.3 | RSI: 40.45 | Balina: %47 | SL: -%2.61",
+    "[23:22:28] 🏁 [MANUEL SATIŞ] PYTH @ $0.07979 | 📲 TELEFONDAN MANUEL SATIŞ (Kâr/Nakit Alındı) | Net: -0,02 TL",
+    "[23:21:44] 🏁 [POZİSYON KAPANDI] THETA @ $0.2042 | 🔄 SEÇENEK 2 GEÇİŞİ (Vurgun Slotu Kapatılıp 3 Ana Slota Aktarıldı %-1.5) | Net: -2,44 TL",
     "[22:36:23] 🟢 [OTOMATİK ALIM] PYTH (103,72 TL) @ $0.07981 | Skor: 84.2 | RSI: 49.94 | Balina: %50.1 | SL: -%2.49",
     "[22:02:36] 🟢 [OTOMATİK ALIM] ZRO (318,57 TL) @ $2.032 | Skor: 65.5 | RSI: 52.87 | Balina: %59.5 | SL: -%3.2",
     "[22:02:34] 🟢 [OTOMATİK ALIM] RAY (417,84 TL) @ $1.9851 | Skor: 89.7 | RSI: 54.43 | Balina: %56.9 | SL: -%2.36",
@@ -934,307 +980,25 @@
     "[09:19:51] ⚖️ [Tahta Kalkanı - Vurgun] SEI önünde satış duvarı (-0.21) var, pas geçildi.",
     "[09:19:06] ⚖️ [Tahta Kalkanı - Vurgun] ORDI önünde satış duvarı (-0.26) var, pas geçildi.",
     "[09:19:03] ⚖️ [Tahta Kalkanı - Vurgun] FIL önünde satış duvarı (-0.1) var, pas geçildi.",
-    "[09:19:03] ⚖️ [Tahta Kalkanı - Vurgun] FIL önünde satış duvarı (-0.1) var, pas geçildi.",
-    "[09:19:02] ⚖️ [Tahta Kalkanı - Vurgun] BOME önünde satış duvarı (-0.19) var, pas geçildi.",
-    "[09:18:27] ⚖️ [Tahta Kalkanı - Vurgun] ORDI önünde satış duvarı (-0.43) var, pas geçildi.",
-    "[09:18:25] ⚖️ [Tahta Kalkanı - Vurgun] FIL önünde satış duvarı (-0.2) var, pas geçildi."
+    "[09:19:03] ⚖️ [Tahta Kalkanı - Vurgun] FIL önünde satış duvarı (-0.1) var, pas geçildi."
   ],
-  "totalEquityUsdt": 21.0828,
-  "totalEquityTry": 1041.28,
-  "totalPnlUsdt": 0.8358,
-  "totalPnlPct": 4.13,
+  "totalEquityUsdt": 20.9949,
+  "totalEquityTry": 1035.68,
+  "totalPnlUsdt": 0.7233,
+  "totalPnlPct": 3.57,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
-    "TIA": 1792605145178
+    "TIA": 1792605145178,
+    "THETA": 1792635702056
   },
-  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0022 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 0.9180 | ICP: 0.0002 | INJ: 0.0087 | JASMY: 0.6080 | LDO: 0.0063 | PYTH: 26.2474 | RAY: 4.2854 | RSR: 0.9660 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | THETA: 15.9680 | TIA: 0.0058 | TRY: 0.2257 | UNI: 0.0080 | ZRO: 3.1537)",
-  "lastWhatsAppReportAt": 1792611385970,
+  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0022 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 0.9180 | ICP: 0.0002 | INJ: 0.0087 | JASMY: 0.6080 | LDO: 0.0063 | PYTH: 0.0474 | RAY: 4.2854 | RSR: 0.9660 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | THETA: 0.0680 | TIA: 0.0058 | TRY: 1.1871 | UNI: 0.0080 | WLD: 9.2814 | ZRO: 3.1537)",
+  "lastWhatsAppReportAt": 1792614215970,
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
-  "usdTryRate": 49.39,
-  "totalPnlTry": 41.28,
+  "usdTryRate": 49.33,
+  "totalPnlTry": 35.68,
   "equityHistory": [
-    {
-      "t": "21:18",
-      "v": 1048.25
-    },
-    {
-      "t": "21:19",
-      "v": 1048.05
-    },
-    {
-      "t": "21:20",
-      "v": 1048.94
-    },
-    {
-      "t": "21:21",
-      "v": 1048.36
-    },
-    {
-      "t": "21:22",
-      "v": 1048.26
-    },
-    {
-      "t": "21:22",
-      "v": 1048.79
-    },
-    {
-      "t": "21:23",
-      "v": 1050.11
-    },
-    {
-      "t": "21:24",
-      "v": 1049.91
-    },
-    {
-      "t": "21:25",
-      "v": 1050.37
-    },
-    {
-      "t": "21:25",
-      "v": 1051.79
-    },
-    {
-      "t": "21:26",
-      "v": 1051.4
-    },
-    {
-      "t": "21:27",
-      "v": 1051.02
-    },
-    {
-      "t": "21:28",
-      "v": 1050.8
-    },
-    {
-      "t": "21:29",
-      "v": 1050.52
-    },
-    {
-      "t": "21:30",
-      "v": 1052.92
-    },
-    {
-      "t": "21:31",
-      "v": 1053.37
-    },
-    {
-      "t": "21:32",
-      "v": 1052.16
-    },
-    {
-      "t": "21:33",
-      "v": 1052.63
-    },
-    {
-      "t": "21:34",
-      "v": 1052.47
-    },
-    {
-      "t": "21:35",
-      "v": 1052.53
-    },
-    {
-      "t": "21:36",
-      "v": 1051.72
-    },
-    {
-      "t": "21:37",
-      "v": 1052.18
-    },
-    {
-      "t": "21:38",
-      "v": 1052.75
-    },
-    {
-      "t": "21:39",
-      "v": 1052.44
-    },
-    {
-      "t": "21:40",
-      "v": 1052.35
-    },
-    {
-      "t": "21:41",
-      "v": 1053.43
-    },
-    {
-      "t": "21:42",
-      "v": 1053.61
-    },
-    {
-      "t": "21:43",
-      "v": 1053.36
-    },
-    {
-      "t": "21:43",
-      "v": 1052.41
-    },
-    {
-      "t": "21:44",
-      "v": 1050.84
-    },
-    {
-      "t": "21:45",
-      "v": 1049.85
-    },
-    {
-      "t": "21:46",
-      "v": 1049.65
-    },
-    {
-      "t": "21:47",
-      "v": 1049.95
-    },
-    {
-      "t": "21:48",
-      "v": 1047.82
-    },
-    {
-      "t": "21:49",
-      "v": 1048.28
-    },
-    {
-      "t": "21:49",
-      "v": 1046.12
-    },
-    {
-      "t": "21:50",
-      "v": 1046.14
-    },
-    {
-      "t": "21:51",
-      "v": 1045.78
-    },
-    {
-      "t": "21:52",
-      "v": 1042.13
-    },
-    {
-      "t": "21:52",
-      "v": 1042.73
-    },
-    {
-      "t": "21:53",
-      "v": 1043.79
-    },
-    {
-      "t": "21:54",
-      "v": 1043.38
-    },
-    {
-      "t": "21:55",
-      "v": 1043.98
-    },
-    {
-      "t": "21:55",
-      "v": 1043.01
-    },
-    {
-      "t": "21:56",
-      "v": 1042.62
-    },
-    {
-      "t": "21:57",
-      "v": 1040.76
-    },
-    {
-      "t": "21:58",
-      "v": 1040.56
-    },
-    {
-      "t": "21:59",
-      "v": 1040.26
-    },
-    {
-      "t": "22:00",
-      "v": 1040.08
-    },
-    {
-      "t": "22:01",
-      "v": 1040.08
-    },
-    {
-      "t": "22:02",
-      "v": 1036.79
-    },
-    {
-      "t": "22:03",
-      "v": 1036.24
-    },
-    {
-      "t": "22:04",
-      "v": 1036.16
-    },
-    {
-      "t": "22:05",
-      "v": 1036.58
-    },
-    {
-      "t": "22:05",
-      "v": 1037.21
-    },
-    {
-      "t": "22:06",
-      "v": 1036.25
-    },
-    {
-      "t": "22:07",
-      "v": 1037
-    },
-    {
-      "t": "22:08",
-      "v": 1037.9
-    },
-    {
-      "t": "22:09",
-      "v": 1035.26
-    },
-    {
-      "t": "22:09",
-      "v": 1034.51
-    },
-    {
-      "t": "22:10",
-      "v": 1034.9
-    },
-    {
-      "t": "22:11",
-      "v": 1033.23
-    },
-    {
-      "t": "22:12",
-      "v": 1035.38
-    },
-    {
-      "t": "22:13",
-      "v": 1035.57
-    },
-    {
-      "t": "22:14",
-      "v": 1035.36
-    },
-    {
-      "t": "22:15",
-      "v": 1037.59
-    },
-    {
-      "t": "22:15",
-      "v": 1039.52
-    },
-    {
-      "t": "22:16",
-      "v": 1041.18
-    },
-    {
-      "t": "22:17",
-      "v": 1041.44
-    },
-    {
-      "t": "22:18",
-      "v": 1040.89
-    },
     {
       "t": "22:18",
       "v": 1039.32
@@ -1338,6 +1102,286 @@
     {
       "t": "22:40",
       "v": 1041.28
+    },
+    {
+      "t": "22:40",
+      "v": 1040.31
+    },
+    {
+      "t": "22:41",
+      "v": 1041.09
+    },
+    {
+      "t": "22:42",
+      "v": 1040.75
+    },
+    {
+      "t": "22:43",
+      "v": 1039.38
+    },
+    {
+      "t": "22:43",
+      "v": 1038.3
+    },
+    {
+      "t": "22:44",
+      "v": 1038.91
+    },
+    {
+      "t": "22:45",
+      "v": 1037.97
+    },
+    {
+      "t": "22:46",
+      "v": 1038.36
+    },
+    {
+      "t": "22:46",
+      "v": 1037.77
+    },
+    {
+      "t": "22:47",
+      "v": 1037.74
+    },
+    {
+      "t": "22:48",
+      "v": 1037.54
+    },
+    {
+      "t": "22:49",
+      "v": 1037.27
+    },
+    {
+      "t": "22:50",
+      "v": 1037.63
+    },
+    {
+      "t": "22:51",
+      "v": 1037.49
+    },
+    {
+      "t": "22:52",
+      "v": 1037.15
+    },
+    {
+      "t": "22:52",
+      "v": 1036.1
+    },
+    {
+      "t": "22:53",
+      "v": 1036.71
+    },
+    {
+      "t": "22:54",
+      "v": 1036.36
+    },
+    {
+      "t": "22:55",
+      "v": 1037.11
+    },
+    {
+      "t": "22:56",
+      "v": 1036.83
+    },
+    {
+      "t": "22:57",
+      "v": 1037.1
+    },
+    {
+      "t": "22:58",
+      "v": 1037.92
+    },
+    {
+      "t": "22:59",
+      "v": 1037.67
+    },
+    {
+      "t": "23:00",
+      "v": 1035.73
+    },
+    {
+      "t": "23:01",
+      "v": 1036.95
+    },
+    {
+      "t": "23:01",
+      "v": 1036.06
+    },
+    {
+      "t": "23:02",
+      "v": 1037.71
+    },
+    {
+      "t": "23:03",
+      "v": 1037.15
+    },
+    {
+      "t": "23:04",
+      "v": 1037.44
+    },
+    {
+      "t": "23:04",
+      "v": 1038.07
+    },
+    {
+      "t": "23:05",
+      "v": 1036.7
+    },
+    {
+      "t": "23:06",
+      "v": 1035.97
+    },
+    {
+      "t": "23:07",
+      "v": 1035.64
+    },
+    {
+      "t": "23:08",
+      "v": 1036.39
+    },
+    {
+      "t": "23:09",
+      "v": 1036.64
+    },
+    {
+      "t": "23:10",
+      "v": 1037.43
+    },
+    {
+      "t": "23:11",
+      "v": 1037.19
+    },
+    {
+      "t": "23:12",
+      "v": 1038.44
+    },
+    {
+      "t": "23:13",
+      "v": 1037.02
+    },
+    {
+      "t": "23:14",
+      "v": 1035.05
+    },
+    {
+      "t": "23:15",
+      "v": 1035.57
+    },
+    {
+      "t": "23:16",
+      "v": 1036.5
+    },
+    {
+      "t": "23:16",
+      "v": 1035.85
+    },
+    {
+      "t": "23:17",
+      "v": 1035.26
+    },
+    {
+      "t": "23:18",
+      "v": 1034.15
+    },
+    {
+      "t": "23:19",
+      "v": 1033.86
+    },
+    {
+      "t": "23:20",
+      "v": 1033.55
+    },
+    {
+      "t": "23:21",
+      "v": 1034.1
+    },
+    {
+      "t": "23:22",
+      "v": 1034.35
+    },
+    {
+      "t": "23:23",
+      "v": 1034.75
+    },
+    {
+      "t": "23:24",
+      "v": 1034.11
+    },
+    {
+      "t": "23:25",
+      "v": 1034.88
+    },
+    {
+      "t": "23:26",
+      "v": 1035.42
+    },
+    {
+      "t": "23:26",
+      "v": 1034.63
+    },
+    {
+      "t": "23:27",
+      "v": 1034.7
+    },
+    {
+      "t": "23:28",
+      "v": 1035.26
+    },
+    {
+      "t": "23:28",
+      "v": 1035.85
+    },
+    {
+      "t": "23:29",
+      "v": 1034.59
+    },
+    {
+      "t": "23:30",
+      "v": 1034.51
+    },
+    {
+      "t": "23:31",
+      "v": 1034.15
+    },
+    {
+      "t": "23:32",
+      "v": 1035.41
+    },
+    {
+      "t": "23:32",
+      "v": 1034.12
+    },
+    {
+      "t": "23:33",
+      "v": 1035.94
+    },
+    {
+      "t": "23:34",
+      "v": 1036.42
+    },
+    {
+      "t": "23:35",
+      "v": 1037.5
+    },
+    {
+      "t": "23:36",
+      "v": 1039.68
+    },
+    {
+      "t": "23:37",
+      "v": 1038.66
+    },
+    {
+      "t": "23:38",
+      "v": 1037.19
+    },
+    {
+      "t": "23:39",
+      "v": 1035.89
+    },
+    {
+      "t": "23:40",
+      "v": 1035.68
     }
   ],
   "walletAssetsMap": {
@@ -1354,24 +1398,61 @@
     "INJ": 0.0087,
     "JASMY": 0.608,
     "LDO": 0.00632,
-    "PYTH": 26.2474,
+    "PYTH": 0.0474,
     "RAY": 4.2854,
     "RSR": 0.966,
     "SAND": 0.0674,
     "SEI": 0.0926,
     "STX": 0.07,
-    "THETA": 15.968,
+    "THETA": 0.068,
     "TIA": 0.00578,
-    "TRY": 0.2257152,
+    "TRY": 1.1871492,
     "UNI": 0.00804,
+    "WLD": 9.2814,
     "ZRO": 3.15368
   },
-  "dustAssetsUsdt": 0.7076,
-  "dustAssetsTry": 34.95,
+  "dustAssetsUsdt": 0.7256,
+  "dustAssetsTry": 35.79,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-21T19:40:07.122Z",
-    "totalAnalyzedTrades": 22,
+    "updatedAt": "2026-10-21T20:40:14.679Z",
+    "totalAnalyzedTrades": 24,
     "coinStats": {
+      "PYTH": {
+        "wins": 0,
+        "losses": 1,
+        "netPnlUsdt": -0.0005,
+        "netPnlTry": -0.02,
+        "lossRsis": [
+          49.94
+        ],
+        "lossWhales": [
+          50.1
+        ],
+        "winRsis": [],
+        "winWhales": [],
+        "scoreMod": -10,
+        "maxRsi": 44,
+        "minWhale": 55,
+        "lessonNote": "🛑 HATA OTOPSİSİ: PYTH işleminde RSI 49.9 ve Balina %50.1 seviyesinde sahte kırılım (fakeout) yaşandı (-0.02 TL). Yeni Kural: PYTH için RSI tavanı <= 44, Balina şartı >= %55 ve Skor Cezası -10 puan olarak sıkılaştırıldı."
+      },
+      "THETA": {
+        "wins": 0,
+        "losses": 1,
+        "netPnlUsdt": -0.0495,
+        "netPnlTry": -2.44,
+        "lossRsis": [
+          40.54
+        ],
+        "lossWhales": [
+          57.5
+        ],
+        "winRsis": [],
+        "winWhales": [],
+        "scoreMod": -10,
+        "maxRsi": 38,
+        "minWhale": 59.5,
+        "lessonNote": "🛑 HATA OTOPSİSİ: THETA işleminde RSI 40.5 ve Balina %57.5 seviyesinde sahte kırılım (fakeout) yaşandı (-2.44 TL). Yeni Kural: THETA için RSI tavanı <= 38, Balina şartı >= %59.5 ve Skor Cezası -10 puan olarak sıkılaştırıldı."
+      },
       "UNI": {
         "wins": 1,
         "losses": 0,
@@ -1700,28 +1781,28 @@
       }
     },
     "sourceStats": {
+      "CoinTelegraph": {
+        "wins": 2,
+        "losses": 2,
+        "netPnlUsdt": 0.0251,
+        "scoreMod": 0
+      },
+      "WhaleOrderflowRadar": {
+        "wins": 2,
+        "losses": 1,
+        "netPnlUsdt": 0.0109,
+        "scoreMod": 0
+      },
       "ShortSqueezeRadar": {
         "wins": 7,
         "losses": 2,
         "netPnlUsdt": 0.5856,
         "scoreMod": 4
       },
-      "CoinTelegraph": {
-        "wins": 2,
-        "losses": 1,
-        "netPnlUsdt": 0.0256,
-        "scoreMod": 0
-      },
       "BinanceListingSniper": {
         "wins": 2,
         "losses": 0,
         "netPnlUsdt": 0.1203,
-        "scoreMod": 4
-      },
-      "WhaleOrderflowRadar": {
-        "wins": 2,
-        "losses": 0,
-        "netPnlUsdt": 0.0604,
         "scoreMod": 4
       },
       "RSS": {
@@ -1744,6 +1825,8 @@
       }
     },
     "lessons": [
+      "🛑 HATA OTOPSİSİ: PYTH işleminde RSI 49.9 ve Balina %50.1 seviyesinde sahte kırılım (fakeout) yaşandı (-0.02 TL). Yeni Kural: PYTH için RSI tavanı <= 44, Balina şartı >= %55 ve Skor Cezası -10 puan olarak sıkılaştırıldı.",
+      "🛑 HATA OTOPSİSİ: THETA işleminde RSI 40.5 ve Balina %57.5 seviyesinde sahte kırılım (fakeout) yaşandı (-2.44 TL). Yeni Kural: THETA için RSI tavanı <= 38, Balina şartı >= %59.5 ve Skor Cezası -10 puan olarak sıkılaştırıldı.",
       "✅ BAŞARI HAFIZASI: UNI (1 Kâr / 0 Zarar, Net +1.06 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
       "✅ BAŞARI HAFIZASI: RAY (1 Kâr / 0 Zarar, Net +0.53 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
       "✅ BAŞARI HAFIZASI: HBAR (1 Kâr / 0 Zarar, Net +5.05 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
@@ -1788,13 +1871,13 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 1041.28,
+    "totalNetWorthTry": 1035.68,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
-      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %86.4 isabetle (19G/3Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1041.28 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
+      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %79.2 isabetle (19G/5Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1035.68 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-21T19:40:07.122Z"
+    "updatedAt": "2026-10-21T20:40:14.679Z"
   },
   "_apiFailCount": 0
 }
