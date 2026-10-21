@@ -261,7 +261,7 @@ async function fetchBinanceAnnouncements() {
       const isDelisting = Number(cat.catalogId) === 161;
       for (const art of (cat.articles || []).slice(0, 8)) {
         const minutesAgo = art.releaseDate ? Math.max(1, Math.round((now - art.releaseDate) / 60000)) : 60;
-        if (minutesAgo > 180) continue; // Only fresh <= 3h official announcements
+        if (minutesAgo > 360) continue; // Only fresh <= 6h official announcements
         items.push({
           source: isListingOrLaunchpool ? 'BinanceListingSniper' : 'BinanceResmiDuyuru',
           title: isDelisting ? `[DELIST RISK] ${art.title}` : art.title,
@@ -334,9 +334,9 @@ async function scanAllNewsFeeds() {
       : bullHits - bearHits;
 
     if (netHeadlineSentiment <= 0.4) continue;
-    if (item.minutesAgo > 180) continue; // Reject stale news older than 3 hours (180 mins)
+    if (item.minutesAgo > 360) continue; // Reject stale news older than 6 hours (360 mins)
 
-    const recencyWeight = item.minutesAgo <= 30 ? 2.0 : item.minutesAgo <= 90 ? 1.5 : 1.0;
+    const recencyWeight = item.minutesAgo <= 60 ? 1.9 : item.minutesAgo <= 180 ? 1.4 : 0.95;
     const srcWeight = item.sourceWeight || 1.0;
 
     for (const eco of ECOSYSTEM_GRAPH) {
@@ -718,12 +718,12 @@ async function main() {
       const range24 = Math.max(0.0000001, m.high24h - m.low24h);
       const posIn24h = (m.lastPrice - m.low24h) / range24;
       const lag24h = leaderMkt ? leaderMkt.change24hPct - m.change24hPct : 0;
-      const isCoiledDip = posIn24h <= 0.45 && m.change24hPct >= -4.5 && m.change24hPct <= 3.0;
+      const isCoiledDip = posIn24h <= 0.56 && m.change24hPct >= -4.5 && m.change24hPct <= 4.5;
       if (isShortSqueezeCandidate || isTrending || isCoiledDip) {
-        const dipBonus = Math.max(0, (0.50 - posIn24h) * 2.5);
-        const lagBonus = Math.max(0, Math.min(1.2, lag24h * 0.30));
+        const dipBonus = Math.max(0, (0.58 - posIn24h) * 2.5);
+        const lagBonus = Math.max(0, Math.min(1.4, lag24h * 0.30));
         const preScore = Number(
-          (3.2 + (isShortSqueezeCandidate ? 1.4 : 0) + (isTrending ? 1.5 : 0) + dipBonus + lagBonus).toFixed(2)
+          (3.6 + (isShortSqueezeCandidate ? 1.4 : 0) + (isTrending ? 1.5 : 0) + dipBonus + lagBonus).toFixed(2)
         );
         whaleRadarExtras.push({
           symbol: sym,
@@ -808,11 +808,11 @@ async function main() {
     const lagVsLeader24h = Number((leaderMkt.change24hPct - mkt.change24hPct).toFixed(2));
 
     // Anti-FOMO Guard + Bollinger Overextension + Whale Dump Rejection
-    // Strictly cap RSI at 56 max (53 without strong whale/squeeze flow) so we never buy top/overbought coins
+    // Strictly cap RSI at 57 max (53 for synthetic radar) so we never buy top/overbought coins
     const isSyntheticRadar = ['WhaleOrderflowRadar', 'ShortSqueezeRadar'].includes(cat.headlines?.[0]?.source);
-    const maxAllowedRsi = isSyntheticRadar ? 50 : (takerBuyRatio >= 0.56 || fundingHourlyPct <= -0.002) ? 56 : 53;
+    const maxAllowedRsi = isSyntheticRadar ? 53 : (takerBuyRatio >= 0.55 || fundingHourlyPct <= -0.002) ? 57 : 55;
     if (rsi1h > maxAllowedRsi || bbPctB > 0.85 || change1hPct > 3.8 || mkt.change24hPct > 14.0) continue;
-    if (takerBuyRatio < (isSyntheticRadar ? 0.53 : 0.45)) continue;
+    if (takerBuyRatio < (isSyntheticRadar ? 0.52 : 0.45)) continue;
 
     // TradingArena.ai 4-Model Hive-Mind Consensus
     const hiveMind = computeArenaHiveMind({

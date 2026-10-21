@@ -1045,10 +1045,27 @@ async function runTradingCycle() {
   }
 
   // Engine #9: Smart Portfolio Rotation + Listing Sniper + Score-Upgrade Auto-Swap
+  const coreOpenPositions = state.openPositions.filter(p => !p.isMoonshot);
   const heldSymSetForRot = new Set(state.openPositions.map(p => p.symbol));
-  const bestCandidate = candidates.find(
-    c => !heldSymSetForRot.has(c.symbol) && (c.takerBuyRatioPct || 50) >= 51.0 && (!c.topWhaleLongPct || c.topWhaleLongPct >= 48)
+  const stagnantIdx = coreOpenPositions.length >= cfg.MAX_OPEN_POSITIONS
+    ? state.openPositions.findIndex(p => {
+        if (p.isMoonshot) return false;
+        const hrs = (nowMs - new Date(p.entryTime).getTime()) / (1000 * 3600);
+        return hrs >= 3.0 && p.unrealizedPnlPct >= -0.40 && p.unrealizedPnlPct <= 0.85 && !p.partialTpDone;
+      })
+    : -1;
+  const usedLeadersAfterRot = new Set(
+    state.openPositions.filter((_, idx) => idx !== stagnantIdx).map(p => p.leaderSymbol)
   );
+  const bestCandidate = candidates.find(c => {
+    if (heldSymSetForRot.has(c.symbol)) return false;
+    if (usedLeadersAfterRot.has(c.leaderSymbol)) return false;
+    if ((c.freshestMinutesAgo || 0) > 180) return false;
+    if (state.cooldowns[c.symbol] && state.cooldowns[c.symbol] > nowMs) return false;
+    const isSynth = ['WhaleOrderflowRadar', 'ShortSqueezeRadar'].includes(c.headlines?.[0]?.source);
+    if (isSynth && ((c.takerBuyRatioPct || 50) < 55.0 || (c.rsi1h || 50) > 50 || (c.aiConsensusCount || 0) < 3)) return false;
+    return (c.takerBuyRatioPct || 50) >= 51.0 && (!c.topWhaleLongPct || c.topWhaleLongPct >= 48) && (c.rsi1h || 50) <= 55;
+  });
   const isListingSniperAlert = Boolean(
     bestCandidate &&
     bestCandidate.headlines?.some(h => h.source === 'BinanceListingSniper' && h.minutesAgo <= 60) &&
@@ -1058,16 +1075,16 @@ async function runTradingCycle() {
     !signalsData.btcCrashAlert &&
     bestCandidate &&
     bestCandidate.totalScore >= 85 &&
-    (bestCandidate.rsi1h || 50) <= (isListingSniperAlert ? 64 : 56) &&
-    state.openPositions.length >= cfg.MAX_OPEN_POSITIONS
+    (bestCandidate.rsi1h || 50) <= (isListingSniperAlert ? 60 : 55) &&
+    coreOpenPositions.length >= cfg.MAX_OPEN_POSITIONS &&
+    stagnantIdx !== -1
   ) {
-    const stagnantIdx = state.openPositions.findIndex(p => {
-      const hrs = (nowMs - new Date(p.entryTime).getTime()) / (1000 * 3600);
-      if (isListingSniperAlert && !p.rocketMode && p.unrealizedPnlPct >= -0.25 && p.unrealizedPnlPct <= 1.2 && hrs >= 0.5) return true;
-      return hrs >= 3.0 && p.unrealizedPnlPct >= -0.40 && p.unrealizedPnlPct <= 0.85 && !p.partialTpDone;
-    });
-
-    if (stagnantIdx !== -1) {
+    let canTradeCandOnTr = true;
+    if (state.mode === 'LIVE_BINANCE') {
+      const candTrRule = await getBinanceTrSymbolRules(bestCandidate.symbol);
+      if (!candTrRule || candTrRule.spotTradingEnable !== 1) canTradeCandOnTr = false;
+    }
+    if (canTradeCandOnTr) {
       const candOb = await checkOrderbookImbalance(bestCandidate.symbol);
       if (candOb >= -0.05) {
         const stag = state.openPositions[stagnantIdx];
@@ -1079,32 +1096,32 @@ async function runTradingCycle() {
             if (!sellRes || sellRes.code !== 0) rotSellOk = false;
           }
           if (rotSellOk) {
-          const proceedsUsdt = Number((sq.bestBid * stag.qty).toFixed(4));
-          const netPnlUsdt = Number((proceedsUsdt - stag.costUsdt).toFixed(4));
-          state.cashUsdt = Number((state.cashUsdt + proceedsUsdt).toFixed(4));
-          state.realizedPnlUsdt = Number((state.realizedPnlUsdt + netPnlUsdt).toFixed(4));
-          if (netPnlUsdt >= 0) state.winCount++;
-          else state.lossCount++;
-          state.closedTrades.unshift({
-            ...stag,
-            exitPrice: sq.bestBid,
-            exitTime: new Date().toISOString(),
-            exitReason: `⚡ AKILLI ROTASYON (${bestCandidate.symbol} [${bestCandidate.totalScore}p] Fırsatına Geçildi)`,
-            netPnlUsdt,
-            netPnlTry: Number((netPnlUsdt * USD_TRY_RATE).toFixed(2)),
-          });
-          state.openPositions.splice(stagnantIdx, 1);
-          if (state.mode === 'LIVE_BINANCE') {
-            const rotTr = await fetchBinanceTrStatus(cfg);
-            if (rotTr.ok) {
-              state.binanceTrStatus = rotTr.summary;
-              state.cashUsdt = Number((rotTr.tryFree / USD_TRY_RATE).toFixed(4));
+            const proceedsUsdt = Number((sq.bestBid * stag.qty).toFixed(4));
+            const netPnlUsdt = Number((proceedsUsdt - stag.costUsdt).toFixed(4));
+            state.cashUsdt = Number((state.cashUsdt + proceedsUsdt).toFixed(4));
+            state.realizedPnlUsdt = Number((state.realizedPnlUsdt + netPnlUsdt).toFixed(4));
+            if (netPnlUsdt >= 0) state.winCount++;
+            else state.lossCount++;
+            state.closedTrades.unshift({
+              ...stag,
+              exitPrice: sq.bestBid,
+              exitTime: new Date().toISOString(),
+              exitReason: `⚡ AKILLI ROTASYON (${bestCandidate.symbol} [${bestCandidate.totalScore}p] Fırsatına Geçildi)`,
+              netPnlUsdt,
+              netPnlTry: Number((netPnlUsdt * USD_TRY_RATE).toFixed(2)),
+            });
+            state.openPositions.splice(stagnantIdx, 1);
+            if (state.mode === 'LIVE_BINANCE') {
+              const rotTr = await fetchBinanceTrStatus(cfg);
+              if (rotTr.ok) {
+                state.binanceTrStatus = rotTr.summary;
+                state.cashUsdt = Number((rotTr.tryFree / USD_TRY_RATE).toFixed(4));
+              }
             }
-          }
-          logEvent(
-            state,
-            `⚡ [AKILLI ROTASYON] ${stag.symbol} kapatıldı, yerine ${bestCandidate.totalScore} puanlık dev fırsat (${bestCandidate.symbol}) alınıyor!`
-          );
+            logEvent(
+              state,
+              `⚡ [AKILLI ROTASYON] ${stag.symbol} kapatıldı, yerine ${bestCandidate.totalScore} puanlık dev fırsat (${bestCandidate.symbol}) alınıyor!`
+            );
           }
         }
       }
@@ -1143,7 +1160,7 @@ async function runTradingCycle() {
     const isAntiMeltdownActive = consecutiveLosses >= 2 || drawdownFromPeakPct >= 4.0;
 
     // Idle Cash Self-Healing Watchdog: If cash >= 2.50 USDT sits idle > 15 mins, relax ecosystem/orderbook filters automatically
-    if (state.cashUsdt >= 2.50 && state.openPositions.length < cfg.MAX_OPEN_POSITIONS) {
+    if (state.cashUsdt >= 2.50 && state.openPositions.filter(p => !p.isMoonshot).length < cfg.MAX_OPEN_POSITIONS) {
       if (!state.cashIdleSince) state.cashIdleSince = nowMs;
     } else {
       state.cashIdleSince = null;
@@ -1169,10 +1186,10 @@ async function runTradingCycle() {
       const minReqWhale = coinMem ? Math.max(baseMinWhale, coinMem.minWhale) : baseMinWhale;
       const maxReqRsi = coinMem ? Math.min(baseMaxRsi, coinMem.maxRsi) : baseMaxRsi;
       if (effectiveTotalScore < minReqScore) continue;
-      if ((cand.freshestMinutesAgo || 0) > 180) continue; // Reject stale news older than 3 hours
+      if ((cand.freshestMinutesAgo || 0) > 360) continue; // Reject stale news older than 6 hours
       const isSynthCand = ['WhaleOrderflowRadar', 'ShortSqueezeRadar'].includes(cand.headlines?.[0]?.source);
-      if (isSynthCand && ((cand.takerBuyRatioPct || 50) < 55.0 || (cand.rsi1h || 50) > 50 || (cand.aiConsensusCount || 0) < 3)) {
-        continue; // Synthetic no-news signals require >=55% Whale Taker Buy, RSI <= 50, and >=3/4 AI Consensus
+      if (isSynthCand && ((cand.takerBuyRatioPct || 50) < 52.5 || (cand.rsi1h || 50) > 53 || (cand.aiConsensusCount || 0) < 3)) {
+        continue; // Synthetic no-news signals require >=52.5% Whale Taker Buy, RSI <= 53, and >=3/4 AI Consensus
       }
       if ((cand.rsi1h || 50) > maxReqRsi) continue; // Reject top/overbought entries (or learned tighter RSI cap)
       if ((cand.takerBuyRatioPct || 50) < minReqWhale) continue;
