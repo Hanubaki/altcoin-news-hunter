@@ -1049,8 +1049,8 @@ async function runTradingCycle() {
   ) {
     const stagnantIdx = state.openPositions.findIndex(p => {
       const hrs = (nowMs - new Date(p.entryTime).getTime()) / (1000 * 3600);
-      if (isListingSniperAlert && !p.rocketMode && p.unrealizedPnlPct >= 0.15 && p.unrealizedPnlPct <= 1.2 && hrs >= 0.5) return true;
-      return hrs >= 4.0 && p.unrealizedPnlPct >= 0.25 && p.unrealizedPnlPct <= 0.8 && !p.partialTpDone;
+      if (isListingSniperAlert && !p.rocketMode && p.unrealizedPnlPct >= -0.25 && p.unrealizedPnlPct <= 1.2 && hrs >= 0.5) return true;
+      return hrs >= 3.0 && p.unrealizedPnlPct >= -0.40 && p.unrealizedPnlPct <= 0.85 && !p.partialTpDone;
     });
 
     if (stagnantIdx !== -1) {
