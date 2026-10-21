@@ -522,7 +522,7 @@ async function runTradingCycle() {
   const state = loadPortfolioState(cfg);
   state.usdTryRate = USD_TRY_RATE;
   let trStatus = await fetchBinanceTrStatus(cfg);
-  state.binanceTrStatus = trStatus.summary;
+  if (trStatus.ok) { state.binanceTrStatus = trStatus.summary; state.walletAssetsMap = trStatus.assetsMap; } else if (state.walletAssetsMap) { trStatus.assetsMap = state.walletAssetsMap; } else { state.binanceTrStatus = trStatus.summary; }
 
   // Automatic Paper -> Live Cutover the moment >= 50 TL is deposited to Binance TR!
   if (cfg.LIVE_TRADING && cfg.BINANCE_API_KEY && trStatus.ok && trStatus.tryFree >= 50 && state.mode !== 'LIVE_BINANCE') {
@@ -1119,7 +1119,10 @@ async function runTradingCycle() {
     if (postTradeTr.ok) {
       trStatus = postTradeTr;
       state.binanceTrStatus = trStatus.summary;
+      state.walletAssetsMap = trStatus.assetsMap;
       state.cashUsdt = Number((trStatus.tryFree / USD_TRY_RATE).toFixed(4));
+    } else if (state.walletAssetsMap) {
+      trStatus.assetsMap = state.walletAssetsMap;
     }
   }
 
@@ -1220,6 +1223,8 @@ async function runTradingCycle() {
     }
   }
   const dustAssetsTry = dustAssetsUsdt * USD_TRY_RATE;
+  state.dustAssetsUsdt = Number(dustAssetsUsdt.toFixed(4));
+  state.dustAssetsTry = Number(dustAssetsTry.toFixed(2));
 
   const openMarketValueUsdt = state.openPositions.reduce(
     (sum, p) => sum + p.currentPrice * p.qty,
