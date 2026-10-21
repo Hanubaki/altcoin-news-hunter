@@ -1996,7 +1996,35 @@ async function startTelegramCommandBot() {
           const r = await safeRunTradingCycle();
           reply = `⚡ Anlık haber ve tahta taraması tamamlandı!\n\n${buildSimpleWhatsAppMessage(r.state)}`;
         } else {
-          reply = `🤖 AltcoinAutoTrader v9.5 + Kişisel CFO Kumanda\n\nKomutlar:\n• /durum — Anlık TL Kasa ve Açık Coinler\n• /cfo — İş Bankası + Binance TR Servet & CFO Tüyosu\n• /isbank 4500 — İş Bankası bakiyeni günceller\n• /gelir 8000 Staj — Giren parayı kaydeder & bütçeyi böler\n• /gider 250 Yemek — Harcamayı kaydeder & limit kontrolü yapar\n• /sat AVAX — Belirtilen coini hemen satar\n• /nakit — Tüm coinleri satıp TL'ye geçer\n• /tara — Şimdi haber taraması yapar`;
+          // Smart Zero-Touch Parser: Automatically understands İşCep push notifications, SMS, or natural messages like "250 yemek", "+8000 staj", "bakiye 4500"
+          const numMatch = text.match(/([+-]?\s*\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{1,2})?|\d+(?:[.,]\d{1,2})?)/);
+          if (numMatch && !lower.startsWith('/')) {
+            let rawNum = numMatch[1].replace(/\s+/g, '');
+            if (rawNum.includes('.') && rawNum.includes(',')) {
+              rawNum = rawNum.replace(/\./g, '').replace(',', '.');
+            } else if (rawNum.includes(',') && !rawNum.includes('.')) {
+              rawNum = rawNum.replace(',', '.');
+            }
+            const parsedAmt = Math.abs(Number(rawNum));
+            const cleanNote = text.replace(numMatch[0], '').replace(/\b(tl|try|lira|işcep|iscep|iş bankası)\b/gi, '').trim() || 'Otomatik İşlem';
+            if (parsedAmt > 0) {
+              const isBal = /(bakiye|hesapta|kalan|mevcut)/i.test(lower);
+              const isIn = text.trim().startsWith('+') || /(geldi|yattı|giriş|gelen|maaş|burs|havale geldi|fast geldi|iade)/i.test(lower);
+              if (isBal) {
+                const r = recordPersonalCashflow('SET_BALANCE', parsedAmt, 'Otomatik Bakiye Senkronizasyonu');
+                reply = `🏦 [Otomatik Algılandı] İş Bankası bakiyen ${r.pf.isbankBalanceTry} TL olarak güncellendi!\nToplam Servet: ${r.pf.totalNetWorthTry} TL`;
+              } else if (isIn) {
+                const r = recordPersonalCashflow('IN', parsedAmt, cleanNote || 'Otomatik Gelir');
+                reply = `💰 [Otomatik Gelir Algılandı] +${parsedAmt} TL (${cleanNote})\nYeni İş Bankası Bakiyesi: ${r.pf.isbankBalanceTry} TL\n💡 CFO Önerisi: ${Math.round(parsedAmt * 0.45)} TL'sini bankada tut, ${Math.min(2000, Math.round(parsedAmt * 0.25))} TL'sini haftalık dilimle bota aktar.`;
+              } else {
+                const r = recordPersonalCashflow('OUT', parsedAmt, cleanNote || 'Otomatik Harcama');
+                reply = `💸 [Otomatik Harcama Algılandı] -${parsedAmt} TL (${cleanNote})\nKalan İş Bankası Bakiyesi: ${r.pf.isbankBalanceTry} TL | Bu Hafta: ${r.pf.weeklySpentTry}/${r.pf.weeklySpendLimitTry} TL`;
+              }
+            }
+          }
+          if (!reply) {
+            reply = `🤖 AltcoinAutoTrader v9.5 + Kişisel CFO Kumanda\n\nKomut yazmana bile gerek yok! Doğrudan "250 yemek", "+8000 staj yattı" veya "bakiye 4500" yazabilir ya da İşCep bildirimini iletebilirsin.\n\nKısa Komutlar:\n• /durum — Anlık TL Kasa ve Açık Coinler\n• /cfo — İş Bankası + Binance TR Servet & CFO Tüyosu\n• /sat AVAX — Belirtilen coini hemen satar\n• /nakit — Tüm coinleri satıp TL'ye geçer\n• /tara — Şimdi haber taraması yapar`;
+          }
         }
 
         await fetch(`https://api.telegram.org/bot${cfg.TELEGRAM_BOT_TOKEN}/sendMessage`, {
