@@ -53,4 +53,8 @@ jobs:
           git config user.name "AltcoinNewsHunter Cloud Bot"
           git config user.email "actions@github.com"
           git add portfolio_state.json RAPOR.md altcoin_news_signals.json
-          git diff --staged --quiet || (git pull --rebase origin main && git push origin main)
+          if ! git diff --staged --quiet; then
+            git commit -m "chore(cloud-bot): auto-sync live portfolio state and TL report [skip ci]"
+            git pull --rebase -X ours origin main || true
+            git push origin main
+          fi
