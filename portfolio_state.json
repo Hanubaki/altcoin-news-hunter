@@ -1,15 +1,426 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-20T16:46:04.075Z",
+  "updatedAt": "2026-10-21T03:52:35.881Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
-  "initialBankrollUsdt": 20.2184,
+  "initialBankrollUsdt": 20.2593,
   "initialBankrollTry": 1000,
-  "cashUsdt": 15.6626,
-  "realizedPnlUsdt": 0.5796,
-  "winCount": 4,
-  "lossCount": 0,
+  "cashUsdt": 0.0556,
+  "realizedPnlUsdt": 0.8566,
+  "winCount": 12,
+  "lossCount": 1,
   "openPositions": [
+    {
+      "id": "pos_adopted_1792537424825_EDU",
+      "symbol": "EDU",
+      "leaderSymbol": "BNB",
+      "ecosystem": "Binance / BNB Chain, Launchpool & DEX Ekosistemi",
+      "headline": "EDU Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+      "newsSource": "WhaleOrderflowRadar",
+      "newsScore": 5.88,
+      "totalScore": 97.5,
+      "rsiAtEntry": 53.85,
+      "atr1hPct": 1.12,
+      "takerBuyRatioPct": 55.2,
+      "obImbalance": 0.1,
+      "entryTime": "2026-10-20T23:03:44.825Z",
+      "entryPrice": 0.073,
+      "currentPrice": 0.0733,
+      "highestPrice": 0.0733,
+      "qty": 63.872,
+      "costUsdt": 4.6627,
+      "costTry": 230.15,
+      "takeProfitPrice": 0.077015,
+      "stopLossPrice": 0.070985,
+      "tpPct": 5.5,
+      "slPct": 2.76,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": 0.0192,
+      "unrealizedPnlPct": 0.41,
+      "currentPriceTry": 3.6181,
+      "currentValueTry": 231.09
+    },
+    {
+      "id": "moon_1792537703047_TIA",
+      "symbol": "TIA",
+      "isMoonshot": true,
+      "leaderSymbol": "SUI",
+      "ecosystem": "Move VM & Yeni Nesil Yüksek Hızlı L1 (Sui / Aptos / Sei / Injective)",
+      "headline": "🎰 VURGUN SLOTU: Injective, BDACS plan Korean won stablecoin settlement for tokenized assets",
+      "newsSource": "CoinTelegraph",
+      "newsScore": 1.6,
+      "totalScore": 82.3,
+      "rsiAtEntry": 41.08,
+      "atr1hPct": 2.38,
+      "takerBuyRatioPct": 59.1,
+      "obImbalance": -0.04,
+      "entryTime": "2026-10-20T23:08:23.047Z",
+      "entryPrice": 0.6208,
+      "currentPrice": 0.6133,
+      "highestPrice": 0.6254,
+      "qty": 7.09578,
+      "costUsdt": 4.4051,
+      "costTry": 217.44,
+      "takeProfitPrice": 0.73254,
+      "stopLossPrice": 0.60093,
+      "tpPct": 18,
+      "slPct": 3.2,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": -0.0532,
+      "unrealizedPnlPct": -1.21,
+      "currentPriceTry": 30.2725,
+      "currentValueTry": 214.81
+    },
+    {
+      "id": "pos_1792549300584_JASMY",
+      "symbol": "JASMY",
+      "leaderSymbol": "FIL",
+      "ecosystem": "DePIN, Merkeziyetsiz Bulut Depolama & IoT Donanım",
+      "headline": "JASMY Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
+      "newsSource": "ShortSqueezeRadar",
+      "newsScore": 7.24,
+      "totalScore": 109.6,
+      "rsiAtEntry": 50,
+      "atr1hPct": 1.96,
+      "takerBuyRatioPct": 63.2,
+      "obImbalance": 0.04,
+      "entryTime": "2026-10-21T02:21:40.584Z",
+      "entryPrice": 0.00479,
+      "currentPrice": 0.00477,
+      "highestPrice": 0.00479,
+      "qty": 1692.608,
+      "costUsdt": 8.1076,
+      "costTry": 400.19,
+      "takeProfitPrice": 0.0050841,
+      "stopLossPrice": 0.0046367,
+      "tpPct": 6.14,
+      "slPct": 3.2,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": -0.0339,
+      "unrealizedPnlPct": -0.42,
+      "currentPriceTry": 0.2354,
+      "currentValueTry": 398.52
+    },
+    {
+      "id": "pos_1792552108604_HBAR",
+      "symbol": "HBAR",
+      "leaderSymbol": "XRP",
+      "ecosystem": "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar",
+      "headline": "Binance to Support 24/7 Dynamic Updates of the bStocks Collateral Index Price",
+      "newsSource": "BinanceListingSniper",
+      "newsScore": 20.61,
+      "totalScore": 95.5,
+      "rsiAtEntry": 51.93,
+      "atr1hPct": 1.2,
+      "takerBuyRatioPct": 57.2,
+      "obImbalance": 0.28,
+      "entryTime": "2026-10-21T03:08:28.604Z",
+      "entryPrice": 0.08337,
+      "currentPrice": 0.08345,
+      "highestPrice": 0.08355,
+      "qty": 40.918,
+      "costUsdt": 3.4113,
+      "costTry": 168.38,
+      "takeProfitPrice": 0.087122,
+      "stopLossPrice": 0.081703,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": 0.0033,
+      "unrealizedPnlPct": 0.1,
+      "currentPriceTry": 4.1191,
+      "currentValueTry": 168.55
+    }
+  ],
+  "closedTrades": [
+    {
+      "id": "pos_1792518585659_STX",
+      "symbol": "STX",
+      "leaderSymbol": "BTC",
+      "ecosystem": "Bitcoin Layer-2, Ordinals, Runes & BTC DeFi",
+      "headline": "STX Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
+      "newsSource": "ShortSqueezeRadar",
+      "newsScore": 8.14,
+      "totalScore": 110.6,
+      "rsiAtEntry": 40.78,
+      "atr1hPct": 2.24,
+      "takerBuyRatioPct": 51.5,
+      "obImbalance": 0.1,
+      "entryTime": "2026-10-20T17:49:45.659Z",
+      "entryPrice": 0.3481,
+      "currentPrice": 0.3572,
+      "highestPrice": 0.3633,
+      "qty": 9.77,
+      "costUsdt": 3.4009,
+      "costTry": 167.87,
+      "takeProfitPrice": 0.36794,
+      "stopLossPrice": 0.35726,
+      "tpPct": 5.7,
+      "slPct": 3.2,
+      "partialTpDone": true,
+      "stage2TpDone": false,
+      "trailingActive": true,
+      "rocketMode": true,
+      "unrealizedPnlUsdt": 0.0889,
+      "unrealizedPnlPct": 2.61,
+      "currentPriceTry": 17.6413,
+      "currentValueTry": 172.36,
+      "exitPrice": 0.3572,
+      "exitTime": "2026-10-21T03:08:25.783Z",
+      "exitReason": "🚀 UÇUŞ MODU KÂR KİLİDİ (+%2.61)",
+      "netPnlUsdt": 0.0889,
+      "netPnlTry": 4.39
+    },
+    {
+      "id": "pos_1792537422447_SAND",
+      "symbol": "SAND",
+      "leaderSymbol": "IMX",
+      "ecosystem": "Web3 Oyun (GameFi), Immutable, Ronin & Metaverse",
+      "headline": "SAND Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
+      "newsSource": "ShortSqueezeRadar",
+      "newsScore": 6.28,
+      "totalScore": 99.2,
+      "rsiAtEntry": 66.56,
+      "atr1hPct": 1.37,
+      "takerBuyRatioPct": 63.3,
+      "obImbalance": 0.57,
+      "entryTime": "2026-10-20T23:03:42.447Z",
+      "entryPrice": 0.05878,
+      "currentPrice": 0.05741,
+      "highestPrice": 0.05881,
+      "qty": 66.1674,
+      "costUsdt": 3.8893,
+      "costTry": 191.98,
+      "takeProfitPrice": 0.061425,
+      "stopLossPrice": 0.057452,
+      "tpPct": 4.5,
+      "slPct": 2.26,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": -0.0906,
+      "unrealizedPnlPct": -2.33,
+      "currentPriceTry": 2.8372,
+      "currentValueTry": 187.73,
+      "exitPrice": 0.05741,
+      "exitTime": "2026-10-21T02:14:53.104Z",
+      "exitReason": "🛡️ ATR KORUMA KALKANI (%-2.33)",
+      "netPnlUsdt": -0.0906,
+      "netPnlTry": -4.47
+    },
+    {
+      "symbol": "STX",
+      "entryPrice": 0.3481,
+      "exitPrice": 0.3616,
+      "exitTime": "2026-10-21T01:45:37.858Z",
+      "costUsdt": 1.8239,
+      "netPnlUsdt": 0.0705,
+      "netPnlTry": 3.48,
+      "exitReason": "💰 1. KADEME (%35) SIFIR RİSK KÂR AL (+%3.88)"
+    },
+    {
+      "id": "pos_1792519008209_FET",
+      "symbol": "FET",
+      "leaderSymbol": "FET",
+      "ecosystem": "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı",
+      "headline": "Germany and NVIDIA Expand AI Partnership With a $10 Billion Commitment",
+      "newsSource": "BeInCrypto",
+      "newsScore": 7.48,
+      "totalScore": 101.7,
+      "rsiAtEntry": 55.22,
+      "atr1hPct": 1.72,
+      "takerBuyRatioPct": 52.6,
+      "obImbalance": -0.03,
+      "entryTime": "2026-10-20T17:56:48.209Z",
+      "entryPrice": 0.1955,
+      "currentPrice": 0.196,
+      "highestPrice": 0.1979,
+      "qty": 35.3292,
+      "costUsdt": 6.9069,
+      "costTry": 341.13,
+      "takeProfitPrice": 0.20608,
+      "stopLossPrice": 0.19609,
+      "tpPct": 5.41,
+      "slPct": 2.84,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": true,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": 0.0177,
+      "unrealizedPnlPct": 0.26,
+      "currentPriceTry": 9.6953,
+      "currentValueTry": 342.53,
+      "exitPrice": 0.196,
+      "exitTime": "2026-10-20T23:07:35.580Z",
+      "exitReason": "🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26)",
+      "netPnlUsdt": 0.0177,
+      "netPnlTry": 0.87
+    },
+    {
+      "id": "pos_1792523097000_RSR",
+      "symbol": "RSR",
+      "leaderSymbol": "XRP",
+      "ecosystem": "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar",
+      "headline": "Binance to Support 24/7 Dynamic Updates of the bStocks Collateral Index Price",
+      "newsSource": "BinanceListingSniper",
+      "newsScore": 9.2,
+      "totalScore": 102,
+      "rsiAtEntry": 55.31,
+      "atr1hPct": 2.3,
+      "takerBuyRatioPct": 54.7,
+      "obImbalance": 0.14,
+      "entryTime": "2026-10-20T19:04:57.000Z",
+      "entryPrice": 0.001902,
+      "currentPrice": 0.001906,
+      "highestPrice": 0.001932,
+      "qty": 4507.966,
+      "costUsdt": 8.5742,
+      "costTry": 423.48,
+      "takeProfitPrice": 0.0020066,
+      "stopLossPrice": 0.0019077,
+      "tpPct": 5.5,
+      "slPct": 2.76,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": true,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": 0.018,
+      "unrealizedPnlPct": 0.21,
+      "currentPriceTry": 0.0941,
+      "currentValueTry": 424.15,
+      "exitPrice": 0.001906,
+      "exitTime": "2026-10-20T23:03:41.801Z",
+      "exitReason": "🔒 SIFIR RİSK KÂR KİLİDİ (+%0.21)",
+      "netPnlUsdt": 0.018,
+      "netPnlTry": 0.89
+    },
+    {
+      "id": "pos_1792519277997_ARB",
+      "symbol": "ARB",
+      "leaderSymbol": "ETH",
+      "ecosystem": "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)",
+      "headline": "ARB Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
+      "newsSource": "ShortSqueezeRadar",
+      "newsScore": 9.04,
+      "totalScore": 117,
+      "rsiAtEntry": 31.18,
+      "atr1hPct": 1.9,
+      "takerBuyRatioPct": 51.9,
+      "obImbalance": 0.23,
+      "entryTime": "2026-10-20T18:01:17.997Z",
+      "entryPrice": 0.1892,
+      "currentPrice": 0.1897,
+      "highestPrice": 0.1922,
+      "qty": 45.409,
+      "costUsdt": 8.5914,
+      "costTry": 424.33,
+      "takeProfitPrice": 0.20087,
+      "stopLossPrice": 0.18977,
+      "tpPct": 6.17,
+      "slPct": 3.13,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": true,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": 0.0227,
+      "unrealizedPnlPct": 0.26,
+      "currentPriceTry": 9.3742,
+      "currentValueTry": 425.45,
+      "exitPrice": 0.1897,
+      "exitTime": "2026-10-20T19:04:10.648Z",
+      "exitReason": "🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26)",
+      "netPnlUsdt": 0.0227,
+      "netPnlTry": 1.12
+    },
+    {
+      "id": "pos_1792516155578_AVAX",
+      "symbol": "AVAX",
+      "leaderSymbol": "XRP",
+      "ecosystem": "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar",
+      "headline": "Major XRP Adoption News Sparks Excitement Across Ripple's Community: Details",
+      "newsSource": "CryptoPotato",
+      "newsScore": 16.1,
+      "totalScore": 97.3,
+      "rsiAtEntry": 53.26,
+      "atr1hPct": 1.27,
+      "takerBuyRatioPct": 54.8,
+      "obImbalance": 0.22,
+      "entryTime": "2026-10-20T17:09:15.578Z",
+      "entryPrice": 9.689,
+      "currentPrice": 9.701,
+      "highestPrice": 9.714,
+      "qty": 0.8982,
+      "costUsdt": 8.7027,
+      "costTry": 429.83,
+      "takeProfitPrice": 10.125,
+      "stopLossPrice": 9.4855,
+      "tpPct": 4.5,
+      "slPct": 2.1,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": 0.0108,
+      "unrealizedPnlPct": 0.12,
+      "currentPriceTry": 479.13,
+      "currentValueTry": 430.36,
+      "exitPrice": 9.701,
+      "exitTime": "2026-10-20T18:00:36.940Z",
+      "exitReason": "⚡ AKILLI ROTASYON (ARB [122p] Fırsatına Geçildi)",
+      "netPnlUsdt": 0.0108,
+      "netPnlTry": 0.53
+    },
+    {
+      "id": "pos_1792516156173_ICP",
+      "symbol": "ICP",
+      "leaderSymbol": "FET",
+      "ecosystem": "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı",
+      "headline": "Germany and NVIDIA Expand AI Partnership With a $10 Billion Commitment",
+      "newsSource": "BeInCrypto",
+      "newsScore": 7.48,
+      "totalScore": 80.8,
+      "rsiAtEntry": 54.11,
+      "atr1hPct": 1.22,
+      "takerBuyRatioPct": 54.7,
+      "obImbalance": 0.31,
+      "entryTime": "2026-10-20T17:09:16.173Z",
+      "entryPrice": 2.902,
+      "currentPrice": 2.912,
+      "highestPrice": 2.916,
+      "qty": 2.378234,
+      "costUsdt": 6.9,
+      "costTry": 341,
+      "takeProfitPrice": 3.0326,
+      "stopLossPrice": 2.8437,
+      "tpPct": 4.5,
+      "slPct": 2.01,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": 0.0238,
+      "unrealizedPnlPct": 0.34,
+      "currentPriceTry": 143.7,
+      "currentValueTry": 341.75,
+      "exitPrice": 2.912,
+      "exitTime": "2026-10-20T17:56:03.530Z",
+      "exitReason": "⚡ AKILLI ROTASYON (FET [106.7p] Fırsatına Geçildi)",
+      "netPnlUsdt": 0.0254,
+      "netPnlTry": 1.25
+    },
     {
       "id": "pos_1792498355709_CAKE",
       "symbol": "CAKE",
@@ -25,24 +436,29 @@
       "obImbalance": 0.1,
       "entryTime": "2026-10-20T12:12:35.709Z",
       "entryPrice": 2.161,
-      "currentPrice": 2.211,
+      "currentPrice": 2.217,
       "highestPrice": 2.227,
-      "qty": 2.347,
+      "qty": 2.35216,
       "costUsdt": 5.093,
       "costTry": 252,
       "takeProfitPrice": 2.2582,
-      "stopLossPrice": 2.1953,
+      "stopLossPrice": 2.1999,
       "tpPct": 4.5,
       "slPct": 2,
       "partialTpDone": true,
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": true,
-      "unrealizedPnlUsdt": 0.1173,
-      "unrealizedPnlPct": 2.31
-    }
-  ],
-  "closedTrades": [
+      "unrealizedPnlUsdt": 0.1317,
+      "unrealizedPnlPct": 2.59,
+      "currentPriceTry": 109.26,
+      "currentValueTry": 257,
+      "exitPrice": 2.217,
+      "exitTime": "2026-10-20T17:48:34.500Z",
+      "exitReason": "💰 HIZLI KÂR HASADI & ROTASYON (Yavaşlayan Kârlı Coin Cebe Alındı +%2.59)",
+      "netPnlUsdt": 0.1217,
+      "netPnlTry": 6
+    },
     {
       "id": "pos_1792498356933_LDO",
       "symbol": "LDO",
@@ -138,6 +554,32 @@
     }
   ],
   "recentLogs": [
+    "[06:08:28] 🟢 [OTOMATİK ALIM] HBAR (171,28 TL) @ $0.08337 | Skor: 95.5 | RSI: 51.93 | Balina: %57.2 | SL: -%2",
+    "[06:08:25] 🏁 [POZİSYON KAPANDI] STX @ $0.3572 | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%2.61) | Net: 4,39 TL",
+    "[05:21:40] 🟢 [OTOMATİK ALIM] JASMY (402,78 TL) @ $0.00479 | Skor: 109.6 | RSI: 50 | Balina: %63.2 | SL: -%3.2",
+    "[05:14:53] 🏁 [POZİSYON KAPANDI] SAND @ $0.05741 | 🛡️ ATR KORUMA KALKANI (%-2.33) | Net: -4,47 TL",
+    "[04:45:37] 💰 [SIFIR RİSK KÂR HASADI] STX %35'i satıldı (+3,48 TL)! Kalan %65 Sıfır Riskle Bedava Uçuşta!",
+    "[02:08:23] 🎰 [VURGUN SLOTU AÇILDI] TIA (218,30 TL) @ $0.6208 | Hedef: +%18 | RSI: 41.08 | Balina: %59.1 | SL: -%3.2",
+    "[02:07:37] 🔧 [OTONOM MÜFETTİŞ] Cüzdandaki FET ($6.92 = 342.00 TL) otomatik olarak açık işlemlere senkronize edildi.",
+    "[02:07:35] 🏁 [POZİSYON KAPANDI] FET @ $0.196 | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26) | Net: 0,87 TL",
+    "[02:03:44] 🔧 [OTONOM MÜFETTİŞ] Cüzdandaki EDU ($4.66 = 230.29 TL) otomatik olarak açık işlemlere senkronize edildi.",
+    "[02:03:42] 🟢 [OTOMATİK ALIM] SAND (193,11 TL) @ $0.05878 | Skor: 99.2 | RSI: 66.56 | Balina: %63.3 | SL: -%2.26",
+    "[02:03:41] 🏁 [POZİSYON KAPANDI] RSR @ $0.001906 | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.21) | Net: 0,89 TL",
+    "[01:59:39] 🎰 [VURGUN SLOTU AÇILDI] EDU (232,63 TL) @ $0.073 | Hedef: +%18 | RSI: 47.5 | Balina: %55.8 | SL: -%2.4",
+    "[01:57:27] 🔧 [OTONOM MÜFETTİŞ] Cüzdandaki RSR ($8.60 = 424.59 TL) otomatik olarak açık işlemlere senkronize edildi.",
+    "[01:57:25] 🏁 [POZİSYON KAPANDI] RSR @ $0.001907 | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26) | Net: 1,11 TL",
+    "[22:04:57] 🟢 [OTOMATİK ALIM] RSR (425,25 TL) @ $0.001902 | Skor: 102 | RSI: 55.31 | Balina: %54.7 | SL: -%2.76",
+    "[22:04:10] 🏁 [POZİSYON KAPANDI] ARB @ $0.1897 | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26) | Net: -0,79 TL",
+    "[21:01:17] 🟢 [OTOMATİK ALIM] ARB (425,72 TL) @ $0.1892 | Skor: 117 | RSI: 31.18 | Balina: %51.9 | SL: -%3.13",
+    "[21:00:36] ⚡ [AKILLI ROTASYON] AVAX kapatıldı, yerine 122 puanlık dev fırsat (ARB) alınıyor!",
+    "[20:56:48] 🟢 [OTOMATİK ALIM] FET (342,35 TL) @ $0.1955 | Skor: 101.7 | RSI: 55.22 | Balina: %52.6 | SL: -%2.84",
+    "[20:56:03] ⚡ [AKILLI ROTASYON] ICP kapatıldı, yerine 106.7 puanlık dev fırsat (FET) alınıyor!",
+    "[20:49:45] 🟢 [OTOMATİK ALIM] STX (259,48 TL) @ $0.3481 | Skor: 110.6 | RSI: 40.78 | Balina: %51.5 | SL: -%3.2",
+    "[20:48:35] ⚖️ [Tahta Kalkanı] STX önünde satış duvarı (-0.1) var, pas geçildi.",
+    "[20:48:34] ⚖️ [Tahta Kalkanı] STX önünde satış duvarı (-0.13) var, pas geçildi.",
+    "[20:48:34] 🏁 [POZİSYON KAPANDI] CAKE @ $2.217 | 💰 HIZLI KÂR HASADI & ROTASYON (Yavaşlayan Kârlı Coin Cebe Alındı +%2.59) | Net: 6,00 TL",
+    "[20:09:16] 🟢 [OTOMATİK ALIM] ICP (341,27 TL) @ $2.902 | Skor: 80.8 | RSI: 54.11 | Balina: %54.7 | SL: -%2.01",
+    "[20:09:15] 🟢 [OTOMATİK ALIM] AVAX (433,27 TL) @ $9.689 | Skor: 97.3 | RSI: 53.26 | Balina: %54.8 | SL: -%2.1",
     "[19:42:54] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[19:26:20] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.12) var, pas geçildi.",
     "[19:25:37] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.09) var, pas geçildi.",
@@ -151,40 +593,406 @@
     "[19:18:51] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.1) var, pas geçildi.",
     "[19:18:05] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.23) var, pas geçildi.",
     "[19:12:52] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.41) var, pas geçildi.",
-    "[18:51:53] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.1) var, pas geçildi.",
-    "[18:51:53] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.11) var, pas geçildi.",
-    "[18:51:07] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.07) var, pas geçildi.",
-    "[18:50:22] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.11) var, pas geçildi.",
-    "[18:49:38] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.11) var, pas geçildi.",
-    "[18:49:38] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.26) var, pas geçildi.",
-    "[18:48:52] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.07) var, pas geçildi.",
-    "[18:48:08] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.06) var, pas geçildi.",
-    "[18:46:36] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.15) var, pas geçildi.",
-    "[18:39:07] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.2) var, pas geçildi.",
-    "[18:39:07] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.21) var, pas geçildi.",
-    "[18:37:37] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.08) var, pas geçildi.",
-    "[18:37:37] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.13) var, pas geçildi.",
-    "[18:17:24] ⚖️ [Tahta Kalkanı - Vurgun] NEAR önünde satış duvarı (-0.14) var, pas geçildi.",
-    "[17:49:36] 🏁 [POZİSYON KAPANDI] LDO @ $0.4086 | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%5.2) | Net: 12,44 TL",
-    "[17:46:35] 🏁 [POZİSYON KAPANDI] SEI @ $0.06311 | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%5.04) | Net: 7,34 TL",
-    "[17:41:20] 💰 [SIFIR RİSK KÂR HASADI] CAKE %40'ı satıldı (+4,06 TL)! Kalan %60 Sıfır Riskle Bedava Uçuşta!",
-    "[17:36:50] 🧱 [Satış Duvarı Kalkanı] SEI önünde balina satış duvarı (-0.62) tespit edildi, kâr kilidi sıkılaştırıldı!",
-    "[17:36:05] 🧱 [Satış Duvarı Kalkanı] SEI önünde balina satış duvarı (-0.49) tespit edildi, kâr kilidi sıkılaştırıldı!",
-    "[17:15:51] 🧱 [Satış Duvarı Kalkanı] SEI önünde balina satış duvarı (-0.5) tespit edildi, kâr kilidi sıkılaştırıldı!",
-    "[17:14:23] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
-    "[17:01:37] 💰 [SIFIR RİSK KÂR HASADI] LDO %40'ı satıldı (+4,82 TL)! Kalan %60 Sıfır Riskle Bedava Uçuşta!",
-    "[16:55:37] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
-    "[16:48:07] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
-    "[16:20:14] ⚠️ Haber tarayıcı uyarısı: fetch failed",
-    "[16:19:29] ⚠️ Haber tarayıcı uyarısı: fetch failed",
-    "[16:18:44] ⚠️ Haber tarayıcı uyarısı: fetch failed"
+    "[18:51:53] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.1) var, pas geçildi."
   ],
-  "totalEquityUsdt": 20.8518,
-  "totalEquityTry": 1031.33,
-  "totalPnlUsdt": 0.6334,
-  "totalPnlPct": 3.13,
-  "cooldowns": {},
-  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: BNB: 0.0004 | CAKE: 2.3522 | ETHW: 0.0010 | LDO: 0.0063 | SEI: 0.0926 | TRY: 774.6728)",
-  "lastWhatsAppReportAt": 1792514716884,
-  "highWaterMarkUsdt": 28.0112
+  "totalEquityUsdt": 21.0059,
+  "totalEquityTry": 1036.85,
+  "totalPnlUsdt": 0.7466,
+  "totalPnlPct": 3.69,
+  "cooldowns": {
+    "ARB": 1792544650227,
+    "SAND": 1792570490286
+  },
+  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BNB: 0.0004 | CAKE: 0.0022 | EDU: 63.8720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 40.9180 | ICP: 0.0002 | JASMY: 1692.6080 | LDO: 0.0063 | RSR: 0.9660 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TIA: 7.0958 | TRY: 2.7455)",
+  "lastWhatsAppReportAt": 1792552111160,
+  "highWaterMarkUsdt": 20.8128,
+  "cashIdleSince": null,
+  "usdTryRate": 49.36,
+  "totalPnlTry": 36.85,
+  "equityHistory": [
+    {
+      "t": "05:21",
+      "v": 1041.71
+    },
+    {
+      "t": "05:22",
+      "v": 1038.27
+    },
+    {
+      "t": "05:23",
+      "v": 1036.3
+    },
+    {
+      "t": "05:24",
+      "v": 1035.65
+    },
+    {
+      "t": "05:25",
+      "v": 1034.58
+    },
+    {
+      "t": "05:26",
+      "v": 1035.49
+    },
+    {
+      "t": "05:27",
+      "v": 1035.24
+    },
+    {
+      "t": "05:27",
+      "v": 1035.95
+    },
+    {
+      "t": "05:28",
+      "v": 1036.4
+    },
+    {
+      "t": "05:29",
+      "v": 1036.03
+    },
+    {
+      "t": "05:30",
+      "v": 1035.77
+    },
+    {
+      "t": "05:30",
+      "v": 1036.46
+    },
+    {
+      "t": "05:31",
+      "v": 1036.09
+    },
+    {
+      "t": "05:32",
+      "v": 1035.22
+    },
+    {
+      "t": "05:33",
+      "v": 1037.07
+    },
+    {
+      "t": "05:34",
+      "v": 1037.34
+    },
+    {
+      "t": "05:35",
+      "v": 1036.9
+    },
+    {
+      "t": "05:36",
+      "v": 1037.12
+    },
+    {
+      "t": "05:36",
+      "v": 1037.71
+    },
+    {
+      "t": "05:37",
+      "v": 1039.59
+    },
+    {
+      "t": "05:38",
+      "v": 1039.06
+    },
+    {
+      "t": "05:39",
+      "v": 1039.24
+    },
+    {
+      "t": "05:40",
+      "v": 1039.86
+    },
+    {
+      "t": "05:41",
+      "v": 1039.36
+    },
+    {
+      "t": "05:42",
+      "v": 1040.01
+    },
+    {
+      "t": "05:42",
+      "v": 1038.55
+    },
+    {
+      "t": "05:43",
+      "v": 1038.63
+    },
+    {
+      "t": "05:44",
+      "v": 1038.64
+    },
+    {
+      "t": "05:45",
+      "v": 1038.01
+    },
+    {
+      "t": "05:46",
+      "v": 1038.29
+    },
+    {
+      "t": "05:47",
+      "v": 1038.02
+    },
+    {
+      "t": "05:48",
+      "v": 1039.03
+    },
+    {
+      "t": "05:49",
+      "v": 1038.07
+    },
+    {
+      "t": "05:50",
+      "v": 1038.3
+    },
+    {
+      "t": "05:51",
+      "v": 1037.53
+    },
+    {
+      "t": "05:52",
+      "v": 1037.36
+    },
+    {
+      "t": "05:53",
+      "v": 1037.24
+    },
+    {
+      "t": "05:54",
+      "v": 1038.36
+    },
+    {
+      "t": "05:54",
+      "v": 1036.21
+    },
+    {
+      "t": "05:55",
+      "v": 1036.53
+    },
+    {
+      "t": "05:56",
+      "v": 1036.73
+    },
+    {
+      "t": "05:57",
+      "v": 1036.79
+    },
+    {
+      "t": "05:58",
+      "v": 1035.79
+    },
+    {
+      "t": "05:59",
+      "v": 1035.88
+    },
+    {
+      "t": "06:00",
+      "v": 1035.5
+    },
+    {
+      "t": "06:01",
+      "v": 1034.94
+    },
+    {
+      "t": "06:02",
+      "v": 1034.57
+    },
+    {
+      "t": "06:03",
+      "v": 1034.33
+    },
+    {
+      "t": "06:04",
+      "v": 1033.9
+    },
+    {
+      "t": "06:05",
+      "v": 1033.83
+    },
+    {
+      "t": "06:06",
+      "v": 1033.85
+    },
+    {
+      "t": "06:07",
+      "v": 1032.37
+    },
+    {
+      "t": "06:08",
+      "v": 1034.7
+    },
+    {
+      "t": "06:09",
+      "v": 1031.74
+    },
+    {
+      "t": "06:10",
+      "v": 1031.24
+    },
+    {
+      "t": "06:11",
+      "v": 1032.36
+    },
+    {
+      "t": "06:12",
+      "v": 1031.41
+    },
+    {
+      "t": "06:13",
+      "v": 1031.65
+    },
+    {
+      "t": "06:14",
+      "v": 1032.84
+    },
+    {
+      "t": "06:15",
+      "v": 1032.23
+    },
+    {
+      "t": "06:16",
+      "v": 1031.79
+    },
+    {
+      "t": "06:17",
+      "v": 1030.78
+    },
+    {
+      "t": "06:18",
+      "v": 1030.87
+    },
+    {
+      "t": "06:19",
+      "v": 1030.51
+    },
+    {
+      "t": "06:20",
+      "v": 1031.18
+    },
+    {
+      "t": "06:21",
+      "v": 1030.73
+    },
+    {
+      "t": "06:22",
+      "v": 1030.76
+    },
+    {
+      "t": "06:23",
+      "v": 1031.06
+    },
+    {
+      "t": "06:24",
+      "v": 1032.14
+    },
+    {
+      "t": "06:25",
+      "v": 1031.36
+    },
+    {
+      "t": "06:26",
+      "v": 1030.35
+    },
+    {
+      "t": "06:27",
+      "v": 1030.14
+    },
+    {
+      "t": "06:28",
+      "v": 1031.52
+    },
+    {
+      "t": "06:29",
+      "v": 1031.63
+    },
+    {
+      "t": "06:30",
+      "v": 1031.69
+    },
+    {
+      "t": "06:30",
+      "v": 1033.24
+    },
+    {
+      "t": "06:31",
+      "v": 1033.57
+    },
+    {
+      "t": "06:32",
+      "v": 1035.43
+    },
+    {
+      "t": "06:33",
+      "v": 1035.65
+    },
+    {
+      "t": "06:34",
+      "v": 1035.48
+    },
+    {
+      "t": "06:35",
+      "v": 1034.76
+    },
+    {
+      "t": "06:36",
+      "v": 1036
+    },
+    {
+      "t": "06:37",
+      "v": 1036
+    },
+    {
+      "t": "06:38",
+      "v": 1036.22
+    },
+    {
+      "t": "06:39",
+      "v": 1035.11
+    },
+    {
+      "t": "06:40",
+      "v": 1035.14
+    },
+    {
+      "t": "06:41",
+      "v": 1035.11
+    },
+    {
+      "t": "06:42",
+      "v": 1035.05
+    },
+    {
+      "t": "06:43",
+      "v": 1034.9
+    },
+    {
+      "t": "06:44",
+      "v": 1035.19
+    },
+    {
+      "t": "06:45",
+      "v": 1035.5
+    },
+    {
+      "t": "06:46",
+      "v": 1035.78
+    },
+    {
+      "t": "06:47",
+      "v": 1036.13
+    },
+    {
+      "t": "06:48",
+      "v": 1036.42
+    },
+    {
+      "t": "06:51",
+      "v": 1036.77
+    },
+    {
+      "t": "06:52",
+      "v": 1036.85
+    }
+  ]
 }

@@ -1,9 +1,7 @@
-name: 24-7 Cloud Altcoin Auto-Trader (TradingArena AI v8.0)
+name: 24-7 Cloud Altcoin Auto-Trader (TradingArena AI v9.5)
 
 on:
-  schedule:
-    # 7/24 Bulut Otomatik Al-Sat Taraması (Bilgisayar kapalıyken bile çalışır)
-    - cron: '*/15 * * * *'
+  # Cloud cron disabled so GitHub Actions paper-mode never overwrites real local LIVE_BINANCE portfolio_state.json
   workflow_dispatch:
 
 permissions:
@@ -38,10 +36,3 @@ jobs:
           node altcoin_auto_trader.mjs
           sleep 40
           node altcoin_auto_trader.mjs --notify
-
-      - name: Commit and Sync Updated Portfolio & RAPOR.md
-        run: |
-          git config user.name "AltcoinNewsHunter Cloud Bot"
-          git config user.email "bot@altcoin-news-hunter.local"
-          git add RAPOR.md portfolio_state.json altcoin_news_signals.json
-          git diff --staged --quiet || (git commit -m "chore(cloud): 7/24 otonom kasa ve RAPOR.md guncellemesi" && git pull --rebase origin main && git push origin main)

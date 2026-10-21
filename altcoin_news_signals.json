@@ -1,393 +1,24 @@
 {
-  "updatedAt": "2026-10-20T16:46:03.495Z",
-  "scanDurationMs": 6626,
+  "updatedAt": "2026-10-21T03:52:32.982Z",
+  "scanDurationMs": 3993,
   "bankrollTry": 1000,
-  "bankrollUsdt": 28.01,
-  "btc1hChangePct": 0.09,
+  "bankrollUsdt": 20.22,
+  "btc1hChangePct": 0.01,
   "btcCrashAlert": false,
-  "marketBreadthPct": 86,
-  "totalHeadlinesScanned": 72,
+  "marketBreadthPct": 88,
+  "fearGreedVal": 63,
+  "fearGreedClass": "Greed",
+  "btcDominancePct": 57.36,
+  "totalHeadlinesScanned": 96,
   "activeFeeds": [
+    "BinanceCMS (4)",
     "CoinTelegraph (20)",
     "Decrypt (20)",
     "CoinDesk (20)",
-    "BeInCrypto (12)"
+    "BeInCrypto (12)",
+    "CryptoPotato (20)"
   ],
   "top4AltcoinPicks": [
-    {
-      "symbol": "AVAX",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "rwa",
-        "xrp",
-        "treasury"
-      ],
-      "newsScore": 11.5,
-      "freshestMinutesAgo": 114,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "Grvt Completes First GRVT Token Burn, Unveils Roadmap to Yield and Zero-Fee RWA Trading",
-          "minutesAgo": 114,
-          "catalystPoints": 4.9,
-          "directMention": false
-        },
-        {
-          "source": "CoinTelegraph",
-          "title": "XRP 30-day exchange inflows pass 6B tokens as whales move to the sidelines",
-          "minutesAgo": 382,
-          "catalystPoints": 4.8,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 9.643,
-      "change1hPct": 0.17,
-      "change24hPct": 0.197,
-      "lagVsLeader24h": 1.45,
-      "rsi1h": 53.76,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.28,
-      "bbPctB": 0.7,
-      "bbWidthPct": 4.34,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 37.3,
-      "ema20AboveEma50": true,
-      "regime": "GUCLU_TREND",
-      "support": 9.391,
-      "resistance": 9.909,
-      "roomToResistancePct": 2.76,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 56.9,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 1.14,
-      "fundingHourlyPct": 0.0011,
-      "totalScore": 102.3,
-      "tpPct": 4.5,
-      "slPct": 2.11,
-      "tpPrice": 10.077,
-      "slPrice": 9.4395
-    },
-    {
-      "symbol": "ICP",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "ai agent",
-        "anthropic",
-        "nvidia"
-      ],
-      "newsScore": 6.78,
-      "freshestMinutesAgo": 31,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "Germany and NVIDIA Expand AI Partnership With a $10 Billion Commitment",
-          "minutesAgo": 149,
-          "catalystPoints": 4.48,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "Mastercard Opens Up AI Agent Payments With Early Access and Live Demo",
-          "minutesAgo": 31,
-          "catalystPoints": 1.8,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 2.876,
-      "change1hPct": 0.38,
-      "change24hPct": 0.349,
-      "lagVsLeader24h": 1.44,
-      "rsi1h": 53.63,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.26,
-      "bbPctB": 0.74,
-      "bbWidthPct": 3.99,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 21.7,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 2.8,
-      "resistance": 2.931,
-      "roomToResistancePct": 1.91,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 50.6,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 2.62,
-      "fundingHourlyPct": -0.0011,
-      "totalScore": 97.1,
-      "tpPct": 4.5,
-      "slPct": 2.08,
-      "tpPrice": 3.0054,
-      "slPrice": 2.8162
-    },
-    {
-      "symbol": "STX",
-      "leaderSymbol": "BTC",
-      "ecosystems": [
-        "Bitcoin Layer-2, Ordinals, Runes & BTC DeFi"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "short-squeeze"
-      ],
-      "newsScore": 8.94,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "ShortSqueezeRadar",
-          "title": "STX Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
-          "minutesAgo": 20,
-          "catalystPoints": 8.94,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 0.341,
-      "change1hPct": 0.38,
-      "change24hPct": -4.961,
-      "lagVsLeader24h": 5.65,
-      "rsi1h": 38.82,
-      "hasRsiDivergence": true,
-      "atr1hPct": 2.19,
-      "bbPctB": 0.1,
-      "bbWidthPct": 8.04,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 22.6,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.3354,
-      "resistance": 0.3643,
-      "roomToResistancePct": 6.83,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 47.8,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.74,
-      "fundingHourlyPct": -0.0075,
-      "totalScore": 87,
-      "tpPct": 5.7,
-      "slPct": 3.2,
-      "tpPrice": 0.36044,
-      "slPrice": 0.33009
-    },
-    {
-      "symbol": "UNI",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "short-squeeze"
-      ],
-      "newsScore": 7.07,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "ShortSqueezeRadar",
-          "title": "UNI Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
-          "minutesAgo": 20,
-          "catalystPoints": 7.07,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 7.313,
-      "change1hPct": 0.62,
-      "change24hPct": 0.096,
-      "lagVsLeader24h": 1.58,
-      "rsi1h": 52.45,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.67,
-      "bbPctB": 0.68,
-      "bbWidthPct": 5.12,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 20.3,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 7.1,
-      "resistance": 7.533,
-      "roomToResistancePct": 3.01,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 49.7,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.96,
-      "fundingHourlyPct": -0.0013,
-      "totalScore": 86.7,
-      "tpPct": 4.5,
-      "slPct": 2.76,
-      "tpPrice": 7.6421,
-      "slPrice": 7.1112
-    }
-  ],
-  "allQualifiedOpportunities": [
-    {
-      "symbol": "AVAX",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "rwa",
-        "xrp",
-        "treasury"
-      ],
-      "newsScore": 11.5,
-      "freshestMinutesAgo": 114,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "Grvt Completes First GRVT Token Burn, Unveils Roadmap to Yield and Zero-Fee RWA Trading",
-          "minutesAgo": 114,
-          "catalystPoints": 4.9,
-          "directMention": false
-        },
-        {
-          "source": "CoinTelegraph",
-          "title": "XRP 30-day exchange inflows pass 6B tokens as whales move to the sidelines",
-          "minutesAgo": 382,
-          "catalystPoints": 4.8,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 9.643,
-      "change1hPct": 0.17,
-      "change24hPct": 0.197,
-      "lagVsLeader24h": 1.45,
-      "rsi1h": 53.76,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.28,
-      "bbPctB": 0.7,
-      "bbWidthPct": 4.34,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 37.3,
-      "ema20AboveEma50": true,
-      "regime": "GUCLU_TREND",
-      "support": 9.391,
-      "resistance": 9.909,
-      "roomToResistancePct": 2.76,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 56.9,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 1.14,
-      "fundingHourlyPct": 0.0011,
-      "totalScore": 102.3,
-      "tpPct": 4.5,
-      "slPct": 2.11,
-      "tpPrice": 10.077,
-      "slPrice": 9.4395
-    },
-    {
-      "symbol": "ICP",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "ai agent",
-        "anthropic",
-        "nvidia"
-      ],
-      "newsScore": 6.78,
-      "freshestMinutesAgo": 31,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "Germany and NVIDIA Expand AI Partnership With a $10 Billion Commitment",
-          "minutesAgo": 149,
-          "catalystPoints": 4.48,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "Mastercard Opens Up AI Agent Payments With Early Access and Live Demo",
-          "minutesAgo": 31,
-          "catalystPoints": 1.8,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 2.876,
-      "change1hPct": 0.38,
-      "change24hPct": 0.349,
-      "lagVsLeader24h": 1.44,
-      "rsi1h": 53.63,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.26,
-      "bbPctB": 0.74,
-      "bbWidthPct": 3.99,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 21.7,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 2.8,
-      "resistance": 2.931,
-      "roomToResistancePct": 1.91,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 50.6,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 2.62,
-      "fundingHourlyPct": -0.0011,
-      "totalScore": 97.1,
-      "tpPct": 4.5,
-      "slPct": 2.08,
-      "tpPrice": 3.0054,
-      "slPrice": 2.8162
-    },
     {
       "symbol": "HBAR",
       "leaderSymbol": "XRP",
@@ -395,45 +26,48 @@
         "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
       ],
       "matchedKeywords": [
-        "rwa",
-        "xrp",
+        "tokenized",
+        "collateral asset",
+        "bstocks",
         "treasury"
       ],
-      "newsScore": 11.5,
-      "freshestMinutesAgo": 114,
+      "newsScore": 24.48,
+      "freshestMinutesAgo": 21,
       "headlines": [
         {
-          "source": "BeInCrypto",
-          "title": "Grvt Completes First GRVT Token Burn, Unveils Roadmap to Yield and Zero-Fee RWA Trading",
-          "minutesAgo": 114,
-          "catalystPoints": 4.9,
+          "source": "BinanceListingSniper",
+          "title": "Binance Will Add 5 bStocks Tokenized Securities as Collateral Asset - 2026-10-21",
+          "minutesAgo": 21,
+          "catalystPoints": 16.64,
           "directMention": false
         },
         {
-          "source": "CoinTelegraph",
-          "title": "XRP 30-day exchange inflows pass 6B tokens as whales move to the sidelines",
-          "minutesAgo": 382,
-          "catalystPoints": 4.8,
+          "source": "BinanceListingSniper",
+          "title": "Binance Exchange Adds RoboStrategy Inc (BOTB), Berkshire Hathaway (BRKBB), KraneShares STAR Market 50 ETF (KSTRB), Direxion Daily 20 Year Treasury Bull 3X ETF (TMFB) and Vistra Corp (VSTB) bStocks Trading Pairs on Binance Spot/Convert - 2026-10-21",
+          "minutesAgo": 52,
+          "catalystPoints": 6.24,
           "directMention": false
         }
       ],
-      "lastPrice": 0.08359,
-      "change1hPct": 0.25,
-      "change24hPct": 1.272,
-      "lagVsLeader24h": 0.38,
-      "rsi1h": 53.11,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.32,
-      "bbPctB": 0.67,
-      "bbWidthPct": 3.54,
+      "lastPrice": 0.08346,
+      "vwap24h": 0.083534,
+      "aboveVwap": true,
+      "change1hPct": -0.26,
+      "change24hPct": -0.072,
+      "lagVsLeader24h": 2.1,
+      "rsi1h": 52.6,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.22,
+      "bbPctB": 0.48,
+      "bbWidthPct": 3.91,
       "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 35.3,
+      "macdBullishTurn": false,
+      "adx": 33.8,
       "ema20AboveEma50": true,
       "regime": "GUCLU_TREND",
-      "support": 0.08193,
+      "support": 0.08199,
       "resistance": 0.08556,
-      "roomToResistancePct": 2.36,
+      "roomToResistancePct": 2.52,
       "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -442,1060 +76,340 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 49.5,
+      "takerBuyRatioPct": 58.2,
+      "last1hTakerBuyPct": 60.2,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.85,
+      "volRatio": 0.7,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 90,
+      "basisSpreadPct": 0.075,
+      "totalScore": 107.8,
       "tpPct": 4.5,
-      "slPct": 2.18,
-      "tpPrice": 0.087352,
-      "slPrice": 0.081768
+      "slPct": 2.01,
+      "tpPrice": 0.087216,
+      "slPrice": 0.081782,
+      "topWhaleLongPct": 75.1,
+      "oiChange15mPct": 0.05
     },
     {
-      "symbol": "FET",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "ai agent",
-        "anthropic",
-        "nvidia"
-      ],
-      "newsScore": 6.78,
-      "freshestMinutesAgo": 31,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "Germany and NVIDIA Expand AI Partnership With a $10 Billion Commitment",
-          "minutesAgo": 149,
-          "catalystPoints": 4.48,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "Mastercard Opens Up AI Agent Payments With Early Access and Live Demo",
-          "minutesAgo": 31,
-          "catalystPoints": 1.8,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.1933,
-      "change1hPct": -0.97,
-      "change24hPct": 1.79,
-      "lagVsLeader24h": 0,
-      "rsi1h": 52.48,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.72,
-      "bbPctB": 0.69,
-      "bbWidthPct": 6.31,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 48.5,
-      "ema20AboveEma50": true,
-      "regime": "GUCLU_TREND",
-      "support": 0.1868,
-      "resistance": 0.2007,
-      "roomToResistancePct": 3.83,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 54.9,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 1.66,
-      "fundingHourlyPct": -0.006,
-      "totalScore": 88.8,
-      "tpPct": 5.41,
-      "slPct": 2.84,
-      "tpPrice": 0.20376,
-      "slPrice": 0.18781
-    },
-    {
-      "symbol": "STX",
-      "leaderSymbol": "BTC",
-      "ecosystems": [
-        "Bitcoin Layer-2, Ordinals, Runes & BTC DeFi"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "short-squeeze"
-      ],
-      "newsScore": 8.94,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "ShortSqueezeRadar",
-          "title": "STX Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
-          "minutesAgo": 20,
-          "catalystPoints": 8.94,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 0.341,
-      "change1hPct": 0.38,
-      "change24hPct": -4.961,
-      "lagVsLeader24h": 5.65,
-      "rsi1h": 38.82,
-      "hasRsiDivergence": true,
-      "atr1hPct": 2.19,
-      "bbPctB": 0.1,
-      "bbWidthPct": 8.04,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 22.6,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.3354,
-      "resistance": 0.3643,
-      "roomToResistancePct": 6.83,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 47.8,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.74,
-      "fundingHourlyPct": -0.0075,
-      "totalScore": 87,
-      "tpPct": 5.7,
-      "slPct": 3.2,
-      "tpPrice": 0.36044,
-      "slPrice": 0.33009
-    },
-    {
-      "symbol": "NEAR",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "ai agent",
-        "anthropic",
-        "nvidia"
-      ],
-      "newsScore": 6.78,
-      "freshestMinutesAgo": 31,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "Germany and NVIDIA Expand AI Partnership With a $10 Billion Commitment",
-          "minutesAgo": 149,
-          "catalystPoints": 4.48,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "Mastercard Opens Up AI Agent Payments With Early Access and Live Demo",
-          "minutesAgo": 31,
-          "catalystPoints": 1.8,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 4.88,
-      "change1hPct": 0.66,
-      "change24hPct": -1.374,
-      "lagVsLeader24h": 3.16,
-      "rsi1h": 52.51,
-      "hasRsiDivergence": true,
-      "atr1hPct": 2.22,
-      "bbPctB": 0.68,
-      "bbWidthPct": 7.71,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 37.5,
-      "ema20AboveEma50": false,
-      "regime": "GUCLU_TREND",
-      "support": 4.656,
-      "resistance": 5.059,
-      "roomToResistancePct": 3.67,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 52.7,
-      "isGreenBounce": true,
-      "isTrending": true,
-      "volRatio": 1.17,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 87,
-      "tpPct": 6.49,
-      "slPct": 3.2,
-      "tpPrice": 5.1967,
-      "slPrice": 4.7238
-    },
-    {
-      "symbol": "UNI",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "short-squeeze"
-      ],
-      "newsScore": 7.07,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "ShortSqueezeRadar",
-          "title": "UNI Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
-          "minutesAgo": 20,
-          "catalystPoints": 7.07,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 7.313,
-      "change1hPct": 0.62,
-      "change24hPct": 0.096,
-      "lagVsLeader24h": 1.58,
-      "rsi1h": 52.45,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.67,
-      "bbPctB": 0.68,
-      "bbWidthPct": 5.12,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 20.3,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 7.1,
-      "resistance": 7.533,
-      "roomToResistancePct": 3.01,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 49.7,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.96,
-      "fundingHourlyPct": -0.0013,
-      "totalScore": 86.7,
-      "tpPct": 4.5,
-      "slPct": 2.76,
-      "tpPrice": 7.6421,
-      "slPrice": 7.1112
-    },
-    {
-      "symbol": "BCH",
-      "leaderSymbol": "BTC",
-      "ecosystems": [
-        "Bitcoin Layer-2, Ordinals, Runes & BTC DeFi"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "laggard-dip-accumulation"
-      ],
-      "newsScore": 5.43,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "WhaleOrderflowRadar",
-          "title": "BCH Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
-          "minutesAgo": 20,
-          "catalystPoints": 5.43,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 277.6,
-      "change1hPct": 0.29,
-      "change24hPct": -0.502,
-      "lagVsLeader24h": 1.19,
-      "rsi1h": 47.99,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.13,
-      "bbPctB": 0.52,
-      "bbWidthPct": 4.05,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 12.4,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 272.2,
-      "resistance": 283.1,
-      "roomToResistancePct": 1.98,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 51.3,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.49,
-      "fundingHourlyPct": -0.0002,
-      "totalScore": 83.6,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 290.09,
-      "slPrice": 272.05
-    },
-    {
-      "symbol": "SEI",
-      "leaderSymbol": "SUI",
-      "ecosystems": [
-        "Move VM & Yeni Nesil Yüksek Hızlı L1 (Sui / Aptos / Sei / Injective)"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "short-squeeze"
-      ],
-      "newsScore": 6.46,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "ShortSqueezeRadar",
-          "title": "SEI Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
-          "minutesAgo": 20,
-          "catalystPoints": 6.46,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 0.06167,
-      "change1hPct": 0.03,
-      "change24hPct": 1.281,
-      "lagVsLeader24h": 0.64,
-      "rsi1h": 57.54,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.58,
-      "bbPctB": 0.83,
-      "bbWidthPct": 5.38,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 43.7,
-      "ema20AboveEma50": true,
-      "regime": "GUCLU_TREND",
-      "support": 0.0594,
-      "resistance": 0.06329,
-      "roomToResistancePct": 2.63,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 50.9,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 1.16,
-      "fundingHourlyPct": -0.0027,
-      "totalScore": 81.9,
-      "tpPct": 4.63,
-      "slPct": 2.61,
-      "tpPrice": 0.064525,
-      "slPrice": 0.06006
-    },
-    {
-      "symbol": "WLD",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "ai agent",
-        "anthropic",
-        "nvidia"
-      ],
-      "newsScore": 6.78,
-      "freshestMinutesAgo": 31,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "Germany and NVIDIA Expand AI Partnership With a $10 Billion Commitment",
-          "minutesAgo": 149,
-          "catalystPoints": 4.48,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "Mastercard Opens Up AI Agent Payments With Early Access and Live Demo",
-          "minutesAgo": 31,
-          "catalystPoints": 1.8,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.5647,
-      "change1hPct": 0.28,
-      "change24hPct": 10.271,
-      "lagVsLeader24h": -8.48,
-      "rsi1h": 64.86,
-      "hasRsiDivergence": false,
-      "atr1hPct": 2.39,
-      "bbPctB": 0.9,
-      "bbWidthPct": 10.02,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 51.8,
-      "ema20AboveEma50": true,
-      "regime": "GUCLU_TREND",
-      "support": 0.5058,
-      "resistance": 0.5773,
-      "roomToResistancePct": 2.23,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 53.1,
-      "isGreenBounce": true,
-      "isTrending": true,
-      "volRatio": 1.13,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 79.2,
-      "tpPct": 9,
-      "slPct": 3.2,
-      "tpPrice": 0.61552,
-      "slPrice": 0.54663
-    },
-    {
-      "symbol": "TAO",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "ai agent",
-        "anthropic",
-        "nvidia"
-      ],
-      "newsScore": 6.78,
-      "freshestMinutesAgo": 31,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "Germany and NVIDIA Expand AI Partnership With a $10 Billion Commitment",
-          "minutesAgo": 149,
-          "catalystPoints": 4.48,
-          "directMention": false
-        },
-        {
-          "source": "Decrypt",
-          "title": "Mastercard Opens Up AI Agent Payments With Early Access and Live Demo",
-          "minutesAgo": 31,
-          "catalystPoints": 1.8,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 270.9,
-      "change1hPct": 0.33,
-      "change24hPct": 0.594,
-      "lagVsLeader24h": 1.2,
-      "rsi1h": 54.52,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.43,
-      "bbPctB": 0.8,
-      "bbWidthPct": 5.08,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 43,
-      "ema20AboveEma50": true,
-      "regime": "GUCLU_TREND",
-      "support": 262.3,
-      "resistance": 278,
-      "roomToResistancePct": 2.62,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 49.4,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.98,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 77.7,
-      "tpPct": 4.5,
-      "slPct": 2.36,
-      "tpPrice": 283.09,
-      "slPrice": 264.51
-    },
-    {
-      "symbol": "ARB",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "laggard-dip-accumulation"
-      ],
-      "newsScore": 7.77,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "WhaleOrderflowRadar",
-          "title": "ARB Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
-          "minutesAgo": 20,
-          "catalystPoints": 7.77,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 0.1881,
-      "change1hPct": -0.53,
-      "change24hPct": -4.031,
-      "lagVsLeader24h": 5.71,
-      "rsi1h": 28.8,
-      "hasRsiDivergence": true,
-      "atr1hPct": 2.07,
-      "bbPctB": 0.14,
-      "bbWidthPct": 9.42,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 28.9,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.1866,
-      "resistance": 0.2027,
-      "roomToResistancePct": 7.76,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 46.6,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.96,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 74,
-      "tpPct": 6.17,
-      "slPct": 3.2,
-      "tpPrice": 0.19971,
-      "slPrice": 0.18208
-    },
-    {
-      "symbol": "AAVE",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "short-squeeze"
-      ],
-      "newsScore": 6.52,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "ShortSqueezeRadar",
-          "title": "AAVE Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
-          "minutesAgo": 20,
-          "catalystPoints": 6.52,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 151.96,
-      "change1hPct": -0.09,
-      "change24hPct": 1.98,
-      "lagVsLeader24h": -0.3,
-      "rsi1h": 51.39,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.6,
-      "bbPctB": 0.7,
-      "bbWidthPct": 5.93,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 31.6,
-      "ema20AboveEma50": true,
-      "regime": "GUCLU_TREND",
-      "support": 147.34,
-      "resistance": 157.79,
-      "roomToResistancePct": 3.84,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 47.6,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.59,
-      "fundingHourlyPct": -0.002,
-      "totalScore": 71.3,
-      "tpPct": 4.98,
-      "slPct": 2.64,
-      "tpPrice": 159.53,
-      "slPrice": 147.95
-    },
-    {
-      "symbol": "INJ",
-      "leaderSymbol": "SUI",
-      "ecosystems": [
-        "Move VM & Yeni Nesil Yüksek Hızlı L1 (Sui / Aptos / Sei / Injective)"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "laggard-dip-accumulation"
-      ],
-      "newsScore": 6.85,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "WhaleOrderflowRadar",
-          "title": "INJ Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
-          "minutesAgo": 20,
-          "catalystPoints": 6.85,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 8.584,
-      "change1hPct": -0.19,
-      "change24hPct": -1.026,
-      "lagVsLeader24h": 2.95,
-      "rsi1h": 50.36,
-      "hasRsiDivergence": true,
-      "atr1hPct": 2.11,
-      "bbPctB": 0.54,
-      "bbWidthPct": 4.67,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 46.8,
-      "ema20AboveEma50": true,
-      "regime": "GUCLU_TREND",
-      "support": 8.442,
-      "resistance": 8.918,
-      "roomToResistancePct": 3.89,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 43.6,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 1.33,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 70.8,
-      "tpPct": 5.84,
-      "slPct": 3.2,
-      "tpPrice": 9.0853,
-      "slPrice": 8.3093
-    },
-    {
-      "symbol": "ETHFI",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "laggard-dip-accumulation"
-      ],
-      "newsScore": 4.63,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "WhaleOrderflowRadar",
-          "title": "ETHFI Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
-          "minutesAgo": 20,
-          "catalystPoints": 4.63,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 0.7016,
-      "change1hPct": 0.09,
-      "change24hPct": 1.932,
-      "lagVsLeader24h": -0.25,
-      "rsi1h": 54.62,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.72,
-      "bbPctB": 0.85,
-      "bbWidthPct": 6.63,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 28.5,
-      "ema20AboveEma50": true,
-      "regime": "GUCLU_TREND",
-      "support": 0.6686,
-      "resistance": 0.7155,
-      "roomToResistancePct": 1.98,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 60.7,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 2.74,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 70.8,
-      "tpPct": 5.61,
-      "slPct": 2.84,
-      "tpPrice": 0.74096,
-      "slPrice": 0.68167
-    },
-    {
-      "symbol": "AR",
+      "symbol": "JASMY",
       "leaderSymbol": "FIL",
       "ecosystems": [
         "DePIN, Merkeziyetsiz Bulut Depolama & IoT Donanım"
       ],
       "matchedKeywords": [
         "whale-flow",
-        "laggard-dip-accumulation"
-      ],
-      "newsScore": 4.52,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "WhaleOrderflowRadar",
-          "title": "AR Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
-          "minutesAgo": 20,
-          "catalystPoints": 4.52,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 3.898,
-      "change1hPct": 0.41,
-      "change24hPct": 3.067,
-      "lagVsLeader24h": -1.29,
-      "rsi1h": 58.89,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.75,
-      "bbPctB": 0.87,
-      "bbWidthPct": 6.95,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 45.3,
-      "ema20AboveEma50": true,
-      "regime": "GUCLU_TREND",
-      "support": 3.716,
-      "resistance": 4.005,
-      "roomToResistancePct": 2.74,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 53,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.59,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 70.3,
-      "tpPct": 5.4,
-      "slPct": 2.89,
-      "tpPrice": 4.1085,
-      "slPrice": 3.7853
-    },
-    {
-      "symbol": "SAND",
-      "leaderSymbol": "IMX",
-      "ecosystems": [
-        "Web3 Oyun (GameFi), Immutable, Ronin & Metaverse"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
         "short-squeeze"
-      ],
-      "newsScore": 6.96,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "ShortSqueezeRadar",
-          "title": "SAND Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
-          "minutesAgo": 20,
-          "catalystPoints": 6.96,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 0.05842,
-      "change1hPct": -0.09,
-      "change24hPct": -1.434,
-      "lagVsLeader24h": 1.89,
-      "rsi1h": 49.29,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.53,
-      "bbPctB": 0.64,
-      "bbWidthPct": 6.51,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 32.9,
-      "ema20AboveEma50": true,
-      "regime": "GUCLU_TREND",
-      "support": 0.05655,
-      "resistance": 0.05998,
-      "roomToResistancePct": 2.67,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 42.3,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.78,
-      "fundingHourlyPct": -0.0068,
-      "totalScore": 69.7,
-      "tpPct": 4.5,
-      "slPct": 2.52,
-      "tpPrice": 0.061049,
-      "slPrice": 0.056948
-    },
-    {
-      "symbol": "EIGEN",
-      "leaderSymbol": "ETH",
-      "ecosystems": [
-        "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "laggard-dip-accumulation"
       ],
       "newsScore": 5.5,
       "freshestMinutesAgo": 20,
       "headlines": [
         {
-          "source": "WhaleOrderflowRadar",
-          "title": "EIGEN Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "source": "ShortSqueezeRadar",
+          "title": "JASMY Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
           "minutesAgo": 20,
           "catalystPoints": 5.5,
           "directMention": true
         }
       ],
-      "lastPrice": 0.2401,
-      "change1hPct": 0.54,
-      "change24hPct": -0.497,
-      "lagVsLeader24h": 2.18,
-      "rsi1h": 46.25,
+      "lastPrice": 0.00478,
+      "vwap24h": 0.0048968,
+      "aboveVwap": false,
+      "change1hPct": 0.42,
+      "change24hPct": 0,
+      "lagVsLeader24h": 1.09,
+      "rsi1h": 42.37,
       "hasRsiDivergence": true,
-      "atr1hPct": 2.02,
-      "bbPctB": 0.62,
-      "bbWidthPct": 6.25,
+      "atr1hPct": 1.9,
+      "bbPctB": 0.31,
+      "bbWidthPct": 7.64,
       "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 7.4,
+      "macdBullishTurn": false,
+      "adx": 21.9,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
-      "support": 0.2311,
-      "resistance": 0.2462,
-      "roomToResistancePct": 2.54,
+      "support": 0.00466,
+      "resistance": 0.00509,
+      "roomToResistancePct": 6.49,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
-        "Llama-4-Maverick",
         "Llama-4-Scout",
-        "Gemini-3.5-Flash"
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 48.5,
+      "takerBuyRatioPct": 62.9,
+      "last1hTakerBuyPct": 50.2,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.74,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 63.7,
-      "tpPct": 4.7,
-      "slPct": 3.2,
-      "tpPrice": 0.25138,
-      "slPrice": 0.23242
+      "volRatio": 0.22,
+      "fundingHourlyPct": -0.0025,
+      "basisSpreadPct": 0.111,
+      "totalScore": 107.7,
+      "tpPct": 6.14,
+      "slPct": 3.13,
+      "tpPrice": 0.0050735,
+      "slPrice": 0.0046304,
+      "topWhaleLongPct": 62.7,
+      "oiChange15mPct": 0.24
     },
     {
-      "symbol": "IMX",
-      "leaderSymbol": "IMX",
+      "symbol": "BOME",
+      "leaderSymbol": "SOL",
       "ecosystems": [
-        "Web3 Oyun (GameFi), Immutable, Ronin & Metaverse"
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
       ],
       "matchedKeywords": [
-        "whale-flow",
-        "laggard-dip-accumulation"
+        "solana"
       ],
-      "newsScore": 4.9,
-      "freshestMinutesAgo": 20,
+      "newsScore": 5.59,
+      "freshestMinutesAgo": 146,
       "headlines": [
         {
-          "source": "WhaleOrderflowRadar",
-          "title": "IMX Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
-          "minutesAgo": 20,
-          "catalystPoints": 4.9,
-          "directMention": true
+          "source": "BeInCrypto",
+          "title": "Solana Price Faces New Risk Despite Growing On-Chain Adoption",
+          "minutesAgo": 146,
+          "catalystPoints": 5.59,
+          "directMention": false
         }
       ],
-      "lastPrice": 0.1539,
-      "change1hPct": -0.71,
-      "change24hPct": 0.457,
-      "lagVsLeader24h": 0,
-      "rsi1h": 53.33,
+      "lastPrice": 0.0006174,
+      "vwap24h": 0.00061766,
+      "aboveVwap": true,
+      "change1hPct": 0.08,
+      "change24hPct": 1.446,
+      "lagVsLeader24h": -0.74,
+      "rsi1h": 50.9,
       "hasRsiDivergence": true,
-      "atr1hPct": 1.14,
-      "bbPctB": 0.66,
-      "bbWidthPct": 3.71,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 50.5,
+      "atr1hPct": 1.48,
+      "bbPctB": 0.58,
+      "bbWidthPct": 7.87,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 31.8,
       "ema20AboveEma50": true,
       "regime": "GUCLU_TREND",
-      "support": 0.1502,
-      "resistance": 0.1579,
-      "roomToResistancePct": 2.6,
+      "support": 0.0005902,
+      "resistance": 0.0006359,
+      "roomToResistancePct": 3,
       "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 55,
+      "last1hTakerBuyPct": 72.4,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.38,
+      "fundingHourlyPct": 0.001,
+      "basisSpreadPct": 0.167,
+      "totalScore": 84.2,
+      "tpPct": 5.44,
+      "slPct": 2.44,
+      "tpPrice": 0.00065099,
+      "slPrice": 0.00060234,
+      "topWhaleLongPct": 56.1,
+      "oiChange15mPct": 0.57
+    }
+  ],
+  "allQualifiedOpportunities": [
+    {
+      "symbol": "HBAR",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "tokenized",
+        "collateral asset",
+        "bstocks",
+        "treasury"
+      ],
+      "newsScore": 24.48,
+      "freshestMinutesAgo": 21,
+      "headlines": [
+        {
+          "source": "BinanceListingSniper",
+          "title": "Binance Will Add 5 bStocks Tokenized Securities as Collateral Asset - 2026-10-21",
+          "minutesAgo": 21,
+          "catalystPoints": 16.64,
+          "directMention": false
+        },
+        {
+          "source": "BinanceListingSniper",
+          "title": "Binance Exchange Adds RoboStrategy Inc (BOTB), Berkshire Hathaway (BRKBB), KraneShares STAR Market 50 ETF (KSTRB), Direxion Daily 20 Year Treasury Bull 3X ETF (TMFB) and Vistra Corp (VSTB) bStocks Trading Pairs on Binance Spot/Convert - 2026-10-21",
+          "minutesAgo": 52,
+          "catalystPoints": 6.24,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.08346,
+      "vwap24h": 0.083534,
+      "aboveVwap": true,
+      "change1hPct": -0.26,
+      "change24hPct": -0.072,
+      "lagVsLeader24h": 2.1,
+      "rsi1h": 52.6,
+      "hasRsiDivergence": false,
+      "atr1hPct": 1.22,
+      "bbPctB": 0.48,
+      "bbWidthPct": 3.91,
+      "isSqueeze": true,
+      "macdBullishTurn": false,
+      "adx": 33.8,
+      "ema20AboveEma50": true,
+      "regime": "GUCLU_TREND",
+      "support": 0.08199,
+      "resistance": 0.08556,
+      "roomToResistancePct": 2.52,
+      "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
         "Llama-4-Scout",
-        "Gemini-3.5-Flash"
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 49.4,
-      "isGreenBounce": false,
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 58.2,
+      "last1hTakerBuyPct": 60.2,
+      "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 1.18,
+      "volRatio": 0.7,
       "fundingHourlyPct": 0.0013,
-      "totalScore": 60.9,
+      "basisSpreadPct": 0.075,
+      "totalScore": 107.8,
       "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.16083,
-      "slPrice": 0.15082
+      "slPct": 2.01,
+      "tpPrice": 0.087216,
+      "slPrice": 0.081782,
+      "topWhaleLongPct": 75.1,
+      "oiChange15mPct": 0.05
     },
     {
-      "symbol": "FIL",
+      "symbol": "JASMY",
       "leaderSymbol": "FIL",
       "ecosystems": [
         "DePIN, Merkeziyetsiz Bulut Depolama & IoT Donanım"
       ],
       "matchedKeywords": [
         "whale-flow",
-        "laggard-dip-accumulation"
+        "short-squeeze"
       ],
-      "newsScore": 4.66,
+      "newsScore": 5.5,
       "freshestMinutesAgo": 20,
       "headlines": [
         {
-          "source": "WhaleOrderflowRadar",
-          "title": "FIL Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "source": "ShortSqueezeRadar",
+          "title": "JASMY Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
           "minutesAgo": 20,
-          "catalystPoints": 4.66,
+          "catalystPoints": 5.5,
           "directMention": true
         }
       ],
-      "lastPrice": 1.0382,
-      "change1hPct": -0.15,
-      "change24hPct": 1.774,
-      "lagVsLeader24h": 0,
-      "rsi1h": 58.57,
+      "lastPrice": 0.00478,
+      "vwap24h": 0.0048968,
+      "aboveVwap": false,
+      "change1hPct": 0.42,
+      "change24hPct": 0,
+      "lagVsLeader24h": 1.09,
+      "rsi1h": 42.37,
       "hasRsiDivergence": true,
-      "atr1hPct": 1.61,
-      "bbPctB": 0.85,
-      "bbWidthPct": 5.71,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 53.9,
-      "ema20AboveEma50": true,
-      "regime": "GUCLU_TREND",
-      "support": 1.0004,
-      "resistance": 1.065,
-      "roomToResistancePct": 2.58,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 54,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 0.73,
-      "fundingHourlyPct": 0.0012,
-      "totalScore": 59,
-      "tpPct": 4.65,
-      "slPct": 2.66,
-      "tpPrice": 1.0865,
-      "slPrice": 1.0106
-    },
-    {
-      "symbol": "TIA",
-      "leaderSymbol": "SUI",
-      "ecosystems": [
-        "Move VM & Yeni Nesil Yüksek Hızlı L1 (Sui / Aptos / Sei / Injective)"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "laggard-dip-accumulation"
-      ],
-      "newsScore": 5.02,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "WhaleOrderflowRadar",
-          "title": "TIA Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
-          "minutesAgo": 20,
-          "catalystPoints": 5.02,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 0.6268,
-      "change1hPct": 0.53,
-      "change24hPct": 2.822,
-      "lagVsLeader24h": -0.9,
-      "rsi1h": 50.14,
-      "hasRsiDivergence": false,
-      "atr1hPct": 2.77,
-      "bbPctB": 0.48,
-      "bbWidthPct": 7.68,
+      "atr1hPct": 1.9,
+      "bbPctB": 0.31,
+      "bbWidthPct": 7.64,
       "isSqueeze": false,
       "macdBullishTurn": false,
-      "adx": 18.8,
+      "adx": 21.9,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
-      "support": 0.6003,
-      "resistance": 0.6568,
-      "roomToResistancePct": 4.79,
-      "aiConsensusCount": 2,
+      "support": 0.00466,
+      "resistance": 0.00509,
+      "roomToResistancePct": 6.49,
+      "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Scout",
-        "Gemini-3.5-Flash"
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
       ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 47.5,
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 62.9,
+      "last1hTakerBuyPct": 50.2,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.75,
-      "fundingHourlyPct": 0.0013,
-      "totalScore": 39.6,
-      "tpPct": 6.54,
-      "slPct": 3.2,
-      "tpPrice": 0.66779,
-      "slPrice": 0.60674
+      "volRatio": 0.22,
+      "fundingHourlyPct": -0.0025,
+      "basisSpreadPct": 0.111,
+      "totalScore": 107.7,
+      "tpPct": 6.14,
+      "slPct": 3.13,
+      "tpPrice": 0.0050735,
+      "slPrice": 0.0046304,
+      "topWhaleLongPct": 62.7,
+      "oiChange15mPct": 0.24
+    },
+    {
+      "symbol": "BOME",
+      "leaderSymbol": "SOL",
+      "ecosystems": [
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "solana"
+      ],
+      "newsScore": 5.59,
+      "freshestMinutesAgo": 146,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "Solana Price Faces New Risk Despite Growing On-Chain Adoption",
+          "minutesAgo": 146,
+          "catalystPoints": 5.59,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.0006174,
+      "vwap24h": 0.00061766,
+      "aboveVwap": true,
+      "change1hPct": 0.08,
+      "change24hPct": 1.446,
+      "lagVsLeader24h": -0.74,
+      "rsi1h": 50.9,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.48,
+      "bbPctB": 0.58,
+      "bbWidthPct": 7.87,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 31.8,
+      "ema20AboveEma50": true,
+      "regime": "GUCLU_TREND",
+      "support": 0.0005902,
+      "resistance": 0.0006359,
+      "roomToResistancePct": 3,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 55,
+      "last1hTakerBuyPct": 72.4,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.38,
+      "fundingHourlyPct": 0.001,
+      "basisSpreadPct": 0.167,
+      "totalScore": 84.2,
+      "tpPct": 5.44,
+      "slPct": 2.44,
+      "tpPrice": 0.00065099,
+      "slPrice": 0.00060234,
+      "topWhaleLongPct": 56.1,
+      "oiChange15mPct": 0.57
     }
   ]
 }

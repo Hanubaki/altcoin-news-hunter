@@ -17,11 +17,11 @@ import path from 'node:path';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const BANKROLL_TRY = 1000;
-const USD_TRY_RATE = 35.7;
-const BANKROLL_USDT = Number((BANKROLL_TRY / USD_TRY_RATE).toFixed(2)); // $28.01 USDT
+const USD_TRY_RATE = 49.46;
+const BANKROLL_USDT = Number((BANKROLL_TRY / USD_TRY_RATE).toFixed(2));
 
 const BINANCE_API = 'https://data-api.binance.vision/api/v3';
-const BINANCE_CMS_API = 'https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&pageNo=1&pageSize=12';
+const BINANCE_CMS_API = 'https://www.binance.info/bapi/composite/v1/public/cms/article/list/query?type=1&pageNo=1&pageSize=10';
 const COINGECKO_TRENDING_API = 'https://api.coingecko.com/api/v3/search/trending';
 const HYPERLIQUID_API = 'https://api.hyperliquid.xyz/info';
 const SIGNALS_FILE = path.resolve('altcoin_news_signals.json');
@@ -77,7 +77,7 @@ const ECOSYSTEM_GRAPH = [
       'restaking', 'uniswap', 'aave', 'pendle', 'pectra', 'layer 2', 'layer-2',
       'babylon', 'lending proposal', 'vitalik',
     ],
-    sympathyAlts: ['AAVE', 'UNI', 'PENDLE', 'LDO', 'ETHFI', 'EIGEN', 'ARB', 'OP', 'ENS', 'METIS'],
+    sympathyAlts: ['AAVE', 'UNI', 'PENDLE', 'LDO', 'ETHFI', 'EIGEN', 'ARB', 'OP', 'ENS', 'METIS', 'ENA', 'ZRO'],
   },
   {
     id: 'MOVE_NEXT_L1',
@@ -126,7 +126,7 @@ const ECOSYSTEM_GRAPH = [
       'elon musk', 'dogecoin', 'doge', 'shiba', 'pepe', 'floki', 'memecoin', 'meme coin',
       'x payments',
     ],
-    sympathyAlts: ['DOGE', 'SHIB', 'PEPE', 'FLOKI', 'PNUT'],
+    sympathyAlts: ['DOGE', 'SHIB', 'PEPE', 'FLOKI', 'PNUT', 'TRUMP'],
   },
   {
     id: 'BNB_EXCHANGE_ECO',
@@ -257,14 +257,17 @@ async function fetchBinanceAnnouncements() {
     const items = [];
     const now = Date.now();
     for (const cat of catalogs) {
+      const isListingOrLaunchpool = [48, 49, 128].includes(Number(cat.catalogId));
+      const isDelisting = Number(cat.catalogId) === 161;
       for (const art of (cat.articles || []).slice(0, 8)) {
         const minutesAgo = art.releaseDate ? Math.max(1, Math.round((now - art.releaseDate) / 60000)) : 60;
+        if (minutesAgo > 180) continue; // Only fresh <= 3h official announcements
         items.push({
-          source: 'BinanceResmiDuyuru',
-          title: art.title,
+          source: isListingOrLaunchpool ? 'BinanceListingSniper' : 'BinanceResmiDuyuru',
+          title: isDelisting ? `[DELIST RISK] ${art.title}` : art.title,
           summary: art.title,
           minutesAgo,
-          sourceWeight: 1.8, // Official exchange announcements carry 1.8x catalyst weight
+          sourceWeight: isListingOrLaunchpool ? 2.6 : 1.9,
         });
       }
     }
@@ -331,9 +334,9 @@ async function scanAllNewsFeeds() {
       : bullHits - bearHits;
 
     if (netHeadlineSentiment <= 0.4) continue;
-    if (item.minutesAgo > 1440) continue;
+    if (item.minutesAgo > 180) continue; // Reject stale news older than 3 hours (180 mins)
 
-    const recencyWeight = item.minutesAgo <= 60 ? 1.8 : item.minutesAgo <= 180 ? 1.4 : 1.0;
+    const recencyWeight = item.minutesAgo <= 30 ? 2.0 : item.minutesAgo <= 90 ? 1.5 : 1.0;
     const srcWeight = item.sourceWeight || 1.0;
 
     for (const eco of ECOSYSTEM_GRAPH) {
@@ -587,11 +590,11 @@ function calcATRPct(klines, period = 14) {
 }
 
 /**
- * Alpha Engine #3 & #4: Whale Taker Buy Ratio + Bottom Bounce Candle Check
+ * Alpha Engine #3 & #4: Whale Taker Buy Ratio + 24h Institutional VWAP + Bottom Bounce Candle Check
  */
 function analyzeWhaleAndCandleFlow(klines) {
   if (!Array.isArray(klines) || klines.length < 3) {
-    return { takerBuyRatio: 0.5, isGreenBounce: false };
+    return { takerBuyRatio: 0.5, last1hTakerBuy: 0.5, isGreenBounce: false, aboveVwap: true, vwap24h: 0 };
   }
   // Analyze last 3 hours of taker buy volume vs total quote volume
   const recent = klines.slice(-3);
@@ -603,29 +606,45 @@ function analyzeWhaleAndCandleFlow(klines) {
   }
   const takerBuyRatio = totalQuoteVol > 0 ? Number((takerBuyQuoteVol / totalQuoteVol).toFixed(3)) : 0.5;
 
-  // Check if latest candle is turning green or bouncing strongly off its low
+  // Compute 24h Institutional VWAP (Volume-Weighted Average Price)
+  const slice24 = klines.slice(-24);
+  let sumBaseVol = 0;
+  let sumQuoteVol = 0;
+  for (const k of slice24) {
+    sumBaseVol += Number(k[5] || 0);
+    sumQuoteVol += Number(k[7] || 0);
+  }
   const last = klines[klines.length - 1];
+  const close = Number(last[4]);
+  const vwap24h = sumBaseVol > 0 ? Number((sumQuoteVol / sumBaseVol).toPrecision(5)) : close;
+  const aboveVwap = close >= vwap24h * 0.993;
+
+  // Latest 1h whale acceleration
+  const last1hQuote = Number(last[7] || 0);
+  const last1hTaker = Number(last[10] || 0);
+  const last1hTakerBuy = last1hQuote > 0 ? Number((last1hTaker / last1hQuote).toFixed(3)) : takerBuyRatio;
+
+  // Check if latest candle is turning green or bouncing strongly off its low
   const open = Number(last[1]);
   const high = Number(last[2]);
   const low = Number(last[3]);
-  const close = Number(last[4]);
   const range = Math.max(0.0000001, high - low);
   const closePositionInRange = (close - low) / range;
   const isGreenBounce = close >= open || closePositionInRange >= 0.55;
 
-  return { takerBuyRatio, isGreenBounce };
+  return { takerBuyRatio, last1hTakerBuy, isGreenBounce, aboveVwap, vwap24h };
 }
 
 async function main() {
   const t0 = Date.now();
   console.log('================================================================================');
-  console.log(`🚀 AltcoinNewsHunter v8.0 (TradingArena Hive-Mind) | 4-AI İttifakı + Balina Akışı`);
+  console.log(`🚀 AltcoinNewsHunter v10.0 (Zero-Risk Institutional Matrix) | 14 Veri Kaynağı + VWAP + Balina OI`);
   console.log('================================================================================\n');
 
   const allSymbols = getAllTrackedSymbols();
   const symbolsParam = JSON.stringify(allSymbols.map(s => `${s}USDT`));
 
-  const [newsScan, tickersRes, hlMetaRes] = await Promise.all([
+  const [newsScan, tickersRes, hlMetaRes, fapiPremRes, fngRes, globalRes] = await Promise.all([
     scanAllNewsFeeds(),
     fetchJson(`${BINANCE_API}/ticker/24hr?symbols=${encodeURIComponent(symbolsParam)}`, {}, 8000),
     fetchJson(HYPERLIQUID_API, {
@@ -633,7 +652,14 @@ async function main() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ type: 'metaAndAssetCtxs' }),
     }).catch(() => null),
+    fetchJson('https://www.binance.info/fapi/v1/premiumIndex', {}, 4000).catch(() => []),
+    fetchJson('https://api.alternative.me/fng/?limit=1', {}, 3000).catch(() => null),
+    fetchJson('https://api.coinpaprika.com/v1/global', {}, 3000).catch(() => null),
   ]);
+
+  const fearGreedVal = Number(fngRes?.data?.[0]?.value || 55);
+  const fearGreedClass = fngRes?.data?.[0]?.value_classification || 'Greed';
+  const btcDominancePct = Number(globalRes?.bitcoin_dominance_percentage || 57.4);
 
   const tickerMap = {};
   let greenCoinsCount = 0;
@@ -662,6 +688,22 @@ async function main() {
     });
   }
 
+  // Merge Binance Perpetual Futures Funding Rates & Spot-Futures Basis Spread
+  const basisSpreadMap = {};
+  for (const fp of Array.isArray(fapiPremRes) ? fapiPremRes : []) {
+    if (!fp.symbol || !fp.symbol.endsWith('USDT')) continue;
+    const sym = fp.symbol.replace(/USDT$/, '');
+    const fRate = Number((Number(fp.lastFundingRate || 0) * 100).toFixed(4));
+    if (hlMap[sym] === undefined || fRate < hlMap[sym]) {
+      hlMap[sym] = fRate;
+    }
+    const mark = Number(fp.markPrice || 0);
+    const index = Number(fp.indexPrice || 0);
+    if (mark > 0 && index > 0) {
+      basisSpreadMap[sym] = Number((((index - mark) / mark) * 100).toFixed(3));
+    }
+  }
+
   const qualifiedNewsCats = Object.values(newsScan.altCatalysts).filter(c => c.newsScore >= 1.5 && tickerMap[c.symbol]);
   const newsSyms = new Set(qualifiedNewsCats.map(c => c.symbol));
   const whaleRadarExtras = [];
@@ -676,12 +718,12 @@ async function main() {
       const range24 = Math.max(0.0000001, m.high24h - m.low24h);
       const posIn24h = (m.lastPrice - m.low24h) / range24;
       const lag24h = leaderMkt ? leaderMkt.change24hPct - m.change24hPct : 0;
-      const isCoiledDip = posIn24h <= 0.62 && m.change24hPct >= -5.5 && m.change24hPct <= 6.0;
+      const isCoiledDip = posIn24h <= 0.45 && m.change24hPct >= -4.5 && m.change24hPct <= 3.0;
       if (isShortSqueezeCandidate || isTrending || isCoiledDip) {
-        const dipBonus = Math.max(0, (0.65 - posIn24h) * 3.2);
-        const lagBonus = Math.max(0, Math.min(1.6, lag24h * 0.35));
+        const dipBonus = Math.max(0, (0.50 - posIn24h) * 2.5);
+        const lagBonus = Math.max(0, Math.min(1.2, lag24h * 0.30));
         const preScore = Number(
-          (4.4 + (isShortSqueezeCandidate ? 1.5 : 0) + (isTrending ? 1.6 : 0) + dipBonus + lagBonus).toFixed(2)
+          (3.2 + (isShortSqueezeCandidate ? 1.4 : 0) + (isTrending ? 1.5 : 0) + dipBonus + lagBonus).toFixed(2)
         );
         whaleRadarExtras.push({
           symbol: sym,
@@ -750,7 +792,7 @@ async function main() {
     const { adx, ema20AboveEma50, regime } = calcADXAndRegime(klines, closes);
     const hasRsiDivergence = detectRSIDivergence(closes);
     const { support, resistance, roomToResistancePct } = calcSupportResistance(klines, mkt.lastPrice);
-    const { takerBuyRatio, isGreenBounce } = analyzeWhaleAndCandleFlow(klines);
+    const { takerBuyRatio, last1hTakerBuy, isGreenBounce, aboveVwap, vwap24h } = analyzeWhaleAndCandleFlow(klines);
 
     const change1hPct = closes.length >= 2
       ? Number((((closes[closes.length - 1] - closes[closes.length - 2]) / closes[closes.length - 2]) * 100).toFixed(2))
@@ -760,15 +802,17 @@ async function main() {
       : 1;
     const volRatio = Number(((volumes[volumes.length - 1] || avgVol) / Math.max(0.0001, avgVol)).toFixed(2));
     const fundingHourlyPct = hlMap[sym] ?? 0;
+    const basisSpreadPct = basisSpreadMap[sym] ?? 0;
     const isTrending = newsScan.trendingSet.has(sym);
 
     const lagVsLeader24h = Number((leaderMkt.change24hPct - mkt.change24hPct).toFixed(2));
 
     // Anti-FOMO Guard + Bollinger Overextension + Whale Dump Rejection
-    // Allow up to RSI 68 when strong Whale Accumulation (>= 54%) or Negative-Funding Short-Squeeze is active
-    const maxAllowedRsi = takerBuyRatio >= 0.56 ? 69 : (takerBuyRatio >= 0.53 || fundingHourlyPct <= -0.002) ? 66 : 55;
-    if (rsi1h > maxAllowedRsi || bbPctB > 0.90 || change1hPct > 4.2 || mkt.change24hPct > 12.5) continue;
-    if (takerBuyRatio < 0.42) continue;
+    // Strictly cap RSI at 56 max (53 without strong whale/squeeze flow) so we never buy top/overbought coins
+    const isSyntheticRadar = ['WhaleOrderflowRadar', 'ShortSqueezeRadar'].includes(cat.headlines?.[0]?.source);
+    const maxAllowedRsi = isSyntheticRadar ? 50 : (takerBuyRatio >= 0.56 || fundingHourlyPct <= -0.002) ? 56 : 53;
+    if (rsi1h > maxAllowedRsi || bbPctB > 0.85 || change1hPct > 3.8 || mkt.change24hPct > 14.0) continue;
+    if (takerBuyRatio < (isSyntheticRadar ? 0.53 : 0.45)) continue;
 
     // TradingArena.ai 4-Model Hive-Mind Consensus
     const hiveMind = computeArenaHiveMind({
@@ -798,10 +842,13 @@ async function main() {
     if (bbPctB <= 0.35) totalScore += 5;
     if (isSqueeze) totalScore += 5;
 
-    // MACD + EMA20/50 + RSI Divergence Bonus (TradingArena Core Indicators)
+    // MACD + EMA20/50 + RSI Divergence + VWAP Institutional Floor Bonus
     if (macdBullishTurn) totalScore += 5;
     if (ema20AboveEma50) totalScore += 4;
     if (hasRsiDivergence) totalScore += 6;
+    if (aboveVwap) totalScore += 4;
+    if (last1hTakerBuy >= 0.56) totalScore += 5; // Fresh 1h whale acceleration!
+    if (basisSpreadPct >= 0.08 && fundingHourlyPct < 0) totalScore += 5; // Spot premium + Futures discount short-squeeze
 
     // TradingArena 4-AI Hive-Mind Consensus Bonus
     if (hiveMind.aiConsensusCount === 4) totalScore += 12;
@@ -837,6 +884,8 @@ async function main() {
       freshestMinutesAgo: cat.freshestMinutesAgo,
       headlines: cat.headlines.slice(0, 2),
       lastPrice: mkt.lastPrice,
+      vwap24h,
+      aboveVwap,
       change1hPct,
       change24hPct: mkt.change24hPct,
       lagVsLeader24h,
@@ -857,10 +906,12 @@ async function main() {
       aiConsensusModels: hiveMind.aiConsensusModels,
       aiConsensusLabel: hiveMind.aiConsensusLabel,
       takerBuyRatioPct: Number((takerBuyRatio * 100).toFixed(1)),
+      last1hTakerBuyPct: Number((last1hTakerBuy * 100).toFixed(1)),
       isGreenBounce,
       isTrending,
       volRatio,
       fundingHourlyPct,
+      basisSpreadPct,
       totalScore: Number(totalScore.toFixed(1)),
       tpPct,
       slPct,
@@ -869,6 +920,37 @@ async function main() {
     });
   }
 
+  scoredOpportunities.sort((a, b) => b.totalScore - a.totalScore);
+
+  // Enrich Top 10 candidates with Binance Institutional Top 20% Whale Long/Short Ratio & 15m Open Interest Flow
+  const top10Slice = scoredOpportunities.slice(0, 10);
+  await Promise.all(
+    top10Slice.map(async item => {
+      try {
+        const [lsRes, oiRes] = await Promise.all([
+          fetchJson(`https://www.binance.info/futures/data/topLongShortPositionRatio?symbol=${item.symbol}USDT&period=1h&limit=2`, {}, 2500).catch(() => []),
+          fetchJson(`https://www.binance.info/futures/data/openInterestHist?symbol=${item.symbol}USDT&period=15m&limit=2`, {}, 2500).catch(() => []),
+        ]);
+        if (Array.isArray(lsRes) && lsRes.length > 0) {
+          const latestLs = lsRes[lsRes.length - 1];
+          const topWhaleLongPct = Number((Number(latestLs.longAccount || 0.5) * 100).toFixed(1));
+          item.topWhaleLongPct = topWhaleLongPct;
+          if (topWhaleLongPct >= 62) item.totalScore = Number((item.totalScore + 7).toFixed(1));
+          else if (topWhaleLongPct >= 55) item.totalScore = Number((item.totalScore + 4).toFixed(1));
+          else if (topWhaleLongPct < 42) item.totalScore = Number((item.totalScore - 8).toFixed(1));
+        }
+        if (Array.isArray(oiRes) && oiRes.length >= 2) {
+          const oi0 = Number(oiRes[0].sumOpenInterestValue || 0);
+          const oi1 = Number(oiRes[oiRes.length - 1].sumOpenInterestValue || 0);
+          if (oi0 > 0) {
+            const oiChg15mPct = Number((((oi1 - oi0) / oi0) * 100).toFixed(2));
+            item.oiChange15mPct = oiChg15mPct;
+            if (oiChg15mPct >= 0.4) item.totalScore = Number((item.totalScore + 6).toFixed(1));
+          }
+        }
+      } catch {}
+    })
+  );
   scoredOpportunities.sort((a, b) => b.totalScore - a.totalScore);
 
   const selectedTop4 = [];
@@ -991,11 +1073,13 @@ async function main() {
   }
 
   console.log(`📰 [Kaynaklar (${newsScan.totalHeadlines} Haber)]: ${newsScan.activeFeeds.join(' | ')}`);
-  console.log(`🛡️ [BTC Kalkanı]: 1s BTC %${btc1hChangePct} (${btcCrashAlert ? '🚨 FREN' : '✅ GÜVENLİ'}) | 🌍 Altcoin İştahı: %${marketBreadthPct} Yeşil`);
+  console.log(`🛡️ [BTC Kalkanı]: 1s BTC %${btc1hChangePct} (${btcCrashAlert ? '🚨 FREN' : '✅ GÜVENLİ'}) | 🌍 Altcoin İştahı: %${marketBreadthPct} Yeşil | 🧭 Korku/Açgözlülük: ${fearGreedVal} (${fearGreedClass}) | BTC Dom: %${btcDominancePct}`);
 
   selectedTop4.forEach((item, idx) => {
+    const whaleTag = item.topWhaleLongPct ? ` | 🏦 Dev Balina Long: %${item.topWhaleLongPct}` : '';
+    const oiTag = item.oiChange15mPct !== undefined ? ` | 📈 15dk OI: %${item.oiChange15mPct}` : '';
     console.log(
-      `\n${idx + 1}. 🎯 ${item.symbol} (Skor: ${item.totalScore}/100 | 🤖 ${item.aiConsensusLabel}) | RSI: ${item.rsi1h}${item.hasRsiDivergence ? ' (Uyumsuzluk ✅)' : ''} | 🐋 Balina: %${item.takerBuyRatioPct} | Destek/Direnç: ${item.support}/${item.resistance}`
+      `\n${idx + 1}. 🎯 ${item.symbol} (Skor: ${item.totalScore}/100 | 🤖 ${item.aiConsensusLabel}) | RSI: ${item.rsi1h}${item.hasRsiDivergence ? ' (Uyumsuzluk ✅)' : ''} | 🐋 Spot Alım: %${item.takerBuyRatioPct}${whaleTag}${oiTag} | VWAP: ${item.vwap24h}`
     );
     if (item.liveLlmReason) {
       console.log(`   🧠 [Gerçek API AI Konseyi (${item.liveLlmDecision} Ort. Güven %${item.liveLlmConfidence})]: ${item.liveLlmReason}`);
@@ -1013,6 +1097,9 @@ async function main() {
     btc1hChangePct,
     btcCrashAlert,
     marketBreadthPct,
+    fearGreedVal,
+    fearGreedClass,
+    btcDominancePct,
     totalHeadlinesScanned: newsScan.totalHeadlines,
     activeFeeds: newsScan.activeFeeds,
     top4AltcoinPicks: selectedTop4,

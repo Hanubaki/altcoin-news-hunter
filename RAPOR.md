@@ -1,18 +1,18 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 20.10.2026 19:46:04
+**Son Güncelleme:** 21.10.2026 06:52:35
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.031,33 TL`**
-* **Toplam Net Kâr / Zarar:** **`+31,33 TL` (`+%3.13`)**
-* **Boşta Bekleyen Nakit:** `774,67 TL`
-* **Coinde Olan Para:** `256,66 TL`
-* **Başarılı Satış / Zarar Kes:** `4 Kârlı Satış / 0 Zarar Kes`
-* **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: BNB: 0.0004 | CAKE: 2.3522 | ETHW: 0.0010 | LDO: 0.0063 | SEI: 0.0926 | TRY: 774.6728)`
+* **Şu Anki Toplam Para:** **`1.036,85 TL`**
+* **Toplam Net Kâr / Zarar:** **`+36,85 TL` (`+%3.69`)**
+* **Boşta Bekleyen Nakit:** `2,74 TL`
+* **Coinde Olan Para:** `1.012,97 TL`
+* **Başarılı Satış / Zarar Kes:** `12 Kârlı Satış / 1 Zarar Kes`
+* **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BNB: 0.0004 | CAKE: 0.0022 | EDU: 63.8720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 40.9180 | ICP: 0.0002 | JASMY: 1692.6080 | LDO: 0.0063 | RSR: 0.9660 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TIA: 7.0958 | TRY: 2.7455)`
 
 ---
 
@@ -20,10 +20,19 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
-| **LDO** | `251,90 TL` | `264,34 TL` | **`+12,44 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%5.2) |
-| **SEI** | `159,94 TL` | `167,28 TL` | **`+7,34 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%5.04) |
-| **CAKE** | `167,93 TL` | `171,99 TL` | **`+4,06 TL`** | 💰 1. KADEME (%40) SIFIR RİSK KÂR AL (+%2.82) |
-| **LDO** | `167,93 TL` | `172,75 TL` | **`+4,82 TL`** | 💰 1. KADEME (%40) SIFIR RİSK KÂR AL (+%3.14) |
+| **STX** | `167,87 TL` | `172,26 TL` | **`+4,39 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%2.61) |
+| **SAND** | `191,98 TL` | `187,50 TL` | **`-4,47 TL`** | 🛡️ ATR KORUMA KALKANI (%-2.33) |
+| **STX** | `90,03 TL` | `93,51 TL` | **`+3,48 TL`** | 💰 1. KADEME (%35) SIFIR RİSK KÂR AL (+%3.88) |
+| **FET** | `340,92 TL` | `341,80 TL` | **`+0,87 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26) |
+| **RSR** | `423,22 TL` | `424,11 TL` | **`+0,89 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.21) |
+| **ARB** | `424,07 TL` | `425,19 TL` | **`+1,12 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26) |
+| **AVAX** | `429,57 TL` | `430,10 TL` | **`+0,53 TL`** | ⚡ AKILLI ROTASYON (ARB [122p] Fırsatına Geçildi) |
+| **ICP** | `340,58 TL` | `341,84 TL` | **`+1,25 TL`** | ⚡ AKILLI ROTASYON (FET [106.7p] Fırsatına Geçildi) |
+| **CAKE** | `251,39 TL` | `257,40 TL` | **`+6,01 TL`** | 💰 HIZLI KÂR HASADI & ROTASYON (Yavaşlayan Kârlı Coin Cebe Alındı +%2.59) |
+| **LDO** | `251,39 TL` | `263,80 TL` | **`+12,41 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%5.2) |
+| **SEI** | `159,62 TL` | `166,95 TL` | **`+7,33 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%5.04) |
+| **CAKE** | `167,59 TL` | `171,64 TL` | **`+4,05 TL`** | 💰 1. KADEME (%40) SIFIR RİSK KÂR AL (+%2.82) |
+| **LDO** | `167,59 TL` | `172,40 TL` | **`+4,81 TL`** | 💰 1. KADEME (%40) SIFIR RİSK KÂR AL (+%3.14) |
 
 ---
 
@@ -31,7 +40,10 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **CAKE** | `251,90 TL` | `256,66 TL` | **`+5,80 TL (%2.31)`** | 🔒 1. Kademe Cebimizde, Kalan %60 Sıfır Riskle +%7,5 Hedefinde |
+| **EDU** | `230,15 TL` | `231,09 TL` | **`+0,95 TL (%0.41)`** | 🛡️ ATR Kalkanı (-%2.76 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **TIA (VURGUN)** | `217,44 TL` | `214,81 TL` | **`-2,63 TL (%-1.21)`** | 🎰 KORUMALI VURGUN SLOTU (-%3.2 ATR Kalkanı | Hedef: +%18) |
+| **JASMY** | `400,19 TL` | `398,52 TL` | **`-1,67 TL (%-0.42)`** | 🛡️ ATR Kalkanı (-%3.2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **HBAR** | `168,38 TL` | `168,55 TL` | **`+0,16 TL (%0.1)`** | 🛡️ ATR Kalkanı (-%2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
 
 ---
 
