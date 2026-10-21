@@ -1,18 +1,18 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 21.10.2026 06:52:35
+**Son Güncelleme:** 21.10.2026 07:53:40
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.036,85 TL`**
-* **Toplam Net Kâr / Zarar:** **`+36,85 TL` (`+%3.69`)**
+* **Şu Anki Toplam Para:** **`1.008,38 TL`**
+* **Toplam Net Kâr / Zarar:** **`+8,38 TL` (`+%0.84`)**
 * **Boşta Bekleyen Nakit:** `2,74 TL`
-* **Coinde Olan Para:** `1.012,97 TL`
+* **Coinde Olan Para:** `1.005,64 TL`
 * **Başarılı Satış / Zarar Kes:** `12 Kârlı Satış / 1 Zarar Kes`
-* **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BNB: 0.0004 | CAKE: 0.0022 | EDU: 63.8720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 40.9180 | ICP: 0.0002 | JASMY: 1692.6080 | LDO: 0.0063 | RSR: 0.9660 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TIA: 7.0958 | TRY: 2.7455)`
+* **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Bağlantı Bekleniyor`
 
 ---
 
@@ -40,10 +40,10 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **EDU** | `230,15 TL` | `231,09 TL` | **`+0,95 TL (%0.41)`** | 🛡️ ATR Kalkanı (-%2.76 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **TIA (VURGUN)** | `217,44 TL` | `214,81 TL` | **`-2,63 TL (%-1.21)`** | 🎰 KORUMALI VURGUN SLOTU (-%3.2 ATR Kalkanı | Hedef: +%18) |
-| **JASMY** | `400,19 TL` | `398,52 TL` | **`-1,67 TL (%-0.42)`** | 🛡️ ATR Kalkanı (-%3.2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **HBAR** | `168,38 TL` | `168,55 TL` | **`+0,16 TL (%0.1)`** | 🛡️ ATR Kalkanı (-%2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **EDU** | `230,15 TL` | `227,94 TL` | **`-2,21 TL (%-0.96)`** | 🛡️ ATR Kalkanı (-%2.76 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **TIA (VURGUN)** | `217,44 TL` | `215,19 TL` | **`-2,24 TL (%-1.03)`** | 🎰 KORUMALI VURGUN SLOTU (-%3.2 ATR Kalkanı | Hedef: +%18) |
+| **JASMY** | `400,19 TL` | `394,34 TL` | **`-5,85 TL (%-1.46)`** | 🛡️ ATR Kalkanı (-%3.2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **HBAR** | `168,38 TL` | `168,16 TL` | **`-0,22 TL (%-0.13)`** | 🛡️ ATR Kalkanı (-%2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
 
 ---
 
