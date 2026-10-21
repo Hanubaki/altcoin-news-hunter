@@ -1169,7 +1169,8 @@ async function runTradingCycle() {
     const isAntiMeltdownActive = consecutiveLosses >= 2 || drawdownFromPeakPct >= 4.0;
 
     // Idle Cash Self-Healing Watchdog: If cash >= 1.50 USDT (~75 TL) sits idle > 15 mins, relax ecosystem/orderbook filters automatically
-    if (state.cashUsdt >= 1.50 && state.openPositions.filter(p => !p.isMoonshot).length < cfg.MAX_OPEN_POSITIONS) {
+    const effectiveMaxSlots = state.cashUsdt >= 3.00 ? cfg.MAX_OPEN_POSITIONS + 1 : cfg.MAX_OPEN_POSITIONS;
+    if (state.cashUsdt >= 1.50 && state.openPositions.filter(p => !p.isMoonshot).length < effectiveMaxSlots) {
       if (!state.cashIdleSince) state.cashIdleSince = nowMs;
     } else {
       state.cashIdleSince = null;
@@ -1177,7 +1178,9 @@ async function runTradingCycle() {
     const isCashIdleTooLong = Boolean(state.cashIdleSince && nowMs - state.cashIdleSince >= 15 * 60 * 1000);
 
     for (const cand of candidates) {
-      if (state.openPositions.filter(p => !p.isMoonshot).length >= cfg.MAX_OPEN_POSITIONS) break;
+      const curCoreCount = state.openPositions.filter(p => !p.isMoonshot).length;
+      const maxCoreAllowed = state.cashUsdt >= 3.00 ? cfg.MAX_OPEN_POSITIONS + 1 : cfg.MAX_OPEN_POSITIONS;
+      if (curCoreCount >= maxCoreAllowed) break;
       if (state.cashUsdt < 1.50) break;
       if (heldSymbols.has(cand.symbol)) continue;
       // Only skip if AI explicitly flagged WAIT with ultra-high trap confidence (>=92) AND whale flow is weak (<53%)
@@ -1227,9 +1230,10 @@ async function runTradingCycle() {
         continue;
       }
 
-      // Engine #8 + #13: Auto-Compounding Sizing with Anti-Meltdown Throttle (cuts risk by 40% during a 2-loss streak)
+      // Engine #8 + #13: Auto-Compounding Sizing — never leave stranded idle cash on the final slot!
+      const isFinalSlot = curCoreCount >= cfg.MAX_OPEN_POSITIONS - 1;
       const baseConvictionPct = cand.totalScore >= 80 ? 0.42 : cand.totalScore >= 68 ? 0.36 : 0.32;
-      const convictionPct = isAntiMeltdownActive ? Number((baseConvictionPct * 0.6).toFixed(3)) : baseConvictionPct;
+      const convictionPct = isFinalSlot ? 0.48 : isAntiMeltdownActive ? Number((baseConvictionPct * 0.78).toFixed(3)) : baseConvictionPct;
       const targetAllocUsdt = Math.floor(currentTotalEquity * convictionPct * 100) / 100;
       const availCashUsdt = Math.floor(Math.max(0, state.cashUsdt) * 100) / 100;
       const costUsdt = Number(Math.min(targetAllocUsdt, availCashUsdt).toFixed(2));
