@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-21T07:40:09.152Z",
+  "updatedAt": "2026-10-21T08:03:30.387Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.2388,
@@ -25,7 +25,7 @@
       "obImbalance": 0.1,
       "entryTime": "2026-10-20T23:03:44.825Z",
       "entryPrice": 0.073,
-      "currentPrice": 0.0724,
+      "currentPrice": 0.0726,
       "highestPrice": 0.0733,
       "qty": 63.872,
       "costUsdt": 4.6627,
@@ -38,10 +38,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0383,
-      "unrealizedPnlPct": -0.82,
-      "currentPriceTry": 3.5773,
-      "currentValueTry": 228.49
+      "unrealizedPnlUsdt": -0.0255,
+      "unrealizedPnlPct": -0.55,
+      "currentPriceTry": 3.5872,
+      "currentValueTry": 229.12
     },
     {
       "id": "moon_1792537703047_TIA",
@@ -59,7 +59,7 @@
       "obImbalance": -0.04,
       "entryTime": "2026-10-20T23:08:23.047Z",
       "entryPrice": 0.6208,
-      "currentPrice": 0.6359,
+      "currentPrice": 0.6385,
       "highestPrice": 0.6418,
       "qty": 7.09578,
       "costUsdt": 4.4051,
@@ -72,10 +72,10 @@
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": true,
-      "unrealizedPnlUsdt": 0.1071,
-      "unrealizedPnlPct": 2.43,
-      "currentPriceTry": 31.4198,
-      "currentValueTry": 222.95
+      "unrealizedPnlUsdt": 0.1256,
+      "unrealizedPnlPct": 2.85,
+      "currentPriceTry": 31.5483,
+      "currentValueTry": 223.86
     },
     {
       "id": "pos_1792549300584_JASMY",
@@ -125,8 +125,8 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-21T03:08:28.604Z",
       "entryPrice": 0.08337,
-      "currentPrice": 0.08436,
-      "highestPrice": 0.08467,
+      "currentPrice": 0.08456,
+      "highestPrice": 0.08471,
       "qty": 40.918,
       "costUsdt": 3.4113,
       "costTry": 168.55,
@@ -138,10 +138,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0405,
-      "unrealizedPnlPct": 1.19,
-      "currentPriceTry": 4.1682,
-      "currentValueTry": 170.56
+      "unrealizedPnlUsdt": 0.0487,
+      "unrealizedPnlPct": 1.43,
+      "currentPriceTry": 4.1781,
+      "currentValueTry": 170.96
     }
   ],
   "closedTrades": [
@@ -554,6 +554,8 @@
     }
   ],
   "recentLogs": [
+    "[11:01:05] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
+    "[10:40:44] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[09:51:55] ⚠️ Haber tarayıcı uyarısı: fetch failed",
     "[09:20:40] ⚖️ [Tahta Kalkanı - Vurgun] AR önünde satış duvarı (-0.17) var, pas geçildi.",
     "[09:19:54] ⚖️ [Tahta Kalkanı - Vurgun] AR önünde satış duvarı (-0.3) var, pas geçildi.",
@@ -591,14 +593,12 @@
     "[01:57:27] 🔧 [OTONOM MÜFETTİŞ] Cüzdandaki RSR ($8.60 = 424.59 TL) otomatik olarak açık işlemlere senkronize edildi.",
     "[01:57:25] 🏁 [POZİSYON KAPANDI] RSR @ $0.001907 | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26) | Net: 1,11 TL",
     "[22:04:57] 🟢 [OTOMATİK ALIM] RSR (425,25 TL) @ $0.001902 | Skor: 102 | RSI: 55.31 | Balina: %54.7 | SL: -%2.76",
-    "[22:04:10] 🏁 [POZİSYON KAPANDI] ARB @ $0.1897 | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26) | Net: -0,79 TL",
-    "[21:01:17] 🟢 [OTOMATİK ALIM] ARB (425,72 TL) @ $0.1892 | Skor: 117 | RSI: 31.18 | Balina: %51.9 | SL: -%3.13",
-    "[21:00:36] ⚡ [AKILLI ROTASYON] AVAX kapatıldı, yerine 122 puanlık dev fırsat (ARB) alınıyor!"
+    "[22:04:10] 🏁 [POZİSYON KAPANDI] ARB @ $0.1897 | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26) | Net: -0,79 TL"
   ],
-  "totalEquityUsdt": 21.2166,
-  "totalEquityTry": 1048.31,
-  "totalPnlUsdt": 0.9777,
-  "totalPnlPct": 4.83,
+  "totalEquityUsdt": 21.2564,
+  "totalEquityTry": 1050.28,
+  "totalPnlUsdt": 1.0176,
+  "totalPnlPct": 5.03,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286
@@ -608,104 +608,8 @@
   "highWaterMarkUsdt": 20.8456,
   "cashIdleSince": null,
   "usdTryRate": 49.41,
-  "totalPnlTry": 48.31,
+  "totalPnlTry": 50.28,
   "equityHistory": [
-    {
-      "t": "09:03",
-      "v": 1028.38
-    },
-    {
-      "t": "09:04",
-      "v": 1028.31
-    },
-    {
-      "t": "09:05",
-      "v": 1028.59
-    },
-    {
-      "t": "09:06",
-      "v": 1028.15
-    },
-    {
-      "t": "09:07",
-      "v": 1029.45
-    },
-    {
-      "t": "09:08",
-      "v": 1029.66
-    },
-    {
-      "t": "09:09",
-      "v": 1029.45
-    },
-    {
-      "t": "09:10",
-      "v": 1029.41
-    },
-    {
-      "t": "09:11",
-      "v": 1029.2
-    },
-    {
-      "t": "09:12",
-      "v": 1029.36
-    },
-    {
-      "t": "09:13",
-      "v": 1029.62
-    },
-    {
-      "t": "09:14",
-      "v": 1030.6
-    },
-    {
-      "t": "09:24",
-      "v": 1033.82
-    },
-    {
-      "t": "09:26",
-      "v": 1032.43
-    },
-    {
-      "t": "09:27",
-      "v": 1032.77
-    },
-    {
-      "t": "09:28",
-      "v": 1032.57
-    },
-    {
-      "t": "09:29",
-      "v": 1032.44
-    },
-    {
-      "t": "09:30",
-      "v": 1032.62
-    },
-    {
-      "t": "09:31",
-      "v": 1034.05
-    },
-    {
-      "t": "09:32",
-      "v": 1034.15
-    },
-    {
-      "t": "09:33",
-      "v": 1034.41
-    },
-    {
-      "t": "09:34",
-      "v": 1034.5
-    },
-    {
-      "t": "09:34",
-      "v": 1035.41
-    },
-    {
-      "t": "09:35",
-      "v": 1035.49
-    },
     {
       "t": "09:36",
       "v": 1035.89
@@ -993,6 +897,102 @@
     {
       "t": "10:40",
       "v": 1048.31
+    },
+    {
+      "t": "10:41",
+      "v": 1046.84
+    },
+    {
+      "t": "10:42",
+      "v": 1046.44
+    },
+    {
+      "t": "10:43",
+      "v": 1046.59
+    },
+    {
+      "t": "10:44",
+      "v": 1047.1
+    },
+    {
+      "t": "10:45",
+      "v": 1047.7
+    },
+    {
+      "t": "10:46",
+      "v": 1047.53
+    },
+    {
+      "t": "10:47",
+      "v": 1047.46
+    },
+    {
+      "t": "10:48",
+      "v": 1048.12
+    },
+    {
+      "t": "10:49",
+      "v": 1047.67
+    },
+    {
+      "t": "10:50",
+      "v": 1047.96
+    },
+    {
+      "t": "10:51",
+      "v": 1048.33
+    },
+    {
+      "t": "10:52",
+      "v": 1048.54
+    },
+    {
+      "t": "10:52",
+      "v": 1049.11
+    },
+    {
+      "t": "10:53",
+      "v": 1049.62
+    },
+    {
+      "t": "10:54",
+      "v": 1028.91
+    },
+    {
+      "t": "10:55",
+      "v": 1050.55
+    },
+    {
+      "t": "10:56",
+      "v": 1049.55
+    },
+    {
+      "t": "10:57",
+      "v": 1049.23
+    },
+    {
+      "t": "10:58",
+      "v": 1050
+    },
+    {
+      "t": "10:59",
+      "v": 1049.93
+    },
+    {
+      "t": "11:00",
+      "v": 1049.99
+    },
+    {
+      "t": "11:01",
+      "v": 1050.29
+    },
+    {
+      "t": "11:02",
+      "v": 1050.03
+    },
+    {
+      "t": "11:03",
+      "v": 1050.28
     }
   ],
   "walletAssetsMap": {
@@ -1014,6 +1014,6 @@
     "TIA": 7.0958,
     "TRY": 2.7455
   },
-  "dustAssetsUsdt": 0.4311,
-  "dustAssetsTry": 21.3
+  "dustAssetsUsdt": 0.4315,
+  "dustAssetsTry": 21.32
 }
