@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-21T06:24:39.820Z",
+  "updatedAt": "2026-10-21T06:40:03.460Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.2388,
@@ -59,8 +59,8 @@
       "obImbalance": -0.04,
       "entryTime": "2026-10-20T23:08:23.047Z",
       "entryPrice": 0.6208,
-      "currentPrice": 0.6234,
-      "highestPrice": 0.6254,
+      "currentPrice": 0.6266,
+      "highestPrice": 0.6268,
       "qty": 7.09578,
       "costUsdt": 4.4051,
       "costTry": 217.66,
@@ -72,10 +72,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0184,
-      "unrealizedPnlPct": 0.42,
-      "currentPriceTry": 30.8022,
-      "currentValueTry": 218.57
+      "unrealizedPnlUsdt": 0.0412,
+      "unrealizedPnlPct": 0.93,
+      "currentPriceTry": 30.9603,
+      "currentValueTry": 219.69
     },
     {
       "id": "pos_1792549300584_JASMY",
@@ -92,7 +92,7 @@
       "obImbalance": 0.04,
       "entryTime": "2026-10-21T02:21:40.584Z",
       "entryPrice": 0.00479,
-      "currentPrice": 0.00472,
+      "currentPrice": 0.00473,
       "highestPrice": 0.00479,
       "qty": 1692.608,
       "costUsdt": 8.1076,
@@ -105,10 +105,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.1185,
-      "unrealizedPnlPct": -1.46,
-      "currentPriceTry": 0.2332,
-      "currentValueTry": 394.74
+      "unrealizedPnlUsdt": -0.1016,
+      "unrealizedPnlPct": -1.25,
+      "currentPriceTry": 0.2337,
+      "currentValueTry": 395.58
     },
     {
       "id": "pos_1792552108604_HBAR",
@@ -125,8 +125,8 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-21T03:08:28.604Z",
       "entryPrice": 0.08337,
-      "currentPrice": 0.08331,
-      "highestPrice": 0.08355,
+      "currentPrice": 0.08347,
+      "highestPrice": 0.08358,
       "qty": 40.918,
       "costUsdt": 3.4113,
       "costTry": 168.55,
@@ -138,10 +138,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0025,
-      "unrealizedPnlPct": -0.07,
-      "currentPriceTry": 4.1163,
-      "currentValueTry": 168.43
+      "unrealizedPnlUsdt": 0.0041,
+      "unrealizedPnlPct": 0.12,
+      "currentPriceTry": 4.1243,
+      "currentValueTry": 168.76
     }
   ],
   "closedTrades": [
@@ -595,10 +595,10 @@
     "[21:00:36] ⚡ [AKILLI ROTASYON] AVAX kapatıldı, yerine 122 puanlık dev fırsat (ARB) alınıyor!",
     "[20:56:48] 🟢 [OTOMATİK ALIM] FET (342,35 TL) @ $0.1955 | Skor: 101.7 | RSI: 55.22 | Balina: %52.6 | SL: -%2.84"
   ],
-  "totalEquityUsdt": 20.9233,
-  "totalEquityTry": 1033.82,
-  "totalPnlUsdt": 0.6845,
-  "totalPnlPct": 3.38,
+  "totalEquityUsdt": 20.97,
+  "totalEquityTry": 1036.13,
+  "totalPnlUsdt": 0.7312,
+  "totalPnlPct": 3.61,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286
@@ -608,76 +608,8 @@
   "highWaterMarkUsdt": 20.8128,
   "cashIdleSince": null,
   "usdTryRate": 49.41,
-  "totalPnlTry": 33.82,
+  "totalPnlTry": 36.13,
   "equityHistory": [
-    {
-      "t": "06:39",
-      "v": 1035.11
-    },
-    {
-      "t": "06:40",
-      "v": 1035.14
-    },
-    {
-      "t": "06:41",
-      "v": 1035.11
-    },
-    {
-      "t": "06:42",
-      "v": 1035.05
-    },
-    {
-      "t": "06:43",
-      "v": 1034.9
-    },
-    {
-      "t": "06:44",
-      "v": 1035.19
-    },
-    {
-      "t": "06:45",
-      "v": 1035.5
-    },
-    {
-      "t": "06:46",
-      "v": 1035.78
-    },
-    {
-      "t": "06:47",
-      "v": 1036.13
-    },
-    {
-      "t": "06:48",
-      "v": 1036.42
-    },
-    {
-      "t": "06:51",
-      "v": 1036.77
-    },
-    {
-      "t": "06:52",
-      "v": 1036.85
-    },
-    {
-      "t": "07:53",
-      "v": 1008.38
-    },
-    {
-      "t": "07:54",
-      "v": 1008.27
-    },
-    {
-      "t": "07:55",
-      "v": 1008.61
-    },
-    {
-      "t": "07:56",
-      "v": 1010.03
-    },
-    {
-      "t": "08:01",
-      "v": 1031.5
-    },
     {
       "t": "08:02",
       "v": 1032.67
@@ -993,6 +925,74 @@
     {
       "t": "09:24",
       "v": 1033.82
+    },
+    {
+      "t": "09:26",
+      "v": 1032.43
+    },
+    {
+      "t": "09:27",
+      "v": 1032.77
+    },
+    {
+      "t": "09:28",
+      "v": 1032.57
+    },
+    {
+      "t": "09:29",
+      "v": 1032.44
+    },
+    {
+      "t": "09:30",
+      "v": 1032.62
+    },
+    {
+      "t": "09:31",
+      "v": 1034.05
+    },
+    {
+      "t": "09:32",
+      "v": 1034.15
+    },
+    {
+      "t": "09:33",
+      "v": 1034.41
+    },
+    {
+      "t": "09:34",
+      "v": 1034.5
+    },
+    {
+      "t": "09:34",
+      "v": 1035.41
+    },
+    {
+      "t": "09:35",
+      "v": 1035.49
+    },
+    {
+      "t": "09:36",
+      "v": 1035.89
+    },
+    {
+      "t": "09:37",
+      "v": 1035.9
+    },
+    {
+      "t": "09:37",
+      "v": 1037.29
+    },
+    {
+      "t": "09:38",
+      "v": 1037.33
+    },
+    {
+      "t": "09:39",
+      "v": 1036.6
+    },
+    {
+      "t": "09:40",
+      "v": 1036.13
     }
   ],
   "walletAssetsMap": {
@@ -1014,6 +1014,6 @@
     "TIA": 7.0958,
     "TRY": 2.7455
   },
-  "dustAssetsUsdt": 0.4282,
-  "dustAssetsTry": 21.16
+  "dustAssetsUsdt": 0.4289,
+  "dustAssetsTry": 21.19
 }
