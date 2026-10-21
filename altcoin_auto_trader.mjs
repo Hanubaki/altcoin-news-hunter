@@ -306,8 +306,103 @@ function runAdaptiveLearningEngine(state) {
   return state.adaptiveMemory;
 }
 
+function runPersonalCfoEngine(state) {
+  if (!state.personalFinance) {
+    state.personalFinance = {
+      bankName: 'İş Bankası (İşCep & Gmail Bildirim Entegreli)',
+      isbankBalanceTry: 0,
+      expectedMonthlyIncomes: [
+        { name: 'Staj Maaşı', amountTry: 8000 },
+        { name: 'Mevcut Burs', amountTry: 3000 },
+        { name: 'Yeni Başvurulan Burs', amountTry: 3500 },
+      ],
+      monthlySafeLivingReserveTry: 5500,
+      weeklySpendLimitTry: 1375,
+      weeklySpentTry: 0,
+      monthlyTotalInTry: 0,
+      monthlyTotalOutTry: 0,
+      nextBotDcaTrancheTry: 2000,
+      recentCashflows: [],
+    };
+  }
+  const pf = state.personalFinance;
+  const binanceEquityTry = Number(state.totalEquityTry || (state.totalEquityUsdt || 0) * USD_TRY_RATE || 1000);
+  const totalNetWorthTry = Number((Number(pf.isbankBalanceTry || 0) + binanceEquityTry).toFixed(2));
+  const totalExpectedMonthlyTry = (pf.expectedMonthlyIncomes || []).reduce((s, i) => s + Number(i.amountTry || 0), 0);
+  const winRatePct = state.winCount + state.lossCount > 0
+    ? Number(((state.winCount / (state.winCount + state.lossCount)) * 100).toFixed(1))
+    : 100;
+  const adaptiveCount = state.adaptiveMemory?.totalAnalyzedTrades || (state.closedTrades || []).length;
+
+  const tips = [];
+  if (adaptiveCount < 35) {
+    tips.push(
+      `📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %${winRatePct} isabetle (${state.winCount}G/${state.lossCount}Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut ${binanceEquityTry.toFixed(2)} TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık ${pf.nextBotDcaTrancheTry} TL dilimlerle ("Performans Ödülü" usulü) ekleme yap.`
+    );
+  } else {
+    tips.push(
+      `🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %${winRatePct} başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten ${pf.nextBotDcaTrancheTry} TL dilimi Binance TR kasasına aktarabilirsin.`
+    );
+  }
+
+  if (pf.weeklySpentTry > pf.weeklySpendLimitTry * 0.85) {
+    tips.push(
+      `⚠️ [Harcama Uyarısı]: Bu hafta İş Bankası'ndan ${pf.weeklySpentTry.toFixed(2)} TL harcadın (Haftalık limit: ${pf.weeklySpendLimitTry} TL). Haftalık yatırım dilimini korumak için keyfi harcamalarda frene bas!`
+    );
+  } else {
+    tips.push(
+      `🛡️ [Nakit Kalkanı]: Aylık ${totalExpectedMonthlyTry.toLocaleString('tr-TR')} TL beklenen gelirinin ${pf.monthlySafeLivingReserveTry.toLocaleString('tr-TR')} TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan ${Math.max(0, totalExpectedMonthlyTry - pf.monthlySafeLivingReserveTry).toLocaleString('tr-TR')} TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız.`
+    );
+  }
+
+  pf.totalNetWorthTry = totalNetWorthTry;
+  pf.totalExpectedMonthlyTry = totalExpectedMonthlyTry;
+  pf.cfoTips = tips;
+  pf.updatedAt = new Date().toISOString();
+  return pf;
+}
+
+function recordPersonalCashflow(type, amountRaw, noteRaw = '') {
+  const cfg = loadEnv();
+  const state = loadPortfolioState(cfg);
+  const pf = runPersonalCfoEngine(state);
+  const amt = Math.abs(Number(String(amountRaw || '0').replace(',', '.')));
+  if (!amt || Number.isNaN(amt)) return { ok: false, msg: 'Geçerli bir TL tutarı girin.', state };
+  const note = String(noteRaw || (type === 'IN' ? 'İş Bankası Para Girişi' : type === 'OUT' ? 'İş Bankası Harcama' : 'Bakiye Güncelleme')).trim();
+
+  if (type === 'SET_BALANCE') {
+    pf.isbankBalanceTry = Number(amt.toFixed(2));
+  } else if (type === 'IN') {
+    pf.isbankBalanceTry = Number(((pf.isbankBalanceTry || 0) + amt).toFixed(2));
+    pf.monthlyTotalInTry = Number(((pf.monthlyTotalInTry || 0) + amt).toFixed(2));
+    pf.recentCashflows.unshift({
+      time: new Date().toLocaleString('tr-TR'),
+      type: 'GİRİŞ (+)',
+      amountTry: amt,
+      note,
+      recommendedBotTransferTry: amt >= 3000 ? Math.min(2000, Math.round(amt * 0.25)) : 0,
+    });
+  } else if (type === 'OUT') {
+    pf.isbankBalanceTry = Number(Math.max(0, (pf.isbankBalanceTry || 0) - amt).toFixed(2));
+    pf.monthlyTotalOutTry = Number(((pf.monthlyTotalOutTry || 0) + amt).toFixed(2));
+    pf.weeklySpentTry = Number(((pf.weeklySpentTry || 0) + amt).toFixed(2));
+    pf.recentCashflows.unshift({
+      time: new Date().toLocaleString('tr-TR'),
+      type: 'ÇIKIŞ (-)',
+      amountTry: amt,
+      note,
+      recommendedBotTransferTry: 0,
+    });
+  }
+  if (pf.recentCashflows.length > 15) pf.recentCashflows.length = 15;
+  runPersonalCfoEngine(state);
+  savePortfolioState(state);
+  return { ok: true, pf, state };
+}
+
 function writeCleanTlReport(state) {
   const mem = state.adaptiveMemory || runAdaptiveLearningEngine(state);
+  const pf = runPersonalCfoEngine(state);
   const cashTry = toTL(state.cashUsdt);
   const openValUsdt = state.openPositions.reduce((s, p) => s + p.currentPrice * p.qty, 0);
   const openValTry = toTL(openValUsdt);
@@ -401,13 +496,26 @@ ${Object.entries(mem?.coinStats || {})
 
 ---
 
-## 5. AKTİF KORUMA VE MAKSİMUM KAZANÇ MOTORLARI (v9.5)
+## 5. 🏦 KİŞİSEL CFO & İŞ BANKASI FON YÖNETİCİSİ (Engine #16)
+
+* **Banka & Entegrasyon:** \`${pf.bankName}\`
+* **İş Bankası Güncel Bakiye:** **\`${Number(pf.isbankBalanceTry || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL\`**
+* **Toplam Kişisel Servet (İş Bankası + Binance TR):** **\`${Number(pf.totalNetWorthTry || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL\`**
+* **Beklenen Aylık Gelir Akışı:** \`${(pf.expectedMonthlyIncomes || []).map(i => `${i.name}: ${i.amountTry.toLocaleString('tr-TR')} TL`).join(' | ')} (Toplam: ${Number(pf.totalExpectedMonthlyTry || 14500).toLocaleString('tr-TR')} TL/Ay)\`
+* **Aylık Dokunulmaz Yaşam & Nakit Kalkanı:** \`${Number(pf.monthlySafeLivingReserveTry || 5500).toLocaleString('tr-TR')} TL\` *(Haftalık Harcama Limiti: \`${Number(pf.weeklySpendLimitTry || 1375).toLocaleString('tr-TR')} TL\` | Bu Hafta Harcanan: \`${Number(pf.weeklySpentTry || 0).toLocaleString('tr-TR')} TL\`)*
+* **💡 Günün Otonom CFO Tüyoları & Bütçe Emirleri:**
+${(pf.cfoTips || []).map(t => `  - ${t}`).join('\n')}
+
+---
+
+## 6. AKTİF KORUMA VE MAKSİMUM KAZANÇ MOTORLARI (v9.5)
 
 1. **📏 ATR Nefes Payı Kalkanı (-%2,0 ile -%3,2):** Coinlerin 15 dakikalık normal iğnelerde erken stop olmasını önleyen gerçek volatilite bazlı stop-loss mesafesi.
 2. **🛡️ +%1,5 Gerçek Sıfır Risk Kilidi (True Breakeven Lock):** Bir coin \`+%1,5\` yükseldiği anda Stop-Loss otomatik olarak maliyetin \`+%0,35\` üstüne çekilir; kâr kilidi sadece stop fiyatı gerçekten maliyetin üstündeyken aktif olur.
 3. **🎰 +%2,8 Bedava Sürüş (Free-Ride / House Money) Hasadı:** Coin \`+%2,8\` yaptığı anda \`%40\`'ı satılıp sıcak kâr cebe atılır, kalan \`%60\`'ın stopu \`+%1,2+\` net kâra kilitlenir ve **%100 sıfır riskle** \`+%7,5\` ve sınırsız uçuşa bırakılır.
 4. **🚫 Tepe (Overbought) ve Bayat Haber Engelleyici:** \`RSI > 55\` olan tepedeki coinlere ve son 12 saatte zarar yazmış bayat haber başlıklarına tekrar girilmez.
 5. **🧠 Engine #15 — Otonom Hata Otopsisi ve Öz-Öğrenme Motoru:** Zarar edilen her işlemden sonra ilgili coinin RSI tavanını, minimum Balina giriş oranını ve Konsey güven puanını otonom olarak günceller; aynı hatayı ikinci kez yapmaz.
+6. **🏦 Engine #16 — Kişisel CFO & İş Bankası Fon Yöneticisi:** Giren/çıkan banka nakit akışını, staj/burs gelirlerini, haftalık harcama limitini ve kripto kasa büyümesini tek merkezden yönetir.
 `;
 
   fs.writeFileSync(RAPOR_FILE, md, 'utf8');
@@ -415,6 +523,7 @@ ${Object.entries(mem?.coinStats || {})
 
 function savePortfolioState(state) {
   runAdaptiveLearningEngine(state);
+  runPersonalCfoEngine(state);
   state.updatedAt = new Date().toISOString();
   fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2), 'utf8');
   writeCleanTlReport(state);
@@ -1852,6 +1961,30 @@ async function startTelegramCommandBot() {
         if (lower.startsWith('/durum') || lower === 'durum') {
           const st = loadPortfolioState(cfg);
           reply = `📊 CANLI KASA DURUMU\n\n${buildSimpleWhatsAppMessage(st)}`;
+        } else if (lower.startsWith('/cfo') || lower === 'cfo') {
+          const st = loadPortfolioState(cfg);
+          const pf = runPersonalCfoEngine(st);
+          reply = `🏦 KİŞİSEL CFO & İŞ BANKASI RAPORU\n\n• İş Bankası Bakiye: ${pf.isbankBalanceTry} TL\n• Binance TR Kasa: ${st.totalEquityTry || toTL(st.totalEquityUsdt)} TL\n• Toplam Servet: ${pf.totalNetWorthTry} TL\n• Bu Hafta Harcanan: ${pf.weeklySpentTry} / ${pf.weeklySpendLimitTry} TL\n\n💡 CFO Tavsiyesi:\n${(pf.cfoTips || []).join('\n\n')}`;
+        } else if (lower.startsWith('/isbank ')) {
+          const amt = text.split(/\s+/)[1];
+          const r = recordPersonalCashflow('SET_BALANCE', amt, 'İş Bankası Bakiye Senkronizasyonu');
+          reply = r.ok ? `🏦 İş Bankası bakiyen ${r.pf.isbankBalanceTry} TL olarak güncellendi!\nToplam Servet: ${r.pf.totalNetWorthTry} TL` : r.msg;
+        } else if (lower.startsWith('/gelir ')) {
+          const parts = text.split(/\s+/);
+          const amt = parts[1];
+          const note = parts.slice(2).join(' ') || 'Gelir Girişi';
+          const r = recordPersonalCashflow('IN', amt, note);
+          reply = r.ok
+            ? `💰 +${amt} TL (${note}) İş Bankası hesabına eklendi!\nYeni İş Bankası Bakiyesi: ${r.pf.isbankBalanceTry} TL\n💡 CFO Önerisi: Bu gelirin ${Math.round(Number(amt) * 0.45)} TL'sini bankada yaşam kalkanı olarak tut, ${Math.min(2000, Math.round(Number(amt) * 0.25))} TL'sini haftalık dilimle bota aktar.`
+            : r.msg;
+        } else if (lower.startsWith('/gider ')) {
+          const parts = text.split(/\s+/);
+          const amt = parts[1];
+          const note = parts.slice(2).join(' ') || 'Harcama';
+          const r = recordPersonalCashflow('OUT', amt, note);
+          reply = r.ok
+            ? `💸 -${amt} TL (${note}) düşüldü.\nKalan İş Bankası Bakiyesi: ${r.pf.isbankBalanceTry} TL | Bu Hafta Harcanan: ${r.pf.weeklySpentTry}/${r.pf.weeklySpendLimitTry} TL`
+            : r.msg;
         } else if (lower.startsWith('/sat ')) {
           const sym = text.split(/\s+/)[1];
           const r = await sellPositionManual(sym, '🤖 TELEGRAM KOMUTUYLA MANUEL SATIŞ');
@@ -1863,7 +1996,7 @@ async function startTelegramCommandBot() {
           const r = await safeRunTradingCycle();
           reply = `⚡ Anlık haber ve tahta taraması tamamlandı!\n\n${buildSimpleWhatsAppMessage(r.state)}`;
         } else {
-          reply = `🤖 AltcoinAutoTrader v9.5 Kumanda\n\nKomutlar:\n• /durum — Anlık TL Kasa ve Açık Coinler\n• /sat AVAX — Belirtilen coini hemen satar\n• /nakit — Tüm coinleri satıp TL'ye geçer\n• /tara — Şimdi haber taraması yapar`;
+          reply = `🤖 AltcoinAutoTrader v9.5 + Kişisel CFO Kumanda\n\nKomutlar:\n• /durum — Anlık TL Kasa ve Açık Coinler\n• /cfo — İş Bankası + Binance TR Servet & CFO Tüyosu\n• /isbank 4500 — İş Bankası bakiyeni günceller\n• /gelir 8000 Staj — Giren parayı kaydeder & bütçeyi böler\n• /gider 250 Yemek — Harcamayı kaydeder & limit kontrolü yapar\n• /sat AVAX — Belirtilen coini hemen satar\n• /nakit — Tüm coinleri satıp TL'ye geçer\n• /tara — Şimdi haber taraması yapar`;
         }
 
         await fetch(`https://api.telegram.org/bot${cfg.TELEGRAM_BOT_TOKEN}/sendMessage`, {

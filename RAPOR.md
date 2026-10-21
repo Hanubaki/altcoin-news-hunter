@@ -1,16 +1,16 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 21.10.2026 12:20:17
+**Son Güncelleme:** 21.10.2026 12:25:21
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.046,67 TL`**
-* **Toplam Net Kâr / Zarar:** **`+46,67 TL` (`+%4.67`)**
+* **Şu Anki Toplam Para:** **`1.044,86 TL`**
+* **Toplam Net Kâr / Zarar:** **`+44,86 TL` (`+%4.49`)**
 * **Boşta Bekleyen Nakit:** `2,75 TL`
-* **Coinde Olan Para:** `1.022,53 TL`
+* **Coinde Olan Para:** `1.020,73 TL`
 * **Başarılı Satış / Zarar Kes:** `12 Kârlı Satış / 1 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BNB: 0.0004 | CAKE: 0.0022 | EDU: 63.8720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 40.9180 | ICP: 0.0002 | JASMY: 1692.6080 | LDO: 0.0063 | RSR: 0.9660 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TIA: 7.0958 | TRY: 2.7455)`
 
@@ -40,10 +40,10 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **EDU** | `230,66 TL` | `229,40 TL` | **`-1,26 TL (%-0.55)`** | 🛡️ ATR Kalkanı (-%2.76 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **EDU** | `230,66 TL` | `228,45 TL` | **`-2,21 TL (%-0.96)`** | 🛡️ ATR Kalkanı (-%2.76 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
 | **TIA (VURGUN)** | `217,92 TL` | `219,46 TL` | **`+1,54 TL (%0.71)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
-| **JASMY** | `401,08 TL` | `401,92 TL` | **`+0,84 TL (%0.21)`** | 🛡️ ATR Kalkanı (-%3.2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **HBAR** | `168,76 TL` | `171,75 TL` | **`+3,00 TL (%1.78)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
+| **JASMY** | `401,08 TL` | `401,08 TL` | **`+0,00 TL (%0)`** | 🛡️ ATR Kalkanı (-%3.2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **HBAR** | `168,76 TL` | `171,73 TL` | **`+2,97 TL (%1.76)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
 
 ---
 
@@ -66,10 +66,24 @@
 
 ---
 
-## 5. AKTİF KORUMA VE MAKSİMUM KAZANÇ MOTORLARI (v9.5)
+## 5. 🏦 KİŞİSEL CFO & İŞ BANKASI FON YÖNETİCİSİ (Engine #16)
+
+* **Banka & Entegrasyon:** `İş Bankası (İşCep & Gmail Bildirim Entegreli)`
+* **İş Bankası Güncel Bakiye:** **`0,00 TL`**
+* **Toplam Kişisel Servet (İş Bankası + Binance TR):** **`1.044,86 TL`**
+* **Beklenen Aylık Gelir Akışı:** `Staj Maaşı: 8.000 TL | Mevcut Burs: 3.000 TL | Yeni Başvurulan Burs: 3.500 TL (Toplam: 14.500 TL/Ay)`
+* **Aylık Dokunulmaz Yaşam & Nakit Kalkanı:** `5.500 TL` *(Haftalık Harcama Limiti: `1.375 TL` | Bu Hafta Harcanan: `0 TL`)*
+* **💡 Günün Otonom CFO Tüyoları & Bütçe Emirleri:**
+  - 📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %92.3 isabetle (12G/1Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1044.86 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle ("Performans Ödülü" usulü) ekleme yap.
+  - 🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız.
+
+---
+
+## 6. AKTİF KORUMA VE MAKSİMUM KAZANÇ MOTORLARI (v9.5)
 
 1. **📏 ATR Nefes Payı Kalkanı (-%2,0 ile -%3,2):** Coinlerin 15 dakikalık normal iğnelerde erken stop olmasını önleyen gerçek volatilite bazlı stop-loss mesafesi.
 2. **🛡️ +%1,5 Gerçek Sıfır Risk Kilidi (True Breakeven Lock):** Bir coin `+%1,5` yükseldiği anda Stop-Loss otomatik olarak maliyetin `+%0,35` üstüne çekilir; kâr kilidi sadece stop fiyatı gerçekten maliyetin üstündeyken aktif olur.
 3. **🎰 +%2,8 Bedava Sürüş (Free-Ride / House Money) Hasadı:** Coin `+%2,8` yaptığı anda `%40`'ı satılıp sıcak kâr cebe atılır, kalan `%60`'ın stopu `+%1,2+` net kâra kilitlenir ve **%100 sıfır riskle** `+%7,5` ve sınırsız uçuşa bırakılır.
 4. **🚫 Tepe (Overbought) ve Bayat Haber Engelleyici:** `RSI > 55` olan tepedeki coinlere ve son 12 saatte zarar yazmış bayat haber başlıklarına tekrar girilmez.
 5. **🧠 Engine #15 — Otonom Hata Otopsisi ve Öz-Öğrenme Motoru:** Zarar edilen her işlemden sonra ilgili coinin RSI tavanını, minimum Balina giriş oranını ve Konsey güven puanını otonom olarak günceller; aynı hatayı ikinci kez yapmaz.
+6. **🏦 Engine #16 — Kişisel CFO & İş Bankası Fon Yöneticisi:** Giren/çıkan banka nakit akışını, staj/burs gelirlerini, haftalık harcama limitini ve kripto kasa büyümesini tek merkezden yönetir.
