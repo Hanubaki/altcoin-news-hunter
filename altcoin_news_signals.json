@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-21T08:19:58.704Z",
-  "scanDurationMs": 10596,
+  "updatedAt": "2026-10-21T08:43:44.570Z",
+  "scanDurationMs": 19309,
   "bankrollTry": 1000,
   "bankrollUsdt": 20.22,
-  "btc1hChangePct": 0.39,
+  "btc1hChangePct": 0.31,
   "btcCrashAlert": false,
   "marketBreadthPct": 96,
   "fearGreedVal": 63,
@@ -29,447 +29,54 @@
         "whale-flow",
         "laggard-dip-accumulation"
       ],
-      "newsScore": 4.56,
+      "newsScore": 4.53,
       "freshestMinutesAgo": 20,
       "headlines": [
         {
           "source": "WhaleOrderflowRadar",
           "title": "JASMY Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
           "minutesAgo": 20,
-          "catalystPoints": 4.56,
+          "catalystPoints": 4.53,
           "directMention": true
         }
       ],
-      "lastPrice": 0.00482,
-      "vwap24h": 0.0049043,
+      "lastPrice": 0.00481,
+      "vwap24h": 0.004904,
       "aboveVwap": false,
-      "change1hPct": 0,
-      "change24hPct": 1.048,
-      "lagVsLeader24h": 3.41,
-      "rsi1h": 42.22,
+      "change1hPct": -0.21,
+      "change24hPct": 1.477,
+      "lagVsLeader24h": 3.12,
+      "rsi1h": 41.3,
       "hasRsiDivergence": true,
-      "atr1hPct": 1.54,
-      "bbPctB": 0.4,
-      "bbWidthPct": 7.12,
+      "atr1hPct": 1.58,
+      "bbPctB": 0.37,
+      "bbWidthPct": 7.14,
       "isSqueeze": false,
       "macdBullishTurn": true,
       "adx": 2,
-      "ema20AboveEma50": true,
+      "ema20AboveEma50": false,
       "regime": "DIP_TOPLAMA",
       "support": 0.00466,
       "resistance": 0.00509,
-      "roomToResistancePct": 5.6,
-      "aiConsensusCount": 4,
+      "roomToResistancePct": 5.82,
+      "aiConsensusCount": 2,
       "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 61.3,
-      "last1hTakerBuyPct": 31.8,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.06,
-      "fundingHourlyPct": 0.0042,
-      "basisSpreadPct": 0.167,
-      "totalScore": 99,
-      "tpPct": 6.14,
-      "slPct": 2.54,
-      "tpPrice": 0.0051159,
-      "slPrice": 0.0046976,
-      "topWhaleLongPct": 63.1,
-      "oiChange15mPct": -0.25,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "LONG",
-          "confidence": 78,
-          "reason": "Balina alımı ve laggard toparlanma potansiyeli güçlü."
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 78,
-      "liveLlmReason": "[Qwen-3.8: LONG %78] Balina alımı ve laggard toparlanma potansiyeli güçlü."
-    },
-    {
-      "symbol": "TAO",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "arkham"
-      ],
-      "newsScore": 3.7,
-      "freshestMinutesAgo": 116,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "Crypto X Hates Arkham’s New Paywall. ARKM Token Jumps 8% Anyway",
-          "minutesAgo": 116,
-          "catalystPoints": 3.7,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 272.9,
-      "vwap24h": 271.92,
-      "aboveVwap": true,
-      "change1hPct": -0.69,
-      "change24hPct": 3.489,
-      "lagVsLeader24h": 1.65,
-      "rsi1h": 49.72,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.03,
-      "bbPctB": 0.47,
-      "bbWidthPct": 3.42,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 17,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 262.4,
-      "resistance": 278,
-      "roomToResistancePct": 1.87,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 61.5,
-      "last1hTakerBuyPct": 56.9,
-      "isGreenBounce": false,
-      "isTrending": true,
-      "volRatio": 0.16,
-      "fundingHourlyPct": 0.0013,
-      "basisSpreadPct": 0.036,
-      "totalScore": 73.6,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 285.18,
-      "slPrice": 267.44,
-      "topWhaleLongPct": 81.7,
-      "oiChange15mPct": -0.42,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "Haber TAO ile alakasız, ARKM tokenı hakkında."
-        }
-      ],
-      "liveLlmDecision": "WAIT",
-      "liveLlmConfidence": 95,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber TAO ile alakasız, ARKM tokenı hakkında."
-    },
-    {
-      "symbol": "ALGO",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "tokenized"
-      ],
-      "newsScore": 2.8,
-      "freshestMinutesAgo": 125,
-      "headlines": [
-        {
-          "source": "Decrypt",
-          "title": "Microsoft, Alphabet, Goldman Sachs Join Growing List of Companies Objecting to Tokenized Stocks",
-          "minutesAgo": 125,
-          "catalystPoints": 1.6,
-          "directMention": false
-        },
-        {
-          "source": "CoinTelegraph",
-          "title": "Malaysia central bank launches DLT platform for tokenized bonds",
-          "minutesAgo": 140,
-          "catalystPoints": 1.2,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.1145,
-      "vwap24h": 0,
-      "aboveVwap": true,
-      "change1hPct": 0,
-      "change24hPct": 3.339,
-      "lagVsLeader24h": 0.19,
-      "rsi1h": 50,
-      "hasRsiDivergence": false,
-      "atr1hPct": 2.5,
-      "bbPctB": 0.5,
-      "bbWidthPct": 5,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 20,
-      "ema20AboveEma50": true,
-      "regime": "DENGELI",
-      "support": 0.10992,
-      "resistance": 0.12137,
-      "roomToResistancePct": 6,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 50,
-      "last1hTakerBuyPct": 50,
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 60.9,
+      "last1hTakerBuyPct": 46.9,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 1,
-      "fundingHourlyPct": -0.0029,
-      "basisSpreadPct": 0.008,
-      "totalScore": 34.6,
-      "tpPct": 4.5,
-      "slPct": 3.2,
-      "tpPrice": 0.11965,
-      "slPrice": 0.11084,
-      "topWhaleLongPct": 65.2,
-      "oiChange15mPct": 0.23,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "Tokenizasyon itirazları piyasa için olumsuz sinyal oluşturuyor."
-        }
-      ],
-      "liveLlmDecision": "WAIT",
-      "liveLlmConfidence": 95,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Tokenizasyon itirazları piyasa için olumsuz sinyal oluşturuyor."
-    }
-  ],
-  "allQualifiedOpportunities": [
-    {
-      "symbol": "JASMY",
-      "leaderSymbol": "FIL",
-      "ecosystems": [
-        "DePIN, Merkeziyetsiz Bulut Depolama & IoT Donanım"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "laggard-dip-accumulation"
-      ],
-      "newsScore": 4.56,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "WhaleOrderflowRadar",
-          "title": "JASMY Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
-          "minutesAgo": 20,
-          "catalystPoints": 4.56,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 0.00482,
-      "vwap24h": 0.0049043,
-      "aboveVwap": false,
-      "change1hPct": 0,
-      "change24hPct": 1.048,
-      "lagVsLeader24h": 3.41,
-      "rsi1h": 42.22,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.54,
-      "bbPctB": 0.4,
-      "bbWidthPct": 7.12,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 2,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.00466,
-      "resistance": 0.00509,
-      "roomToResistancePct": 5.6,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 61.3,
-      "last1hTakerBuyPct": 31.8,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.06,
-      "fundingHourlyPct": 0.0042,
-      "basisSpreadPct": 0.167,
-      "totalScore": 99,
+      "volRatio": 0.14,
+      "fundingHourlyPct": 0.0002,
+      "basisSpreadPct": -0.003,
+      "totalScore": 65,
       "tpPct": 6.14,
-      "slPct": 2.54,
-      "tpPrice": 0.0051159,
-      "slPrice": 0.0046976,
-      "topWhaleLongPct": 63.1,
-      "oiChange15mPct": -0.25,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "LONG",
-          "confidence": 78,
-          "reason": "Balina alımı ve laggard toparlanma potansiyeli güçlü."
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 78,
-      "liveLlmReason": "[Qwen-3.8: LONG %78] Balina alımı ve laggard toparlanma potansiyeli güçlü."
-    },
-    {
-      "symbol": "TAO",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "arkham"
-      ],
-      "newsScore": 3.7,
-      "freshestMinutesAgo": 116,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "Crypto X Hates Arkham’s New Paywall. ARKM Token Jumps 8% Anyway",
-          "minutesAgo": 116,
-          "catalystPoints": 3.7,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 272.9,
-      "vwap24h": 271.92,
-      "aboveVwap": true,
-      "change1hPct": -0.69,
-      "change24hPct": 3.489,
-      "lagVsLeader24h": 1.65,
-      "rsi1h": 49.72,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.03,
-      "bbPctB": 0.47,
-      "bbWidthPct": 3.42,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 17,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 262.4,
-      "resistance": 278,
-      "roomToResistancePct": 1.87,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 61.5,
-      "last1hTakerBuyPct": 56.9,
-      "isGreenBounce": false,
-      "isTrending": true,
-      "volRatio": 0.16,
-      "fundingHourlyPct": 0.0013,
-      "basisSpreadPct": 0.036,
-      "totalScore": 73.6,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 285.18,
-      "slPrice": 267.44,
-      "topWhaleLongPct": 81.7,
-      "oiChange15mPct": -0.42,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "Haber TAO ile alakasız, ARKM tokenı hakkında."
-        }
-      ],
-      "liveLlmDecision": "WAIT",
-      "liveLlmConfidence": 95,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Haber TAO ile alakasız, ARKM tokenı hakkında."
-    },
-    {
-      "symbol": "ALGO",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "tokenized"
-      ],
-      "newsScore": 2.8,
-      "freshestMinutesAgo": 125,
-      "headlines": [
-        {
-          "source": "Decrypt",
-          "title": "Microsoft, Alphabet, Goldman Sachs Join Growing List of Companies Objecting to Tokenized Stocks",
-          "minutesAgo": 125,
-          "catalystPoints": 1.6,
-          "directMention": false
-        },
-        {
-          "source": "CoinTelegraph",
-          "title": "Malaysia central bank launches DLT platform for tokenized bonds",
-          "minutesAgo": 140,
-          "catalystPoints": 1.2,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.1145,
-      "vwap24h": 0,
-      "aboveVwap": true,
-      "change1hPct": 0,
-      "change24hPct": 3.339,
-      "lagVsLeader24h": 0.19,
-      "rsi1h": 50,
-      "hasRsiDivergence": false,
-      "atr1hPct": 2.5,
-      "bbPctB": 0.5,
-      "bbWidthPct": 5,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 20,
-      "ema20AboveEma50": true,
-      "regime": "DENGELI",
-      "support": 0.10992,
-      "resistance": 0.12137,
-      "roomToResistancePct": 6,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 50,
-      "last1hTakerBuyPct": 50,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 1,
-      "fundingHourlyPct": -0.0029,
-      "basisSpreadPct": 0.008,
-      "totalScore": 34.6,
-      "tpPct": 4.5,
-      "slPct": 3.2,
-      "tpPrice": 0.11965,
-      "slPrice": 0.11084,
-      "topWhaleLongPct": 65.2,
-      "oiChange15mPct": 0.23,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 95,
-          "reason": "Tokenizasyon itirazları piyasa için olumsuz sinyal oluşturuyor."
-        }
-      ],
-      "liveLlmDecision": "WAIT",
-      "liveLlmConfidence": 95,
-      "liveLlmReason": "[Qwen-3.8: WAIT %95] Tokenizasyon itirazları piyasa için olumsuz sinyal oluşturuyor."
+      "slPct": 2.61,
+      "tpPrice": 0.0051053,
+      "slPrice": 0.0046845
     },
     {
       "symbol": "IO",
@@ -491,12 +98,77 @@
           "directMention": false
         }
       ],
-      "lastPrice": 0.1641,
+      "lastPrice": 0.1644,
+      "vwap24h": 0.16385,
+      "aboveVwap": true,
+      "change1hPct": -0.06,
+      "change24hPct": 0.428,
+      "lagVsLeader24h": 4.93,
+      "rsi1h": 50,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.98,
+      "bbPctB": 0.58,
+      "bbWidthPct": 3.59,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 18.1,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.1605,
+      "resistance": 0.1672,
+      "roomToResistancePct": 1.7,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 55.7,
+      "last1hTakerBuyPct": 49.8,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.13,
+      "fundingHourlyPct": 0.0013,
+      "basisSpreadPct": 0.057,
+      "totalScore": 64.7,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.1718,
+      "slPrice": 0.16111
+    },
+    {
+      "symbol": "RSR",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "tokenized"
+      ],
+      "newsScore": 2.8,
+      "freshestMinutesAgo": 125,
+      "headlines": [
+        {
+          "source": "Decrypt",
+          "title": "Microsoft, Alphabet, Goldman Sachs Join Growing List of Companies Objecting to Tokenized Stocks",
+          "minutesAgo": 125,
+          "catalystPoints": 1.6,
+          "directMention": false
+        },
+        {
+          "source": "CoinTelegraph",
+          "title": "Malaysia central bank launches DLT platform for tokenized bonds",
+          "minutesAgo": 140,
+          "catalystPoints": 1.2,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.001942,
       "vwap24h": 0,
       "aboveVwap": true,
       "change1hPct": 0,
-      "change24hPct": 1.047,
-      "lagVsLeader24h": 4.1,
+      "change24hPct": 2.969,
+      "lagVsLeader24h": 1.06,
       "rsi1h": 50,
       "hasRsiDivergence": false,
       "atr1hPct": 2.5,
@@ -507,32 +179,92 @@
       "adx": 20,
       "ema20AboveEma50": true,
       "regime": "DENGELI",
-      "support": 0.15753599999999998,
-      "resistance": 0.17394600000000002,
+      "support": 0.0018643199999999998,
+      "resistance": 0.00205852,
       "roomToResistancePct": 6,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 50,
+      "last1hTakerBuyPct": 50,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 1,
+      "fundingHourlyPct": -0.0078,
+      "basisSpreadPct": 0.062,
+      "totalScore": 47.5,
+      "tpPct": 4.94,
+      "slPct": 3.2,
+      "tpPrice": 0.0020379,
+      "slPrice": 0.0018799
+    }
+  ],
+  "allQualifiedOpportunities": [
+    {
+      "symbol": "JASMY",
+      "leaderSymbol": "FIL",
+      "ecosystems": [
+        "DePIN, Merkeziyetsiz Bulut Depolama & IoT Donanım"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "laggard-dip-accumulation"
+      ],
+      "newsScore": 4.53,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "WhaleOrderflowRadar",
+          "title": "JASMY Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "minutesAgo": 20,
+          "catalystPoints": 4.53,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 0.00481,
+      "vwap24h": 0.004904,
+      "aboveVwap": false,
+      "change1hPct": -0.21,
+      "change24hPct": 1.477,
+      "lagVsLeader24h": 3.12,
+      "rsi1h": 41.3,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.58,
+      "bbPctB": 0.37,
+      "bbWidthPct": 7.14,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 2,
+      "ema20AboveEma50": false,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.00466,
+      "resistance": 0.00509,
+      "roomToResistancePct": 5.82,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
         "Llama-4-Scout",
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 50,
-      "last1hTakerBuyPct": 50,
+      "takerBuyRatioPct": 60.9,
+      "last1hTakerBuyPct": 46.9,
       "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 1,
-      "fundingHourlyPct": 0.0013,
-      "basisSpreadPct": 0.189,
-      "totalScore": 50,
-      "tpPct": 4.5,
-      "slPct": 3.2,
-      "tpPrice": 0.17148,
-      "slPrice": 0.15885,
-      "topWhaleLongPct": 71.5,
-      "oiChange15mPct": 0.21
+      "volRatio": 0.14,
+      "fundingHourlyPct": 0.0002,
+      "basisSpreadPct": -0.003,
+      "totalScore": 65,
+      "tpPct": 6.14,
+      "slPct": 2.61,
+      "tpPrice": 0.0051053,
+      "slPrice": 0.0046845
     },
     {
-      "symbol": "GRT",
+      "symbol": "IO",
       "leaderSymbol": "FET",
       "ecosystems": [
         "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
@@ -551,12 +283,135 @@
           "directMention": false
         }
       ],
-      "lastPrice": 0.02446,
+      "lastPrice": 0.1644,
+      "vwap24h": 0.16385,
+      "aboveVwap": true,
+      "change1hPct": -0.06,
+      "change24hPct": 0.428,
+      "lagVsLeader24h": 4.93,
+      "rsi1h": 50,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.98,
+      "bbPctB": 0.58,
+      "bbWidthPct": 3.59,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 18.1,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 0.1605,
+      "resistance": 0.1672,
+      "roomToResistancePct": 1.7,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 55.7,
+      "last1hTakerBuyPct": 49.8,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.13,
+      "fundingHourlyPct": 0.0013,
+      "basisSpreadPct": 0.057,
+      "totalScore": 64.7,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 0.1718,
+      "slPrice": 0.16111
+    },
+    {
+      "symbol": "TAO",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "arkham"
+      ],
+      "newsScore": 3.7,
+      "freshestMinutesAgo": 116,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "Crypto X Hates Arkham’s New Paywall. ARKM Token Jumps 8% Anyway",
+          "minutesAgo": 116,
+          "catalystPoints": 3.7,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 273.7,
+      "vwap24h": 271.92,
+      "aboveVwap": true,
+      "change1hPct": -0.44,
+      "change24hPct": 3.91,
+      "lagVsLeader24h": 1.45,
+      "rsi1h": 51.72,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.05,
+      "bbPctB": 0.54,
+      "bbWidthPct": 3.42,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 17,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 262.4,
+      "resistance": 278,
+      "roomToResistancePct": 1.57,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 59.9,
+      "last1hTakerBuyPct": 49.8,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 0.34,
+      "fundingHourlyPct": 0.0013,
+      "basisSpreadPct": -0.004,
+      "totalScore": 63.3,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 286.02,
+      "slPrice": 268.23
+    },
+    {
+      "symbol": "RSR",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "tokenized"
+      ],
+      "newsScore": 2.8,
+      "freshestMinutesAgo": 125,
+      "headlines": [
+        {
+          "source": "Decrypt",
+          "title": "Microsoft, Alphabet, Goldman Sachs Join Growing List of Companies Objecting to Tokenized Stocks",
+          "minutesAgo": 125,
+          "catalystPoints": 1.6,
+          "directMention": false
+        },
+        {
+          "source": "CoinTelegraph",
+          "title": "Malaysia central bank launches DLT platform for tokenized bonds",
+          "minutesAgo": 140,
+          "catalystPoints": 1.2,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.001942,
       "vwap24h": 0,
       "aboveVwap": true,
       "change1hPct": 0,
-      "change24hPct": 4.041,
-      "lagVsLeader24h": 1.1,
+      "change24hPct": 2.969,
+      "lagVsLeader24h": 1.06,
       "rsi1h": 50,
       "hasRsiDivergence": false,
       "atr1hPct": 2.5,
@@ -567,8 +422,183 @@
       "adx": 20,
       "ema20AboveEma50": true,
       "regime": "DENGELI",
-      "support": 0.0234816,
-      "resistance": 0.025927600000000002,
+      "support": 0.0018643199999999998,
+      "resistance": 0.00205852,
+      "roomToResistancePct": 6,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 50,
+      "last1hTakerBuyPct": 50,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 1,
+      "fundingHourlyPct": -0.0078,
+      "basisSpreadPct": 0.062,
+      "totalScore": 47.5,
+      "tpPct": 4.94,
+      "slPct": 3.2,
+      "tpPrice": 0.0020379,
+      "slPrice": 0.0018799
+    },
+    {
+      "symbol": "NEAR",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "arkham"
+      ],
+      "newsScore": 3.7,
+      "freshestMinutesAgo": 116,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "Crypto X Hates Arkham’s New Paywall. ARKM Token Jumps 8% Anyway",
+          "minutesAgo": 116,
+          "catalystPoints": 3.7,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 5.215,
+      "vwap24h": 0,
+      "aboveVwap": true,
+      "change1hPct": 0,
+      "change24hPct": 10.068,
+      "lagVsLeader24h": -4.71,
+      "rsi1h": 50,
+      "hasRsiDivergence": false,
+      "atr1hPct": 2.5,
+      "bbPctB": 0.5,
+      "bbWidthPct": 5,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 20,
+      "ema20AboveEma50": true,
+      "regime": "DENGELI",
+      "support": 5.006399999999999,
+      "resistance": 5.5279,
+      "roomToResistancePct": 6,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 50,
+      "last1hTakerBuyPct": 50,
+      "isGreenBounce": false,
+      "isTrending": true,
+      "volRatio": 1,
+      "fundingHourlyPct": 0.0055,
+      "basisSpreadPct": -0.009,
+      "totalScore": 44.7,
+      "tpPct": 8.7,
+      "slPct": 3.2,
+      "tpPrice": 5.6687,
+      "slPrice": 5.0481
+    },
+    {
+      "symbol": "FET",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "arkham"
+      ],
+      "newsScore": 3.7,
+      "freshestMinutesAgo": 116,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "Crypto X Hates Arkham’s New Paywall. ARKM Token Jumps 8% Anyway",
+          "minutesAgo": 116,
+          "catalystPoints": 3.7,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.1986,
+      "vwap24h": 0,
+      "aboveVwap": true,
+      "change1hPct": 0,
+      "change24hPct": 5.358,
+      "lagVsLeader24h": 0,
+      "rsi1h": 50,
+      "hasRsiDivergence": false,
+      "atr1hPct": 2.5,
+      "bbPctB": 0.5,
+      "bbWidthPct": 5,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 20,
+      "ema20AboveEma50": true,
+      "regime": "DENGELI",
+      "support": 0.190656,
+      "resistance": 0.210516,
+      "roomToResistancePct": 6,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 50,
+      "last1hTakerBuyPct": 50,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 1,
+      "fundingHourlyPct": 0.0013,
+      "basisSpreadPct": -0.009,
+      "totalScore": 35.7,
+      "tpPct": 5.15,
+      "slPct": 3.2,
+      "tpPrice": 0.20883,
+      "slPrice": 0.19224
+    },
+    {
+      "symbol": "THETA",
+      "leaderSymbol": "FET",
+      "ecosystems": [
+        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+      ],
+      "matchedKeywords": [
+        "arkham"
+      ],
+      "newsScore": 3.7,
+      "freshestMinutesAgo": 116,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "Crypto X Hates Arkham’s New Paywall. ARKM Token Jumps 8% Anyway",
+          "minutesAgo": 116,
+          "catalystPoints": 3.7,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.2041,
+      "vwap24h": 0,
+      "aboveVwap": true,
+      "change1hPct": 0,
+      "change24hPct": 9.203,
+      "lagVsLeader24h": -3.84,
+      "rsi1h": 50,
+      "hasRsiDivergence": false,
+      "atr1hPct": 2.5,
+      "bbPctB": 0.5,
+      "bbWidthPct": 5,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 20,
+      "ema20AboveEma50": true,
+      "regime": "DENGELI",
+      "support": 0.195936,
+      "resistance": 0.216346,
       "roomToResistancePct": 6,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
@@ -582,74 +612,12 @@
       "isTrending": false,
       "volRatio": 1,
       "fundingHourlyPct": 0.01,
-      "basisSpreadPct": 0.087,
-      "totalScore": 44.6,
-      "tpPct": 5.12,
+      "basisSpreadPct": 0.021,
+      "totalScore": 35.7,
+      "tpPct": 9,
       "slPct": 3.2,
-      "tpPrice": 0.025712,
-      "slPrice": 0.023677,
-      "topWhaleLongPct": 72.3,
-      "oiChange15mPct": -0.17
-    },
-    {
-      "symbol": "WLD",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "arkham"
-      ],
-      "newsScore": 3.7,
-      "freshestMinutesAgo": 116,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "Crypto X Hates Arkham’s New Paywall. ARKM Token Jumps 8% Anyway",
-          "minutesAgo": 116,
-          "catalystPoints": 3.7,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.5847,
-      "vwap24h": 0,
-      "aboveVwap": true,
-      "change1hPct": 0,
-      "change24hPct": 8.62,
-      "lagVsLeader24h": -3.48,
-      "rsi1h": 50,
-      "hasRsiDivergence": false,
-      "atr1hPct": 2.5,
-      "bbPctB": 0.5,
-      "bbWidthPct": 5,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 20,
-      "ema20AboveEma50": true,
-      "regime": "DENGELI",
-      "support": 0.5613119999999999,
-      "resistance": 0.619782,
-      "roomToResistancePct": 6,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 50,
-      "last1hTakerBuyPct": 50,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 1,
-      "fundingHourlyPct": 0.0013,
-      "basisSpreadPct": -0.01,
-      "totalScore": 42.7,
-      "tpPct": 8.65,
-      "slPct": 3.2,
-      "tpPrice": 0.63528,
-      "slPrice": 0.56599,
-      "topWhaleLongPct": 71.6,
-      "oiChange15mPct": 0.28
+      "tpPrice": 0.22247,
+      "slPrice": 0.19757
     },
     {
       "symbol": "HBAR",
@@ -678,12 +646,12 @@
           "directMention": false
         }
       ],
-      "lastPrice": 0.08452,
+      "lastPrice": 0.08484,
       "vwap24h": 0,
       "aboveVwap": true,
       "change1hPct": 0,
-      "change24hPct": 1.893,
-      "lagVsLeader24h": 1.64,
+      "change24hPct": 2.563,
+      "lagVsLeader24h": 1.47,
       "rsi1h": 50,
       "hasRsiDivergence": false,
       "atr1hPct": 2.5,
@@ -694,8 +662,8 @@
       "adx": 20,
       "ema20AboveEma50": true,
       "regime": "DENGELI",
-      "support": 0.0811392,
-      "resistance": 0.0895912,
+      "support": 0.0814464,
+      "resistance": 0.08993040000000001,
       "roomToResistancePct": 6,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
@@ -709,141 +677,12 @@
       "isTrending": false,
       "volRatio": 1,
       "fundingHourlyPct": 0.0013,
-      "basisSpreadPct": 0.058,
-      "totalScore": 41.6,
+      "basisSpreadPct": 0.044,
+      "totalScore": 34.2,
       "tpPct": 4.5,
       "slPct": 3.2,
-      "tpPrice": 0.088323,
-      "slPrice": 0.081815,
-      "topWhaleLongPct": 75,
-      "oiChange15mPct": -0.12
-    },
-    {
-      "symbol": "THETA",
-      "leaderSymbol": "FET",
-      "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
-      ],
-      "matchedKeywords": [
-        "arkham"
-      ],
-      "newsScore": 3.7,
-      "freshestMinutesAgo": 116,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "Crypto X Hates Arkham’s New Paywall. ARKM Token Jumps 8% Anyway",
-          "minutesAgo": 116,
-          "catalystPoints": 3.7,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.205,
-      "vwap24h": 0,
-      "aboveVwap": true,
-      "change1hPct": 0,
-      "change24hPct": 9.159,
-      "lagVsLeader24h": -4.02,
-      "rsi1h": 50,
-      "hasRsiDivergence": false,
-      "atr1hPct": 2.5,
-      "bbPctB": 0.5,
-      "bbWidthPct": 5,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 20,
-      "ema20AboveEma50": true,
-      "regime": "DENGELI",
-      "support": 0.19679999999999997,
-      "resistance": 0.2173,
-      "roomToResistancePct": 6,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 50,
-      "last1hTakerBuyPct": 50,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 1,
-      "fundingHourlyPct": 0.01,
-      "basisSpreadPct": 0.131,
-      "totalScore": 39.7,
-      "tpPct": 9,
-      "slPct": 3.2,
-      "tpPrice": 0.22345,
-      "slPrice": 0.19844,
-      "topWhaleLongPct": 61.7,
-      "oiChange15mPct": -0.38
-    },
-    {
-      "symbol": "ONDO",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "tokenized"
-      ],
-      "newsScore": 2.8,
-      "freshestMinutesAgo": 125,
-      "headlines": [
-        {
-          "source": "Decrypt",
-          "title": "Microsoft, Alphabet, Goldman Sachs Join Growing List of Companies Objecting to Tokenized Stocks",
-          "minutesAgo": 125,
-          "catalystPoints": 1.6,
-          "directMention": false
-        },
-        {
-          "source": "CoinTelegraph",
-          "title": "Malaysia central bank launches DLT platform for tokenized bonds",
-          "minutesAgo": 140,
-          "catalystPoints": 1.2,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.4564,
-      "vwap24h": 0,
-      "aboveVwap": true,
-      "change1hPct": 0,
-      "change24hPct": 5.113,
-      "lagVsLeader24h": -1.58,
-      "rsi1h": 50,
-      "hasRsiDivergence": false,
-      "atr1hPct": 2.5,
-      "bbPctB": 0.5,
-      "bbWidthPct": 5,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 20,
-      "ema20AboveEma50": true,
-      "regime": "DENGELI",
-      "support": 0.438144,
-      "resistance": 0.483784,
-      "roomToResistancePct": 6,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 50,
-      "last1hTakerBuyPct": 50,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 1,
-      "fundingHourlyPct": 0.0013,
-      "basisSpreadPct": 0.03,
-      "totalScore": 38.6,
-      "tpPct": 4.67,
-      "slPct": 3.2,
-      "tpPrice": 0.47771,
-      "slPrice": 0.4418,
-      "topWhaleLongPct": 76.6,
-      "oiChange15mPct": -0.61
+      "tpPrice": 0.088658,
+      "slPrice": 0.082125
     },
     {
       "symbol": "LINK",
@@ -872,12 +711,12 @@
           "directMention": false
         }
       ],
-      "lastPrice": 12.38,
+      "lastPrice": 12.397,
       "vwap24h": 0,
       "aboveVwap": true,
       "change1hPct": 0,
-      "change24hPct": 3.772,
-      "lagVsLeader24h": -0.24,
+      "change24hPct": 3.906,
+      "lagVsLeader24h": 0.13,
       "rsi1h": 50,
       "hasRsiDivergence": false,
       "atr1hPct": 2.5,
@@ -888,8 +727,8 @@
       "adx": 20,
       "ema20AboveEma50": true,
       "regime": "DENGELI",
-      "support": 11.8848,
-      "resistance": 13.122800000000002,
+      "support": 11.90112,
+      "resistance": 13.140820000000001,
       "roomToResistancePct": 6,
       "aiConsensusCount": 2,
       "aiConsensusModels": [
@@ -903,79 +742,12 @@
       "isTrending": false,
       "volRatio": 1,
       "fundingHourlyPct": 0.0013,
-      "basisSpreadPct": 0.042,
-      "totalScore": 38.6,
-      "tpPct": 4.5,
-      "slPct": 3.2,
-      "tpPrice": 12.937,
-      "slPrice": 11.984,
-      "topWhaleLongPct": 73.4,
-      "oiChange15mPct": -0.26
-    },
-    {
-      "symbol": "XRP",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "tokenized"
-      ],
-      "newsScore": 2.8,
-      "freshestMinutesAgo": 125,
-      "headlines": [
-        {
-          "source": "Decrypt",
-          "title": "Microsoft, Alphabet, Goldman Sachs Join Growing List of Companies Objecting to Tokenized Stocks",
-          "minutesAgo": 125,
-          "catalystPoints": 1.6,
-          "directMention": false
-        },
-        {
-          "source": "CoinTelegraph",
-          "title": "Malaysia central bank launches DLT platform for tokenized bonds",
-          "minutesAgo": 140,
-          "catalystPoints": 1.2,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 1.3438,
-      "vwap24h": 0,
-      "aboveVwap": true,
-      "change1hPct": 0,
-      "change24hPct": 3.529,
-      "lagVsLeader24h": 0,
-      "rsi1h": 50,
-      "hasRsiDivergence": false,
-      "atr1hPct": 2.5,
-      "bbPctB": 0.5,
-      "bbWidthPct": 5,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 20,
-      "ema20AboveEma50": true,
-      "regime": "DENGELI",
-      "support": 1.290048,
-      "resistance": 1.4244280000000002,
-      "roomToResistancePct": 6,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 50,
-      "last1hTakerBuyPct": 50,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 1,
-      "fundingHourlyPct": 0.0013,
-      "basisSpreadPct": 0.044,
+      "basisSpreadPct": 0.018,
       "totalScore": 31.6,
       "tpPct": 4.5,
       "slPct": 3.2,
-      "tpPrice": 1.4043,
-      "slPrice": 1.3008
+      "tpPrice": 12.955,
+      "slPrice": 12
     }
   ]
 }

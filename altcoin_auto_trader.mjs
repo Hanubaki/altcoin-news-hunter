@@ -836,6 +836,9 @@ async function runTradingCycle() {
     } else if (peakGainPct >= 1.8) {
       // Zero-Risk Breakeven+ Lock once coin reaches +1.8% peak (locks +0.60% net profit, giving 1.2% breathing room against whipsaws)
       stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.006).toPrecision(5)));
+    } else if (peakGainPct >= 1.48) {
+      // True Breakeven Lock at +1.5% peak: locks +0.35% net profit so a +1.5% winner never turns into a loss!
+      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.0035).toPrecision(5)));
     }
 
     if (stepFloorPrice > pos.stopLossPrice && currentBid > stepFloorPrice) {

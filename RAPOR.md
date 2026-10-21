@@ -1,16 +1,16 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 21.10.2026 11:20:04
+**Son Güncelleme:** 21.10.2026 11:43:49
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.051,31 TL`**
-* **Toplam Net Kâr / Zarar:** **`+51,31 TL` (`+%5.13`)**
+* **Şu Anki Toplam Para:** **`1.050,01 TL`**
+* **Toplam Net Kâr / Zarar:** **`+50,01 TL` (`+%5`)**
 * **Boşta Bekleyen Nakit:** `2,75 TL`
-* **Coinde Olan Para:** `1.027,26 TL`
+* **Coinde Olan Para:** `1.025,90 TL`
 * **Başarılı Satış / Zarar Kes:** `12 Kârlı Satış / 1 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BNB: 0.0004 | CAKE: 0.0022 | EDU: 63.8720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 40.9180 | ICP: 0.0002 | JASMY: 1692.6080 | LDO: 0.0063 | RSR: 0.9660 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TIA: 7.0958 | TRY: 2.7455)`
 
@@ -20,19 +20,19 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
-| **STX** | `168,04 TL` | `172,43 TL` | **`+4,39 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%2.61) |
-| **SAND** | `192,17 TL` | `187,69 TL` | **`-4,48 TL`** | 🛡️ ATR KORUMA KALKANI (%-2.33) |
-| **STX** | `90,12 TL` | `93,60 TL` | **`+3,48 TL`** | 💰 1. KADEME (%35) SIFIR RİSK KÂR AL (+%3.88) |
-| **FET** | `341,27 TL` | `342,14 TL` | **`+0,87 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26) |
-| **RSR** | `423,65 TL` | `424,54 TL` | **`+0,89 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.21) |
-| **ARB** | `424,50 TL` | `425,62 TL` | **`+1,12 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26) |
-| **AVAX** | `430,00 TL` | `430,53 TL` | **`+0,53 TL`** | ⚡ AKILLI ROTASYON (ARB [122p] Fırsatına Geçildi) |
-| **ICP** | `340,93 TL` | `342,18 TL` | **`+1,26 TL`** | ⚡ AKILLI ROTASYON (FET [106.7p] Fırsatına Geçildi) |
-| **CAKE** | `251,65 TL` | `257,66 TL` | **`+6,01 TL`** | 💰 HIZLI KÂR HASADI & ROTASYON (Yavaşlayan Kârlı Coin Cebe Alındı +%2.59) |
-| **LDO** | `251,65 TL` | `264,07 TL` | **`+12,43 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%5.2) |
-| **SEI** | `159,78 TL` | `167,11 TL` | **`+7,34 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%5.04) |
-| **CAKE** | `167,76 TL` | `171,82 TL` | **`+4,06 TL`** | 💰 1. KADEME (%40) SIFIR RİSK KÂR AL (+%2.82) |
-| **LDO** | `167,76 TL` | `172,58 TL` | **`+4,82 TL`** | 💰 1. KADEME (%40) SIFIR RİSK KÂR AL (+%3.14) |
+| **STX** | `168,24 TL` | `172,64 TL` | **`+4,40 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%2.61) |
+| **SAND** | `192,40 TL` | `187,92 TL` | **`-4,48 TL`** | 🛡️ ATR KORUMA KALKANI (%-2.33) |
+| **STX** | `90,23 TL` | `93,72 TL` | **`+3,49 TL`** | 💰 1. KADEME (%35) SIFIR RİSK KÂR AL (+%3.88) |
+| **FET** | `341,68 TL` | `342,56 TL` | **`+0,88 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26) |
+| **RSR** | `424,17 TL` | `425,06 TL` | **`+0,89 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.21) |
+| **ARB** | `425,02 TL` | `426,14 TL` | **`+1,12 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26) |
+| **AVAX** | `430,52 TL` | `431,06 TL` | **`+0,53 TL`** | ⚡ AKILLI ROTASYON (ARB [122p] Fırsatına Geçildi) |
+| **ICP** | `341,34 TL` | `342,60 TL` | **`+1,26 TL`** | ⚡ AKILLI ROTASYON (FET [106.7p] Fırsatına Geçildi) |
+| **CAKE** | `251,95 TL` | `257,97 TL` | **`+6,02 TL`** | 💰 HIZLI KÂR HASADI & ROTASYON (Yavaşlayan Kârlı Coin Cebe Alındı +%2.59) |
+| **LDO** | `251,95 TL` | `264,39 TL` | **`+12,44 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%5.2) |
+| **SEI** | `159,97 TL` | `167,32 TL` | **`+7,35 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%5.04) |
+| **CAKE** | `167,97 TL` | `172,03 TL` | **`+4,06 TL`** | 💰 1. KADEME (%40) SIFIR RİSK KÂR AL (+%2.82) |
+| **LDO** | `167,97 TL` | `172,79 TL` | **`+4,82 TL`** | 💰 1. KADEME (%40) SIFIR RİSK KÂR AL (+%3.14) |
 
 ---
 
@@ -40,10 +40,10 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **EDU** | `230,38 TL` | `229,12 TL` | **`-1,26 TL (%-0.55)`** | 🛡️ ATR Kalkanı (-%2.76 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **TIA (VURGUN)** | `217,66 TL` | `225,02 TL` | **`+7,36 TL (%3.38)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
-| **JASMY** | `400,60 TL` | `402,27 TL` | **`+1,67 TL (%0.42)`** | 🛡️ ATR Kalkanı (-%3.2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **HBAR** | `168,55 TL` | `170,86 TL` | **`+2,30 TL (%1.37)`** | 🛡️ ATR Kalkanı (-%2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **EDU** | `230,66 TL` | `230,03 TL` | **`-0,63 TL (%-0.27)`** | 🛡️ ATR Kalkanı (-%2.76 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **TIA (VURGUN)** | `217,92 TL` | `222,20 TL` | **`+4,28 TL (%1.97)`** | 🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde) |
+| **JASMY** | `401,08 TL` | `401,92 TL` | **`+0,84 TL (%0.21)`** | 🛡️ ATR Kalkanı (-%3.2 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **HBAR** | `168,76 TL` | `171,75 TL` | **`+3,00 TL (%1.78)`** | 🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış) |
 
 ---
 
