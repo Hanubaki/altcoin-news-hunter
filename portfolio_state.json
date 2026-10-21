@@ -1,14 +1,14 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-21T11:40:51.711Z",
+  "updatedAt": "2026-10-21T11:52:34.093Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.2102,
   "initialBankrollTry": 1000,
-  "cashUsdt": 0.0556,
-  "realizedPnlUsdt": 0.8679,
+  "cashUsdt": 1.1151,
+  "realizedPnlUsdt": 0.8424,
   "winCount": 12,
-  "lossCount": 1,
+  "lossCount": 2,
   "openPositions": [
     {
       "id": "pos_adopted_1792537424825_EDU",
@@ -25,57 +25,23 @@
       "obImbalance": 0.1,
       "entryTime": "2026-10-20T23:03:44.825Z",
       "entryPrice": 0.073,
-      "currentPrice": 0.0737,
-      "highestPrice": 0.0737,
+      "currentPrice": 0.074,
+      "highestPrice": 0.0742,
       "qty": 63.872,
       "costUsdt": 4.6627,
       "costTry": 230.71,
       "takeProfitPrice": 0.077015,
-      "stopLossPrice": 0.070985,
+      "stopLossPrice": 0.073256,
       "tpPct": 5.5,
       "slPct": 2.76,
       "partialTpDone": false,
       "stage2TpDone": false,
-      "trailingActive": false,
-      "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0447,
-      "unrealizedPnlPct": 0.96,
-      "currentPriceTry": 3.6467,
-      "currentValueTry": 232.92
-    },
-    {
-      "id": "moon_1792537703047_TIA",
-      "symbol": "TIA",
-      "isMoonshot": true,
-      "leaderSymbol": "SUI",
-      "ecosystem": "Move VM & Yeni Nesil Yüksek Hızlı L1 (Sui / Aptos / Sei / Injective)",
-      "headline": "🎰 VURGUN SLOTU: Injective, BDACS plan Korean won stablecoin settlement for tokenized assets",
-      "newsSource": "CoinTelegraph",
-      "newsScore": 1.6,
-      "totalScore": 82.3,
-      "rsiAtEntry": 41.08,
-      "atr1hPct": 2.38,
-      "takerBuyRatioPct": 59.1,
-      "obImbalance": -0.04,
-      "entryTime": "2026-10-20T23:08:23.047Z",
-      "entryPrice": 0.6208,
-      "currentPrice": 0.617,
-      "highestPrice": 0.6421,
-      "qty": 7.09578,
-      "costUsdt": 4.4051,
-      "costTry": 217.96,
-      "takeProfitPrice": 0.73254,
-      "stopLossPrice": 0.63322,
-      "tpPct": 18,
-      "slPct": 3.2,
-      "partialTpDone": false,
-      "stage2TpDone": false,
       "trailingActive": true,
-      "rocketMode": true,
-      "unrealizedPnlUsdt": -0.027,
-      "unrealizedPnlPct": -0.61,
-      "currentPriceTry": 30.5292,
-      "currentValueTry": 216.63
+      "rocketMode": false,
+      "unrealizedPnlUsdt": 0.0639,
+      "unrealizedPnlPct": 1.37,
+      "currentPriceTry": 3.6615,
+      "currentValueTry": 233.87
     },
     {
       "id": "pos_1792549300584_JASMY",
@@ -92,7 +58,7 @@
       "obImbalance": 0.04,
       "entryTime": "2026-10-21T02:21:40.584Z",
       "entryPrice": 0.00479,
-      "currentPrice": 0.00476,
+      "currentPrice": 0.00477,
       "highestPrice": 0.00483,
       "qty": 1692.608,
       "costUsdt": 8.1076,
@@ -105,10 +71,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0508,
-      "unrealizedPnlPct": -0.63,
-      "currentPriceTry": 0.2355,
-      "currentValueTry": 398.65
+      "unrealizedPnlUsdt": -0.0339,
+      "unrealizedPnlPct": -0.42,
+      "currentPriceTry": 0.236,
+      "currentValueTry": 399.49
     },
     {
       "id": "pos_1792552108604_HBAR",
@@ -125,7 +91,7 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-21T03:08:28.604Z",
       "entryPrice": 0.08337,
-      "currentPrice": 0.08479,
+      "currentPrice": 0.08493,
       "highestPrice": 0.08523,
       "qty": 40.918,
       "costUsdt": 3.4113,
@@ -138,13 +104,86 @@
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0581,
-      "unrealizedPnlPct": 1.7,
-      "currentPriceTry": 4.1954,
-      "currentValueTry": 171.67
+      "unrealizedPnlUsdt": 0.0638,
+      "unrealizedPnlPct": 1.87,
+      "currentPriceTry": 4.2023,
+      "currentValueTry": 171.95
+    },
+    {
+      "id": "moon_1792583549706_BEAMX",
+      "symbol": "BEAMX",
+      "isMoonshot": true,
+      "leaderSymbol": "IMX",
+      "ecosystem": "Web3 Oyun (GameFi), Immutable, Ronin & Metaverse",
+      "headline": "🎰 VURGUN SLOTU: BEAMX Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+      "newsSource": "WhaleOrderflowRadar",
+      "newsScore": 4.81,
+      "totalScore": 99,
+      "rsiAtEntry": 36.25,
+      "atr1hPct": 1.42,
+      "takerBuyRatioPct": 63.5,
+      "obImbalance": -0.03,
+      "entryTime": "2026-10-21T11:52:29.707Z",
+      "entryPrice": 0.003136,
+      "currentPrice": 0.003135,
+      "highestPrice": 0.003136,
+      "qty": 1055,
+      "costUsdt": 3.3085,
+      "costTry": 163.7,
+      "takeProfitPrice": 0.0037005,
+      "stopLossPrice": 0.0030607,
+      "tpPct": 18,
+      "slPct": 2.4,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": -0.0011,
+      "unrealizedPnlPct": -0.03,
+      "currentPriceTry": 0.1551,
+      "currentValueTry": 163.65
     }
   ],
   "closedTrades": [
+    {
+      "id": "moon_1792537703047_TIA",
+      "symbol": "TIA",
+      "isMoonshot": true,
+      "leaderSymbol": "SUI",
+      "ecosystem": "Move VM & Yeni Nesil Yüksek Hızlı L1 (Sui / Aptos / Sei / Injective)",
+      "headline": "🎰 VURGUN SLOTU: Injective, BDACS plan Korean won stablecoin settlement for tokenized assets",
+      "newsSource": "CoinTelegraph",
+      "newsScore": 1.6,
+      "totalScore": 82.3,
+      "rsiAtEntry": 41.08,
+      "atr1hPct": 2.38,
+      "takerBuyRatioPct": 59.1,
+      "obImbalance": -0.04,
+      "entryTime": "2026-10-20T23:08:23.047Z",
+      "entryPrice": 0.6208,
+      "currentPrice": 0.6172,
+      "highestPrice": 0.6421,
+      "qty": 7.09578,
+      "costUsdt": 4.4051,
+      "costTry": 217.96,
+      "takeProfitPrice": 0.73254,
+      "stopLossPrice": 0.63322,
+      "tpPct": 18,
+      "slPct": 3.2,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": true,
+      "rocketMode": true,
+      "unrealizedPnlUsdt": -0.0255,
+      "unrealizedPnlPct": -0.58,
+      "currentPriceTry": 30.5687,
+      "currentValueTry": 216.91,
+      "exitPrice": 0.6172,
+      "exitTime": "2026-10-21T11:52:25.867Z",
+      "exitReason": "🛡️ ATR KORUMA KALKANI (%-0.58)",
+      "netPnlUsdt": -0.0255,
+      "netPnlTry": -1.26
+    },
     {
       "id": "pos_1792518585659_STX",
       "symbol": "STX",
@@ -554,6 +593,9 @@
     }
   ],
   "recentLogs": [
+    "[14:52:29] 🎰 [VURGUN SLOTU AÇILDI] BEAMX (163,78 TL) @ $0.003136 | Hedef: +%18 | RSI: 36.25 | Balina: %63.5 | SL: -%2.4",
+    "[14:52:25] 🏁 [POZİSYON KAPANDI] TIA @ $0.6172 | 🛡️ ATR KORUMA KALKANI (%-0.58) | Net: -1,26 TL",
+    "[14:46:03] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[14:27:15] ⚠️ Haber tarayıcı uyarısı: fetch failed",
     "[13:37:45] ⚠️ Haber tarayıcı uyarısı: fetch failed",
     "[11:22:12] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
@@ -590,74 +632,24 @@
     "[02:07:37] 🔧 [OTONOM MÜFETTİŞ] Cüzdandaki FET ($6.92 = 342.00 TL) otomatik olarak açık işlemlere senkronize edildi.",
     "[02:07:35] 🏁 [POZİSYON KAPANDI] FET @ $0.196 | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26) | Net: 0,87 TL",
     "[02:03:44] 🔧 [OTONOM MÜFETTİŞ] Cüzdandaki EDU ($4.66 = 230.29 TL) otomatik olarak açık işlemlere senkronize edildi.",
-    "[02:03:42] 🟢 [OTOMATİK ALIM] SAND (193,11 TL) @ $0.05878 | Skor: 99.2 | RSI: 66.56 | Balina: %63.3 | SL: -%2.26",
-    "[02:03:41] 🏁 [POZİSYON KAPANDI] RSR @ $0.001906 | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.21) | Net: 0,89 TL",
-    "[01:59:39] 🎰 [VURGUN SLOTU AÇILDI] EDU (232,63 TL) @ $0.073 | Hedef: +%18 | RSI: 47.5 | Balina: %55.8 | SL: -%2.4",
-    "[01:57:27] 🔧 [OTONOM MÜFETTİŞ] Cüzdandaki RSR ($8.60 = 424.59 TL) otomatik olarak açık işlemlere senkronize edildi."
+    "[02:03:42] 🟢 [OTOMATİK ALIM] SAND (193,11 TL) @ $0.05878 | Skor: 99.2 | RSI: 66.56 | Balina: %63.3 | SL: -%2.26"
   ],
-  "totalEquityUsdt": 21.098,
-  "totalEquityTry": 1043.93,
-  "totalPnlUsdt": 0.8878,
-  "totalPnlPct": 4.39,
+  "totalEquityUsdt": 21.1332,
+  "totalEquityTry": 1045.67,
+  "totalPnlUsdt": 0.923,
+  "totalPnlPct": 4.57,
   "cooldowns": {
     "ARB": 1792544650227,
-    "SAND": 1792570490286
+    "SAND": 1792570490286,
+    "TIA": 1792605145178
   },
-  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BNB: 0.0004 | CAKE: 0.0022 | EDU: 63.8720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 40.9180 | ICP: 0.0002 | JASMY: 1692.6080 | LDO: 0.0063 | RSR: 0.9660 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TIA: 7.0958 | TRY: 2.7455)",
-  "lastWhatsAppReportAt": 1792581016541,
+  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 1052.8900 | BNB: 0.0004 | CAKE: 0.0022 | EDU: 63.8720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 40.9180 | ICP: 0.0002 | JASMY: 1692.6080 | LDO: 0.0063 | RSR: 0.9660 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TIA: 0.0058 | TRY: 55.1758)",
+  "lastWhatsAppReportAt": 1792583554093,
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
   "usdTryRate": 49.48,
-  "totalPnlTry": 43.93,
+  "totalPnlTry": 45.67,
   "equityHistory": [
-    {
-      "t": "12:58",
-      "v": 1044.12
-    },
-    {
-      "t": "12:58",
-      "v": 1043.27
-    },
-    {
-      "t": "12:59",
-      "v": 1042.7
-    },
-    {
-      "t": "13:00",
-      "v": 1042.89
-    },
-    {
-      "t": "13:01",
-      "v": 1042.72
-    },
-    {
-      "t": "13:02",
-      "v": 1042.56
-    },
-    {
-      "t": "13:03",
-      "v": 1041.57
-    },
-    {
-      "t": "13:04",
-      "v": 1041.78
-    },
-    {
-      "t": "13:05",
-      "v": 1041.64
-    },
-    {
-      "t": "13:06",
-      "v": 1041.02
-    },
-    {
-      "t": "13:07",
-      "v": 1041.39
-    },
-    {
-      "t": "13:08",
-      "v": 1041.43
-    },
     {
       "t": "13:09",
       "v": 1042.07
@@ -993,33 +985,100 @@
     {
       "t": "14:40",
       "v": 1043.93
+    },
+    {
+      "t": "14:41",
+      "v": 1044.59
+    },
+    {
+      "t": "14:42",
+      "v": 1044.81
+    },
+    {
+      "t": "14:43",
+      "v": 1044.98
+    },
+    {
+      "t": "14:44",
+      "v": 1046.53
+    },
+    {
+      "t": "14:45",
+      "v": 1045.88
+    },
+    {
+      "t": "14:46",
+      "v": 1045.05
+    },
+    {
+      "t": "14:47",
+      "v": 1044.98
+    },
+    {
+      "t": "14:47",
+      "v": 1046.32
+    },
+    {
+      "t": "14:48",
+      "v": 1046.25
+    },
+    {
+      "t": "14:49",
+      "v": 1046.22
+    },
+    {
+      "t": "14:49",
+      "v": 1045.59
+    },
+    {
+      "t": "14:52",
+      "v": 1045.67
     }
   ],
   "walletAssetsMap": {
     "ARB": 0.009,
     "AVAX": 0.0082,
-    "BNB": 0.0004,
-    "CAKE": 0.0022,
+    "BEAMX": 1052.89,
+    "BNB": 0.00039996,
+    "CAKE": 0.00216,
     "EDU": 63.872,
-    "ETHW": 0.001,
+    "ETHW": 0.000999,
     "FET": 0.0292,
     "HBAR": 40.918,
-    "ICP": 0.0002,
+    "ICP": 0.000234,
     "JASMY": 1692.608,
-    "LDO": 0.0063,
+    "LDO": 0.00632,
     "RSR": 0.966,
     "SAND": 0.0674,
     "SEI": 0.0926,
     "STX": 0.07,
-    "TIA": 7.0958,
-    "TRY": 2.7455
+    "TIA": 0.00578,
+    "TRY": 55.1758236
   },
-  "dustAssetsUsdt": 0.4307,
-  "dustAssetsTry": 21.31,
+  "dustAssetsUsdt": 0.4351,
+  "dustAssetsTry": 21.53,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-21T11:40:51.711Z",
-    "totalAnalyzedTrades": 13,
+    "updatedAt": "2026-10-21T11:52:34.093Z",
+    "totalAnalyzedTrades": 14,
     "coinStats": {
+      "TIA": {
+        "wins": 0,
+        "losses": 1,
+        "netPnlUsdt": -0.0255,
+        "netPnlTry": -1.26,
+        "lossRsis": [
+          41.08
+        ],
+        "lossWhales": [
+          59.1
+        ],
+        "winRsis": [],
+        "winWhales": [],
+        "scoreMod": -10,
+        "maxRsi": 38,
+        "minWhale": 60,
+        "lessonNote": "🛑 HATA OTOPSİSİ: TIA işleminde RSI 41.1 ve Balina %59.1 seviyesinde sahte kırılım (fakeout) yaşandı (-1.26 TL). Yeni Kural: TIA için RSI tavanı <= 38, Balina şartı >= %60 ve Skor Cezası -10 puan olarak sıkılaştırıldı."
+      },
       "STX": {
         "wins": 2,
         "losses": 0,
@@ -1202,6 +1261,12 @@
       }
     },
     "sourceStats": {
+      "CoinTelegraph": {
+        "wins": 0,
+        "losses": 1,
+        "netPnlUsdt": -0.0255,
+        "scoreMod": -6
+      },
       "ShortSqueezeRadar": {
         "wins": 5,
         "losses": 1,
@@ -1234,6 +1299,7 @@
       }
     },
     "lessons": [
+      "🛑 HATA OTOPSİSİ: TIA işleminde RSI 41.1 ve Balina %59.1 seviyesinde sahte kırılım (fakeout) yaşandı (-1.26 TL). Yeni Kural: TIA için RSI tavanı <= 38, Balina şartı >= %60 ve Skor Cezası -10 puan olarak sıkılaştırıldı.",
       "✅ BAŞARI HAFIZASI: STX (2 Kâr / 0 Zarar, Net +7.87 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +6 puan.",
       "🛑 HATA OTOPSİSİ: SAND işleminde RSI 66.6 ve Balina %63.3 seviyesinde sahte kırılım (fakeout) yaşandı (-4.47 TL). Yeni Kural: SAND için RSI tavanı <= 44, Balina şartı >= %60 ve Skor Cezası -10 puan olarak sıkılaştırıldı.",
       "✅ BAŞARI HAFIZASI: FET (1 Kâr / 0 Zarar, Net +0.87 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
@@ -1270,12 +1336,12 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 1043.93,
+    "totalNetWorthTry": 1045.67,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
-      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %92.3 isabetle (12G/1Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1043.93 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
+      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %85.7 isabetle (12G/2Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1045.67 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-21T11:40:51.711Z"
+    "updatedAt": "2026-10-21T11:52:34.093Z"
   }
 }
