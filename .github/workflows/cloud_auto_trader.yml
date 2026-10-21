@@ -3,6 +3,11 @@ name: 24-7 Cloud Altcoin Auto-Trader (TradingArena AI v9.5)
 on:
   schedule:
     - cron: '*/5 * * * *'
+  push:
+    branches: [main]
+    paths:
+      - 'altcoin_auto_trader.mjs'
+      - '.github/workflows/cloud_auto_trader.yml'
   workflow_dispatch:
 
 concurrency:
