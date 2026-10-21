@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-21T07:19:48.309Z",
+  "updatedAt": "2026-10-21T07:40:09.152Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.2388,
@@ -59,7 +59,7 @@
       "obImbalance": -0.04,
       "entryTime": "2026-10-20T23:08:23.047Z",
       "entryPrice": 0.6208,
-      "currentPrice": 0.6405,
+      "currentPrice": 0.6359,
       "highestPrice": 0.6418,
       "qty": 7.09578,
       "costUsdt": 4.4051,
@@ -72,10 +72,10 @@
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": true,
-      "unrealizedPnlUsdt": 0.1398,
-      "unrealizedPnlPct": 3.17,
-      "currentPriceTry": 31.6471,
-      "currentValueTry": 224.56
+      "unrealizedPnlUsdt": 0.1071,
+      "unrealizedPnlPct": 2.43,
+      "currentPriceTry": 31.4198,
+      "currentValueTry": 222.95
     },
     {
       "id": "pos_1792549300584_JASMY",
@@ -92,8 +92,8 @@
       "obImbalance": 0.04,
       "entryTime": "2026-10-21T02:21:40.584Z",
       "entryPrice": 0.00479,
-      "currentPrice": 0.00477,
-      "highestPrice": 0.00479,
+      "currentPrice": 0.00481,
+      "highestPrice": 0.00481,
       "qty": 1692.608,
       "costUsdt": 8.1076,
       "costTry": 400.6,
@@ -105,10 +105,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0339,
-      "unrealizedPnlPct": -0.42,
-      "currentPriceTry": 0.2357,
-      "currentValueTry": 398.92
+      "unrealizedPnlUsdt": 0.0339,
+      "unrealizedPnlPct": 0.42,
+      "currentPriceTry": 0.2377,
+      "currentValueTry": 402.27
     },
     {
       "id": "pos_1792552108604_HBAR",
@@ -125,8 +125,8 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-21T03:08:28.604Z",
       "entryPrice": 0.08337,
-      "currentPrice": 0.08412,
-      "highestPrice": 0.08412,
+      "currentPrice": 0.08436,
+      "highestPrice": 0.08467,
       "qty": 40.918,
       "costUsdt": 3.4113,
       "costTry": 168.55,
@@ -138,10 +138,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0307,
-      "unrealizedPnlPct": 0.9,
-      "currentPriceTry": 4.1564,
-      "currentValueTry": 170.07
+      "unrealizedPnlUsdt": 0.0405,
+      "unrealizedPnlPct": 1.19,
+      "currentPriceTry": 4.1682,
+      "currentValueTry": 170.56
     }
   ],
   "closedTrades": [
@@ -595,109 +595,21 @@
     "[21:01:17] 🟢 [OTOMATİK ALIM] ARB (425,72 TL) @ $0.1892 | Skor: 117 | RSI: 31.18 | Balina: %51.9 | SL: -%3.13",
     "[21:00:36] ⚡ [AKILLI ROTASYON] AVAX kapatıldı, yerine 122 puanlık dev fırsat (ARB) alınıyor!"
   ],
-  "totalEquityUsdt": 21.17,
-  "totalEquityTry": 1046.01,
-  "totalPnlUsdt": 0.9312,
-  "totalPnlPct": 4.6,
+  "totalEquityUsdt": 21.2166,
+  "totalEquityTry": 1048.31,
+  "totalPnlUsdt": 0.9777,
+  "totalPnlPct": 4.83,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286
   },
   "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BNB: 0.0004 | CAKE: 0.0022 | EDU: 63.8720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 40.9180 | ICP: 0.0002 | JASMY: 1692.6080 | LDO: 0.0063 | RSR: 0.9660 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TIA: 7.0958 | TRY: 2.7455)",
   "lastWhatsAppReportAt": 1792566556624,
-  "highWaterMarkUsdt": 20.8128,
+  "highWaterMarkUsdt": 20.8456,
   "cashIdleSince": null,
   "usdTryRate": 49.41,
-  "totalPnlTry": 46.01,
+  "totalPnlTry": 48.31,
   "equityHistory": [
-    {
-      "t": "08:44",
-      "v": 1025.95
-    },
-    {
-      "t": "08:45",
-      "v": 1027.2
-    },
-    {
-      "t": "08:46",
-      "v": 1027
-    },
-    {
-      "t": "08:46",
-      "v": 1028.27
-    },
-    {
-      "t": "08:47",
-      "v": 1027.78
-    },
-    {
-      "t": "08:48",
-      "v": 1028.04
-    },
-    {
-      "t": "08:49",
-      "v": 1028.32
-    },
-    {
-      "t": "08:50",
-      "v": 1029.08
-    },
-    {
-      "t": "08:51",
-      "v": 1027.99
-    },
-    {
-      "t": "08:52",
-      "v": 1027.65
-    },
-    {
-      "t": "08:53",
-      "v": 1027.48
-    },
-    {
-      "t": "08:54",
-      "v": 1028.25
-    },
-    {
-      "t": "08:55",
-      "v": 1028.59
-    },
-    {
-      "t": "08:56",
-      "v": 1029.96
-    },
-    {
-      "t": "08:56",
-      "v": 1028.37
-    },
-    {
-      "t": "08:57",
-      "v": 1028.37
-    },
-    {
-      "t": "08:58",
-      "v": 1027.95
-    },
-    {
-      "t": "08:59",
-      "v": 1028.31
-    },
-    {
-      "t": "09:00",
-      "v": 1028.08
-    },
-    {
-      "t": "09:01",
-      "v": 1028.43
-    },
-    {
-      "t": "09:02",
-      "v": 1027.76
-    },
-    {
-      "t": "09:02",
-      "v": 1028.44
-    },
     {
       "t": "09:03",
       "v": 1028.38
@@ -993,6 +905,94 @@
     {
       "t": "10:19",
       "v": 1045.54
+    },
+    {
+      "t": "10:20",
+      "v": 1045.69
+    },
+    {
+      "t": "10:21",
+      "v": 1046.93
+    },
+    {
+      "t": "10:22",
+      "v": 1046.88
+    },
+    {
+      "t": "10:23",
+      "v": 1047.08
+    },
+    {
+      "t": "10:24",
+      "v": 1046.31
+    },
+    {
+      "t": "10:25",
+      "v": 1047.96
+    },
+    {
+      "t": "10:26",
+      "v": 1047.97
+    },
+    {
+      "t": "10:27",
+      "v": 1048.77
+    },
+    {
+      "t": "10:28",
+      "v": 1048.37
+    },
+    {
+      "t": "10:29",
+      "v": 1050.27
+    },
+    {
+      "t": "10:30",
+      "v": 1051.28
+    },
+    {
+      "t": "10:31",
+      "v": 1050.97
+    },
+    {
+      "t": "10:31",
+      "v": 1049.94
+    },
+    {
+      "t": "10:32",
+      "v": 1049.08
+    },
+    {
+      "t": "10:33",
+      "v": 1050.9
+    },
+    {
+      "t": "10:34",
+      "v": 1048.89
+    },
+    {
+      "t": "10:35",
+      "v": 1048.32
+    },
+    {
+      "t": "10:36",
+      "v": 1047.93
+    },
+    {
+      "t": "10:37",
+      "v": 1047.82
+    },
+    {
+      "t": "10:38",
+      "v": 1047.41
+    },
+    {
+      "t": "10:39",
+      "v": 1048.35
+    },
+    {
+      "t": "10:40",
+      "v": 1048.31
     }
   ],
   "walletAssetsMap": {
@@ -1014,6 +1014,6 @@
     "TIA": 7.0958,
     "TRY": 2.7455
   },
-  "dustAssetsUsdt": 0.4296,
-  "dustAssetsTry": 21.22
+  "dustAssetsUsdt": 0.4311,
+  "dustAssetsTry": 21.3
 }
