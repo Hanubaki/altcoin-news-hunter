@@ -1,14 +1,14 @@
 {
-  "updatedAt": "2026-10-21T11:20:32.015Z",
-  "scanDurationMs": 10879,
+  "updatedAt": "2026-10-21T11:40:46.074Z",
+  "scanDurationMs": 9538,
   "bankrollTry": 1000,
   "bankrollUsdt": 20.22,
-  "btc1hChangePct": 0.12,
+  "btc1hChangePct": 0.15,
   "btcCrashAlert": false,
-  "marketBreadthPct": 95,
+  "marketBreadthPct": 96,
   "fearGreedVal": 63,
   "fearGreedClass": "Greed",
-  "btcDominancePct": 57.42,
+  "btcDominancePct": 57.43,
   "totalHeadlinesScanned": 95,
   "activeFeeds": [
     "BinanceCMS (3)",
@@ -20,117 +20,45 @@
   ],
   "top4AltcoinPicks": [
     {
-      "symbol": "AVAX",
-      "leaderSymbol": "XRP",
+      "symbol": "INJ",
+      "leaderSymbol": "SUI",
       "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "rwa"
-      ],
-      "newsScore": 4.8,
-      "freshestMinutesAgo": 65,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "Bitget Advances Institutional RWA Strategy Super Match Liquidity Framework",
-          "minutesAgo": 65,
-          "catalystPoints": 4.8,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 9.727,
-      "vwap24h": 9.7031,
-      "aboveVwap": true,
-      "change1hPct": 0.31,
-      "change24hPct": 3.402,
-      "lagVsLeader24h": 1.51,
-      "rsi1h": 42.18,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.78,
-      "bbPctB": 0.57,
-      "bbWidthPct": 1.98,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 4.9,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 9.43,
-      "resistance": 9.909,
-      "roomToResistancePct": 1.87,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 48.9,
-      "last1hTakerBuyPct": 35.4,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.25,
-      "fundingHourlyPct": -0.0024,
-      "basisSpreadPct": 0.082,
-      "totalScore": 83.3,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 10.165,
-      "slPrice": 9.5325,
-      "topWhaleLongPct": 72,
-      "oiChange15mPct": 0.63,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 75,
-          "reason": "Haber RWA odaklı, AVAX'a doğrudan katalizör etkisi yok."
-        }
-      ],
-      "liveLlmDecision": "WAIT",
-      "liveLlmConfidence": 75,
-      "liveLlmReason": "[Qwen-3.8: WAIT %75] Haber RWA odaklı, AVAX'a doğrudan katalizör etkisi yok."
-    },
-    {
-      "symbol": "BEAMX",
-      "leaderSymbol": "IMX",
-      "ecosystems": [
-        "Web3 Oyun (GameFi), Immutable, Ronin & Metaverse"
+        "Move VM & Yeni Nesil Yüksek Hızlı L1 (Sui / Aptos / Sei / Injective)"
       ],
       "matchedKeywords": [
         "whale-flow",
-        "laggard-dip-accumulation"
+        "short-squeeze"
       ],
-      "newsScore": 4.21,
+      "newsScore": 5.37,
       "freshestMinutesAgo": 20,
       "headlines": [
         {
-          "source": "WhaleOrderflowRadar",
-          "title": "BEAMX Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+          "source": "ShortSqueezeRadar",
+          "title": "INJ Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
           "minutesAgo": 20,
-          "catalystPoints": 4.21,
+          "catalystPoints": 5.37,
           "directMention": true
         }
       ],
-      "lastPrice": 0.00314,
-      "vwap24h": 0.0031891,
+      "lastPrice": 8.766,
+      "vwap24h": 8.8505,
       "aboveVwap": false,
-      "change1hPct": 0.35,
-      "change24hPct": -0.412,
-      "lagVsLeader24h": 2.06,
-      "rsi1h": 37.25,
+      "change1hPct": 0.17,
+      "change24hPct": 2.622,
+      "lagVsLeader24h": 1.19,
+      "rsi1h": 46.95,
       "hasRsiDivergence": true,
-      "atr1hPct": 1.39,
-      "bbPctB": 0.36,
-      "bbWidthPct": 4.87,
+      "atr1hPct": 1.95,
+      "bbPctB": 0.44,
+      "bbWidthPct": 8.5,
       "isSqueeze": false,
       "macdBullishTurn": true,
-      "adx": 5.4,
+      "adx": 7.5,
       "ema20AboveEma50": true,
       "regime": "DIP_TOPLAMA",
-      "support": 0.003059,
-      "resistance": 0.003268,
-      "roomToResistancePct": 4.08,
+      "support": 8.473,
+      "resistance": 9.309,
+      "roomToResistancePct": 6.19,
       "aiConsensusCount": 4,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -139,96 +67,21 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 64.2,
-      "last1hTakerBuyPct": 62.1,
+      "takerBuyRatioPct": 58.4,
+      "last1hTakerBuyPct": 58.8,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.09,
-      "fundingHourlyPct": 0.005,
-      "basisSpreadPct": 0.11,
-      "totalScore": 99,
-      "tpPct": 5.65,
-      "slPct": 2.29,
-      "tpPrice": 0.0033174,
-      "slPrice": 0.0030681,
-      "topWhaleLongPct": 67.4,
-      "oiChange15mPct": 0.23,
-      "realApiVerdicts": [
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 78,
-          "reason": "Balina alımı, RSI düşük, yükseliş potansiyeli"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 78,
-      "liveLlmReason": "[GPT-120B: LONG %78] Balina alımı, RSI düşük, yükseliş potansiyeli"
+      "volRatio": 0.68,
+      "fundingHourlyPct": -0.001,
+      "basisSpreadPct": 0.062,
+      "totalScore": 104.3,
+      "tpPct": 7.51,
+      "slPct": 3.2,
+      "tpPrice": 9.4243,
+      "slPrice": 8.4855,
+      "topWhaleLongPct": 64.7,
+      "oiChange15mPct": -0.05
     },
-    {
-      "symbol": "EDU",
-      "leaderSymbol": "BNB",
-      "ecosystems": [
-        "Binance / BNB Chain, Launchpool & DEX Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "pancakeswap"
-      ],
-      "newsScore": 3.2,
-      "freshestMinutesAgo": 5,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "PancakeSwap TVL tops $380M as major fee overhaul heads to vote",
-          "minutesAgo": 5,
-          "catalystPoints": 3.2,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.0731,
-      "vwap24h": 0.073255,
-      "aboveVwap": true,
-      "change1hPct": 0.55,
-      "change24hPct": 0.412,
-      "lagVsLeader24h": 2.28,
-      "rsi1h": 46.15,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.87,
-      "bbPctB": 0.54,
-      "bbWidthPct": 2.69,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 36,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.0721,
-      "resistance": 0.0746,
-      "roomToResistancePct": 2.05,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 75.2,
-      "last1hTakerBuyPct": 85.4,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.61,
-      "fundingHourlyPct": 0.0082,
-      "basisSpreadPct": 0.121,
-      "totalScore": 95.5,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.076389,
-      "slPrice": 0.071638,
-      "topWhaleLongPct": 68.2,
-      "oiChange15mPct": 0.55
-    }
-  ],
-  "allQualifiedOpportunities": [
     {
       "symbol": "AVAX",
       "leaderSymbol": "XRP",
@@ -249,16 +102,16 @@
           "directMention": false
         }
       ],
-      "lastPrice": 9.727,
-      "vwap24h": 9.7031,
+      "lastPrice": 9.707,
+      "vwap24h": 9.7032,
       "aboveVwap": true,
-      "change1hPct": 0.31,
-      "change24hPct": 3.402,
-      "lagVsLeader24h": 1.51,
-      "rsi1h": 42.18,
+      "change1hPct": 0.05,
+      "change24hPct": 2.905,
+      "lagVsLeader24h": 1.33,
+      "rsi1h": 38.54,
       "hasRsiDivergence": true,
-      "atr1hPct": 0.78,
-      "bbPctB": 0.57,
+      "atr1hPct": 0.79,
+      "bbPctB": 0.45,
       "bbWidthPct": 1.98,
       "isSqueeze": true,
       "macdBullishTurn": true,
@@ -267,7 +120,7 @@
       "regime": "DIP_TOPLAMA",
       "support": 9.43,
       "resistance": 9.909,
-      "roomToResistancePct": 1.87,
+      "roomToResistancePct": 2.08,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
         "Llama-4-Maverick",
@@ -275,347 +128,20 @@
         "Gemini-3.5-Flash"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 48.9,
-      "last1hTakerBuyPct": 35.4,
+      "takerBuyRatioPct": 48.6,
+      "last1hTakerBuyPct": 39.6,
       "isGreenBounce": true,
       "isTrending": false,
-      "volRatio": 0.25,
-      "fundingHourlyPct": -0.0024,
-      "basisSpreadPct": 0.082,
-      "totalScore": 83.3,
+      "volRatio": 0.41,
+      "fundingHourlyPct": -0.0027,
+      "basisSpreadPct": 0.047,
+      "totalScore": 90,
       "tpPct": 4.5,
       "slPct": 2,
-      "tpPrice": 10.165,
-      "slPrice": 9.5325,
+      "tpPrice": 10.144,
+      "slPrice": 9.5129,
       "topWhaleLongPct": 72,
-      "oiChange15mPct": 0.63,
-      "realApiVerdicts": [
-        {
-          "model": "Qwen-3.8",
-          "decision": "WAIT",
-          "confidence": 75,
-          "reason": "Haber RWA odaklı, AVAX'a doğrudan katalizör etkisi yok."
-        }
-      ],
-      "liveLlmDecision": "WAIT",
-      "liveLlmConfidence": 75,
-      "liveLlmReason": "[Qwen-3.8: WAIT %75] Haber RWA odaklı, AVAX'a doğrudan katalizör etkisi yok."
-    },
-    {
-      "symbol": "BEAMX",
-      "leaderSymbol": "IMX",
-      "ecosystems": [
-        "Web3 Oyun (GameFi), Immutable, Ronin & Metaverse"
-      ],
-      "matchedKeywords": [
-        "whale-flow",
-        "laggard-dip-accumulation"
-      ],
-      "newsScore": 4.21,
-      "freshestMinutesAgo": 20,
-      "headlines": [
-        {
-          "source": "WhaleOrderflowRadar",
-          "title": "BEAMX Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
-          "minutesAgo": 20,
-          "catalystPoints": 4.21,
-          "directMention": true
-        }
-      ],
-      "lastPrice": 0.00314,
-      "vwap24h": 0.0031891,
-      "aboveVwap": false,
-      "change1hPct": 0.35,
-      "change24hPct": -0.412,
-      "lagVsLeader24h": 2.06,
-      "rsi1h": 37.25,
-      "hasRsiDivergence": true,
-      "atr1hPct": 1.39,
-      "bbPctB": 0.36,
-      "bbWidthPct": 4.87,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 5.4,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.003059,
-      "resistance": 0.003268,
-      "roomToResistancePct": 4.08,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 64.2,
-      "last1hTakerBuyPct": 62.1,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.09,
-      "fundingHourlyPct": 0.005,
-      "basisSpreadPct": 0.11,
-      "totalScore": 99,
-      "tpPct": 5.65,
-      "slPct": 2.29,
-      "tpPrice": 0.0033174,
-      "slPrice": 0.0030681,
-      "topWhaleLongPct": 67.4,
-      "oiChange15mPct": 0.23,
-      "realApiVerdicts": [
-        {
-          "model": "GPT-120B",
-          "decision": "LONG",
-          "confidence": 78,
-          "reason": "Balina alımı, RSI düşük, yükseliş potansiyeli"
-        }
-      ],
-      "liveLlmDecision": "LONG",
-      "liveLlmConfidence": 78,
-      "liveLlmReason": "[GPT-120B: LONG %78] Balina alımı, RSI düşük, yükseliş potansiyeli"
-    },
-    {
-      "symbol": "EDU",
-      "leaderSymbol": "BNB",
-      "ecosystems": [
-        "Binance / BNB Chain, Launchpool & DEX Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "pancakeswap"
-      ],
-      "newsScore": 3.2,
-      "freshestMinutesAgo": 5,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "PancakeSwap TVL tops $380M as major fee overhaul heads to vote",
-          "minutesAgo": 5,
-          "catalystPoints": 3.2,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.0731,
-      "vwap24h": 0.073255,
-      "aboveVwap": true,
-      "change1hPct": 0.55,
-      "change24hPct": 0.412,
-      "lagVsLeader24h": 2.28,
-      "rsi1h": 46.15,
-      "hasRsiDivergence": true,
-      "atr1hPct": 0.87,
-      "bbPctB": 0.54,
-      "bbWidthPct": 2.69,
-      "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 36,
-      "ema20AboveEma50": false,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.0721,
-      "resistance": 0.0746,
-      "roomToResistancePct": 2.05,
-      "aiConsensusCount": 4,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "4/4 AI ONAYLI",
-      "takerBuyRatioPct": 75.2,
-      "last1hTakerBuyPct": 85.4,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.61,
-      "fundingHourlyPct": 0.0082,
-      "basisSpreadPct": 0.121,
-      "totalScore": 95.5,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "tpPrice": 0.076389,
-      "slPrice": 0.071638,
-      "topWhaleLongPct": 68.2,
-      "oiChange15mPct": 0.55
-    },
-    {
-      "symbol": "ONDO",
-      "leaderSymbol": "XRP",
-      "ecosystems": [
-        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
-      ],
-      "matchedKeywords": [
-        "rwa"
-      ],
-      "newsScore": 4.8,
-      "freshestMinutesAgo": 65,
-      "headlines": [
-        {
-          "source": "BeInCrypto",
-          "title": "Bitget Advances Institutional RWA Strategy Super Match Liquidity Framework",
-          "minutesAgo": 65,
-          "catalystPoints": 4.8,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.4586,
-      "vwap24h": 0,
-      "aboveVwap": true,
-      "change1hPct": 0,
-      "change24hPct": 5.912,
-      "lagVsLeader24h": -1,
-      "rsi1h": 50,
-      "hasRsiDivergence": false,
-      "atr1hPct": 2.5,
-      "bbPctB": 0.5,
-      "bbWidthPct": 5,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 20,
-      "ema20AboveEma50": true,
-      "regime": "DENGELI",
-      "support": 0.440256,
-      "resistance": 0.48611600000000005,
-      "roomToResistancePct": 6,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 50,
-      "last1hTakerBuyPct": 50,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 1,
-      "fundingHourlyPct": 0.0013,
-      "basisSpreadPct": 0.081,
-      "totalScore": 53.6,
-      "tpPct": 4.55,
-      "slPct": 3.2,
-      "tpPrice": 0.47947,
-      "slPrice": 0.44392,
-      "topWhaleLongPct": 76.5,
-      "oiChange15mPct": 0.44
-    },
-    {
-      "symbol": "CAKE",
-      "leaderSymbol": "BNB",
-      "ecosystems": [
-        "Binance / BNB Chain, Launchpool & DEX Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "pancakeswap"
-      ],
-      "newsScore": 3.2,
-      "freshestMinutesAgo": 5,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "PancakeSwap TVL tops $380M as major fee overhaul heads to vote",
-          "minutesAgo": 5,
-          "catalystPoints": 3.2,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 2.253,
-      "vwap24h": 0,
-      "aboveVwap": true,
-      "change1hPct": 0,
-      "change24hPct": 4.499,
-      "lagVsLeader24h": -1.8,
-      "rsi1h": 50,
-      "hasRsiDivergence": false,
-      "atr1hPct": 2.5,
-      "bbPctB": 0.5,
-      "bbWidthPct": 5,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 20,
-      "ema20AboveEma50": true,
-      "regime": "DENGELI",
-      "support": 2.16288,
-      "resistance": 2.38818,
-      "roomToResistancePct": 6,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 50,
-      "last1hTakerBuyPct": 50,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 1,
-      "fundingHourlyPct": 0.0013,
-      "basisSpreadPct": 0.029,
-      "totalScore": 40.4,
-      "tpPct": 4.5,
-      "slPct": 3.2,
-      "tpPrice": 2.3544,
-      "slPrice": 2.1809,
-      "topWhaleLongPct": 74.3,
-      "oiChange15mPct": 0.18
-    },
-    {
-      "symbol": "TWT",
-      "leaderSymbol": "BNB",
-      "ecosystems": [
-        "Binance / BNB Chain, Launchpool & DEX Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "pancakeswap"
-      ],
-      "newsScore": 3.2,
-      "freshestMinutesAgo": 5,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "PancakeSwap TVL tops $380M as major fee overhaul heads to vote",
-          "minutesAgo": 5,
-          "catalystPoints": 3.2,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.4715,
-      "vwap24h": 0,
-      "aboveVwap": true,
-      "change1hPct": 0,
-      "change24hPct": 3.969,
-      "lagVsLeader24h": -1.27,
-      "rsi1h": 50,
-      "hasRsiDivergence": false,
-      "atr1hPct": 2.5,
-      "bbPctB": 0.5,
-      "bbWidthPct": 5,
-      "isSqueeze": false,
-      "macdBullishTurn": false,
-      "adx": 20,
-      "ema20AboveEma50": true,
-      "regime": "DENGELI",
-      "support": 0.45263999999999993,
-      "resistance": 0.49979,
-      "roomToResistancePct": 6,
-      "aiConsensusCount": 2,
-      "aiConsensusModels": [
-        "Llama-4-Scout",
-        "Gemini-3.5-Flash"
-      ],
-      "aiConsensusLabel": "2/4 AI ONAYLI",
-      "takerBuyRatioPct": 50,
-      "last1hTakerBuyPct": 50,
-      "isGreenBounce": false,
-      "isTrending": false,
-      "volRatio": 1,
-      "fundingHourlyPct": 0.005,
-      "basisSpreadPct": 0.279,
-      "totalScore": 40.4,
-      "tpPct": 4.5,
-      "slPct": 3.2,
-      "tpPrice": 0.49272,
-      "slPrice": 0.45641,
-      "topWhaleLongPct": 89.8,
-      "oiChange15mPct": 0.09
+      "oiChange15mPct": -0.08
     },
     {
       "symbol": "ID",
@@ -642,7 +168,7 @@
       "aboveVwap": true,
       "change1hPct": 0,
       "change24hPct": 8.852,
-      "lagVsLeader24h": -6.16,
+      "lagVsLeader24h": -6.57,
       "rsi1h": 50,
       "hasRsiDivergence": false,
       "atr1hPct": 2.5,
@@ -668,14 +194,321 @@
       "isTrending": false,
       "volRatio": 1,
       "fundingHourlyPct": 0.005,
-      "basisSpreadPct": -0.027,
+      "basisSpreadPct": 0,
       "totalScore": 37.4,
       "tpPct": 9,
       "slPct": 3.2,
       "tpPrice": 0.036188,
       "slPrice": 0.032138,
       "topWhaleLongPct": 57.7,
-      "oiChange15mPct": -0.62
+      "oiChange15mPct": -1.07
+    }
+  ],
+  "allQualifiedOpportunities": [
+    {
+      "symbol": "INJ",
+      "leaderSymbol": "SUI",
+      "ecosystems": [
+        "Move VM & Yeni Nesil Yüksek Hızlı L1 (Sui / Aptos / Sei / Injective)"
+      ],
+      "matchedKeywords": [
+        "whale-flow",
+        "short-squeeze"
+      ],
+      "newsScore": 5.37,
+      "freshestMinutesAgo": 20,
+      "headlines": [
+        {
+          "source": "ShortSqueezeRadar",
+          "title": "INJ Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
+          "minutesAgo": 20,
+          "catalystPoints": 5.37,
+          "directMention": true
+        }
+      ],
+      "lastPrice": 8.766,
+      "vwap24h": 8.8505,
+      "aboveVwap": false,
+      "change1hPct": 0.17,
+      "change24hPct": 2.622,
+      "lagVsLeader24h": 1.19,
+      "rsi1h": 46.95,
+      "hasRsiDivergence": true,
+      "atr1hPct": 1.95,
+      "bbPctB": 0.44,
+      "bbWidthPct": 8.5,
+      "isSqueeze": false,
+      "macdBullishTurn": true,
+      "adx": 7.5,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 8.473,
+      "resistance": 9.309,
+      "roomToResistancePct": 6.19,
+      "aiConsensusCount": 4,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "4/4 AI ONAYLI",
+      "takerBuyRatioPct": 58.4,
+      "last1hTakerBuyPct": 58.8,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.68,
+      "fundingHourlyPct": -0.001,
+      "basisSpreadPct": 0.062,
+      "totalScore": 104.3,
+      "tpPct": 7.51,
+      "slPct": 3.2,
+      "tpPrice": 9.4243,
+      "slPrice": 8.4855,
+      "topWhaleLongPct": 64.7,
+      "oiChange15mPct": -0.05
+    },
+    {
+      "symbol": "AVAX",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "rwa"
+      ],
+      "newsScore": 4.8,
+      "freshestMinutesAgo": 65,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "Bitget Advances Institutional RWA Strategy Super Match Liquidity Framework",
+          "minutesAgo": 65,
+          "catalystPoints": 4.8,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 9.707,
+      "vwap24h": 9.7032,
+      "aboveVwap": true,
+      "change1hPct": 0.05,
+      "change24hPct": 2.905,
+      "lagVsLeader24h": 1.33,
+      "rsi1h": 38.54,
+      "hasRsiDivergence": true,
+      "atr1hPct": 0.79,
+      "bbPctB": 0.45,
+      "bbWidthPct": 1.98,
+      "isSqueeze": true,
+      "macdBullishTurn": true,
+      "adx": 4.9,
+      "ema20AboveEma50": true,
+      "regime": "DIP_TOPLAMA",
+      "support": 9.43,
+      "resistance": 9.909,
+      "roomToResistancePct": 2.08,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Maverick",
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 48.6,
+      "last1hTakerBuyPct": 39.6,
+      "isGreenBounce": true,
+      "isTrending": false,
+      "volRatio": 0.41,
+      "fundingHourlyPct": -0.0027,
+      "basisSpreadPct": 0.047,
+      "totalScore": 90,
+      "tpPct": 4.5,
+      "slPct": 2,
+      "tpPrice": 10.144,
+      "slPrice": 9.5129,
+      "topWhaleLongPct": 72,
+      "oiChange15mPct": -0.08
+    },
+    {
+      "symbol": "RSR",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "rwa"
+      ],
+      "newsScore": 4.8,
+      "freshestMinutesAgo": 65,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "Bitget Advances Institutional RWA Strategy Super Match Liquidity Framework",
+          "minutesAgo": 65,
+          "catalystPoints": 4.8,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.00194,
+      "vwap24h": 0,
+      "aboveVwap": true,
+      "change1hPct": 0,
+      "change24hPct": 5.837,
+      "lagVsLeader24h": -1.61,
+      "rsi1h": 50,
+      "hasRsiDivergence": false,
+      "atr1hPct": 2.5,
+      "bbPctB": 0.5,
+      "bbWidthPct": 5,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 20,
+      "ema20AboveEma50": true,
+      "regime": "DENGELI",
+      "support": 0.0018624,
+      "resistance": 0.0020564000000000003,
+      "roomToResistancePct": 6,
+      "aiConsensusCount": 3,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash",
+        "Claude-Opus-4.8"
+      ],
+      "aiConsensusLabel": "3/4 AI ONAYLI",
+      "takerBuyRatioPct": 50,
+      "last1hTakerBuyPct": 50,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 1,
+      "fundingHourlyPct": -0.0077,
+      "basisSpreadPct": 0.221,
+      "totalScore": 63.6,
+      "tpPct": 4.75,
+      "slPct": 3.2,
+      "tpPrice": 0.0020322,
+      "slPrice": 0.0018779,
+      "topWhaleLongPct": 57.9,
+      "oiChange15mPct": 0.21
+    },
+    {
+      "symbol": "HBAR",
+      "leaderSymbol": "XRP",
+      "ecosystems": [
+        "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar"
+      ],
+      "matchedKeywords": [
+        "rwa"
+      ],
+      "newsScore": 4.8,
+      "freshestMinutesAgo": 65,
+      "headlines": [
+        {
+          "source": "BeInCrypto",
+          "title": "Bitget Advances Institutional RWA Strategy Super Match Liquidity Framework",
+          "minutesAgo": 65,
+          "catalystPoints": 4.8,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.08481,
+      "vwap24h": 0,
+      "aboveVwap": true,
+      "change1hPct": 0,
+      "change24hPct": 2.329,
+      "lagVsLeader24h": 1.9,
+      "rsi1h": 50,
+      "hasRsiDivergence": false,
+      "atr1hPct": 2.5,
+      "bbPctB": 0.5,
+      "bbWidthPct": 5,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 20,
+      "ema20AboveEma50": true,
+      "regime": "DENGELI",
+      "support": 0.08141759999999999,
+      "resistance": 0.0898986,
+      "roomToResistancePct": 6,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 50,
+      "last1hTakerBuyPct": 50,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 1,
+      "fundingHourlyPct": 0.0013,
+      "basisSpreadPct": 0.023,
+      "totalScore": 51,
+      "tpPct": 4.5,
+      "slPct": 3.2,
+      "tpPrice": 0.088626,
+      "slPrice": 0.082096,
+      "topWhaleLongPct": 75,
+      "oiChange15mPct": 0.35
+    },
+    {
+      "symbol": "ID",
+      "leaderSymbol": "BNB",
+      "ecosystems": [
+        "Binance / BNB Chain, Launchpool & DEX Ekosistemi"
+      ],
+      "matchedKeywords": [
+        "pancakeswap"
+      ],
+      "newsScore": 3.2,
+      "freshestMinutesAgo": 5,
+      "headlines": [
+        {
+          "source": "CoinTelegraph",
+          "title": "PancakeSwap TVL tops $380M as major fee overhaul heads to vote",
+          "minutesAgo": 5,
+          "catalystPoints": 3.2,
+          "directMention": false
+        }
+      ],
+      "lastPrice": 0.0332,
+      "vwap24h": 0,
+      "aboveVwap": true,
+      "change1hPct": 0,
+      "change24hPct": 8.852,
+      "lagVsLeader24h": -6.57,
+      "rsi1h": 50,
+      "hasRsiDivergence": false,
+      "atr1hPct": 2.5,
+      "bbPctB": 0.5,
+      "bbWidthPct": 5,
+      "isSqueeze": false,
+      "macdBullishTurn": false,
+      "adx": 20,
+      "ema20AboveEma50": true,
+      "regime": "DENGELI",
+      "support": 0.031872,
+      "resistance": 0.035192,
+      "roomToResistancePct": 6,
+      "aiConsensusCount": 2,
+      "aiConsensusModels": [
+        "Llama-4-Scout",
+        "Gemini-3.5-Flash"
+      ],
+      "aiConsensusLabel": "2/4 AI ONAYLI",
+      "takerBuyRatioPct": 50,
+      "last1hTakerBuyPct": 50,
+      "isGreenBounce": false,
+      "isTrending": false,
+      "volRatio": 1,
+      "fundingHourlyPct": 0.005,
+      "basisSpreadPct": 0,
+      "totalScore": 37.4,
+      "tpPct": 9,
+      "slPct": 3.2,
+      "tpPrice": 0.036188,
+      "slPrice": 0.032138,
+      "topWhaleLongPct": 57.7,
+      "oiChange15mPct": -1.07
     }
   ]
 }
