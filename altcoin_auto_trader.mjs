@@ -945,23 +945,30 @@ async function runTradingCycle() {
     }
 
     // Engine #8: 5-STAGE ZERO-RISK RATCHET LADDER (Adim Adim Sifir Risk Merdiveni)
-    // Locks stop-loss above entry at +1.8% gain (+0.60% net floor), and ratchets up guaranteed profit at +2.5%, +3.2%, +4.5%, +7.0% without premature whipsaws!
+    // Core slots lock tightly at +2.2%, +3.2%, +4.5%, +7.0%; Moonshot (Vurgun) slot locks zero-risk at +2.2% (+0.6% floor) and then leaves a wide 3.5% rocket buffer so +5% moves aren't choked before hitting +12% to +18%!
     const peakGainPct = ((pos.highestPrice - pos.entryPrice) / pos.entryPrice) * 100;
     let stepFloorPrice = pos.stopLossPrice;
-    if (peakGainPct >= 7.0) {
-      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.988).toPrecision(5)), Number((pos.entryPrice * 1.058).toPrecision(5)));
-    } else if (peakGainPct >= 4.5) {
-      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.986).toPrecision(5)), Number((pos.entryPrice * 1.032).toPrecision(5)));
-    } else if (peakGainPct >= 3.2) {
-      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.020).toPrecision(5)));
-    } else if (peakGainPct >= 2.5) {
-      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.013).toPrecision(5)));
-    } else if (peakGainPct >= 1.8) {
-      // Zero-Risk Breakeven+ Lock once coin reaches +1.8% peak (locks +0.60% net profit, giving 1.2% breathing room against whipsaws)
-      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.006).toPrecision(5)));
-    } else if (peakGainPct >= 1.48) {
-      // True Breakeven Lock at +1.5% peak: locks +0.35% net profit so a +1.5% winner never turns into a loss!
-      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.0035).toPrecision(5)));
+    if (pos.isMoonshot) {
+      if (peakGainPct >= 14.0) {
+        stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.970).toPrecision(5)), Number((pos.entryPrice * 1.105).toPrecision(5)));
+      } else if (peakGainPct >= 9.0) {
+        stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.966).toPrecision(5)), Number((pos.entryPrice * 1.055).toPrecision(5)));
+      } else if (peakGainPct >= 5.5) {
+        stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.964).toPrecision(5)), Number((pos.entryPrice * 1.022).toPrecision(5)));
+      } else if (peakGainPct >= 2.2) {
+        stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.006).toPrecision(5)));
+      }
+    } else {
+      if (peakGainPct >= 7.0) {
+        stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.988).toPrecision(5)), Number((pos.entryPrice * 1.058).toPrecision(5)));
+      } else if (peakGainPct >= 4.5) {
+        stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.986).toPrecision(5)), Number((pos.entryPrice * 1.032).toPrecision(5)));
+      } else if (peakGainPct >= 3.2) {
+        stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.018).toPrecision(5)));
+      } else if (peakGainPct >= 2.2) {
+        // Zero-Risk Breakeven+ Lock once coin reaches +2.2% peak (locks +0.80% net profit, giving 1.4% breathing room against normal pullbacks!)
+        stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.008).toPrecision(5)));
+      }
     }
 
     if (stepFloorPrice > pos.stopLossPrice && currentBid > stepFloorPrice) {
@@ -1159,8 +1166,8 @@ async function runTradingCycle() {
     }
     const isAntiMeltdownActive = consecutiveLosses >= 2 || drawdownFromPeakPct >= 4.0;
 
-    // Idle Cash Self-Healing Watchdog: If cash >= 2.50 USDT sits idle > 15 mins, relax ecosystem/orderbook filters automatically
-    if (state.cashUsdt >= 2.50 && state.openPositions.filter(p => !p.isMoonshot).length < cfg.MAX_OPEN_POSITIONS) {
+    // Idle Cash Self-Healing Watchdog: If cash >= 1.50 USDT (~75 TL) sits idle > 15 mins, relax ecosystem/orderbook filters automatically
+    if (state.cashUsdt >= 1.50 && state.openPositions.filter(p => !p.isMoonshot).length < cfg.MAX_OPEN_POSITIONS) {
       if (!state.cashIdleSince) state.cashIdleSince = nowMs;
     } else {
       state.cashIdleSince = null;
@@ -1169,7 +1176,7 @@ async function runTradingCycle() {
 
     for (const cand of candidates) {
       if (state.openPositions.filter(p => !p.isMoonshot).length >= cfg.MAX_OPEN_POSITIONS) break;
-      if (state.cashUsdt < 2.50) break;
+      if (state.cashUsdt < 1.50) break;
       if (heldSymbols.has(cand.symbol)) continue;
       // Only skip if AI explicitly flagged WAIT with ultra-high trap confidence (>=92) AND whale flow is weak (<53%)
       if (cand.liveLlmDecision === 'WAIT' && (cand.liveLlmConfidence || 0) >= 92 && (cand.takerBuyRatioPct || 50) < 53) continue;
@@ -1222,7 +1229,7 @@ async function runTradingCycle() {
       const targetAllocUsdt = Math.floor(currentTotalEquity * convictionPct * 100) / 100;
       const availCashUsdt = Math.floor(Math.max(0, state.cashUsdt) * 100) / 100;
       const costUsdt = Number(Math.min(targetAllocUsdt, availCashUsdt).toFixed(2));
-      if (costUsdt < 2.50) continue;
+      if (costUsdt < 1.50) continue;
 
       const buyPrice = q.bestAsk;
       const qty = Number((costUsdt / buyPrice).toPrecision(4));
@@ -1281,19 +1288,28 @@ async function runTradingCycle() {
     }
   }
 
-  // Step 4: Engine #11 — PROTECTED ASYMMETRIC "VURGUN" SLOT (Only enters with AI LONG + Orderbook + Cooldown + RSI <= 52!)
-  if (!signalsData.btcCrashAlert && !state.openPositions.some(p => p.isMoonshot) && state.cashUsdt >= 2.50) {
+  // Step 4: Engine #11 — SNIPER ASYMMETRIC "VURGUN" SLOT (Option 1) with Automatic Fallback to Option 2 (3 Core Slots Only) if Moonshot underperforms!
+  const moonClosedHistory = (state.closedTrades || []).filter(t => t.isMoonshot || (t.headline || '').includes('VURGUN'));
+  const moonTotalNetUsdt = moonClosedHistory.reduce((s, t) => s + Number(t.netPnlUsdt || 0), 0);
+  const moonTwoLossesInRow = moonClosedHistory.length >= 2 && Number(moonClosedHistory[0].netPnlUsdt || 0) < 0 && Number(moonClosedHistory[1].netPnlUsdt || 0) < 0;
+  const isMoonshotAutoDisabled = Boolean(moonTotalNetUsdt < 0 || moonTwoLossesInRow);
+  if (isMoonshotAutoDisabled && !state._loggedMoonDisable) {
+    state._loggedMoonDisable = true;
+    logEvent(state, `🔄 [OTONOM STRATEJİ EVRİMİ -> SEÇENEK 2] Vurgun Slotu verimsiz tespit edildi, otomatik kapatıldı! Tüm kasa 3 Ana Slota yönlendirildi.`);
+  }
+
+  if (!isMoonshotAutoDisabled && !signalsData.btcCrashAlert && !state.openPositions.some(p => p.isMoonshot) && state.cashUsdt >= 2.50) {
     const heldNow = new Set(state.openPositions.map(p => p.symbol));
     const moonCandidates = [...candidates]
       .filter(c => {
         if (heldNow.has(c.symbol)) return false;
         if (state.cooldowns[c.symbol] && state.cooldowns[c.symbol] > nowMs) return false;
         if ((c.freshestMinutesAgo || 0) > 180) return false;
-        const isSynthMoon = ['WhaleOrderflowRadar', 'ShortSqueezeRadar'].includes(c.headlines?.[0]?.source);
-        if (isSynthMoon && ((c.takerBuyRatioPct || 50) < 56.0 || (c.rsi1h || 50) > 48 || (c.aiConsensusCount || 0) < 3)) return false;
         if (c.liveLlmDecision && c.liveLlmDecision !== 'LONG') return false;
-        if ((c.rsi1h || 50) > 55) return false;
-        if (c.totalScore < 70 || (c.takerBuyRatioPct || 50) < 54) return false;
+        const isListingCatalyst = c.headlines?.some(h => h.source === 'BinanceListingSniper' && h.minutesAgo <= 60);
+        const isShortSqueezeCatalyst = (c.fundingHourlyPct || 0) <= -0.001 && (c.takerBuyRatioPct || 50) >= 55.5 && (c.rsi1h || 50) <= 50;
+        const isMegaWhaleSniper = c.totalScore >= 90 && (c.aiConsensusCount || 0) >= 4 && (c.takerBuyRatioPct || 50) >= 57.0 && (c.rsi1h || 50) <= 46 && Boolean(c.isGreenBounce);
+        if (!isListingCatalyst && !isShortSqueezeCatalyst && !isMegaWhaleSniper) return false;
         const hClean = (c.headlines?.[0]?.title || '').trim().toLowerCase();
         if (hClean && recentLosingHeadlines.has(hClean)) return false;
         return true;

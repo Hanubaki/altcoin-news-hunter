@@ -1,48 +1,15 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-21T18:40:05.666Z",
+  "updatedAt": "2026-10-21T19:40:07.122Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
-  "initialBankrollUsdt": 20.2347,
+  "initialBankrollUsdt": 20.247,
   "initialBankrollTry": 1000,
-  "cashUsdt": 0.0822,
-  "realizedPnlUsdt": 0.9645,
-  "winCount": 16,
+  "cashUsdt": 0.0046,
+  "realizedPnlUsdt": 1.0991,
+  "winCount": 19,
   "lossCount": 3,
   "openPositions": [
-    {
-      "id": "pos_1792552108604_HBAR",
-      "symbol": "HBAR",
-      "leaderSymbol": "XRP",
-      "ecosystem": "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar",
-      "headline": "Binance to Support 24/7 Dynamic Updates of the bStocks Collateral Index Price",
-      "newsSource": "BinanceListingSniper",
-      "newsScore": 20.61,
-      "totalScore": 95.5,
-      "rsiAtEntry": 51.93,
-      "atr1hPct": 1.2,
-      "takerBuyRatioPct": 57.2,
-      "obImbalance": 0.28,
-      "entryTime": "2026-10-21T03:08:28.604Z",
-      "entryPrice": 0.08337,
-      "currentPrice": 0.0864,
-      "highestPrice": 0.08641,
-      "qty": 40.918,
-      "costUsdt": 3.4113,
-      "costTry": 168.59,
-      "takeProfitPrice": 0.087122,
-      "stopLossPrice": 0.085895,
-      "tpPct": 4.5,
-      "slPct": 2,
-      "partialTpDone": false,
-      "stage2TpDone": false,
-      "trailingActive": true,
-      "rocketMode": true,
-      "unrealizedPnlUsdt": 0.124,
-      "unrealizedPnlPct": 3.63,
-      "currentPriceTry": 4.2699,
-      "currentValueTry": 174.72
-    },
     {
       "id": "moon_1792595469092_THETA",
       "symbol": "THETA",
@@ -59,11 +26,11 @@
       "obImbalance": -0.02,
       "entryTime": "2026-10-21T15:11:09.092Z",
       "entryPrice": 0.2073,
-      "currentPrice": 0.2073,
+      "currentPrice": 0.2058,
       "highestPrice": 0.2077,
       "qty": 15.968,
       "costUsdt": 3.3102,
-      "costTry": 163.59,
+      "costTry": 163.49,
       "takeProfitPrice": 0.24461,
       "stopLossPrice": 0.20232,
       "tpPct": 18,
@@ -72,10 +39,149 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0,
-      "unrealizedPnlPct": 0,
-      "currentPriceTry": 10.2448,
-      "currentValueTry": 163.59
+      "unrealizedPnlUsdt": -0.024,
+      "unrealizedPnlPct": -0.72,
+      "currentPriceTry": 10.1645,
+      "currentValueTry": 162.31
+    },
+    {
+      "id": "pos_1792609353993_RAY",
+      "symbol": "RAY",
+      "leaderSymbol": "SOL",
+      "ecosystem": "Solana (SOL) & DEX / Likidite Ekosistemi",
+      "headline": "Solana’s Alpenglow launches on mainnet, targets 99% faster finality",
+      "newsSource": "CoinTelegraph",
+      "newsScore": 6.93,
+      "totalScore": 89.7,
+      "rsiAtEntry": 54.43,
+      "atr1hPct": 1.43,
+      "takerBuyRatioPct": 56.9,
+      "obImbalance": 0.76,
+      "entryTime": "2026-10-21T19:02:33.993Z",
+      "entryPrice": 1.9851,
+      "currentPrice": 1.9976,
+      "highestPrice": 1.998,
+      "qty": 4.2854,
+      "costUsdt": 8.5069,
+      "costTry": 420.16,
+      "takeProfitPrice": 2.0814,
+      "stopLossPrice": 1.9383,
+      "tpPct": 4.85,
+      "slPct": 2.36,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": 0.0536,
+      "unrealizedPnlPct": 0.63,
+      "currentPriceTry": 98.6615,
+      "currentValueTry": 422.8
+    },
+    {
+      "id": "pos_1792609356799_ZRO",
+      "symbol": "ZRO",
+      "leaderSymbol": "ETH",
+      "ecosystem": "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)",
+      "headline": "ZRO Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
+      "newsSource": "WhaleOrderflowRadar",
+      "newsScore": 4.12,
+      "totalScore": 65.5,
+      "rsiAtEntry": 52.87,
+      "atr1hPct": 2.43,
+      "takerBuyRatioPct": 59.5,
+      "obImbalance": 0.36,
+      "entryTime": "2026-10-21T19:02:36.799Z",
+      "entryPrice": 2.032,
+      "currentPrice": 2.039,
+      "highestPrice": 2.052,
+      "qty": 3.15368,
+      "costUsdt": 6.4083,
+      "costTry": 316.51,
+      "takeProfitPrice": 2.1919,
+      "stopLossPrice": 1.967,
+      "tpPct": 7.87,
+      "slPct": 3.2,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": 0.0221,
+      "unrealizedPnlPct": 0.34,
+      "currentPriceTry": 100.7062,
+      "currentValueTry": 317.6
+    },
+    {
+      "id": "pos_1792611383507_PYTH",
+      "symbol": "PYTH",
+      "leaderSymbol": "SOL",
+      "ecosystem": "Solana (SOL) & DEX / Likidite Ekosistemi",
+      "headline": "Solana’s Alpenglow launches on mainnet, targets 99% faster finality",
+      "newsSource": "CoinTelegraph",
+      "newsScore": 6.93,
+      "totalScore": 84.2,
+      "rsiAtEntry": 49.94,
+      "atr1hPct": 1.51,
+      "takerBuyRatioPct": 50.1,
+      "obImbalance": 0.38,
+      "entryTime": "2026-10-21T19:36:23.507Z",
+      "entryPrice": 0.07981,
+      "currentPrice": 0.07976,
+      "highestPrice": 0.07981,
+      "qty": 26.2474,
+      "costUsdt": 2.0948,
+      "costTry": 103.46,
+      "takeProfitPrice": 0.083401,
+      "stopLossPrice": 0.077823,
+      "tpPct": 4.5,
+      "slPct": 2.49,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": -0.0013,
+      "unrealizedPnlPct": -0.06,
+      "currentPriceTry": 3.9393,
+      "currentValueTry": 103.4
+    }
+  ],
+  "closedTrades": [
+    {
+      "id": "pos_1792598542406_UNI",
+      "symbol": "UNI",
+      "leaderSymbol": "ETH",
+      "ecosystem": "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)",
+      "headline": "UNI Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
+      "newsSource": "ShortSqueezeRadar",
+      "newsScore": 5,
+      "totalScore": 93.5,
+      "rsiAtEntry": 48.44,
+      "atr1hPct": 1.4,
+      "takerBuyRatioPct": 53.7,
+      "obImbalance": 0.17,
+      "entryTime": "2026-10-21T16:02:22.407Z",
+      "entryPrice": 7.605,
+      "currentPrice": 7.627,
+      "highestPrice": 7.729,
+      "qty": 0.97804,
+      "costUsdt": 7.438,
+      "costTry": 367.36,
+      "takeProfitPrice": 7.9929,
+      "stopLossPrice": 7.6316,
+      "tpPct": 5.1,
+      "slPct": 2.31,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": true,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": 0.0215,
+      "unrealizedPnlPct": 0.29,
+      "currentPriceTry": 377.3396,
+      "currentValueTry": 369.05,
+      "exitPrice": 7.627,
+      "exitTime": "2026-10-21T18:57:22.936Z",
+      "exitReason": "🔒 SIFIR RİSK KÂR KİLİDİ (+%0.29)",
+      "netPnlUsdt": 0.0215,
+      "netPnlTry": 1.06
     },
     {
       "id": "pos_1792595532320_RAY",
@@ -92,59 +198,67 @@
       "obImbalance": 0.19,
       "entryTime": "2026-10-21T15:12:12.320Z",
       "entryPrice": 1.9967,
-      "currentPrice": 2.0233,
-      "highestPrice": 2.0246,
+      "currentPrice": 2.0002,
+      "highestPrice": 2.0269,
       "qty": 3.0938,
       "costUsdt": 6.1774,
-      "costTry": 305.29,
+      "costTry": 305.1,
       "takeProfitPrice": 2.1087,
-      "stopLossPrice": 1.9568,
+      "stopLossPrice": 2.0037,
       "tpPct": 5.61,
       "slPct": 2,
       "partialTpDone": false,
       "stage2TpDone": false,
-      "trailingActive": false,
+      "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0823,
-      "unrealizedPnlPct": 1.33,
-      "currentPriceTry": 99.9915,
-      "currentValueTry": 309.35
+      "unrealizedPnlUsdt": 0.0108,
+      "unrealizedPnlPct": 0.18,
+      "currentPriceTry": 99.1702,
+      "currentValueTry": 306.81,
+      "exitPrice": 2.0002,
+      "exitTime": "2026-10-21T18:52:05.750Z",
+      "exitReason": "🔒 SIFIR RİSK KÂR KİLİDİ (+%0.18)",
+      "netPnlUsdt": 0.0108,
+      "netPnlTry": 0.53
     },
     {
-      "id": "pos_1792598542406_UNI",
-      "symbol": "UNI",
-      "leaderSymbol": "ETH",
-      "ecosystem": "Ethereum DeFi, Restaking & Layer-2 (Aave / Uniswap / Lido / Arbitrum)",
-      "headline": "UNI Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
-      "newsSource": "ShortSqueezeRadar",
-      "newsScore": 5,
-      "totalScore": 93.5,
-      "rsiAtEntry": 48.44,
-      "atr1hPct": 1.4,
-      "takerBuyRatioPct": 53.7,
-      "obImbalance": 0.17,
-      "entryTime": "2026-10-21T16:02:22.407Z",
-      "entryPrice": 7.605,
-      "currentPrice": 7.705,
-      "highestPrice": 7.729,
-      "qty": 0.97804,
-      "costUsdt": 7.438,
-      "costTry": 367.59,
-      "takeProfitPrice": 7.9929,
-      "stopLossPrice": 7.6316,
-      "tpPct": 5.1,
-      "slPct": 2.31,
+      "id": "pos_1792552108604_HBAR",
+      "symbol": "HBAR",
+      "leaderSymbol": "XRP",
+      "ecosystem": "RWA (Gerçek Dünya Varlıkları), BlackRock, Swift & Kurumsal Fonlar",
+      "headline": "Binance to Support 24/7 Dynamic Updates of the bStocks Collateral Index Price",
+      "newsSource": "BinanceListingSniper",
+      "newsScore": 20.61,
+      "totalScore": 95.5,
+      "rsiAtEntry": 51.93,
+      "atr1hPct": 1.2,
+      "takerBuyRatioPct": 57.2,
+      "obImbalance": 0.28,
+      "entryTime": "2026-10-21T03:08:28.604Z",
+      "entryPrice": 0.08337,
+      "currentPrice": 0.08587,
+      "highestPrice": 0.08641,
+      "qty": 40.918,
+      "costUsdt": 3.4113,
+      "costTry": 168.55,
+      "takeProfitPrice": 0.087122,
+      "stopLossPrice": 0.085895,
+      "tpPct": 4.5,
+      "slPct": 2,
       "partialTpDone": false,
       "stage2TpDone": false,
       "trailingActive": true,
-      "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0978,
-      "unrealizedPnlPct": 1.31,
-      "currentPriceTry": 380.7811,
-      "currentValueTry": 372.42
-    }
-  ],
-  "closedTrades": [
+      "rocketMode": true,
+      "unrealizedPnlUsdt": 0.1023,
+      "unrealizedPnlPct": 3,
+      "currentPriceTry": 4.2463,
+      "currentValueTry": 173.75,
+      "exitPrice": 0.08587,
+      "exitTime": "2026-10-21T18:49:52.480Z",
+      "exitReason": "🚀 UÇUŞ MODU KÂR KİLİDİ (+%3)",
+      "netPnlUsdt": 0.1023,
+      "netPnlTry": 5.05
+    },
     {
       "id": "pos_1792585747684_EDU",
       "symbol": "EDU",
@@ -784,6 +898,12 @@
     }
   ],
   "recentLogs": [
+    "[22:36:23] 🟢 [OTOMATİK ALIM] PYTH (103,72 TL) @ $0.07981 | Skor: 84.2 | RSI: 49.94 | Balina: %50.1 | SL: -%2.49",
+    "[22:02:36] 🟢 [OTOMATİK ALIM] ZRO (318,57 TL) @ $2.032 | Skor: 65.5 | RSI: 52.87 | Balina: %59.5 | SL: -%3.2",
+    "[22:02:34] 🟢 [OTOMATİK ALIM] RAY (417,84 TL) @ $1.9851 | Skor: 89.7 | RSI: 54.43 | Balina: %56.9 | SL: -%2.36",
+    "[21:57:22] 🏁 [POZİSYON KAPANDI] UNI @ $7.627 | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.29) | Net: 1,06 TL",
+    "[21:52:05] 🏁 [POZİSYON KAPANDI] RAY @ $2.0002 | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.18) | Net: 0,53 TL",
+    "[21:49:52] 🏁 [POZİSYON KAPANDI] HBAR @ $0.08587 | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%3) | Net: 5,05 TL",
     "[21:28:05] 🧱 [Satış Duvarı Kalkanı] HBAR önünde balina satış duvarı (-0.52) tespit edildi, kâr kilidi sıkılaştırıldı!",
     "[21:00:26] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[19:10:51] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
@@ -817,314 +937,24 @@
     "[09:19:03] ⚖️ [Tahta Kalkanı - Vurgun] FIL önünde satış duvarı (-0.1) var, pas geçildi.",
     "[09:19:02] ⚖️ [Tahta Kalkanı - Vurgun] BOME önünde satış duvarı (-0.19) var, pas geçildi.",
     "[09:18:27] ⚖️ [Tahta Kalkanı - Vurgun] ORDI önünde satış duvarı (-0.43) var, pas geçildi.",
-    "[09:18:25] ⚖️ [Tahta Kalkanı - Vurgun] FIL önünde satış duvarı (-0.2) var, pas geçildi.",
-    "[09:17:43] ⚖️ [Tahta Kalkanı - Vurgun] AR önünde satış duvarı (-0.07) var, pas geçildi.",
-    "[09:17:43] ⚖️ [Tahta Kalkanı - Vurgun] BOME önünde satış duvarı (-0.07) var, pas geçildi.",
-    "[09:16:11] ⚖️ [Tahta Kalkanı - Vurgun] FIL önünde satış duvarı (-0.18) var, pas geçildi.",
-    "[09:16:11] ⚖️ [Tahta Kalkanı - Vurgun] FIL önünde satış duvarı (-0.19) var, pas geçildi.",
-    "[09:16:10] ⚖️ [Tahta Kalkanı - Vurgun] AR önünde satış duvarı (-0.15) var, pas geçildi.",
-    "[09:15:25] ⚖️ [Tahta Kalkanı - Vurgun] BOME önünde satış duvarı (-0.21) var, pas geçildi."
+    "[09:18:25] ⚖️ [Tahta Kalkanı - Vurgun] FIL önünde satış duvarı (-0.2) var, pas geçildi."
   ],
-  "totalEquityUsdt": 21.294,
-  "totalEquityTry": 1052.35,
-  "totalPnlUsdt": 1.0593,
-  "totalPnlPct": 5.24,
+  "totalEquityUsdt": 21.0828,
+  "totalEquityTry": 1041.28,
+  "totalPnlUsdt": 0.8358,
+  "totalPnlPct": 4.13,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
     "TIA": 1792605145178
   },
-  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0022 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 40.9180 | ICP: 0.0002 | INJ: 0.0087 | JASMY: 0.6080 | LDO: 0.0063 | RAY: 3.0938 | RSR: 0.9660 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | THETA: 15.9680 | TIA: 0.0058 | TRY: 4.0624 | UNI: 0.9780)",
-  "lastWhatsAppReportAt": 1792605757862,
+  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0022 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 0.9180 | ICP: 0.0002 | INJ: 0.0087 | JASMY: 0.6080 | LDO: 0.0063 | PYTH: 26.2474 | RAY: 4.2854 | RSR: 0.9660 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | THETA: 15.9680 | TIA: 0.0058 | TRY: 0.2257 | UNI: 0.0080 | ZRO: 3.1537)",
+  "lastWhatsAppReportAt": 1792611385970,
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
-  "usdTryRate": 49.42,
-  "totalPnlTry": 52.35,
+  "usdTryRate": 49.39,
+  "totalPnlTry": 41.28,
   "equityHistory": [
-    {
-      "t": "20:16",
-      "v": 1036.72
-    },
-    {
-      "t": "20:17",
-      "v": 1036.16
-    },
-    {
-      "t": "20:18",
-      "v": 1036.41
-    },
-    {
-      "t": "20:19",
-      "v": 1036.61
-    },
-    {
-      "t": "20:19",
-      "v": 1038.43
-    },
-    {
-      "t": "20:20",
-      "v": 1038.34
-    },
-    {
-      "t": "20:21",
-      "v": 1038.86
-    },
-    {
-      "t": "20:22",
-      "v": 1038.43
-    },
-    {
-      "t": "20:22",
-      "v": 1037.54
-    },
-    {
-      "t": "20:23",
-      "v": 1037.72
-    },
-    {
-      "t": "20:24",
-      "v": 1037.7
-    },
-    {
-      "t": "20:25",
-      "v": 1037.57
-    },
-    {
-      "t": "20:26",
-      "v": 1037.74
-    },
-    {
-      "t": "20:27",
-      "v": 1037.32
-    },
-    {
-      "t": "20:28",
-      "v": 1037.89
-    },
-    {
-      "t": "20:28",
-      "v": 1038.46
-    },
-    {
-      "t": "20:29",
-      "v": 1038.6
-    },
-    {
-      "t": "20:30",
-      "v": 1039.87
-    },
-    {
-      "t": "20:31",
-      "v": 1040.21
-    },
-    {
-      "t": "20:31",
-      "v": 1041.44
-    },
-    {
-      "t": "20:32",
-      "v": 1042.37
-    },
-    {
-      "t": "20:33",
-      "v": 1043.2
-    },
-    {
-      "t": "20:34",
-      "v": 1043.57
-    },
-    {
-      "t": "20:35",
-      "v": 1044.36
-    },
-    {
-      "t": "20:36",
-      "v": 1044.45
-    },
-    {
-      "t": "20:37",
-      "v": 1045.43
-    },
-    {
-      "t": "20:38",
-      "v": 1045.28
-    },
-    {
-      "t": "20:39",
-      "v": 1044.96
-    },
-    {
-      "t": "20:40",
-      "v": 1044.57
-    },
-    {
-      "t": "20:41",
-      "v": 1044.75
-    },
-    {
-      "t": "20:42",
-      "v": 1044.15
-    },
-    {
-      "t": "20:43",
-      "v": 1043.65
-    },
-    {
-      "t": "20:44",
-      "v": 1043.33
-    },
-    {
-      "t": "20:45",
-      "v": 1043.45
-    },
-    {
-      "t": "20:46",
-      "v": 1042.55
-    },
-    {
-      "t": "20:46",
-      "v": 1043.37
-    },
-    {
-      "t": "20:47",
-      "v": 1042.29
-    },
-    {
-      "t": "20:48",
-      "v": 1042.21
-    },
-    {
-      "t": "20:49",
-      "v": 1041.98
-    },
-    {
-      "t": "20:49",
-      "v": 1041.19
-    },
-    {
-      "t": "20:50",
-      "v": 1042.19
-    },
-    {
-      "t": "20:51",
-      "v": 1042.03
-    },
-    {
-      "t": "20:52",
-      "v": 1042.15
-    },
-    {
-      "t": "20:53",
-      "v": 1043.26
-    },
-    {
-      "t": "20:54",
-      "v": 1045.04
-    },
-    {
-      "t": "20:55",
-      "v": 1044.59
-    },
-    {
-      "t": "20:55",
-      "v": 1043.84
-    },
-    {
-      "t": "20:56",
-      "v": 1043.4
-    },
-    {
-      "t": "20:57",
-      "v": 1043.1
-    },
-    {
-      "t": "20:58",
-      "v": 1042.37
-    },
-    {
-      "t": "20:59",
-      "v": 1041.39
-    },
-    {
-      "t": "21:00",
-      "v": 1042.71
-    },
-    {
-      "t": "21:01",
-      "v": 1042.15
-    },
-    {
-      "t": "21:01",
-      "v": 1043.01
-    },
-    {
-      "t": "21:02",
-      "v": 1044.29
-    },
-    {
-      "t": "21:03",
-      "v": 1044.67
-    },
-    {
-      "t": "21:04",
-      "v": 1045.08
-    },
-    {
-      "t": "21:04",
-      "v": 1045.93
-    },
-    {
-      "t": "21:05",
-      "v": 1045.54
-    },
-    {
-      "t": "21:06",
-      "v": 1045.79
-    },
-    {
-      "t": "21:07",
-      "v": 1045.14
-    },
-    {
-      "t": "21:08",
-      "v": 1044.39
-    },
-    {
-      "t": "21:09",
-      "v": 1044.38
-    },
-    {
-      "t": "21:10",
-      "v": 1044.21
-    },
-    {
-      "t": "21:11",
-      "v": 1044.31
-    },
-    {
-      "t": "21:12",
-      "v": 1044.59
-    },
-    {
-      "t": "21:13",
-      "v": 1045.52
-    },
-    {
-      "t": "21:14",
-      "v": 1046.6
-    },
-    {
-      "t": "21:15",
-      "v": 1046.53
-    },
-    {
-      "t": "21:16",
-      "v": 1047.6
-    },
-    {
-      "t": "21:17",
-      "v": 1048.01
-    },
     {
       "t": "21:18",
       "v": 1048.25
@@ -1224,6 +1054,290 @@
     {
       "t": "21:40",
       "v": 1052.35
+    },
+    {
+      "t": "21:41",
+      "v": 1053.43
+    },
+    {
+      "t": "21:42",
+      "v": 1053.61
+    },
+    {
+      "t": "21:43",
+      "v": 1053.36
+    },
+    {
+      "t": "21:43",
+      "v": 1052.41
+    },
+    {
+      "t": "21:44",
+      "v": 1050.84
+    },
+    {
+      "t": "21:45",
+      "v": 1049.85
+    },
+    {
+      "t": "21:46",
+      "v": 1049.65
+    },
+    {
+      "t": "21:47",
+      "v": 1049.95
+    },
+    {
+      "t": "21:48",
+      "v": 1047.82
+    },
+    {
+      "t": "21:49",
+      "v": 1048.28
+    },
+    {
+      "t": "21:49",
+      "v": 1046.12
+    },
+    {
+      "t": "21:50",
+      "v": 1046.14
+    },
+    {
+      "t": "21:51",
+      "v": 1045.78
+    },
+    {
+      "t": "21:52",
+      "v": 1042.13
+    },
+    {
+      "t": "21:52",
+      "v": 1042.73
+    },
+    {
+      "t": "21:53",
+      "v": 1043.79
+    },
+    {
+      "t": "21:54",
+      "v": 1043.38
+    },
+    {
+      "t": "21:55",
+      "v": 1043.98
+    },
+    {
+      "t": "21:55",
+      "v": 1043.01
+    },
+    {
+      "t": "21:56",
+      "v": 1042.62
+    },
+    {
+      "t": "21:57",
+      "v": 1040.76
+    },
+    {
+      "t": "21:58",
+      "v": 1040.56
+    },
+    {
+      "t": "21:59",
+      "v": 1040.26
+    },
+    {
+      "t": "22:00",
+      "v": 1040.08
+    },
+    {
+      "t": "22:01",
+      "v": 1040.08
+    },
+    {
+      "t": "22:02",
+      "v": 1036.79
+    },
+    {
+      "t": "22:03",
+      "v": 1036.24
+    },
+    {
+      "t": "22:04",
+      "v": 1036.16
+    },
+    {
+      "t": "22:05",
+      "v": 1036.58
+    },
+    {
+      "t": "22:05",
+      "v": 1037.21
+    },
+    {
+      "t": "22:06",
+      "v": 1036.25
+    },
+    {
+      "t": "22:07",
+      "v": 1037
+    },
+    {
+      "t": "22:08",
+      "v": 1037.9
+    },
+    {
+      "t": "22:09",
+      "v": 1035.26
+    },
+    {
+      "t": "22:09",
+      "v": 1034.51
+    },
+    {
+      "t": "22:10",
+      "v": 1034.9
+    },
+    {
+      "t": "22:11",
+      "v": 1033.23
+    },
+    {
+      "t": "22:12",
+      "v": 1035.38
+    },
+    {
+      "t": "22:13",
+      "v": 1035.57
+    },
+    {
+      "t": "22:14",
+      "v": 1035.36
+    },
+    {
+      "t": "22:15",
+      "v": 1037.59
+    },
+    {
+      "t": "22:15",
+      "v": 1039.52
+    },
+    {
+      "t": "22:16",
+      "v": 1041.18
+    },
+    {
+      "t": "22:17",
+      "v": 1041.44
+    },
+    {
+      "t": "22:18",
+      "v": 1040.89
+    },
+    {
+      "t": "22:18",
+      "v": 1039.32
+    },
+    {
+      "t": "22:19",
+      "v": 1040.14
+    },
+    {
+      "t": "22:20",
+      "v": 1039.47
+    },
+    {
+      "t": "22:21",
+      "v": 1037.86
+    },
+    {
+      "t": "22:22",
+      "v": 1037.41
+    },
+    {
+      "t": "22:23",
+      "v": 1037.44
+    },
+    {
+      "t": "22:24",
+      "v": 1037.59
+    },
+    {
+      "t": "22:25",
+      "v": 1039.22
+    },
+    {
+      "t": "22:25",
+      "v": 1039.76
+    },
+    {
+      "t": "22:26",
+      "v": 1038.79
+    },
+    {
+      "t": "22:27",
+      "v": 1039.29
+    },
+    {
+      "t": "22:28",
+      "v": 1039.41
+    },
+    {
+      "t": "22:28",
+      "v": 1040.42
+    },
+    {
+      "t": "22:29",
+      "v": 1039.42
+    },
+    {
+      "t": "22:30",
+      "v": 1040.26
+    },
+    {
+      "t": "22:31",
+      "v": 1039.32
+    },
+    {
+      "t": "22:32",
+      "v": 1039.09
+    },
+    {
+      "t": "22:33",
+      "v": 1040.62
+    },
+    {
+      "t": "22:34",
+      "v": 1039.96
+    },
+    {
+      "t": "22:34",
+      "v": 1040.77
+    },
+    {
+      "t": "22:35",
+      "v": 1039.94
+    },
+    {
+      "t": "22:36",
+      "v": 1039.28
+    },
+    {
+      "t": "22:37",
+      "v": 1038.82
+    },
+    {
+      "t": "22:38",
+      "v": 1038.57
+    },
+    {
+      "t": "22:39",
+      "v": 1039.67
+    },
+    {
+      "t": "22:40",
+      "v": 1041.28
     }
   ],
   "walletAssetsMap": {
@@ -1235,27 +1349,83 @@
     "EDU": 0.672,
     "ETHW": 0.000999,
     "FET": 0.0292,
-    "HBAR": 40.918,
+    "HBAR": 0.918,
     "ICP": 0.000234,
     "INJ": 0.0087,
     "JASMY": 0.608,
     "LDO": 0.00632,
-    "RAY": 3.0938,
+    "PYTH": 26.2474,
+    "RAY": 4.2854,
     "RSR": 0.966,
     "SAND": 0.0674,
     "SEI": 0.0926,
     "STX": 0.07,
     "THETA": 15.968,
     "TIA": 0.00578,
-    "TRY": 4.0623732,
-    "UNI": 0.97804
+    "TRY": 0.2257152,
+    "UNI": 0.00804,
+    "ZRO": 3.15368
   },
-  "dustAssetsUsdt": 0.5709,
-  "dustAssetsTry": 28.21,
+  "dustAssetsUsdt": 0.7076,
+  "dustAssetsTry": 34.95,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-21T18:40:05.666Z",
-    "totalAnalyzedTrades": 19,
+    "updatedAt": "2026-10-21T19:40:07.122Z",
+    "totalAnalyzedTrades": 22,
     "coinStats": {
+      "UNI": {
+        "wins": 1,
+        "losses": 0,
+        "netPnlUsdt": 0.0215,
+        "netPnlTry": 1.06,
+        "lossRsis": [],
+        "lossWhales": [],
+        "winRsis": [
+          48.44
+        ],
+        "winWhales": [
+          53.7
+        ],
+        "scoreMod": 3,
+        "maxRsi": 55,
+        "minWhale": 50.8,
+        "lessonNote": "✅ BAŞARI HAFIZASI: UNI (1 Kâr / 0 Zarar, Net +1.06 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan."
+      },
+      "RAY": {
+        "wins": 1,
+        "losses": 0,
+        "netPnlUsdt": 0.0108,
+        "netPnlTry": 0.53,
+        "lossRsis": [],
+        "lossWhales": [],
+        "winRsis": [
+          49.83
+        ],
+        "winWhales": [
+          53.2
+        ],
+        "scoreMod": 3,
+        "maxRsi": 55,
+        "minWhale": 50.8,
+        "lessonNote": "✅ BAŞARI HAFIZASI: RAY (1 Kâr / 0 Zarar, Net +0.53 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan."
+      },
+      "HBAR": {
+        "wins": 1,
+        "losses": 0,
+        "netPnlUsdt": 0.1023,
+        "netPnlTry": 5.05,
+        "lossRsis": [],
+        "lossWhales": [],
+        "winRsis": [
+          51.93
+        ],
+        "winWhales": [
+          57.2
+        ],
+        "scoreMod": 3,
+        "maxRsi": 55,
+        "minWhale": 50.8,
+        "lessonNote": "✅ BAŞARI HAFIZASI: HBAR (1 Kâr / 0 Zarar, Net +5.05 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan."
+      },
       "EDU": {
         "wins": 2,
         "losses": 0,
@@ -1530,16 +1700,22 @@
       }
     },
     "sourceStats": {
+      "ShortSqueezeRadar": {
+        "wins": 7,
+        "losses": 2,
+        "netPnlUsdt": 0.5856,
+        "scoreMod": 4
+      },
       "CoinTelegraph": {
-        "wins": 1,
+        "wins": 2,
         "losses": 1,
-        "netPnlUsdt": 0.0148,
+        "netPnlUsdt": 0.0256,
         "scoreMod": 0
       },
-      "ShortSqueezeRadar": {
-        "wins": 6,
-        "losses": 2,
-        "netPnlUsdt": 0.5641,
+      "BinanceListingSniper": {
+        "wins": 2,
+        "losses": 0,
+        "netPnlUsdt": 0.1203,
         "scoreMod": 4
       },
       "WhaleOrderflowRadar": {
@@ -1560,12 +1736,6 @@
         "netPnlUsdt": 0.0431,
         "scoreMod": 4
       },
-      "BinanceListingSniper": {
-        "wins": 1,
-        "losses": 0,
-        "netPnlUsdt": 0.018,
-        "scoreMod": 0
-      },
       "CryptoPotato": {
         "wins": 1,
         "losses": 0,
@@ -1574,6 +1744,9 @@
       }
     },
     "lessons": [
+      "✅ BAŞARI HAFIZASI: UNI (1 Kâr / 0 Zarar, Net +1.06 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
+      "✅ BAŞARI HAFIZASI: RAY (1 Kâr / 0 Zarar, Net +0.53 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
+      "✅ BAŞARI HAFIZASI: HBAR (1 Kâr / 0 Zarar, Net +5.05 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
       "✅ BAŞARI HAFIZASI: EDU (2 Kâr / 0 Zarar, Net +3.88 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +6 puan.",
       "✅ BAŞARI HAFIZASI: INJ (1 Kâr / 0 Zarar, Net +1.89 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
       "✅ BAŞARI HAFIZASI: BEAMX (1 Kâr / 0 Zarar, Net +1.09 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
@@ -1615,13 +1788,13 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 1052.35,
+    "totalNetWorthTry": 1041.28,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
-      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %84.2 isabetle (16G/3Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1052.35 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
+      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %86.4 isabetle (19G/3Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1041.28 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-21T18:40:05.666Z"
+    "updatedAt": "2026-10-21T19:40:07.122Z"
   },
   "_apiFailCount": 0
 }

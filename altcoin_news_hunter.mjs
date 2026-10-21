@@ -718,12 +718,12 @@ async function main() {
       const range24 = Math.max(0.0000001, m.high24h - m.low24h);
       const posIn24h = (m.lastPrice - m.low24h) / range24;
       const lag24h = leaderMkt ? leaderMkt.change24hPct - m.change24hPct : 0;
-      const isCoiledDip = posIn24h <= 0.56 && m.change24hPct >= -4.5 && m.change24hPct <= 4.5;
+      const isCoiledDip = posIn24h <= 0.68 && m.change24hPct >= -5.5 && m.change24hPct <= 6.5;
       if (isShortSqueezeCandidate || isTrending || isCoiledDip) {
-        const dipBonus = Math.max(0, (0.58 - posIn24h) * 2.5);
-        const lagBonus = Math.max(0, Math.min(1.4, lag24h * 0.30));
+        const dipBonus = Math.max(0, (0.65 - posIn24h) * 2.5);
+        const lagBonus = Math.max(0, Math.min(1.5, lag24h * 0.32));
         const preScore = Number(
-          (3.6 + (isShortSqueezeCandidate ? 1.4 : 0) + (isTrending ? 1.5 : 0) + dipBonus + lagBonus).toFixed(2)
+          (3.8 + (isShortSqueezeCandidate ? 1.4 : 0) + (isTrending ? 1.5 : 0) + dipBonus + lagBonus).toFixed(2)
         );
         whaleRadarExtras.push({
           symbol: sym,
