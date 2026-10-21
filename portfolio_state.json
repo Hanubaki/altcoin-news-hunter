@@ -1,11 +1,11 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-21T11:52:34.093Z",
+  "updatedAt": "2026-10-21T11:56:09.801Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
-  "initialBankrollUsdt": 20.2102,
+  "initialBankrollUsdt": 20.2143,
   "initialBankrollTry": 1000,
-  "cashUsdt": 1.1151,
+  "cashUsdt": 1.1153,
   "realizedPnlUsdt": 0.8424,
   "winCount": 12,
   "lossCount": 2,
@@ -25,11 +25,11 @@
       "obImbalance": 0.1,
       "entryTime": "2026-10-20T23:03:44.825Z",
       "entryPrice": 0.073,
-      "currentPrice": 0.074,
+      "currentPrice": 0.0738,
       "highestPrice": 0.0742,
       "qty": 63.872,
       "costUsdt": 4.6627,
-      "costTry": 230.71,
+      "costTry": 230.66,
       "takeProfitPrice": 0.077015,
       "stopLossPrice": 0.073256,
       "tpPct": 5.5,
@@ -38,10 +38,10 @@
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0639,
-      "unrealizedPnlPct": 1.37,
-      "currentPriceTry": 3.6615,
-      "currentValueTry": 233.87
+      "unrealizedPnlUsdt": 0.0511,
+      "unrealizedPnlPct": 1.1,
+      "currentPriceTry": 3.6509,
+      "currentValueTry": 233.19
     },
     {
       "id": "pos_1792549300584_JASMY",
@@ -62,7 +62,7 @@
       "highestPrice": 0.00483,
       "qty": 1692.608,
       "costUsdt": 8.1076,
-      "costTry": 401.16,
+      "costTry": 401.08,
       "takeProfitPrice": 0.0050841,
       "stopLossPrice": 0.0046367,
       "tpPct": 6.14,
@@ -74,7 +74,7 @@
       "unrealizedPnlUsdt": -0.0339,
       "unrealizedPnlPct": -0.42,
       "currentPriceTry": 0.236,
-      "currentValueTry": 399.49
+      "currentValueTry": 399.41
     },
     {
       "id": "pos_1792552108604_HBAR",
@@ -91,11 +91,11 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-21T03:08:28.604Z",
       "entryPrice": 0.08337,
-      "currentPrice": 0.08493,
+      "currentPrice": 0.08486,
       "highestPrice": 0.08523,
       "qty": 40.918,
       "costUsdt": 3.4113,
-      "costTry": 168.79,
+      "costTry": 168.76,
       "takeProfitPrice": 0.087122,
       "stopLossPrice": 0.08387,
       "tpPct": 4.5,
@@ -104,10 +104,10 @@
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0638,
-      "unrealizedPnlPct": 1.87,
-      "currentPriceTry": 4.2023,
-      "currentValueTry": 171.95
+      "unrealizedPnlUsdt": 0.061,
+      "unrealizedPnlPct": 1.79,
+      "currentPriceTry": 4.198,
+      "currentValueTry": 171.77
     },
     {
       "id": "moon_1792583549706_BEAMX",
@@ -125,11 +125,11 @@
       "obImbalance": -0.03,
       "entryTime": "2026-10-21T11:52:29.707Z",
       "entryPrice": 0.003136,
-      "currentPrice": 0.003135,
-      "highestPrice": 0.003136,
-      "qty": 1055,
-      "costUsdt": 3.3085,
-      "costTry": 163.7,
+      "currentPrice": 0.003142,
+      "highestPrice": 0.003142,
+      "qty": 1052.89,
+      "costUsdt": 3.3019,
+      "costTry": 163.34,
       "takeProfitPrice": 0.0037005,
       "stopLossPrice": 0.0030607,
       "tpPct": 18,
@@ -138,10 +138,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0011,
-      "unrealizedPnlPct": -0.03,
-      "currentPriceTry": 0.1551,
-      "currentValueTry": 163.65
+      "unrealizedPnlUsdt": 0.0063,
+      "unrealizedPnlPct": 0.19,
+      "currentPriceTry": 0.1554,
+      "currentValueTry": 163.66
     }
   ],
   "closedTrades": [
@@ -634,10 +634,10 @@
     "[02:03:44] 🔧 [OTONOM MÜFETTİŞ] Cüzdandaki EDU ($4.66 = 230.29 TL) otomatik olarak açık işlemlere senkronize edildi.",
     "[02:03:42] 🟢 [OTOMATİK ALIM] SAND (193,11 TL) @ $0.05878 | Skor: 99.2 | RSI: 66.56 | Balina: %63.3 | SL: -%2.26"
   ],
-  "totalEquityUsdt": 21.1332,
-  "totalEquityTry": 1045.67,
-  "totalPnlUsdt": 0.923,
-  "totalPnlPct": 4.57,
+  "totalEquityUsdt": 21.1183,
+  "totalEquityTry": 1044.72,
+  "totalPnlUsdt": 0.904,
+  "totalPnlPct": 4.47,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -647,17 +647,9 @@
   "lastWhatsAppReportAt": 1792583554093,
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
-  "usdTryRate": 49.48,
-  "totalPnlTry": 45.67,
+  "usdTryRate": 49.47,
+  "totalPnlTry": 44.72,
   "equityHistory": [
-    {
-      "t": "13:09",
-      "v": 1042.07
-    },
-    {
-      "t": "13:10",
-      "v": 1042.28
-    },
     {
       "t": "13:11",
       "v": 1043.41
@@ -1033,6 +1025,14 @@
     {
       "t": "14:52",
       "v": 1045.67
+    },
+    {
+      "t": "14:54",
+      "v": 1044.48
+    },
+    {
+      "t": "14:56",
+      "v": 1044.72
     }
   ],
   "walletAssetsMap": {
@@ -1055,10 +1055,10 @@
     "TIA": 0.00578,
     "TRY": 55.1758236
   },
-  "dustAssetsUsdt": 0.4351,
-  "dustAssetsTry": 21.53,
+  "dustAssetsUsdt": 0.435,
+  "dustAssetsTry": 21.52,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-21T11:52:34.093Z",
+    "updatedAt": "2026-10-21T11:56:09.801Z",
     "totalAnalyzedTrades": 14,
     "coinStats": {
       "TIA": {
@@ -1336,12 +1336,12 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 1045.67,
+    "totalNetWorthTry": 1044.72,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
-      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %85.7 isabetle (12G/2Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1045.67 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
+      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %85.7 isabetle (12G/2Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1044.72 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-21T11:52:34.093Z"
+    "updatedAt": "2026-10-21T11:56:09.801Z"
   }
 }
