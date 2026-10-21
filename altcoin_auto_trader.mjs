@@ -1945,119 +1945,133 @@ async function safeRunTradingCycle() {
 
 let _tgOffset = 0;
 let _tgLoopStarted = false;
+
+async function pollTelegramUpdatesOnce() {
+  const cfg = loadEnv();
+  if (!cfg.TELEGRAM_BOT_TOKEN) return;
+  try {
+    const curState = loadPortfolioState(cfg);
+    if (!_tgOffset && curState.lastTelegramUpdateId) {
+      _tgOffset = Number(curState.lastTelegramUpdateId) || 0;
+    }
+    const res = await fetchJson(
+      `https://api.telegram.org/bot${cfg.TELEGRAM_BOT_TOKEN}/getUpdates?offset=${_tgOffset + 1}&timeout=1`,
+      {},
+      4000
+    );
+    let offsetChanged = false;
+    for (const upd of res?.result || []) {
+      _tgOffset = Math.max(_tgOffset, upd.update_id);
+      offsetChanged = true;
+      const msg = upd.message;
+      if (!msg || !msg.text) continue;
+      const chatId = String(msg.chat.id);
+      const text = msg.text.trim();
+      const lower = text.toLowerCase();
+
+      // Save chat_id automatically on first message
+      if (!cfg.TELEGRAM_CHAT_ID && fs.existsSync(ENV_FILE)) {
+        const envRaw = fs.readFileSync(ENV_FILE, 'utf8').replace(/TELEGRAM_CHAT_ID=.*/g, `TELEGRAM_CHAT_ID=${chatId}`);
+        fs.writeFileSync(ENV_FILE, envRaw, 'utf8');
+        cfg.TELEGRAM_CHAT_ID = chatId;
+      }
+
+      // Security Shield: Only allow the authorized owner's Telegram Chat ID
+      if (cfg.TELEGRAM_CHAT_ID && chatId !== String(cfg.TELEGRAM_CHAT_ID).trim()) {
+        console.warn(`🛡️ [Güvenlik Zırhı] Yetkisiz Telegram erişim denemesi reddedildi (ChatID: ${chatId})`);
+        continue;
+      }
+
+      let reply = '';
+      if (lower.startsWith('/durum') || lower === 'durum') {
+        const st = loadPortfolioState(cfg);
+        reply = `📊 CANLI KASA DURUMU\n\n${buildSimpleWhatsAppMessage(st)}`;
+      } else if (lower.startsWith('/cfo') || lower === 'cfo') {
+        const st = loadPortfolioState(cfg);
+        const pf = runPersonalCfoEngine(st);
+        reply = `🏦 KİŞİSEL CFO & İŞ BANKASI RAPORU\n\n• İş Bankası Bakiye: ${pf.isbankBalanceTry} TL\n• Binance TR Kasa: ${st.totalEquityTry || toTL(st.totalEquityUsdt)} TL\n• Toplam Servet: ${pf.totalNetWorthTry} TL\n• Bu Hafta Harcanan: ${pf.weeklySpentTry} / ${pf.weeklySpendLimitTry} TL\n\n💡 CFO Tavsiyesi:\n${(pf.cfoTips || []).join('\n\n')}`;
+      } else if (lower.startsWith('/isbank ')) {
+        const amt = text.split(/\s+/)[1];
+        const r = recordPersonalCashflow('SET_BALANCE', amt, 'İş Bankası Bakiye Senkronizasyonu');
+        reply = r.ok ? `🏦 İş Bankası bakiyen ${r.pf.isbankBalanceTry} TL olarak güncellendi!\nToplam Servet: ${r.pf.totalNetWorthTry} TL` : r.msg;
+      } else if (lower.startsWith('/gelir ')) {
+        const parts = text.split(/\s+/);
+        const amt = parts[1];
+        const note = parts.slice(2).join(' ') || 'Gelir Girişi';
+        const r = recordPersonalCashflow('IN', amt, note);
+        reply = r.ok
+          ? `💰 +${amt} TL (${note}) İş Bankası hesabına eklendi!\nYeni İş Bankası Bakiyesi: ${r.pf.isbankBalanceTry} TL\n💡 CFO Önerisi: Bu gelirin ${Math.round(Number(amt) * 0.45)} TL'sini bankada yaşam kalkanı olarak tut, ${Math.min(2000, Math.round(Number(amt) * 0.25))} TL'sini haftalık dilimle bota aktar.`
+          : r.msg;
+      } else if (lower.startsWith('/gider ')) {
+        const parts = text.split(/\s+/);
+        const amt = parts[1];
+        const note = parts.slice(2).join(' ') || 'Harcama';
+        const r = recordPersonalCashflow('OUT', amt, note);
+        reply = r.ok
+          ? `💸 -${amt} TL (${note}) düşüldü.\nKalan İş Bankası Bakiyesi: ${r.pf.isbankBalanceTry} TL | Bu Hafta Harcanan: ${r.pf.weeklySpentTry}/${r.pf.weeklySpendLimitTry} TL`
+          : r.msg;
+      } else if (lower.startsWith('/sat ')) {
+        const sym = text.split(/\s+/)[1];
+        const r = await sellPositionManual(sym, '🤖 TELEGRAM KOMUTUYLA MANUEL SATIŞ');
+        reply = `${r.ok ? '✅' : '⚠️'} ${r.msg}\n\n${buildSimpleWhatsAppMessage(r.state)}`;
+      } else if (lower.startsWith('/nakit') || lower === 'nakit') {
+        const r = await sellAllPositionsManual('🤖 TELEGRAM ACİL NAKİT KOMUTU');
+        reply = `🛡️ Tüm açık coinler (${r.count} adet) satıldı ve TL nakite geçildi!\n\n${buildSimpleWhatsAppMessage(r.state)}`;
+      } else if (lower.startsWith('/tara') || lower === 'tara') {
+        const r = await safeRunTradingCycle();
+        reply = `⚡ Anlık haber ve tahta taraması tamamlandı!\n\n${buildSimpleWhatsAppMessage(r.state)}`;
+      } else {
+        // Smart Zero-Touch Parser: Automatically understands İşCep push notifications, SMS, or natural messages like "250 yemek", "+8000 staj", "bakiye 4500"
+        const numMatch = text.match(/([+-]?\s*\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{1,2})?|\d+(?:[.,]\d{1,2})?)/);
+        if (numMatch && !lower.startsWith('/')) {
+          let rawNum = numMatch[1].replace(/\s+/g, '');
+          if (rawNum.includes('.') && rawNum.includes(',')) {
+            rawNum = rawNum.replace(/\./g, '').replace(',', '.');
+          } else if (rawNum.includes(',') && !rawNum.includes('.')) {
+            rawNum = rawNum.replace(',', '.');
+          }
+          const parsedAmt = Math.abs(Number(rawNum));
+          const cleanNote = text.replace(numMatch[0], '').replace(/\b(tl|try|lira|işcep|iscep|iş bankası)\b/gi, '').trim() || 'Otomatik İşlem';
+          if (parsedAmt > 0) {
+            const isBal = /(bakiye|hesapta|kalan|mevcut)/i.test(lower);
+            const isIn = text.trim().startsWith('+') || /(geldi|yattı|giriş|gelen|maaş|burs|havale geldi|fast geldi|iade)/i.test(lower);
+            if (isBal) {
+              const r = recordPersonalCashflow('SET_BALANCE', parsedAmt, 'Otomatik Bakiye Senkronizasyonu');
+              reply = `🏦 [Otomatik Algılandı] İş Bankası bakiyen ${r.pf.isbankBalanceTry} TL olarak güncellendi!\nToplam Servet: ${r.pf.totalNetWorthTry} TL`;
+            } else if (isIn) {
+              const r = recordPersonalCashflow('IN', parsedAmt, cleanNote || 'Otomatik Gelir');
+              reply = `💰 [Otomatik Gelir Algılandı] +${parsedAmt} TL (${cleanNote})\nYeni İş Bankası Bakiyesi: ${r.pf.isbankBalanceTry} TL\n💡 CFO Önerisi: ${Math.round(parsedAmt * 0.45)} TL'sini bankada tut, ${Math.min(2000, Math.round(parsedAmt * 0.25))} TL'sini haftalık dilimle bota aktar.`;
+            } else {
+              const r = recordPersonalCashflow('OUT', parsedAmt, cleanNote || 'Otomatik Harcama');
+              reply = `💸 [Otomatik Harcama Algılandı] -${parsedAmt} TL (${cleanNote})\nKalan İş Bankası Bakiyesi: ${r.pf.isbankBalanceTry} TL | Bu Hafta: ${r.pf.weeklySpentTry}/${r.pf.weeklySpendLimitTry} TL`;
+            }
+          }
+        }
+        if (!reply) {
+          reply = `🤖 AltcoinAutoTrader v9.5 + Kişisel CFO Kumanda\n\nKomut yazmana bile gerek yok! Doğrudan "250 yemek", "+8000 staj yattı" veya "bakiye 4500" yazabilir ya da İşCep bildirimini iletebilirsin.\n\nKısa Komutlar:\n• /durum — Anlık TL Kasa ve Açık Coinler\n• /cfo — İş Bankası + Binance TR Servet & CFO Tüyosu\n• /sat AVAX — Belirtilen coini hemen satar\n• /nakit — Tüm coinleri satıp TL'ye geçer\n• /tara — Şimdi haber taraması yapar`;
+        }
+      }
+
+      await fetch(`https://api.telegram.org/bot${cfg.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: chatId, text: reply }),
+      }).catch(() => {});
+    }
+    if (offsetChanged) {
+      const latestSt = loadPortfolioState(cfg);
+      latestSt.lastTelegramUpdateId = _tgOffset;
+      savePortfolioState(latestSt);
+    }
+  } catch {
+    // Ignore polling hiccups
+  }
+}
+
 async function startTelegramCommandBot() {
   if (_tgLoopStarted) return;
   _tgLoopStarted = true;
-  setInterval(async () => {
-    const cfg = loadEnv();
-    if (!cfg.TELEGRAM_BOT_TOKEN) return;
-    try {
-      const res = await fetchJson(
-        `https://api.telegram.org/bot${cfg.TELEGRAM_BOT_TOKEN}/getUpdates?offset=${_tgOffset + 1}&timeout=1`,
-        {},
-        4000
-      );
-      for (const upd of res?.result || []) {
-        _tgOffset = Math.max(_tgOffset, upd.update_id);
-        const msg = upd.message;
-        if (!msg || !msg.text) continue;
-        const chatId = String(msg.chat.id);
-        const text = msg.text.trim();
-        const lower = text.toLowerCase();
-
-        // Save chat_id automatically on first message
-        if (!cfg.TELEGRAM_CHAT_ID && fs.existsSync(ENV_FILE)) {
-          const envRaw = fs.readFileSync(ENV_FILE, 'utf8').replace(/TELEGRAM_CHAT_ID=.*/g, `TELEGRAM_CHAT_ID=${chatId}`);
-          fs.writeFileSync(ENV_FILE, envRaw, 'utf8');
-          cfg.TELEGRAM_CHAT_ID = chatId;
-        }
-
-        // Security Shield: Only allow the authorized owner's Telegram Chat ID
-        if (cfg.TELEGRAM_CHAT_ID && chatId !== String(cfg.TELEGRAM_CHAT_ID).trim()) {
-          console.warn(`🛡️ [Güvenlik Zırhı] Yetkisiz Telegram erişim denemesi reddedildi (ChatID: ${chatId})`);
-          continue;
-        }
-
-        let reply = '';
-        if (lower.startsWith('/durum') || lower === 'durum') {
-          const st = loadPortfolioState(cfg);
-          reply = `📊 CANLI KASA DURUMU\n\n${buildSimpleWhatsAppMessage(st)}`;
-        } else if (lower.startsWith('/cfo') || lower === 'cfo') {
-          const st = loadPortfolioState(cfg);
-          const pf = runPersonalCfoEngine(st);
-          reply = `🏦 KİŞİSEL CFO & İŞ BANKASI RAPORU\n\n• İş Bankası Bakiye: ${pf.isbankBalanceTry} TL\n• Binance TR Kasa: ${st.totalEquityTry || toTL(st.totalEquityUsdt)} TL\n• Toplam Servet: ${pf.totalNetWorthTry} TL\n• Bu Hafta Harcanan: ${pf.weeklySpentTry} / ${pf.weeklySpendLimitTry} TL\n\n💡 CFO Tavsiyesi:\n${(pf.cfoTips || []).join('\n\n')}`;
-        } else if (lower.startsWith('/isbank ')) {
-          const amt = text.split(/\s+/)[1];
-          const r = recordPersonalCashflow('SET_BALANCE', amt, 'İş Bankası Bakiye Senkronizasyonu');
-          reply = r.ok ? `🏦 İş Bankası bakiyen ${r.pf.isbankBalanceTry} TL olarak güncellendi!\nToplam Servet: ${r.pf.totalNetWorthTry} TL` : r.msg;
-        } else if (lower.startsWith('/gelir ')) {
-          const parts = text.split(/\s+/);
-          const amt = parts[1];
-          const note = parts.slice(2).join(' ') || 'Gelir Girişi';
-          const r = recordPersonalCashflow('IN', amt, note);
-          reply = r.ok
-            ? `💰 +${amt} TL (${note}) İş Bankası hesabına eklendi!\nYeni İş Bankası Bakiyesi: ${r.pf.isbankBalanceTry} TL\n💡 CFO Önerisi: Bu gelirin ${Math.round(Number(amt) * 0.45)} TL'sini bankada yaşam kalkanı olarak tut, ${Math.min(2000, Math.round(Number(amt) * 0.25))} TL'sini haftalık dilimle bota aktar.`
-            : r.msg;
-        } else if (lower.startsWith('/gider ')) {
-          const parts = text.split(/\s+/);
-          const amt = parts[1];
-          const note = parts.slice(2).join(' ') || 'Harcama';
-          const r = recordPersonalCashflow('OUT', amt, note);
-          reply = r.ok
-            ? `💸 -${amt} TL (${note}) düşüldü.\nKalan İş Bankası Bakiyesi: ${r.pf.isbankBalanceTry} TL | Bu Hafta Harcanan: ${r.pf.weeklySpentTry}/${r.pf.weeklySpendLimitTry} TL`
-            : r.msg;
-        } else if (lower.startsWith('/sat ')) {
-          const sym = text.split(/\s+/)[1];
-          const r = await sellPositionManual(sym, '🤖 TELEGRAM KOMUTUYLA MANUEL SATIŞ');
-          reply = `${r.ok ? '✅' : '⚠️'} ${r.msg}\n\n${buildSimpleWhatsAppMessage(r.state)}`;
-        } else if (lower.startsWith('/nakit') || lower === 'nakit') {
-          const r = await sellAllPositionsManual('🤖 TELEGRAM ACİL NAKİT KOMUTU');
-          reply = `🛡️ Tüm açık coinler (${r.count} adet) satıldı ve TL nakite geçildi!\n\n${buildSimpleWhatsAppMessage(r.state)}`;
-        } else if (lower.startsWith('/tara') || lower === 'tara') {
-          const r = await safeRunTradingCycle();
-          reply = `⚡ Anlık haber ve tahta taraması tamamlandı!\n\n${buildSimpleWhatsAppMessage(r.state)}`;
-        } else {
-          // Smart Zero-Touch Parser: Automatically understands İşCep push notifications, SMS, or natural messages like "250 yemek", "+8000 staj", "bakiye 4500"
-          const numMatch = text.match(/([+-]?\s*\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{1,2})?|\d+(?:[.,]\d{1,2})?)/);
-          if (numMatch && !lower.startsWith('/')) {
-            let rawNum = numMatch[1].replace(/\s+/g, '');
-            if (rawNum.includes('.') && rawNum.includes(',')) {
-              rawNum = rawNum.replace(/\./g, '').replace(',', '.');
-            } else if (rawNum.includes(',') && !rawNum.includes('.')) {
-              rawNum = rawNum.replace(',', '.');
-            }
-            const parsedAmt = Math.abs(Number(rawNum));
-            const cleanNote = text.replace(numMatch[0], '').replace(/\b(tl|try|lira|işcep|iscep|iş bankası)\b/gi, '').trim() || 'Otomatik İşlem';
-            if (parsedAmt > 0) {
-              const isBal = /(bakiye|hesapta|kalan|mevcut)/i.test(lower);
-              const isIn = text.trim().startsWith('+') || /(geldi|yattı|giriş|gelen|maaş|burs|havale geldi|fast geldi|iade)/i.test(lower);
-              if (isBal) {
-                const r = recordPersonalCashflow('SET_BALANCE', parsedAmt, 'Otomatik Bakiye Senkronizasyonu');
-                reply = `🏦 [Otomatik Algılandı] İş Bankası bakiyen ${r.pf.isbankBalanceTry} TL olarak güncellendi!\nToplam Servet: ${r.pf.totalNetWorthTry} TL`;
-              } else if (isIn) {
-                const r = recordPersonalCashflow('IN', parsedAmt, cleanNote || 'Otomatik Gelir');
-                reply = `💰 [Otomatik Gelir Algılandı] +${parsedAmt} TL (${cleanNote})\nYeni İş Bankası Bakiyesi: ${r.pf.isbankBalanceTry} TL\n💡 CFO Önerisi: ${Math.round(parsedAmt * 0.45)} TL'sini bankada tut, ${Math.min(2000, Math.round(parsedAmt * 0.25))} TL'sini haftalık dilimle bota aktar.`;
-              } else {
-                const r = recordPersonalCashflow('OUT', parsedAmt, cleanNote || 'Otomatik Harcama');
-                reply = `💸 [Otomatik Harcama Algılandı] -${parsedAmt} TL (${cleanNote})\nKalan İş Bankası Bakiyesi: ${r.pf.isbankBalanceTry} TL | Bu Hafta: ${r.pf.weeklySpentTry}/${r.pf.weeklySpendLimitTry} TL`;
-              }
-            }
-          }
-          if (!reply) {
-            reply = `🤖 AltcoinAutoTrader v9.5 + Kişisel CFO Kumanda\n\nKomut yazmana bile gerek yok! Doğrudan "250 yemek", "+8000 staj yattı" veya "bakiye 4500" yazabilir ya da İşCep bildirimini iletebilirsin.\n\nKısa Komutlar:\n• /durum — Anlık TL Kasa ve Açık Coinler\n• /cfo — İş Bankası + Binance TR Servet & CFO Tüyosu\n• /sat AVAX — Belirtilen coini hemen satar\n• /nakit — Tüm coinleri satıp TL'ye geçer\n• /tara — Şimdi haber taraması yapar`;
-          }
-        }
-
-        await fetch(`https://api.telegram.org/bot${cfg.TELEGRAM_BOT_TOKEN}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chat_id: chatId, text: reply }),
-        }).catch(() => {});
-      }
-    } catch {
-      // Ignore polling hiccups
-    }
-  }, 4000);
+  setInterval(pollTelegramUpdatesOnce, 4000);
 }
 
 process.on('uncaughtException', err => {
@@ -2070,7 +2084,13 @@ process.on('unhandledRejection', err => {
 async function main() {
   const isDaemon = process.argv.includes('--daemon');
   const shouldNotify = process.argv.includes('--notify');
+  if (!isDaemon) {
+    await pollTelegramUpdatesOnce();
+  }
   const result = await safeRunTradingCycle();
+  if (!isDaemon) {
+    await pollTelegramUpdatesOnce();
+  }
   const s = result.state;
 
   console.log('\n================================================================================');
