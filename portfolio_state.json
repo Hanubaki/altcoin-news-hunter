@@ -1,9 +1,9 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-21T16:40:05.946Z",
+  "updatedAt": "2026-10-21T18:40:05.666Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
-  "initialBankrollUsdt": 20.2388,
+  "initialBankrollUsdt": 20.2347,
   "initialBankrollTry": 1000,
   "cashUsdt": 0.0822,
   "realizedPnlUsdt": 0.9645,
@@ -25,23 +25,23 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-21T03:08:28.604Z",
       "entryPrice": 0.08337,
-      "currentPrice": 0.0861,
-      "highestPrice": 0.08615,
+      "currentPrice": 0.0864,
+      "highestPrice": 0.08641,
       "qty": 40.918,
       "costUsdt": 3.4113,
-      "costTry": 168.55,
+      "costTry": 168.59,
       "takeProfitPrice": 0.087122,
-      "stopLossPrice": 0.085037,
+      "stopLossPrice": 0.085895,
       "tpPct": 4.5,
       "slPct": 2,
       "partialTpDone": false,
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": true,
-      "unrealizedPnlUsdt": 0.1117,
-      "unrealizedPnlPct": 3.27,
-      "currentPriceTry": 4.2542,
-      "currentValueTry": 174.07
+      "unrealizedPnlUsdt": 0.124,
+      "unrealizedPnlPct": 3.63,
+      "currentPriceTry": 4.2699,
+      "currentValueTry": 174.72
     },
     {
       "id": "moon_1792595469092_THETA",
@@ -63,7 +63,7 @@
       "highestPrice": 0.2077,
       "qty": 15.968,
       "costUsdt": 3.3102,
-      "costTry": 163.56,
+      "costTry": 163.59,
       "takeProfitPrice": 0.24461,
       "stopLossPrice": 0.20232,
       "tpPct": 18,
@@ -74,8 +74,8 @@
       "rocketMode": false,
       "unrealizedPnlUsdt": 0,
       "unrealizedPnlPct": 0,
-      "currentPriceTry": 10.2427,
-      "currentValueTry": 163.56
+      "currentPriceTry": 10.2448,
+      "currentValueTry": 163.59
     },
     {
       "id": "pos_1792595532320_RAY",
@@ -92,11 +92,11 @@
       "obImbalance": 0.19,
       "entryTime": "2026-10-21T15:12:12.320Z",
       "entryPrice": 1.9967,
-      "currentPrice": 2.0038,
-      "highestPrice": 2.0148,
+      "currentPrice": 2.0233,
+      "highestPrice": 2.0246,
       "qty": 3.0938,
       "costUsdt": 6.1774,
-      "costTry": 305.23,
+      "costTry": 305.29,
       "takeProfitPrice": 2.1087,
       "stopLossPrice": 1.9568,
       "tpPct": 5.61,
@@ -105,10 +105,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.022,
-      "unrealizedPnlPct": 0.36,
-      "currentPriceTry": 99.0078,
-      "currentValueTry": 306.31
+      "unrealizedPnlUsdt": 0.0823,
+      "unrealizedPnlPct": 1.33,
+      "currentPriceTry": 99.9915,
+      "currentValueTry": 309.35
     },
     {
       "id": "pos_1792598542406_UNI",
@@ -125,23 +125,23 @@
       "obImbalance": 0.17,
       "entryTime": "2026-10-21T16:02:22.407Z",
       "entryPrice": 7.605,
-      "currentPrice": 7.63,
-      "highestPrice": 7.639,
+      "currentPrice": 7.705,
+      "highestPrice": 7.729,
       "qty": 0.97804,
       "costUsdt": 7.438,
-      "costTry": 367.51,
+      "costTry": 367.59,
       "takeProfitPrice": 7.9929,
-      "stopLossPrice": 7.4293,
+      "stopLossPrice": 7.6316,
       "tpPct": 5.1,
       "slPct": 2.31,
       "partialTpDone": false,
       "stage2TpDone": false,
-      "trailingActive": false,
+      "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0245,
-      "unrealizedPnlPct": 0.33,
-      "currentPriceTry": 376.9983,
-      "currentValueTry": 368.72
+      "unrealizedPnlUsdt": 0.0978,
+      "unrealizedPnlPct": 1.31,
+      "currentPriceTry": 380.7811,
+      "currentValueTry": 372.42
     }
   ],
   "closedTrades": [
@@ -784,6 +784,8 @@
     }
   ],
   "recentLogs": [
+    "[21:28:05] 🧱 [Satış Duvarı Kalkanı] HBAR önünde balina satış duvarı (-0.52) tespit edildi, kâr kilidi sıkılaştırıldı!",
+    "[21:00:26] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[19:10:51] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[19:02:22] 🟢 [OTOMATİK ALIM] UNI (372,85 TL) @ $7.605 | Skor: 93.5 | RSI: 48.44 | Balina: %53.7 | SL: -%2.31",
     "[18:33:53] ⚡ [AKILLI ROTASYON] EDU kapatıldı, yerine 106.4 puanlık dev fırsat (ALGO) alınıyor!",
@@ -821,409 +823,407 @@
     "[09:16:11] ⚖️ [Tahta Kalkanı - Vurgun] FIL önünde satış duvarı (-0.18) var, pas geçildi.",
     "[09:16:11] ⚖️ [Tahta Kalkanı - Vurgun] FIL önünde satış duvarı (-0.19) var, pas geçildi.",
     "[09:16:10] ⚖️ [Tahta Kalkanı - Vurgun] AR önünde satış duvarı (-0.15) var, pas geçildi.",
-    "[09:15:25] ⚖️ [Tahta Kalkanı - Vurgun] BOME önünde satış duvarı (-0.21) var, pas geçildi.",
-    "[09:15:24] ⚖️ [Tahta Kalkanı - Vurgun] AR önünde satış duvarı (-0.08) var, pas geçildi.",
-    "[09:14:39] ⚡ [AKILLI ROTASYON] TIA kapatıldı, yerine 99 puanlık dev fırsat (EIGEN) alınıyor!"
+    "[09:15:25] ⚖️ [Tahta Kalkanı - Vurgun] BOME önünde satış duvarı (-0.21) var, pas geçildi."
   ],
-  "totalEquityUsdt": 21.1473,
-  "totalEquityTry": 1044.89,
-  "totalPnlUsdt": 0.9085,
-  "totalPnlPct": 4.49,
+  "totalEquityUsdt": 21.294,
+  "totalEquityTry": 1052.35,
+  "totalPnlUsdt": 1.0593,
+  "totalPnlPct": 5.24,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
     "TIA": 1792605145178
   },
   "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0022 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 40.9180 | ICP: 0.0002 | INJ: 0.0087 | JASMY: 0.6080 | LDO: 0.0063 | RAY: 3.0938 | RSR: 0.9660 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | THETA: 15.9680 | TIA: 0.0058 | TRY: 4.0624 | UNI: 0.9780)",
-  "lastWhatsAppReportAt": 1792598545374,
+  "lastWhatsAppReportAt": 1792605757862,
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
-  "usdTryRate": 49.41,
-  "totalPnlTry": 44.89,
+  "usdTryRate": 49.42,
+  "totalPnlTry": 52.35,
   "equityHistory": [
     {
-      "t": "18:21",
-      "v": 1042.06
+      "t": "20:16",
+      "v": 1036.72
     },
     {
-      "t": "18:22",
-      "v": 1042.17
+      "t": "20:17",
+      "v": 1036.16
     },
     {
-      "t": "18:23",
-      "v": 1042.84
+      "t": "20:18",
+      "v": 1036.41
     },
     {
-      "t": "18:24",
-      "v": 1043.13
+      "t": "20:19",
+      "v": 1036.61
     },
     {
-      "t": "18:24",
-      "v": 1043.84
+      "t": "20:19",
+      "v": 1038.43
     },
     {
-      "t": "18:25",
-      "v": 1043.88
+      "t": "20:20",
+      "v": 1038.34
     },
     {
-      "t": "18:26",
-      "v": 1045.57
+      "t": "20:21",
+      "v": 1038.86
     },
     {
-      "t": "18:27",
-      "v": 1045.31
+      "t": "20:22",
+      "v": 1038.43
     },
     {
-      "t": "18:27",
-      "v": 1044.53
+      "t": "20:22",
+      "v": 1037.54
     },
     {
-      "t": "18:28",
-      "v": 1044.14
+      "t": "20:23",
+      "v": 1037.72
     },
     {
-      "t": "18:29",
-      "v": 1043.71
+      "t": "20:24",
+      "v": 1037.7
     },
     {
-      "t": "18:30",
-      "v": 1044.57
+      "t": "20:25",
+      "v": 1037.57
     },
     {
-      "t": "18:30",
-      "v": 1045.19
+      "t": "20:26",
+      "v": 1037.74
     },
     {
-      "t": "18:31",
-      "v": 1045.8
+      "t": "20:27",
+      "v": 1037.32
     },
     {
-      "t": "18:32",
-      "v": 1046.5
+      "t": "20:28",
+      "v": 1037.89
     },
     {
-      "t": "18:33",
-      "v": 1046.08
+      "t": "20:28",
+      "v": 1038.46
     },
     {
-      "t": "18:34",
-      "v": 1045.35
-    },
-    {
-      "t": "18:35",
-      "v": 1046.48
-    },
-    {
-      "t": "18:36",
-      "v": 1045.29
-    },
-    {
-      "t": "18:37",
-      "v": 1046.03
-    },
-    {
-      "t": "18:38",
-      "v": 1047.23
-    },
-    {
-      "t": "18:39",
-      "v": 1046.79
-    },
-    {
-      "t": "18:39",
-      "v": 1047.45
-    },
-    {
-      "t": "18:40",
-      "v": 1046.94
-    },
-    {
-      "t": "18:42",
-      "v": 1046.3
-    },
-    {
-      "t": "18:43",
-      "v": 1046.52
-    },
-    {
-      "t": "18:43",
-      "v": 1045.92
-    },
-    {
-      "t": "18:44",
-      "v": 1045.22
-    },
-    {
-      "t": "18:45",
-      "v": 1045.21
-    },
-    {
-      "t": "18:46",
-      "v": 1044.86
-    },
-    {
-      "t": "18:46",
-      "v": 1043.73
-    },
-    {
-      "t": "18:47",
-      "v": 1043.12
-    },
-    {
-      "t": "18:48",
-      "v": 1042.49
-    },
-    {
-      "t": "18:49",
-      "v": 1042.54
-    },
-    {
-      "t": "18:50",
-      "v": 1042.23
-    },
-    {
-      "t": "18:51",
-      "v": 1042.29
-    },
-    {
-      "t": "18:52",
-      "v": 1042.99
-    },
-    {
-      "t": "18:52",
-      "v": 1044.24
-    },
-    {
-      "t": "18:53",
-      "v": 1044.13
-    },
-    {
-      "t": "18:54",
-      "v": 1044.5
-    },
-    {
-      "t": "18:55",
-      "v": 1045
-    },
-    {
-      "t": "18:55",
-      "v": 1044.42
-    },
-    {
-      "t": "18:56",
-      "v": 1044.23
-    },
-    {
-      "t": "18:57",
-      "v": 1044.42
-    },
-    {
-      "t": "18:58",
-      "v": 1044.12
-    },
-    {
-      "t": "18:59",
-      "v": 1043.58
-    },
-    {
-      "t": "19:00",
-      "v": 1043.21
-    },
-    {
-      "t": "19:01",
-      "v": 1042.98
-    },
-    {
-      "t": "19:02",
-      "v": 1046.73
-    },
-    {
-      "t": "19:03",
-      "v": 1040.83
-    },
-    {
-      "t": "19:04",
-      "v": 1040.05
-    },
-    {
-      "t": "19:04",
-      "v": 1039.45
-    },
-    {
-      "t": "19:05",
-      "v": 1039.93
-    },
-    {
-      "t": "19:06",
-      "v": 1039.03
-    },
-    {
-      "t": "19:07",
-      "v": 1039.03
-    },
-    {
-      "t": "19:07",
-      "v": 1040.89
-    },
-    {
-      "t": "19:08",
-      "v": 1041.98
-    },
-    {
-      "t": "19:09",
-      "v": 1041.31
-    },
-    {
-      "t": "19:10",
-      "v": 1041.26
-    },
-    {
-      "t": "19:10",
-      "v": 1039.29
-    },
-    {
-      "t": "19:11",
-      "v": 1039.71
-    },
-    {
-      "t": "19:12",
-      "v": 1039.03
-    },
-    {
-      "t": "19:13",
-      "v": 1039.85
-    },
-    {
-      "t": "19:13",
-      "v": 1040.53
-    },
-    {
-      "t": "19:14",
-      "v": 1040.98
-    },
-    {
-      "t": "19:15",
-      "v": 1041.28
-    },
-    {
-      "t": "19:16",
-      "v": 1041.75
-    },
-    {
-      "t": "19:16",
-      "v": 1040.84
-    },
-    {
-      "t": "19:17",
-      "v": 1040.17
-    },
-    {
-      "t": "19:18",
-      "v": 1041.59
-    },
-    {
-      "t": "19:19",
-      "v": 1041.5
-    },
-    {
-      "t": "19:19",
-      "v": 1042.81
-    },
-    {
-      "t": "19:20",
-      "v": 1042.19
-    },
-    {
-      "t": "19:21",
-      "v": 1042.7
-    },
-    {
-      "t": "19:22",
-      "v": 1042.95
-    },
-    {
-      "t": "19:22",
-      "v": 1042.23
-    },
-    {
-      "t": "19:23",
-      "v": 1042.75
-    },
-    {
-      "t": "19:24",
-      "v": 1043.05
-    },
-    {
-      "t": "19:25",
-      "v": 1041.42
-    },
-    {
-      "t": "19:26",
-      "v": 1041.14
-    },
-    {
-      "t": "19:27",
-      "v": 1040.69
-    },
-    {
-      "t": "19:28",
-      "v": 1039.44
-    },
-    {
-      "t": "19:28",
-      "v": 1040.45
-    },
-    {
-      "t": "19:29",
-      "v": 1040.05
-    },
-    {
-      "t": "19:30",
-      "v": 1039.75
-    },
-    {
-      "t": "19:31",
-      "v": 1039.57
-    },
-    {
-      "t": "19:32",
+      "t": "20:29",
       "v": 1038.6
     },
     {
-      "t": "19:33",
-      "v": 1039.34
+      "t": "20:30",
+      "v": 1039.87
     },
     {
-      "t": "19:34",
-      "v": 1039.49
+      "t": "20:31",
+      "v": 1040.21
     },
     {
-      "t": "19:34",
-      "v": 1038.33
+      "t": "20:31",
+      "v": 1041.44
     },
     {
-      "t": "19:35",
-      "v": 1038.81
+      "t": "20:32",
+      "v": 1042.37
     },
     {
-      "t": "19:36",
-      "v": 1039.09
+      "t": "20:33",
+      "v": 1043.2
     },
     {
-      "t": "19:37",
-      "v": 1041.6
+      "t": "20:34",
+      "v": 1043.57
     },
     {
-      "t": "19:38",
-      "v": 1040.25
+      "t": "20:35",
+      "v": 1044.36
     },
     {
-      "t": "19:39",
-      "v": 1041.38
+      "t": "20:36",
+      "v": 1044.45
     },
     {
-      "t": "19:40",
-      "v": 1044.89
+      "t": "20:37",
+      "v": 1045.43
+    },
+    {
+      "t": "20:38",
+      "v": 1045.28
+    },
+    {
+      "t": "20:39",
+      "v": 1044.96
+    },
+    {
+      "t": "20:40",
+      "v": 1044.57
+    },
+    {
+      "t": "20:41",
+      "v": 1044.75
+    },
+    {
+      "t": "20:42",
+      "v": 1044.15
+    },
+    {
+      "t": "20:43",
+      "v": 1043.65
+    },
+    {
+      "t": "20:44",
+      "v": 1043.33
+    },
+    {
+      "t": "20:45",
+      "v": 1043.45
+    },
+    {
+      "t": "20:46",
+      "v": 1042.55
+    },
+    {
+      "t": "20:46",
+      "v": 1043.37
+    },
+    {
+      "t": "20:47",
+      "v": 1042.29
+    },
+    {
+      "t": "20:48",
+      "v": 1042.21
+    },
+    {
+      "t": "20:49",
+      "v": 1041.98
+    },
+    {
+      "t": "20:49",
+      "v": 1041.19
+    },
+    {
+      "t": "20:50",
+      "v": 1042.19
+    },
+    {
+      "t": "20:51",
+      "v": 1042.03
+    },
+    {
+      "t": "20:52",
+      "v": 1042.15
+    },
+    {
+      "t": "20:53",
+      "v": 1043.26
+    },
+    {
+      "t": "20:54",
+      "v": 1045.04
+    },
+    {
+      "t": "20:55",
+      "v": 1044.59
+    },
+    {
+      "t": "20:55",
+      "v": 1043.84
+    },
+    {
+      "t": "20:56",
+      "v": 1043.4
+    },
+    {
+      "t": "20:57",
+      "v": 1043.1
+    },
+    {
+      "t": "20:58",
+      "v": 1042.37
+    },
+    {
+      "t": "20:59",
+      "v": 1041.39
+    },
+    {
+      "t": "21:00",
+      "v": 1042.71
+    },
+    {
+      "t": "21:01",
+      "v": 1042.15
+    },
+    {
+      "t": "21:01",
+      "v": 1043.01
+    },
+    {
+      "t": "21:02",
+      "v": 1044.29
+    },
+    {
+      "t": "21:03",
+      "v": 1044.67
+    },
+    {
+      "t": "21:04",
+      "v": 1045.08
+    },
+    {
+      "t": "21:04",
+      "v": 1045.93
+    },
+    {
+      "t": "21:05",
+      "v": 1045.54
+    },
+    {
+      "t": "21:06",
+      "v": 1045.79
+    },
+    {
+      "t": "21:07",
+      "v": 1045.14
+    },
+    {
+      "t": "21:08",
+      "v": 1044.39
+    },
+    {
+      "t": "21:09",
+      "v": 1044.38
+    },
+    {
+      "t": "21:10",
+      "v": 1044.21
+    },
+    {
+      "t": "21:11",
+      "v": 1044.31
+    },
+    {
+      "t": "21:12",
+      "v": 1044.59
+    },
+    {
+      "t": "21:13",
+      "v": 1045.52
+    },
+    {
+      "t": "21:14",
+      "v": 1046.6
+    },
+    {
+      "t": "21:15",
+      "v": 1046.53
+    },
+    {
+      "t": "21:16",
+      "v": 1047.6
+    },
+    {
+      "t": "21:17",
+      "v": 1048.01
+    },
+    {
+      "t": "21:18",
+      "v": 1048.25
+    },
+    {
+      "t": "21:19",
+      "v": 1048.05
+    },
+    {
+      "t": "21:20",
+      "v": 1048.94
+    },
+    {
+      "t": "21:21",
+      "v": 1048.36
+    },
+    {
+      "t": "21:22",
+      "v": 1048.26
+    },
+    {
+      "t": "21:22",
+      "v": 1048.79
+    },
+    {
+      "t": "21:23",
+      "v": 1050.11
+    },
+    {
+      "t": "21:24",
+      "v": 1049.91
+    },
+    {
+      "t": "21:25",
+      "v": 1050.37
+    },
+    {
+      "t": "21:25",
+      "v": 1051.79
+    },
+    {
+      "t": "21:26",
+      "v": 1051.4
+    },
+    {
+      "t": "21:27",
+      "v": 1051.02
+    },
+    {
+      "t": "21:28",
+      "v": 1050.8
+    },
+    {
+      "t": "21:29",
+      "v": 1050.52
+    },
+    {
+      "t": "21:30",
+      "v": 1052.92
+    },
+    {
+      "t": "21:31",
+      "v": 1053.37
+    },
+    {
+      "t": "21:32",
+      "v": 1052.16
+    },
+    {
+      "t": "21:33",
+      "v": 1052.63
+    },
+    {
+      "t": "21:34",
+      "v": 1052.47
+    },
+    {
+      "t": "21:35",
+      "v": 1052.53
+    },
+    {
+      "t": "21:36",
+      "v": 1051.72
+    },
+    {
+      "t": "21:37",
+      "v": 1052.18
+    },
+    {
+      "t": "21:38",
+      "v": 1052.75
+    },
+    {
+      "t": "21:39",
+      "v": 1052.44
+    },
+    {
+      "t": "21:40",
+      "v": 1052.35
     }
   ],
   "walletAssetsMap": {
@@ -1250,10 +1250,10 @@
     "TRY": 4.0623732,
     "UNI": 0.97804
   },
-  "dustAssetsUsdt": 0.5702,
-  "dustAssetsTry": 28.17,
+  "dustAssetsUsdt": 0.5709,
+  "dustAssetsTry": 28.21,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-21T16:40:05.946Z",
+    "updatedAt": "2026-10-21T18:40:05.666Z",
     "totalAnalyzedTrades": 19,
     "coinStats": {
       "EDU": {
@@ -1615,13 +1615,13 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 1044.89,
+    "totalNetWorthTry": 1052.35,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
-      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %84.2 isabetle (16G/3Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1044.89 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
+      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %84.2 isabetle (16G/3Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1052.35 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-21T16:40:05.946Z"
+    "updatedAt": "2026-10-21T18:40:05.666Z"
   },
   "_apiFailCount": 0
 }

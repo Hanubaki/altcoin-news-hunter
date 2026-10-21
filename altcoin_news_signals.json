@@ -1,14 +1,14 @@
 {
-  "updatedAt": "2026-10-21T16:40:02.471Z",
-  "scanDurationMs": 4257,
+  "updatedAt": "2026-10-21T18:40:02.407Z",
+  "scanDurationMs": 4239,
   "bankrollTry": 1000,
   "bankrollUsdt": 20.22,
-  "btc1hChangePct": 0.54,
+  "btc1hChangePct": 0.26,
   "btcCrashAlert": false,
-  "marketBreadthPct": 95,
+  "marketBreadthPct": 93,
   "fearGreedVal": 63,
   "fearGreedClass": "Greed",
-  "btcDominancePct": 57.52,
+  "btcDominancePct": 57.43,
   "totalHeadlinesScanned": 92,
   "activeFeeds": [
     "CoinTelegraph (20)",
@@ -19,44 +19,50 @@
   ],
   "top4AltcoinPicks": [
     {
-      "symbol": "THETA",
-      "leaderSymbol": "FET",
+      "symbol": "PYTH",
+      "leaderSymbol": "SOL",
       "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
       ],
       "matchedKeywords": [
-        "whale-flow",
-        "laggard-dip-accumulation"
+        "solana"
       ],
-      "newsScore": 5.67,
-      "freshestMinutesAgo": 20,
+      "newsScore": 6.93,
+      "freshestMinutesAgo": 237,
       "headlines": [
         {
-          "source": "WhaleOrderflowRadar",
-          "title": "THETA Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
-          "minutesAgo": 20,
-          "catalystPoints": 5.67,
-          "directMention": true
+          "source": "CoinTelegraph",
+          "title": "Solana’s Alpenglow launches on mainnet, targets 99% faster finality",
+          "minutesAgo": 245,
+          "catalystPoints": 4.46,
+          "directMention": false
+        },
+        {
+          "source": "Decrypt",
+          "title": "Solana Alpenglow Goes Live in &#39;Most Ambitious&#39; Upgrade Since Ethereum&#39;s Merge",
+          "minutesAgo": 237,
+          "catalystPoints": 2.47,
+          "directMention": false
         }
       ],
-      "lastPrice": 0.2075,
-      "vwap24h": 0.20941,
-      "aboveVwap": false,
-      "change1hPct": 0.19,
-      "change24hPct": -2.765,
-      "lagVsLeader24h": 6.7,
-      "rsi1h": 48.09,
+      "lastPrice": 0.08095,
+      "vwap24h": 0.080169,
+      "aboveVwap": true,
+      "change1hPct": -0.14,
+      "change24hPct": 3.108,
+      "lagVsLeader24h": -0.3,
+      "rsi1h": 50.5,
       "hasRsiDivergence": false,
-      "atr1hPct": 0.93,
-      "bbPctB": 0.76,
-      "bbWidthPct": 3.25,
+      "atr1hPct": 1.49,
+      "bbPctB": 0.74,
+      "bbWidthPct": 3.58,
       "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 8.1,
+      "macdBullishTurn": false,
+      "adx": 48,
       "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.2022,
-      "resistance": 0.2105,
+      "regime": "GUCLU_TREND",
+      "support": 0.07843,
+      "resistance": 0.08193,
       "roomToResistancePct": 1.5,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
@@ -65,123 +71,68 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 53.7,
-      "last1hTakerBuyPct": 43.6,
-      "isGreenBounce": true,
+      "takerBuyRatioPct": 50.3,
+      "last1hTakerBuyPct": 66.7,
+      "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.18,
-      "fundingHourlyPct": 0.01,
-      "basisSpreadPct": 0.106,
-      "totalScore": 84.5,
-      "tpPct": 8.81,
-      "slPct": 2,
-      "tpPrice": 0.22578,
-      "slPrice": 0.20335,
-      "topWhaleLongPct": 62.3,
-      "oiChange15mPct": 0.09
-    },
-    {
-      "symbol": "ID",
-      "leaderSymbol": "BNB",
-      "ecosystems": [
-        "Binance / BNB Chain, Launchpool & DEX Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "pancakeswap"
-      ],
-      "newsScore": 1.52,
-      "freshestMinutesAgo": 324,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "PancakeSwap TVL tops $380M as major fee overhaul heads to vote",
-          "minutesAgo": 324,
-          "catalystPoints": 1.52,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.0336,
-      "vwap24h": 0.033365,
-      "aboveVwap": true,
-      "change1hPct": 0,
-      "change24hPct": 4.673,
-      "lagVsLeader24h": -2.5,
-      "rsi1h": 48.72,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.71,
-      "bbPctB": 0.68,
-      "bbWidthPct": 6.37,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 21.1,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.0317,
-      "resistance": 0.0347,
-      "roomToResistancePct": 3.27,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 49.2,
-      "last1hTakerBuyPct": 54.1,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.3,
-      "fundingHourlyPct": 0.005,
-      "basisSpreadPct": -0.004,
-      "totalScore": 54.8,
-      "tpPct": 6.38,
-      "slPct": 2.82,
-      "tpPrice": 0.035744,
-      "slPrice": 0.032652,
-      "topWhaleLongPct": 56.8,
-      "oiChange15mPct": 0.5
+      "volRatio": 0.24,
+      "fundingHourlyPct": -0.0014,
+      "basisSpreadPct": 0.134,
+      "totalScore": 83.2,
+      "tpPct": 4.5,
+      "slPct": 2.46,
+      "tpPrice": 0.084593,
+      "slPrice": 0.078959,
+      "topWhaleLongPct": 59.7,
+      "oiChange15mPct": -0.04
     }
   ],
   "allQualifiedOpportunities": [
     {
-      "symbol": "THETA",
-      "leaderSymbol": "FET",
+      "symbol": "PYTH",
+      "leaderSymbol": "SOL",
       "ecosystems": [
-        "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı"
+        "Solana (SOL) & DEX / Likidite Ekosistemi"
       ],
       "matchedKeywords": [
-        "whale-flow",
-        "laggard-dip-accumulation"
+        "solana"
       ],
-      "newsScore": 5.67,
-      "freshestMinutesAgo": 20,
+      "newsScore": 6.93,
+      "freshestMinutesAgo": 237,
       "headlines": [
         {
-          "source": "WhaleOrderflowRadar",
-          "title": "THETA Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı",
-          "minutesAgo": 20,
-          "catalystPoints": 5.67,
-          "directMention": true
+          "source": "CoinTelegraph",
+          "title": "Solana’s Alpenglow launches on mainnet, targets 99% faster finality",
+          "minutesAgo": 245,
+          "catalystPoints": 4.46,
+          "directMention": false
+        },
+        {
+          "source": "Decrypt",
+          "title": "Solana Alpenglow Goes Live in &#39;Most Ambitious&#39; Upgrade Since Ethereum&#39;s Merge",
+          "minutesAgo": 237,
+          "catalystPoints": 2.47,
+          "directMention": false
         }
       ],
-      "lastPrice": 0.2075,
-      "vwap24h": 0.20941,
-      "aboveVwap": false,
-      "change1hPct": 0.19,
-      "change24hPct": -2.765,
-      "lagVsLeader24h": 6.7,
-      "rsi1h": 48.09,
+      "lastPrice": 0.08095,
+      "vwap24h": 0.080169,
+      "aboveVwap": true,
+      "change1hPct": -0.14,
+      "change24hPct": 3.108,
+      "lagVsLeader24h": -0.3,
+      "rsi1h": 50.5,
       "hasRsiDivergence": false,
-      "atr1hPct": 0.93,
-      "bbPctB": 0.76,
-      "bbWidthPct": 3.25,
+      "atr1hPct": 1.49,
+      "bbPctB": 0.74,
+      "bbWidthPct": 3.58,
       "isSqueeze": true,
-      "macdBullishTurn": true,
-      "adx": 8.1,
+      "macdBullishTurn": false,
+      "adx": 48,
       "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.2022,
-      "resistance": 0.2105,
+      "regime": "GUCLU_TREND",
+      "support": 0.07843,
+      "resistance": 0.08193,
       "roomToResistancePct": 1.5,
       "aiConsensusCount": 3,
       "aiConsensusModels": [
@@ -190,81 +141,20 @@
         "Claude-Opus-4.8"
       ],
       "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 53.7,
-      "last1hTakerBuyPct": 43.6,
-      "isGreenBounce": true,
+      "takerBuyRatioPct": 50.3,
+      "last1hTakerBuyPct": 66.7,
+      "isGreenBounce": false,
       "isTrending": false,
-      "volRatio": 0.18,
-      "fundingHourlyPct": 0.01,
-      "basisSpreadPct": 0.106,
-      "totalScore": 84.5,
-      "tpPct": 8.81,
-      "slPct": 2,
-      "tpPrice": 0.22578,
-      "slPrice": 0.20335,
-      "topWhaleLongPct": 62.3,
-      "oiChange15mPct": 0.09
-    },
-    {
-      "symbol": "ID",
-      "leaderSymbol": "BNB",
-      "ecosystems": [
-        "Binance / BNB Chain, Launchpool & DEX Ekosistemi"
-      ],
-      "matchedKeywords": [
-        "pancakeswap"
-      ],
-      "newsScore": 1.52,
-      "freshestMinutesAgo": 324,
-      "headlines": [
-        {
-          "source": "CoinTelegraph",
-          "title": "PancakeSwap TVL tops $380M as major fee overhaul heads to vote",
-          "minutesAgo": 324,
-          "catalystPoints": 1.52,
-          "directMention": false
-        }
-      ],
-      "lastPrice": 0.0336,
-      "vwap24h": 0.033365,
-      "aboveVwap": true,
-      "change1hPct": 0,
-      "change24hPct": 4.673,
-      "lagVsLeader24h": -2.5,
-      "rsi1h": 48.72,
-      "hasRsiDivergence": false,
-      "atr1hPct": 1.71,
-      "bbPctB": 0.68,
-      "bbWidthPct": 6.37,
-      "isSqueeze": false,
-      "macdBullishTurn": true,
-      "adx": 21.1,
-      "ema20AboveEma50": true,
-      "regime": "DIP_TOPLAMA",
-      "support": 0.0317,
-      "resistance": 0.0347,
-      "roomToResistancePct": 3.27,
-      "aiConsensusCount": 3,
-      "aiConsensusModels": [
-        "Llama-4-Maverick",
-        "Llama-4-Scout",
-        "Claude-Opus-4.8"
-      ],
-      "aiConsensusLabel": "3/4 AI ONAYLI",
-      "takerBuyRatioPct": 49.2,
-      "last1hTakerBuyPct": 54.1,
-      "isGreenBounce": true,
-      "isTrending": false,
-      "volRatio": 0.3,
-      "fundingHourlyPct": 0.005,
-      "basisSpreadPct": -0.004,
-      "totalScore": 54.8,
-      "tpPct": 6.38,
-      "slPct": 2.82,
-      "tpPrice": 0.035744,
-      "slPrice": 0.032652,
-      "topWhaleLongPct": 56.8,
-      "oiChange15mPct": 0.5
+      "volRatio": 0.24,
+      "fundingHourlyPct": -0.0014,
+      "basisSpreadPct": 0.134,
+      "totalScore": 83.2,
+      "tpPct": 4.5,
+      "slPct": 2.46,
+      "tpPrice": 0.084593,
+      "slPrice": 0.078959,
+      "topWhaleLongPct": 59.7,
+      "oiChange15mPct": -0.04
     }
   ]
 }
