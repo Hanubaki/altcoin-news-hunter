@@ -1,12 +1,12 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-21T05:26:45.800Z",
+  "updatedAt": "2026-10-21T06:24:39.820Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
-  "initialBankrollUsdt": 20.284,
+  "initialBankrollUsdt": 20.2388,
   "initialBankrollTry": 1000,
   "cashUsdt": 0.0556,
-  "realizedPnlUsdt": 0.8566,
+  "realizedPnlUsdt": 0.8679,
   "winCount": 12,
   "lossCount": 1,
   "openPositions": [
@@ -29,7 +29,7 @@
       "highestPrice": 0.0733,
       "qty": 63.872,
       "costUsdt": 4.6627,
-      "costTry": 229.87,
+      "costTry": 230.38,
       "takeProfitPrice": 0.077015,
       "stopLossPrice": 0.070985,
       "tpPct": 5.5,
@@ -40,8 +40,8 @@
       "rocketMode": false,
       "unrealizedPnlUsdt": -0.0447,
       "unrealizedPnlPct": -0.96,
-      "currentPriceTry": 3.5644,
-      "currentValueTry": 227.66
+      "currentPriceTry": 3.5723,
+      "currentValueTry": 228.17
     },
     {
       "id": "moon_1792537703047_TIA",
@@ -59,11 +59,11 @@
       "obImbalance": -0.04,
       "entryTime": "2026-10-20T23:08:23.047Z",
       "entryPrice": 0.6208,
-      "currentPrice": 0.6138,
+      "currentPrice": 0.6234,
       "highestPrice": 0.6254,
       "qty": 7.09578,
       "costUsdt": 4.4051,
-      "costTry": 217.17,
+      "costTry": 217.66,
       "takeProfitPrice": 0.73254,
       "stopLossPrice": 0.60093,
       "tpPct": 18,
@@ -72,10 +72,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0497,
-      "unrealizedPnlPct": -1.13,
-      "currentPriceTry": 30.2603,
-      "currentValueTry": 214.72
+      "unrealizedPnlUsdt": 0.0184,
+      "unrealizedPnlPct": 0.42,
+      "currentPriceTry": 30.8022,
+      "currentValueTry": 218.57
     },
     {
       "id": "pos_1792549300584_JASMY",
@@ -92,11 +92,11 @@
       "obImbalance": 0.04,
       "entryTime": "2026-10-21T02:21:40.584Z",
       "entryPrice": 0.00479,
-      "currentPrice": 0.00471,
+      "currentPrice": 0.00472,
       "highestPrice": 0.00479,
       "qty": 1692.608,
       "costUsdt": 8.1076,
-      "costTry": 399.7,
+      "costTry": 400.6,
       "takeProfitPrice": 0.0050841,
       "stopLossPrice": 0.0046367,
       "tpPct": 6.14,
@@ -105,10 +105,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.1354,
-      "unrealizedPnlPct": -1.67,
-      "currentPriceTry": 0.2322,
-      "currentValueTry": 393.03
+      "unrealizedPnlUsdt": -0.1185,
+      "unrealizedPnlPct": -1.46,
+      "currentPriceTry": 0.2332,
+      "currentValueTry": 394.74
     },
     {
       "id": "pos_1792552108604_HBAR",
@@ -125,11 +125,11 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-21T03:08:28.604Z",
       "entryPrice": 0.08337,
-      "currentPrice": 0.08313,
+      "currentPrice": 0.08331,
       "highestPrice": 0.08355,
       "qty": 40.918,
       "costUsdt": 3.4113,
-      "costTry": 168.18,
+      "costTry": 168.55,
       "takeProfitPrice": 0.087122,
       "stopLossPrice": 0.081703,
       "tpPct": 4.5,
@@ -138,10 +138,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0098,
-      "unrealizedPnlPct": -0.29,
-      "currentPriceTry": 4.0983,
-      "currentValueTry": 167.69
+      "unrealizedPnlUsdt": -0.0025,
+      "unrealizedPnlPct": -0.07,
+      "currentPriceTry": 4.1163,
+      "currentValueTry": 168.43
     }
   ],
   "closedTrades": [
@@ -554,6 +554,27 @@
     }
   ],
   "recentLogs": [
+    "[09:20:40] ⚖️ [Tahta Kalkanı - Vurgun] AR önünde satış duvarı (-0.17) var, pas geçildi.",
+    "[09:19:54] ⚖️ [Tahta Kalkanı - Vurgun] AR önünde satış duvarı (-0.3) var, pas geçildi.",
+    "[09:19:53] ⚖️ [Tahta Kalkanı - Vurgun] EIGEN önünde satış duvarı (-0.07) var, pas geçildi.",
+    "[09:19:53] ⚖️ [Tahta Kalkanı - Vurgun] EIGEN önünde satış duvarı (-0.07) var, pas geçildi.",
+    "[09:19:52] ⚖️ [Tahta Kalkanı - Vurgun] BOME önünde satış duvarı (-0.25) var, pas geçildi.",
+    "[09:19:51] ⚖️ [Tahta Kalkanı - Vurgun] SEI önünde satış duvarı (-0.21) var, pas geçildi.",
+    "[09:19:06] ⚖️ [Tahta Kalkanı - Vurgun] ORDI önünde satış duvarı (-0.26) var, pas geçildi.",
+    "[09:19:03] ⚖️ [Tahta Kalkanı - Vurgun] FIL önünde satış duvarı (-0.1) var, pas geçildi.",
+    "[09:19:03] ⚖️ [Tahta Kalkanı - Vurgun] FIL önünde satış duvarı (-0.1) var, pas geçildi.",
+    "[09:19:02] ⚖️ [Tahta Kalkanı - Vurgun] BOME önünde satış duvarı (-0.19) var, pas geçildi.",
+    "[09:18:27] ⚖️ [Tahta Kalkanı - Vurgun] ORDI önünde satış duvarı (-0.43) var, pas geçildi.",
+    "[09:18:25] ⚖️ [Tahta Kalkanı - Vurgun] FIL önünde satış duvarı (-0.2) var, pas geçildi.",
+    "[09:17:43] ⚖️ [Tahta Kalkanı - Vurgun] AR önünde satış duvarı (-0.07) var, pas geçildi.",
+    "[09:17:43] ⚖️ [Tahta Kalkanı - Vurgun] BOME önünde satış duvarı (-0.07) var, pas geçildi.",
+    "[09:16:11] ⚖️ [Tahta Kalkanı - Vurgun] FIL önünde satış duvarı (-0.18) var, pas geçildi.",
+    "[09:16:11] ⚖️ [Tahta Kalkanı - Vurgun] FIL önünde satış duvarı (-0.19) var, pas geçildi.",
+    "[09:16:10] ⚖️ [Tahta Kalkanı - Vurgun] AR önünde satış duvarı (-0.15) var, pas geçildi.",
+    "[09:15:25] ⚖️ [Tahta Kalkanı - Vurgun] BOME önünde satış duvarı (-0.21) var, pas geçildi.",
+    "[09:15:24] ⚖️ [Tahta Kalkanı - Vurgun] AR önünde satış duvarı (-0.08) var, pas geçildi.",
+    "[09:14:39] ⚡ [AKILLI ROTASYON] TIA kapatıldı, yerine 99 puanlık dev fırsat (EIGEN) alınıyor!",
+    "[08:35:37] ⚠️ Haber tarayıcı uyarısı: fetch failed",
     "[06:08:28] 🟢 [OTOMATİK ALIM] HBAR (171,28 TL) @ $0.08337 | Skor: 95.5 | RSI: 51.93 | Balina: %57.2 | SL: -%2",
     "[06:08:25] 🏁 [POZİSYON KAPANDI] STX @ $0.3572 | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%2.61) | Net: 4,39 TL",
     "[05:21:40] 🟢 [OTOMATİK ALIM] JASMY (402,78 TL) @ $0.00479 | Skor: 109.6 | RSI: 50 | Balina: %63.2 | SL: -%3.2",
@@ -572,33 +593,12 @@
     "[22:04:10] 🏁 [POZİSYON KAPANDI] ARB @ $0.1897 | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26) | Net: -0,79 TL",
     "[21:01:17] 🟢 [OTOMATİK ALIM] ARB (425,72 TL) @ $0.1892 | Skor: 117 | RSI: 31.18 | Balina: %51.9 | SL: -%3.13",
     "[21:00:36] ⚡ [AKILLI ROTASYON] AVAX kapatıldı, yerine 122 puanlık dev fırsat (ARB) alınıyor!",
-    "[20:56:48] 🟢 [OTOMATİK ALIM] FET (342,35 TL) @ $0.1955 | Skor: 101.7 | RSI: 55.22 | Balina: %52.6 | SL: -%2.84",
-    "[20:56:03] ⚡ [AKILLI ROTASYON] ICP kapatıldı, yerine 106.7 puanlık dev fırsat (FET) alınıyor!",
-    "[20:49:45] 🟢 [OTOMATİK ALIM] STX (259,48 TL) @ $0.3481 | Skor: 110.6 | RSI: 40.78 | Balina: %51.5 | SL: -%3.2",
-    "[20:48:35] ⚖️ [Tahta Kalkanı] STX önünde satış duvarı (-0.1) var, pas geçildi.",
-    "[20:48:34] ⚖️ [Tahta Kalkanı] STX önünde satış duvarı (-0.13) var, pas geçildi.",
-    "[20:48:34] 🏁 [POZİSYON KAPANDI] CAKE @ $2.217 | 💰 HIZLI KÂR HASADI & ROTASYON (Yavaşlayan Kârlı Coin Cebe Alındı +%2.59) | Net: 6,00 TL",
-    "[20:09:16] 🟢 [OTOMATİK ALIM] ICP (341,27 TL) @ $2.902 | Skor: 80.8 | RSI: 54.11 | Balina: %54.7 | SL: -%2.01",
-    "[20:09:15] 🟢 [OTOMATİK ALIM] AVAX (433,27 TL) @ $9.689 | Skor: 97.3 | RSI: 53.26 | Balina: %54.8 | SL: -%2.1",
-    "[19:42:54] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
-    "[19:26:20] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.12) var, pas geçildi.",
-    "[19:25:37] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.09) var, pas geçildi.",
-    "[19:24:51] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.15) var, pas geçildi.",
-    "[19:24:06] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.18) var, pas geçildi.",
-    "[19:23:21] ⚖️ [Tahta Kalkanı - Vurgun] FET önünde satış duvarı (-0.17) var, pas geçildi.",
-    "[19:23:21] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.44) var, pas geçildi.",
-    "[19:22:36] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.3) var, pas geçildi.",
-    "[19:21:51] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.22) var, pas geçildi.",
-    "[19:20:21] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.46) var, pas geçildi.",
-    "[19:18:51] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.1) var, pas geçildi.",
-    "[19:18:05] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.23) var, pas geçildi.",
-    "[19:12:52] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.41) var, pas geçildi.",
-    "[18:51:53] ⚖️ [Tahta Kalkanı - Vurgun] AVAX önünde satış duvarı (-0.1) var, pas geçildi."
+    "[20:56:48] 🟢 [OTOMATİK ALIM] FET (342,35 TL) @ $0.1955 | Skor: 101.7 | RSI: 55.22 | Balina: %52.6 | SL: -%2.84"
   ],
-  "totalEquityUsdt": 20.8312,
-  "totalEquityTry": 1026.98,
-  "totalPnlUsdt": 0.5473,
-  "totalPnlPct": 2.7,
+  "totalEquityUsdt": 20.9233,
+  "totalEquityTry": 1033.82,
+  "totalPnlUsdt": 0.6845,
+  "totalPnlPct": 3.38,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286
@@ -607,217 +607,9 @@
   "lastWhatsAppReportAt": 1792559323435,
   "highWaterMarkUsdt": 20.8128,
   "cashIdleSince": null,
-  "usdTryRate": 49.3,
-  "totalPnlTry": 26.98,
+  "usdTryRate": 49.41,
+  "totalPnlTry": 33.82,
   "equityHistory": [
-    {
-      "t": "05:49",
-      "v": 1038.07
-    },
-    {
-      "t": "05:50",
-      "v": 1038.3
-    },
-    {
-      "t": "05:51",
-      "v": 1037.53
-    },
-    {
-      "t": "05:52",
-      "v": 1037.36
-    },
-    {
-      "t": "05:53",
-      "v": 1037.24
-    },
-    {
-      "t": "05:54",
-      "v": 1038.36
-    },
-    {
-      "t": "05:54",
-      "v": 1036.21
-    },
-    {
-      "t": "05:55",
-      "v": 1036.53
-    },
-    {
-      "t": "05:56",
-      "v": 1036.73
-    },
-    {
-      "t": "05:57",
-      "v": 1036.79
-    },
-    {
-      "t": "05:58",
-      "v": 1035.79
-    },
-    {
-      "t": "05:59",
-      "v": 1035.88
-    },
-    {
-      "t": "06:00",
-      "v": 1035.5
-    },
-    {
-      "t": "06:01",
-      "v": 1034.94
-    },
-    {
-      "t": "06:02",
-      "v": 1034.57
-    },
-    {
-      "t": "06:03",
-      "v": 1034.33
-    },
-    {
-      "t": "06:04",
-      "v": 1033.9
-    },
-    {
-      "t": "06:05",
-      "v": 1033.83
-    },
-    {
-      "t": "06:06",
-      "v": 1033.85
-    },
-    {
-      "t": "06:07",
-      "v": 1032.37
-    },
-    {
-      "t": "06:08",
-      "v": 1034.7
-    },
-    {
-      "t": "06:09",
-      "v": 1031.74
-    },
-    {
-      "t": "06:10",
-      "v": 1031.24
-    },
-    {
-      "t": "06:11",
-      "v": 1032.36
-    },
-    {
-      "t": "06:12",
-      "v": 1031.41
-    },
-    {
-      "t": "06:13",
-      "v": 1031.65
-    },
-    {
-      "t": "06:14",
-      "v": 1032.84
-    },
-    {
-      "t": "06:15",
-      "v": 1032.23
-    },
-    {
-      "t": "06:16",
-      "v": 1031.79
-    },
-    {
-      "t": "06:17",
-      "v": 1030.78
-    },
-    {
-      "t": "06:18",
-      "v": 1030.87
-    },
-    {
-      "t": "06:19",
-      "v": 1030.51
-    },
-    {
-      "t": "06:20",
-      "v": 1031.18
-    },
-    {
-      "t": "06:21",
-      "v": 1030.73
-    },
-    {
-      "t": "06:22",
-      "v": 1030.76
-    },
-    {
-      "t": "06:23",
-      "v": 1031.06
-    },
-    {
-      "t": "06:24",
-      "v": 1032.14
-    },
-    {
-      "t": "06:25",
-      "v": 1031.36
-    },
-    {
-      "t": "06:26",
-      "v": 1030.35
-    },
-    {
-      "t": "06:27",
-      "v": 1030.14
-    },
-    {
-      "t": "06:28",
-      "v": 1031.52
-    },
-    {
-      "t": "06:29",
-      "v": 1031.63
-    },
-    {
-      "t": "06:30",
-      "v": 1031.69
-    },
-    {
-      "t": "06:30",
-      "v": 1033.24
-    },
-    {
-      "t": "06:31",
-      "v": 1033.57
-    },
-    {
-      "t": "06:32",
-      "v": 1035.43
-    },
-    {
-      "t": "06:33",
-      "v": 1035.65
-    },
-    {
-      "t": "06:34",
-      "v": 1035.48
-    },
-    {
-      "t": "06:35",
-      "v": 1034.76
-    },
-    {
-      "t": "06:36",
-      "v": 1036
-    },
-    {
-      "t": "06:37",
-      "v": 1036
-    },
-    {
-      "t": "06:38",
-      "v": 1036.22
-    },
     {
       "t": "06:39",
       "v": 1035.11
@@ -993,6 +785,214 @@
     {
       "t": "08:26",
       "v": 1026.98
+    },
+    {
+      "t": "08:27",
+      "v": 1026.88
+    },
+    {
+      "t": "08:28",
+      "v": 1026.79
+    },
+    {
+      "t": "08:29",
+      "v": 1027.3
+    },
+    {
+      "t": "08:30",
+      "v": 1027.37
+    },
+    {
+      "t": "08:31",
+      "v": 1028.05
+    },
+    {
+      "t": "08:32",
+      "v": 1027.89
+    },
+    {
+      "t": "08:33",
+      "v": 1028.26
+    },
+    {
+      "t": "08:34",
+      "v": 1028.3
+    },
+    {
+      "t": "08:35",
+      "v": 1028.66
+    },
+    {
+      "t": "08:36",
+      "v": 1027.55
+    },
+    {
+      "t": "08:37",
+      "v": 1027.09
+    },
+    {
+      "t": "08:38",
+      "v": 1025.74
+    },
+    {
+      "t": "08:39",
+      "v": 1026.01
+    },
+    {
+      "t": "08:40",
+      "v": 1026.04
+    },
+    {
+      "t": "08:41",
+      "v": 1025.25
+    },
+    {
+      "t": "08:42",
+      "v": 1023.97
+    },
+    {
+      "t": "08:43",
+      "v": 1024.7
+    },
+    {
+      "t": "08:44",
+      "v": 1025.95
+    },
+    {
+      "t": "08:45",
+      "v": 1027.2
+    },
+    {
+      "t": "08:46",
+      "v": 1027
+    },
+    {
+      "t": "08:46",
+      "v": 1028.27
+    },
+    {
+      "t": "08:47",
+      "v": 1027.78
+    },
+    {
+      "t": "08:48",
+      "v": 1028.04
+    },
+    {
+      "t": "08:49",
+      "v": 1028.32
+    },
+    {
+      "t": "08:50",
+      "v": 1029.08
+    },
+    {
+      "t": "08:51",
+      "v": 1027.99
+    },
+    {
+      "t": "08:52",
+      "v": 1027.65
+    },
+    {
+      "t": "08:53",
+      "v": 1027.48
+    },
+    {
+      "t": "08:54",
+      "v": 1028.25
+    },
+    {
+      "t": "08:55",
+      "v": 1028.59
+    },
+    {
+      "t": "08:56",
+      "v": 1029.96
+    },
+    {
+      "t": "08:56",
+      "v": 1028.37
+    },
+    {
+      "t": "08:57",
+      "v": 1028.37
+    },
+    {
+      "t": "08:58",
+      "v": 1027.95
+    },
+    {
+      "t": "08:59",
+      "v": 1028.31
+    },
+    {
+      "t": "09:00",
+      "v": 1028.08
+    },
+    {
+      "t": "09:01",
+      "v": 1028.43
+    },
+    {
+      "t": "09:02",
+      "v": 1027.76
+    },
+    {
+      "t": "09:02",
+      "v": 1028.44
+    },
+    {
+      "t": "09:03",
+      "v": 1028.38
+    },
+    {
+      "t": "09:04",
+      "v": 1028.31
+    },
+    {
+      "t": "09:05",
+      "v": 1028.59
+    },
+    {
+      "t": "09:06",
+      "v": 1028.15
+    },
+    {
+      "t": "09:07",
+      "v": 1029.45
+    },
+    {
+      "t": "09:08",
+      "v": 1029.66
+    },
+    {
+      "t": "09:09",
+      "v": 1029.45
+    },
+    {
+      "t": "09:10",
+      "v": 1029.41
+    },
+    {
+      "t": "09:11",
+      "v": 1029.2
+    },
+    {
+      "t": "09:12",
+      "v": 1029.36
+    },
+    {
+      "t": "09:13",
+      "v": 1029.62
+    },
+    {
+      "t": "09:14",
+      "v": 1030.6
+    },
+    {
+      "t": "09:24",
+      "v": 1033.82
     }
   ],
   "walletAssetsMap": {
@@ -1014,6 +1014,6 @@
     "TIA": 7.0958,
     "TRY": 2.7455
   },
-  "dustAssetsUsdt": 0.4286,
-  "dustAssetsTry": 21.13
+  "dustAssetsUsdt": 0.4282,
+  "dustAssetsTry": 21.16
 }

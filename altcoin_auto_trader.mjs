@@ -678,7 +678,8 @@ async function runTradingCycle() {
       const netPnlUsdt = Number((proceedsUsdt - soldCostUsdt).toFixed(4));
 
       if (state.mode === 'LIVE_BINANCE') {
-        await executeBinanceRealOrder(cfg, pos.symbol, 'SELL', sellQty);
+        const sellRes = await executeBinanceRealOrder(cfg, pos.symbol, 'SELL', sellQty);
+        if (!sellRes || sellRes.code !== 0) { remainingPositions.push(pos); continue; }
       }
 
       state.cashUsdt = Number((state.cashUsdt + proceedsUsdt).toFixed(4));
@@ -839,9 +840,12 @@ async function runTradingCycle() {
         const stag = state.openPositions[stagnantIdx];
         const sq = quotes[stag.symbol];
         if (sq && sq.bestBid) {
+          let rotSellOk = true;
           if (state.mode === 'LIVE_BINANCE') {
-            await executeBinanceRealOrder(cfg, stag.symbol, 'SELL', stag.qty);
+            const sellRes = await executeBinanceRealOrder(cfg, stag.symbol, 'SELL', stag.qty);
+            if (!sellRes || sellRes.code !== 0) rotSellOk = false;
           }
+          if (rotSellOk) {
           const proceedsUsdt = Number((sq.bestBid * stag.qty).toFixed(4));
           const netPnlUsdt = Number((proceedsUsdt - stag.costUsdt).toFixed(4));
           state.cashUsdt = Number((state.cashUsdt + proceedsUsdt).toFixed(4));
@@ -868,6 +872,7 @@ async function runTradingCycle() {
             state,
             `⚡ [AKILLI ROTASYON] ${stag.symbol} kapatıldı, yerine ${bestCandidate.totalScore} puanlık dev fırsat (${bestCandidate.symbol}) alınıyor!`
           );
+          }
         }
       }
     }
