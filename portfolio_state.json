@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-21T08:11:32.136Z",
+  "updatedAt": "2026-10-21T08:20:04.628Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.2388,
@@ -59,7 +59,7 @@
       "obImbalance": -0.04,
       "entryTime": "2026-10-20T23:08:23.047Z",
       "entryPrice": 0.6208,
-      "currentPrice": 0.6421,
+      "currentPrice": 0.6418,
       "highestPrice": 0.6421,
       "qty": 7.09578,
       "costUsdt": 4.4051,
@@ -72,10 +72,10 @@
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": true,
-      "unrealizedPnlUsdt": 0.1511,
-      "unrealizedPnlPct": 3.43,
-      "currentPriceTry": 31.7262,
-      "currentValueTry": 225.12
+      "unrealizedPnlUsdt": 0.149,
+      "unrealizedPnlPct": 3.38,
+      "currentPriceTry": 31.7113,
+      "currentValueTry": 225.02
     },
     {
       "id": "pos_1792549300584_JASMY",
@@ -125,7 +125,7 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-21T03:08:28.604Z",
       "entryPrice": 0.08337,
-      "currentPrice": 0.0846,
+      "currentPrice": 0.08451,
       "highestPrice": 0.08471,
       "qty": 40.918,
       "costUsdt": 3.4113,
@@ -138,10 +138,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0503,
-      "unrealizedPnlPct": 1.48,
-      "currentPriceTry": 4.1801,
-      "currentValueTry": 171.04
+      "unrealizedPnlUsdt": 0.0466,
+      "unrealizedPnlPct": 1.37,
+      "currentPriceTry": 4.1756,
+      "currentValueTry": 170.86
     }
   ],
   "closedTrades": [
@@ -595,10 +595,10 @@
     "[22:04:57] 🟢 [OTOMATİK ALIM] RSR (425,25 TL) @ $0.001902 | Skor: 102 | RSI: 55.31 | Balina: %54.7 | SL: -%2.76",
     "[22:04:10] 🏁 [POZİSYON KAPANDI] ARB @ $0.1897 | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26) | Net: -0,79 TL"
   ],
-  "totalEquityUsdt": 21.2831,
-  "totalEquityTry": 1051.6,
-  "totalPnlUsdt": 1.0443,
-  "totalPnlPct": 5.16,
+  "totalEquityUsdt": 21.2773,
+  "totalEquityTry": 1051.31,
+  "totalPnlUsdt": 1.0385,
+  "totalPnlPct": 5.13,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286
@@ -608,40 +608,8 @@
   "highWaterMarkUsdt": 20.852,
   "cashIdleSince": null,
   "usdTryRate": 49.41,
-  "totalPnlTry": 51.6,
+  "totalPnlTry": 51.31,
   "equityHistory": [
-    {
-      "t": "09:38",
-      "v": 1037.33
-    },
-    {
-      "t": "09:39",
-      "v": 1036.6
-    },
-    {
-      "t": "09:40",
-      "v": 1036.13
-    },
-    {
-      "t": "09:40",
-      "v": 1036.64
-    },
-    {
-      "t": "09:41",
-      "v": 1037.14
-    },
-    {
-      "t": "09:42",
-      "v": 1036.83
-    },
-    {
-      "t": "09:43",
-      "v": 1036.17
-    },
-    {
-      "t": "09:44",
-      "v": 1036.28
-    },
     {
       "t": "09:45",
       "v": 1035.67
@@ -993,6 +961,38 @@
     {
       "t": "11:11",
       "v": 1051.6
+    },
+    {
+      "t": "11:12",
+      "v": 1051.36
+    },
+    {
+      "t": "11:14",
+      "v": 1051.32
+    },
+    {
+      "t": "11:15",
+      "v": 1050.57
+    },
+    {
+      "t": "11:16",
+      "v": 1050.84
+    },
+    {
+      "t": "11:17",
+      "v": 1050.59
+    },
+    {
+      "t": "11:18",
+      "v": 1051.13
+    },
+    {
+      "t": "11:19",
+      "v": 1051.18
+    },
+    {
+      "t": "11:20",
+      "v": 1051.31
     }
   ],
   "walletAssetsMap": {
@@ -1014,10 +1014,10 @@
     "TIA": 7.0958,
     "TRY": 2.7455
   },
-  "dustAssetsUsdt": 0.4312,
+  "dustAssetsUsdt": 0.4311,
   "dustAssetsTry": 21.3,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-21T08:11:32.136Z",
+    "updatedAt": "2026-10-21T08:20:04.628Z",
     "totalAnalyzedTrades": 13,
     "coinStats": {
       "STX": {
