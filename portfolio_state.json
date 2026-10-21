@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-21T10:03:39.318Z",
+  "updatedAt": "2026-10-21T10:19:56.895Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.2143,
@@ -25,7 +25,7 @@
       "obImbalance": 0.1,
       "entryTime": "2026-10-20T23:03:44.825Z",
       "entryPrice": 0.073,
-      "currentPrice": 0.0726,
+      "currentPrice": 0.0724,
       "highestPrice": 0.0733,
       "qty": 63.872,
       "costUsdt": 4.6627,
@@ -38,10 +38,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0255,
-      "unrealizedPnlPct": -0.55,
-      "currentPriceTry": 3.5915,
-      "currentValueTry": 229.4
+      "unrealizedPnlUsdt": -0.0383,
+      "unrealizedPnlPct": -0.82,
+      "currentPriceTry": 3.5816,
+      "currentValueTry": 228.77
     },
     {
       "id": "moon_1792537703047_TIA",
@@ -59,7 +59,7 @@
       "obImbalance": -0.04,
       "entryTime": "2026-10-20T23:08:23.047Z",
       "entryPrice": 0.6208,
-      "currentPrice": 0.6196,
+      "currentPrice": 0.6173,
       "highestPrice": 0.6421,
       "qty": 7.09578,
       "costUsdt": 4.4051,
@@ -72,10 +72,10 @@
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": true,
-      "unrealizedPnlUsdt": -0.0085,
-      "unrealizedPnlPct": -0.19,
-      "currentPriceTry": 30.6516,
-      "currentValueTry": 217.5
+      "unrealizedPnlUsdt": -0.0248,
+      "unrealizedPnlPct": -0.56,
+      "currentPriceTry": 30.5378,
+      "currentValueTry": 216.69
     },
     {
       "id": "pos_1792549300584_JASMY",
@@ -92,7 +92,7 @@
       "obImbalance": 0.04,
       "entryTime": "2026-10-21T02:21:40.584Z",
       "entryPrice": 0.00479,
-      "currentPrice": 0.00477,
+      "currentPrice": 0.00478,
       "highestPrice": 0.00483,
       "qty": 1692.608,
       "costUsdt": 8.1076,
@@ -105,10 +105,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0339,
-      "unrealizedPnlPct": -0.42,
-      "currentPriceTry": 0.236,
-      "currentValueTry": 399.41
+      "unrealizedPnlUsdt": -0.0169,
+      "unrealizedPnlPct": -0.21,
+      "currentPriceTry": 0.2365,
+      "currentValueTry": 400.25
     },
     {
       "id": "pos_1792552108604_HBAR",
@@ -125,7 +125,7 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-21T03:08:28.604Z",
       "entryPrice": 0.08337,
-      "currentPrice": 0.08459,
+      "currentPrice": 0.08428,
       "highestPrice": 0.08523,
       "qty": 40.918,
       "costUsdt": 3.4113,
@@ -138,10 +138,10 @@
       "stage2TpDone": false,
       "trailingActive": true,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0499,
-      "unrealizedPnlPct": 1.46,
-      "currentPriceTry": 4.1847,
-      "currentValueTry": 171.23
+      "unrealizedPnlUsdt": 0.0372,
+      "unrealizedPnlPct": 1.09,
+      "currentPriceTry": 4.1693,
+      "currentValueTry": 170.6
     }
   ],
   "closedTrades": [
@@ -595,10 +595,10 @@
     "[01:57:25] 🏁 [POZİSYON KAPANDI] RSR @ $0.001907 | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26) | Net: 1,11 TL",
     "[22:04:57] 🟢 [OTOMATİK ALIM] RSR (425,25 TL) @ $0.001902 | Skor: 102 | RSI: 55.31 | Balina: %54.7 | SL: -%2.76"
   ],
-  "totalEquityUsdt": 21.0546,
-  "totalEquityTry": 1041.57,
-  "totalPnlUsdt": 0.8403,
-  "totalPnlPct": 4.16,
+  "totalEquityUsdt": 21.0289,
+  "totalEquityTry": 1040.3,
+  "totalPnlUsdt": 0.8146,
+  "totalPnlPct": 4.03,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286
@@ -608,80 +608,8 @@
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
   "usdTryRate": 49.47,
-  "totalPnlTry": 41.57,
+  "totalPnlTry": 40.3,
   "equityHistory": [
-    {
-      "t": "11:36",
-      "v": 1049
-    },
-    {
-      "t": "11:37",
-      "v": 1048.34
-    },
-    {
-      "t": "11:38",
-      "v": 1047.55
-    },
-    {
-      "t": "11:39",
-      "v": 1048.25
-    },
-    {
-      "t": "11:40",
-      "v": 1047.91
-    },
-    {
-      "t": "11:41",
-      "v": 1047.97
-    },
-    {
-      "t": "11:41",
-      "v": 1049.7
-    },
-    {
-      "t": "11:42",
-      "v": 1049.32
-    },
-    {
-      "t": "11:43",
-      "v": 1050.01
-    },
-    {
-      "t": "11:44",
-      "v": 1048.48
-    },
-    {
-      "t": "11:45",
-      "v": 1048
-    },
-    {
-      "t": "11:46",
-      "v": 1048.12
-    },
-    {
-      "t": "11:47",
-      "v": 1047.08
-    },
-    {
-      "t": "11:48",
-      "v": 1047.36
-    },
-    {
-      "t": "11:49",
-      "v": 1047.78
-    },
-    {
-      "t": "11:50",
-      "v": 1049.32
-    },
-    {
-      "t": "11:51",
-      "v": 1050.64
-    },
-    {
-      "t": "11:51",
-      "v": 1047.07
-    },
     {
       "t": "11:52",
       "v": 1047.46
@@ -993,6 +921,78 @@
     {
       "t": "13:03",
       "v": 1041.57
+    },
+    {
+      "t": "13:04",
+      "v": 1041.78
+    },
+    {
+      "t": "13:05",
+      "v": 1041.64
+    },
+    {
+      "t": "13:06",
+      "v": 1041.02
+    },
+    {
+      "t": "13:07",
+      "v": 1041.39
+    },
+    {
+      "t": "13:08",
+      "v": 1041.43
+    },
+    {
+      "t": "13:09",
+      "v": 1042.07
+    },
+    {
+      "t": "13:10",
+      "v": 1042.28
+    },
+    {
+      "t": "13:11",
+      "v": 1043.41
+    },
+    {
+      "t": "13:11",
+      "v": 1042.01
+    },
+    {
+      "t": "13:12",
+      "v": 1041.88
+    },
+    {
+      "t": "13:13",
+      "v": 1040.75
+    },
+    {
+      "t": "13:14",
+      "v": 1040.38
+    },
+    {
+      "t": "13:15",
+      "v": 1039.75
+    },
+    {
+      "t": "13:16",
+      "v": 1039.8
+    },
+    {
+      "t": "13:16",
+      "v": 1039.27
+    },
+    {
+      "t": "13:17",
+      "v": 1038.91
+    },
+    {
+      "t": "13:18",
+      "v": 1039.38
+    },
+    {
+      "t": "13:19",
+      "v": 1040.62
     }
   ],
   "walletAssetsMap": {
@@ -1014,10 +1014,10 @@
     "TIA": 7.0958,
     "TRY": 2.7455
   },
-  "dustAssetsUsdt": 0.4304,
-  "dustAssetsTry": 21.29,
+  "dustAssetsUsdt": 0.4296,
+  "dustAssetsTry": 21.25,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-21T10:03:39.318Z",
+    "updatedAt": "2026-10-21T10:19:56.894Z",
     "totalAnalyzedTrades": 13,
     "coinStats": {
       "STX": {
@@ -1270,12 +1270,12 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 1041.57,
+    "totalNetWorthTry": 1040.3,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
-      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %92.3 isabetle (12G/1Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1041.57 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
+      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %92.3 isabetle (12G/1Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1040.30 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-21T10:03:39.318Z"
+    "updatedAt": "2026-10-21T10:19:56.895Z"
   }
 }
