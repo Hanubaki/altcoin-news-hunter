@@ -1,8 +1,13 @@
 name: 24-7 Cloud Altcoin Auto-Trader (TradingArena AI v9.5)
 
 on:
-  # Cloud cron disabled so GitHub Actions paper-mode never overwrites real local LIVE_BINANCE portfolio_state.json
+  schedule:
+    - cron: '*/5 * * * *'
   workflow_dispatch:
+
+concurrency:
+  group: altcoin-cloud-trader
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -15,14 +20,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 2
 
       - name: Setup Node.js 22
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
-      - name: Run Autonomous AI Trading Cycle & Evening 21:00 Summary
+      - name: Run Autonomous AI Trading Cycles (Multi-Cycle Cloud Service)
         env:
           TZ: 'Europe/Istanbul'
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
@@ -33,6 +38,14 @@ jobs:
           BINANCE_SECRET_KEY: ${{ secrets.BINANCE_SECRET_KEY }}
           LIVE_TRADING: 'true'
         run: |
-          node altcoin_auto_trader.mjs
-          sleep 40
-          node altcoin_auto_trader.mjs --notify
+          for i in 1 2 3; do
+            node altcoin_auto_trader.mjs
+            if [ "$i" -lt 3 ]; then sleep 45; fi
+          done
+
+      - name: Commit and Sync Updated Portfolio State
+        run: |
+          git config user.name "AltcoinNewsHunter Cloud Bot"
+          git config user.email "actions@github.com"
+          git add portfolio_state.json RAPOR.md altcoin_news_signals.json
+          git diff --staged --quiet || (git pull --rebase origin main && git push origin main)
