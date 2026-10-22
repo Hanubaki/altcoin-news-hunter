@@ -609,6 +609,7 @@ function writeCleanTlReport(state) {
 * **Coinde Olan Para (Açık İşlemler):** \`${openValTry} TL\`
 * **Cüzdandaki Küsürat (Dust) Varlıklar:** \`${toTL(state.dustAssetsUsdt || 0)} TL\` *(Aynı coine tekrar girildiğinde otomatik birleştirilip nakite çevrilir)*
 * **Başarılı Satış / Zarar Kes:** \`${state.winCount} Kârlı Satış / ${state.lossCount} Zarar Kes\`
+* **📡 Şu An Neden Yeni Coin Alınmıyor?:** **${state.noBuyShort || '🛡️ Raad ol: Piyasa ve 14 haber kaynağı taranıyor.'}**<br><details><summary>🔍 Detaylı Sebebi Gör</summary>${state.noBuyDetail || '14 haber kaynağı ve Binance TR tahtası taranıyor.'}</details>
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** \`${state.binanceTrStatus || 'API Doğrulandı (trbinance.com — Alım/Satım Yetkisi Aktif)'}\`
 
 ---
@@ -1534,6 +1535,26 @@ async function runTradingCycle() {
     }
     const isCashIdleTooLong = Boolean(!isWeakMarket && !isAntiMeltdownActive && state.cashIdleSince && nowMs - state.cashIdleSince >= 15 * 60 * 1000);
 
+    // Record live "Why No New Coin Bought?" summary + detail for RAPOR.md and Web Dashboard
+    const curOpenTry = Math.round(state.openPositions.reduce((s, p) => s + p.currentPrice * p.qty, 0) * USD_TRY_RATE);
+    const maxExpTry = Math.round(maxGrossExposureUsdt * USD_TRY_RATE);
+    if (isRedMarketDump) {
+      state.noBuyShort = `🛡️ Raad ol, nakit kalkanı devrede: Piyasanın %${100 - breadthPct}'u kırmızı (%${breadthPct} yeşil) ve direkt pump haberi yok; ${toTL(state.cashUsdt)} TL nakiti eritmemek için bekliyoruz.`;
+      state.noBuyDetail =
+        `1) **Piyasa Kan Gölü (%${breadthPct} Yeşil / %${100 - breadthPct} Kırmızı):** Altcoinlerin %${100 - breadthPct}'u şu an düşüşte (1s BTC: %${signalsData.btc1hChangePct || 0}). ` +
+        `2) **%65 Nakit Koruma Zırhı (Quant v10.4):** Yeşil oranı %24'ün altındayken kasanın en az %65'i güvenli TRY nakitte tutulur (Maksimum Coin Tavanı: \`${maxExpTry} TL\`, Şu An Coinde: \`${curOpenTry} TL\`). ` +
+        `3) **Haber Filtresi (${signalsData.totalHeadlinesScanned || 99} Haber Tarandı):** Taranan haberler içinde kırmızı piyasayı tek başına yenecek (\`RS_ATR >= 1.2\` ve \`directMention = true\`) nitelikli A+ haber sayısı: **${candidates.length}**. Piyasa yeşermeden veya gerçek bomba haber düşmeden sahte sinyale para sıkılmaz!`;
+    } else if (candidates.length === 0) {
+      state.noBuyShort = `📡 Raad ol, pusudayız: Piyasa normal (%${breadthPct} yeşil) ama 99 haber içinde henüz gerçek A+ pump haberi yok, sahte sinyale girmiyoruz.`;
+      state.noBuyDetail =
+        `1) **Piyasa Durumu:** Altcoinlerin %${breadthPct}'i yeşil (1s BTC: %${signalsData.btc1hChangePct || 0}). ` +
+        `2) **Sıfır Sahte Sinyal Kuralı:** 14 kaynaktan ${signalsData.totalHeadlinesScanned || 99} haber tarandı ancak doğrudan bir coini uçuracak (\`directMention = true\` + \`AI Konseyi LONG\`) kriterleri geçen aday çıkmadı. A+ haber düştüğü saniye otomatik alım yapılacak.`;
+    } else {
+      state.noBuyShort = `📡 Raad ol, seçici moddayız: ${candidates.length} aday incelendi ancak tahta/RSI/fiyatlanmış haber filtresini geçen net fırsat bekleniyor.`;
+      state.noBuyDetail =
+        `1) **Aday Taraması:** ${candidates.length} haber adayı bulundu ancak ya haber çoktan fiyatlanmış (\`NO-CHASE\`), ya tahta alıcı oranı zayıf ya da kasa koruma limiti (\`${curOpenTry} / ${maxExpTry} TL\`) dolu.`;
+    }
+
     for (const cand of candidates) {
       const curCoreCount = state.openPositions.filter(p => !p.isMoonshot).length;
       const curOpenExposureUsdt = state.openPositions.reduce((s, p) => s + p.currentPrice * p.qty, 0);
@@ -2096,6 +2117,7 @@ function renderDashboardHtml() {
 
   <div class="section">
     <h2>🟢 Şu An Açık Olan İşlemler (Tek Tıkla Manuel Satış Aktif)</h2>
+    <div id="noBuyBar" style="margin-bottom:12px;padding:10px 14px;background:#0b0f19;border:1px solid #23304d;border-radius:8px;font-size:13px;"></div>
     <table>
       <thead>
         <tr>
@@ -2195,6 +2217,19 @@ function renderDashboardHtml() {
 
       document.getElementById('winVal').textContent = s.winCount + ' Kârlı / ' + s.lossCount + ' Stop';
       renderSvgChart(s.equityHistory);
+
+      const nbBar = document.getElementById('noBuyBar');
+      if (nbBar) {
+        const nbShort = s.noBuyShort || '🛡️ Raad ol, pusudayız: 14 haber kaynağı ve Binance TR tahtası saniye saniye taranıyor.';
+        const nbFull = (s.noBuyDetail || '').replace(/\\*\\*(.*?)\\*\\*/g, '<b>$1</b>').replace(/\\\`(.*?)\\\`/g, '<code style="color:#38bdf8;">$1</code>');
+        const nbOpen = Boolean(window._openDetails['_NOBUY_']);
+        nbBar.innerHTML =
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">' +
+            '<span style="font-weight:600;color:#fbbf24;">' + nbShort + '</span>' +
+            (nbFull ? '<button id="whybtn__NOBUY_" onclick="toggleWhy(\\'_NOBUY_\\')" style="background:#1e293b;color:#38bdf8;border:1px solid #334155;padding:4px 10px;border-radius:6px;font-size:11.5px;cursor:pointer;font-weight:600;">' + (nbOpen ? '🔼 Detayı Gizle' : '🔍 Neden Alım Yok? (Detay)') + '</button>' : '') +
+          '</div>' +
+          (nbFull ? '<div id="why__NOBUY_" style="display:' + (nbOpen ? 'block' : 'none') + ';margin-top:8px;padding-top:8px;border-top:1px solid #1e293b;font-size:12px;color:#cbd5e1;line-height:1.5;">' + nbFull + '</div>' : '');
+      }
 
       const openBody = document.getElementById('openBody');
       openBody.innerHTML = s.openPositions.map(p => {
