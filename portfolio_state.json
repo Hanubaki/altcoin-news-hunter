@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-22T07:19:54.751Z",
+  "updatedAt": "2026-10-22T07:24:41.557Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.1898,
@@ -49,9 +49,10 @@
       "initialCostUsdt": 4.3092,
       "initialQty": 0.0162674,
       "currentBidTry": 13022,
-      "currentAskTry": 13029,
-      "liveObImbalance": 0.04,
-      "holdReason": "🧐 **DÜŞERKEN NEDEN SATMIYOR? (149 dk'dır açık):** 1) **Nefes Payı İçinde:** Şu an `%-0.75` (`-1.6 TL`) seviyesinde; kesin Stop-Loss çizgimiz olan `$260.93` (`-%1.5` = `-3.2 TL` maksimum risk sınırı) seviyesine henüz **`%0.75` mesafe** var. 2) **Tahta & Dip Filtresi:** Giriş RSI `24.09` (dip bölgesi), balina alıcı oranı `%54.2` ve canlı Binance TR tahtası **Dengeli (+0.04)** olduğu için normal silkeleme iğnesinde erken panik satışı yapılmıyor. 3) **Ne Zaman Satacak?:** Fiyat `$260.93` altına inip 3 sn kalırsa **VEYA** tahta dengesi `-0.20` altına bozulursa (Erken Tahliye) saniyesinde otomatik satılacak!"
+      "currentAskTry": 13031,
+      "liveObImbalance": 0.54,
+      "holdReason": "🧐 **DÜŞERKEN NEDEN SATMIYOR? (154 dk'dır açık):** 1) **Nefes Payı İçinde:** Şu an `%-0.75` (`-1.6 TL`) seviyesinde; kesin Stop-Loss çizgimiz olan `$260.93` (`-%1.5` = `-3.2 TL` maksimum risk sınırı) seviyesine henüz **`%0.75` mesafe** var. 2) **Tahta & Dip Filtresi:** Giriş RSI `24.09` (dip bölgesi), balina alıcı oranı `%54.2` ve canlı Binance TR tahtası **Alıcı Ağırlıklı (+0.54)** olduğu için normal silkeleme iğnesinde erken panik satışı yapılmıyor. 3) **Ne Zaman Satacak?:** Fiyat `$260.93` altına inip 3 sn kalırsa **VEYA** tahta dengesi `-0.20` altına bozulursa (Erken Tahliye) saniyesinde otomatik satılacak!",
+      "holdShort": "😎 Raad ol, kontrol bende: Alıcılar TR tahtasını tutuyor, stopa %0.75 nefes payı var."
     }
   ],
   "closedTrades": [
@@ -1344,9 +1345,9 @@
     "[18:12:09] ⚡ [AKILLI ROTASYON] INJ kapatıldı, yerine 94.6 puanlık dev fırsat (RAY) alınıyor!",
     "[18:11:09] 🎰 [VURGUN SLOTU AÇILDI] THETA (164,24 TL) @ $0.2073 | Hedef: +%18 | RSI: 40.54 | Balina: %57.5 | SL: -%2.4"
   ],
-  "totalEquityUsdt": 20.0739,
-  "totalEquityTry": 994.26,
-  "totalPnlUsdt": -0.1159,
+  "totalEquityUsdt": 20.0749,
+  "totalEquityTry": 994.31,
+  "totalPnlUsdt": -0.1149,
   "totalPnlPct": -0.57,
   "cooldowns": {
     "ARB": 1792544650227,
@@ -1365,28 +1366,8 @@
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
   "usdTryRate": 49.53,
-  "totalPnlTry": -5.74,
+  "totalPnlTry": -5.69,
   "equityHistory": [
-    {
-      "t": "08:39",
-      "v": 997.87
-    },
-    {
-      "t": "08:40",
-      "v": 997.74
-    },
-    {
-      "t": "08:41",
-      "v": 997.8
-    },
-    {
-      "t": "08:42",
-      "v": 997.81
-    },
-    {
-      "t": "08:43",
-      "v": 998.06
-    },
     {
       "t": "08:44",
       "v": 997.34
@@ -1750,6 +1731,26 @@
     {
       "t": "10:19",
       "v": 993.99
+    },
+    {
+      "t": "10:20",
+      "v": 994.07
+    },
+    {
+      "t": "10:21",
+      "v": 993.93
+    },
+    {
+      "t": "10:22",
+      "v": 994.33
+    },
+    {
+      "t": "10:23",
+      "v": 994.18
+    },
+    {
+      "t": "10:24",
+      "v": 994.31
     }
   ],
   "walletAssetsMap": {
@@ -1784,10 +1785,10 @@
     "WLD": 0.0814,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.1593,
-  "dustAssetsTry": 57.42,
+  "dustAssetsUsdt": 1.1603,
+  "dustAssetsTry": 57.47,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-22T07:19:54.748Z",
+    "updatedAt": "2026-10-22T07:24:41.554Z",
     "totalAnalyzedTrades": 35,
     "globalWR": 0.595,
     "coinStats": {
@@ -2443,13 +2444,13 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 994.26,
+    "totalNetWorthTry": 994.31,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
       "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %60 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-22T07:19:54.751Z"
+    "updatedAt": "2026-10-22T07:24:41.557Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254

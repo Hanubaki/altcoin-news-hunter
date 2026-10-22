@@ -503,6 +503,20 @@ function recordPersonalCashflow(type, amountRaw, noteRaw = '') {
   return { ok: true, pf, state };
 }
 
+function buildShortHoldLine(p) {
+  const pnlPct = Number(p.unrealizedPnlPct || 0);
+  const slPrice = Number(p.stopLossPrice || Number((p.entryPrice * 0.985).toPrecision(5)));
+  const slDistPct = p.currentPrice > 0 ? Number((((p.currentPrice - slPrice) / p.currentPrice) * 100).toFixed(2)) : 0;
+  const tp1TargetPct = Number(p.tp1Pct || 2.2);
+  if (p.stage2TpDone || p.partialTpDone || (p.trailingActive && slPrice > p.entryPrice)) {
+    return `🔒 Raad ol, sıfır riskteyiz: Kâr kilidi ($${slPrice}) aktif, düşse bile zarar yazmaz!`;
+  }
+  if (pnlPct < 0) {
+    return `😎 Raad ol, kontrol bende: Alıcılar TR tahtasını tutuyor, stopa %${slDistPct} nefes payı var.`;
+  }
+  return `😎 Raad ol, arkana yaslan: Kârdayız (+%${pnlPct}), +%${tp1TargetPct} hasat hedefine yürüyor.`;
+}
+
 function buildHoldReasonText(p) {
   const pnlPct = Number(p.unrealizedPnlPct || 0);
   const pnlTry = Number(((p.currentPrice - p.entryPrice) * p.qty * USD_TRY_RATE).toFixed(2));
@@ -574,8 +588,9 @@ function writeCleanTlReport(state) {
           const tp1Price = Number((p.entryPrice * (1 + tp1TargetPct / 100)).toPrecision(5));
           const tpMainPrice = p.takeProfitPrice || Number((p.entryPrice * 1.055).toPrecision(5));
           const srTxt = `📉 **Destek (Stop):** \`$${slPrice}\` (\`-%${p.slPct || 1.5}\`)<br>📈 **Direnç 1:** \`$${tp1Price}\` (\`+%${tp1TargetPct}\`) \\| **Direnç 2:** \`$${tpMainPrice}\``;
+          const shortWhy = p.holdShort || buildShortHoldLine(p);
           const holdWhyTxt = p.holdReason || buildHoldReasonText(p);
-          return `| **${p.symbol}** | \`${investedTry} TL\` | \`${curTry} TL\` | **\`${pnlSign}${pnlTry} TL (%${p.unrealizedPnlPct})\`** | ${srTxt} | ${holdWhyTxt} |`;
+          return `| **${p.symbol}** | \`${investedTry} TL\` | \`${curTry} TL\` | **\`${pnlSign}${pnlTry} TL (%${p.unrealizedPnlPct})\`** | ${srTxt} | **${shortWhy}**<br><details><summary>🔍 Detaylı Sebebi Gör</summary>${holdWhyTxt}</details> |`;
         })
         .join('\n') + '\n';
 
@@ -1785,6 +1800,7 @@ async function runTradingCycle() {
     p.unrealizedPnlPct = Number((((p.currentPrice - p.entryPrice) / p.entryPrice) * 100).toFixed(2));
     p.currentPriceTry = Number((p.currentPrice * USD_TRY_RATE).toFixed(4));
     p.currentValueTry = Number((p.currentPrice * p.qty * USD_TRY_RATE).toFixed(2));
+    p.holdShort = buildShortHoldLine(p);
     p.holdReason = buildHoldReasonText(p);
   }
 
@@ -2124,6 +2140,14 @@ function renderDashboardHtml() {
 
   <script>
     let RATE = 49.46;
+    window._openDetails = window._openDetails || {};
+    function toggleWhy(sym) {
+      window._openDetails[sym] = !window._openDetails[sym];
+      const el = document.getElementById('why_' + sym);
+      const btn = document.getElementById('whybtn_' + sym);
+      if (el) el.style.display = window._openDetails[sym] ? 'block' : 'none';
+      if (btn) btn.textContent = window._openDetails[sym] ? '🔼 Detayı Gizle' : '🔍 Detaylı Açıklama';
+    }
     const fmtTL = u => (Number(u || 0) * RATE).toFixed(2) + ' TL';
 
     function renderSvgChart(hist) {
@@ -2182,21 +2206,23 @@ function renderDashboardHtml() {
         const diffTry = diffUsd * RATE;
         const pClass = diffTry >= 0 ? 'pos' : 'neg';
         const pSign = diffTry >= 0 ? '+' : '';
-        const modeTxt = p.holdReason
-          ? p.holdReason.replace(/\\*\\*(.*?)\\*\\*/g, '<b>$1</b>').replace(/\\\`(.*?)\\\`/g, '<code style="color:#38bdf8;">$1</code>')
-          : p.stage2TpDone
-            ? '🚀 2 Kademe Alındı, Kalan %30 Sınırsız Roket'
-            : p.partialTpDone
-              ? '🔒 1. Kademe Cebimizde, Kalan %60 Sıfır Risk Uçuşta'
-              : p.trailingActive
-                ? '🔒 Sıfır Risk Kâr Kilidi Aktif (Stop: $' + p.stopLossPrice + ')'
-                : '🛡️ +%1.5 Sıfır Risk Kilidi, +%2.8 (%40) Kâr Hasadı';
+        const shortTxt = p.holdShort || '😎 Raad ol, kontrol bende: Tahta ve stop seviyesi saniye saniye izleniyor.';
+        const fullTxt = (p.holdReason || '')
+          .replace(/\\*\\*(.*?)\\*\\*/g, '<b>$1</b>')
+          .replace(/\\\`(.*?)\\\`/g, '<code style="color:#38bdf8;">$1</code>');
+        const isOpen = Boolean(window._openDetails[p.symbol]);
+        const modeHtml =
+          '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">' +
+            '<span style="font-weight:600;color:#f8fafc;">' + shortTxt + '</span>' +
+            (fullTxt ? '<button id="whybtn_' + p.symbol + '" onclick="toggleWhy(\\'' + p.symbol + '\\')" style="background:#1e293b;color:#38bdf8;border:1px solid #334155;padding:3px 9px;border-radius:6px;font-size:11.5px;cursor:pointer;font-weight:600;">' + (isOpen ? '🔼 Detayı Gizle' : '🔍 Detaylı Açıklama') + '</button>' : '') +
+          '</div>' +
+          (fullTxt ? '<div id="why_' + p.symbol + '" style="display:' + (isOpen ? 'block' : 'none') + ';margin-top:8px;padding:9px 11px;background:#0b0f19;border:1px solid #23304d;border-radius:8px;font-size:12px;color:#cbd5e1;line-height:1.5;">' + fullTxt + '</div>' : '');
         return '<tr>' +
           '<td><strong>' + p.symbol + '</strong> <small style="color:#38bdf8;">(' + p.qty + ' Adet @ $' + p.currentPrice + ')</small><br><small style="color:#94a3b8;">' + p.headline + '</small></td>' +
           '<td>' + costTryVal.toFixed(2) + ' TL <small style="color:#94a3b8;">($' + costUsd.toFixed(2) + ')</small></td>' +
           '<td><strong>' + curTryVal.toFixed(2) + ' TL</strong> <small style="color:#94a3b8;">($' + curUsd.toFixed(2) + ')</small></td>' +
           '<td class="' + pClass + '">' + pSign + diffTry.toFixed(2) + ' TL (' + pSign + '%' + p.unrealizedPnlPct + ')</td>' +
-          '<td style="max-width:440px;font-size:12.5px;line-height:1.45;">' + modeTxt + '</td>' +
+          '<td style="max-width:460px;">' + modeHtml + '</td>' +
           '<td><button class="btn-sell" onclick="sellCoin(\\'' + p.symbol + '\\')">🔴 Şimdi Sat</button></td>' +
         '</tr>';
       }).join('') || '<tr><td colspan="6">Şu an açık işlem yok, yeni A+ haber taranıyor...</td></tr>';

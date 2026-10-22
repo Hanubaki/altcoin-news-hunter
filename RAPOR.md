@@ -1,17 +1,17 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 22.10.2026 10:19:54
+**Son Güncelleme:** 22.10.2026 10:24:41
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`994,26 TL`**
-* **Toplam Net Kâr / Zarar:** **`-5,74 TL` (`%-0.57`)**
+* **Şu Anki Toplam Para:** **`994,31 TL`**
+* **Toplam Net Kâr / Zarar:** **`-5,69 TL` (`%-0.57`)**
 * **Boşta Bekleyen Nakit:** `725,01 TL`
 * **Coinde Olan Para (Açık İşlemler):** `211,83 TL`
-* **Cüzdandaki Küsürat (Dust) Varlıklar:** `57,42 TL` *(Aynı coine tekrar girildiğinde otomatik birleştirilip nakite çevrilir)*
+* **Cüzdandaki Küsürat (Dust) Varlıklar:** `57,47 TL` *(Aynı coine tekrar girildiğinde otomatik birleştirilip nakite çevrilir)*
 * **Başarılı Satış / Zarar Kes:** `21 Kârlı Satış / 14 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0077 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 0.8140 | ICP: 0.0002 | INJ: 0.0075 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0008 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 0.0628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TAO: 0.0163 | THETA: 0.0680 | TIA: 0.0058 | TRY: 725.0048 | UNI: 0.0080 | WLD: 0.0814 | ZRO: 0.0037)`
 
@@ -63,7 +63,7 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Teknik Destek (Stop) & Direnç (Hedef) Seviyeleri | Neden Tutuluyor? & Otomatik Satış Şartı |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **TAO** | `213,43 TL` | `211,83 TL` | **`-1,60 TL (%-0.75)`** | 📉 **Destek (Stop):** `$260.93` (`-%1.5`)<br>📈 **Direnç 1:** `$270.73` (`+%2.2`) | **Direnç 2:** `$276.82` | 🧐 **DÜŞERKEN NEDEN SATMIYOR? (149 dk'dır açık):** 1) **Nefes Payı İçinde:** Şu an `%-0.75` (`-1.6 TL`) seviyesinde; kesin Stop-Loss çizgimiz olan `$260.93` (`-%1.5` = `-3.2 TL` maksimum risk sınırı) seviyesine henüz **`%0.75` mesafe** var. 2) **Tahta & Dip Filtresi:** Giriş RSI `24.09` (dip bölgesi), balina alıcı oranı `%54.2` ve canlı Binance TR tahtası **Dengeli (+0.04)** olduğu için normal silkeleme iğnesinde erken panik satışı yapılmıyor. 3) **Ne Zaman Satacak?:** Fiyat `$260.93` altına inip 3 sn kalırsa **VEYA** tahta dengesi `-0.20` altına bozulursa (Erken Tahliye) saniyesinde otomatik satılacak! |
+| **TAO** | `213,43 TL` | `211,83 TL` | **`-1,60 TL (%-0.75)`** | 📉 **Destek (Stop):** `$260.93` (`-%1.5`)<br>📈 **Direnç 1:** `$270.73` (`+%2.2`) \| **Direnç 2:** `$276.82` | **😎 Raad ol, kontrol bende: Alıcılar TR tahtasını tutuyor, stopa %0.75 nefes payı var.**<br><details><summary>🔍 Detaylı Sebebi Gör</summary>🧐 **DÜŞERKEN NEDEN SATMIYOR? (154 dk'dır açık):** 1) **Nefes Payı İçinde:** Şu an `%-0.75` (`-1.6 TL`) seviyesinde; kesin Stop-Loss çizgimiz olan `$260.93` (`-%1.5` = `-3.2 TL` maksimum risk sınırı) seviyesine henüz **`%0.75` mesafe** var. 2) **Tahta & Dip Filtresi:** Giriş RSI `24.09` (dip bölgesi), balina alıcı oranı `%54.2` ve canlı Binance TR tahtası **Alıcı Ağırlıklı (+0.54)** olduğu için normal silkeleme iğnesinde erken panik satışı yapılmıyor. 3) **Ne Zaman Satacak?:** Fiyat `$260.93` altına inip 3 sn kalırsa **VEYA** tahta dengesi `-0.20` altına bozulursa (Erken Tahliye) saniyesinde otomatik satılacak!</details> |
 
 ---
 
@@ -106,7 +106,7 @@
 
 * **Banka & Entegrasyon:** `İş Bankası (İşCep & Gmail Bildirim Entegreli)`
 * **İş Bankası Güncel Bakiye:** **`0,00 TL`**
-* **Toplam Kişisel Servet (İş Bankası + Binance TR):** **`994,26 TL`**
+* **Toplam Kişisel Servet (İş Bankası + Binance TR):** **`994,31 TL`**
 * **Beklenen Aylık Gelir Akışı:** `Staj Maaşı: 8.000 TL | Mevcut Burs: 3.000 TL | Yeni Başvurulan Burs: 3.500 TL (Toplam: 14.500 TL/Ay)`
 * **Aylık Dokunulmaz Yaşam & Nakit Kalkanı:** `5.500 TL` *(Haftalık Harcama Limiti: `1.375 TL` | Bu Hafta Harcanan: `0 TL`)*
 * **💡 Günün Otonom CFO Tüyoları & Bütçe Emirleri:**
