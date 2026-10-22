@@ -503,6 +503,42 @@ function recordPersonalCashflow(type, amountRaw, noteRaw = '') {
   return { ok: true, pf, state };
 }
 
+function buildHoldReasonText(p) {
+  const pnlPct = Number(p.unrealizedPnlPct || 0);
+  const pnlTry = Number(((p.currentPrice - p.entryPrice) * p.qty * USD_TRY_RATE).toFixed(2));
+  const slPrice = Number(p.stopLossPrice || Number((p.entryPrice * 0.985).toPrecision(5)));
+  const slDistPct = p.currentPrice > 0 ? Number((((p.currentPrice - slPrice) / p.currentPrice) * 100).toFixed(2)) : 0;
+  const slLossTry = Number(((slPrice - p.entryPrice) * p.qty * USD_TRY_RATE).toFixed(2));
+  const minsHeld = Math.max(1, Math.round((Date.now() - new Date(p.entryTime || Date.now()).getTime()) / 60000));
+  const obVal = Number(p.liveObImbalance ?? p.obImbalance ?? 0);
+  const obLabel = obVal >= 0.10 ? `Alıcı Ağırlıklı (+${obVal.toFixed(2)})` : obVal <= -0.15 ? `Satıcı Baskılı (${obVal.toFixed(2)})` : `Dengeli (${obVal >= 0 ? '+' : ''}${obVal.toFixed(2)})`;
+  const tp1TargetPct = Number(p.tp1Pct || 2.2);
+  const tp1Price = Number((p.entryPrice * (1 + tp1TargetPct / 100)).toPrecision(5));
+
+  if (p.stage2TpDone) {
+    return `🚀 **NEDEN TUTULUYOR:** 2 kademe kâr cebe alındı! Kalan %30 miktar tamamen **Sıfır Risk (Bedava Moonbag)** olarak sınırsız yükseliş için tutuluyor. Fiyat \`$${slPrice}\` altına inerse kalanı da kârla satılır.`;
+  }
+  if (p.partialTpDone) {
+    return `🔒 **NEDEN TUTULUYOR:** 1. kademe kâr cebimizde! Stop-Loss maliyetin üstüne (\`$${slPrice}\`) çekildi (sıfır zarar riski). Kalan miktar \`+%${p.tp2Pct || 5.5}\` 2. kademe hedefi için tutuluyor.`;
+  }
+  if (p.trailingActive && slPrice > p.entryPrice) {
+    return `🛡️ **NEDEN TUTULUYOR:** Coin \`+%1.5\` sınırını aştığı için **Sıfır Risk Kâr Kilidi** (\`$${slPrice}\`) aktif! Düşse bile zarar yazmaz; \`$${tp1Price}\` (\`+%${tp1TargetPct}\`) kâr hasadı bekleniyor.`;
+  }
+  if (pnlPct < 0) {
+    return (
+      `🧐 **DÜŞERKEN NEDEN SATMIYOR? (${minsHeld} dk'dır açık):** ` +
+      `1) **Nefes Payı İçinde:** Şu an \`%${pnlPct}\` (\`${pnlTry} TL\`) seviyesinde; kesin Stop-Loss çizgimiz olan \`$${slPrice}\` (\`-%${p.slPct || 1.5}\` = \`${slLossTry} TL\` maksimum risk sınırı) seviyesine henüz **\`%${slDistPct}\` mesafe** var. ` +
+      `2) **Tahta & Dip Filtresi:** Giriş RSI \`${p.rsiAtEntry || '-'}\` (dip bölgesi), balina alıcı oranı \`%${p.takerBuyRatioPct || '-'}\` ve canlı Binance TR tahtası **${obLabel}** olduğu için normal silkeleme iğnesinde erken panik satışı yapılmıyor. ` +
+      `3) **Ne Zaman Satacak?:** Fiyat \`$${slPrice}\` altına inip 3 sn kalırsa **VEYA** tahta dengesi \`-0.20\` altına bozulursa (Erken Tahliye) saniyesinde otomatik satılacak!`
+    );
+  }
+  return (
+    `🟢 **NEDEN TUTULUYOR (${minsHeld} dk'dır açık):** ` +
+    `Coin şu an kârda (\`+%${pnlPct}\` / \`+${pnlTry} TL\`) ve tahta **${obLabel}**. ` +
+    `\`+%1.5\` seviyesinde Sıfır Risk Kâr Kilidine geçecek, \`$${tp1Price}\` (\`+%${tp1TargetPct}\`) seviyesinde ise %40 nakit kâr hasadı yapacak (Stop: \`$${slPrice}\`).`
+  );
+}
+
 function writeCleanTlReport(state) {
   const mem = state.adaptiveMemory || runAdaptiveLearningEngine(state);
   const pf = state.personalFinance || runPersonalCfoEngine(state);
@@ -534,17 +570,12 @@ function writeCleanTlReport(state) {
           const pnlSign = p.unrealizedPnlUsdt >= 0 ? '+' : '';
           const pnlTry = toTL(p.unrealizedPnlUsdt);
           const slPrice = p.stopLossPrice || Number((p.entryPrice * 0.985).toPrecision(5));
-          const tp1Price = Number((p.entryPrice * 1.028).toPrecision(5));
+          const tp1TargetPct = Number(p.tp1Pct || 2.2);
+          const tp1Price = Number((p.entryPrice * (1 + tp1TargetPct / 100)).toPrecision(5));
           const tpMainPrice = p.takeProfitPrice || Number((p.entryPrice * 1.055).toPrecision(5));
-          const srTxt = `📉 **Destek (Stop):** \`$${slPrice}\` (\`-%${p.slPct || 1.5}\`)<br>📈 **Direnç 1:** \`$${tp1Price}\` (\`+%2.8\`) \| **Direnç 2:** \`$${tpMainPrice}\``;
-          const stageTxt = p.stage2TpDone
-            ? `🚀 2 Kademe Alındı, Kalan %30 Sıfır Riskle Sınırsız Roket Modunda`
-            : p.partialTpDone
-              ? `🔒 1. Kademe Cebimizde, Kalan %60 Sıfır Riskle +%7,5 Hedefinde`
-              : p.trailingActive
-                ? `🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış)`
-                : `🛡️ Kesin Demir Kilit (-%${p.slPct || 1.5} Stop \| +%1,5'te Sıfır Risk, +%2,8'de %40 Hasat)`;
-          return `| **${p.symbol}** | \`${investedTry} TL\` | \`${curTry} TL\` | **\`${pnlSign}${pnlTry} TL (%${p.unrealizedPnlPct})\`** | ${srTxt} | ${stageTxt} |`;
+          const srTxt = `📉 **Destek (Stop):** \`$${slPrice}\` (\`-%${p.slPct || 1.5}\`)<br>📈 **Direnç 1:** \`$${tp1Price}\` (\`+%${tp1TargetPct}\`) \\| **Direnç 2:** \`$${tpMainPrice}\``;
+          const holdWhyTxt = p.holdReason || buildHoldReasonText(p);
+          return `| **${p.symbol}** | \`${investedTry} TL\` | \`${curTry} TL\` | **\`${pnlSign}${pnlTry} TL (%${p.unrealizedPnlPct})\`** | ${srTxt} | ${holdWhyTxt} |`;
         })
         .join('\n') + '\n';
 
@@ -576,7 +607,7 @@ ${closedRows}
 
 ## 3. ŞU AN AÇIK OLAN İŞLEMLER (DEVAM EDENLER)
 
-| Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Teknik Destek (Stop) & Direnç (Hedef) Seviyeleri | Risk & Otomatik Satış Planı |
+| Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Teknik Destek (Stop) & Direnç (Hedef) Seviyeleri | Neden Tutuluyor? & Otomatik Satış Şartı |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 ${openRows}
 ---
@@ -1263,10 +1294,11 @@ async function runTradingCycle() {
       isEmergencyTlLoss ||
       (pos.stopHitCount >= 2 && nowMs - (pos.firstStopHitAt || nowMs) >= 3000);
 
-    // Engine #9: ZERO-LOSS EARLY SCRATCH (Sifir Zarar Erken Tahliye Kalkani)
-    let liveObForScratch = 0;
-    if (!pos.partialTpDone && pos.unrealizedPnlPct <= 0.15 && pos.unrealizedPnlPct >= -0.60 && minsHeld >= 45) {
+    // Engine #9: ZERO-LOSS EARLY SCRATCH & LIVE ORDERBOOK TRACKING (Sifir Zarar / Zayiflayan Tahta Erken Tahliye Kalkani)
+    let liveObForScratch = Number(pos.liveObImbalance ?? pos.obImbalance ?? 0);
+    if (!pos.partialTpDone && pos.unrealizedPnlPct <= 0.35) {
       liveObForScratch = await checkOrderbookImbalance(pos.symbol);
+      pos.liveObImbalance = liveObForScratch;
     }
 
     if (isConfirmedStop) {
@@ -1285,6 +1317,8 @@ async function runTradingCycle() {
       exitReason = `🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — +%${pos.unrealizedPnlPct})`;
     } else if (!pos.partialTpDone && minsHeld >= 45 && pos.unrealizedPnlPct <= 0.1 && pos.unrealizedPnlPct >= -0.60 && liveObForScratch < -0.25 && latestSig && latestSig.takerBuyRatioPct < 45) {
       exitReason = `🛡️ SIFIR RİSK ERKEN TAHLİYE (İvme Zayıfladı, Başa Baş Noktasında Çıkıldı %${pos.unrealizedPnlPct})`;
+    } else if (!pos.partialTpDone && minsHeld >= 90 && peakGainPct < 1.2 && pos.unrealizedPnlPct <= -0.35 && liveObForScratch <= -0.20) {
+      exitReason = `🛡️ BAYATLAYAN İVME & SATIŞ BASKISI ERKEN TAHLİYESİ (${Math.round(minsHeld)}dk Tepkisiz + Tahta ${liveObForScratch} -> Stop Beklenmeden Çıkıldı %${pos.unrealizedPnlPct})`;
     } else if (pos.partialTpDone && hoursHeld >= 4.5 && pos.unrealizedPnlPct >= 1.5 && (pos.atr1hPct || 1.5) < 1.0 && currentBid <= pos.highestPrice * 0.996) {
       exitReason = `💰 HIZLI KÂR HASADI & ROTASYON (Yavaşlayan Kârlı Coin Cebe Alındı +%${pos.unrealizedPnlPct})`;
     } else if (pos.isMoonshot) {
@@ -1751,6 +1785,7 @@ async function runTradingCycle() {
     p.unrealizedPnlPct = Number((((p.currentPrice - p.entryPrice) / p.entryPrice) * 100).toFixed(2));
     p.currentPriceTry = Number((p.currentPrice * USD_TRY_RATE).toFixed(4));
     p.currentValueTry = Number((p.currentPrice * p.qty * USD_TRY_RATE).toFixed(2));
+    p.holdReason = buildHoldReasonText(p);
   }
 
   const openSymSet = new Set(state.openPositions.map(p => p.symbol));
@@ -1830,7 +1865,8 @@ function buildSimpleWhatsAppMessage(state) {
       const pnlTry = toTL(p.unrealizedPnlUsdt);
       const targetPrice = Math.max(Number(p.takeProfitPrice || 0), p.entryPrice * 1.09, p.currentPrice * 1.04);
       const targetTry = toTL(targetPrice * p.qty);
-      return `- ${p.symbol}${p.isMoonshot ? ' (Vurgun)' : ''}: ${curTry} TL (Kar: ${pnlSign}${pnlTry} TL | Hedef: ${targetTry} TL)`;
+      const cleanWhy = (p.holdReason || buildHoldReasonText(p)).replace(/\*\*|`/g, '');
+      return `- ${p.symbol}${p.isMoonshot ? ' (Vurgun)' : ''}: ${curTry} TL (Kar: ${pnlSign}${pnlTry} TL | Hedef: ${targetTry} TL)\n  ↳ ${cleanWhy}`;
     })
     .join('\n');
 
@@ -2146,19 +2182,21 @@ function renderDashboardHtml() {
         const diffTry = diffUsd * RATE;
         const pClass = diffTry >= 0 ? 'pos' : 'neg';
         const pSign = diffTry >= 0 ? '+' : '';
-        const modeTxt = p.stage2TpDone
-          ? '🚀 2 Kademe Alındı, Kalan %30 Sınırsız Roket'
-          : p.partialTpDone
-            ? '🔒 1. Kademe Cebimizde, Kalan %60 Sıfır Risk Uçuşta'
-            : p.trailingActive
-              ? '🔒 Sıfır Risk Kâr Kilidi Aktif (Stop: $' + p.stopLossPrice + ')'
-              : '🛡️ +%1.5 Sıfır Risk Kilidi, +%2.8 (%40) Kâr Hasadı';
+        const modeTxt = p.holdReason
+          ? p.holdReason.replace(/\\*\\*(.*?)\\*\\*/g, '<b>$1</b>').replace(/\\\`(.*?)\\\`/g, '<code style="color:#38bdf8;">$1</code>')
+          : p.stage2TpDone
+            ? '🚀 2 Kademe Alındı, Kalan %30 Sınırsız Roket'
+            : p.partialTpDone
+              ? '🔒 1. Kademe Cebimizde, Kalan %60 Sıfır Risk Uçuşta'
+              : p.trailingActive
+                ? '🔒 Sıfır Risk Kâr Kilidi Aktif (Stop: $' + p.stopLossPrice + ')'
+                : '🛡️ +%1.5 Sıfır Risk Kilidi, +%2.8 (%40) Kâr Hasadı';
         return '<tr>' +
           '<td><strong>' + p.symbol + '</strong> <small style="color:#38bdf8;">(' + p.qty + ' Adet @ $' + p.currentPrice + ')</small><br><small style="color:#94a3b8;">' + p.headline + '</small></td>' +
           '<td>' + costTryVal.toFixed(2) + ' TL <small style="color:#94a3b8;">($' + costUsd.toFixed(2) + ')</small></td>' +
           '<td><strong>' + curTryVal.toFixed(2) + ' TL</strong> <small style="color:#94a3b8;">($' + curUsd.toFixed(2) + ')</small></td>' +
           '<td class="' + pClass + '">' + pSign + diffTry.toFixed(2) + ' TL (' + pSign + '%' + p.unrealizedPnlPct + ')</td>' +
-          '<td>' + modeTxt + '</td>' +
+          '<td style="max-width:440px;font-size:12.5px;line-height:1.45;">' + modeTxt + '</td>' +
           '<td><button class="btn-sell" onclick="sellCoin(\\'' + p.symbol + '\\')">🔴 Şimdi Sat</button></td>' +
         '</tr>';
       }).join('') || '<tr><td colspan="6">Şu an açık işlem yok, yeni A+ haber taranıyor...</td></tr>';

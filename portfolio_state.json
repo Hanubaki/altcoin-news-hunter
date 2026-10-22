@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-22T07:10:38.203Z",
+  "updatedAt": "2026-10-22T07:19:54.751Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.1898,
@@ -25,7 +25,7 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-22T04:50:59.199Z",
       "entryPrice": 264.9,
-      "currentPrice": 262.366,
+      "currentPrice": 262.911,
       "highestPrice": 266.2,
       "qty": 0.0162674,
       "costUsdt": 4.3092,
@@ -38,18 +38,20 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0412,
-      "unrealizedPnlPct": -0.96,
-      "currentPriceTry": 12994.988,
-      "currentValueTry": 211.39,
+      "unrealizedPnlUsdt": -0.0324,
+      "unrealizedPnlPct": -0.75,
+      "currentPriceTry": 13021.9818,
+      "currentValueTry": 211.83,
       "stopHitCount": 0,
       "firstStopHitAt": 0,
       "tp1Pct": 2.2,
       "tp2Pct": 5.5,
       "initialCostUsdt": 4.3092,
       "initialQty": 0.0162674,
-      "currentBidTry": 12995,
-      "currentAskTry": 13006
+      "currentBidTry": 13022,
+      "currentAskTry": 13029,
+      "liveObImbalance": 0.04,
+      "holdReason": "🧐 **DÜŞERKEN NEDEN SATMIYOR? (149 dk'dır açık):** 1) **Nefes Payı İçinde:** Şu an `%-0.75` (`-1.6 TL`) seviyesinde; kesin Stop-Loss çizgimiz olan `$260.93` (`-%1.5` = `-3.2 TL` maksimum risk sınırı) seviyesine henüz **`%0.75` mesafe** var. 2) **Tahta & Dip Filtresi:** Giriş RSI `24.09` (dip bölgesi), balina alıcı oranı `%54.2` ve canlı Binance TR tahtası **Dengeli (+0.04)** olduğu için normal silkeleme iğnesinde erken panik satışı yapılmıyor. 3) **Ne Zaman Satacak?:** Fiyat `$260.93` altına inip 3 sn kalırsa **VEYA** tahta dengesi `-0.20` altına bozulursa (Erken Tahliye) saniyesinde otomatik satılacak!"
     }
   ],
   "closedTrades": [
@@ -1342,10 +1344,10 @@
     "[18:12:09] ⚡ [AKILLI ROTASYON] INJ kapatıldı, yerine 94.6 puanlık dev fırsat (RAY) alınıyor!",
     "[18:11:09] 🎰 [VURGUN SLOTU AÇILDI] THETA (164,24 TL) @ $0.2073 | Hedef: +%18 | RSI: 40.54 | Balina: %57.5 | SL: -%2.4"
   ],
-  "totalEquityUsdt": 20.0634,
-  "totalEquityTry": 993.74,
-  "totalPnlUsdt": -0.1264,
-  "totalPnlPct": -0.63,
+  "totalEquityUsdt": 20.0739,
+  "totalEquityTry": 994.26,
+  "totalPnlUsdt": -0.1159,
+  "totalPnlPct": -0.57,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -1363,36 +1365,8 @@
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
   "usdTryRate": 49.53,
-  "totalPnlTry": -6.26,
+  "totalPnlTry": -5.74,
   "equityHistory": [
-    {
-      "t": "08:32",
-      "v": 997.2
-    },
-    {
-      "t": "08:33",
-      "v": 997.38
-    },
-    {
-      "t": "08:34",
-      "v": 997.34
-    },
-    {
-      "t": "08:35",
-      "v": 997.71
-    },
-    {
-      "t": "08:36",
-      "v": 997.32
-    },
-    {
-      "t": "08:37",
-      "v": 997.78
-    },
-    {
-      "t": "08:38",
-      "v": 997.86
-    },
     {
       "t": "08:39",
       "v": 997.87
@@ -1748,6 +1722,34 @@
     {
       "t": "10:10",
       "v": 993.74
+    },
+    {
+      "t": "10:11",
+      "v": 993.74
+    },
+    {
+      "t": "10:12",
+      "v": 993.68
+    },
+    {
+      "t": "10:13",
+      "v": 993.83
+    },
+    {
+      "t": "10:15",
+      "v": 993.79
+    },
+    {
+      "t": "10:16",
+      "v": 993.76
+    },
+    {
+      "t": "10:18",
+      "v": 993.76
+    },
+    {
+      "t": "10:19",
+      "v": 993.99
     }
   ],
   "walletAssetsMap": {
@@ -1782,10 +1784,10 @@
     "WLD": 0.0814,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.1577,
-  "dustAssetsTry": 57.34,
+  "dustAssetsUsdt": 1.1593,
+  "dustAssetsTry": 57.42,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-22T07:10:38.200Z",
+    "updatedAt": "2026-10-22T07:19:54.748Z",
     "totalAnalyzedTrades": 35,
     "globalWR": 0.595,
     "coinStats": {
@@ -2441,13 +2443,13 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 993.74,
+    "totalNetWorthTry": 994.26,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
       "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %60 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-22T07:10:38.203Z"
+    "updatedAt": "2026-10-22T07:19:54.751Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254

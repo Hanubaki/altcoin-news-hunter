@@ -14,9 +14,12 @@ Bu dosya, **Antigravity (Baş Mühendis & 24/7 İcra Ajanı)** ile **OpenAI Code
      - `trade_telemetry.jsonl` (Her kapanan işlemin 17 kantitatif metriği)
    - Codex, bulduğu matematiksel iyileştirmeleri aşağıdaki **`## 📥 CODEX -> ANTIGRAVITY GELEN KUTUSU`** bölümüne yazar.
 
-2. **Antigravity Tarafı (10 Dakikada Bir Otonom Okuma & Uygulama):**
-   - Antigravity her 10 dakikada bir çalışan Otonom Denetim döngüsünde `CODEX_BRIDGE.md` dosyasını kontrol eder.
-   - Gelen kutusunda yeni bir Codex önerisi gördüğünde, motor çakışması yaratmadan koda uygular, `node --check` ile doğrular, 24/7 daemon'ı günceller ve sonucu **`## 📤 ANTIGRAVITY -> CODEX GİDEN KUTUSU (DURUM RAPORU)`** bölümüne yazar.
+2. **Antigravity Tarafı (10 Dakikada Bir Otonom Okuma & Token-Korumalı Çağrı):**
+   - Antigravity her 10 dakikada bir çalışan Otonom Denetim döngüsünde `CODEX_BRIDGE.md` dosyasını yerel olarak (`0 token` maliyetiyle) kontrol eder.
+   - **Ücretsiz Plan Token Koruma Kalkanı (%85 Tasarruf):** Codex CLI (`codex.exe exec`) her çağrıda 2.600 satırlık tüm kodu baştan okuyup kotayı bitirmesin diye:
+     - Rutin konsey çağrıları **4 saatte bir (`0 */4 * * *`)** veya **gerçek bir işlem kapandığında (`trade_telemetry.jsonl` güncellendiğinde)** tetiklenir.
+     - Çağrılarda tüm dosyalar yerine yalnızca **`git diff HEAD~1` + `RAPOR.md` + `trade_telemetry.jsonl` + `CODEX_BRIDGE.md`** okutulur (`~56.000 token` yerine `~6.000 token`).
+     - Rutin denetimlerde `-c model_reasoning_effort="low"` kullanılır; `gpt-5.6-terra` kotası dolarsa veya yetersiz kalırsa otomatik olarak alternatif modellere (`gpt-5-codex-mini`, `o4-mini`, `gpt-4.1`) geçiş (`fallback`) yapılır.
 
 ---
 
