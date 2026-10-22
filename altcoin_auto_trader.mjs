@@ -1005,8 +1005,13 @@ async function runTradingCycle() {
         : isProfitLock
           ? `🔒 SIFIR RİSK KÂR KİLİDİ (+%${pos.unrealizedPnlPct})`
           : `🛡️ ATR KORUMA KALKANI (%${pos.unrealizedPnlPct})`;
-    } else if (latestSig && latestSig.liveLlmDecision === 'WAIT' && latestSig.liveLlmConfidence >= 75 && !pos.rocketMode) {
-      exitReason = `🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — %${pos.unrealizedPnlPct})`;
+    } else if (
+      ['WhaleOrderflowRadar', 'ShortSqueezeRadar'].includes(pos.newsSource) &&
+      pos.unrealizedPnlPct >= 0.25
+    ) {
+      exitReason = `🧹 HABERSİZ SİNYAL KÂRLI TAHLİYESİ (Gerçek Haber Slotuna Yer Açıldı +%${pos.unrealizedPnlPct})`;
+    } else if (latestSig && latestSig.liveLlmDecision === 'WAIT' && latestSig.liveLlmConfidence >= 80 && !pos.rocketMode && pos.unrealizedPnlPct >= 0.15) {
+      exitReason = `🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — +%${pos.unrealizedPnlPct})`;
     } else if (!pos.partialTpDone && minsHeld >= 45 && pos.unrealizedPnlPct <= 0.1 && pos.unrealizedPnlPct >= -0.60 && liveObForScratch < -0.25 && latestSig && latestSig.takerBuyRatioPct < 45) {
       exitReason = `🛡️ SIFIR RİSK ERKEN TAHLİYE (İvme Zayıfladı, Başa Baş Noktasında Çıkıldı %${pos.unrealizedPnlPct})`;
     } else if (pos.partialTpDone && hoursHeld >= 4.5 && pos.unrealizedPnlPct >= 1.5 && (pos.atr1hPct || 1.5) < 1.0 && currentBid <= pos.highestPrice * 0.996) {
@@ -1219,14 +1224,8 @@ async function runTradingCycle() {
       if (effectiveTotalScore < minReqScore) continue;
       if ((cand.freshestMinutesAgo || 0) > 360) continue; // Reject stale news older than 6 hours
       const isSynthCand = ['WhaleOrderflowRadar', 'ShortSqueezeRadar'].includes(cand.headlines?.[0]?.source);
-      if (
-        isSynthCand &&
-        ((cand.takerBuyRatioPct || 50) < 60.0 ||
-          (cand.rsi1h || 50) > 38.0 ||
-          (cand.topWhaleLongPct || 50) < 65.0 ||
-          (cand.aiConsensusCount || 0) < 4)
-      ) {
-        continue; // Synthetic no-news signals strictly require deep oversold dip (RSI <= 38), >=60% Spot Whale, >=65% Top Whale Long, and 4/4 AI Consensus
+      if (isSynthCand) {
+        continue; // 100% BAN no-news synthetic signals! Only trade verified real news catalysts!
       }
       if ((cand.rsi1h || 50) > maxReqRsi) continue; // Reject top/overbought entries (or learned tighter RSI cap)
       if ((cand.takerBuyRatioPct || 50) < minReqWhale) continue;
@@ -1912,10 +1911,10 @@ function renderDashboardHtml() {
         const modeTxt = p.stage2TpDone
           ? '🚀 2 Kademe Alındı, Kalan %30 Sınırsız Roket'
           : p.partialTpDone
-            ? '🔒 1. Kademe Cebimizde, Kalan %65 Sıfır Risk Uçuşta'
+            ? '🔒 1. Kademe Cebimizde, Kalan %60 Sıfır Risk Uçuşta'
             : p.trailingActive
               ? '🔒 Sıfır Risk Kâr Kilidi Aktif (Stop: $' + p.stopLossPrice + ')'
-              : '🛡️ +%1.2 Sıfır Risk Kilidi, +%3.8 Kâr Hasadı';
+              : '🛡️ +%1.5 Sıfır Risk Kilidi, +%2.8 (%40) Kâr Hasadı';
         return '<tr>' +
           '<td><strong>' + p.symbol + '</strong> <small style="color:#38bdf8;">(' + p.qty + ' Adet @ $' + p.currentPrice + ')</small><br><small style="color:#94a3b8;">' + p.headline + '</small></td>' +
           '<td>' + costTryVal.toFixed(2) + ' TL <small style="color:#94a3b8;">($' + costUsd.toFixed(2) + ')</small></td>' +

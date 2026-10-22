@@ -1,17 +1,17 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 22.10.2026 08:02:27
+**Son Güncelleme:** 22.10.2026 08:07:09
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`1.002,88 TL`**
-* **Toplam Net Kâr / Zarar:** **`+2,88 TL` (`+%0.29`)**
+* **Şu Anki Toplam Para:** **`1.001,71 TL`**
+* **Toplam Net Kâr / Zarar:** **`+1,71 TL` (`+%0.17`)**
 * **Boşta Bekleyen Nakit:** `0,77 TL`
-* **Coinde Olan Para (Açık İşlemler):** `947,57 TL`
-* **Cüzdandaki Küsürat (Dust) Varlıklar:** `54,54 TL` *(Aynı coine tekrar girildiğinde otomatik birleştirilip nakite çevrilir)*
+* **Coinde Olan Para (Açık İşlemler):** `946,49 TL`
+* **Cüzdandaki Küsürat (Dust) Varlıklar:** `54,46 TL` *(Aynı coine tekrar girildiğinde otomatik birleştirilip nakite çevrilir)*
 * **Başarılı Satış / Zarar Kes:** `21 Kârlı Satış / 11 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 2.2277 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 0.8140 | ICP: 0.0002 | INJ: 0.0075 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0768 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 118.3628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TAO: 0.0163 | THETA: 0.0680 | TIA: 0.0058 | TRY: 0.7681 | UNI: 0.0080 | WLD: 0.0814 | ZRO: 0.0037)`
 
@@ -60,10 +60,10 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **CAKE** | `246,12 TL` | `242,60 TL` | **`-3,53 TL (%-1.43)`** | 🛡️ ATR Kalkanı (-%2.8 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **CAKE** | `246,12 TL` | `242,38 TL` | **`-3,75 TL (%-1.52)`** | 🛡️ ATR Kalkanı (-%2.8 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
 | **PNUT** | `263,07 TL` | `258,97 TL` | **`-4,10 TL (%-1.56)`** | 🛡️ ATR Kalkanı (-%2.8 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **LTC** | `232,46 TL` | `231,66 TL` | **`-0,80 TL (%-0.34)`** | 🛡️ ATR Kalkanı (-%2.8 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **TAO** | `213,31 TL` | `214,35 TL` | **`+1,04 TL (%0.49)`** | 🛡️ ATR Kalkanı (-%2.8 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **LTC** | `232,46 TL` | `231,28 TL` | **`-1,18 TL (%-0.51)`** | 🛡️ ATR Kalkanı (-%2.8 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **TAO** | `213,31 TL` | `213,87 TL` | **`+0,56 TL (%0.26)`** | 🛡️ ATR Kalkanı (-%2.8 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
 
 ---
 
@@ -104,11 +104,11 @@
 
 * **Banka & Entegrasyon:** `İş Bankası (İşCep & Gmail Bildirim Entegreli)`
 * **İş Bankası Güncel Bakiye:** **`0,00 TL`**
-* **Toplam Kişisel Servet (İş Bankası + Binance TR):** **`1.002,88 TL`**
+* **Toplam Kişisel Servet (İş Bankası + Binance TR):** **`1.001,71 TL`**
 * **Beklenen Aylık Gelir Akışı:** `Staj Maaşı: 8.000 TL | Mevcut Burs: 3.000 TL | Yeni Başvurulan Burs: 3.500 TL (Toplam: 14.500 TL/Ay)`
 * **Aylık Dokunulmaz Yaşam & Nakit Kalkanı:** `5.500 TL` *(Haftalık Harcama Limiti: `1.375 TL` | Bu Hafta Harcanan: `0 TL`)*
 * **💡 Günün Otonom CFO Tüyoları & Bütçe Emirleri:**
-  - 📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %65.6 isabetle (21G/11Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1002.88 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle ("Performans Ödülü" usulü) ekleme yap.
+  - 📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %65.6 isabetle (21G/11Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1001.71 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle ("Performans Ödülü" usulü) ekleme yap.
   - 🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız.
 
 ---
