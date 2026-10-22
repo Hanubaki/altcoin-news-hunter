@@ -294,6 +294,37 @@ async function fetchCoinGeckoTrending() {
   }
 }
 
+/**
+ * Engine #26A (binance-skills-hub / crypto-market-rank):
+ * Queries Binance Web3 Official AI Social-Hype & Sentiment Leaderboard (BSC + Solana)
+ */
+async function fetchBinanceAiSocialHype() {
+  const map = {};
+  try {
+    const urls = [
+      'https://web3.binance.com/bapi/defi/v1/public/wallet-direct/buw/wallet/market/token/pulse/social/hype/rank/leaderboard/ai?chainId=56&targetLanguage=en&timeRange=1',
+      'https://web3.binance.com/bapi/defi/v1/public/wallet-direct/buw/wallet/market/token/pulse/social/hype/rank/leaderboard/ai?chainId=CT_501&targetLanguage=en&timeRange=1',
+    ];
+    const results = await Promise.all(
+      urls.map(u =>
+        fetchJson(u, { headers: { 'Accept-Encoding': 'identity', 'User-Agent': 'binance-web3/3.0 (Skill)' } }, 2800).catch(() => null)
+      )
+    );
+    for (const r of results) {
+      for (const item of r?.data?.leaderBoardList || []) {
+        const sym = String(item?.metaInfo?.symbol || '').toUpperCase().trim();
+        if (!sym) continue;
+        map[sym] = {
+          sentiment: item?.socialHypeInfo?.sentiment || 'Neutral',
+          socialHype: Number(item?.socialHypeInfo?.socialHype || 0),
+          brief: String(item?.socialHypeInfo?.socialSummaryBriefTranslated || item?.socialHypeInfo?.socialSummaryBrief || '').slice(0, 140),
+        };
+      }
+    }
+  } catch {}
+  return map;
+}
+
 async function fetchTelegramPublicChannels() {
   const defaultChannels = [
     { handle: 'binance_announcements', name: 'BinanceTG', weight: 2.5 },
@@ -766,7 +797,7 @@ async function main() {
   const allSymbols = getAllTrackedSymbols();
   const symbolsParam = JSON.stringify(allSymbols.map(s => `${s}USDT`));
 
-  const [newsScan, tickersRes, hlMetaRes, fapiPremRes, fngRes, globalRes] = await Promise.all([
+  const [newsScan, tickersRes, hlMetaRes, fapiPremRes, fngRes, globalRes, binanceSocialMap] = await Promise.all([
     scanAllNewsFeeds(),
     fetchJson(`${BINANCE_API}/ticker/24hr?symbols=${encodeURIComponent(symbolsParam)}`, {}, 8000),
     fetchJson(HYPERLIQUID_API, {
@@ -777,6 +808,7 @@ async function main() {
     fetchJson('https://www.binance.info/fapi/v1/premiumIndex', {}, 4000).catch(() => []),
     fetchJson('https://api.alternative.me/fng/?limit=1', {}, 3000).catch(() => null),
     fetchJson('https://api.coinpaprika.com/v1/global', {}, 3000).catch(() => null),
+    fetchBinanceAiSocialHype(),
   ]);
 
   const fearGreedVal = Number(fngRes?.data?.[0]?.value || 55);
@@ -1055,10 +1087,17 @@ async function main() {
     if (isExtremeTakerCollapse) continue;
     // Engine #20: Overleveraged Long Liquidation Cascade Shield (reject extreme futures long overheating)
     if (fundingHourlyPct >= 0.06 || basisSpreadPct <= -0.50) continue;
+    // Engine #26B (tradermonty/news-reaction-failure-analyzer — Jason Shapiro Step 2):
+    // If bullish news has been public for >= 25m and the market shrugged it off & dumped below VWAP, reject FAILED_TO_RALLY!
+    const isNewsReactionFailure =
+      eventAgeMins >= 25 && change1hPct <= -0.85 && !aboveVwap && !isGreenBounce;
+    if (isNewsReactionFailure) continue;
+
     const microstructureFlags = [];
     const isModerateTakerDecel =
       last1hQuoteVolUsd >= 100000 && (last1hTakerBuy < 0.46 || takerFlowDecel > 0.07);
     const isOverleveragedLong = fundingHourlyPct >= 0.035 || basisSpreadPct <= -0.25;
+    const binanceSocial = binanceSocialMap?.[sym] || null;
 
     // TradingArena.ai 4-Model Hive-Mind Consensus
     const hiveMind = computeArenaHiveMind({
@@ -1090,6 +1129,14 @@ async function main() {
     if (isUpperWickRejection) {
       totalScore -= 12;
       microstructureFlags.push('UPPER_WICK_REJECTION');
+    }
+    // Engine #26A (binance-skills-hub/crypto-market-rank): Binance Official AI Social-Hype Sentiment Cross-Check
+    if (binanceSocial?.sentiment === 'Negative') {
+      totalScore -= 10;
+      microstructureFlags.push('BINANCE_SOCIAL_NEGATIVE');
+    } else if (binanceSocial?.sentiment === 'Positive') {
+      totalScore += 5;
+      microstructureFlags.push('BINANCE_SOCIAL_POSITIVE');
     }
     if (rsi1h <= 34) totalScore += 18;
     else if (rsi1h <= 45) totalScore += 12;
