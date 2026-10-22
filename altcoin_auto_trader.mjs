@@ -1736,7 +1736,8 @@ async function runTradingCycle() {
       const maxReqRsi = coinMem ? Math.min(baseMaxRsi, coinMem.maxRsi) : baseMaxRsi;
       if (effectiveTotalScore < minReqScore) continue;
       const maxAllowedNewsAgeMins = isRedMarketDump || isWeakMarket ? 45 : 75;
-      if ((cand.freshestMinutesAgo || 0) > maxAllowedNewsAgeMins) continue; // Reject stale news older than 45-75 minutes!
+      const primaryHeadlineAgeMins = Math.max(cand.freshestMinutesAgo || 0, cand.headlines?.[0]?.minutesAgo || 0);
+      if (primaryHeadlineAgeMins > maxAllowedNewsAgeMins) continue; // Engine #25: Reject stale primary news older than 45-75 minutes!
       const isSynthCand = ['WhaleOrderflowRadar', 'ShortSqueezeRadar'].includes(cand.headlines?.[0]?.source);
       if (isSynthCand || (cand.headlines?.[0]?.source === 'GoldenAgeLeaderIgniter' && !isGoldenAgeLeaderAllowed)) {
         continue; // 100% BAN no-news synthetic signals outside confirmed Golden Age!

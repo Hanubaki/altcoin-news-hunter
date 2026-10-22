@@ -1,11 +1,11 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-22T09:44:21.163Z",
+  "updatedAt": "2026-10-22T11:05:21.448Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
-  "initialBankrollUsdt": 20.202,
+  "initialBankrollUsdt": 20.1898,
   "initialBankrollTry": 1000,
-  "cashUsdt": 18.8805,
+  "cashUsdt": 18.8691,
   "realizedPnlUsdt": 0.4414,
   "winCount": 21,
   "lossCount": 15,
@@ -1310,6 +1310,8 @@
     }
   ],
   "recentLogs": [
+    "[14:02:13] ⚠️ Haber tarayıcı uyarısı: fetch failed",
+    "[14:01:46] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[11:17:01] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[10:52:36] 🏁 [POZİSYON KAPANDI] TAO @ $261.879 | 🛡️ BAYATLAYAN İVME & SATIŞ BASKISI ERKEN TAHLİYESİ (182dk Tepkisiz + Tahta -0.36 -> Stop Beklenmeden Çıkıldı %-1.14) | Net: -2,42 TL",
     "[08:56:08] 🏁 [POZİSYON KAPANDI] LTC @ $60.19 | 🛡️ ATR KORUMA KALKANI (%-1.51) | Net: -3,50 TL",
@@ -1347,14 +1349,12 @@
     "[21:28:05] 🧱 [Satış Duvarı Kalkanı] HBAR önünde balina satış duvarı (-0.52) tespit edildi, kâr kilidi sıkılaştırıldı!",
     "[21:00:26] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[19:10:51] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
-    "[19:02:22] 🟢 [OTOMATİK ALIM] UNI (372,85 TL) @ $7.605 | Skor: 93.5 | RSI: 48.44 | Balina: %53.7 | SL: -%2.31",
-    "[18:33:53] ⚡ [AKILLI ROTASYON] EDU kapatıldı, yerine 106.4 puanlık dev fırsat (ALGO) alınıyor!",
-    "[18:12:12] 🟢 [OTOMATİK ALIM] RAY (315,62 TL) @ $1.9967 | Skor: 94.6 | RSI: 49.83 | Balina: %53.2 | SL: -%2"
+    "[19:02:22] 🟢 [OTOMATİK ALIM] UNI (372,85 TL) @ $7.605 | Skor: 93.5 | RSI: 48.44 | Balina: %53.7 | SL: -%2.31"
   ],
-  "totalEquityUsdt": 20.0481,
-  "totalEquityTry": 992.38,
-  "totalPnlUsdt": -0.1539,
-  "totalPnlPct": -0.76,
+  "totalEquityUsdt": 20.0408,
+  "totalEquityTry": 992.62,
+  "totalPnlUsdt": -0.149,
+  "totalPnlPct": -0.74,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -1369,336 +1369,12 @@
     "TAO": 1792677153218
   },
   "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0077 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 0.8140 | ICP: 0.0002 | INJ: 0.0075 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0008 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 0.0628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TAO: 0.0001 | THETA: 0.0680 | TIA: 0.0058 | TRY: 934.5854 | UNI: 0.0080 | WLD: 0.0814 | ZRO: 0.0037)",
-  "lastWhatsAppReportAt": 1792655635554,
+  "lastWhatsAppReportAt": 1792662846490,
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
-  "usdTryRate": 49.5,
-  "totalPnlTry": -7.62,
+  "usdTryRate": 49.53,
+  "totalPnlTry": -7.38,
   "equityHistory": [
-    {
-      "t": "11:09",
-      "v": 992.56
-    },
-    {
-      "t": "11:10",
-      "v": 992.48
-    },
-    {
-      "t": "11:11",
-      "v": 992.51
-    },
-    {
-      "t": "11:12",
-      "v": 992.51
-    },
-    {
-      "t": "11:13",
-      "v": 992.48
-    },
-    {
-      "t": "11:14",
-      "v": 992.54
-    },
-    {
-      "t": "11:15",
-      "v": 992.48
-    },
-    {
-      "t": "11:16",
-      "v": 992.5
-    },
-    {
-      "t": "11:17",
-      "v": 992.54
-    },
-    {
-      "t": "11:18",
-      "v": 992.54
-    },
-    {
-      "t": "11:19",
-      "v": 992.51
-    },
-    {
-      "t": "11:20",
-      "v": 992.49
-    },
-    {
-      "t": "11:21",
-      "v": 992.5
-    },
-    {
-      "t": "11:22",
-      "v": 992.52
-    },
-    {
-      "t": "11:23",
-      "v": 992.48
-    },
-    {
-      "t": "11:24",
-      "v": 992.51
-    },
-    {
-      "t": "11:25",
-      "v": 992.51
-    },
-    {
-      "t": "11:26",
-      "v": 992.56
-    },
-    {
-      "t": "11:27",
-      "v": 992.55
-    },
-    {
-      "t": "11:28",
-      "v": 992.52
-    },
-    {
-      "t": "11:29",
-      "v": 992.52
-    },
-    {
-      "t": "11:30",
-      "v": 992.52
-    },
-    {
-      "t": "11:31",
-      "v": 992.47
-    },
-    {
-      "t": "11:32",
-      "v": 992.49
-    },
-    {
-      "t": "11:33",
-      "v": 992.46
-    },
-    {
-      "t": "11:34",
-      "v": 992.28
-    },
-    {
-      "t": "11:35",
-      "v": 992.28
-    },
-    {
-      "t": "11:36",
-      "v": 992.25
-    },
-    {
-      "t": "11:37",
-      "v": 992.18
-    },
-    {
-      "t": "11:38",
-      "v": 992.18
-    },
-    {
-      "t": "11:39",
-      "v": 992.18
-    },
-    {
-      "t": "11:40",
-      "v": 992.27
-    },
-    {
-      "t": "11:41",
-      "v": 992.28
-    },
-    {
-      "t": "11:42",
-      "v": 992.25
-    },
-    {
-      "t": "11:43",
-      "v": 992.3
-    },
-    {
-      "t": "11:44",
-      "v": 992.29
-    },
-    {
-      "t": "11:45",
-      "v": 992.28
-    },
-    {
-      "t": "11:46",
-      "v": 992.29
-    },
-    {
-      "t": "11:47",
-      "v": 992.28
-    },
-    {
-      "t": "11:48",
-      "v": 992.27
-    },
-    {
-      "t": "11:49",
-      "v": 992.25
-    },
-    {
-      "t": "11:50",
-      "v": 992.34
-    },
-    {
-      "t": "11:51",
-      "v": 992.31
-    },
-    {
-      "t": "11:52",
-      "v": 992.3
-    },
-    {
-      "t": "11:53",
-      "v": 992.34
-    },
-    {
-      "t": "11:54",
-      "v": 992.33
-    },
-    {
-      "t": "11:55",
-      "v": 992.34
-    },
-    {
-      "t": "11:56",
-      "v": 992.31
-    },
-    {
-      "t": "11:57",
-      "v": 992.32
-    },
-    {
-      "t": "11:58",
-      "v": 992.3
-    },
-    {
-      "t": "11:59",
-      "v": 992.3
-    },
-    {
-      "t": "12:00",
-      "v": 992.25
-    },
-    {
-      "t": "12:01",
-      "v": 992.23
-    },
-    {
-      "t": "12:02",
-      "v": 992.24
-    },
-    {
-      "t": "12:03",
-      "v": 992.24
-    },
-    {
-      "t": "12:04",
-      "v": 992.2
-    },
-    {
-      "t": "12:05",
-      "v": 992.21
-    },
-    {
-      "t": "12:06",
-      "v": 992.18
-    },
-    {
-      "t": "12:07",
-      "v": 992.26
-    },
-    {
-      "t": "12:08",
-      "v": 992.24
-    },
-    {
-      "t": "12:09",
-      "v": 992.17
-    },
-    {
-      "t": "12:10",
-      "v": 992.16
-    },
-    {
-      "t": "12:11",
-      "v": 992.22
-    },
-    {
-      "t": "12:12",
-      "v": 992.12
-    },
-    {
-      "t": "12:13",
-      "v": 992.23
-    },
-    {
-      "t": "12:14",
-      "v": 992.35
-    },
-    {
-      "t": "12:15",
-      "v": 992.39
-    },
-    {
-      "t": "12:16",
-      "v": 992.41
-    },
-    {
-      "t": "12:17",
-      "v": 992.41
-    },
-    {
-      "t": "12:18",
-      "v": 992.41
-    },
-    {
-      "t": "12:19",
-      "v": 992.48
-    },
-    {
-      "t": "12:20",
-      "v": 992.46
-    },
-    {
-      "t": "12:21",
-      "v": 992.47
-    },
-    {
-      "t": "12:22",
-      "v": 992.5
-    },
-    {
-      "t": "12:23",
-      "v": 992.45
-    },
-    {
-      "t": "12:24",
-      "v": 992.45
-    },
-    {
-      "t": "12:25",
-      "v": 992.41
-    },
-    {
-      "t": "12:26",
-      "v": 992.33
-    },
-    {
-      "t": "12:27",
-      "v": 992.33
-    },
-    {
-      "t": "12:28",
-      "v": 992.38
-    },
-    {
-      "t": "12:29",
-      "v": 992.32
-    },
     {
       "t": "12:30",
       "v": 992.32
@@ -1758,6 +1434,330 @@
     {
       "t": "12:44",
       "v": 992.38
+    },
+    {
+      "t": "12:45",
+      "v": 992.36
+    },
+    {
+      "t": "12:46",
+      "v": 992.37
+    },
+    {
+      "t": "12:47",
+      "v": 992.4
+    },
+    {
+      "t": "12:48",
+      "v": 992.44
+    },
+    {
+      "t": "12:49",
+      "v": 992.51
+    },
+    {
+      "t": "12:50",
+      "v": 992.53
+    },
+    {
+      "t": "12:51",
+      "v": 992.54
+    },
+    {
+      "t": "12:52",
+      "v": 992.53
+    },
+    {
+      "t": "12:53",
+      "v": 992.5
+    },
+    {
+      "t": "12:54",
+      "v": 992.48
+    },
+    {
+      "t": "12:55",
+      "v": 992.53
+    },
+    {
+      "t": "12:56",
+      "v": 992.56
+    },
+    {
+      "t": "12:57",
+      "v": 992.56
+    },
+    {
+      "t": "12:58",
+      "v": 992.56
+    },
+    {
+      "t": "12:59",
+      "v": 992.59
+    },
+    {
+      "t": "13:00",
+      "v": 992.59
+    },
+    {
+      "t": "13:01",
+      "v": 992.71
+    },
+    {
+      "t": "13:02",
+      "v": 992.71
+    },
+    {
+      "t": "13:03",
+      "v": 992.72
+    },
+    {
+      "t": "13:04",
+      "v": 992.69
+    },
+    {
+      "t": "13:05",
+      "v": 992.7
+    },
+    {
+      "t": "13:06",
+      "v": 992.68
+    },
+    {
+      "t": "13:07",
+      "v": 992.66
+    },
+    {
+      "t": "13:08",
+      "v": 992.61
+    },
+    {
+      "t": "13:09",
+      "v": 992.58
+    },
+    {
+      "t": "13:10",
+      "v": 992.58
+    },
+    {
+      "t": "13:11",
+      "v": 992.61
+    },
+    {
+      "t": "13:12",
+      "v": 992.63
+    },
+    {
+      "t": "13:13",
+      "v": 992.61
+    },
+    {
+      "t": "13:14",
+      "v": 992.62
+    },
+    {
+      "t": "13:15",
+      "v": 992.62
+    },
+    {
+      "t": "13:16",
+      "v": 992.66
+    },
+    {
+      "t": "13:17",
+      "v": 992.65
+    },
+    {
+      "t": "13:18",
+      "v": 992.63
+    },
+    {
+      "t": "13:19",
+      "v": 992.64
+    },
+    {
+      "t": "13:20",
+      "v": 992.68
+    },
+    {
+      "t": "13:21",
+      "v": 992.66
+    },
+    {
+      "t": "13:22",
+      "v": 992.64
+    },
+    {
+      "t": "13:23",
+      "v": 992.66
+    },
+    {
+      "t": "13:24",
+      "v": 992.67
+    },
+    {
+      "t": "13:25",
+      "v": 992.67
+    },
+    {
+      "t": "13:26",
+      "v": 992.68
+    },
+    {
+      "t": "13:27",
+      "v": 992.68
+    },
+    {
+      "t": "13:28",
+      "v": 992.67
+    },
+    {
+      "t": "13:29",
+      "v": 992.66
+    },
+    {
+      "t": "13:30",
+      "v": 992.64
+    },
+    {
+      "t": "13:31",
+      "v": 992.67
+    },
+    {
+      "t": "13:32",
+      "v": 992.66
+    },
+    {
+      "t": "13:33",
+      "v": 992.64
+    },
+    {
+      "t": "13:34",
+      "v": 992.68
+    },
+    {
+      "t": "13:35",
+      "v": 992.68
+    },
+    {
+      "t": "13:36",
+      "v": 992.68
+    },
+    {
+      "t": "13:37",
+      "v": 992.65
+    },
+    {
+      "t": "13:38",
+      "v": 992.64
+    },
+    {
+      "t": "13:39",
+      "v": 992.67
+    },
+    {
+      "t": "13:40",
+      "v": 992.69
+    },
+    {
+      "t": "13:41",
+      "v": 992.68
+    },
+    {
+      "t": "13:42",
+      "v": 992.66
+    },
+    {
+      "t": "13:43",
+      "v": 992.61
+    },
+    {
+      "t": "13:44",
+      "v": 992.62
+    },
+    {
+      "t": "13:45",
+      "v": 992.62
+    },
+    {
+      "t": "13:46",
+      "v": 992.68
+    },
+    {
+      "t": "13:47",
+      "v": 992.66
+    },
+    {
+      "t": "13:48",
+      "v": 992.66
+    },
+    {
+      "t": "13:49",
+      "v": 992.65
+    },
+    {
+      "t": "13:50",
+      "v": 992.64
+    },
+    {
+      "t": "13:51",
+      "v": 992.66
+    },
+    {
+      "t": "13:52",
+      "v": 992.68
+    },
+    {
+      "t": "13:53",
+      "v": 992.66
+    },
+    {
+      "t": "13:54",
+      "v": 992.65
+    },
+    {
+      "t": "13:55",
+      "v": 992.61
+    },
+    {
+      "t": "13:56",
+      "v": 992.62
+    },
+    {
+      "t": "13:57",
+      "v": 992.62
+    },
+    {
+      "t": "13:58",
+      "v": 992.66
+    },
+    {
+      "t": "13:59",
+      "v": 992.67
+    },
+    {
+      "t": "14:00",
+      "v": 992.66
+    },
+    {
+      "t": "14:01",
+      "v": 934.59
+    },
+    {
+      "t": "14:02",
+      "v": 934.59
+    },
+    {
+      "t": "14:03",
+      "v": 992.63
+    },
+    {
+      "t": "14:04",
+      "v": 992.63
+    },
+    {
+      "t": "14:05",
+      "v": 992.62
     }
   ],
   "walletAssetsMap": {
@@ -1792,10 +1792,10 @@
     "WLD": 0.0814,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.1676,
-  "dustAssetsTry": 57.8,
+  "dustAssetsUsdt": 1.1717,
+  "dustAssetsTry": 58.03,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-22T09:44:21.163Z",
+    "updatedAt": "2026-10-22T11:05:21.448Z",
     "totalAnalyzedTrades": 36,
     "globalWR": 0.579,
     "coinStats": {
@@ -2470,18 +2470,29 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 992.38,
+    "totalNetWorthTry": 992.62,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
       "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %58.3 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-22T09:44:21.163Z"
+    "updatedAt": "2026-10-22T11:05:21.448Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254,
-  "noBuyShort": "🛡️ Raad ol, nakit kalkanı devrede: Piyasanın %96'u kırmızı (%4 yeşil) ve direkt pump haberi yok; 934,58 TL nakiti eritmemek için bekliyoruz.",
-  "noBuyDetail": "1) **Piyasa Kan Gölü (%4 Yeşil / %96 Kırmızı):** Altcoinlerin %96'u şu an düşüşte (1s BTC: %-0.31). 2) **%65 Nakit Koruma Zırhı (Quant v10.4):** Yeşil oranı %24'ün altındayken kasanın en az %65'i güvenli TRY nakitte tutulur (Maksimum Coin Tavanı: `327 TL`, Şu An Coinde: `0 TL`). 3) **Haber Filtresi (81 Haber Tarandı):** Taranan haberler içinde kırmızı piyasayı tek başına yenecek (`RS_ATR >= 1.2` ve `directMention = true`) nitelikli A+ haber sayısı: **0**. Piyasa yeşermeden veya gerçek bomba haber düşmeden sahte sinyale para sıkılmaz!",
-  "shadowPositions": [],
+  "noBuyShort": "🛡️ Raad ol, nakit kalkanı devrede: Piyasanın %96'u kırmızı (%4 yeşil) ve direkt pump haberi yok; 934,59 TL nakiti eritmemek için bekliyoruz.",
+  "noBuyDetail": "1) **Piyasa Kan Gölü (%4 Yeşil / %96 Kırmızı):** Altcoinlerin %96'u şu an düşüşte (1s BTC: %0.03). 2) **%65 Nakit Koruma Zırhı (Quant v10.4):** Yeşil oranı %24'ün altındayken kasanın en az %65'i güvenli TRY nakitte tutulur (Maksimum Coin Tavanı: `327 TL`, Şu An Coinde: `0 TL`). 3) **Haber Filtresi (108 Haber Tarandı):** Taranan haberler içinde kırmızı piyasayı tek başına yenecek (`RS_ATR >= 1.2` ve `directMention = true`) nitelikli A+ haber sayısı: **0**. Piyasa yeşermeden veya gerçek bomba haber düşmeden sahte sinyale para sıkılmaz!",
+  "shadowPositions": [
+    {
+      "symbol": "XRP",
+      "headline": "ABD Menkul Kıymetler ve Borsa Komisyonu (SEC), XRP hazinesinin 132 milyon dolarlık fon toplama başvurusunu onayladı. Karar, kripto para fonlaması için önemli bir adım ve XRP için a",
+      "priceSource": "GLOBAL_PROXY",
+      "spreadPct": 0.008,
+      "entryAsk": 1.3297,
+      "currentBid": 1.3277,
+      "highestBid": 1.3295,
+      "entryTime": "2026-10-22T11:00:06.434Z"
+    }
+  ],
   "shadowTrapMemory": {}
 }

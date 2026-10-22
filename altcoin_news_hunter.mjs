@@ -405,10 +405,24 @@ async function scanAllNewsFeeds() {
       ? Math.max(1.5, bullHits - bearHits * 0.3)
       : bullHits - bearHits;
 
-    if (netHeadlineSentiment <= 0.4) continue;
-    if (item.minutesAgo > 360) continue; // Reject stale news older than 6 hours (360 mins)
+    const isGenericPriceFluff =
+      (titleLower.includes('price update') ||
+        titleLower.includes('price prediction') ||
+        titleLower.includes('price analysis') ||
+        titleLower.includes('price forecast')) &&
+      !titleLower.includes('sec') &&
+      !titleLower.includes('etf') &&
+      !titleLower.includes('binance') &&
+      !titleLower.includes('upbit') &&
+      !titleLower.includes('launch') &&
+      !titleLower.includes('mainnet');
+    if (isGenericPriceFluff) continue;
 
-    const recencyWeight = item.minutesAgo <= 60 ? 1.9 : item.minutesAgo <= 180 ? 1.4 : 0.95;
+    if (netHeadlineSentiment <= 0.4) continue;
+    // Engine #25: Anti-Piggyback Freshness Alignment — Never allow >75m stale headlines to inflate newsScore or sit at headlines[0]!
+    if (item.minutesAgo > 75) continue;
+
+    const recencyWeight = item.minutesAgo <= 30 ? 2.0 : item.minutesAgo <= 60 ? 1.85 : 1.5;
     const srcWeight = item.sourceWeight || 1.0;
 
     for (const eco of ECOSYSTEM_GRAPH) {
@@ -437,9 +451,6 @@ async function scanAllNewsFeeds() {
           (netHeadlineSentiment * recencyWeight * srcWeight * (directMention ? 1.85 : 0.90)).toFixed(2)
         );
 
-        if (item.minutesAgo < entry.freshestMinutesAgo) {
-          entry.freshestMinutesAgo = item.minutesAgo;
-        }
         if (!entry.headlines.some(h => h.title === item.title)) {
           entry.headlines.push({
             source: item.source,
@@ -457,6 +468,8 @@ async function scanAllNewsFeeds() {
     const entry = altCatalysts[alt];
     entry.headlines.sort((a, b) => (b.directMention === a.directMention ? b.catalystPoints - a.catalystPoints : b.directMention ? 1 : -1));
     entry.hasDirectMention = entry.headlines.some(h => h.directMention === true);
+    // Bind freshestMinutesAgo strictly to the primary catalyst headline (headlines[0]) so stale headlines can never piggyback on a newer secondary article
+    entry.freshestMinutesAgo = entry.headlines[0]?.minutesAgo ?? 9999;
     const top3Headlines = entry.headlines.slice(0, 3);
     entry.newsScore = Number(top3Headlines.reduce((sum, h) => sum + h.catalystPoints, 0).toFixed(2));
   }
