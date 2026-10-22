@@ -264,15 +264,44 @@ function appendTradeTelemetry(pos, exitPrice, exitReason, netPnlUsdt, netPnlTry,
 
 function runAdaptiveLearningEngine(state) {
   const closed = state.closedTrades || [];
+  const openIds = new Set((state.openPositions || []).map(p => p.id).filter(Boolean));
   const coinStats = {};
   const sourceStats = {};
   const bucketStats = {};
   const lessons = [];
   let totalWins = 0;
 
+  // Group partial TP1/TP2 legs and final exits into single position lifecycles so 1 position = 1 Bernoulli observation
+  const lifecycleMap = new Map();
   for (const t of closed) {
     const sym = t.symbol;
     if (!sym) continue;
+    const posId = t.positionId || t.id || `${sym}_${t.entryPrice || 0}`;
+    if (openIds.has(posId)) continue; // Do not update learning on an still-open moonbag lifecycle
+    if (!lifecycleMap.has(posId)) {
+      lifecycleMap.set(posId, {
+        symbol: sym,
+        newsSource: t.newsSource || 'RSS',
+        breadthAtEntry: t.breadthAtEntry ?? 35,
+        entryPattern: t.entryPattern || 'STANDARD',
+        rsiAtEntry: t.rsiAtEntry,
+        takerBuyRatioPct: t.takerBuyRatioPct,
+        netPnlUsdt: 0,
+        netPnlTry: 0,
+      });
+    }
+    const lc = lifecycleMap.get(posId);
+    const pnlU = Number(t.netPnlUsdt || 0);
+    const pnlT = Number(t.netPnlTry ?? pnlU * USD_TRY_RATE);
+    lc.netPnlUsdt = Number((lc.netPnlUsdt + pnlU).toFixed(4));
+    lc.netPnlTry = Number((lc.netPnlTry + pnlT).toFixed(2));
+    if (!lc.rsiAtEntry && t.rsiAtEntry) lc.rsiAtEntry = t.rsiAtEntry;
+    if (!lc.takerBuyRatioPct && t.takerBuyRatioPct) lc.takerBuyRatioPct = t.takerBuyRatioPct;
+  }
+
+  const lifecycles = Array.from(lifecycleMap.values());
+  for (const t of lifecycles) {
+    const sym = t.symbol;
     if (!coinStats[sym]) {
       coinStats[sym] = {
         wins: 0,
@@ -290,8 +319,8 @@ function runAdaptiveLearningEngine(state) {
       };
     }
     const cs = coinStats[sym];
-    const pnlU = Number(t.netPnlUsdt || 0);
-    const pnlT = Number(t.netPnlTry ?? pnlU * USD_TRY_RATE);
+    const pnlU = t.netPnlUsdt;
+    const pnlT = t.netPnlTry;
     cs.netPnlUsdt = Number((cs.netPnlUsdt + pnlU).toFixed(4));
     cs.netPnlTry = Number((cs.netPnlTry + pnlT).toFixed(2));
 
@@ -321,7 +350,7 @@ function runAdaptiveLearningEngine(state) {
     }
   }
 
-  const globalWR = closed.length > 0 ? (totalWins + 1) / (closed.length + 2) : 0.60; // Beta(1,1) prior
+  const globalWR = lifecycles.length > 0 ? (totalWins + 1) / (lifecycles.length + 2) : 0.60; // Beta(1,1) prior over true lifecycles
   for (const [, bs] of Object.entries(bucketStats)) {
     const n = bs.wins + bs.losses;
     const betaWR = (bs.wins + 1) / (n + 2);
@@ -368,7 +397,7 @@ function runAdaptiveLearningEngine(state) {
 
   state.adaptiveMemory = {
     updatedAt: new Date().toISOString(),
-    totalAnalyzedTrades: closed.length,
+    totalAnalyzedTrades: lifecycles.length,
     globalWR: Number(globalWR.toFixed(3)),
     coinStats,
     sourceStats,
@@ -646,35 +675,77 @@ async function fetchJson(url, options = {}, timeoutMs = 5500) {
 
 async function getOrderbookQuotes(symbols) {
   if (symbols.length === 0) return {};
-  const wanted = new Set(symbols.map(s => `${s}USDT`));
+  const map = {};
+  const uniqueSyms = Array.from(new Set(symbols));
+
+  // Primary for small active sets (open positions / top candidates): fetch live Binance TR _TRY bestBid/bestAsk directly
+  if (uniqueSyms.length <= 12 && USD_TRY_RATE > 0) {
+    await Promise.all(
+      uniqueSyms.map(async sym => {
+        try {
+          const trDepth = await fetchJson(
+            `https://www.trbinance.com/open/v1/market/depth?symbol=${sym}_TRY&limit=5`,
+            {},
+            2200
+          );
+          const trBids = trDepth?.data?.bids || trDepth?.bids;
+          const trAsks = trDepth?.data?.asks || trDepth?.asks;
+          const bestBidTry = Number(trBids?.[0]?.[0] || 0);
+          const bestAskTry = Number(trAsks?.[0]?.[0] || 0);
+          if (bestBidTry > 0 && bestAskTry > 0) {
+            map[sym] = {
+              bestBid: Number((bestBidTry / USD_TRY_RATE).toPrecision(6)),
+              bestAsk: Number((bestAskTry / USD_TRY_RATE).toPrecision(6)),
+              bestBidTry,
+              bestAskTry,
+              priceSource: 'BINANCE_TR',
+            };
+          }
+        } catch {}
+      })
+    );
+  }
+
+  const missingSyms = uniqueSyms.filter(s => !map[s]);
+  if (missingSyms.length === 0) return map;
+
+  const wanted = new Set(missingSyms.map(s => `${s}USDT`));
   try {
     const param = JSON.stringify(Array.from(wanted));
     const list = await fetchJson(`${BINANCE_API}/ticker/bookTicker?symbols=${encodeURIComponent(param)}`, {}, 5000);
-    const map = {};
     for (const item of list) {
       const sym = item.symbol.replace(/USDT$/, '');
+      const bidU = Number(item.bidPrice);
+      const askU = Number(item.askPrice);
       map[sym] = {
-        bestBid: Number(item.bidPrice),
-        bestAsk: Number(item.askPrice),
+        bestBid: bidU,
+        bestAsk: askU,
+        bestBidTry: Number((bidU * USD_TRY_RATE).toFixed(4)),
+        bestAskTry: Number((askU * USD_TRY_RATE).toFixed(4)),
+        priceSource: 'GLOBAL_PROXY',
       };
     }
     return map;
   } catch {
     try {
       const allList = await fetchJson(`${BINANCE_API}/ticker/bookTicker`, {}, 7500);
-      const map = {};
       for (const item of allList) {
         if (wanted.has(item.symbol)) {
           const sym = item.symbol.replace(/USDT$/, '');
+          const bidU = Number(item.bidPrice);
+          const askU = Number(item.askPrice);
           map[sym] = {
-            bestBid: Number(item.bidPrice),
-            bestAsk: Number(item.askPrice),
+            bestBid: bidU,
+            bestAsk: askU,
+            bestBidTry: Number((bidU * USD_TRY_RATE).toFixed(4)),
+            bestAskTry: Number((askU * USD_TRY_RATE).toFixed(4)),
+            priceSource: 'GLOBAL_PROXY',
           };
         }
       }
       return map;
     } catch {
-      return {};
+      return map;
     }
   }
 }
@@ -859,8 +930,11 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
   pos.tp1Pct = tp1Pct;
   pos.tp2Pct = tp2Pct;
   if (!pos.initialCostUsdt) pos.initialCostUsdt = pos.costUsdt;
+  if (!pos.initialQty) pos.initialQty = pos.qty;
 
   const peakGainPct = pos.entryPrice > 0 ? ((pos.highestPrice - pos.entryPrice) / pos.entryPrice) * 100 : 0;
+  const posAgeMins = pos.entryTime ? (Date.now() - new Date(pos.entryTime).getTime()) / 60000 : 99;
+  const freshFlowPct = posAgeMins <= 15 ? (pos.last1hTakerBuyPct ?? pos.takerBuyRatioPct ?? 50) : (pos.takerBuyRatioPct ?? 50);
 
   // Stage 1 Profit Harvest (TP1: volatility-scaled 2.2% - 3.6%, triggered by peakGainPct with executable currentBid guard)
   if (
@@ -868,11 +942,10 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
     peakGainPct >= tp1Pct &&
     pos.unrealizedPnlPct >= Math.max(1.25, tp1Pct - 0.50)
   ) {
-    const isStrongCont = (pos.takerBuyRatioPct || 50) >= 54 && (pos.obImbalance || 0) >= 0 && (pos.rsAtr || 0) >= 1.2;
+    // Only grant 30% TP1 harvest (70% moonbag) when signal is fresh (<= 15m) and 1h flow + OB + RS_ATR confirm strong continuation
+    const isStrongCont = posAgeMins <= 15 && freshFlowPct >= 54 && (pos.obImbalance || 0) >= 0 && (pos.rsAtr || 0) >= 1.2;
     const tp1Fraction = isStrongCont ? 0.30 : 0.40;
-    const tp1LabelPct = Math.round(tp1Fraction * 100);
-    const remainLabelPct = 100 - tp1LabelPct;
-    let sellQty = Number((pos.qty * tp1Fraction).toPrecision(4));
+    let sellQty = Number((pos.initialQty * tp1Fraction).toPrecision(4));
     let orderOk = true;
     if (state.mode === 'LIVE_BINANCE') {
       const sellRes = await executeBinanceRealOrder(cfg, pos.symbol, 'SELL', sellQty);
@@ -884,7 +957,10 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
     }
     if (orderOk && sellQty > 0) {
       const remainQty = Number(Math.max(0, pos.qty - sellQty).toPrecision(4));
-      const soldCostUsdt = Number((pos.initialCostUsdt * tp1Fraction).toFixed(4));
+      const actualSoldFraction = pos.initialQty > 0 ? Math.min(1, sellQty / pos.initialQty) : tp1Fraction;
+      const tp1LabelPct = Math.round(actualSoldFraction * 100);
+      const remainLabelPct = Math.max(0, 100 - tp1LabelPct);
+      const soldCostUsdt = Number((pos.initialCostUsdt * actualSoldFraction).toFixed(4));
       const proceedsUsdt = Number((currentBid * sellQty).toFixed(4));
       const netPnlUsdt = Number((proceedsUsdt - soldCostUsdt).toFixed(4));
       const netPnlTry = Number((netPnlUsdt * USD_TRY_RATE).toFixed(2));
@@ -896,7 +972,14 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
       const exitReason = `💰 1. KADEME (%${tp1LabelPct}) SIFIR RİSK KÂR AL (+%${pos.unrealizedPnlPct} | Kalan %${remainLabelPct} Bedava Uçuşta)`;
       appendTradeTelemetry(pos, currentBid, exitReason, netPnlUsdt, netPnlTry, sellQty);
       state.closedTrades.unshift({
+        positionId: pos.id,
+        leg: 'TP1',
         symbol: pos.symbol,
+        newsSource: pos.newsSource,
+        entryPattern: pos.entryPattern,
+        breadthAtEntry: pos.breadthAtEntry,
+        rsiAtEntry: pos.rsiAtEntry,
+        takerBuyRatioPct: pos.takerBuyRatioPct,
         entryPrice: pos.entryPrice,
         exitPrice: currentBid,
         exitTime: new Date().toISOString(),
@@ -907,7 +990,7 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
       });
 
       pos.qty = remainQty;
-      pos.costUsdt = Number((pos.initialCostUsdt * (1 - tp1Fraction)).toFixed(4));
+      pos.costUsdt = Number(Math.max(0, pos.initialCostUsdt - soldCostUsdt).toFixed(4));
       pos.costTry = Math.round(pos.costUsdt * USD_TRY_RATE);
       pos.partialTpDone = true;
       pos.rocketMode = true;
@@ -926,14 +1009,15 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
     }
   }
 
-  // Stage 2 Profit Harvest (TP2: volatility-scaled 5.5% - 8.5% -> Sell half of remaining, leave Uncapped 30% Moonbag!)
+  // Stage 2 Profit Harvest (TP2: volatility-scaled 5.5% - 8.5% -> Always leave exact 30% of initialQty as Uncapped Moonbag!)
   if (
     pos.partialTpDone &&
     !pos.stage2TpDone &&
     peakGainPct >= tp2Pct &&
     pos.unrealizedPnlPct >= Math.max(3.8, tp2Pct - 0.80)
   ) {
-    let sellQty = Number((pos.qty * 0.50).toPrecision(4));
+    const targetMoonbagQty = Number((pos.initialQty * 0.30).toPrecision(4));
+    let sellQty = Number(Math.max(pos.qty * 0.45, pos.qty - targetMoonbagQty).toPrecision(4));
     let orderOk = true;
     if (state.mode === 'LIVE_BINANCE') {
       const sellRes = await executeBinanceRealOrder(cfg, pos.symbol, 'SELL', sellQty);
@@ -945,7 +1029,10 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
     }
     if (orderOk && sellQty > 0) {
       const remainQty = Number(Math.max(0, pos.qty - sellQty).toPrecision(4));
-      const soldCostUsdt = Number((pos.costUsdt * 0.50).toFixed(4));
+      const actualTp2FracOfInit = pos.initialQty > 0 ? Math.min(1, sellQty / pos.initialQty) : 0.30;
+      const remainFracOfInit = pos.initialQty > 0 ? Math.round((remainQty / pos.initialQty) * 100) : 30;
+      const tp2LabelPct = Math.round(actualTp2FracOfInit * 100);
+      const soldCostUsdt = Number(Math.min(pos.costUsdt, pos.initialCostUsdt * actualTp2FracOfInit).toFixed(4));
       const proceedsUsdt = Number((currentBid * sellQty).toFixed(4));
       const netPnlUsdt = Number((proceedsUsdt - soldCostUsdt).toFixed(4));
       const netPnlTry = Number((netPnlUsdt * USD_TRY_RATE).toFixed(2));
@@ -954,10 +1041,17 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
       state.realizedPnlUsdt = Number((state.realizedPnlUsdt + netPnlUsdt).toFixed(4));
       state.winCount++;
 
-      const exitReason = `🚀 2. KADEME (%30) DEV KÂR AL (+%${pos.unrealizedPnlPct} | Kalan %30 Sınırsız Roket)`;
+      const exitReason = `🚀 2. KADEME (%${tp2LabelPct}) DEV KÂR AL (+%${pos.unrealizedPnlPct} | Kalan %${remainFracOfInit} Sınırsız Roket)`;
       appendTradeTelemetry(pos, currentBid, exitReason, netPnlUsdt, netPnlTry, sellQty);
       state.closedTrades.unshift({
+        positionId: pos.id,
+        leg: 'TP2',
         symbol: pos.symbol,
+        newsSource: pos.newsSource,
+        entryPattern: pos.entryPattern,
+        breadthAtEntry: pos.breadthAtEntry,
+        rsiAtEntry: pos.rsiAtEntry,
+        takerBuyRatioPct: pos.takerBuyRatioPct,
         entryPrice: pos.entryPrice,
         exitPrice: currentBid,
         exitTime: new Date().toISOString(),
@@ -968,7 +1062,7 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
       });
 
       pos.qty = remainQty;
-      pos.costUsdt = Number((pos.costUsdt - soldCostUsdt).toFixed(4));
+      pos.costUsdt = Number(Math.max(0, pos.costUsdt - soldCostUsdt).toFixed(4));
       pos.costTry = Math.round(pos.costUsdt * USD_TRY_RATE);
       pos.stage2TpDone = true;
       pos.stopLossPrice = Math.max(
@@ -979,7 +1073,7 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
       pos.unrealizedPnlUsdt = Number(((currentBid - pos.entryPrice) * pos.qty).toFixed(4));
       logEvent(
         state,
-        `🚀 [2. KADEME DEV KÂR ALINDI] ${pos.symbol} +%${pos.unrealizedPnlPct} kârla satıldı (+${toTL(netPnlUsdt)} TL)! Son %30 sınırsız uçuşta!`
+        `🚀 [2. KADEME DEV KÂR ALINDI] ${pos.symbol} +%${pos.unrealizedPnlPct} kârla satıldı (+${toTL(netPnlUsdt)} TL)! Son %${remainFracOfInit} sınırsız uçuşta!`
       );
       harvested = true;
     }
@@ -1430,8 +1524,12 @@ async function runTradingCycle() {
         continue; // Skip stale news that already caused a loss
       }
 
-      const q = quotes[cand.symbol];
-      if (!q || !q.bestAsk) continue;
+      let q = quotes[cand.symbol];
+      if (state.mode === 'LIVE_BINANCE' && (!q || q.priceSource !== 'BINANCE_TR')) {
+        const freshTrQuotes = await getOrderbookQuotes([cand.symbol]);
+        if (freshTrQuotes[cand.symbol]) q = freshTrQuotes[cand.symbol];
+      }
+      if (!q || !q.bestAsk || (state.mode === 'LIVE_BINANCE' && q.priceSource !== 'BINANCE_TR')) continue;
 
       let trRule = null;
       if (state.mode === 'LIVE_BINANCE') {
@@ -1508,12 +1606,17 @@ async function runTradingCycle() {
         rsiAtEntry: cand.rsi1h,
         atr1hPct: cand.atr1hPct || 2.2,
         takerBuyRatioPct: cand.takerBuyRatioPct || 50,
+        last1hTakerBuyPct: cand.last1hTakerBuyPct ?? cand.takerBuyRatioPct ?? 50,
         obImbalance,
         entryTime: new Date().toISOString(),
         entryPrice: buyPrice,
+        entryPriceTry: q.bestAskTry || Number((buyPrice * USD_TRY_RATE).toFixed(4)),
+        priceSource: q.priceSource || 'BINANCE_TR',
         currentPrice: q.bestBid || buyPrice,
         highestPrice: buyPrice,
         qty,
+        initialQty: qty,
+        initialCostUsdt: Number((buyPrice * qty).toFixed(4)),
         costUsdt: Number((buyPrice * qty).toFixed(4)),
         costTry: Math.round(buyPrice * qty * USD_TRY_RATE),
         riskBudgetTry,

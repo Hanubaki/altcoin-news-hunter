@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-22T06:31:01.156Z",
+  "updatedAt": "2026-10-22T07:05:23.530Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.1898,
@@ -25,7 +25,7 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-22T04:50:59.199Z",
       "entryPrice": 264.9,
-      "currentPrice": 263.3,
+      "currentPrice": 262.75,
       "highestPrice": 266.2,
       "qty": 0.0162674,
       "costUsdt": 4.3092,
@@ -38,15 +38,16 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.026,
-      "unrealizedPnlPct": -0.6,
-      "currentPriceTry": 13041.249,
-      "currentValueTry": 212.15,
+      "unrealizedPnlUsdt": -0.035,
+      "unrealizedPnlPct": -0.81,
+      "currentPriceTry": 13014.0075,
+      "currentValueTry": 211.7,
       "stopHitCount": 0,
       "firstStopHitAt": 0,
       "tp1Pct": 2.2,
       "tp2Pct": 5.5,
-      "initialCostUsdt": 4.3092
+      "initialCostUsdt": 4.3092,
+      "initialQty": 0.0162674
     }
   ],
   "closedTrades": [
@@ -1339,10 +1340,10 @@
     "[18:12:09] ⚡ [AKILLI ROTASYON] INJ kapatıldı, yerine 94.6 puanlık dev fırsat (RAY) alınıyor!",
     "[18:11:09] 🎰 [VURGUN SLOTU AÇILDI] THETA (164,24 TL) @ $0.2073 | Hedef: +%18 | RSI: 40.54 | Balina: %57.5 | SL: -%2.4"
   ],
-  "totalEquityUsdt": 20.0824,
-  "totalEquityTry": 994.68,
-  "totalPnlUsdt": -0.1074,
-  "totalPnlPct": -0.53,
+  "totalEquityUsdt": 20.0705,
+  "totalEquityTry": 994.09,
+  "totalPnlUsdt": -0.1193,
+  "totalPnlPct": -0.59,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -1360,136 +1361,8 @@
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
   "usdTryRate": 49.53,
-  "totalPnlTry": -5.32,
+  "totalPnlTry": -5.91,
   "equityHistory": [
-    {
-      "t": "07:57",
-      "v": 1001.16
-    },
-    {
-      "t": "07:58",
-      "v": 1001.46
-    },
-    {
-      "t": "07:59",
-      "v": 1001.69
-    },
-    {
-      "t": "08:00",
-      "v": 1002.14
-    },
-    {
-      "t": "08:01",
-      "v": 1002.36
-    },
-    {
-      "t": "08:02",
-      "v": 1002.88
-    },
-    {
-      "t": "08:03",
-      "v": 1002.99
-    },
-    {
-      "t": "08:04",
-      "v": 1002.7
-    },
-    {
-      "t": "08:05",
-      "v": 1001.29
-    },
-    {
-      "t": "08:06",
-      "v": 1001.9
-    },
-    {
-      "t": "08:07",
-      "v": 1001.71
-    },
-    {
-      "t": "08:08",
-      "v": 1000.5
-    },
-    {
-      "t": "08:09",
-      "v": 1002.13
-    },
-    {
-      "t": "08:10",
-      "v": 1001.26
-    },
-    {
-      "t": "08:11",
-      "v": 1001.19
-    },
-    {
-      "t": "08:12",
-      "v": 1000.86
-    },
-    {
-      "t": "08:13",
-      "v": 1000.61
-    },
-    {
-      "t": "08:13",
-      "v": 999.3
-    },
-    {
-      "t": "08:14",
-      "v": 999
-    },
-    {
-      "t": "08:15",
-      "v": 998.26
-    },
-    {
-      "t": "08:16",
-      "v": 998.31
-    },
-    {
-      "t": "08:17",
-      "v": 997.64
-    },
-    {
-      "t": "08:18",
-      "v": 997.67
-    },
-    {
-      "t": "08:18",
-      "v": 998.84
-    },
-    {
-      "t": "08:19",
-      "v": 997.83
-    },
-    {
-      "t": "08:20",
-      "v": 997.48
-    },
-    {
-      "t": "08:21",
-      "v": 997.95
-    },
-    {
-      "t": "08:22",
-      "v": 997.72
-    },
-    {
-      "t": "08:23",
-      "v": 997.2
-    },
-    {
-      "t": "08:24",
-      "v": 996.66
-    },
-    {
-      "t": "08:25",
-      "v": 997.52
-    },
-    {
-      "t": "08:26",
-      "v": 998.01
-    },
     {
       "t": "08:27",
       "v": 998.17
@@ -1745,6 +1618,134 @@
     {
       "t": "09:31",
       "v": 994.68
+    },
+    {
+      "t": "09:31",
+      "v": 994.12
+    },
+    {
+      "t": "09:35",
+      "v": 994
+    },
+    {
+      "t": "09:36",
+      "v": 994.35
+    },
+    {
+      "t": "09:37",
+      "v": 994.28
+    },
+    {
+      "t": "09:38",
+      "v": 994.37
+    },
+    {
+      "t": "09:39",
+      "v": 994.3
+    },
+    {
+      "t": "09:40",
+      "v": 994.11
+    },
+    {
+      "t": "09:41",
+      "v": 994.46
+    },
+    {
+      "t": "09:42",
+      "v": 994.48
+    },
+    {
+      "t": "09:43",
+      "v": 994.47
+    },
+    {
+      "t": "09:44",
+      "v": 994.48
+    },
+    {
+      "t": "09:45",
+      "v": 994.55
+    },
+    {
+      "t": "09:46",
+      "v": 994.29
+    },
+    {
+      "t": "09:47",
+      "v": 994.35
+    },
+    {
+      "t": "09:48",
+      "v": 994.36
+    },
+    {
+      "t": "09:49",
+      "v": 994.57
+    },
+    {
+      "t": "09:50",
+      "v": 994.42
+    },
+    {
+      "t": "09:51",
+      "v": 994.42
+    },
+    {
+      "t": "09:52",
+      "v": 994.32
+    },
+    {
+      "t": "09:53",
+      "v": 994.62
+    },
+    {
+      "t": "09:54",
+      "v": 994.63
+    },
+    {
+      "t": "09:55",
+      "v": 994.63
+    },
+    {
+      "t": "09:56",
+      "v": 994.66
+    },
+    {
+      "t": "09:57",
+      "v": 994.39
+    },
+    {
+      "t": "09:58",
+      "v": 994.29
+    },
+    {
+      "t": "09:59",
+      "v": 994.29
+    },
+    {
+      "t": "10:00",
+      "v": 994.3
+    },
+    {
+      "t": "10:01",
+      "v": 994.68
+    },
+    {
+      "t": "10:02",
+      "v": 994.47
+    },
+    {
+      "t": "10:03",
+      "v": 994.3
+    },
+    {
+      "t": "10:04",
+      "v": 994.02
+    },
+    {
+      "t": "10:05",
+      "v": 994.09
     }
   ],
   "walletAssetsMap": {
@@ -1779,10 +1780,10 @@
     "WLD": 0.0814,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.1615,
-  "dustAssetsTry": 57.53,
+  "dustAssetsUsdt": 1.1584,
+  "dustAssetsTry": 57.38,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-22T06:31:01.147Z",
+    "updatedAt": "2026-10-22T07:05:23.527Z",
     "totalAnalyzedTrades": 35,
     "globalWR": 0.595,
     "coinStats": {
@@ -2438,13 +2439,13 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 994.68,
+    "totalNetWorthTry": 994.09,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
       "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %60 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-22T06:31:01.156Z"
+    "updatedAt": "2026-10-22T07:05:23.530Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254
