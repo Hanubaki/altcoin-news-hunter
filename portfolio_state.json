@@ -1,15 +1,16 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-22T07:41:10.063Z",
+  "updatedAt": "2026-10-22T07:54:33.073Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
-  "initialBankrollUsdt": 20.1898,
+  "initialBankrollUsdt": 20.202,
   "initialBankrollTry": 1000,
-  "cashUsdt": 14.6377,
-  "realizedPnlUsdt": 0.4903,
+  "cashUsdt": 18.8805,
+  "realizedPnlUsdt": 0.4414,
   "winCount": 21,
-  "lossCount": 14,
-  "openPositions": [
+  "lossCount": 15,
+  "openPositions": [],
+  "closedTrades": [
     {
       "id": "pos_1792644659199_TAO",
       "symbol": "TAO",
@@ -25,11 +26,11 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-22T04:50:59.199Z",
       "entryPrice": 264.9,
-      "currentPrice": 262.386,
+      "currentPrice": 261.879,
       "highestPrice": 266.2,
-      "qty": 0.0162674,
-      "costUsdt": 4.3092,
-      "costTry": 213.43,
+      "qty": 0.0162,
+      "costUsdt": 4.2914,
+      "costTry": 213.31,
       "takeProfitPrice": 276.82,
       "stopLossPrice": 260.93,
       "tpPct": 4.5,
@@ -38,24 +39,29 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0409,
-      "unrealizedPnlPct": -0.95,
-      "currentPriceTry": 12995.9786,
-      "currentValueTry": 211.41,
+      "unrealizedPnlUsdt": -0.0491,
+      "unrealizedPnlPct": -1.14,
+      "currentPriceTry": 12944.9925,
+      "currentValueTry": 210.58,
       "stopHitCount": 0,
       "firstStopHitAt": 0,
       "tp1Pct": 2.2,
       "tp2Pct": 5.5,
       "initialCostUsdt": 4.3092,
       "initialQty": 0.0162674,
-      "currentBidTry": 12996,
-      "currentAskTry": 13002,
-      "liveObImbalance": 0.5,
-      "holdReason": "🧐 **DÜŞERKEN NEDEN SATMIYOR? (170 dk'dır açık):** 1) **Nefes Payı İçinde:** Şu an `%-0.95` (`-2.03 TL`) seviyesinde; kesin Stop-Loss çizgimiz olan `$260.93` (`-%1.5` = `-3.2 TL` maksimum risk sınırı) seviyesine henüz **`%0.55` mesafe** var. 2) **Tahta & Dip Filtresi:** Giriş RSI `24.09` (dip bölgesi), balina alıcı oranı `%54.2` ve canlı Binance TR tahtası **Alıcı Ağırlıklı (+0.50)** olduğu için normal silkeleme iğnesinde erken panik satışı yapılmıyor. 3) **Ne Zaman Satacak?:** Fiyat `$260.93` altına inip 3 sn kalırsa **VEYA** tahta dengesi `-0.20` altına bozulursa (Erken Tahliye) saniyesinde otomatik satılacak!",
-      "holdShort": "😎 Raad ol, kontrol bende: Alıcılar TR tahtasını tutuyor, stopa %0.55 nefes payı var."
-    }
-  ],
-  "closedTrades": [
+      "currentBidTry": 12963,
+      "currentAskTry": 12971,
+      "liveObImbalance": -0.36,
+      "holdReason": "🧐 **DÜŞERKEN NEDEN SATMIYOR? (181 dk'dır açık):** 1) **Nefes Payı İçinde:** Şu an `%-1.28` (`-2.73 TL`) seviyesinde; kesin Stop-Loss çizgimiz olan `$260.93` (`-%1.5` = `-3.2 TL` maksimum risk sınırı) seviyesine henüz **`%0.22` mesafe** var. 2) **Tahta & Dip Filtresi:** Giriş RSI `24.09` (dip bölgesi), balina alıcı oranı `%54.2` ve canlı Binance TR tahtası **Alıcı Ağırlıklı (+0.37)** olduğu için normal silkeleme iğnesinde erken panik satışı yapılmıyor. 3) **Ne Zaman Satacak?:** Fiyat `$260.93` altına inip 3 sn kalırsa **VEYA** tahta dengesi `-0.20` altına bozulursa (Erken Tahliye) saniyesinde otomatik satılacak!",
+      "holdShort": "😎 Raad ol, kontrol bende: Alıcılar TR tahtasını tutuyor, stopa %0.22 nefes payı var.",
+      "positionId": "pos_1792644659199_TAO",
+      "leg": "FINAL",
+      "exitPrice": 261.879,
+      "exitTime": "2026-10-22T07:52:36.575Z",
+      "exitReason": "🛡️ BAYATLAYAN İVME & SATIŞ BASKISI ERKEN TAHLİYESİ (182dk Tepkisiz + Tahta -0.36 -> Stop Beklenmeden Çıkıldı %-1.14)",
+      "netPnlUsdt": -0.0489,
+      "netPnlTry": -2.42
+    },
     {
       "id": "pos_1792634674904_LTC",
       "symbol": "LTC",
@@ -1304,6 +1310,7 @@
     }
   ],
   "recentLogs": [
+    "[10:52:36] 🏁 [POZİSYON KAPANDI] TAO @ $261.879 | 🛡️ BAYATLAYAN İVME & SATIŞ BASKISI ERKEN TAHLİYESİ (182dk Tepkisiz + Tahta -0.36 -> Stop Beklenmeden Çıkıldı %-1.14) | Net: -2,42 TL",
     "[08:56:08] 🏁 [POZİSYON KAPANDI] LTC @ $60.19 | 🛡️ ATR KORUMA KALKANI (%-1.51) | Net: -3,50 TL",
     "[08:29:12] ⚠️ Haber tarayıcı uyarısı: fetch failed",
     "[08:19:33] 🏁 [POZİSYON KAPANDI] PNUT @ $0.0441 | 🛡️ ATR KORUMA KALKANI (%-1.78) | Net: -4,69 TL",
@@ -1342,13 +1349,12 @@
     "[19:02:22] 🟢 [OTOMATİK ALIM] UNI (372,85 TL) @ $7.605 | Skor: 93.5 | RSI: 48.44 | Balina: %53.7 | SL: -%2.31",
     "[18:33:53] ⚡ [AKILLI ROTASYON] EDU kapatıldı, yerine 106.4 puanlık dev fırsat (ALGO) alınıyor!",
     "[18:12:12] 🟢 [OTOMATİK ALIM] RAY (315,62 TL) @ $1.9967 | Skor: 94.6 | RSI: 49.83 | Balina: %53.2 | SL: -%2",
-    "[18:12:09] ⚡ [AKILLI ROTASYON] INJ kapatıldı, yerine 94.6 puanlık dev fırsat (RAY) alınıyor!",
-    "[18:11:09] 🎰 [VURGUN SLOTU AÇILDI] THETA (164,24 TL) @ $0.2073 | Hedef: +%18 | RSI: 40.54 | Balina: %57.5 | SL: -%2.4"
+    "[18:12:09] ⚡ [AKILLI ROTASYON] INJ kapatıldı, yerine 94.6 puanlık dev fırsat (RAY) alınıyor!"
   ],
-  "totalEquityUsdt": 20.0656,
-  "totalEquityTry": 993.85,
-  "totalPnlUsdt": -0.1242,
-  "totalPnlPct": -0.61,
+  "totalEquityUsdt": 20.0578,
+  "totalEquityTry": 992.86,
+  "totalPnlUsdt": -0.1442,
+  "totalPnlPct": -0.71,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -1359,67 +1365,16 @@
     "HBAR": 1792657688598,
     "CAKE": 1792667968113,
     "PNUT": 1792667968113,
-    "LTC": 1792670165421
+    "LTC": 1792670165421,
+    "TAO": 1792677153218
   },
-  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0077 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 0.8140 | ICP: 0.0002 | INJ: 0.0075 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0008 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 0.0628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TAO: 0.0163 | THETA: 0.0680 | TIA: 0.0058 | TRY: 725.0048 | UNI: 0.0080 | WLD: 0.0814 | ZRO: 0.0037)",
-  "lastWhatsAppReportAt": 1792648571102,
+  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0077 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 0.8140 | ICP: 0.0002 | INJ: 0.0075 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0008 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 0.0628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TAO: 0.0001 | THETA: 0.0680 | TIA: 0.0058 | TRY: 934.5854 | UNI: 0.0080 | WLD: 0.0814 | ZRO: 0.0037)",
+  "lastWhatsAppReportAt": 1792655635554,
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
-  "usdTryRate": 49.53,
-  "totalPnlTry": -6.15,
+  "usdTryRate": 49.5,
+  "totalPnlTry": -7.14,
   "equityHistory": [
-    {
-      "t": "08:59",
-      "v": 995.06
-    },
-    {
-      "t": "09:00",
-      "v": 994.75
-    },
-    {
-      "t": "09:01",
-      "v": 994.84
-    },
-    {
-      "t": "09:02",
-      "v": 995.13
-    },
-    {
-      "t": "09:03",
-      "v": 994.46
-    },
-    {
-      "t": "09:04",
-      "v": 994.83
-    },
-    {
-      "t": "09:05",
-      "v": 995.02
-    },
-    {
-      "t": "09:06",
-      "v": 995.12
-    },
-    {
-      "t": "09:07",
-      "v": 995.35
-    },
-    {
-      "t": "09:08",
-      "v": 995.74
-    },
-    {
-      "t": "09:09",
-      "v": 995.43
-    },
-    {
-      "t": "09:10",
-      "v": 995.14
-    },
-    {
-      "t": "09:11",
-      "v": 994.94
-    },
     {
       "t": "09:12",
       "v": 995.04
@@ -1751,6 +1706,58 @@
     {
       "t": "10:41",
       "v": 993.85
+    },
+    {
+      "t": "10:42",
+      "v": 993.71
+    },
+    {
+      "t": "10:43",
+      "v": 993.64
+    },
+    {
+      "t": "10:44",
+      "v": 993.42
+    },
+    {
+      "t": "10:45",
+      "v": 993.51
+    },
+    {
+      "t": "10:46",
+      "v": 993.62
+    },
+    {
+      "t": "10:47",
+      "v": 993.52
+    },
+    {
+      "t": "10:48",
+      "v": 993.21
+    },
+    {
+      "t": "10:49",
+      "v": 993.15
+    },
+    {
+      "t": "10:50",
+      "v": 993.03
+    },
+    {
+      "t": "10:51",
+      "v": 992.86
+    },
+    {
+      "t": "10:52",
+      "v": 992.86
+    },
+    {
+      "t": "10:53",
+      "v": 992.84
+    },
+    {
+      "t": "10:54",
+      "v": 992.86
     }
   ],
   "walletAssetsMap": {
@@ -1777,21 +1784,39 @@
     "SAND": 0.0674,
     "SEI": 0.0926,
     "STX": 0.07,
-    "TAO": 0.0162674,
+    "TAO": 0.0000674,
     "THETA": 0.068,
     "TIA": 0.00578,
-    "TRY": 725.0047616,
+    "TRY": 934.5853604,
     "UNI": 0.00804,
     "WLD": 0.0814,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.1596,
-  "dustAssetsTry": 57.43,
+  "dustAssetsUsdt": 1.1772,
+  "dustAssetsTry": 58.27,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-22T07:41:10.063Z",
-    "totalAnalyzedTrades": 35,
-    "globalWR": 0.595,
+    "updatedAt": "2026-10-22T07:54:33.073Z",
+    "totalAnalyzedTrades": 36,
+    "globalWR": 0.579,
     "coinStats": {
+      "TAO": {
+        "wins": 0,
+        "losses": 1,
+        "netPnlUsdt": -0.0489,
+        "netPnlTry": -2.42,
+        "lossRsis": [
+          24.09
+        ],
+        "lossWhales": [
+          54.2
+        ],
+        "winRsis": [],
+        "winWhales": [],
+        "scoreMod": -1,
+        "maxRsi": 65,
+        "minWhale": 51.5,
+        "lessonNote": "🛑 HATA OTOPSİSİ (Bayes n=1): TAO işleminde ort. RSI 24.1 (-2.42 TL). Bayes Cezası: -1p (RSI Tavanı <= 65)."
+      },
       "LTC": {
         "wins": 0,
         "losses": 1,
@@ -2284,16 +2309,16 @@
       }
     },
     "sourceStats": {
+      "Decrypt": {
+        "wins": 1,
+        "losses": 1,
+        "netPnlUsdt": 0.0421,
+        "scoreMod": 0
+      },
       "ShortSqueezeRadar": {
         "wins": 8,
         "losses": 9,
         "netPnlUsdt": 0.1455,
-        "scoreMod": 0
-      },
-      "Decrypt": {
-        "wins": 1,
-        "losses": 0,
-        "netPnlUsdt": 0.091,
         "scoreMod": 0
       },
       "WhaleOrderflowRadar": {
@@ -2334,64 +2359,65 @@
       }
     },
     "bucketStats": {
+      "Decrypt:NEUTRAL:STANDARD": {
+        "wins": 1,
+        "losses": 1,
+        "netPnlTry": 2.08,
+        "posteriorWR": 0.563,
+        "scoreMod": 0
+      },
       "ShortSqueezeRadar:NEUTRAL:STANDARD": {
         "wins": 8,
         "losses": 9,
         "netPnlTry": 7.15,
-        "posteriorWR": 0.512,
+        "posteriorWR": 0.507,
         "scoreMod": -2
-      },
-      "Decrypt:NEUTRAL:STANDARD": {
-        "wins": 1,
-        "losses": 0,
-        "netPnlTry": 4.5,
-        "posteriorWR": 0.603,
-        "scoreMod": 0
       },
       "WhaleOrderflowRadar:NEUTRAL:STANDARD": {
         "wins": 2,
         "losses": 2,
         "netPnlTry": -9.58,
-        "posteriorWR": 0.563,
+        "posteriorWR": 0.553,
         "scoreMod": 0
       },
       "CoinTelegraph:NEUTRAL:STANDARD": {
         "wins": 2,
         "losses": 3,
         "netPnlTry": 1.01,
-        "posteriorWR": 0.531,
+        "posteriorWR": 0.521,
         "scoreMod": 0
       },
       "BinanceListingSniper:NEUTRAL:STANDARD": {
         "wins": 2,
         "losses": 0,
         "netPnlTry": 5.94,
-        "posteriorWR": 0.626,
+        "posteriorWR": 0.613,
         "scoreMod": 0
       },
       "RSS:NEUTRAL:STANDARD": {
         "wins": 3,
         "losses": 0,
         "netPnlTry": 12.36,
-        "posteriorWR": 0.651,
+        "posteriorWR": 0.639,
         "scoreMod": 0
       },
       "BeInCrypto:NEUTRAL:STANDARD": {
         "wins": 2,
         "losses": 0,
         "netPnlTry": 2.12,
-        "posteriorWR": 0.626,
+        "posteriorWR": 0.613,
         "scoreMod": 0
       },
       "CryptoPotato:NEUTRAL:STANDARD": {
         "wins": 1,
         "losses": 0,
         "netPnlTry": 0.53,
-        "posteriorWR": 0.603,
+        "posteriorWR": 0.589,
         "scoreMod": 0
       }
     },
     "lessons": [
+      "🛑 HATA OTOPSİSİ (Bayes n=1): TAO işleminde ort. RSI 24.1 (-2.42 TL). Bayes Cezası: -1p (RSI Tavanı <= 65).",
       "🛑 HATA OTOPSİSİ (Bayes n=1): LTC işleminde ort. RSI 36.1 (-3.5 TL). Bayes Cezası: -1p (RSI Tavanı <= 65).",
       "🛑 HATA OTOPSİSİ (Bayes n=1): PNUT işleminde ort. RSI 40.0 (-4.69 TL). Bayes Cezası: -1p (RSI Tavanı <= 65).",
       "✅ BAŞARI HAFIZASI (Bayes n=3): CAKE (2 Kâr / 1 Zarar, Net +6.09 TL) -> Konsey Skor Bonusu +2 puan.",
@@ -2444,16 +2470,16 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 993.85,
+    "totalNetWorthTry": 992.86,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
-      "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %60 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
+      "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %58.3 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-22T07:41:10.063Z"
+    "updatedAt": "2026-10-22T07:54:33.073Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254,
-  "noBuyShort": "🛡️ Raad ol, nakit kalkanı devrede: Piyasanın %99'u kırmızı (%1 yeşil) ve direkt pump haberi yok; 725,01 TL nakiti eritmemek için bekliyoruz.",
-  "noBuyDetail": "1) **Piyasa Kan Gölü (%1 Yeşil / %99 Kırmızı):** Altcoinlerin %99'u şu an düşüşte (1s BTC: %-0.33). 2) **%65 Nakit Koruma Zırhı (Quant v10.4):** Yeşil oranı %24'ün altındayken kasanın en az %65'i güvenli TRY nakitte tutulur (Maksimum Coin Tavanı: `328 TL`, Şu An Coinde: `211 TL`). 3) **Haber Filtresi (99 Haber Tarandı):** Taranan haberler içinde kırmızı piyasayı tek başına yenecek (`RS_ATR >= 1.2` ve `directMention = true`) nitelikli A+ haber sayısı: **0**. Piyasa yeşermeden veya gerçek bomba haber düşmeden sahte sinyale para sıkılmaz!"
+  "noBuyShort": "🛡️ Raad ol, nakit kalkanı devrede: Piyasanın %99'u kırmızı (%1 yeşil) ve direkt pump haberi yok; 934,58 TL nakiti eritmemek için bekliyoruz.",
+  "noBuyDetail": "1) **Piyasa Kan Gölü (%1 Yeşil / %99 Kırmızı):** Altcoinlerin %99'u şu an düşüşte (1s BTC: %-0.35). 2) **%65 Nakit Koruma Zırhı (Quant v10.4):** Yeşil oranı %24'ün altındayken kasanın en az %65'i güvenli TRY nakitte tutulur (Maksimum Coin Tavanı: `327 TL`, Şu An Coinde: `0 TL`). 3) **Haber Filtresi (100 Haber Tarandı):** Taranan haberler içinde kırmızı piyasayı tek başına yenecek (`RS_ATR >= 1.2` ve `directMention = true`) nitelikli A+ haber sayısı: **0**. Piyasa yeşermeden veya gerçek bomba haber düşmeden sahte sinyale para sıkılmaz!"
 }

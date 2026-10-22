@@ -1333,8 +1333,13 @@ async function runTradingCycle() {
       exitReason = `🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — +%${pos.unrealizedPnlPct})`;
     } else if (!pos.partialTpDone && minsHeld >= 45 && pos.unrealizedPnlPct <= 0.1 && pos.unrealizedPnlPct >= -0.60 && liveObForScratch < -0.25 && latestSig && latestSig.takerBuyRatioPct < 45) {
       exitReason = `🛡️ SIFIR RİSK ERKEN TAHLİYE (İvme Zayıfladı, Başa Baş Noktasında Çıkıldı %${pos.unrealizedPnlPct})`;
-    } else if (!pos.partialTpDone && minsHeld >= 90 && peakGainPct < 1.2 && pos.unrealizedPnlPct <= -0.35 && liveObForScratch <= -0.20) {
-      exitReason = `🛡️ BAYATLAYAN İVME & SATIŞ BASKISI ERKEN TAHLİYESİ (${Math.round(minsHeld)}dk Tepkisiz + Tahta ${liveObForScratch} -> Stop Beklenmeden Çıkıldı %${pos.unrealizedPnlPct})`;
+    } else if (
+      !pos.partialTpDone &&
+      ((minsHeld >= 75 && peakGainPct < 1.0 && pos.unrealizedPnlPct <= -0.55) ||
+        (minsHeld >= 45 && peakGainPct < 0.8 && pos.unrealizedPnlPct <= -0.80 && (signalsData.marketBreadthPct ?? 50) < 20) ||
+        (minsHeld >= 90 && peakGainPct < 1.2 && pos.unrealizedPnlPct <= -0.35 && liveObForScratch <= -0.20))
+    ) {
+      exitReason = `🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (${Math.round(minsHeld)}dk Tepkisiz + Stop Beklenmeden Zarar Küçültüldü %${pos.unrealizedPnlPct})`;
     } else if (pos.partialTpDone && hoursHeld >= 4.5 && pos.unrealizedPnlPct >= 1.5 && (pos.atr1hPct || 1.5) < 1.0 && currentBid <= pos.highestPrice * 0.996) {
       exitReason = `💰 HIZLI KÂR HASADI & ROTASYON (Yavaşlayan Kârlı Coin Cebe Alındı +%${pos.unrealizedPnlPct})`;
     } else if (pos.isMoonshot) {
