@@ -669,7 +669,16 @@ function calcATRPct(klines, period = 14) {
  */
 function analyzeWhaleAndCandleFlow(klines) {
   if (!Array.isArray(klines) || klines.length < 3) {
-    return { takerBuyRatio: 0.5, last1hTakerBuy: 0.5, isGreenBounce: false, aboveVwap: true, vwap24h: 0 };
+    return {
+      takerBuyRatio: 0.5,
+      last1hTakerBuy: 0.5,
+      last1hQuoteVolUsd: 0,
+      takerFlowDecel: 0,
+      amihudIlliquidity: 1.0,
+      isGreenBounce: false,
+      aboveVwap: true,
+      vwap24h: 0,
+    };
   }
   // Analyze last 3 hours of taker buy volume vs total quote volume
   const recent = klines.slice(-3);
@@ -681,23 +690,36 @@ function analyzeWhaleAndCandleFlow(klines) {
   }
   const takerBuyRatio = totalQuoteVol > 0 ? Number((takerBuyQuoteVol / totalQuoteVol).toFixed(3)) : 0.5;
 
-  // Compute 24h Institutional VWAP (Volume-Weighted Average Price)
+  // Compute 24h Institutional VWAP (Volume-Weighted Average Price) + True Amihud Illiquidity Ratio (|ret_1h%| / $1M quoteVol)
   const slice24 = klines.slice(-24);
   let sumBaseVol = 0;
   let sumQuoteVol = 0;
+  let amihudSum = 0;
+  let amihudCount = 0;
   for (const k of slice24) {
+    const kOpen = Number(k[1] || 0);
+    const kClose = Number(k[4] || 0);
+    const kQuoteVol = Number(k[7] || 0);
     sumBaseVol += Number(k[5] || 0);
-    sumQuoteVol += Number(k[7] || 0);
+    sumQuoteVol += kQuoteVol;
+    if (kOpen > 0 && kQuoteVol >= 10000) {
+      const absRetPct = (Math.abs(kClose - kOpen) / kOpen) * 100;
+      const volMillions = kQuoteVol / 1000000;
+      amihudSum += absRetPct / volMillions;
+      amihudCount++;
+    }
   }
+  const amihudIlliquidity = amihudCount > 0 ? Number((amihudSum / amihudCount).toFixed(3)) : 1.0;
   const last = klines[klines.length - 1];
   const close = Number(last[4]);
   const vwap24h = sumBaseVol > 0 ? Number((sumQuoteVol / sumBaseVol).toPrecision(5)) : close;
   const aboveVwap = close >= vwap24h * 0.993;
 
-  // Latest 1h whale acceleration
+  // Latest 1h whale acceleration & sample volume
   const last1hQuote = Number(last[7] || 0);
   const last1hTaker = Number(last[10] || 0);
   const last1hTakerBuy = last1hQuote > 0 ? Number((last1hTaker / last1hQuote).toFixed(3)) : takerBuyRatio;
+  const takerFlowDecel = Number((takerBuyRatio - last1hTakerBuy).toFixed(3));
 
   // Check if latest candle is turning green or bouncing strongly off its low
   const open = Number(last[1]);
@@ -707,7 +729,16 @@ function analyzeWhaleAndCandleFlow(klines) {
   const closePositionInRange = (close - low) / range;
   const isGreenBounce = close >= open || closePositionInRange >= 0.55;
 
-  return { takerBuyRatio, last1hTakerBuy, isGreenBounce, aboveVwap, vwap24h };
+  return {
+    takerBuyRatio,
+    last1hTakerBuy,
+    last1hQuoteVolUsd: Math.round(last1hQuote),
+    takerFlowDecel,
+    amihudIlliquidity,
+    isGreenBounce,
+    aboveVwap,
+    vwap24h,
+  };
 }
 
 async function main() {
@@ -834,7 +865,16 @@ async function main() {
     const { adx, ema20AboveEma50, regime } = calcADXAndRegime(klines, closes);
     const hasRsiDivergence = detectRSIDivergence(closes);
     const { support, resistance, roomToResistancePct } = calcSupportResistance(klines, mkt.lastPrice);
-    const { takerBuyRatio, last1hTakerBuy, isGreenBounce, aboveVwap, vwap24h } = analyzeWhaleAndCandleFlow(klines);
+    const {
+      takerBuyRatio,
+      last1hTakerBuy,
+      last1hQuoteVolUsd,
+      takerFlowDecel,
+      amihudIlliquidity,
+      isGreenBounce,
+      aboveVwap,
+      vwap24h,
+    } = analyzeWhaleAndCandleFlow(klines);
 
     const change1hPct = closes.length >= 2
       ? Number((((closes[closes.length - 1] - closes[closes.length - 2]) / closes[closes.length - 2]) * 100).toFixed(2))
@@ -911,9 +951,18 @@ async function main() {
       (impulsePct >= 4.2 && retracementRatio < 0.25) ||
       retracementRatio > 0.80; // Failed impulse (>80% given back)
     if (!hasDirectMention || rsi1h > maxAllowedRsi || isNoChaseOverextended || bbPctB > 0.92 || mkt.change24hPct > 14.0) continue;
-    // Amihud Illiquidity Floor ($3.5M min 24h volume) + VPIN Toxic Flow Guard (reject if 1h taker buy collapsed below 46% or decelerated >7% vs 3h avg)
-    if ((mkt.quoteVol24h || 0) < 3500000) continue;
-    if (takerBuyRatio < 0.48 || last1hTakerBuy < 0.46 || (takerBuyRatio - last1hTakerBuy) > 0.07) continue;
+    // minQuoteVolumeGuard ($3.5M min 24h volume) + true amihudIlliquidityRatio guard (reject if >18% impact per $1M volume)
+    const minQuoteVolumeGuard = (mkt.quoteVol24h || 0) >= 3500000 && amihudIlliquidity <= 18.0;
+    if (!minQuoteVolumeGuard) continue;
+    // takerFlowDecelerationGuard with 1h sample-volume guard (prevents low-volume 1h noise from starving valid fresh news):
+    // Hard reject only on extreme 3h collapse (<48%) or high-volume 1h seller dump (<42% or decel >11% with >=$150k 1h vol)
+    const isExtremeTakerCollapse =
+      takerBuyRatio < 0.48 ||
+      (last1hQuoteVolUsd >= 150000 && (last1hTakerBuy < 0.42 || takerFlowDecel > 0.11));
+    if (isExtremeTakerCollapse) continue;
+    const microstructureFlags = [];
+    const isModerateTakerDecel =
+      last1hQuoteVolUsd >= 100000 && (last1hTakerBuy < 0.46 || takerFlowDecel > 0.07);
 
     // TradingArena.ai 4-Model Hive-Mind Consensus
     const hiveMind = computeArenaHiveMind({
@@ -934,6 +983,10 @@ async function main() {
     });
 
     let totalScore = Math.min(40, cat.newsScore * 4.5);
+    if (isModerateTakerDecel) {
+      totalScore -= 8;
+      microstructureFlags.push('TAKER_FLOW_DECEL');
+    }
     if (rsi1h <= 34) totalScore += 18;
     else if (rsi1h <= 45) totalScore += 12;
     else if (rsi1h <= 58) totalScore += 8;
@@ -1003,6 +1056,7 @@ async function main() {
       leaderSymbol: cat.leaderSymbol,
       hasDirectMention,
       preEventAtr,
+      impulsePct,
       impulseAtr,
       retracementRatio,
       betaBtc,
@@ -1037,6 +1091,10 @@ async function main() {
       aiConsensusLabel: hiveMind.aiConsensusLabel,
       takerBuyRatioPct: Number((takerBuyRatio * 100).toFixed(1)),
       last1hTakerBuyPct: Number((last1hTakerBuy * 100).toFixed(1)),
+      last1hQuoteVolUsd,
+      takerFlowDecel,
+      amihudIlliquidity,
+      microstructureFlags,
       isGreenBounce,
       isTrending,
       volRatio,
@@ -1052,14 +1110,14 @@ async function main() {
 
   scoredOpportunities.sort((a, b) => b.totalScore - a.totalScore);
 
-  // Enrich Top 10 candidates with Binance Institutional Top 20% Whale Long/Short Ratio & 15m Open Interest Flow
+  // Enrich Top 10 candidates with Binance Institutional Top 20% Whale Long/Short Ratio & Aligned 15m/1h Open Interest Flow
   const top10Slice = scoredOpportunities.slice(0, 10);
   await Promise.all(
     top10Slice.map(async item => {
       try {
         const [lsRes, oiRes] = await Promise.all([
           fetchJson(`https://www.binance.info/futures/data/topLongShortPositionRatio?symbol=${item.symbol}USDT&period=1h&limit=2`, {}, 2500).catch(() => []),
-          fetchJson(`https://www.binance.info/futures/data/openInterestHist?symbol=${item.symbol}USDT&period=15m&limit=2`, {}, 2500).catch(() => []),
+          fetchJson(`https://www.binance.info/futures/data/openInterestHist?symbol=${item.symbol}USDT&period=15m&limit=5`, {}, 2500).catch(() => []),
         ]);
         if (Array.isArray(lsRes) && lsRes.length > 0) {
           const latestLs = lsRes[lsRes.length - 1];
@@ -1070,15 +1128,26 @@ async function main() {
           else if (topWhaleLongPct < 42) item.totalScore = Number((item.totalScore - 8).toFixed(1));
         }
         if (Array.isArray(oiRes) && oiRes.length >= 2) {
-          const oi0 = Number(oiRes[0].sumOpenInterestValue || 0);
-          const oi1 = Number(oiRes[oiRes.length - 1].sumOpenInterestValue || 0);
-          if (oi0 > 0) {
-            const oiChg15mPct = Number((((oi1 - oi0) / oi0) * 100).toFixed(2));
+          const oiPrev15m = Number(oiRes[oiRes.length - 2]?.sumOpenInterestValue);
+          const oiNow = Number(oiRes[oiRes.length - 1]?.sumOpenInterestValue);
+          const oi1hAgo = Number(oiRes[0]?.sumOpenInterestValue);
+          if (Number.isFinite(oiPrev15m) && oiPrev15m > 0 && Number.isFinite(oiNow) && oiNow > 0) {
+            const oiChg15mPct = Number((((oiNow - oiPrev15m) / oiPrev15m) * 100).toFixed(2));
+            const oiChg1hPct =
+              Number.isFinite(oi1hAgo) && oi1hAgo > 0
+                ? Number((((oiNow - oi1hAgo) / oi1hAgo) * 100).toFixed(2))
+                : oiChg15mPct;
             item.oiChange15mPct = oiChg15mPct;
-            if (oiChg15mPct >= 0.4) {
+            item.oiChange1hPct = oiChg1hPct;
+            const isAlignedBearishOiDiv =
+              (item.change1hPct >= 1.2 && oiChg1hPct <= -1.0) ||
+              ((item.freshestMinutesAgo || 99) <= 25 && (item.impulsePct || item.change1hPct || 0) >= 1.0 && oiChg15mPct <= -0.8);
+            if (oiChg15mPct >= 0.4 && oiChg1hPct >= 0) {
               item.totalScore = Number((item.totalScore + 6).toFixed(1));
-            } else if (item.change1hPct >= 1.2 && oiChg15mPct <= -0.8) {
-              // Bearish Price-OI Divergence: Price rose on news but whales are closing/unwinding Futures OI -> Bull Trap Penalty!
+            } else if (isAlignedBearishOiDiv) {
+              // Window-Aligned Bearish Price-OI Divergence: Price rose while Futures OI unwound -> Bull Trap Penalty (-14p)!
+              if (!Array.isArray(item.microstructureFlags)) item.microstructureFlags = [];
+              item.microstructureFlags.push('PRICE_OI_DIVERGENCE');
               item.totalScore = Number(Math.max(10, item.totalScore - 14).toFixed(1));
             }
           }

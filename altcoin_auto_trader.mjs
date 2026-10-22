@@ -255,10 +255,34 @@ function appendTradeTelemetry(pos, exitPrice, exitReason, netPnlUsdt, netPnlTry,
       rsAtr: pos.rsAtr ?? 1.0,
       takerBuyRatio: Number(((pos.takerBuyRatioPct || 52) / 100).toFixed(3)),
       obImbalance: pos.obImbalance ?? 0,
+      amihudIlliquidity: pos.amihudIlliquidity ?? 1.0,
+      microstructureFlags: Array.isArray(pos.microstructureFlags) ? pos.microstructureFlags : [],
       exitReason,
       realizedNetPnLTry: Number(Number(netPnlTry ?? netPnlUsdt * USD_TRY_RATE).toFixed(2)),
     };
     fs.appendFileSync(path.resolve('trade_telemetry.jsonl'), JSON.stringify(snap) + '\n', 'utf8');
+  } catch {}
+}
+
+function appendShadowTrapTelemetry(sp, netPct, peakPct, ageMins, triggerReason, scoreMod, cooldownUntil) {
+  try {
+    const snap = {
+      timestamp: new Date().toISOString(),
+      type: 'SHADOW_TRAP',
+      symbol: sp.symbol,
+      priceSource: sp.priceSource || 'GLOBAL_PROXY',
+      entryAsk: sp.entryAsk,
+      exitBid: sp.currentBid,
+      spreadPct: sp.spreadPct ?? 0.2,
+      holdMinutes: Number(ageMins.toFixed(1)),
+      peakPct: Number(peakPct.toFixed(2)),
+      netPct: Number(netPct.toFixed(2)),
+      triggerReason,
+      scoreMod,
+      cooldownUntil: cooldownUntil ? new Date(cooldownUntil).toISOString() : null,
+      headline: sp.headline || '',
+    };
+    fs.appendFileSync(path.resolve('shadow_telemetry.jsonl'), JSON.stringify(snap) + '\n', 'utf8');
   } catch {}
 }
 
@@ -1756,6 +1780,8 @@ async function runTradingCycle() {
         totalScore: cand.totalScore,
         rsiAtEntry: cand.rsi1h,
         atr1hPct: cand.atr1hPct || 2.2,
+        amihudIlliquidity: cand.amihudIlliquidity ?? 1.0,
+        microstructureFlags: Array.isArray(cand.microstructureFlags) ? cand.microstructureFlags : [],
         takerBuyRatioPct: cand.takerBuyRatioPct || 50,
         last1hTakerBuyPct: cand.last1hTakerBuyPct ?? cand.takerBuyRatioPct ?? 50,
         obImbalance,
@@ -1799,7 +1825,7 @@ async function runTradingCycle() {
   }
 
   // Engine #19: Defensive-Only Shadow Trap Detector (Zero Real-Money Risk, Strictly <= 0 Score Modifier)
-  // Tracks unbought news candidates on live quotes; if they fail/dump on paper, puts a 4h trap shield & -3p penalty on that symbol!
+  // Tracks unbought news candidates on live quotes; if they fail/dump on paper, puts a 4h trap shield & -2/-4p penalty on that symbol!
   if (!Array.isArray(state.shadowPositions)) state.shadowPositions = [];
   if (!state.shadowTrapMemory) state.shadowTrapMemory = {};
   const openRealSyms = new Set((state.openPositions || []).map(p => p.symbol));
@@ -1807,26 +1833,55 @@ async function runTradingCycle() {
   for (const sp of state.shadowPositions) {
     if (openRealSyms.has(sp.symbol)) continue;
     const sq = quotes[sp.symbol];
-    const bid = sq?.bestBid || sp.currentBid || sp.entryAsk;
+    const sqSpreadPct =
+      sq && sq.bestBid > 0 && sq.bestAsk >= sq.bestBid
+        ? Number((((sq.bestAsk - sq.bestBid) / sq.bestBid) * 100).toFixed(3))
+        : sp.spreadPct ?? 0.2;
+    if (sq?.priceSource) sp.priceSource = sq.priceSource;
+    sp.spreadPct = sqSpreadPct;
+    // Ignore illiquid spread spikes (> 0.85%) so a wide spread glitch doesn't falsely trigger a shadow trap
+    const bid = sqSpreadPct <= 0.85 && sq?.bestBid ? sq.bestBid : sp.currentBid || sp.entryAsk;
     sp.currentBid = bid;
     sp.highestBid = Math.max(sp.highestBid || sp.entryAsk, bid);
     const execBid = bid * (1 - 0.0022);
     const netPct = sp.entryAsk > 0 ? ((execBid - sp.entryAsk) / sp.entryAsk) * 100 : 0;
     const peakPct = sp.entryAsk > 0 ? ((sp.highestBid - sp.entryAsk) / sp.entryAsk) * 100 : 0;
     const ageMins = (nowMs - new Date(sp.entryTime).getTime()) / 60000;
+    const isShadowStopLoss = netPct <= -1.45;
+    const isShadowSlowBleed = ageMins >= 75 && peakPct < 1.0 && netPct <= -0.55;
     if (peakPct >= 2.2) {
       // Shadow trade succeeded: clear any prior trap penalty, but NEVER add a positive score bonus (>0 forbidden)
-      state.shadowTrapMemory[sp.symbol] = { traps: 0, scoreMod: 0, updatedAt: new Date().toISOString() };
-    } else if (netPct <= -1.45 || (ageMins >= 75 && peakPct < 1.0 && netPct <= -0.55)) {
+      state.shadowTrapMemory[sp.symbol] = {
+        traps: 0,
+        scoreMod: 0,
+        priceSource: sp.priceSource || 'BINANCE_TR',
+        updatedAt: new Date().toISOString(),
+      };
+    } else if (isShadowStopLoss || isShadowSlowBleed) {
       const prevTraps = (state.shadowTrapMemory[sp.symbol]?.traps || 0) + 1;
+      const triggerReason = isShadowStopLoss ? 'SHADOW_STOP_LOSS' : 'SHADOW_SLOW_BLEED';
+      const isVerifiedTrOrDeepLoss = sp.priceSource === 'BINANCE_TR' || netPct <= -2.2;
+      const scoreMod = isVerifiedTrOrDeepLoss ? Math.max(-4, -2 * prevTraps) : -2;
+      const cooldownUntil = isVerifiedTrOrDeepLoss ? nowMs + 4 * 3600 * 1000 : 0;
+      if (cooldownUntil > 0) {
+        state.cooldowns[sp.symbol] = Math.max(state.cooldowns[sp.symbol] || 0, cooldownUntil);
+      }
       state.shadowTrapMemory[sp.symbol] = {
         traps: prevTraps,
-        scoreMod: Math.max(-4, -2 * prevTraps),
+        scoreMod,
+        priceSource: sp.priceSource || 'GLOBAL_PROXY',
+        triggerReason,
+        peakPct: Number(peakPct.toFixed(2)),
+        netPct: Number(netPct.toFixed(2)),
+        cooldownUntil: cooldownUntil > 0 ? new Date(cooldownUntil).toISOString() : null,
         lastHeadline: sp.headline,
         updatedAt: new Date().toISOString(),
       };
-      state.cooldowns[sp.symbol] = Math.max(state.cooldowns[sp.symbol] || 0, nowMs + 4 * 3600 * 1000);
-      logEvent(state, `👻 [GÖLGE TUZAK YAKALANDI] ${sp.symbol} sanal takipte %${netPct.toFixed(2)} düştü -> Gerçek para kaybetmeden 4 saat kara listeye alındı!`);
+      appendShadowTrapTelemetry(sp, netPct, peakPct, ageMins, triggerReason, scoreMod, cooldownUntil);
+      logEvent(
+        state,
+        `👻 [GÖLGE TUZAK YAKALANDI] ${sp.symbol} (${sp.priceSource || 'TR'}) sanal takipte %${netPct.toFixed(2)} düştü (${triggerReason}) -> Gerçek para kaybetmeden ${cooldownUntil > 0 ? '4 saat kara listeye alındı' : '-2p savunma cezası yazıldı'}!`
+      );
     } else if (ageMins < 180) {
       nextShadow.push(sp);
     }
@@ -1838,9 +1893,13 @@ async function runTradingCycle() {
     if (cand.hasDirectMention === false || (cand.freshestMinutesAgo || 99) > 75) continue;
     const sq = quotes[cand.symbol];
     if (!sq || !sq.bestAsk) continue;
+    const initSpreadPct = sq.bestBid > 0 ? Number((((sq.bestAsk - sq.bestBid) / sq.bestBid) * 100).toFixed(3)) : 0.2;
+    if (initSpreadPct > 0.65) continue;
     nextShadow.push({
       symbol: cand.symbol,
       headline: cand.headlines?.[0]?.title || '',
+      priceSource: sq.priceSource || 'GLOBAL_PROXY',
+      spreadPct: initSpreadPct,
       entryAsk: sq.bestAsk,
       currentBid: sq.bestBid || sq.bestAsk,
       highestBid: sq.bestBid || sq.bestAsk,
