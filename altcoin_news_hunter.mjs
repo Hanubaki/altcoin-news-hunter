@@ -901,9 +901,10 @@ async function main() {
     const relativeStrength1h = Number((change1hPct - expectedCoin1h).toFixed(2));
     const rsAtr = Number((relativeStrength1h / Math.max(0.45, atr1hPct)).toFixed(2));
 
-    // 3. NO-CHASE Guard + Pre-Event Leak Filter + Unblinded RSI on Direct News
+    // 3. NO-CHASE Guard + Pre-Event Leak Filter + Freshness Gate (<= 90m) + Unblinded RSI on Direct News
     const maxAllowedRsi = hasDirectMention ? 66 : 50;
     const isNoChaseOverextended =
+      eventAgeMins > 90 || // Never let stale >90m news crowd out fresh candidates or waste AI Council slots!
       preEventAtr > 2.2 || // Reject if coin already pumped >2.2 ATR BEFORE the news timestamp (leaked/front-run)
       impulseAtr > 3.5 ||
       (impulsePct >= 3.0 && retracementRatio < 0.20) ||
@@ -1083,10 +1084,10 @@ async function main() {
   const selectedTop4 = [];
   const usedLeaders = new Set();
   for (const opp of scoredOpportunities) {
-    if (usedLeaders.has(opp.leaderSymbol)) continue;
+    if (usedLeaders.has(opp.leaderSymbol) && selectedTop4.length < 4) continue;
     usedLeaders.add(opp.leaderSymbol);
     selectedTop4.push(opp);
-    if (selectedTop4.length === 4) break;
+    if (selectedTop4.length === 6) break;
   }
 
   // Multi-Provider Official AI Router (Supports Free Groq Llama-4-Maverick, Google Gemini Flash, OpenRouter DeepSeek, or Keyless Fallback)

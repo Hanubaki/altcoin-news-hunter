@@ -727,10 +727,11 @@ async function getOrderbookQuotes(symbols) {
   const map = {};
   const uniqueSyms = Array.from(new Set(symbols));
 
-  // Primary for small active sets (open positions / top candidates): fetch live Binance TR _TRY bestBid/bestAsk directly
-  if (uniqueSyms.length <= 12 && USD_TRY_RATE > 0) {
+  // Primary for active sets (first 12 symbols — open positions & top candidates): fetch live Binance TR _TRY bestBid/bestAsk directly
+  if (USD_TRY_RATE > 0) {
+    const trPrioritySyms = uniqueSyms.slice(0, 12);
     await Promise.all(
-      uniqueSyms.map(async sym => {
+      trPrioritySyms.map(async sym => {
         try {
           const trDepth = await fetchJson(
             `https://www.trbinance.com/open/v1/market/depth?symbol=${sym}_TRY&limit=5`,
@@ -1286,19 +1287,19 @@ async function runTradingCycle() {
     // Engine #7A & #7B: Unified Volatility-Scaled Profit Harvest (TP1 & TP2)
     await processProfitTargets(cfg, state, pos, currentBid);
 
-    // Engine #8: 5-STAGE ZERO-RISK RATCHET LADDER (Net-Friction-Adjusted Floors with 1.30% breathing room so winners aren't choked early!)
+    // Engine #8: HARMONIZED ZERO-CONFLICT RATCHET LADDER (Synchronized with dynamic tp1Pct/tp2Pct so pre-TP1 ratchets never choke a winner before TP1 harvest!)
     const peakGainPct = ((pos.highestPrice - pos.entryPrice) / pos.entryPrice) * 100;
+    const dynTp1 = Number(pos.tp1Pct || 2.2);
+    const breakevenTriggerPct = Math.max(1.75, Number((dynTp1 * 0.72).toFixed(2)));
     let stepFloorPrice = pos.stopLossPrice;
-    if (peakGainPct >= 7.0) {
+    if (pos.partialTpDone && peakGainPct >= 7.0) {
       stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.988).toPrecision(5)), Number((pos.entryPrice * 1.0602).toPrecision(5)));
-    } else if (peakGainPct >= 4.5) {
+    } else if (pos.partialTpDone && peakGainPct >= 4.5) {
       stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.986).toPrecision(5)), Number((pos.entryPrice * 1.0342).toPrecision(5)));
-    } else if (peakGainPct >= 3.2) {
+    } else if (pos.partialTpDone && peakGainPct >= 3.2) {
       stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.0202).toPrecision(5)));
-    } else if (peakGainPct >= 2.3) {
-      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.0112).toPrecision(5)));
-    } else if (peakGainPct >= 1.75) {
-      // True +1.75% Zero-Risk Breakeven+ Lock: locks >= +0.45% net profit after 0.22% exit friction (1.0068 * (1 - 0.0022) - 1 = +0.458% net)!
+    } else if (peakGainPct >= breakevenTriggerPct) {
+      // Pre-TP1 Breakeven+ Shield: Only locks +0.46% net profit (1.0068x entry), leaving full breathing room up to TP1!
       stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.0068).toPrecision(5)));
     }
 
@@ -1373,8 +1374,6 @@ async function runTradingCycle() {
         (minsHeld >= 90 && peakGainPct < 1.2 && pos.unrealizedPnlPct <= -0.35 && liveObForScratch <= -0.20))
     ) {
       exitReason = `🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (${Math.round(minsHeld)}dk Tepkisiz + Stop Beklenmeden Zarar Küçültüldü %${pos.unrealizedPnlPct})`;
-    } else if (pos.partialTpDone && hoursHeld >= 4.5 && pos.unrealizedPnlPct >= 1.5 && (pos.atr1hPct || 1.5) < 1.0 && currentBid <= pos.highestPrice * 0.996) {
-      exitReason = `💰 HIZLI KÂR HASADI & ROTASYON (Yavaşlayan Kârlı Coin Cebe Alındı +%${pos.unrealizedPnlPct})`;
     } else if (pos.isMoonshot) {
       exitReason = `🔄 SEÇENEK 2 GEÇİŞİ (Vurgun Slotu Kapatılıp 3 Ana Slota Aktarıldı %${pos.unrealizedPnlPct})`;
     } else if (hoursHeld >= 12 && pos.unrealizedPnlPct >= 0.15 && pos.unrealizedPnlPct < 0.6 && !pos.partialTpDone) {
@@ -2438,16 +2437,17 @@ async function runFastPositionRiskTick() {
       pos.unrealizedPnlUsdt = Number(((currentBid - pos.entryPrice) * pos.qty).toFixed(4));
       pos.unrealizedPnlPct = Number((((currentBid - pos.entryPrice) / pos.entryPrice) * 100).toFixed(2));
 
-      // Fast 4s Profit Harvest (TP1 & TP2) + Net-Friction-Adjusted Profit Ratchet (+1.5%, +2.2%, +3.2%, +4.5%, +7.0%)
+      // Fast 4s Profit Harvest (TP1 & TP2) + Harmonized Zero-Conflict Profit Ratchet
       const didFastHarvest = await processProfitTargets(cfg, state, pos, currentBid);
       if (didFastHarvest) stateModified = true;
       const peakGainPct = ((pos.highestPrice - pos.entryPrice) / pos.entryPrice) * 100;
+      const dynTp1Fast = Number(pos.tp1Pct || 2.2);
+      const breakevenTriggerFast = Math.max(1.75, Number((dynTp1Fast * 0.72).toFixed(2)));
       let stepFloor = pos.stopLossPrice;
-      if (peakGainPct >= 7.0) stepFloor = Math.max(stepFloor, Number((pos.highestPrice * 0.988).toPrecision(5)), Number((pos.entryPrice * 1.0602).toPrecision(5)));
-      else if (peakGainPct >= 4.5) stepFloor = Math.max(stepFloor, Number((pos.highestPrice * 0.986).toPrecision(5)), Number((pos.entryPrice * 1.0342).toPrecision(5)));
-      else if (peakGainPct >= 3.2) stepFloor = Math.max(stepFloor, Number((pos.entryPrice * 1.0202).toPrecision(5)));
-      else if (peakGainPct >= 2.3) stepFloor = Math.max(stepFloor, Number((pos.entryPrice * 1.0112).toPrecision(5)));
-      else if (peakGainPct >= 1.75) stepFloor = Math.max(stepFloor, Number((pos.entryPrice * 1.0068).toPrecision(5)));
+      if (pos.partialTpDone && peakGainPct >= 7.0) stepFloor = Math.max(stepFloor, Number((pos.highestPrice * 0.988).toPrecision(5)), Number((pos.entryPrice * 1.0602).toPrecision(5)));
+      else if (pos.partialTpDone && peakGainPct >= 4.5) stepFloor = Math.max(stepFloor, Number((pos.highestPrice * 0.986).toPrecision(5)), Number((pos.entryPrice * 1.0342).toPrecision(5)));
+      else if (pos.partialTpDone && peakGainPct >= 3.2) stepFloor = Math.max(stepFloor, Number((pos.entryPrice * 1.0202).toPrecision(5)));
+      else if (peakGainPct >= breakevenTriggerFast) stepFloor = Math.max(stepFloor, Number((pos.entryPrice * 1.0068).toPrecision(5)));
 
       if (stepFloor > pos.stopLossPrice) {
         pos.stopLossPrice = stepFloor;
@@ -2501,9 +2501,11 @@ async function runFastPositionRiskTick() {
           state.cooldowns[pos.symbol] = Date.now() + 6 * 3600 * 1000;
         }
         const isProfitLock = pos.stopLossPrice > pos.entryPrice && pos.unrealizedPnlPct >= 0;
-        const exitReason = isProfitLock
-          ? `🔒 4sn HIZLI KÂR KİLİDİ (+%${pos.unrealizedPnlPct})`
-          : `🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%${pos.unrealizedPnlPct} | ${netPnlTryExec.toFixed(2)} TL)`;
+        const exitReason = isFastSlowBleed
+          ? `🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (${Math.round(minsHeldFast)}dk Tepkisiz + 4sn Hızlı Tahliye %${pos.unrealizedPnlPct})`
+          : isProfitLock
+            ? `🔒 4sn HIZLI KÂR KİLİDİ (+%${pos.unrealizedPnlPct})`
+            : `🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%${pos.unrealizedPnlPct} | ${netPnlTryExec.toFixed(2)} TL)`;
         appendTradeTelemetry(pos, currentBid, exitReason, netPnlUsdt, netPnlTry, soldQty);
         state.closedTrades.unshift({
           ...pos,
