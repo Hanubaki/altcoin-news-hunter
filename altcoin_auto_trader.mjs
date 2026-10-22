@@ -1697,8 +1697,15 @@ async function runTradingCycle() {
       if (curCoreCount >= effectiveMaxSlots || remainingExposureUsdt < 1.50) break;
       if (state.cashUsdt < 1.50) break;
       if (heldSymbols.has(cand.symbol)) continue;
-      // Engine Conflict Prevention: Require explicit LONG consensus from 3-Model Semantic AI Council AND directMention === true!
-      if (cand.liveLlmDecision !== 'LONG' || cand.hasDirectMention === false) continue;
+      const isGoldenAgeLeaderAllowed = Boolean(
+        cand.isGoldenAgeLeader &&
+          signalsData.isConfirmedGoldenAge &&
+          !isRedMarketDump &&
+          !isWeakMarket &&
+          !signalsData.btcCrashAlert
+      );
+      // Engine Conflict Prevention: Require explicit LONG consensus from 3-Model Semantic AI Council AND (directMention === true OR Engine #24 GoldenAgeLeaderIgniter in confirmed Golden Age)!
+      if (cand.liveLlmDecision !== 'LONG' || (cand.hasDirectMention === false && !isGoldenAgeLeaderAllowed)) continue;
       // In Red Markets (breadth < 24%), require Market-Independent Catalyst + Relative Strength (RS_ATR >= 1.2) instead of impossible RSI <= 32!
       if (isRedMarketDump && (cand.rsAtr || 0) < 1.2) continue;
       if (usedLeaders.has(cand.leaderSymbol) && !(isCashIdleTooLong && cand.totalScore >= 75)) continue;
@@ -1731,8 +1738,8 @@ async function runTradingCycle() {
       const maxAllowedNewsAgeMins = isRedMarketDump || isWeakMarket ? 45 : 75;
       if ((cand.freshestMinutesAgo || 0) > maxAllowedNewsAgeMins) continue; // Reject stale news older than 45-75 minutes!
       const isSynthCand = ['WhaleOrderflowRadar', 'ShortSqueezeRadar'].includes(cand.headlines?.[0]?.source);
-      if (isSynthCand) {
-        continue; // 100% BAN no-news synthetic signals! Only trade verified real news catalysts!
+      if (isSynthCand || (cand.headlines?.[0]?.source === 'GoldenAgeLeaderIgniter' && !isGoldenAgeLeaderAllowed)) {
+        continue; // 100% BAN no-news synthetic signals outside confirmed Golden Age!
       }
       if ((cand.rsi1h || 50) > maxReqRsi) continue;
       if ((cand.takerBuyRatioPct || 50) < minReqWhale) continue;
@@ -1937,7 +1944,7 @@ async function runTradingCycle() {
   for (const cand of candidates.slice(0, 6)) {
     if (nextShadow.length >= 3) break;
     if (openRealSyms.has(cand.symbol) || shadowSyms.has(cand.symbol)) continue;
-    if (cand.hasDirectMention === false || (cand.freshestMinutesAgo || 99) > 75) continue;
+    if ((cand.hasDirectMention === false && !cand.isGoldenAgeLeader) || (cand.freshestMinutesAgo || 99) > 75) continue;
     const sq = quotes[cand.symbol];
     if (!sq || !sq.bestAsk) continue;
     const initSpreadPct = sq.bestBid > 0 ? Number((((sq.bestAsk - sq.bestBid) / sq.bestBid) * 100).toFixed(3)) : 0.2;

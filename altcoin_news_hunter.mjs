@@ -829,8 +829,44 @@ async function main() {
     c => c.newsScore >= 1.5 && tickerMap[c.symbol] && c.hasDirectMention === true
   );
 
-  // 100% Real-News + Direct-Mention Priority: Only coins directly mentioned in news are executable candidates (no synthetic or sympathy-only noise)
-  const positiveNewsAlts = [...qualifiedNewsCats]
+  // Engine #24: Golden-Age Institutional Leader Igniter (only active when market breadth/intraday VWAP reclaim >= 42%)
+  const goldenAgeWatchList = [];
+  if (intradayRecoveryPct >= 42 || breadth24hPct >= 45) {
+    const existingSyms = new Set(qualifiedNewsCats.map(c => c.symbol));
+    const waveTag = new Date().toISOString().slice(0, 13);
+    const liquidLeaders = Object.entries(tickerMap)
+      .filter(
+        ([sym, m]) =>
+          !existingSyms.has(sym) &&
+          m.quoteVol24h >= 15000000 &&
+          m.change24hPct >= -2.5 &&
+          m.change24hPct <= 9.5
+      )
+      .sort((a, b) => b[1].quoteVol24h - a[1].quoteVol24h)
+      .slice(0, 6);
+    for (const [sym] of liquidLeaders) {
+      goldenAgeWatchList.push({
+        symbol: sym,
+        leaderSymbol: sym,
+        hasDirectMention: false,
+        isGoldenAgeCandidate: true,
+        ecosystems: new Set(['GoldenAgeWave']),
+        matchedKeywords: new Set(['golden-age-thrust', 'vwap-reclaim']),
+        newsScore: 5.2,
+        freshestMinutesAgo: 5,
+        headlines: [
+          {
+            source: 'GoldenAgeLeaderIgniter',
+            minutesAgo: 5,
+            title: `Golden Age Kurumsal Dönüş Dalgası (${sym} — VWAP & Balina İvme Lideri [${waveTag}])`,
+          },
+        ],
+      });
+    }
+  }
+
+  // 100% Real-News + Direct-Mention Priority (plus Golden-Age Institutional Leaders ONLY during confirmed Golden-Age waves)
+  const positiveNewsAlts = [...qualifiedNewsCats, ...goldenAgeWatchList]
     .sort((a, b) => b.newsScore - a.newsScore)
     .slice(0, 55);
 
@@ -866,6 +902,10 @@ async function main() {
     }
   }
   const btcCrashAlert = btc1hChangePct <= -1.8;
+  const isConfirmedGoldenAge =
+    !btcCrashAlert &&
+    ((btc1hChangePct >= 0.45 && intradayRecoveryPct >= 45) ||
+      (btc1hChangePct >= 0.25 && breadth24hPct >= 48));
 
   const scoredOpportunities = [];
   for (let i = 0; i < positiveNewsAlts.length; i++) {
@@ -910,6 +950,24 @@ async function main() {
 
     const lagVsLeader24h = Number((leaderMkt.change24hPct - mkt.change24hPct).toFixed(2));
     const hasDirectMention = Boolean(cat.hasDirectMention);
+    const isGoldenAgeCandidate = Boolean(cat.isGoldenAgeCandidate);
+    if (isGoldenAgeCandidate) {
+      if (
+        !isConfirmedGoldenAge ||
+        last1hTakerBuy < 0.55 ||
+        takerBuyRatio < 0.53 ||
+        last1hQuoteVolUsd < 250000 ||
+        amihudIlliquidity > 8.0 ||
+        change1hPct < 1.0 ||
+        change1hPct > 4.2 ||
+        rsi1h < 36 ||
+        rsi1h > 60 ||
+        !aboveVwap ||
+        isUpperWickRejection
+      ) {
+        continue;
+      }
+    }
 
     // 1. Event-Timestamp-Aligned Price Model: Separate preEventMove (leak/front-run) from postEventImpulse (news reaction)
     const eventAgeMins = Math.max(1, Number(cat.freshestMinutesAgo || 15));
@@ -961,9 +1019,10 @@ async function main() {
     const expectedCoin1h = Number((betaBtc * btc1hChangePct).toFixed(2));
     const relativeStrength1h = Number((change1hPct - expectedCoin1h).toFixed(2));
     const rsAtr = Number((relativeStrength1h / Math.max(0.45, atr1hPct)).toFixed(2));
+    if (isGoldenAgeCandidate && rsAtr < 1.25) continue;
 
     // 3. NO-CHASE Guard + Pre-Event Leak Filter + Freshness Gate (<= 90m) + Unblinded RSI on Direct News
-    const maxAllowedRsi = hasDirectMention ? 66 : 50;
+    const maxAllowedRsi = hasDirectMention ? 66 : isGoldenAgeCandidate ? 60 : 50;
     const isNoChaseOverextended =
       eventAgeMins > 90 || // Never let stale >90m news crowd out fresh candidates or waste AI Council slots!
       preEventAtr > 2.2 || // Reject if coin already pumped >2.2 ATR BEFORE the news timestamp (leaked/front-run)
@@ -971,7 +1030,7 @@ async function main() {
       (impulsePct >= 3.0 && retracementRatio < 0.20) ||
       (impulsePct >= 4.2 && retracementRatio < 0.25) ||
       retracementRatio > 0.80; // Failed impulse (>80% given back)
-    if (!hasDirectMention || rsi1h > maxAllowedRsi || isNoChaseOverextended || bbPctB > 0.92 || mkt.change24hPct > 14.0) continue;
+    if ((!hasDirectMention && !isGoldenAgeCandidate) || rsi1h > maxAllowedRsi || isNoChaseOverextended || bbPctB > 0.92 || mkt.change24hPct > 14.0) continue;
     // minQuoteVolumeGuard ($3.5M min 24h volume) + true amihudIlliquidityRatio guard (reject if >18% impact per $1M volume)
     const minQuoteVolumeGuard = (mkt.quoteVol24h || 0) >= 3500000 && amihudIlliquidity <= 18.0;
     if (!minQuoteVolumeGuard) continue;
@@ -1087,13 +1146,14 @@ async function main() {
       symbol: sym,
       leaderSymbol: cat.leaderSymbol,
       hasDirectMention,
+      isGoldenAgeCandidate,
       preEventAtr,
       impulsePct,
       impulseAtr,
       retracementRatio,
       betaBtc,
       rsAtr,
-      entryPattern,
+      entryPattern: isGoldenAgeCandidate ? 'GOLDEN_AGE_THRUST' : entryPattern,
       ecosystems: Array.from(cat.ecosystems),
       matchedKeywords: Array.from(cat.matchedKeywords).slice(0, 6),
       newsScore: cat.newsScore,
@@ -1184,6 +1244,22 @@ async function main() {
             }
           }
         }
+        if (item.isGoldenAgeCandidate) {
+          const hasFuturesConfirmation =
+            ((item.topWhaleLongPct || 0) >= 55 && (item.oiChange15mPct ?? 0) >= 0) ||
+            (item.oiChange15mPct || 0) >= 0.25;
+          if (hasFuturesConfirmation && !(item.microstructureFlags || []).includes('PRICE_OI_DIVERGENCE')) {
+            item.isGoldenAgeLeader = true;
+            item.liveLlmDecision = 'LONG';
+            item.liveLlmConfidence = 88;
+            item.liveLlmReason = `[Engine #24 Golden-Age Kurumsal Lider]: Piyasa V-Dip İvmesi (%${marketBreadthPct} Yeşil) + 1s Balina %${item.last1hTakerBuyPct} + RS_ATR ${item.rsAtr}`;
+            item.totalScore = Number(Math.min(99, item.totalScore + 6).toFixed(1));
+          } else {
+            item.isGoldenAgeLeader = false;
+            item.liveLlmDecision = 'WAIT';
+            item.totalScore = Number(Math.max(10, item.totalScore - 35).toFixed(1));
+          }
+        }
       } catch {}
     })
   );
@@ -1192,6 +1268,7 @@ async function main() {
   const selectedTop4 = [];
   const usedLeaders = new Set();
   for (const opp of scoredOpportunities) {
+    if (opp.isGoldenAgeCandidate && !opp.isGoldenAgeLeader) continue;
     if (usedLeaders.has(opp.leaderSymbol) && selectedTop4.length < 4) continue;
     usedLeaders.add(opp.leaderSymbol);
     selectedTop4.push(opp);
@@ -1217,6 +1294,7 @@ async function main() {
   if ((groqKey || geminiKey || openrouterKey) && selectedTop4.length > 0) {
     await Promise.all(
       selectedTop4.map(async item => {
+        if (item.isGoldenAgeLeader) return;
         const prompt = `Sen kurumsal bir kripto haber semantik doğrulayıcısısın (fiyat falcısı değil). Şu haberi 6 objektif kriterle doğrula ve SADECE tek satır geçerli JSON döndür: {"coinDirectlyAffected":true,"eventPositive":true,"negativeTrap":false,"eventAlreadyOccurred":false,"sourceCredible":true,"symbolAmbiguous":false,"decision":"LONG","confidence":82,"reason":"Kısa Türkçe sebep (en fazla 10 kelime)"}. KURAL: Sadece şu objektif durumlarda decision "WAIT" ver: 1) coinDirectlyAffected=false (haber doğrudan ${item.symbol} ile ilgili değilse), 2) eventPositive=false veya negativeTrap=true (delist, hack, exploit, unlock, dava, düşüş/retest ise), 3) eventAlreadyOccurred=true ("dün listelendi/geçen hafta yükseldi" gibi geçmişte kalmış/bitmiş olay ise), 4) symbolAmbiguous=true (sembol başka bir kelimeyle karıştırılmışsa). Gerçek ve taze pozitif haberde RSI ${item.rsi1h} olsa bile LONG ver! Coin: ${item.symbol}, Haber (${item.freshestMinutesAgo}dk önce): "${item.headlines[0]?.title || ''}", PreEventATR: ${item.preEventAtr}, İmpulsATR: ${item.impulseAtr}, Retracement: ${item.retracementRatio}, BetaRS_ATR: ${item.rsAtr}`;
 
         const aiVerdicts = [];
@@ -1353,6 +1431,7 @@ async function main() {
     btc1hChangePct,
     btcCrashAlert,
     marketBreadthPct,
+    isConfirmedGoldenAge,
     fearGreedVal,
     fearGreedClass,
     btcDominancePct,
