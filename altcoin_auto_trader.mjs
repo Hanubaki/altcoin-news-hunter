@@ -978,6 +978,12 @@ async function runTradingCycle() {
     pos.trailingActive = pos.stopLossPrice > pos.entryPrice;
     if (peakGainPct >= 2.5 && pos.trailingActive) pos.rocketMode = true;
 
+    // Oversold Dip Breathing Shield: If entered at RSI <= 40 and not yet in profit lock, ensure at least 2.8% breathing room against bottom wicks + spread
+    if (!pos.trailingActive && (pos.rsiAtEntry || 50) <= 40 && (pos.slPct || 2.0) < 2.8) {
+      pos.slPct = 2.8;
+      pos.stopLossPrice = Number((pos.entryPrice * (1 - 0.028)).toPrecision(5));
+    }
+
     const hoursHeld = (nowMs - new Date(pos.entryTime).getTime()) / (1000 * 3600);
     const minsHeld = hoursHeld * 60;
     const latestSig = candidates.find(c => c.symbol === pos.symbol);
@@ -1053,14 +1059,14 @@ async function runTradingCycle() {
     }
   }
 
-  // Engine #9: Smart Portfolio Rotation + Listing Sniper + Score-Upgrade Auto-Swap
+  // Engine #9: Smart Portfolio Rotation + Listing Sniper (Anti-Churn: only rotates after >=10h in net profit >=+0.50% for a fresh <=60m REAL breaking news catalyst, avoiding TRY spread bleed!)
   const coreOpenPositions = state.openPositions.filter(p => !p.isMoonshot);
   const heldSymSetForRot = new Set(state.openPositions.map(p => p.symbol));
   const stagnantIdx = coreOpenPositions.length >= cfg.MAX_OPEN_POSITIONS
     ? state.openPositions.findIndex(p => {
         if (p.isMoonshot) return false;
         const hrs = (nowMs - new Date(p.entryTime).getTime()) / (1000 * 3600);
-        return hrs >= 3.0 && p.unrealizedPnlPct >= -0.40 && p.unrealizedPnlPct <= 0.85 && !p.partialTpDone;
+        return hrs >= 10.0 && p.unrealizedPnlPct >= 0.50 && p.unrealizedPnlPct <= 1.10 && !p.partialTpDone;
       })
     : -1;
   const usedLeadersAfterRot = new Set(
@@ -1069,11 +1075,11 @@ async function runTradingCycle() {
   const bestCandidate = candidates.find(c => {
     if (heldSymSetForRot.has(c.symbol)) return false;
     if (usedLeadersAfterRot.has(c.leaderSymbol)) return false;
-    if ((c.freshestMinutesAgo || 0) > 180) return false;
+    if ((c.freshestMinutesAgo || 0) > 60) return false; // Must be fresh <= 60m breaking news to justify rotation spread!
     if (state.cooldowns[c.symbol] && state.cooldowns[c.symbol] > nowMs) return false;
     const isSynth = ['WhaleOrderflowRadar', 'ShortSqueezeRadar'].includes(c.headlines?.[0]?.source);
-    if (isSynth && ((c.takerBuyRatioPct || 50) < 55.0 || (c.rsi1h || 50) > 50 || (c.aiConsensusCount || 0) < 3)) return false;
-    return (c.takerBuyRatioPct || 50) >= 51.0 && (!c.topWhaleLongPct || c.topWhaleLongPct >= 48) && (c.rsi1h || 50) <= 55;
+    if (isSynth) return false; // Never rotate an existing position for a synthetic no-news signal!
+    return (c.takerBuyRatioPct || 50) >= 53.0 && (!c.topWhaleLongPct || c.topWhaleLongPct >= 52) && (c.rsi1h || 50) <= 52;
   });
   const isListingSniperAlert = Boolean(
     bestCandidate &&
@@ -1202,8 +1208,14 @@ async function runTradingCycle() {
       if (effectiveTotalScore < minReqScore) continue;
       if ((cand.freshestMinutesAgo || 0) > 360) continue; // Reject stale news older than 6 hours
       const isSynthCand = ['WhaleOrderflowRadar', 'ShortSqueezeRadar'].includes(cand.headlines?.[0]?.source);
-      if (isSynthCand && ((cand.takerBuyRatioPct || 50) < 52.5 || (cand.rsi1h || 50) > 53 || (cand.aiConsensusCount || 0) < 3)) {
-        continue; // Synthetic no-news signals require >=52.5% Whale Taker Buy, RSI <= 53, and >=3/4 AI Consensus
+      if (
+        isSynthCand &&
+        ((cand.takerBuyRatioPct || 50) < 60.0 ||
+          (cand.rsi1h || 50) > 38.0 ||
+          (cand.topWhaleLongPct || 50) < 65.0 ||
+          (cand.aiConsensusCount || 0) < 4)
+      ) {
+        continue; // Synthetic no-news signals strictly require deep oversold dip (RSI <= 38), >=60% Spot Whale, >=65% Top Whale Long, and 4/4 AI Consensus
       }
       if ((cand.rsi1h || 50) > maxReqRsi) continue; // Reject top/overbought entries (or learned tighter RSI cap)
       if ((cand.takerBuyRatioPct || 50) < minReqWhale) continue;
@@ -1247,8 +1259,9 @@ async function runTradingCycle() {
         if (!buyRes || buyRes.code !== 0) continue;
       }
 
-      // Use healthy ATR-based stop-loss (2.0% to 3.2%) so normal 15m volatility doesn't stop out the trade
-      const safeSlPct = Number(Math.max(2.0, Math.min(Number(cand.slPct || 2.4), 3.2)).toFixed(2));
+      // Use healthy ATR-based stop-loss (2.2% to 3.2%, or 2.8% minimum for RSI <= 40 oversold dip entries) so normal 15m volatility + spread doesn't stop out the trade at the bottom
+      const minSafeSl = (cand.rsi1h || 50) <= 40 ? 2.8 : 2.2;
+      const safeSlPct = Number(Math.max(minSafeSl, Math.min(Number(cand.slPct || 2.5), 3.2)).toFixed(2));
       const tpPrice = Number((buyPrice * (1 + cand.tpPct / 100)).toPrecision(5));
       const slPrice = Number((buyPrice * (1 - safeSlPct / 100)).toPrecision(5));
 

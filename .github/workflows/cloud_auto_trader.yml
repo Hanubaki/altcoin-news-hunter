@@ -1,8 +1,8 @@
 name: 24-7 Cloud Altcoin Auto-Trader (TradingArena AI v9.5)
 
 on:
-  # Yerel PC acikken bulut suresi (kota) harcanmamasi ve cakisma olmamasi icin zamanlayici kapali tutulur.
-  # Bilgisayar kapatilacagi zaman aktif edilir.
+  schedule:
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 concurrency:
