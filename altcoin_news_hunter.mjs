@@ -705,54 +705,9 @@ async function main() {
   }
 
   const qualifiedNewsCats = Object.values(newsScan.altCatalysts).filter(c => c.newsScore >= 1.5 && tickerMap[c.symbol]);
-  const newsSyms = new Set(qualifiedNewsCats.map(c => c.symbol));
-  const whaleRadarExtras = [];
-  for (const eco of ECOSYSTEM_GRAPH) {
-    const leaderMkt = tickerMap[eco.leader];
-    for (const sym of eco.sympathyAlts) {
-      if (newsSyms.has(sym) || !tickerMap[sym]) continue;
-      const m = tickerMap[sym];
-      const fRate = hlMap[sym] ?? 0;
-      const isShortSqueezeCandidate = fRate < -0.0005;
-      const isTrending = newsScan.trendingSet.has(sym);
-      const range24 = Math.max(0.0000001, m.high24h - m.low24h);
-      const posIn24h = (m.lastPrice - m.low24h) / range24;
-      const lag24h = leaderMkt ? leaderMkt.change24hPct - m.change24hPct : 0;
-      const isCoiledDip = posIn24h <= 0.68 && m.change24hPct >= -5.5 && m.change24hPct <= 6.5;
-      if (isShortSqueezeCandidate || isTrending || isCoiledDip) {
-        const dipBonus = Math.max(0, (0.65 - posIn24h) * 2.5);
-        const lagBonus = Math.max(0, Math.min(1.5, lag24h * 0.32));
-        const preScore = Number(
-          (3.8 + (isShortSqueezeCandidate ? 1.4 : 0) + (isTrending ? 1.5 : 0) + dipBonus + lagBonus).toFixed(2)
-        );
-        whaleRadarExtras.push({
-          symbol: sym,
-          leaderSymbol: eco.leader,
-          ecosystems: new Set([eco.name]),
-          matchedKeywords: new Set(['whale-flow', isShortSqueezeCandidate ? 'short-squeeze' : 'laggard-dip-accumulation']),
-          freshestMinutesAgo: 20,
-          newsScore: preScore,
-          headlines: [
-            {
-              source: isShortSqueezeCandidate ? 'ShortSqueezeRadar' : 'WhaleOrderflowRadar',
-              title: isShortSqueezeCandidate
-                ? `${sym} Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali`
-                : `${sym} Habersiz Sessiz Balina Alımı & Ekosistem Geriden Gelme (Laggard) Fırsatı`,
-              minutesAgo: 20,
-              catalystPoints: preScore,
-              directMention: true,
-            },
-          ],
-        });
-        newsSyms.add(sym);
-      }
-    }
-  }
 
-  const positiveNewsAlts = [
-    ...qualifiedNewsCats,
-    ...whaleRadarExtras,
-  ]
+  // 100% Real-News-Only Priority: Never pollute top candidates with synthetic ShortSqueezeRadar / WhaleOrderflowRadar signals
+  const positiveNewsAlts = [...qualifiedNewsCats]
     .sort((a, b) => b.newsScore - a.newsScore)
     .slice(0, 55);
 

@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-22T05:07:09.474Z",
+  "updatedAt": "2026-10-22T05:11:24.682Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.202,
@@ -91,7 +91,7 @@
       "obImbalance": 0.06,
       "entryTime": "2026-10-22T02:04:34.904Z",
       "entryPrice": 61.11,
-      "currentPrice": 60.8,
+      "currentPrice": 60.72,
       "highestPrice": 61.27,
       "qty": 0.076846,
       "costUsdt": 4.6961,
@@ -104,10 +104,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0238,
-      "unrealizedPnlPct": -0.51,
-      "currentPriceTry": 3009.6,
-      "currentValueTry": 231.28
+      "unrealizedPnlUsdt": -0.03,
+      "unrealizedPnlPct": -0.64,
+      "currentPriceTry": 3005.64,
+      "currentValueTry": 230.97
     },
     {
       "id": "pos_1792644659199_TAO",
@@ -124,7 +124,7 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-22T04:50:59.199Z",
       "entryPrice": 264.9,
-      "currentPrice": 265.6,
+      "currentPrice": 265.4,
       "highestPrice": 266.2,
       "qty": 0.0162674,
       "costUsdt": 4.3092,
@@ -137,10 +137,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0.0114,
-      "unrealizedPnlPct": 0.26,
-      "currentPriceTry": 13147.2,
-      "currentValueTry": 213.87
+      "unrealizedPnlUsdt": 0.0081,
+      "unrealizedPnlPct": 0.19,
+      "currentPriceTry": 13137.3,
+      "currentValueTry": 213.71
     }
   ],
   "closedTrades": [
@@ -1319,10 +1319,10 @@
     "[15:29:04] ⚡ [AKILLI ROTASYON] JASMY kapatıldı, yerine 105.7 puanlık dev fırsat (JTO) alınıyor!",
     "[14:57:37] 🟢 [OTOMATİK ALIM] INJ (283,96 TL) @ $8.756 | Skor: 103.9 | RSI: 46.34 | Balina: %58.7 | SL: -%3.2"
   ],
-  "totalEquityUsdt": 20.2366,
-  "totalEquityTry": 1001.71,
-  "totalPnlUsdt": 0.0345,
-  "totalPnlPct": 0.17,
+  "totalEquityUsdt": 20.2261,
+  "totalEquityTry": 1001.19,
+  "totalPnlUsdt": 0.024,
+  "totalPnlPct": 0.12,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -1337,24 +1337,8 @@
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
   "usdTryRate": 49.5,
-  "totalPnlTry": 1.71,
+  "totalPnlTry": 1.19,
   "equityHistory": [
-    {
-      "t": "05:36",
-      "v": 1003.88
-    },
-    {
-      "t": "05:37",
-      "v": 1003.45
-    },
-    {
-      "t": "05:38",
-      "v": 1003.76
-    },
-    {
-      "t": "05:39",
-      "v": 1003.74
-    },
     {
       "t": "05:40",
       "v": 1004.66
@@ -1722,6 +1706,22 @@
     {
       "t": "08:07",
       "v": 1001.71
+    },
+    {
+      "t": "08:08",
+      "v": 1000.5
+    },
+    {
+      "t": "08:09",
+      "v": 1002.13
+    },
+    {
+      "t": "08:10",
+      "v": 1001.26
+    },
+    {
+      "t": "08:11",
+      "v": 1001.19
     }
   ],
   "walletAssetsMap": {
@@ -1756,10 +1756,10 @@
     "WLD": 0.0814,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.1002,
-  "dustAssetsTry": 54.46,
+  "dustAssetsUsdt": 1.0991,
+  "dustAssetsTry": 54.4,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-22T05:07:09.474Z",
+    "updatedAt": "2026-10-22T05:11:24.677Z",
     "totalAnalyzedTrades": 32,
     "coinStats": {
       "HBAR": {
@@ -2314,13 +2314,13 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 1001.71,
+    "totalNetWorthTry": 1001.19,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
-      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %65.6 isabetle (21G/11Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1001.71 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
+      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %65.6 isabetle (21G/11Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1001.19 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-22T05:07:09.474Z"
+    "updatedAt": "2026-10-22T05:11:24.682Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254
