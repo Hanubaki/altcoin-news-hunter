@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-22T07:54:33.073Z",
+  "updatedAt": "2026-10-22T08:09:34.361Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.202,
@@ -1351,10 +1351,10 @@
     "[18:12:12] 🟢 [OTOMATİK ALIM] RAY (315,62 TL) @ $1.9967 | Skor: 94.6 | RSI: 49.83 | Balina: %53.2 | SL: -%2",
     "[18:12:09] ⚡ [AKILLI ROTASYON] INJ kapatıldı, yerine 94.6 puanlık dev fırsat (RAY) alınıyor!"
   ],
-  "totalEquityUsdt": 20.0578,
-  "totalEquityTry": 992.86,
-  "totalPnlUsdt": -0.1442,
-  "totalPnlPct": -0.71,
+  "totalEquityUsdt": 20.0517,
+  "totalEquityTry": 992.56,
+  "totalPnlUsdt": -0.1503,
+  "totalPnlPct": -0.74,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -1373,68 +1373,8 @@
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
   "usdTryRate": 49.5,
-  "totalPnlTry": -7.14,
+  "totalPnlTry": -7.44,
   "equityHistory": [
-    {
-      "t": "09:12",
-      "v": 995.04
-    },
-    {
-      "t": "09:13",
-      "v": 995.23
-    },
-    {
-      "t": "09:14",
-      "v": 995.25
-    },
-    {
-      "t": "09:15",
-      "v": 995.34
-    },
-    {
-      "t": "09:16",
-      "v": 995.14
-    },
-    {
-      "t": "09:17",
-      "v": 995.06
-    },
-    {
-      "t": "09:18",
-      "v": 995.09
-    },
-    {
-      "t": "09:19",
-      "v": 995.01
-    },
-    {
-      "t": "09:20",
-      "v": 994.84
-    },
-    {
-      "t": "09:21",
-      "v": 994.71
-    },
-    {
-      "t": "09:22",
-      "v": 994.81
-    },
-    {
-      "t": "09:23",
-      "v": 994.76
-    },
-    {
-      "t": "09:24",
-      "v": 994.84
-    },
-    {
-      "t": "09:25",
-      "v": 994.66
-    },
-    {
-      "t": "09:26",
-      "v": 994.63
-    },
     {
       "t": "09:27",
       "v": 994.5
@@ -1758,6 +1698,66 @@
     {
       "t": "10:54",
       "v": 992.86
+    },
+    {
+      "t": "10:55",
+      "v": 992.87
+    },
+    {
+      "t": "10:56",
+      "v": 992.92
+    },
+    {
+      "t": "10:57",
+      "v": 992.88
+    },
+    {
+      "t": "10:58",
+      "v": 992.89
+    },
+    {
+      "t": "10:59",
+      "v": 992.88
+    },
+    {
+      "t": "11:00",
+      "v": 992.88
+    },
+    {
+      "t": "11:01",
+      "v": 992.89
+    },
+    {
+      "t": "11:02",
+      "v": 992.84
+    },
+    {
+      "t": "11:03",
+      "v": 992.69
+    },
+    {
+      "t": "11:04",
+      "v": 992.72
+    },
+    {
+      "t": "11:05",
+      "v": 992.81
+    },
+    {
+      "t": "11:06",
+      "v": 992.79
+    },
+    {
+      "t": "11:07",
+      "v": 992.62
+    },
+    {
+      "t": "11:08",
+      "v": 992.61
+    },
+    {
+      "t": "11:09",
+      "v": 992.56
     }
   ],
   "walletAssetsMap": {
@@ -1792,10 +1792,10 @@
     "WLD": 0.0814,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.1772,
-  "dustAssetsTry": 58.27,
+  "dustAssetsUsdt": 1.1713,
+  "dustAssetsTry": 57.98,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-22T07:54:33.073Z",
+    "updatedAt": "2026-10-22T08:09:34.361Z",
     "totalAnalyzedTrades": 36,
     "globalWR": 0.579,
     "coinStats": {
@@ -2470,16 +2470,16 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 992.86,
+    "totalNetWorthTry": 992.56,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
       "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %58.3 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-22T07:54:33.073Z"
+    "updatedAt": "2026-10-22T08:09:34.361Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254,
   "noBuyShort": "🛡️ Raad ol, nakit kalkanı devrede: Piyasanın %99'u kırmızı (%1 yeşil) ve direkt pump haberi yok; 934,58 TL nakiti eritmemek için bekliyoruz.",
-  "noBuyDetail": "1) **Piyasa Kan Gölü (%1 Yeşil / %99 Kırmızı):** Altcoinlerin %99'u şu an düşüşte (1s BTC: %-0.35). 2) **%65 Nakit Koruma Zırhı (Quant v10.4):** Yeşil oranı %24'ün altındayken kasanın en az %65'i güvenli TRY nakitte tutulur (Maksimum Coin Tavanı: `327 TL`, Şu An Coinde: `0 TL`). 3) **Haber Filtresi (100 Haber Tarandı):** Taranan haberler içinde kırmızı piyasayı tek başına yenecek (`RS_ATR >= 1.2` ve `directMention = true`) nitelikli A+ haber sayısı: **0**. Piyasa yeşermeden veya gerçek bomba haber düşmeden sahte sinyale para sıkılmaz!"
+  "noBuyDetail": "1) **Piyasa Kan Gölü (%1 Yeşil / %99 Kırmızı):** Altcoinlerin %99'u şu an düşüşte (1s BTC: %-0.38). 2) **%65 Nakit Koruma Zırhı (Quant v10.4):** Yeşil oranı %24'ün altındayken kasanın en az %65'i güvenli TRY nakitte tutulur (Maksimum Coin Tavanı: `327 TL`, Şu An Coinde: `0 TL`). 3) **Haber Filtresi (101 Haber Tarandı):** Taranan haberler içinde kırmızı piyasayı tek başına yenecek (`RS_ATR >= 1.2` ve `directMention = true`) nitelikli A+ haber sayısı: **0**. Piyasa yeşermeden veya gerçek bomba haber düşmeden sahte sinyale para sıkılmaz!"
 }

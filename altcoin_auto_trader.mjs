@@ -985,7 +985,7 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
   const posAgeMins = pos.entryTime ? (Date.now() - new Date(pos.entryTime).getTime()) / 60000 : 99;
   const freshFlowPct = posAgeMins <= 15 ? (pos.last1hTakerBuyPct ?? pos.takerBuyRatioPct ?? 50) : (pos.takerBuyRatioPct ?? 50);
 
-  // Stage 1 Profit Harvest (TP1: volatility-scaled 2.2% - 3.6%, triggered by peakGainPct with executable currentBid guard)
+    // Stage 1 Profit Harvest (TP1: volatility-scaled 2.2% - 3.6%, triggered by peakGainPct with executable currentBid guard)
   if (
     !pos.partialTpDone &&
     peakGainPct >= tp1Pct &&
@@ -995,6 +995,24 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
     const isStrongCont = posAgeMins <= 15 && freshFlowPct >= 54 && (pos.obImbalance || 0) >= 0 && (pos.rsAtr || 0) >= 1.2;
     const tp1Fraction = isStrongCont ? 0.30 : 0.40;
     let sellQty = Number((pos.initialQty * tp1Fraction).toPrecision(4));
+    const estSellTry = sellQty * currentBid * USD_TRY_RATE;
+    const estRemainTry = Math.max(0, pos.qty - sellQty) * currentBid * USD_TRY_RATE;
+    // Dust/MIN_NOTIONAL Guard: If partial sell or remaining moonbag would be < 55 TL on Binance TR, do not split into unsellable dust; lock stop tightly instead!
+    if (state.mode === 'LIVE_BINANCE' && (estSellTry < 55 || estRemainTry < 55)) {
+      pos.partialTpDone = true;
+      pos.rocketMode = true;
+      pos.trailingActive = true;
+      pos.stopLossPrice = Math.max(
+        pos.stopLossPrice,
+        Number((pos.entryPrice * (1 + (tp1Pct * 0.72 + exitFrictionPct) / 100)).toPrecision(5)),
+        Number((pos.highestPrice * 0.990).toPrecision(5))
+      );
+      logEvent(
+        state,
+        `🔒 [TAM KÂR KİLİDİ - DUST KORUMASI] ${pos.symbol} pozisyonu (${Math.round(pos.qty * currentBid * USD_TRY_RATE)} TL) bölününce borsa alt limitine (<55 TL) takılmaması için bölünmedi; tamamı +%${(tp1Pct * 0.72).toFixed(2)} net kâr kilidine alındı!`
+      );
+      return true;
+    }
     let orderOk = true;
     if (state.mode === 'LIVE_BINANCE') {
       const sellRes = await executeBinanceRealOrder(cfg, pos.symbol, 'SELL', sellQty);
@@ -1067,6 +1085,21 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
   ) {
     const targetMoonbagQty = Number((pos.initialQty * 0.30).toPrecision(4));
     let sellQty = Number(Math.max(pos.qty * 0.45, pos.qty - targetMoonbagQty).toPrecision(4));
+    const estRemainAfterTp2Try = Math.max(0, pos.qty - sellQty) * currentBid * USD_TRY_RATE;
+    // If remaining 30% moonbag would be < 55 TL on Binance TR, lock stop at 85% of TP2 gain instead of creating unsellable dust
+    if (state.mode === 'LIVE_BINANCE' && estRemainAfterTp2Try < 55) {
+      pos.stage2TpDone = true;
+      pos.stopLossPrice = Math.max(
+        pos.stopLossPrice,
+        Number((pos.entryPrice * (1 + (tp2Pct * 0.82 + exitFrictionPct) / 100)).toPrecision(5)),
+        Number((pos.highestPrice * 0.991).toPrecision(5))
+      );
+      logEvent(
+        state,
+        `🚀 [2. KADEME TAM KÂR KİLİDİ] ${pos.symbol} kalan bakiye küsürata (<55 TL) düşmesin diye bölünmedi; stop $${pos.stopLossPrice} seviyesine yükseltildi!`
+      );
+      return true;
+    }
     let orderOk = true;
     if (state.mode === 'LIVE_BINANCE') {
       const sellRes = await executeBinanceRealOrder(cfg, pos.symbol, 'SELL', sellQty);
@@ -1253,7 +1286,7 @@ async function runTradingCycle() {
     // Engine #7A & #7B: Unified Volatility-Scaled Profit Harvest (TP1 & TP2)
     await processProfitTargets(cfg, state, pos, currentBid);
 
-    // Engine #8: 5-STAGE ZERO-RISK RATCHET LADDER (Net-Friction-Adjusted Floors: includes +0.22% exit friction offset)
+    // Engine #8: 5-STAGE ZERO-RISK RATCHET LADDER (Net-Friction-Adjusted Floors with 1.30% breathing room so winners aren't choked early!)
     const peakGainPct = ((pos.highestPrice - pos.entryPrice) / pos.entryPrice) * 100;
     let stepFloorPrice = pos.stopLossPrice;
     if (peakGainPct >= 7.0) {
@@ -1262,11 +1295,11 @@ async function runTradingCycle() {
       stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.986).toPrecision(5)), Number((pos.entryPrice * 1.0342).toPrecision(5)));
     } else if (peakGainPct >= 3.2) {
       stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.0202).toPrecision(5)));
-    } else if (peakGainPct >= 2.2) {
+    } else if (peakGainPct >= 2.3) {
       stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.0112).toPrecision(5)));
-    } else if (peakGainPct >= 1.5) {
-      // True +1.5% Zero-Risk Breakeven+ Lock: locks +0.40% net profit after 0.22% exit friction (1.0062x entry)!
-      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.0062).toPrecision(5)));
+    } else if (peakGainPct >= 1.75) {
+      // True +1.75% Zero-Risk Breakeven+ Lock: locks >= +0.45% net profit after 0.22% exit friction (1.0068 * (1 - 0.0022) - 1 = +0.458% net)!
+      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.0068).toPrecision(5)));
     }
 
     if (stepFloorPrice > pos.stopLossPrice) {
@@ -1403,14 +1436,41 @@ async function runTradingCycle() {
     }
   }
 
-  // Engine #9: Smart Portfolio Rotation + Listing Sniper (Anti-Churn: only rotates after >=10h in net profit >=+0.50% for a fresh <=60m REAL breaking news catalyst, avoiding TRY spread bleed!)
+  // Compute completed lifecycle net PnL (TP1 + TP2 + FINAL grouped by positionId) for Lifecycle-Based Circuit Breaker
+  const openPosIdsForCb = new Set((state.openPositions || []).map(p => p.id).filter(Boolean));
+  const cbLifecycleMap = new Map();
+  for (let i = 0; i < (state.closedTrades || []).length; i++) {
+    const ct = state.closedTrades[i];
+    const pid = ct.positionId || ct.id || `legacy_cb_${i}`;
+    if (openPosIdsForCb.has(pid)) continue;
+    if (!cbLifecycleMap.has(pid)) {
+      cbLifecycleMap.set(pid, { netPnlUsdt: 0, exitTime: ct.exitTime || null });
+    }
+    const g = cbLifecycleMap.get(pid);
+    g.netPnlUsdt = Number((g.netPnlUsdt + Number(ct.netPnlUsdt || 0)).toFixed(4));
+    if (!g.exitTime && ct.exitTime) g.exitTime = ct.exitTime;
+  }
+  let consecutiveLosses = 0;
+  let lastLossExitMs = 0;
+  for (const lc of cbLifecycleMap.values()) {
+    if (lc.netPnlUsdt < -0.05) {
+      consecutiveLosses++;
+      if (!lastLossExitMs && lc.exitTime) lastLossExitMs = new Date(lc.exitTime).getTime();
+    } else if (lc.netPnlUsdt > 0.02) {
+      break;
+    }
+  }
+  const isCircuitBreakerPaused = Boolean(consecutiveLosses >= 2 && lastLossExitMs > 0 && nowMs - lastLossExitMs < 45 * 60 * 1000);
+  const cbRemainMins = isCircuitBreakerPaused ? Math.max(1, Math.ceil((45 * 60 * 1000 - (nowMs - lastLossExitMs)) / 60000)) : 0;
+
+  // Engine #9: Listing Sniper Rotation ONLY (Anti-Churn: Never swap normal positions! Also blocked when Circuit Breaker is active!)
   const coreOpenPositions = state.openPositions.filter(p => !p.isMoonshot);
   const heldSymSetForRot = new Set(state.openPositions.map(p => p.symbol));
   const stagnantIdx = coreOpenPositions.length >= cfg.MAX_OPEN_POSITIONS
     ? state.openPositions.findIndex(p => {
         if (p.isMoonshot) return false;
         const hrs = (nowMs - new Date(p.entryTime).getTime()) / (1000 * 3600);
-        return hrs >= 10.0 && p.unrealizedPnlPct >= 0.50 && p.unrealizedPnlPct <= 1.10 && !p.partialTpDone;
+        return hrs >= 12.0 && p.unrealizedPnlPct >= 0.45 && p.unrealizedPnlPct <= 1.00 && !p.partialTpDone;
       })
     : -1;
   const usedLeadersAfterRot = new Set(
@@ -1419,22 +1479,18 @@ async function runTradingCycle() {
   const bestCandidate = candidates.find(c => {
     if (heldSymSetForRot.has(c.symbol)) return false;
     if (usedLeadersAfterRot.has(c.leaderSymbol)) return false;
-    if ((c.freshestMinutesAgo || 0) > 60) return false; // Must be fresh <= 60m breaking news to justify rotation spread!
+    if (c.hasDirectMention === false || c.liveLlmDecision !== 'LONG') return false;
+    if ((c.freshestMinutesAgo || 0) > 20) return false; // Must be ultra-fresh <= 20m official listing alert!
     if (state.cooldowns[c.symbol] && state.cooldowns[c.symbol] > nowMs) return false;
-    const isSynth = ['WhaleOrderflowRadar', 'ShortSqueezeRadar'].includes(c.headlines?.[0]?.source);
-    if (isSynth) return false; // Never rotate an existing position for a synthetic no-news signal!
-    return (c.takerBuyRatioPct || 50) >= 53.0 && (!c.topWhaleLongPct || c.topWhaleLongPct >= 52) && (c.rsi1h || 50) <= 52;
+    const isListing = c.headlines?.some(h => h.source === 'BinanceListingSniper' && h.minutesAgo <= 20);
+    if (!isListing) return false; // 100% BAN normal mid-trade coin-hopping!
+    return (c.takerBuyRatioPct || 50) >= 54.0 && (c.rsi1h || 50) <= 58;
   });
-  const isListingSniperAlert = Boolean(
-    bestCandidate &&
-    bestCandidate.headlines?.some(h => h.source === 'BinanceListingSniper' && h.minutesAgo <= 60) &&
-    bestCandidate.totalScore >= 85
-  );
+  const isListingSniperAlert = Boolean(bestCandidate && bestCandidate.totalScore >= 90);
   if (
     !signalsData.btcCrashAlert &&
-    bestCandidate &&
-    bestCandidate.totalScore >= 85 &&
-    (bestCandidate.rsi1h || 50) <= (isListingSniperAlert ? 60 : 55) &&
+    !isCircuitBreakerPaused &&
+    isListingSniperAlert &&
     coreOpenPositions.length >= cfg.MAX_OPEN_POSITIONS &&
     stagnantIdx !== -1
   ) {
@@ -1445,29 +1501,39 @@ async function runTradingCycle() {
     }
     if (canTradeCandOnTr) {
       const candOb = await checkOrderbookImbalance(bestCandidate.symbol);
-      if (candOb >= -0.05) {
+      if (candOb >= 0.0) {
         const stag = state.openPositions[stagnantIdx];
         const sq = quotes[stag.symbol];
-        if (sq && sq.bestBid) {
+        if (sq && sq.bestBid && (!state.liveActivated || sq.priceSource === 'BINANCE_TR')) {
           let rotSellOk = true;
+          let soldQty = stag.qty;
           if (state.mode === 'LIVE_BINANCE') {
             const sellRes = await executeBinanceRealOrder(cfg, stag.symbol, 'SELL', stag.qty);
             if (!sellRes || sellRes.code !== 0) rotSellOk = false;
+            else if (sellRes.executedQty > 0) soldQty = sellRes.executedQty;
           }
           if (rotSellOk) {
-            const proceedsUsdt = Number((sq.bestBid * stag.qty).toFixed(4));
-            const netPnlUsdt = Number((proceedsUsdt - stag.costUsdt).toFixed(4));
+            const proceedsUsdt = Number((sq.bestBid * soldQty).toFixed(4));
+            const exactCostUsdt = Number((stag.entryPrice * soldQty).toFixed(4));
+            const netPnlUsdt = Number(((sq.bestBid - stag.entryPrice) * soldQty).toFixed(4));
+            const netPnlTry = Number((netPnlUsdt * USD_TRY_RATE).toFixed(2));
             state.cashUsdt = Number((state.cashUsdt + proceedsUsdt).toFixed(4));
             state.realizedPnlUsdt = Number((state.realizedPnlUsdt + netPnlUsdt).toFixed(4));
             if (netPnlUsdt >= 0) state.winCount++;
             else state.lossCount++;
+            const rotReason = `⚡ RESMİ LİSTELEME ROTASYONU (${bestCandidate.symbol} [${bestCandidate.totalScore}p] Listelemesine Geçildi)`;
+            appendTradeTelemetry(stag, sq.bestBid, rotReason, netPnlUsdt, netPnlTry, soldQty);
             state.closedTrades.unshift({
               ...stag,
+              positionId: stag.id,
+              leg: 'FINAL',
+              qty: soldQty,
+              costUsdt: exactCostUsdt,
               exitPrice: sq.bestBid,
               exitTime: new Date().toISOString(),
-              exitReason: `⚡ AKILLI ROTASYON (${bestCandidate.symbol} [${bestCandidate.totalScore}p] Fırsatına Geçildi)`,
+              exitReason: rotReason,
               netPnlUsdt,
-              netPnlTry: Number((netPnlUsdt * USD_TRY_RATE).toFixed(2)),
+              netPnlTry,
             });
             state.openPositions.splice(stagnantIdx, 1);
             if (state.mode === 'LIVE_BINANCE') {
@@ -1513,11 +1579,6 @@ async function runTradingCycle() {
     const drawdownFromPeakPct = state.highWaterMarkUsdt > 0
       ? ((state.highWaterMarkUsdt - currentTotalEquity) / state.highWaterMarkUsdt) * 100
       : 0;
-    let consecutiveLosses = 0;
-    for (const ct of state.closedTrades || []) {
-      if (ct.netPnlUsdt < -0.05) consecutiveLosses++;
-      else if (ct.netPnlUsdt > 0.02) break;
-    }
     const isAntiMeltdownActive = consecutiveLosses >= 2 || drawdownFromPeakPct >= 4.0;
 
     // Engine #18: Rejim Bazlı Brüt Pozisyon Tavanı (Regime-Based Max Gross Exposure)
@@ -1527,7 +1588,7 @@ async function runTradingCycle() {
       breadthPct >= 24 ? 0.50 : 0.35; // When breadth < 24%, keep at least 65% in safe TRY cash!
     const maxGrossExposureUsdt = Number((currentTotalEquity * regimeExposurePct).toFixed(2));
     const effectiveMaxSlots = isRedMarketDump
-      ? 2
+      ? 1
       : isWeakMarket || isAntiMeltdownActive
         ? cfg.MAX_OPEN_POSITIONS
         : state.cashUsdt >= 3.00
@@ -1543,7 +1604,12 @@ async function runTradingCycle() {
     // Record live "Why No New Coin Bought?" summary + detail for RAPOR.md and Web Dashboard
     const curOpenTry = Math.round(state.openPositions.reduce((s, p) => s + p.currentPrice * p.qty, 0) * USD_TRY_RATE);
     const maxExpTry = Math.round(maxGrossExposureUsdt * USD_TRY_RATE);
-    if (isRedMarketDump) {
+    if (isCircuitBreakerPaused) {
+      state.noBuyShort = `🛑 Raad ol, 45 dk soğuma kalkanı devrede (${cbRemainMins} dk kaldı): Ardışık 2 zarardan sonra dalgalı piyasada kasa korunuyor (${toTL(state.cashUsdt)} TL nakit güvende).`;
+      state.noBuyDetail =
+        `1) **Küresel Devre Kesici (Global Circuit Breaker):** Tamamlanmış son pozisyon ömürlerinde ardışık ${consecutiveLosses} zarar tespit edildiği için zincirleme stop yememek adına yeni alımlar **${cbRemainMins} dakika** daha donduruldu. ` +
+        `2) **Piyasa Durumu:** Altcoinlerin %${100 - breadthPct}'u kırmızı (%${breadthPct} yeşil). Soğuma süresi bitene kadar \`${toTL(state.cashUsdt)} TL\` nakit %100 korunuyor.`;
+    } else if (isRedMarketDump) {
       state.noBuyShort = `🛡️ Raad ol, nakit kalkanı devrede: Piyasanın %${100 - breadthPct}'u kırmızı (%${breadthPct} yeşil) ve direkt pump haberi yok; ${toTL(state.cashUsdt)} TL nakiti eritmemek için bekliyoruz.`;
       state.noBuyDetail =
         `1) **Piyasa Kan Gölü (%${breadthPct} Yeşil / %${100 - breadthPct} Kırmızı):** Altcoinlerin %${100 - breadthPct}'u şu an düşüşte (1s BTC: %${signalsData.btc1hChangePct || 0}). ` +
@@ -1561,6 +1627,7 @@ async function runTradingCycle() {
     }
 
     for (const cand of candidates) {
+      if (isCircuitBreakerPaused) break;
       const curCoreCount = state.openPositions.filter(p => !p.isMoonshot).length;
       const curOpenExposureUsdt = state.openPositions.reduce((s, p) => s + p.currentPrice * p.qty, 0);
       const remainingExposureUsdt = Number((maxGrossExposureUsdt - curOpenExposureUsdt).toFixed(2));
@@ -1590,7 +1657,8 @@ async function runTradingCycle() {
       const minReqWhale = coinMem ? Math.max(baseMinWhale, coinMem.minWhale) : baseMinWhale;
       const maxReqRsi = coinMem ? Math.min(baseMaxRsi, coinMem.maxRsi) : baseMaxRsi;
       if (effectiveTotalScore < minReqScore) continue;
-      if ((cand.freshestMinutesAgo || 0) > 360) continue; // Reject stale news older than 6 hours
+      const maxAllowedNewsAgeMins = isRedMarketDump || isWeakMarket ? 45 : 75;
+      if ((cand.freshestMinutesAgo || 0) > maxAllowedNewsAgeMins) continue; // Reject stale news older than 45-75 minutes!
       const isSynthCand = ['WhaleOrderflowRadar', 'ShortSqueezeRadar'].includes(cand.headlines?.[0]?.source);
       if (isSynthCand) {
         continue; // 100% BAN no-news synthetic signals! Only trade verified real news catalysts!
@@ -1659,7 +1727,8 @@ async function runTradingCycle() {
         const postBuyTr = await fetchBinanceTrStatus(cfg);
         if (postBuyTr.ok && postBuyTr.assetsMap?.[cand.symbol] > 0) {
           const rawWalletQty = postBuyTr.assetsMap[cand.symbol];
-          qty = trRule?.stepSize ? floorToStep(rawWalletQty, trRule.stepSize) : rawWalletQty;
+          const lotFilter = (trRule?.filters || []).find(f => f.filterType === 'LOT_SIZE');
+          qty = lotFilter?.stepSize ? roundToStepSize(rawWalletQty, lotFilter.stepSize) : rawWalletQty;
         }
       }
 
@@ -2377,8 +2446,8 @@ async function runFastPositionRiskTick() {
       if (peakGainPct >= 7.0) stepFloor = Math.max(stepFloor, Number((pos.highestPrice * 0.988).toPrecision(5)), Number((pos.entryPrice * 1.0602).toPrecision(5)));
       else if (peakGainPct >= 4.5) stepFloor = Math.max(stepFloor, Number((pos.highestPrice * 0.986).toPrecision(5)), Number((pos.entryPrice * 1.0342).toPrecision(5)));
       else if (peakGainPct >= 3.2) stepFloor = Math.max(stepFloor, Number((pos.entryPrice * 1.0202).toPrecision(5)));
-      else if (peakGainPct >= 2.2) stepFloor = Math.max(stepFloor, Number((pos.entryPrice * 1.0112).toPrecision(5)));
-      else if (peakGainPct >= 1.5) stepFloor = Math.max(stepFloor, Number((pos.entryPrice * 1.0062).toPrecision(5)));
+      else if (peakGainPct >= 2.3) stepFloor = Math.max(stepFloor, Number((pos.entryPrice * 1.0112).toPrecision(5)));
+      else if (peakGainPct >= 1.75) stepFloor = Math.max(stepFloor, Number((pos.entryPrice * 1.0068).toPrecision(5)));
 
       if (stepFloor > pos.stopLossPrice) {
         pos.stopLossPrice = stepFloor;
@@ -2390,6 +2459,8 @@ async function runFastPositionRiskTick() {
       const netPnlTryExec = (executableExit - pos.entryPrice) * pos.qty * USD_TRY_RATE;
       const posRiskBudgetTry = Number(pos.riskBudgetTry || 4.50);
       const nowTickMs = Date.now();
+      const minsHeldFast = (nowTickMs - new Date(pos.entryTime || nowTickMs).getTime()) / 60000;
+      const isFastSlowBleed = !pos.partialTpDone && minsHeldFast >= 75 && peakGainPct < 1.0 && pos.unrealizedPnlPct <= -0.55;
 
       if (currentBid <= pos.stopLossPrice || (!pos.trailingActive && netPnlTryExec <= -posRiskBudgetTry)) {
         pos.stopHitCount = (pos.stopHitCount || 0) + 1;
@@ -2405,6 +2476,7 @@ async function runFastPositionRiskTick() {
       const isConfirmedStop =
         (pos.trailingActive && currentBid <= pos.stopLossPrice) ||
         isEmergencyTlLoss ||
+        isFastSlowBleed ||
         (pos.stopHitCount >= 2 && nowTickMs - (pos.firstStopHitAt || nowTickMs) >= 3000);
 
       if (isConfirmedStop) {
