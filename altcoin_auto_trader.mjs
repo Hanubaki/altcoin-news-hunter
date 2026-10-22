@@ -1161,7 +1161,9 @@ async function runTradingCycle() {
     const usedLeaders = new Set(state.openPositions.map(p => p.leaderSymbol));
     const heldSymbols = new Set(state.openPositions.map(p => p.symbol));
 
-    const isWeakMarket = (signalsData.marketBreadthPct ?? 50) < 22;
+    const breadthPct = signalsData.marketBreadthPct ?? 50;
+    const isWeakMarket = breadthPct < 32;
+    const isRedMarketDump = breadthPct < 24;
 
     // Engine #13: Kasa Erime Sigortası (Anti-Meltdown & Consecutive-Loss Shield)
     if (state.highWaterMarkUsdt && state.highWaterMarkUsdt > currentTotalEquity * 1.20 && (state.lossCount || 0) === 0) { state.highWaterMarkUsdt = Number(currentTotalEquity.toFixed(4)); }
@@ -1176,23 +1178,30 @@ async function runTradingCycle() {
     }
     const isAntiMeltdownActive = consecutiveLosses >= 2 || drawdownFromPeakPct >= 4.0;
 
-    // Idle Cash Self-Healing Watchdog: If cash >= 1.50 USDT (~75 TL) sits idle > 15 mins, relax ecosystem/orderbook filters automatically
-    const effectiveMaxSlots = state.cashUsdt >= 3.00 ? cfg.MAX_OPEN_POSITIONS + 1 : cfg.MAX_OPEN_POSITIONS;
-    if (state.cashUsdt >= 1.50 && state.openPositions.filter(p => !p.isMoonshot).length < effectiveMaxSlots) {
+    // Engine #18: Kızıl Piyasa Nakit Kalkanı (Bearish Market Cash-Shield)
+    // Never force idle cash into coins when market breadth is weak (<32% green), and cap max open slots during dumps!
+    const effectiveMaxSlots = isRedMarketDump
+      ? 2
+      : isWeakMarket || isAntiMeltdownActive
+        ? cfg.MAX_OPEN_POSITIONS
+        : state.cashUsdt >= 3.00
+          ? cfg.MAX_OPEN_POSITIONS + 1
+          : cfg.MAX_OPEN_POSITIONS;
+    if (!isWeakMarket && !isAntiMeltdownActive && state.cashUsdt >= 1.50 && state.openPositions.filter(p => !p.isMoonshot).length < effectiveMaxSlots) {
       if (!state.cashIdleSince) state.cashIdleSince = nowMs;
     } else {
       state.cashIdleSince = null;
     }
-    const isCashIdleTooLong = Boolean(state.cashIdleSince && nowMs - state.cashIdleSince >= 15 * 60 * 1000);
+    const isCashIdleTooLong = Boolean(!isWeakMarket && !isAntiMeltdownActive && state.cashIdleSince && nowMs - state.cashIdleSince >= 15 * 60 * 1000);
 
     for (const cand of candidates) {
       const curCoreCount = state.openPositions.filter(p => !p.isMoonshot).length;
-      const maxCoreAllowed = state.cashUsdt >= 3.00 ? cfg.MAX_OPEN_POSITIONS + 1 : cfg.MAX_OPEN_POSITIONS;
+      const maxCoreAllowed = effectiveMaxSlots;
       if (curCoreCount >= maxCoreAllowed) break;
       if (state.cashUsdt < 1.50) break;
       if (heldSymbols.has(cand.symbol)) continue;
-      // Only skip if AI explicitly flagged WAIT with ultra-high trap confidence (>=92) AND whale flow is weak (<53%)
-      if (cand.liveLlmDecision === 'WAIT' && (cand.liveLlmConfidence || 0) >= 92 && (cand.takerBuyRatioPct || 50) < 53) continue;
+      // Strict AI Council Veto: If Live LLM Council says WAIT (trap/unrelated news), respect the veto immediately!
+      if (cand.liveLlmDecision === 'WAIT' && (cand.liveLlmConfidence || 0) >= 65) continue;
       if (usedLeaders.has(cand.leaderSymbol) && !(isCashIdleTooLong && cand.totalScore >= 75)) continue;
       const adaptiveMem = state.adaptiveMemory || runAdaptiveLearningEngine(state);
       const coinMem = adaptiveMem?.coinStats?.[cand.symbol];
@@ -1202,9 +1211,9 @@ async function runTradingCycle() {
       const hasInstitutionalWhaleSurge =
         ((cand.topWhaleLongPct || 0) >= 60 && (cand.oiChange15mPct || 0) >= 0.2) ||
         ((cand.topWhaleLongPct || 0) >= 65 && (cand.oiChange15mPct || 0) >= 0 && (cand.rsi1h || 50) <= 45 && (cand.freshestMinutesAgo || 999) <= 60);
-      const minReqScore = isWeakMarket ? 78 : isAntiMeltdownActive ? 72 : 58;
-      const baseMinWhale = isWeakMarket ? 54 : isAntiMeltdownActive ? 54.0 : hasInstitutionalWhaleSurge ? 46.0 : isCashIdleTooLong ? 50.2 : 51.0;
-      const baseMaxRsi = isWeakMarket ? 45 : isAntiMeltdownActive ? 48 : isCashIdleTooLong ? 57 : 55;
+      const minReqScore = isRedMarketDump ? 90 : isWeakMarket ? 78 : isAntiMeltdownActive ? 72 : 58;
+      const baseMinWhale = isRedMarketDump ? 58.0 : isWeakMarket ? 54 : isAntiMeltdownActive ? 54.0 : hasInstitutionalWhaleSurge ? 46.0 : isCashIdleTooLong ? 50.2 : 51.0;
+      const baseMaxRsi = isRedMarketDump ? 32 : isWeakMarket ? 45 : isAntiMeltdownActive ? 48 : isCashIdleTooLong ? 57 : 55;
       const minReqWhale = coinMem ? Math.max(baseMinWhale, coinMem.minWhale) : baseMinWhale;
       const maxReqRsi = coinMem ? Math.min(baseMaxRsi, coinMem.maxRsi) : baseMaxRsi;
       if (effectiveTotalScore < minReqScore) continue;
