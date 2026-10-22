@@ -423,25 +423,25 @@ function writeCleanTlReport(state) {
         .join('\n') + '\n';
 
   const openRows = state.openPositions.length === 0
-    ? '| *Şu an açık işlem yok* | - | - | - | - |\n'
+    ? '| *Şu an açık işlem yok* | - | - | - | - | - |\n'
     : state.openPositions
         .map(p => {
           const investedTry = toTL(p.costUsdt);
           const curTry = toTL(p.currentPrice * p.qty);
           const pnlSign = p.unrealizedPnlUsdt >= 0 ? '+' : '';
           const pnlTry = toTL(p.unrealizedPnlUsdt);
-          const stageTxt = p.isMoonshot
-            ? p.trailingActive
-              ? `🎰 VURGUN SLOTU (Sıfır Risk Kilidi Aktif — +%18 / Sınırsız Pump Peşinde)`
-              : `🎰 KORUMALI VURGUN SLOTU (-%${p.slPct || 2.5} ATR Kalkanı | Hedef: +%18)`
-            : p.stage2TpDone
-              ? `🚀 2 Kademe Alındı, Kalan %30 Sıfır Riskle Sınırsız Roket Modunda`
-              : p.partialTpDone
-                ? `🔒 1. Kademe Cebimizde, Kalan %60 Sıfır Riskle +%7,5 Hedefinde`
-                : p.trailingActive
-                  ? `🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış)`
-                  : `🛡️ ATR Kalkanı (-%${p.slPct || 2.4} Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır)`;
-          return `| **${p.symbol}${p.isMoonshot ? ' (VURGUN)' : ''}** | \`${investedTry} TL\` | \`${curTry} TL\` | **\`${pnlSign}${pnlTry} TL (%${p.unrealizedPnlPct})\`** | ${stageTxt} |`;
+          const slPrice = p.stopLossPrice || Number((p.entryPrice * 0.985).toPrecision(5));
+          const tp1Price = Number((p.entryPrice * 1.028).toPrecision(5));
+          const tpMainPrice = p.takeProfitPrice || Number((p.entryPrice * 1.055).toPrecision(5));
+          const srTxt = `📉 **Destek (Stop):** \`$${slPrice}\` (\`-%${p.slPct || 1.5}\`)<br>📈 **Direnç 1:** \`$${tp1Price}\` (\`+%2.8\`) \| **Direnç 2:** \`$${tpMainPrice}\``;
+          const stageTxt = p.stage2TpDone
+            ? `🚀 2 Kademe Alındı, Kalan %30 Sıfır Riskle Sınırsız Roket Modunda`
+            : p.partialTpDone
+              ? `🔒 1. Kademe Cebimizde, Kalan %60 Sıfır Riskle +%7,5 Hedefinde`
+              : p.trailingActive
+                ? `🛡️ Maliyet Üstü Sıfır Risk Kilidi Aktif (+%2,8'de 1. Kademe Satış)`
+                : `🛡️ Kesin Demir Kilit (-%${p.slPct || 1.5} Stop \| +%1,5'te Sıfır Risk, +%2,8'de %40 Hasat)`;
+          return `| **${p.symbol}** | \`${investedTry} TL\` | \`${curTry} TL\` | **\`${pnlSign}${pnlTry} TL (%${p.unrealizedPnlPct})\`** | ${srTxt} | ${stageTxt} |`;
         })
         .join('\n') + '\n';
 
@@ -473,8 +473,8 @@ ${closedRows}
 
 ## 3. ŞU AN AÇIK OLAN İŞLEMLER (DEVAM EDENLER)
 
-| Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
-| :--- | :--- | :--- | :--- | :--- |
+| Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Teknik Destek (Stop) & Direnç (Hedef) Seviyeleri | Risk & Otomatik Satış Planı |
+| :--- | :--- | :--- | :--- | :--- | :--- |
 ${openRows}
 ---
 

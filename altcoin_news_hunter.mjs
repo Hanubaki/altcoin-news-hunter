@@ -148,6 +148,7 @@ const BULLISH_TERMS = [
   'win', 'wins', 'settlement', 'expansion', 'institutional', 'milestone',
   'buck', 'outperform', 'whale', 'listing', 'will list', 'will add', 'collateral',
   'support', 'growth', 'advances', 'major', 'date for', 'new', 'unveil', 'unveils', 'boost', 'jump',
+  'ortaklık', 'entegre', 'listeleme', 'onay', 'yatırım aldı', 'net giriş', 'rekor', 'beklentileri aştı', 'destekliyor', 'ralli', 'yükseliş', 'lisans',
 ];
 
 const BEARISH_TERMS = [
@@ -161,6 +162,7 @@ const BEARISH_TERMS = [
   'struggle', 'struggles', 'stall', 'stalls', 'weak', 'bleed', 'ran out of',
   'retest', 'may retest', 'could drop', 'could fall', 'price prediction', 'before its next',
   'contain', 'restrict', 'crackdown', 'pullback', 'correction', 'downside',
+  'çıkış yaşadı', 'net çıkış', 'saldırgan', 'çaldı', 'durduracağını', 'uyarıyor', 'zayıflatıyor', 'düşüş', 'satış baskısı', 'sattı', 'belirsizlik',
 ];
 
 function getAllTrackedSymbols() {
@@ -297,6 +299,8 @@ async function fetchTelegramPublicChannels() {
     { handle: 'binance_announcements', name: 'BinanceTG', weight: 2.5 },
     { handle: 'WatcherGuru', name: 'WatcherGuruTG', weight: 1.75 },
     { handle: 'unfolded', name: 'UnfoldedTG', weight: 1.75 },
+    { handle: 'coinkolik', name: 'CoinkolikTG', weight: 1.65 },
+    { handle: 'Cointelegraph_TR', name: 'CointelegraphTR', weight: 1.65 },
   ];
   try {
     const stPath = path.resolve('portfolio_state.json');
