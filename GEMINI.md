@@ -1,0 +1,9 @@
+# Workspace Rules — AltcoinAutoTrader & AltcoinNewsHunter (`modest-faraday`)
+
+## Zero-Conflict & Cross-Engine Harmonization Rule (Mandatory)
+1. **End-to-End Cross-Engine Verification:** Any change in `altcoin_news_hunter.mjs` or `altcoin_auto_trader.mjs` MUST be verified against all interacting engines before going live:
+   - **Scanner Gate vs. Execution Gate:** Freshness limits (`<=45–75m`), `directMention === true`, RSI ceilings, and 4-Model AI Council (`liveLlmDecision`) quotas must never starve valid fresh candidates or allow stale candidates through.
+   - **TP1/TP2 vs. Ratchet Stop Ladder:** Pre-TP1 ratchet floors (`+0.46%` net breakeven+) must never choke a position at intermediate levels (`+1.1%` / `+2.0%`) before `TP1` (`pos.tp1Pct`) is harvested. Upper ratchet steps (`3.2%`, `4.5%`, `7.0%`) only activate after `pos.partialTpDone === true`.
+   - **Main Loop (`runTradingCycle`) vs. 4-Second Fast Loop (`runFastPositionRiskTick`):** Both loops must execute identical `BINANCE_TR` fail-closed quote guards, identical `processProfitTargets`, identical ratchet ladders, and identical `Slow-Bleed` / `Time-Deterministic Stop` confirmations.
+   - **Exchange Constraints (`LOT_SIZE` & `MIN_NOTIONAL >= 55 TL`):** Never split a position into a partial sell or moonbag below `55 TL` on Binance TR; lock the full position stop instead so no unsellable dust is created.
+   - **Lifecycle Accounting:** `winCount`, `lossCount`, Bayes `n`, and the 45-minute Global Circuit Breaker must always be computed from completed position lifecycles (`positionId` grouping `TP1 + TP2 + FINAL`), never inflated by individual partial legs.
