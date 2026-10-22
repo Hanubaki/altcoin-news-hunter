@@ -968,8 +968,10 @@ async function runTradingCycle() {
       } else if (peakGainPct >= 3.2) {
         stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.018).toPrecision(5)));
       } else if (peakGainPct >= 2.2) {
-        // Zero-Risk Breakeven+ Lock once coin reaches +2.2% peak (locks +0.80% net profit, giving 1.4% breathing room against normal pullbacks!)
-        stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.008).toPrecision(5)));
+        stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.009).toPrecision(5)));
+      } else if (peakGainPct >= 1.5) {
+        // True +1.5% Zero-Risk Breakeven+ Lock: locks +0.40% net profit as soon as coin reaches +1.5%!
+        stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.004).toPrecision(5)));
       }
     }
 
@@ -980,10 +982,10 @@ async function runTradingCycle() {
     pos.trailingActive = pos.stopLossPrice > pos.entryPrice;
     if (peakGainPct >= 2.5 && pos.trailingActive) pos.rocketMode = true;
 
-    // Oversold Dip Breathing Shield: If entered at RSI <= 40 and not yet in profit lock, ensure at least 2.8% breathing room against bottom wicks + spread
-    if (!pos.trailingActive && (pos.rsiAtEntry || 50) <= 40 && (pos.slPct || 2.0) < 2.8) {
-      pos.slPct = 2.8;
-      pos.stopLossPrice = Number((pos.entryPrice * (1 - 0.028)).toPrecision(5));
+    // Hard -1.5% Maximum Downside Risk Lock: Never allow any position to bleed down to -2.8% or -3.2%!
+    if (!pos.trailingActive && (pos.slPct || 2.0) > 1.5) {
+      pos.slPct = 1.5;
+      pos.stopLossPrice = Number((pos.entryPrice * (1 - 0.015)).toPrecision(5));
     }
 
     const hoursHeld = (nowMs - new Date(pos.entryTime).getTime()) / (1000 * 3600);
@@ -1269,9 +1271,8 @@ async function runTradingCycle() {
         if (!buyRes || buyRes.code !== 0) continue;
       }
 
-      // Use healthy ATR-based stop-loss (2.2% to 3.2%, or 2.8% minimum for RSI <= 40 oversold dip entries) so normal 15m volatility + spread doesn't stop out the trade at the bottom
-      const minSafeSl = (cand.rsi1h || 50) <= 40 ? 2.8 : 2.2;
-      const safeSlPct = Number(Math.max(minSafeSl, Math.min(Number(cand.slPct || 2.5), 3.2)).toFixed(2));
+      // Strict -1.5% Maximum Risk Lock on all entries
+      const safeSlPct = 1.5;
       const tpPrice = Number((buyPrice * (1 + cand.tpPct / 100)).toPrecision(5));
       const slPrice = Number((buyPrice * (1 - safeSlPct / 100)).toPrecision(5));
 

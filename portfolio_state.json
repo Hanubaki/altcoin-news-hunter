@@ -1,81 +1,15 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-22T05:14:40.385Z",
+  "updatedAt": "2026-10-22T05:19:38.449Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.202,
   "initialBankrollTry": 1000,
-  "cashUsdt": 0.0155,
-  "realizedPnlUsdt": 0.7359,
+  "cashUsdt": 10.0804,
+  "realizedPnlUsdt": 0.561,
   "winCount": 21,
-  "lossCount": 11,
+  "lossCount": 13,
   "openPositions": [
-    {
-      "id": "pos_1792631471334_CAKE",
-      "symbol": "CAKE",
-      "leaderSymbol": "BNB",
-      "ecosystem": "Binance / BNB Chain, Launchpool & DEX Ekosistemi",
-      "headline": "CAKE Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
-      "newsSource": "ShortSqueezeRadar",
-      "newsScore": 6.61,
-      "totalScore": 120.7,
-      "rsiAtEntry": 38.37,
-      "atr1hPct": 0.62,
-      "takerBuyRatioPct": 64.1,
-      "obImbalance": 0.33,
-      "entryTime": "2026-10-22T01:11:11.334Z",
-      "entryPrice": 2.232,
-      "currentPrice": 2.192,
-      "highestPrice": 2.235,
-      "qty": 2.2277,
-      "costUsdt": 4.9722,
-      "costTry": 246.12,
-      "takeProfitPrice": 2.3324,
-      "stopLossPrice": 2.1695,
-      "tpPct": 4.5,
-      "slPct": 2.8,
-      "partialTpDone": false,
-      "stage2TpDone": false,
-      "trailingActive": false,
-      "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0891,
-      "unrealizedPnlPct": -1.79,
-      "currentPriceTry": 108.504,
-      "currentValueTry": 241.71
-    },
-    {
-      "id": "pos_1792633225628_PNUT",
-      "symbol": "PNUT",
-      "leaderSymbol": "DOGE",
-      "ecosystem": "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri",
-      "headline": "PNUT Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
-      "newsSource": "ShortSqueezeRadar",
-      "newsScore": 6.53,
-      "totalScore": 119.4,
-      "rsiAtEntry": 40,
-      "atr1hPct": 1,
-      "takerBuyRatioPct": 79.7,
-      "obImbalance": 0.19,
-      "entryTime": "2026-10-22T01:40:25.628Z",
-      "entryPrice": 0.0449,
-      "currentPrice": 0.0441,
-      "highestPrice": 0.0449,
-      "qty": 118.3628,
-      "costUsdt": 5.3145,
-      "costTry": 263.07,
-      "takeProfitPrice": 0.04692,
-      "stopLossPrice": 0.043643,
-      "tpPct": 4.5,
-      "slPct": 2.8,
-      "partialTpDone": false,
-      "stage2TpDone": false,
-      "trailingActive": false,
-      "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0947,
-      "unrealizedPnlPct": -1.78,
-      "currentPriceTry": 2.1829,
-      "currentValueTry": 258.38
-    },
     {
       "id": "pos_1792634674904_LTC",
       "symbol": "LTC",
@@ -97,9 +31,9 @@
       "costUsdt": 4.6961,
       "costTry": 232.46,
       "takeProfitPrice": 63.86,
-      "stopLossPrice": 59.399,
+      "stopLossPrice": 60.193,
       "tpPct": 4.5,
-      "slPct": 2.8,
+      "slPct": 1.5,
       "partialTpDone": false,
       "stage2TpDone": false,
       "trailingActive": false,
@@ -124,26 +58,102 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-22T04:50:59.199Z",
       "entryPrice": 264.9,
-      "currentPrice": 264.9,
+      "currentPrice": 264.5,
       "highestPrice": 266.2,
       "qty": 0.0162674,
       "costUsdt": 4.3092,
       "costTry": 213.31,
       "takeProfitPrice": 276.82,
-      "stopLossPrice": 257.48,
+      "stopLossPrice": 260.93,
       "tpPct": 4.5,
-      "slPct": 2.8,
+      "slPct": 1.5,
       "partialTpDone": false,
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": 0,
-      "unrealizedPnlPct": 0,
-      "currentPriceTry": 13112.55,
-      "currentValueTry": 213.31
+      "unrealizedPnlUsdt": -0.0065,
+      "unrealizedPnlPct": -0.15,
+      "currentPriceTry": 13092.75,
+      "currentValueTry": 212.99
     }
   ],
   "closedTrades": [
+    {
+      "id": "pos_1792633225628_PNUT",
+      "symbol": "PNUT",
+      "leaderSymbol": "DOGE",
+      "ecosystem": "Elon Musk, X Payments & Yüksek Hacimli Meme Katalizörleri",
+      "headline": "PNUT Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
+      "newsSource": "ShortSqueezeRadar",
+      "newsScore": 6.53,
+      "totalScore": 119.4,
+      "rsiAtEntry": 40,
+      "atr1hPct": 1,
+      "takerBuyRatioPct": 79.7,
+      "obImbalance": 0.19,
+      "entryTime": "2026-10-22T01:40:25.628Z",
+      "entryPrice": 0.0449,
+      "currentPrice": 0.0441,
+      "highestPrice": 0.0449,
+      "qty": 118.3628,
+      "costUsdt": 5.3145,
+      "costTry": 263.07,
+      "takeProfitPrice": 0.04692,
+      "stopLossPrice": 0.044227,
+      "tpPct": 4.5,
+      "slPct": 1.5,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": -0.0947,
+      "unrealizedPnlPct": -1.78,
+      "currentPriceTry": 2.1829,
+      "currentValueTry": 258.38,
+      "exitPrice": 0.0441,
+      "exitTime": "2026-10-22T05:19:33.430Z",
+      "exitReason": "🛡️ ATR KORUMA KALKANI (%-1.78)",
+      "netPnlUsdt": -0.0947,
+      "netPnlTry": -4.69
+    },
+    {
+      "id": "pos_1792631471334_CAKE",
+      "symbol": "CAKE",
+      "leaderSymbol": "BNB",
+      "ecosystem": "Binance / BNB Chain, Launchpool & DEX Ekosistemi",
+      "headline": "CAKE Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
+      "newsSource": "ShortSqueezeRadar",
+      "newsScore": 6.61,
+      "totalScore": 120.7,
+      "rsiAtEntry": 38.37,
+      "atr1hPct": 0.62,
+      "takerBuyRatioPct": 64.1,
+      "obImbalance": 0.33,
+      "entryTime": "2026-10-22T01:11:11.334Z",
+      "entryPrice": 2.232,
+      "currentPrice": 2.196,
+      "highestPrice": 2.235,
+      "qty": 2.2277,
+      "costUsdt": 4.9722,
+      "costTry": 246.12,
+      "takeProfitPrice": 2.3324,
+      "stopLossPrice": 2.1985,
+      "tpPct": 4.5,
+      "slPct": 1.5,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": -0.0802,
+      "unrealizedPnlPct": -1.61,
+      "currentPriceTry": 108.6525,
+      "currentValueTry": 242.05,
+      "exitPrice": 2.196,
+      "exitTime": "2026-10-22T05:19:30.830Z",
+      "exitReason": "🛡️ ATR KORUMA KALKANI (%-1.61)",
+      "netPnlUsdt": -0.0802,
+      "netPnlTry": -3.97
+    },
     {
       "id": "pos_1792632101300_HBAR",
       "symbol": "HBAR",
@@ -1278,6 +1288,8 @@
     }
   ],
   "recentLogs": [
+    "[08:19:33] 🏁 [POZİSYON KAPANDI] PNUT @ $0.0441 | 🛡️ ATR KORUMA KALKANI (%-1.78) | Net: -4,69 TL",
+    "[08:19:30] 🏁 [POZİSYON KAPANDI] CAKE @ $2.196 | 🛡️ ATR KORUMA KALKANI (%-1.61) | Net: -3,97 TL",
     "[07:50:59] 🟢 [OTOMATİK ALIM] TAO (214,34 TL) @ $264.9 | Skor: 99 | RSI: 24.09 | Balina: %54.2 | SL: -%2.8",
     "[06:26:59] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[05:28:11] 🏁 [POZİSYON KAPANDI] HBAR @ $0.08261 | 🛡️ ATR KORUMA KALKANI (%-2.03) | Net: -4,47 TL",
@@ -1315,14 +1327,12 @@
     "[18:12:09] ⚡ [AKILLI ROTASYON] INJ kapatıldı, yerine 94.6 puanlık dev fırsat (RAY) alınıyor!",
     "[18:11:09] 🎰 [VURGUN SLOTU AÇILDI] THETA (164,24 TL) @ $0.2073 | Hedef: +%18 | RSI: 40.54 | Balina: %57.5 | SL: -%2.4",
     "[18:11:06] ⚡ [AKILLI ROTASYON] BEAMX kapatıldı, yerine 100.2 puanlık dev fırsat (UNI) alınıyor!",
-    "[15:29:07] 🟢 [OTOMATİK ALIM] EDU (365,58 TL) @ $0.0732 | Skor: 73.9 | RSI: 52.17 | Balina: %63.8 | SL: -%2",
-    "[15:29:04] ⚡ [AKILLI ROTASYON] JASMY kapatıldı, yerine 105.7 puanlık dev fırsat (JTO) alınıyor!",
-    "[14:57:37] 🟢 [OTOMATİK ALIM] INJ (283,96 TL) @ $8.756 | Skor: 103.9 | RSI: 46.34 | Balina: %58.7 | SL: -%3.2"
+    "[15:29:07] 🟢 [OTOMATİK ALIM] EDU (365,58 TL) @ $0.0732 | Skor: 73.9 | RSI: 52.17 | Balina: %63.8 | SL: -%2"
   ],
-  "totalEquityUsdt": 20.1818,
-  "totalEquityTry": 999,
-  "totalPnlUsdt": -0.0202,
-  "totalPnlPct": -0.1,
+  "totalEquityUsdt": 20.1582,
+  "totalEquityTry": 997.83,
+  "totalPnlUsdt": -0.0438,
+  "totalPnlPct": -0.22,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -1330,39 +1340,17 @@
     "THETA": 1792635702056,
     "ZRO": 1792642617964,
     "OP": 1792656269455,
-    "HBAR": 1792657688598
+    "HBAR": 1792657688598,
+    "CAKE": 1792667968113,
+    "PNUT": 1792667968113
   },
-  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 2.2277 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 0.8140 | ICP: 0.0002 | INJ: 0.0075 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0768 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 118.3628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TAO: 0.0163 | THETA: 0.0680 | TIA: 0.0058 | TRY: 0.7681 | UNI: 0.0080 | WLD: 0.0814 | ZRO: 0.0037)",
-  "lastWhatsAppReportAt": 1792644662262,
+  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0077 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 0.8140 | ICP: 0.0002 | INJ: 0.0075 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0768 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 0.0628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TAO: 0.0163 | THETA: 0.0680 | TIA: 0.0058 | TRY: 498.9777 | UNI: 0.0080 | WLD: 0.0814 | ZRO: 0.0037)",
+  "lastWhatsAppReportAt": 1792646378448,
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
   "usdTryRate": 49.5,
-  "totalPnlTry": -1,
+  "totalPnlTry": -2.17,
   "equityHistory": [
-    {
-      "t": "05:43",
-      "v": 1003.22
-    },
-    {
-      "t": "05:44",
-      "v": 1003.11
-    },
-    {
-      "t": "05:45",
-      "v": 1003.18
-    },
-    {
-      "t": "05:46",
-      "v": 1003.03
-    },
-    {
-      "t": "05:46",
-      "v": 1004.27
-    },
-    {
-      "t": "05:47",
-      "v": 1004.54
-    },
     {
       "t": "05:48",
       "v": 1004.74
@@ -1722,6 +1710,30 @@
     {
       "t": "08:14",
       "v": 999
+    },
+    {
+      "t": "08:15",
+      "v": 998.26
+    },
+    {
+      "t": "08:16",
+      "v": 998.31
+    },
+    {
+      "t": "08:17",
+      "v": 997.64
+    },
+    {
+      "t": "08:18",
+      "v": 997.67
+    },
+    {
+      "t": "08:18",
+      "v": 998.84
+    },
+    {
+      "t": "08:19",
+      "v": 997.83
     }
   ],
   "walletAssetsMap": {
@@ -1729,7 +1741,7 @@
     "AVAX": 0.0082,
     "BEAMX": 0.89,
     "BNB": 0.00039996,
-    "CAKE": 2.2277,
+    "CAKE": 0.0077,
     "EDU": 0.672,
     "ETHW": 0.000999,
     "FET": 0.0292,
@@ -1741,7 +1753,7 @@
     "LTC": 0.076846,
     "OP": 0.00454,
     "PENDLE": 0.0954,
-    "PNUT": 118.3628,
+    "PNUT": 0.0628,
     "PYTH": 0.0474,
     "RAY": 0.0854,
     "RSR": 0.276,
@@ -1751,17 +1763,57 @@
     "TAO": 0.0162674,
     "THETA": 0.068,
     "TIA": 0.00578,
-    "TRY": 0.7681376,
+    "TRY": 498.9777216,
     "UNI": 0.00804,
     "WLD": 0.0814,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.0966,
-  "dustAssetsTry": 54.28,
+  "dustAssetsUsdt": 1.1174,
+  "dustAssetsTry": 55.31,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-22T05:14:40.385Z",
-    "totalAnalyzedTrades": 32,
+    "updatedAt": "2026-10-22T05:19:38.449Z",
+    "totalAnalyzedTrades": 34,
     "coinStats": {
+      "PNUT": {
+        "wins": 0,
+        "losses": 1,
+        "netPnlUsdt": -0.0947,
+        "netPnlTry": -4.69,
+        "lossRsis": [
+          40
+        ],
+        "lossWhales": [
+          79.7
+        ],
+        "winRsis": [],
+        "winWhales": [],
+        "scoreMod": -10,
+        "maxRsi": 38,
+        "minWhale": 60,
+        "lessonNote": "🛑 HATA OTOPSİSİ: PNUT işleminde RSI 40.0 ve Balina %79.7 seviyesinde sahte kırılım (fakeout) yaşandı (-4.69 TL). Yeni Kural: PNUT için RSI tavanı <= 38, Balina şartı >= %60 ve Skor Cezası -10 puan olarak sıkılaştırıldı."
+      },
+      "CAKE": {
+        "wins": 2,
+        "losses": 1,
+        "netPnlUsdt": 0.1236,
+        "netPnlTry": 6.09,
+        "lossRsis": [
+          38.37
+        ],
+        "lossWhales": [
+          64.1
+        ],
+        "winRsis": [
+          25.88
+        ],
+        "winWhales": [
+          54.2
+        ],
+        "scoreMod": 6,
+        "maxRsi": 55,
+        "minWhale": 50.8,
+        "lessonNote": "✅ BAŞARI HAFIZASI: CAKE (2 Kâr / 1 Zarar, Net +6.09 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +6 puan."
+      },
       "HBAR": {
         "wins": 1,
         "losses": 1,
@@ -2158,24 +2210,6 @@
         "minWhale": 50.8,
         "lessonNote": "✅ BAŞARI HAFIZASI: ICP (1 Kâr / 0 Zarar, Net +1.25 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan."
       },
-      "CAKE": {
-        "wins": 2,
-        "losses": 0,
-        "netPnlUsdt": 0.2038,
-        "netPnlTry": 10.06,
-        "lossRsis": [],
-        "lossWhales": [],
-        "winRsis": [
-          25.88
-        ],
-        "winWhales": [
-          54.2
-        ],
-        "scoreMod": 6,
-        "maxRsi": 55,
-        "minWhale": 50.8,
-        "lessonNote": "✅ BAŞARI HAFIZASI: CAKE (2 Kâr / 0 Zarar, Net +10.06 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +6 puan."
-      },
       "LDO": {
         "wins": 2,
         "losses": 0,
@@ -2216,8 +2250,8 @@
     "sourceStats": {
       "ShortSqueezeRadar": {
         "wins": 8,
-        "losses": 6,
-        "netPnlUsdt": 0.3911,
+        "losses": 8,
+        "netPnlUsdt": 0.2162,
         "scoreMod": 0
       },
       "Decrypt": {
@@ -2264,6 +2298,8 @@
       }
     },
     "lessons": [
+      "🛑 HATA OTOPSİSİ: PNUT işleminde RSI 40.0 ve Balina %79.7 seviyesinde sahte kırılım (fakeout) yaşandı (-4.69 TL). Yeni Kural: PNUT için RSI tavanı <= 38, Balina şartı >= %60 ve Skor Cezası -10 puan olarak sıkılaştırıldı.",
+      "✅ BAŞARI HAFIZASI: CAKE (2 Kâr / 1 Zarar, Net +6.09 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +6 puan.",
       "✅ BAŞARI HAFIZASI: HBAR (1 Kâr / 1 Zarar, Net +0.58 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
       "🛑 HATA OTOPSİSİ: OP işleminde RSI 47.0 ve Balina %59.9 seviyesinde sahte kırılım (fakeout) yaşandı (-5.77 TL). Yeni Kural: OP için RSI tavanı <= 42, Balina şartı >= %60 ve Skor Cezası -10 puan olarak sıkılaştırıldı.",
       "✅ BAŞARI HAFIZASI: WLD (1 Kâr / 0 Zarar, Net +4.50 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
@@ -2285,7 +2321,6 @@
       "✅ BAŞARI HAFIZASI: ARB (1 Kâr / 0 Zarar, Net +1.12 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
       "✅ BAŞARI HAFIZASI: AVAX (1 Kâr / 0 Zarar, Net +0.53 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
       "✅ BAŞARI HAFIZASI: ICP (1 Kâr / 0 Zarar, Net +1.25 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
-      "✅ BAŞARI HAFIZASI: CAKE (2 Kâr / 0 Zarar, Net +10.06 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +6 puan.",
       "✅ BAŞARI HAFIZASI: LDO (2 Kâr / 0 Zarar, Net +17.26 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +6 puan.",
       "✅ BAŞARI HAFIZASI: SEI (1 Kâr / 0 Zarar, Net +7.34 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan."
     ]
@@ -2314,13 +2349,13 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 999,
+    "totalNetWorthTry": 997.83,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
-      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %65.6 isabetle (21G/11Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 999.00 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
+      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %61.8 isabetle (21G/13Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 997.83 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-22T05:14:40.385Z"
+    "updatedAt": "2026-10-22T05:19:38.449Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254
