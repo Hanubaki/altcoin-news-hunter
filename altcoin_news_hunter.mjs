@@ -772,19 +772,31 @@ async function main() {
 
   const tickerMap = {};
   let greenCoinsCount = 0;
+  let intradayReclaimCount = 0;
   for (const t of tickersRes || []) {
     const sym = t.symbol.replace(/USDT$/, '');
     const chg = Number(t.priceChangePercent);
+    const lastPrice = Number(t.lastPrice);
+    const high24h = Number(t.highPrice);
+    const low24h = Number(t.lowPrice);
+    const vwap24 = Number(t.weightedAvgPrice || lastPrice);
+    const bounceFromLowPct = low24h > 0 ? ((lastPrice - low24h) / low24h) * 100 : 0;
+    const posInRange = high24h > low24h ? (lastPrice - low24h) / (high24h - low24h) : 0.5;
     if (chg > 0) greenCoinsCount++;
+    if (lastPrice >= vwap24 * 1.001 || (bounceFromLowPct >= 2.2 && posInRange >= 0.45)) {
+      intradayReclaimCount++;
+    }
     tickerMap[sym] = {
-      lastPrice: Number(t.lastPrice),
+      lastPrice,
       change24hPct: chg,
-      high24h: Number(t.highPrice),
-      low24h: Number(t.lowPrice),
+      high24h,
+      low24h,
       quoteVol24h: Number(t.quoteVolume),
     };
   }
-  const marketBreadthPct = tickersRes?.length ? Math.round((greenCoinsCount / tickersRes.length) * 100) : 50;
+  const breadth24hPct = tickersRes?.length ? Math.round((greenCoinsCount / tickersRes.length) * 100) : 50;
+  const intradayRecoveryPct = tickersRes?.length ? Math.round((intradayReclaimCount / tickersRes.length) * 100) : breadth24hPct;
+  let marketBreadthPct = breadth24hPct;
 
   const hlMap = {};
   if (Array.isArray(hlMetaRes) && hlMetaRes.length === 2) {
@@ -838,6 +850,11 @@ async function main() {
     if (open1hAgo > 0) {
       btc1hChangePct = Number((((closeNow - open1hAgo) / open1hAgo) * 100).toFixed(2));
     }
+  }
+  // Engine #23: Golden-Age V-Bottom Breadth Thrust Detector (eliminates 24h rolling lag when BTC & altcoins reclaim 24h VWAP)
+  const isGoldenAgeThrust = btc1hChangePct >= 0.30 && intradayRecoveryPct >= 38;
+  if (isGoldenAgeThrust) {
+    marketBreadthPct = Math.max(breadth24hPct, Math.round(breadth24hPct * 0.40 + intradayRecoveryPct * 0.60));
   }
   const btc1hCloses = btc1hKlinesRes.status === 'fulfilled' && Array.isArray(btc1hKlinesRes.value)
     ? btc1hKlinesRes.value.map(k => Number(k[4]))
