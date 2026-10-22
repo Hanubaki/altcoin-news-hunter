@@ -455,7 +455,8 @@ async function scanAllNewsFeeds() {
 
   for (const alt of Object.keys(altCatalysts)) {
     const entry = altCatalysts[alt];
-    entry.headlines.sort((a, b) => b.catalystPoints - a.catalystPoints);
+    entry.headlines.sort((a, b) => (b.directMention === a.directMention ? b.catalystPoints - a.catalystPoints : b.directMention ? 1 : -1));
+    entry.hasDirectMention = entry.headlines.some(h => h.directMention === true);
     const top3Headlines = entry.headlines.slice(0, 3);
     entry.newsScore = Number(top3Headlines.reduce((sum, h) => sum + h.catalystPoints, 0).toFixed(2));
   }
@@ -778,9 +779,11 @@ async function main() {
     }
   }
 
-  const qualifiedNewsCats = Object.values(newsScan.altCatalysts).filter(c => c.newsScore >= 1.5 && tickerMap[c.symbol]);
+  const qualifiedNewsCats = Object.values(newsScan.altCatalysts).filter(
+    c => c.newsScore >= 1.5 && tickerMap[c.symbol] && c.hasDirectMention === true
+  );
 
-  // 100% Real-News-Only Priority: Never pollute top candidates with synthetic ShortSqueezeRadar / WhaleOrderflowRadar signals
+  // 100% Real-News + Direct-Mention Priority: Only coins directly mentioned in news are executable candidates (no synthetic or sympathy-only noise)
   const positiveNewsAlts = [...qualifiedNewsCats]
     .sort((a, b) => b.newsScore - a.newsScore)
     .slice(0, 55);
@@ -835,13 +838,30 @@ async function main() {
     const isTrending = newsScan.trendingSet.has(sym);
 
     const lagVsLeader24h = Number((leaderMkt.change24hPct - mkt.change24hPct).toFixed(2));
+    const hasDirectMention = Boolean(cat.hasDirectMention);
 
-    // Anti-FOMO Guard + Bollinger Overextension + Whale Dump Rejection
-    // Strictly cap RSI at 57 max (53 for synthetic radar) so we never buy top/overbought coins
-    const isSyntheticRadar = ['WhaleOrderflowRadar', 'ShortSqueezeRadar'].includes(cat.headlines?.[0]?.source);
-    const maxAllowedRsi = isSyntheticRadar ? 53 : (takerBuyRatio >= 0.55 || fundingHourlyPct <= -0.002) ? 57 : 55;
-    if (rsi1h > maxAllowedRsi || bbPctB > 0.85 || change1hPct > 3.8 || mkt.change24hPct > 14.0) continue;
-    if (takerBuyRatio < (isSyntheticRadar ? 0.52 : 0.45)) continue;
+    // Event Impulse & Pullback (Retracement) Model + Relative Strength vs Market (BTC)
+    const lastKline = klines[klines.length - 1];
+    const prevKline = klines[klines.length - 2];
+    const refOpen = Number(prevKline?.[1] || lastKline?.[1] || mkt.lastPrice);
+    const recentHigh = Math.max(Number(lastKline?.[2] || mkt.lastPrice), Number(prevKline?.[2] || mkt.lastPrice));
+    const impulsePct = refOpen > 0 ? Number((((recentHigh - refOpen) / refOpen) * 100).toFixed(2)) : Math.max(0, change1hPct);
+    const impulseAtr = Number((impulsePct / Math.max(0.45, atr1hPct)).toFixed(2));
+    const retracementRatio = recentHigh > refOpen * 1.003
+      ? Number(((recentHigh - mkt.lastPrice) / (recentHigh - refOpen)).toFixed(2))
+      : 0.35;
+    const relativeStrength1h = Number((change1hPct - btc1hChangePct).toFixed(2));
+    const rsAtr = Number((relativeStrength1h / Math.max(0.45, atr1hPct)).toFixed(2));
+
+    // NO-CHASE Guard + Unblinded RSI on Direct News (Direct news can naturally have RSI up to 66; overextension is measured via ImpulseATR & Retracement!)
+    const maxAllowedRsi = hasDirectMention ? 66 : 50;
+    const isNoChaseOverextended =
+      impulseAtr > 3.5 ||
+      (change1hPct >= 3.0 && retracementRatio < 0.20) ||
+      (impulsePct >= 4.2 && retracementRatio < 0.25) ||
+      retracementRatio > 0.82; // Failed impulse (>82% given back)
+    if (!hasDirectMention || rsi1h > maxAllowedRsi || isNoChaseOverextended || bbPctB > 0.92 || mkt.change24hPct > 14.0) continue;
+    if (takerBuyRatio < 0.48) continue;
 
     // TradingArena.ai 4-Model Hive-Mind Consensus
     const hiveMind = computeArenaHiveMind({
@@ -862,10 +882,18 @@ async function main() {
     });
 
     let totalScore = Math.min(40, cat.newsScore * 4.5);
-    if (rsi1h <= 34) totalScore += 20;
-    else if (rsi1h <= 45) totalScore += 14;
-    else if (rsi1h <= 55) totalScore += 6;
-    else if (rsi1h <= 69 && (takerBuyRatio >= 0.53 || fundingHourlyPct <= -0.002)) totalScore += 6;
+    if (rsi1h <= 34) totalScore += 18;
+    else if (rsi1h <= 45) totalScore += 12;
+    else if (rsi1h <= 58) totalScore += 8;
+    else if (rsi1h <= 66 && takerBuyRatio >= 0.55) totalScore += 6;
+
+    // Healthy Event Pullback Bonus (25%-55% retracement while holding above VWAP with active buyers)
+    if (impulseAtr >= 0.8 && impulseAtr <= 3.0 && retracementRatio >= 0.25 && retracementRatio <= 0.55 && aboveVwap) {
+      totalScore += 8;
+    }
+    // Market-Independent Relative Strength Bonus (RS_ATR >= 1.2)
+    if (rsAtr >= 1.5) totalScore += 8;
+    else if (rsAtr >= 1.0) totalScore += 4;
 
     // Bollinger Band Lower Dip Support & Squeeze Bonus
     if (bbPctB <= 0.35) totalScore += 5;
@@ -907,6 +935,10 @@ async function main() {
     scoredOpportunities.push({
       symbol: sym,
       leaderSymbol: cat.leaderSymbol,
+      hasDirectMention,
+      impulseAtr,
+      retracementRatio,
+      rsAtr,
       ecosystems: Array.from(cat.ecosystems),
       matchedKeywords: Array.from(cat.matchedKeywords).slice(0, 6),
       newsScore: cat.newsScore,
@@ -1010,7 +1042,7 @@ async function main() {
   if ((groqKey || geminiKey || openrouterKey) && selectedTop4.length > 0) {
     await Promise.all(
       selectedTop4.map(async item => {
-        const prompt = `Sen TradingArena.ai şampiyonu kurumsal bir kripto fon yöneticisisin. Şu altcoin ve haber verisini analiz et, SADECE tek satır geçerli JSON döndür: {"decision":"LONG","confidence":82,"reason":"Kısa Türkçe sebep (en fazla 10 kelime)"}. KRİTİK KURAL: Eğer haber bu coin (${item.symbol}) veya ekosistemi için doğrudan güçlü bir POZİTİF katalizör değilse, başka bir coin hakkındaysa, analist fiyat tahmini/düşüş/retest içeriyorsa veya alakasızsa (RSI düşük olsa bile!) KESİNLİKLE decision "WAIT" ve confidence 90+ ver! Coin: ${item.symbol}, Haber: "${item.headlines[0]?.title || ''}", DoğrudanGeçiyorMu: ${item.headlines[0]?.directMention ? 'EVET' : 'HAYIR (Ekosistem Sempati)'}, RSI(14): ${item.rsi1h}, BalinaAlim: %${item.takerBuyRatioPct}`;
+        const prompt = `Sen kurumsal bir kripto haber semantik doğrulayıcısısın (fiyat falcısı değil). Şu haberi objektif olarak doğrula ve SADECE tek satır geçerli JSON döndür: {"coinDirectlyAffected":true,"eventPositive":true,"negativeTrap":false,"decision":"LONG","confidence":82,"reason":"Kısa Türkçe sebep (en fazla 10 kelime)"}. KURAL: Sadece şu objektif durumlarda decision "WAIT" ve negativeTrap true ver: 1) Haber doğrudan ${item.symbol} ile ilgili değilse, 2) Delist, hack, exploit, kilit açılımı (unlock), dava veya düşüş/retest haberi ise, 3) Olay çoktan bitmiş/fiyatlanmış eski bir haber ise. Gerçek pozitif haberde RSI ${item.rsi1h} olsa bile LONG ver! Coin: ${item.symbol}, Haber: "${item.headlines[0]?.title || ''}", İmpulsATR: ${item.impulseAtr}, Retracement: ${item.retracementRatio}, GöreliGüç(RS_ATR): ${item.rsAtr}`;
 
         const aiVerdicts = [];
 
@@ -1034,8 +1066,8 @@ async function main() {
                     body: JSON.stringify({
                       model: m.id,
                       messages: [{ role: 'user', content: prompt }],
-                      temperature: 0.2,
-                      max_tokens: 900,
+                      temperature: 0.1,
+                      max_tokens: 700,
                     }),
                   },
                   5500
@@ -1044,10 +1076,12 @@ async function main() {
                 const jsonMatch = txt.match(/\{[\s\S]*?\}/);
                 if (jsonMatch) {
                   const parsed = JSON.parse(jsonMatch[0]);
+                  const isObjVeto = parsed.coinDirectlyAffected === false || parsed.eventPositive === false || parsed.negativeTrap === true;
                   aiVerdicts.push({
                     model: m.label,
-                    decision: (parsed.decision || 'LONG').toUpperCase(),
-                    confidence: Number(parsed.confidence) || 78,
+                    decision: isObjVeto ? 'WAIT' : (parsed.decision || 'LONG').toUpperCase(),
+                    objectiveVeto: isObjVeto,
+                    confidence: Number(parsed.confidence) || 80,
                     reason: parsed.reason || '',
                   });
                 }
@@ -1073,9 +1107,11 @@ async function main() {
             const jsonMatch = txt.match(/\{[\s\S]*?\}/);
             if (jsonMatch) {
               const parsed = JSON.parse(jsonMatch[0]);
+              const isObjVeto = parsed.coinDirectlyAffected === false || parsed.eventPositive === false || parsed.negativeTrap === true;
               aiVerdicts.push({
                 model: 'Gemini-Flash',
-                decision: (parsed.decision || 'LONG').toUpperCase(),
+                decision: isObjVeto ? 'WAIT' : (parsed.decision || 'LONG').toUpperCase(),
+                objectiveVeto: isObjVeto,
                 confidence: Number(parsed.confidence) || 80,
                 reason: parsed.reason || '',
               });
@@ -1087,13 +1123,11 @@ async function main() {
           item.realApiVerdicts = aiVerdicts;
           const longVotes = aiVerdicts.filter(v => v.decision === 'LONG' || v.decision === 'BUY');
           const waitVotes = aiVerdicts.filter(v => v.decision === 'WAIT' || v.decision === 'SELL' || v.decision === 'AVOID');
-          const hasHighConfVeto = waitVotes.some(v => v.confidence >= 82);
           const avgConf = Math.round(aiVerdicts.reduce((s, v) => s + v.confidence, 0) / aiVerdicts.length);
-          // Strict Institutional Veto: Any high-confidence (>=82%) WAIT vote or WAIT majority blocks the trade!
-          item.liveLlmDecision = !hasHighConfVeto && longVotes.length > waitVotes.length ? 'LONG' : 'WAIT';
-          item.liveLlmConfidence = hasHighConfVeto
-            ? Math.max(...waitVotes.map(v => v.confidence))
-            : avgConf;
+          // Semantic Majority Consensus: Require LONG majority (and no >=2 objective semantic trap vetoes) instead of letting a single uncalibrated confidence number veto a valid news catalyst
+          const objectiveVetoCount = aiVerdicts.filter(v => v.objectiveVeto).length;
+          item.liveLlmDecision = longVotes.length > waitVotes.length && objectiveVetoCount < 2 ? 'LONG' : 'WAIT';
+          item.liveLlmConfidence = avgConf;
           item.liveLlmReason = aiVerdicts.map(v => `[${v.model}: ${v.decision} %${v.confidence}] ${v.reason}`).join(' | ');
 
           if (item.liveLlmDecision === 'LONG' && avgConf >= 65) {

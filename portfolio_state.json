@@ -1,48 +1,15 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-22T05:53:11.615Z",
+  "updatedAt": "2026-10-22T06:06:30.020Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.1898,
   "initialBankrollTry": 1000,
-  "cashUsdt": 10.0743,
-  "realizedPnlUsdt": 0.561,
+  "cashUsdt": 14.6377,
+  "realizedPnlUsdt": 0.4903,
   "winCount": 21,
-  "lossCount": 13,
+  "lossCount": 14,
   "openPositions": [
-    {
-      "id": "pos_1792634674904_LTC",
-      "symbol": "LTC",
-      "leaderSymbol": "BTC",
-      "ecosystem": "Bitcoin Layer-2, Ordinals, Runes & BTC DeFi",
-      "headline": "LTC Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
-      "newsSource": "ShortSqueezeRadar",
-      "newsScore": 7.19,
-      "totalScore": 118.8,
-      "rsiAtEntry": 36.14,
-      "atr1hPct": 0.8,
-      "takerBuyRatioPct": 60.5,
-      "obImbalance": 0.06,
-      "entryTime": "2026-10-22T02:04:34.904Z",
-      "entryPrice": 61.11,
-      "currentPrice": 60.27,
-      "highestPrice": 61.27,
-      "qty": 0.076846,
-      "costUsdt": 4.6961,
-      "costTry": 232.6,
-      "takeProfitPrice": 63.86,
-      "stopLossPrice": 60.193,
-      "tpPct": 4.5,
-      "slPct": 1.5,
-      "partialTpDone": false,
-      "stage2TpDone": false,
-      "trailingActive": false,
-      "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0646,
-      "unrealizedPnlPct": -1.37,
-      "currentPriceTry": 2985.1731,
-      "currentValueTry": 229.4
-    },
     {
       "id": "pos_1792644659199_TAO",
       "symbol": "TAO",
@@ -58,7 +25,7 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-22T04:50:59.199Z",
       "entryPrice": 264.9,
-      "currentPrice": 263.9,
+      "currentPrice": 263.8,
       "highestPrice": 266.2,
       "qty": 0.0162674,
       "costUsdt": 4.3092,
@@ -71,13 +38,52 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0163,
-      "unrealizedPnlPct": -0.38,
-      "currentPriceTry": 13070.967,
-      "currentValueTry": 212.63
+      "unrealizedPnlUsdt": -0.0179,
+      "unrealizedPnlPct": -0.42,
+      "currentPriceTry": 13066.014,
+      "currentValueTry": 212.55,
+      "stopHitCount": 0
     }
   ],
   "closedTrades": [
+    {
+      "id": "pos_1792634674904_LTC",
+      "symbol": "LTC",
+      "leaderSymbol": "BTC",
+      "ecosystem": "Bitcoin Layer-2, Ordinals, Runes & BTC DeFi",
+      "headline": "LTC Negatif Fonlama (Short-Squeeze) & Balina Toplama Sinyali",
+      "newsSource": "ShortSqueezeRadar",
+      "newsScore": 7.19,
+      "totalScore": 118.8,
+      "rsiAtEntry": 36.14,
+      "atr1hPct": 0.8,
+      "takerBuyRatioPct": 60.5,
+      "obImbalance": 0.06,
+      "entryTime": "2026-10-22T02:04:34.904Z",
+      "entryPrice": 61.11,
+      "currentPrice": 60.19,
+      "highestPrice": 61.27,
+      "qty": 0.076846,
+      "costUsdt": 4.6961,
+      "costTry": 232.6,
+      "takeProfitPrice": 63.86,
+      "stopLossPrice": 60.193,
+      "tpPct": 4.5,
+      "slPct": 1.5,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": -0.0707,
+      "unrealizedPnlPct": -1.51,
+      "currentPriceTry": 2981.706,
+      "currentValueTry": 229.13,
+      "exitPrice": 60.19,
+      "exitTime": "2026-10-22T05:56:08.077Z",
+      "exitReason": "🛡️ ATR KORUMA KALKANI (%-1.51)",
+      "netPnlUsdt": -0.0707,
+      "netPnlTry": -3.5
+    },
     {
       "id": "pos_1792633225628_PNUT",
       "symbol": "PNUT",
@@ -1288,6 +1294,7 @@
     }
   ],
   "recentLogs": [
+    "[08:56:08] 🏁 [POZİSYON KAPANDI] LTC @ $60.19 | 🛡️ ATR KORUMA KALKANI (%-1.51) | Net: -3,50 TL",
     "[08:29:12] ⚠️ Haber tarayıcı uyarısı: fetch failed",
     "[08:19:33] 🏁 [POZİSYON KAPANDI] PNUT @ $0.0441 | 🛡️ ATR KORUMA KALKANI (%-1.78) | Net: -4,69 TL",
     "[08:19:30] 🏁 [POZİSYON KAPANDI] CAKE @ $2.196 | 🛡️ ATR KORUMA KALKANI (%-1.61) | Net: -3,97 TL",
@@ -1326,13 +1333,12 @@
     "[18:33:53] ⚡ [AKILLI ROTASYON] EDU kapatıldı, yerine 106.4 puanlık dev fırsat (ALGO) alınıyor!",
     "[18:12:12] 🟢 [OTOMATİK ALIM] RAY (315,62 TL) @ $1.9967 | Skor: 94.6 | RSI: 49.83 | Balina: %53.2 | SL: -%2",
     "[18:12:09] ⚡ [AKILLI ROTASYON] INJ kapatıldı, yerine 94.6 puanlık dev fırsat (RAY) alınıyor!",
-    "[18:11:09] 🎰 [VURGUN SLOTU AÇILDI] THETA (164,24 TL) @ $0.2073 | Hedef: +%18 | RSI: 40.54 | Balina: %57.5 | SL: -%2.4",
-    "[18:11:06] ⚡ [AKILLI ROTASYON] BEAMX kapatıldı, yerine 100.2 puanlık dev fırsat (UNI) alınıyor!"
+    "[18:11:09] 🎰 [VURGUN SLOTU AÇILDI] THETA (164,24 TL) @ $0.2073 | Hedef: +%18 | RSI: 40.54 | Balina: %57.5 | SL: -%2.4"
   ],
-  "totalEquityUsdt": 20.1108,
-  "totalEquityTry": 996.09,
-  "totalPnlUsdt": -0.0789,
-  "totalPnlPct": -0.39,
+  "totalEquityUsdt": 20.0913,
+  "totalEquityTry": 995.12,
+  "totalPnlUsdt": -0.0985,
+  "totalPnlPct": -0.49,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -1342,67 +1348,16 @@
     "OP": 1792656269455,
     "HBAR": 1792657688598,
     "CAKE": 1792667968113,
-    "PNUT": 1792667968113
+    "PNUT": 1792667968113,
+    "LTC": 1792670165421
   },
-  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0077 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 0.8140 | ICP: 0.0002 | INJ: 0.0075 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0768 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 0.0628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TAO: 0.0163 | THETA: 0.0680 | TIA: 0.0058 | TRY: 498.9777 | UNI: 0.0080 | WLD: 0.0814 | ZRO: 0.0037)",
-  "lastWhatsAppReportAt": 1792646378448,
+  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0077 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 0.8140 | ICP: 0.0002 | INJ: 0.0075 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0008 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 0.0628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TAO: 0.0163 | THETA: 0.0680 | TIA: 0.0058 | TRY: 725.0048 | UNI: 0.0080 | WLD: 0.0814 | ZRO: 0.0037)",
+  "lastWhatsAppReportAt": 1792648571102,
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
   "usdTryRate": 49.53,
-  "totalPnlTry": -3.91,
+  "totalPnlTry": -4.88,
   "equityHistory": [
-    {
-      "t": "06:17",
-      "v": 1000.99
-    },
-    {
-      "t": "06:18",
-      "v": 1001.06
-    },
-    {
-      "t": "06:19",
-      "v": 1000.84
-    },
-    {
-      "t": "06:20",
-      "v": 1001.66
-    },
-    {
-      "t": "06:21",
-      "v": 1001.8
-    },
-    {
-      "t": "06:22",
-      "v": 1002.19
-    },
-    {
-      "t": "06:23",
-      "v": 1000.74
-    },
-    {
-      "t": "06:24",
-      "v": 1000.35
-    },
-    {
-      "t": "06:25",
-      "v": 1000.31
-    },
-    {
-      "t": "06:26",
-      "v": 1000.57
-    },
-    {
-      "t": "06:27",
-      "v": 1000.16
-    },
-    {
-      "t": "06:27",
-      "v": 999.23
-    },
-    {
-      "t": "06:28",
-      "v": 999.97
-    },
     {
       "t": "06:29",
       "v": 1000.02
@@ -1734,6 +1689,58 @@
     {
       "t": "08:53",
       "v": 996.09
+    },
+    {
+      "t": "08:54",
+      "v": 995.4
+    },
+    {
+      "t": "08:55",
+      "v": 995.25
+    },
+    {
+      "t": "08:56",
+      "v": 994.65
+    },
+    {
+      "t": "08:57",
+      "v": 994.86
+    },
+    {
+      "t": "08:58",
+      "v": 995.03
+    },
+    {
+      "t": "08:59",
+      "v": 995.06
+    },
+    {
+      "t": "09:00",
+      "v": 994.75
+    },
+    {
+      "t": "09:01",
+      "v": 994.84
+    },
+    {
+      "t": "09:02",
+      "v": 995.13
+    },
+    {
+      "t": "09:03",
+      "v": 994.46
+    },
+    {
+      "t": "09:04",
+      "v": 994.83
+    },
+    {
+      "t": "09:05",
+      "v": 995.02
+    },
+    {
+      "t": "09:06",
+      "v": 995.12
     }
   ],
   "walletAssetsMap": {
@@ -1750,7 +1757,7 @@
     "INJ": 0.00754,
     "JASMY": 0.608,
     "LDO": 0.00632,
-    "LTC": 0.076846,
+    "LTC": 0.000846,
     "OP": 0.00454,
     "PENDLE": 0.0954,
     "PNUT": 0.0628,
@@ -1763,17 +1770,35 @@
     "TAO": 0.0162674,
     "THETA": 0.068,
     "TIA": 0.00578,
-    "TRY": 498.9777216,
+    "TRY": 725.0047616,
     "UNI": 0.00804,
     "WLD": 0.0814,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.112,
-  "dustAssetsTry": 55.08,
+  "dustAssetsUsdt": 1.1622,
+  "dustAssetsTry": 57.57,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-22T05:53:11.615Z",
-    "totalAnalyzedTrades": 34,
+    "updatedAt": "2026-10-22T06:06:30.017Z",
+    "totalAnalyzedTrades": 35,
     "coinStats": {
+      "LTC": {
+        "wins": 0,
+        "losses": 1,
+        "netPnlUsdt": -0.0707,
+        "netPnlTry": -3.5,
+        "lossRsis": [
+          36.14
+        ],
+        "lossWhales": [
+          60.5
+        ],
+        "winRsis": [],
+        "winWhales": [],
+        "scoreMod": -1,
+        "maxRsi": 65,
+        "minWhale": 51.5,
+        "lessonNote": "🛑 HATA OTOPSİSİ (Bayes Ağırlıklı n=1): LTC işleminde ort. RSI 36.1 (-3.5 TL). Bayes Cezası: -1p (RSI Tavanı <= 65)."
+      },
       "PNUT": {
         "wins": 0,
         "losses": 1,
@@ -1787,10 +1812,10 @@
         ],
         "winRsis": [],
         "winWhales": [],
-        "scoreMod": -10,
-        "maxRsi": 38,
-        "minWhale": 60,
-        "lessonNote": "🛑 HATA OTOPSİSİ: PNUT işleminde RSI 40.0 ve Balina %79.7 seviyesinde sahte kırılım (fakeout) yaşandı (-4.69 TL). Yeni Kural: PNUT için RSI tavanı <= 38, Balina şartı >= %60 ve Skor Cezası -10 puan olarak sıkılaştırıldı."
+        "scoreMod": -1,
+        "maxRsi": 65,
+        "minWhale": 51.5,
+        "lessonNote": "🛑 HATA OTOPSİSİ (Bayes Ağırlıklı n=1): PNUT işleminde ort. RSI 40.0 (-4.69 TL). Bayes Cezası: -1p (RSI Tavanı <= 65)."
       },
       "CAKE": {
         "wins": 2,
@@ -1809,10 +1834,10 @@
         "winWhales": [
           54.2
         ],
-        "scoreMod": 6,
-        "maxRsi": 55,
+        "scoreMod": 2,
+        "maxRsi": 66,
         "minWhale": 50.8,
-        "lessonNote": "✅ BAŞARI HAFIZASI: CAKE (2 Kâr / 1 Zarar, Net +6.09 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +6 puan."
+        "lessonNote": "✅ BAŞARI HAFIZASI: CAKE (2 Kâr / 1 Zarar, Net +6.09 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan."
       },
       "HBAR": {
         "wins": 1,
@@ -1831,10 +1856,10 @@
         "winWhales": [
           57.2
         ],
-        "scoreMod": 3,
-        "maxRsi": 55,
+        "scoreMod": 2,
+        "maxRsi": 66,
         "minWhale": 50.8,
-        "lessonNote": "✅ BAŞARI HAFIZASI: HBAR (1 Kâr / 1 Zarar, Net +0.58 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan."
+        "lessonNote": "✅ BAŞARI HAFIZASI: HBAR (1 Kâr / 1 Zarar, Net +0.58 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan."
       },
       "OP": {
         "wins": 0,
@@ -1849,10 +1874,10 @@
         ],
         "winRsis": [],
         "winWhales": [],
-        "scoreMod": -10,
-        "maxRsi": 42,
-        "minWhale": 60,
-        "lessonNote": "🛑 HATA OTOPSİSİ: OP işleminde RSI 47.0 ve Balina %59.9 seviyesinde sahte kırılım (fakeout) yaşandı (-5.77 TL). Yeni Kural: OP için RSI tavanı <= 42, Balina şartı >= %60 ve Skor Cezası -10 puan olarak sıkılaştırıldı."
+        "scoreMod": -1,
+        "maxRsi": 65,
+        "minWhale": 51.5,
+        "lessonNote": "🛑 HATA OTOPSİSİ (Bayes Ağırlıklı n=1): OP işleminde ort. RSI 47.0 (-5.77 TL). Bayes Cezası: -1p (RSI Tavanı <= 65)."
       },
       "WLD": {
         "wins": 1,
@@ -1867,10 +1892,10 @@
         "winWhales": [
           47
         ],
-        "scoreMod": 3,
-        "maxRsi": 55,
+        "scoreMod": 2,
+        "maxRsi": 66,
         "minWhale": 50.8,
-        "lessonNote": "✅ BAŞARI HAFIZASI: WLD (1 Kâr / 0 Zarar, Net +4.50 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan."
+        "lessonNote": "✅ BAŞARI HAFIZASI: WLD (1 Kâr / 0 Zarar, Net +4.50 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan."
       },
       "PENDLE": {
         "wins": 1,
@@ -1885,10 +1910,10 @@
         "winWhales": [
           66.1
         ],
-        "scoreMod": 3,
-        "maxRsi": 55,
+        "scoreMod": 2,
+        "maxRsi": 66,
         "minWhale": 50.8,
-        "lessonNote": "✅ BAŞARI HAFIZASI: PENDLE (1 Kâr / 0 Zarar, Net +1.93 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan."
+        "lessonNote": "✅ BAŞARI HAFIZASI: PENDLE (1 Kâr / 0 Zarar, Net +1.93 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan."
       },
       "RSR": {
         "wins": 1,
@@ -1907,10 +1932,10 @@
         "winWhales": [
           54.7
         ],
-        "scoreMod": 3,
-        "maxRsi": 55,
+        "scoreMod": 2,
+        "maxRsi": 66,
         "minWhale": 50.8,
-        "lessonNote": "✅ BAŞARI HAFIZASI: RSR (1 Kâr / 1 Zarar, Net +0.54 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan."
+        "lessonNote": "✅ BAŞARI HAFIZASI: RSR (1 Kâr / 1 Zarar, Net +0.54 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan."
       },
       "INJ": {
         "wins": 1,
@@ -1929,10 +1954,10 @@
         "winWhales": [
           58.7
         ],
-        "scoreMod": 3,
-        "maxRsi": 55,
+        "scoreMod": 2,
+        "maxRsi": 66,
         "minWhale": 50.8,
-        "lessonNote": "✅ BAŞARI HAFIZASI: INJ (1 Kâr / 1 Zarar, Net +0.93 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan."
+        "lessonNote": "✅ BAŞARI HAFIZASI: INJ (1 Kâr / 1 Zarar, Net +0.93 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan."
       },
       "ZRO": {
         "wins": 0,
@@ -1947,10 +1972,10 @@
         ],
         "winRsis": [],
         "winWhales": [],
-        "scoreMod": -10,
-        "maxRsi": 44,
-        "minWhale": 60,
-        "lessonNote": "🛑 HATA OTOPSİSİ: ZRO işleminde RSI 52.9 ve Balina %59.5 seviyesinde sahte kırılım (fakeout) yaşandı (-10.12 TL). Yeni Kural: ZRO için RSI tavanı <= 44, Balina şartı >= %60 ve Skor Cezası -10 puan olarak sıkılaştırıldı."
+        "scoreMod": -1,
+        "maxRsi": 65,
+        "minWhale": 51.5,
+        "lessonNote": "🛑 HATA OTOPSİSİ (Bayes Ağırlıklı n=1): ZRO işleminde ort. RSI 52.9 (-10.12 TL). Bayes Cezası: -1p (RSI Tavanı <= 65)."
       },
       "RAY": {
         "wins": 1,
@@ -1969,10 +1994,10 @@
         "winWhales": [
           53.2
         ],
-        "scoreMod": 3,
-        "maxRsi": 55,
+        "scoreMod": 2,
+        "maxRsi": 66,
         "minWhale": 50.8,
-        "lessonNote": "✅ BAŞARI HAFIZASI: RAY (1 Kâr / 1 Zarar, Net +0.30 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan."
+        "lessonNote": "✅ BAŞARI HAFIZASI: RAY (1 Kâr / 1 Zarar, Net +0.30 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan."
       },
       "PYTH": {
         "wins": 0,
@@ -1987,10 +2012,10 @@
         ],
         "winRsis": [],
         "winWhales": [],
-        "scoreMod": -10,
-        "maxRsi": 44,
-        "minWhale": 55,
-        "lessonNote": "🛑 HATA OTOPSİSİ: PYTH işleminde RSI 49.9 ve Balina %50.1 seviyesinde sahte kırılım (fakeout) yaşandı (-0.02 TL). Yeni Kural: PYTH için RSI tavanı <= 44, Balina şartı >= %55 ve Skor Cezası -10 puan olarak sıkılaştırıldı."
+        "scoreMod": -1,
+        "maxRsi": 65,
+        "minWhale": 51.5,
+        "lessonNote": "🛑 HATA OTOPSİSİ (Bayes Ağırlıklı n=1): PYTH işleminde ort. RSI 49.9 (-0.02 TL). Bayes Cezası: -1p (RSI Tavanı <= 65)."
       },
       "THETA": {
         "wins": 0,
@@ -2005,10 +2030,10 @@
         ],
         "winRsis": [],
         "winWhales": [],
-        "scoreMod": -10,
-        "maxRsi": 38,
-        "minWhale": 59.5,
-        "lessonNote": "🛑 HATA OTOPSİSİ: THETA işleminde RSI 40.5 ve Balina %57.5 seviyesinde sahte kırılım (fakeout) yaşandı (-2.44 TL). Yeni Kural: THETA için RSI tavanı <= 38, Balina şartı >= %59.5 ve Skor Cezası -10 puan olarak sıkılaştırıldı."
+        "scoreMod": -1,
+        "maxRsi": 65,
+        "minWhale": 51.5,
+        "lessonNote": "🛑 HATA OTOPSİSİ (Bayes Ağırlıklı n=1): THETA işleminde ort. RSI 40.5 (-2.44 TL). Bayes Cezası: -1p (RSI Tavanı <= 65)."
       },
       "UNI": {
         "wins": 1,
@@ -2023,10 +2048,10 @@
         "winWhales": [
           53.7
         ],
-        "scoreMod": 3,
-        "maxRsi": 55,
+        "scoreMod": 2,
+        "maxRsi": 66,
         "minWhale": 50.8,
-        "lessonNote": "✅ BAŞARI HAFIZASI: UNI (1 Kâr / 0 Zarar, Net +1.06 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan."
+        "lessonNote": "✅ BAŞARI HAFIZASI: UNI (1 Kâr / 0 Zarar, Net +1.06 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan."
       },
       "EDU": {
         "wins": 2,
@@ -2043,10 +2068,10 @@
           63.8,
           55.2
         ],
-        "scoreMod": 6,
-        "maxRsi": 55,
+        "scoreMod": 2,
+        "maxRsi": 66,
         "minWhale": 50.8,
-        "lessonNote": "✅ BAŞARI HAFIZASI: EDU (2 Kâr / 0 Zarar, Net +3.88 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +6 puan."
+        "lessonNote": "✅ BAŞARI HAFIZASI: EDU (2 Kâr / 0 Zarar, Net +3.88 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan."
       },
       "BEAMX": {
         "wins": 1,
@@ -2061,10 +2086,10 @@
         "winWhales": [
           63.5
         ],
-        "scoreMod": 3,
-        "maxRsi": 55,
+        "scoreMod": 2,
+        "maxRsi": 66,
         "minWhale": 50.8,
-        "lessonNote": "✅ BAŞARI HAFIZASI: BEAMX (1 Kâr / 0 Zarar, Net +1.09 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan."
+        "lessonNote": "✅ BAŞARI HAFIZASI: BEAMX (1 Kâr / 0 Zarar, Net +1.09 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan."
       },
       "JASMY": {
         "wins": 0,
@@ -2079,10 +2104,10 @@
         ],
         "winRsis": [],
         "winWhales": [],
-        "scoreMod": -10,
-        "maxRsi": 44,
-        "minWhale": 60,
-        "lessonNote": "🛑 HATA OTOPSİSİ: JASMY işleminde RSI 50.0 ve Balina %63.2 seviyesinde sahte kırılım (fakeout) yaşandı (-0.84 TL). Yeni Kural: JASMY için RSI tavanı <= 44, Balina şartı >= %60 ve Skor Cezası -10 puan olarak sıkılaştırıldı."
+        "scoreMod": -1,
+        "maxRsi": 65,
+        "minWhale": 51.5,
+        "lessonNote": "🛑 HATA OTOPSİSİ (Bayes Ağırlıklı n=1): JASMY işleminde ort. RSI 50.0 (-0.84 TL). Bayes Cezası: -1p (RSI Tavanı <= 65)."
       },
       "TIA": {
         "wins": 0,
@@ -2097,10 +2122,10 @@
         ],
         "winRsis": [],
         "winWhales": [],
-        "scoreMod": -10,
-        "maxRsi": 38,
-        "minWhale": 60,
-        "lessonNote": "🛑 HATA OTOPSİSİ: TIA işleminde RSI 41.1 ve Balina %59.1 seviyesinde sahte kırılım (fakeout) yaşandı (-1.26 TL). Yeni Kural: TIA için RSI tavanı <= 38, Balina şartı >= %60 ve Skor Cezası -10 puan olarak sıkılaştırıldı."
+        "scoreMod": -1,
+        "maxRsi": 65,
+        "minWhale": 51.5,
+        "lessonNote": "🛑 HATA OTOPSİSİ (Bayes Ağırlıklı n=1): TIA işleminde ort. RSI 41.1 (-1.26 TL). Bayes Cezası: -1p (RSI Tavanı <= 65)."
       },
       "STX": {
         "wins": 2,
@@ -2115,10 +2140,10 @@
         "winWhales": [
           51.5
         ],
-        "scoreMod": 6,
-        "maxRsi": 55,
+        "scoreMod": 2,
+        "maxRsi": 66,
         "minWhale": 50.8,
-        "lessonNote": "✅ BAŞARI HAFIZASI: STX (2 Kâr / 0 Zarar, Net +7.87 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +6 puan."
+        "lessonNote": "✅ BAŞARI HAFIZASI: STX (2 Kâr / 0 Zarar, Net +7.87 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan."
       },
       "SAND": {
         "wins": 0,
@@ -2133,10 +2158,10 @@
         ],
         "winRsis": [],
         "winWhales": [],
-        "scoreMod": -10,
-        "maxRsi": 44,
-        "minWhale": 60,
-        "lessonNote": "🛑 HATA OTOPSİSİ: SAND işleminde RSI 66.6 ve Balina %63.3 seviyesinde sahte kırılım (fakeout) yaşandı (-4.47 TL). Yeni Kural: SAND için RSI tavanı <= 44, Balina şartı >= %60 ve Skor Cezası -10 puan olarak sıkılaştırıldı."
+        "scoreMod": -1,
+        "maxRsi": 65,
+        "minWhale": 51.5,
+        "lessonNote": "🛑 HATA OTOPSİSİ (Bayes Ağırlıklı n=1): SAND işleminde ort. RSI 66.6 (-4.47 TL). Bayes Cezası: -1p (RSI Tavanı <= 65)."
       },
       "FET": {
         "wins": 1,
@@ -2151,10 +2176,10 @@
         "winWhales": [
           52.6
         ],
-        "scoreMod": 3,
-        "maxRsi": 55,
+        "scoreMod": 2,
+        "maxRsi": 66,
         "minWhale": 50.8,
-        "lessonNote": "✅ BAŞARI HAFIZASI: FET (1 Kâr / 0 Zarar, Net +0.87 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan."
+        "lessonNote": "✅ BAŞARI HAFIZASI: FET (1 Kâr / 0 Zarar, Net +0.87 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan."
       },
       "ARB": {
         "wins": 1,
@@ -2169,10 +2194,10 @@
         "winWhales": [
           51.9
         ],
-        "scoreMod": 3,
-        "maxRsi": 55,
+        "scoreMod": 2,
+        "maxRsi": 66,
         "minWhale": 50.8,
-        "lessonNote": "✅ BAŞARI HAFIZASI: ARB (1 Kâr / 0 Zarar, Net +1.12 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan."
+        "lessonNote": "✅ BAŞARI HAFIZASI: ARB (1 Kâr / 0 Zarar, Net +1.12 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan."
       },
       "AVAX": {
         "wins": 1,
@@ -2187,10 +2212,10 @@
         "winWhales": [
           54.8
         ],
-        "scoreMod": 3,
-        "maxRsi": 55,
+        "scoreMod": 2,
+        "maxRsi": 66,
         "minWhale": 50.8,
-        "lessonNote": "✅ BAŞARI HAFIZASI: AVAX (1 Kâr / 0 Zarar, Net +0.53 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan."
+        "lessonNote": "✅ BAŞARI HAFIZASI: AVAX (1 Kâr / 0 Zarar, Net +0.53 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan."
       },
       "ICP": {
         "wins": 1,
@@ -2205,10 +2230,10 @@
         "winWhales": [
           54.7
         ],
-        "scoreMod": 3,
-        "maxRsi": 55,
+        "scoreMod": 2,
+        "maxRsi": 66,
         "minWhale": 50.8,
-        "lessonNote": "✅ BAŞARI HAFIZASI: ICP (1 Kâr / 0 Zarar, Net +1.25 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan."
+        "lessonNote": "✅ BAŞARI HAFIZASI: ICP (1 Kâr / 0 Zarar, Net +1.25 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan."
       },
       "LDO": {
         "wins": 2,
@@ -2223,10 +2248,10 @@
         "winWhales": [
           62.1
         ],
-        "scoreMod": 6,
-        "maxRsi": 55,
+        "scoreMod": 2,
+        "maxRsi": 66,
         "minWhale": 50.8,
-        "lessonNote": "✅ BAŞARI HAFIZASI: LDO (2 Kâr / 0 Zarar, Net +17.26 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +6 puan."
+        "lessonNote": "✅ BAŞARI HAFIZASI: LDO (2 Kâr / 0 Zarar, Net +17.26 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan."
       },
       "SEI": {
         "wins": 1,
@@ -2241,17 +2266,17 @@
         "winWhales": [
           61.1
         ],
-        "scoreMod": 3,
-        "maxRsi": 55,
+        "scoreMod": 2,
+        "maxRsi": 66,
         "minWhale": 50.8,
-        "lessonNote": "✅ BAŞARI HAFIZASI: SEI (1 Kâr / 0 Zarar, Net +7.34 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan."
+        "lessonNote": "✅ BAŞARI HAFIZASI: SEI (1 Kâr / 0 Zarar, Net +7.34 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan."
       }
     },
     "sourceStats": {
       "ShortSqueezeRadar": {
         "wins": 8,
-        "losses": 8,
-        "netPnlUsdt": 0.2162,
+        "losses": 9,
+        "netPnlUsdt": 0.1455,
         "scoreMod": 0
       },
       "Decrypt": {
@@ -2298,31 +2323,32 @@
       }
     },
     "lessons": [
-      "🛑 HATA OTOPSİSİ: PNUT işleminde RSI 40.0 ve Balina %79.7 seviyesinde sahte kırılım (fakeout) yaşandı (-4.69 TL). Yeni Kural: PNUT için RSI tavanı <= 38, Balina şartı >= %60 ve Skor Cezası -10 puan olarak sıkılaştırıldı.",
-      "✅ BAŞARI HAFIZASI: CAKE (2 Kâr / 1 Zarar, Net +6.09 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +6 puan.",
-      "✅ BAŞARI HAFIZASI: HBAR (1 Kâr / 1 Zarar, Net +0.58 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
-      "🛑 HATA OTOPSİSİ: OP işleminde RSI 47.0 ve Balina %59.9 seviyesinde sahte kırılım (fakeout) yaşandı (-5.77 TL). Yeni Kural: OP için RSI tavanı <= 42, Balina şartı >= %60 ve Skor Cezası -10 puan olarak sıkılaştırıldı.",
-      "✅ BAŞARI HAFIZASI: WLD (1 Kâr / 0 Zarar, Net +4.50 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
-      "✅ BAŞARI HAFIZASI: PENDLE (1 Kâr / 0 Zarar, Net +1.93 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
-      "✅ BAŞARI HAFIZASI: RSR (1 Kâr / 1 Zarar, Net +0.54 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
-      "✅ BAŞARI HAFIZASI: INJ (1 Kâr / 1 Zarar, Net +0.93 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
-      "🛑 HATA OTOPSİSİ: ZRO işleminde RSI 52.9 ve Balina %59.5 seviyesinde sahte kırılım (fakeout) yaşandı (-10.12 TL). Yeni Kural: ZRO için RSI tavanı <= 44, Balina şartı >= %60 ve Skor Cezası -10 puan olarak sıkılaştırıldı.",
-      "✅ BAŞARI HAFIZASI: RAY (1 Kâr / 1 Zarar, Net +0.30 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
-      "🛑 HATA OTOPSİSİ: PYTH işleminde RSI 49.9 ve Balina %50.1 seviyesinde sahte kırılım (fakeout) yaşandı (-0.02 TL). Yeni Kural: PYTH için RSI tavanı <= 44, Balina şartı >= %55 ve Skor Cezası -10 puan olarak sıkılaştırıldı.",
-      "🛑 HATA OTOPSİSİ: THETA işleminde RSI 40.5 ve Balina %57.5 seviyesinde sahte kırılım (fakeout) yaşandı (-2.44 TL). Yeni Kural: THETA için RSI tavanı <= 38, Balina şartı >= %59.5 ve Skor Cezası -10 puan olarak sıkılaştırıldı.",
-      "✅ BAŞARI HAFIZASI: UNI (1 Kâr / 0 Zarar, Net +1.06 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
-      "✅ BAŞARI HAFIZASI: EDU (2 Kâr / 0 Zarar, Net +3.88 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +6 puan.",
-      "✅ BAŞARI HAFIZASI: BEAMX (1 Kâr / 0 Zarar, Net +1.09 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
-      "🛑 HATA OTOPSİSİ: JASMY işleminde RSI 50.0 ve Balina %63.2 seviyesinde sahte kırılım (fakeout) yaşandı (-0.84 TL). Yeni Kural: JASMY için RSI tavanı <= 44, Balina şartı >= %60 ve Skor Cezası -10 puan olarak sıkılaştırıldı.",
-      "🛑 HATA OTOPSİSİ: TIA işleminde RSI 41.1 ve Balina %59.1 seviyesinde sahte kırılım (fakeout) yaşandı (-1.26 TL). Yeni Kural: TIA için RSI tavanı <= 38, Balina şartı >= %60 ve Skor Cezası -10 puan olarak sıkılaştırıldı.",
-      "✅ BAŞARI HAFIZASI: STX (2 Kâr / 0 Zarar, Net +7.87 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +6 puan.",
-      "🛑 HATA OTOPSİSİ: SAND işleminde RSI 66.6 ve Balina %63.3 seviyesinde sahte kırılım (fakeout) yaşandı (-4.47 TL). Yeni Kural: SAND için RSI tavanı <= 44, Balina şartı >= %60 ve Skor Cezası -10 puan olarak sıkılaştırıldı.",
-      "✅ BAŞARI HAFIZASI: FET (1 Kâr / 0 Zarar, Net +0.87 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
-      "✅ BAŞARI HAFIZASI: ARB (1 Kâr / 0 Zarar, Net +1.12 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
-      "✅ BAŞARI HAFIZASI: AVAX (1 Kâr / 0 Zarar, Net +0.53 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
-      "✅ BAŞARI HAFIZASI: ICP (1 Kâr / 0 Zarar, Net +1.25 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan.",
-      "✅ BAŞARI HAFIZASI: LDO (2 Kâr / 0 Zarar, Net +17.26 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +6 puan.",
-      "✅ BAŞARI HAFIZASI: SEI (1 Kâr / 0 Zarar, Net +7.34 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +3 puan."
+      "🛑 HATA OTOPSİSİ (Bayes Ağırlıklı n=1): LTC işleminde ort. RSI 36.1 (-3.5 TL). Bayes Cezası: -1p (RSI Tavanı <= 65).",
+      "🛑 HATA OTOPSİSİ (Bayes Ağırlıklı n=1): PNUT işleminde ort. RSI 40.0 (-4.69 TL). Bayes Cezası: -1p (RSI Tavanı <= 65).",
+      "✅ BAŞARI HAFIZASI: CAKE (2 Kâr / 1 Zarar, Net +6.09 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan.",
+      "✅ BAŞARI HAFIZASI: HBAR (1 Kâr / 1 Zarar, Net +0.58 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan.",
+      "🛑 HATA OTOPSİSİ (Bayes Ağırlıklı n=1): OP işleminde ort. RSI 47.0 (-5.77 TL). Bayes Cezası: -1p (RSI Tavanı <= 65).",
+      "✅ BAŞARI HAFIZASI: WLD (1 Kâr / 0 Zarar, Net +4.50 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan.",
+      "✅ BAŞARI HAFIZASI: PENDLE (1 Kâr / 0 Zarar, Net +1.93 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan.",
+      "✅ BAŞARI HAFIZASI: RSR (1 Kâr / 1 Zarar, Net +0.54 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan.",
+      "✅ BAŞARI HAFIZASI: INJ (1 Kâr / 1 Zarar, Net +0.93 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan.",
+      "🛑 HATA OTOPSİSİ (Bayes Ağırlıklı n=1): ZRO işleminde ort. RSI 52.9 (-10.12 TL). Bayes Cezası: -1p (RSI Tavanı <= 65).",
+      "✅ BAŞARI HAFIZASI: RAY (1 Kâr / 1 Zarar, Net +0.30 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan.",
+      "🛑 HATA OTOPSİSİ (Bayes Ağırlıklı n=1): PYTH işleminde ort. RSI 49.9 (-0.02 TL). Bayes Cezası: -1p (RSI Tavanı <= 65).",
+      "🛑 HATA OTOPSİSİ (Bayes Ağırlıklı n=1): THETA işleminde ort. RSI 40.5 (-2.44 TL). Bayes Cezası: -1p (RSI Tavanı <= 65).",
+      "✅ BAŞARI HAFIZASI: UNI (1 Kâr / 0 Zarar, Net +1.06 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan.",
+      "✅ BAŞARI HAFIZASI: EDU (2 Kâr / 0 Zarar, Net +3.88 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan.",
+      "✅ BAŞARI HAFIZASI: BEAMX (1 Kâr / 0 Zarar, Net +1.09 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan.",
+      "🛑 HATA OTOPSİSİ (Bayes Ağırlıklı n=1): JASMY işleminde ort. RSI 50.0 (-0.84 TL). Bayes Cezası: -1p (RSI Tavanı <= 65).",
+      "🛑 HATA OTOPSİSİ (Bayes Ağırlıklı n=1): TIA işleminde ort. RSI 41.1 (-1.26 TL). Bayes Cezası: -1p (RSI Tavanı <= 65).",
+      "✅ BAŞARI HAFIZASI: STX (2 Kâr / 0 Zarar, Net +7.87 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan.",
+      "🛑 HATA OTOPSİSİ (Bayes Ağırlıklı n=1): SAND işleminde ort. RSI 66.6 (-4.47 TL). Bayes Cezası: -1p (RSI Tavanı <= 65).",
+      "✅ BAŞARI HAFIZASI: FET (1 Kâr / 0 Zarar, Net +0.87 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan.",
+      "✅ BAŞARI HAFIZASI: ARB (1 Kâr / 0 Zarar, Net +1.12 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan.",
+      "✅ BAŞARI HAFIZASI: AVAX (1 Kâr / 0 Zarar, Net +0.53 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan.",
+      "✅ BAŞARI HAFIZASI: ICP (1 Kâr / 0 Zarar, Net +1.25 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan.",
+      "✅ BAŞARI HAFIZASI: LDO (2 Kâr / 0 Zarar, Net +17.26 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan.",
+      "✅ BAŞARI HAFIZASI: SEI (1 Kâr / 0 Zarar, Net +7.34 TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +2 puan."
     ]
   },
   "personalFinance": {
@@ -2349,13 +2375,13 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 996.09,
+    "totalNetWorthTry": 995.12,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
-      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %61.8 isabetle (21G/13Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 996.09 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
+      "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %60 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-22T05:53:11.615Z"
+    "updatedAt": "2026-10-22T06:06:30.020Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254
