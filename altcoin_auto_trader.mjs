@@ -220,11 +220,40 @@ function toTL(usdt) {
   });
 }
 
+function appendTradeTelemetry(pos, exitPrice, exitReason, netPnlUsdt, netPnlTry) {
+  try {
+    const snap = {
+      timestamp: new Date().toISOString(),
+      symbol: pos.symbol,
+      source: pos.newsSource || 'RSS',
+      entryPattern: pos.entryPattern || 'STANDARD',
+      regimeBreadthPct: pos.breadthAtEntry ?? 50,
+      eventAgeSec: Math.round((pos.freshestMinutesAgo || 15) * 60),
+      spreadPct: Number(((pos.spreadPctAtEntry || 0.20) / 100).toFixed(5)),
+      atrPct: Number(((pos.atr1hPct || 1.6) / 100).toFixed(4)),
+      safeSlPct: Number(((pos.slPct || 1.8) / 100).toFixed(4)),
+      positionTL: pos.costTry || Math.round((pos.costUsdt || 0) * USD_TRY_RATE),
+      preEventATR: pos.preEventAtr ?? 0,
+      impulseATR: pos.impulseAtr ?? 1.0,
+      retracement: pos.retracementRatio ?? 0.35,
+      betaBtc: pos.betaBtc ?? 1.15,
+      rsAtr: pos.rsAtr ?? 1.0,
+      takerBuyRatio: Number(((pos.takerBuyRatioPct || 52) / 100).toFixed(3)),
+      obImbalance: pos.obImbalance ?? 0,
+      exitReason,
+      realizedNetPnLTry: Number(Number(netPnlTry ?? netPnlUsdt * USD_TRY_RATE).toFixed(2)),
+    };
+    fs.appendFileSync(path.resolve('trade_telemetry.jsonl'), JSON.stringify(snap) + '\n', 'utf8');
+  } catch {}
+}
+
 function runAdaptiveLearningEngine(state) {
   const closed = state.closedTrades || [];
   const coinStats = {};
   const sourceStats = {};
+  const bucketStats = {};
   const lessons = [];
+  let totalWins = 0;
 
   for (const t of closed) {
     const sym = t.symbol;
@@ -255,17 +284,35 @@ function runAdaptiveLearningEngine(state) {
     if (!sourceStats[src]) sourceStats[src] = { wins: 0, losses: 0, netPnlUsdt: 0, scoreMod: 0 };
     sourceStats[src].netPnlUsdt = Number((sourceStats[src].netPnlUsdt + pnlU).toFixed(4));
 
+    const regimeBucket = (t.breadthAtEntry ?? 35) < 24 ? 'RED' : (t.breadthAtEntry ?? 35) < 40 ? 'NEUTRAL' : 'GREEN';
+    const patternBucket = t.entryPattern || 'STANDARD';
+    const bucketKey = `${src}:${regimeBucket}:${patternBucket}`;
+    if (!bucketStats[bucketKey]) bucketStats[bucketKey] = { wins: 0, losses: 0, netPnlTry: 0, posteriorWR: 0.6, scoreMod: 0 };
+    bucketStats[bucketKey].netPnlTry = Number((bucketStats[bucketKey].netPnlTry + pnlT).toFixed(2));
+
     if (pnlU >= 0) {
+      totalWins++;
       cs.wins++;
       sourceStats[src].wins++;
+      bucketStats[bucketKey].wins++;
       if (t.rsiAtEntry) cs.winRsis.push(Number(t.rsiAtEntry));
       if (t.takerBuyRatioPct) cs.winWhales.push(Number(t.takerBuyRatioPct));
     } else {
       cs.losses++;
       sourceStats[src].losses++;
+      bucketStats[bucketKey].losses++;
       if (t.rsiAtEntry) cs.lossRsis.push(Number(t.rsiAtEntry));
       if (t.takerBuyRatioPct) cs.lossWhales.push(Number(t.takerBuyRatioPct));
     }
+  }
+
+  const globalWR = closed.length > 0 ? totalWins / closed.length : 0.60;
+  for (const [, bs] of Object.entries(bucketStats)) {
+    const n = bs.wins + bs.losses;
+    const bucketWR = n > 0 ? bs.wins / n : globalWR;
+    // Bayesian Posterior WR: (w0 * globalWR + n * bucketWR) / (w0 + n) with w0 = 10
+    bs.posteriorWR = Number(((10 * globalWR + n * bucketWR) / (10 + n)).toFixed(3));
+    bs.scoreMod = Math.round((bs.posteriorWR - globalWR) * 25);
   }
 
   for (const [sym, cs] of Object.entries(coinStats)) {
@@ -307,8 +354,10 @@ function runAdaptiveLearningEngine(state) {
   state.adaptiveMemory = {
     updatedAt: new Date().toISOString(),
     totalAnalyzedTrades: closed.length,
+    globalWR: Number(globalWR.toFixed(3)),
     coinStats,
     sourceStats,
+    bucketStats,
     lessons,
   };
   return state.adaptiveMemory;
@@ -734,7 +783,7 @@ async function executeBinanceRealOrder(cfg, symbol, side, quantity, quoteOrderQt
     });
     if (trRes && trRes.code === 0) {
       await new Promise(r => setTimeout(r, 2200));
-      return trRes;
+      return { ...trRes, executedQty: adjQty };
     }
     return { code: -1, msg: JSON.stringify(trRes || {}) };
   } catch (err) {
@@ -1005,22 +1054,24 @@ async function runTradingCycle() {
     const latestSig = candidates.find(c => c.symbol === pos.symbol);
     let exitReason = null;
 
-    // Executable Exit Value after Sell Fee (0.10%) & Fixed-TL-Risk Budget Check
-    const executableExit = currentBid * (1 - 0.001);
+    // Executable Exit Value after Expected Slippage (0.12%) & Sell Fee (0.10%) — without double-counting bid-ask spread!
+    const executableExit = currentBid * (1 - 0.0012) * (1 - 0.0010);
     const netPnlUsdtExec = (executableExit - pos.entryPrice) * pos.qty;
     const netPnlTryExec = netPnlUsdtExec * USD_TRY_RATE;
     const posRiskBudgetTry = Number(pos.riskBudgetTry || 4.50);
 
     if (currentBid <= pos.stopLossPrice || (!pos.trailingActive && netPnlTryExec <= -posRiskBudgetTry)) {
       pos.stopHitCount = (pos.stopHitCount || 0) + 1;
+      if (!pos.firstStopHitAt) pos.firstStopHitAt = nowMs;
     } else {
       pos.stopHitCount = 0;
+      pos.firstStopHitAt = 0;
     }
     const isEmergencyTlLoss = !pos.trailingActive && netPnlTryExec <= -(posRiskBudgetTry * 1.30);
     const isConfirmedStop =
       (pos.trailingActive && currentBid <= pos.stopLossPrice) ||
       isEmergencyTlLoss ||
-      pos.stopHitCount >= 2;
+      (pos.stopHitCount >= 2 && nowMs - (pos.firstStopHitAt || nowMs) >= 3000);
 
     // Engine #9: ZERO-LOSS EARLY SCRATCH (Sifir Zarar Erken Tahliye Kalkani)
     let liveObForScratch = 0;
@@ -1053,16 +1104,19 @@ async function runTradingCycle() {
     }
 
     if (exitReason) {
+      let soldQty = pos.qty;
       if (state.mode === 'LIVE_BINANCE') {
         const sellRes = await executeBinanceRealOrder(cfg, pos.symbol, 'SELL', pos.qty);
         if (!sellRes || sellRes.code !== 0) {
           remainingPositions.push(pos);
           continue;
         }
+        if (sellRes.executedQty > 0) soldQty = sellRes.executedQty;
       }
-      const proceedsUsdt = Number((currentBid * pos.qty).toFixed(4));
-      const exactCostUsdt = Number((pos.entryPrice * pos.qty).toFixed(4));
-      const netPnlUsdt = Number(((currentBid - pos.entryPrice) * pos.qty).toFixed(4));
+      const proceedsUsdt = Number((currentBid * soldQty).toFixed(4));
+      const exactCostUsdt = Number((pos.entryPrice * soldQty).toFixed(4));
+      const netPnlUsdt = Number(((currentBid - pos.entryPrice) * soldQty).toFixed(4));
+      const netPnlTry = Number((netPnlUsdt * USD_TRY_RATE).toFixed(2));
       state.cashUsdt = Number((state.cashUsdt + proceedsUsdt).toFixed(4));
       state.realizedPnlUsdt = Number((state.realizedPnlUsdt + netPnlUsdt).toFixed(4));
 
@@ -1073,14 +1127,16 @@ async function runTradingCycle() {
         state.cooldowns[pos.symbol] = nowMs + 6 * 3600 * 1000;
       }
 
+      appendTradeTelemetry(pos, currentBid, exitReason, netPnlUsdt, netPnlTry);
       state.closedTrades.unshift({
         ...pos,
+        qty: soldQty,
         costUsdt: exactCostUsdt,
         exitPrice: currentBid,
         exitTime: new Date().toISOString(),
         exitReason,
         netPnlUsdt,
-        netPnlTry: Number((netPnlUsdt * USD_TRY_RATE).toFixed(2)),
+        netPnlTry,
       });
       logEvent(state, `🏁 [POZİSYON KAPANDI] ${pos.symbol} @ $${currentBid} | ${exitReason} | Net: ${toTL(netPnlUsdt)} TL`);
     } else {
@@ -1251,8 +1307,12 @@ async function runTradingCycle() {
       if (usedLeaders.has(cand.leaderSymbol) && !(isCashIdleTooLong && cand.totalScore >= 75)) continue;
       const adaptiveMem = state.adaptiveMemory || runAdaptiveLearningEngine(state);
       const coinMem = adaptiveMem?.coinStats?.[cand.symbol];
-      const srcMem = adaptiveMem?.sourceStats?.[cand.headlines?.[0]?.source || 'RSS'];
-      const learnedScoreMod = (coinMem?.scoreMod || 0) + (srcMem?.scoreMod || 0);
+      const srcName = cand.headlines?.[0]?.source || 'RSS';
+      const srcMem = adaptiveMem?.sourceStats?.[srcName];
+      const regimeBucket = breadthPct < 24 ? 'RED' : breadthPct < 40 ? 'NEUTRAL' : 'GREEN';
+      const bucketKey = `${srcName}:${regimeBucket}:${cand.entryPattern || 'STANDARD'}`;
+      const bucketMod = adaptiveMem?.bucketStats?.[bucketKey]?.scoreMod || 0;
+      const learnedScoreMod = (coinMem?.scoreMod || 0) + (srcMem?.scoreMod || 0) + bucketMod;
       const effectiveTotalScore = Number((cand.totalScore + learnedScoreMod).toFixed(1));
       const hasInstitutionalWhaleSurge =
         ((cand.topWhaleLongPct || 0) >= 60 && (cand.oiChange15mPct || 0) >= 0.2) ||
@@ -1295,12 +1355,16 @@ async function runTradingCycle() {
       }
 
       // Fixed-TL-Risk Dynamic Position Sizing + Noise-Filtered Dynamic Stop (1.5% - 2.4%)
-      // Ensures every position risks at most ~4.50 TL (0.45% of equity) even when stop widens to 2.2% for volatile news coins!
+      // Separate illiquidity guard (spreadPct > 0.60% rejected) & un-duplicated exit friction (slippage 0.12% + fee 0.10% = 0.22%)
       const spreadPct = q.bestBid > 0 ? ((q.bestAsk - q.bestBid) / q.bestBid) * 100 : 0.20;
+      if (spreadPct > 0.60) {
+        logEvent(state, `⚠️ [Likidite Kalkanı] ${cand.symbol} makası fazla açık (%${spreadPct.toFixed(2)} > %0.60), pas geçildi.`);
+        continue;
+      }
       const safeSlPct = Number(
         Math.min(2.4, Math.max(1.5, (cand.atr1hPct || 1.6) * 0.90, spreadPct * 3.0)).toFixed(2)
       );
-      const exitFrictionPct = Math.max(0.25, spreadPct + 0.15);
+      const exitFrictionPct = 0.22; // 0.12% expected sell slippage + 0.10% sell fee (bestBid already captures spread)
       const effectiveRiskFraction = (safeSlPct + exitFrictionPct) / 100;
       const riskBudgetTry = Number(
         Math.max(4.0, currentTotalEquity * USD_TRY_RATE * (isAntiMeltdownActive ? 0.0038 : 0.0045)).toFixed(2)
@@ -1320,7 +1384,7 @@ async function runTradingCycle() {
       if (state.mode === 'LIVE_BINANCE') {
         const buyRes = await executeBinanceRealOrder(cfg, cand.symbol, 'BUY', qty, costUsdt);
         if (!buyRes || buyRes.code !== 0) continue;
-        // Reconcile exact post-commission wallet fill floored to LOT_SIZE stepSize so 0 dust is left behind!
+        // Reconcile post-commission wallet balance floored to LOT_SIZE stepSize
         const postBuyTr = await fetchBinanceTrStatus(cfg);
         if (postBuyTr.ok && postBuyTr.assetsMap?.[cand.symbol] > 0) {
           const rawWalletQty = postBuyTr.assetsMap[cand.symbol];
@@ -1338,6 +1402,15 @@ async function runTradingCycle() {
         ecosystem: cand.ecosystems?.[0] || 'Genel',
         headline: cand.headlines?.[0]?.title || 'Pozitif Ekosistem Katalizörü',
         newsSource: cand.headlines?.[0]?.source || 'RSS',
+        entryPattern: cand.entryPattern || 'STANDARD',
+        freshestMinutesAgo: cand.freshestMinutesAgo || 15,
+        breadthAtEntry: breadthPct,
+        spreadPctAtEntry: Number(spreadPct.toFixed(3)),
+        preEventAtr: cand.preEventAtr ?? 0,
+        impulseAtr: cand.impulseAtr ?? 1.0,
+        retracementRatio: cand.retracementRatio ?? 0.35,
+        betaBtc: cand.betaBtc ?? 1.15,
+        rsAtr: cand.rsAtr ?? 1.0,
         newsScore: cand.newsScore,
         totalScore: cand.totalScore,
         rsiAtEntry: cand.rsi1h,
@@ -1353,6 +1426,7 @@ async function runTradingCycle() {
         costTry: Math.round(buyPrice * qty * USD_TRY_RATE),
         riskBudgetTry,
         stopHitCount: 0,
+        firstStopHitAt: 0,
         takeProfitPrice: tpPrice,
         stopLossPrice: slPrice,
         tpPct: cand.tpPct,
@@ -2003,15 +2077,18 @@ async function runFastPositionRiskTick() {
         stateModified = true;
       }
 
-      const executableExit = currentBid * (1 - 0.001);
+      const executableExit = currentBid * (1 - 0.0012) * (1 - 0.0010);
       const netPnlTryExec = (executableExit - pos.entryPrice) * pos.qty * USD_TRY_RATE;
       const posRiskBudgetTry = Number(pos.riskBudgetTry || 4.50);
+      const nowTickMs = Date.now();
 
       if (currentBid <= pos.stopLossPrice || (!pos.trailingActive && netPnlTryExec <= -posRiskBudgetTry)) {
         pos.stopHitCount = (pos.stopHitCount || 0) + 1;
+        if (!pos.firstStopHitAt) pos.firstStopHitAt = nowTickMs;
         stateModified = true;
       } else if (pos.stopHitCount > 0) {
         pos.stopHitCount = 0;
+        pos.firstStopHitAt = 0;
         stateModified = true;
       }
 
@@ -2019,19 +2096,22 @@ async function runFastPositionRiskTick() {
       const isConfirmedStop =
         (pos.trailingActive && currentBid <= pos.stopLossPrice) ||
         isEmergencyTlLoss ||
-        pos.stopHitCount >= 2;
+        (pos.stopHitCount >= 2 && nowTickMs - (pos.firstStopHitAt || nowTickMs) >= 3000);
 
       if (isConfirmedStop) {
+        let soldQty = pos.qty;
         if (state.mode === 'LIVE_BINANCE') {
           const sellRes = await executeBinanceRealOrder(cfg, pos.symbol, 'SELL', pos.qty);
           if (!sellRes || sellRes.code !== 0) {
             remaining.push(pos);
             continue;
           }
+          if (sellRes.executedQty > 0) soldQty = sellRes.executedQty;
         }
-        const proceedsUsdt = Number((currentBid * pos.qty).toFixed(4));
-        const exactCostUsdt = Number((pos.entryPrice * pos.qty).toFixed(4));
-        const netPnlUsdt = Number(((currentBid - pos.entryPrice) * pos.qty).toFixed(4));
+        const proceedsUsdt = Number((currentBid * soldQty).toFixed(4));
+        const exactCostUsdt = Number((pos.entryPrice * soldQty).toFixed(4));
+        const netPnlUsdt = Number(((currentBid - pos.entryPrice) * soldQty).toFixed(4));
+        const netPnlTry = Number((netPnlUsdt * USD_TRY_RATE).toFixed(2));
         state.cashUsdt = Number((state.cashUsdt + proceedsUsdt).toFixed(4));
         state.realizedPnlUsdt = Number((state.realizedPnlUsdt + netPnlUsdt).toFixed(4));
         if (netPnlUsdt >= 0) state.winCount++;
@@ -2043,14 +2123,16 @@ async function runFastPositionRiskTick() {
         const exitReason = isProfitLock
           ? `🔒 4sn HIZLI KÂR KİLİDİ (+%${pos.unrealizedPnlPct})`
           : `🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%${pos.unrealizedPnlPct} | ${netPnlTryExec.toFixed(2)} TL)`;
+        appendTradeTelemetry(pos, currentBid, exitReason, netPnlUsdt, netPnlTry);
         state.closedTrades.unshift({
           ...pos,
+          qty: soldQty,
           costUsdt: exactCostUsdt,
           exitPrice: currentBid,
           exitTime: new Date().toISOString(),
           exitReason,
           netPnlUsdt,
-          netPnlTry: Number((netPnlUsdt * USD_TRY_RATE).toFixed(2)),
+          netPnlTry,
         });
         logEvent(state, `⚡ [4sn HIZLI ÇIKIŞ] ${pos.symbol} @ $${currentBid} | ${exitReason} | Net: ${toTL(netPnlUsdt)} TL`);
         stateModified = true;

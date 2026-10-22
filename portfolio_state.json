@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-22T06:06:30.020Z",
+  "updatedAt": "2026-10-22T06:15:58.939Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.1898,
@@ -25,7 +25,7 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-22T04:50:59.199Z",
       "entryPrice": 264.9,
-      "currentPrice": 263.8,
+      "currentPrice": 264.1,
       "highestPrice": 266.2,
       "qty": 0.0162674,
       "costUsdt": 4.3092,
@@ -38,11 +38,12 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0179,
-      "unrealizedPnlPct": -0.42,
-      "currentPriceTry": 13066.014,
-      "currentValueTry": 212.55,
-      "stopHitCount": 0
+      "unrealizedPnlUsdt": -0.013,
+      "unrealizedPnlPct": -0.3,
+      "currentPriceTry": 13080.873,
+      "currentValueTry": 212.79,
+      "stopHitCount": 0,
+      "firstStopHitAt": 0
     }
   ],
   "closedTrades": [
@@ -1335,10 +1336,10 @@
     "[18:12:09] ⚡ [AKILLI ROTASYON] INJ kapatıldı, yerine 94.6 puanlık dev fırsat (RAY) alınıyor!",
     "[18:11:09] 🎰 [VURGUN SLOTU AÇILDI] THETA (164,24 TL) @ $0.2073 | Hedef: +%18 | RSI: 40.54 | Balina: %57.5 | SL: -%2.4"
   ],
-  "totalEquityUsdt": 20.0913,
-  "totalEquityTry": 995.12,
-  "totalPnlUsdt": -0.0985,
-  "totalPnlPct": -0.49,
+  "totalEquityUsdt": 20.0979,
+  "totalEquityTry": 995.45,
+  "totalPnlUsdt": -0.0919,
+  "totalPnlPct": -0.46,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -1356,44 +1357,8 @@
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
   "usdTryRate": 49.53,
-  "totalPnlTry": -4.88,
+  "totalPnlTry": -4.55,
   "equityHistory": [
-    {
-      "t": "06:29",
-      "v": 1000.02
-    },
-    {
-      "t": "06:30",
-      "v": 999.74
-    },
-    {
-      "t": "06:31",
-      "v": 999.74
-    },
-    {
-      "t": "06:32",
-      "v": 999.89
-    },
-    {
-      "t": "06:33",
-      "v": 998.63
-    },
-    {
-      "t": "06:34",
-      "v": 998.01
-    },
-    {
-      "t": "06:35",
-      "v": 997.9
-    },
-    {
-      "t": "06:36",
-      "v": 999
-    },
-    {
-      "t": "06:37",
-      "v": 998.74
-    },
     {
       "t": "06:38",
       "v": 999.09
@@ -1741,6 +1706,42 @@
     {
       "t": "09:06",
       "v": 995.12
+    },
+    {
+      "t": "09:07",
+      "v": 995.35
+    },
+    {
+      "t": "09:08",
+      "v": 995.74
+    },
+    {
+      "t": "09:09",
+      "v": 995.43
+    },
+    {
+      "t": "09:10",
+      "v": 995.14
+    },
+    {
+      "t": "09:11",
+      "v": 994.94
+    },
+    {
+      "t": "09:12",
+      "v": 995.04
+    },
+    {
+      "t": "09:13",
+      "v": 995.23
+    },
+    {
+      "t": "09:14",
+      "v": 995.25
+    },
+    {
+      "t": "09:15",
+      "v": 995.34
     }
   ],
   "walletAssetsMap": {
@@ -1775,11 +1776,12 @@
     "WLD": 0.0814,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.1622,
-  "dustAssetsTry": 57.57,
+  "dustAssetsUsdt": 1.164,
+  "dustAssetsTry": 57.65,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-22T06:06:30.017Z",
+    "updatedAt": "2026-10-22T06:15:58.937Z",
     "totalAnalyzedTrades": 35,
+    "globalWR": 0.6,
     "coinStats": {
       "LTC": {
         "wins": 0,
@@ -2322,6 +2324,64 @@
         "scoreMod": 0
       }
     },
+    "bucketStats": {
+      "ShortSqueezeRadar:NEUTRAL:STANDARD": {
+        "wins": 8,
+        "losses": 9,
+        "netPnlTry": 7.15,
+        "posteriorWR": 0.519,
+        "scoreMod": -2
+      },
+      "Decrypt:NEUTRAL:STANDARD": {
+        "wins": 1,
+        "losses": 0,
+        "netPnlTry": 4.5,
+        "posteriorWR": 0.636,
+        "scoreMod": 1
+      },
+      "WhaleOrderflowRadar:NEUTRAL:STANDARD": {
+        "wins": 2,
+        "losses": 2,
+        "netPnlTry": -9.58,
+        "posteriorWR": 0.571,
+        "scoreMod": -1
+      },
+      "CoinTelegraph:NEUTRAL:STANDARD": {
+        "wins": 2,
+        "losses": 3,
+        "netPnlTry": 1.01,
+        "posteriorWR": 0.533,
+        "scoreMod": -2
+      },
+      "BinanceListingSniper:NEUTRAL:STANDARD": {
+        "wins": 2,
+        "losses": 0,
+        "netPnlTry": 5.94,
+        "posteriorWR": 0.667,
+        "scoreMod": 2
+      },
+      "RSS:NEUTRAL:STANDARD": {
+        "wins": 3,
+        "losses": 0,
+        "netPnlTry": 12.36,
+        "posteriorWR": 0.692,
+        "scoreMod": 2
+      },
+      "BeInCrypto:NEUTRAL:STANDARD": {
+        "wins": 2,
+        "losses": 0,
+        "netPnlTry": 2.12,
+        "posteriorWR": 0.667,
+        "scoreMod": 2
+      },
+      "CryptoPotato:NEUTRAL:STANDARD": {
+        "wins": 1,
+        "losses": 0,
+        "netPnlTry": 0.53,
+        "posteriorWR": 0.636,
+        "scoreMod": 1
+      }
+    },
     "lessons": [
       "🛑 HATA OTOPSİSİ (Bayes Ağırlıklı n=1): LTC işleminde ort. RSI 36.1 (-3.5 TL). Bayes Cezası: -1p (RSI Tavanı <= 65).",
       "🛑 HATA OTOPSİSİ (Bayes Ağırlıklı n=1): PNUT işleminde ort. RSI 40.0 (-4.69 TL). Bayes Cezası: -1p (RSI Tavanı <= 65).",
@@ -2375,13 +2435,13 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 995.12,
+    "totalNetWorthTry": 995.45,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
       "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %60 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-22T06:06:30.020Z"
+    "updatedAt": "2026-10-22T06:15:58.939Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254

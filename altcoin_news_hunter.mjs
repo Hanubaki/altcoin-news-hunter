@@ -788,8 +788,9 @@ async function main() {
     .sort((a, b) => b.newsScore - a.newsScore)
     .slice(0, 55);
 
-  const [btcKlinesRes, ...klineResults] = await Promise.allSettled([
+  const [btcKlinesRes, btc1hKlinesRes, ...klineResults] = await Promise.allSettled([
     fetchJson(`${BINANCE_API}/klines?symbol=BTCUSDT&interval=15m&limit=5`, {}, 4500),
+    fetchJson(`${BINANCE_API}/klines?symbol=BTCUSDT&interval=1h&limit=30`, {}, 4500),
     ...positiveNewsAlts.map(c =>
       fetchJson(`${BINANCE_API}/klines?symbol=${c.symbol}USDT&interval=1h&limit=30`, {}, 4500)
     ),
@@ -802,6 +803,15 @@ async function main() {
     const closeNow = Number(k[k.length - 1][4]);
     if (open1hAgo > 0) {
       btc1hChangePct = Number((((closeNow - open1hAgo) / open1hAgo) * 100).toFixed(2));
+    }
+  }
+  const btc1hCloses = btc1hKlinesRes.status === 'fulfilled' && Array.isArray(btc1hKlinesRes.value)
+    ? btc1hKlinesRes.value.map(k => Number(k[4]))
+    : [];
+  const btc1hReturns = [];
+  for (let b = 1; b < btc1hCloses.length; b++) {
+    if (btc1hCloses[b - 1] > 0) {
+      btc1hReturns.push((btc1hCloses[b] - btc1hCloses[b - 1]) / btc1hCloses[b - 1]);
     }
   }
   const btcCrashAlert = btc1hChangePct <= -1.8;
@@ -840,26 +850,65 @@ async function main() {
     const lagVsLeader24h = Number((leaderMkt.change24hPct - mkt.change24hPct).toFixed(2));
     const hasDirectMention = Boolean(cat.hasDirectMention);
 
-    // Event Impulse & Pullback (Retracement) Model + Relative Strength vs Market (BTC)
-    const lastKline = klines[klines.length - 1];
-    const prevKline = klines[klines.length - 2];
-    const refOpen = Number(prevKline?.[1] || lastKline?.[1] || mkt.lastPrice);
-    const recentHigh = Math.max(Number(lastKline?.[2] || mkt.lastPrice), Number(prevKline?.[2] || mkt.lastPrice));
-    const impulsePct = refOpen > 0 ? Number((((recentHigh - refOpen) / refOpen) * 100).toFixed(2)) : Math.max(0, change1hPct);
+    // 1. Event-Timestamp-Aligned Price Model: Separate preEventMove (leak/front-run) from postEventImpulse (news reaction)
+    const eventAgeMins = Math.max(1, Number(cat.freshestMinutesAgo || 15));
+    const eventBarsAgo = Math.max(1, Math.min(Math.max(1, klines.length - 3), Math.ceil(eventAgeMins / 60)));
+    const eventBarIdx = Math.max(0, klines.length - eventBarsAgo);
+    const preBarIdx = Math.max(0, eventBarIdx - 2);
+    const eventBasePrice = Number(klines[eventBarIdx]?.[1] || mkt.lastPrice);
+    const preEventStartPrice = Number(klines[preBarIdx]?.[1] || eventBasePrice);
+    const preEventMovePct = preEventStartPrice > 0
+      ? Number((((eventBasePrice - preEventStartPrice) / preEventStartPrice) * 100).toFixed(2))
+      : 0;
+    const preEventAtr = Number((preEventMovePct / Math.max(0.45, atr1hPct)).toFixed(2));
+
+    let eventPeakPrice = mkt.lastPrice;
+    for (let kIdx = eventBarIdx; kIdx < klines.length; kIdx++) {
+      const h = Number(klines[kIdx]?.[2] || 0);
+      if (h > eventPeakPrice) eventPeakPrice = h;
+    }
+    const impulsePct = eventBasePrice > 0
+      ? Number((((eventPeakPrice - eventBasePrice) / eventBasePrice) * 100).toFixed(2))
+      : Math.max(0, change1hPct);
     const impulseAtr = Number((impulsePct / Math.max(0.45, atr1hPct)).toFixed(2));
-    const retracementRatio = recentHigh > refOpen * 1.003
-      ? Number(((recentHigh - mkt.lastPrice) / (recentHigh - refOpen)).toFixed(2))
+    const retracementRatio = eventPeakPrice > eventBasePrice * 1.003
+      ? Number(((eventPeakPrice - mkt.lastPrice) / (eventPeakPrice - eventBasePrice)).toFixed(2))
       : 0.35;
-    const relativeStrength1h = Number((change1hPct - btc1hChangePct).toFixed(2));
+
+    // 2. Rolling Beta-Adjusted Relative Strength (RS_ATR) vs BTC
+    const coinReturns = [];
+    for (let cIdx = 1; cIdx < closes.length; cIdx++) {
+      if (closes[cIdx - 1] > 0) coinReturns.push((closes[cIdx] - closes[cIdx - 1]) / closes[cIdx - 1]);
+    }
+    let betaBtc = 1.15;
+    const nRets = Math.min(coinReturns.length, btc1hReturns.length);
+    if (nRets >= 10) {
+      const cSlice = coinReturns.slice(-nRets);
+      const bSlice = btc1hReturns.slice(-nRets);
+      const meanC = cSlice.reduce((a, b) => a + b, 0) / nRets;
+      const meanB = bSlice.reduce((a, b) => a + b, 0) / nRets;
+      let cov = 0;
+      let varB = 0;
+      for (let r = 0; r < nRets; r++) {
+        cov += (cSlice[r] - meanC) * (bSlice[r] - meanB);
+        varB += (bSlice[r] - meanB) ** 2;
+      }
+      if (varB > 1e-9) {
+        betaBtc = Number(Math.max(0.4, Math.min(2.5, cov / varB)).toFixed(2));
+      }
+    }
+    const expectedCoin1h = Number((betaBtc * btc1hChangePct).toFixed(2));
+    const relativeStrength1h = Number((change1hPct - expectedCoin1h).toFixed(2));
     const rsAtr = Number((relativeStrength1h / Math.max(0.45, atr1hPct)).toFixed(2));
 
-    // NO-CHASE Guard + Unblinded RSI on Direct News (Direct news can naturally have RSI up to 66; overextension is measured via ImpulseATR & Retracement!)
+    // 3. NO-CHASE Guard + Pre-Event Leak Filter + Unblinded RSI on Direct News
     const maxAllowedRsi = hasDirectMention ? 66 : 50;
     const isNoChaseOverextended =
+      preEventAtr > 2.2 || // Reject if coin already pumped >2.2 ATR BEFORE the news timestamp (leaked/front-run)
       impulseAtr > 3.5 ||
-      (change1hPct >= 3.0 && retracementRatio < 0.20) ||
+      (impulsePct >= 3.0 && retracementRatio < 0.20) ||
       (impulsePct >= 4.2 && retracementRatio < 0.25) ||
-      retracementRatio > 0.82; // Failed impulse (>82% given back)
+      retracementRatio > 0.80; // Failed impulse (>80% given back)
     if (!hasDirectMention || rsi1h > maxAllowedRsi || isNoChaseOverextended || bbPctB > 0.92 || mkt.change24hPct > 14.0) continue;
     if (takerBuyRatio < 0.48) continue;
 
@@ -887,11 +936,25 @@ async function main() {
     else if (rsi1h <= 58) totalScore += 8;
     else if (rsi1h <= 66 && takerBuyRatio >= 0.55) totalScore += 6;
 
-    // Healthy Event Pullback Bonus (25%-55% retracement while holding above VWAP with active buyers)
-    if (impulseAtr >= 0.8 && impulseAtr <= 3.0 && retracementRatio >= 0.25 && retracementRatio <= 0.55 && aboveVwap) {
+    // Healthy Event Pullback Bonus: requires 25%-55% retracement, event age >= 1 min (>=60s duration), holding above VWAP, and active buyer absorption
+    const isHealthyPullback =
+      impulseAtr >= 0.8 &&
+      impulseAtr <= 3.0 &&
+      retracementRatio >= 0.25 &&
+      retracementRatio <= 0.55 &&
+      eventAgeMins >= 1 &&
+      aboveVwap &&
+      last1hTakerBuy >= 0.52;
+    if (isHealthyPullback) {
       totalScore += 8;
     }
-    // Market-Independent Relative Strength Bonus (RS_ATR >= 1.2)
+    const entryPattern = isHealthyPullback
+      ? 'HEALTHY_PULLBACK'
+      : impulseAtr < 1.2
+        ? 'EARLY_UNPRICED'
+        : 'MOMENTUM_CONTINUATION';
+
+    // Beta-Adjusted Market-Independent Relative Strength Bonus (RS_ATR >= 1.2)
     if (rsAtr >= 1.5) totalScore += 8;
     else if (rsAtr >= 1.0) totalScore += 4;
 
@@ -936,9 +999,12 @@ async function main() {
       symbol: sym,
       leaderSymbol: cat.leaderSymbol,
       hasDirectMention,
+      preEventAtr,
       impulseAtr,
       retracementRatio,
+      betaBtc,
       rsAtr,
+      entryPattern,
       ecosystems: Array.from(cat.ecosystems),
       matchedKeywords: Array.from(cat.matchedKeywords).slice(0, 6),
       newsScore: cat.newsScore,
@@ -1042,7 +1108,7 @@ async function main() {
   if ((groqKey || geminiKey || openrouterKey) && selectedTop4.length > 0) {
     await Promise.all(
       selectedTop4.map(async item => {
-        const prompt = `Sen kurumsal bir kripto haber semantik doğrulayıcısısın (fiyat falcısı değil). Şu haberi objektif olarak doğrula ve SADECE tek satır geçerli JSON döndür: {"coinDirectlyAffected":true,"eventPositive":true,"negativeTrap":false,"decision":"LONG","confidence":82,"reason":"Kısa Türkçe sebep (en fazla 10 kelime)"}. KURAL: Sadece şu objektif durumlarda decision "WAIT" ve negativeTrap true ver: 1) Haber doğrudan ${item.symbol} ile ilgili değilse, 2) Delist, hack, exploit, kilit açılımı (unlock), dava veya düşüş/retest haberi ise, 3) Olay çoktan bitmiş/fiyatlanmış eski bir haber ise. Gerçek pozitif haberde RSI ${item.rsi1h} olsa bile LONG ver! Coin: ${item.symbol}, Haber: "${item.headlines[0]?.title || ''}", İmpulsATR: ${item.impulseAtr}, Retracement: ${item.retracementRatio}, GöreliGüç(RS_ATR): ${item.rsAtr}`;
+        const prompt = `Sen kurumsal bir kripto haber semantik doğrulayıcısısın (fiyat falcısı değil). Şu haberi 6 objektif kriterle doğrula ve SADECE tek satır geçerli JSON döndür: {"coinDirectlyAffected":true,"eventPositive":true,"negativeTrap":false,"eventAlreadyOccurred":false,"sourceCredible":true,"symbolAmbiguous":false,"decision":"LONG","confidence":82,"reason":"Kısa Türkçe sebep (en fazla 10 kelime)"}. KURAL: Sadece şu objektif durumlarda decision "WAIT" ver: 1) coinDirectlyAffected=false (haber doğrudan ${item.symbol} ile ilgili değilse), 2) eventPositive=false veya negativeTrap=true (delist, hack, exploit, unlock, dava, düşüş/retest ise), 3) eventAlreadyOccurred=true ("dün listelendi/geçen hafta yükseldi" gibi geçmişte kalmış/bitmiş olay ise), 4) symbolAmbiguous=true (sembol başka bir kelimeyle karıştırılmışsa). Gerçek ve taze pozitif haberde RSI ${item.rsi1h} olsa bile LONG ver! Coin: ${item.symbol}, Haber (${item.freshestMinutesAgo}dk önce): "${item.headlines[0]?.title || ''}", PreEventATR: ${item.preEventAtr}, İmpulsATR: ${item.impulseAtr}, Retracement: ${item.retracementRatio}, BetaRS_ATR: ${item.rsAtr}`;
 
         const aiVerdicts = [];
 
@@ -1076,7 +1142,13 @@ async function main() {
                 const jsonMatch = txt.match(/\{[\s\S]*?\}/);
                 if (jsonMatch) {
                   const parsed = JSON.parse(jsonMatch[0]);
-                  const isObjVeto = parsed.coinDirectlyAffected === false || parsed.eventPositive === false || parsed.negativeTrap === true;
+                  const isObjVeto =
+                    parsed.coinDirectlyAffected === false ||
+                    parsed.eventPositive === false ||
+                    parsed.negativeTrap === true ||
+                    parsed.eventAlreadyOccurred === true ||
+                    parsed.sourceCredible === false ||
+                    parsed.symbolAmbiguous === true;
                   aiVerdicts.push({
                     model: m.label,
                     decision: isObjVeto ? 'WAIT' : (parsed.decision || 'LONG').toUpperCase(),
@@ -1107,7 +1179,13 @@ async function main() {
             const jsonMatch = txt.match(/\{[\s\S]*?\}/);
             if (jsonMatch) {
               const parsed = JSON.parse(jsonMatch[0]);
-              const isObjVeto = parsed.coinDirectlyAffected === false || parsed.eventPositive === false || parsed.negativeTrap === true;
+              const isObjVeto =
+                parsed.coinDirectlyAffected === false ||
+                parsed.eventPositive === false ||
+                parsed.negativeTrap === true ||
+                parsed.eventAlreadyOccurred === true ||
+                parsed.sourceCredible === false ||
+                parsed.symbolAmbiguous === true;
               aiVerdicts.push({
                 model: 'Gemini-Flash',
                 decision: isObjVeto ? 'WAIT' : (parsed.decision || 'LONG').toUpperCase(),
@@ -1124,7 +1202,7 @@ async function main() {
           const longVotes = aiVerdicts.filter(v => v.decision === 'LONG' || v.decision === 'BUY');
           const waitVotes = aiVerdicts.filter(v => v.decision === 'WAIT' || v.decision === 'SELL' || v.decision === 'AVOID');
           const avgConf = Math.round(aiVerdicts.reduce((s, v) => s + v.confidence, 0) / aiVerdicts.length);
-          // Semantic Majority Consensus: Require LONG majority (and no >=2 objective semantic trap vetoes) instead of letting a single uncalibrated confidence number veto a valid news catalyst
+          // 4-Model Semantic Majority Consensus
           const objectiveVetoCount = aiVerdicts.filter(v => v.objectiveVeto).length;
           item.liveLlmDecision = longVotes.length > waitVotes.length && objectiveVetoCount < 2 ? 'LONG' : 'WAIT';
           item.liveLlmConfidence = avgConf;
@@ -1151,7 +1229,7 @@ async function main() {
       `\n${idx + 1}. 🎯 ${item.symbol} (Skor: ${item.totalScore}/100 | 🤖 ${item.aiConsensusLabel}) | RSI: ${item.rsi1h}${item.hasRsiDivergence ? ' (Uyumsuzluk ✅)' : ''} | 🐋 Spot Alım: %${item.takerBuyRatioPct}${whaleTag}${oiTag} | VWAP: ${item.vwap24h}`
     );
     if (item.liveLlmReason) {
-      console.log(`   🧠 [Gerçek API AI Konseyi (${item.liveLlmDecision} Ort. Güven %${item.liveLlmConfidence})]: ${item.liveLlmReason}`);
+      console.log(`   🧠 [4-Model Semantik AI Konseyi (${item.liveLlmDecision} Ort. Güven %${item.liveLlmConfidence})]: ${item.liveLlmReason}`);
     }
     item.headlines.forEach(h => {
       console.log(`   • [${h.source} - ${h.minutesAgo}dk önce]: "${h.title}"`);
