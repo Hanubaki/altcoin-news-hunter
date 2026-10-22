@@ -402,7 +402,7 @@ function recordPersonalCashflow(type, amountRaw, noteRaw = '') {
 
 function writeCleanTlReport(state) {
   const mem = state.adaptiveMemory || runAdaptiveLearningEngine(state);
-  const pf = runPersonalCfoEngine(state);
+  const pf = state.personalFinance || runPersonalCfoEngine(state);
   const cashTry = toTL(state.cashUsdt);
   const openValUsdt = state.openPositions.reduce((s, p) => s + p.currentPrice * p.qty, 0);
   const openValTry = toTL(openValUsdt);
@@ -1060,11 +1060,15 @@ async function runTradingCycle() {
       remainingPositions.push(pos);
     }
   }
+  const prevOpenLen = state.openPositions.length;
   state.openPositions = remainingPositions;
-  if (state.mode === 'LIVE_BINANCE') {
+  let didTradeInCycle = remainingPositions.length !== prevOpenLen;
+  if (state.mode === 'LIVE_BINANCE' && didTradeInCycle) {
     const freshTr = await fetchBinanceTrStatus(cfg);
     if (freshTr.ok) {
+      trStatus = freshTr;
       state.binanceTrStatus = freshTr.summary;
+      state.walletAssetsMap = freshTr.assetsMap;
       state.cashUsdt = Number((freshTr.tryFree / USD_TRY_RATE).toFixed(4));
     }
   }
@@ -1208,8 +1212,9 @@ async function runTradingCycle() {
       if (curCoreCount >= maxCoreAllowed) break;
       if (state.cashUsdt < 1.50) break;
       if (heldSymbols.has(cand.symbol)) continue;
-      // Strict AI Council Veto: If Live LLM Council says WAIT (trap/unrelated news), respect the veto immediately!
-      if (cand.liveLlmDecision === 'WAIT' && (cand.liveLlmConfidence || 0) >= 65) continue;
+      // Engine Conflict Prevention: Only allow candidates that were explicitly audited and approved (LONG) by the 3-Model Live AI Council!
+      // Never allow unaudited tail items from allQualifiedOpportunities to bypass the AI Council veto!
+      if (cand.liveLlmDecision !== 'LONG') continue;
       if (usedLeaders.has(cand.leaderSymbol) && !(isCashIdleTooLong && cand.totalScore >= 75)) continue;
       const adaptiveMem = state.adaptiveMemory || runAdaptiveLearningEngine(state);
       const coinMem = adaptiveMem?.coinStats?.[cand.symbol];
@@ -1313,6 +1318,7 @@ async function runTradingCycle() {
       state.openPositions.push(newPos);
       heldSymbols.add(cand.symbol);
       usedLeaders.add(cand.leaderSymbol);
+      didTradeInCycle = true;
 
       logEvent(
         state,
@@ -1321,104 +1327,8 @@ async function runTradingCycle() {
     }
   }
 
-  // Step 4: Engine #11 — OPTION 2 ACTIVE: Moonshot ("Vurgun") Slot permanently disabled so 100% of capital compounds across the 3 Core Slots!
-  const isMoonshotAutoDisabled = true;
-
-  if (!isMoonshotAutoDisabled && !signalsData.btcCrashAlert && !state.openPositions.some(p => p.isMoonshot) && state.cashUsdt >= 2.50) {
-    const heldNow = new Set(state.openPositions.map(p => p.symbol));
-    const moonCandidates = [...candidates]
-      .filter(c => {
-        if (heldNow.has(c.symbol)) return false;
-        if (state.cooldowns[c.symbol] && state.cooldowns[c.symbol] > nowMs) return false;
-        if ((c.freshestMinutesAgo || 0) > 180) return false;
-        if (c.liveLlmDecision && c.liveLlmDecision !== 'LONG') return false;
-        const isListingCatalyst = c.headlines?.some(h => h.source === 'BinanceListingSniper' && h.minutesAgo <= 60);
-        const isShortSqueezeCatalyst = (c.fundingHourlyPct || 0) <= -0.001 && (c.takerBuyRatioPct || 50) >= 55.5 && (c.rsi1h || 50) <= 50;
-        const isMegaWhaleSniper = c.totalScore >= 90 && (c.aiConsensusCount || 0) >= 4 && (c.takerBuyRatioPct || 50) >= 57.0 && (c.rsi1h || 50) <= 46 && Boolean(c.isGreenBounce);
-        if (!isListingCatalyst && !isShortSqueezeCatalyst && !isMegaWhaleSniper) return false;
-        const hClean = (c.headlines?.[0]?.title || '').trim().toLowerCase();
-        if (hClean && recentLosingHeadlines.has(hClean)) return false;
-        return true;
-      })
-      .sort((a, b) => (b.takerBuyRatioPct || 50) * 1.2 + b.totalScore - ((a.takerBuyRatioPct || 50) * 1.2 + a.totalScore));
-
-    for (const moonPick of moonCandidates) {
-      if (state.mode === 'LIVE_BINANCE') {
-        const trRule = await getBinanceTrSymbolRules(moonPick.symbol);
-        if (!trRule || trRule.spotTradingEnable !== 1) continue;
-      }
-
-      const moonOb = await checkOrderbookImbalance(moonPick.symbol);
-      if (moonOb < -0.05) {
-        logEvent(state, `⚖️ [Tahta Kalkanı - Vurgun] ${moonPick.symbol} önünde satış duvarı (${moonOb}) var, pas geçildi.`);
-        continue;
-      }
-
-      let mq = quotes[moonPick.symbol];
-      if (!mq || !mq.bestAsk) {
-        const extraQuotes = await getOrderbookQuotes([moonPick.symbol]);
-        mq = extraQuotes[moonPick.symbol];
-      }
-      if (mq && mq.bestAsk > 0) {
-        const moonAllocUsdt = Number(Math.min(state.cashUsdt, currentTotalEquity * 0.16).toFixed(2));
-        if (moonAllocUsdt >= 2.50) {
-          const buyPrice = mq.bestAsk;
-          const qty = Number((moonAllocUsdt / buyPrice).toPrecision(4));
-          if (state.mode === 'LIVE_BINANCE') {
-            const buyRes = await executeBinanceRealOrder(cfg, moonPick.symbol, 'BUY', qty, moonAllocUsdt);
-            if (!buyRes || buyRes.code !== 0) continue;
-          }
-          const tpPct = 18.0;
-          const slPct = Number(Math.max(2.4, Math.min(Number(moonPick.slPct || 2.6), 3.2)).toFixed(2));
-          const tpPrice = Number((buyPrice * (1 + tpPct / 100)).toPrecision(5));
-          const slPrice = Number((buyPrice * (1 - slPct / 100)).toPrecision(5));
-
-          state.cashUsdt = Number((state.cashUsdt - moonAllocUsdt).toFixed(4));
-          state.openPositions.push({
-            id: `moon_${Date.now()}_${moonPick.symbol}`,
-            symbol: moonPick.symbol,
-            isMoonshot: true,
-            leaderSymbol: moonPick.leaderSymbol,
-            ecosystem: moonPick.ecosystems?.[0] || 'Vurgun',
-            headline: `🎰 VURGUN SLOTU: ${moonPick.headlines?.[0]?.title || 'Balina Hacim Patlaması'}`,
-            newsSource: moonPick.headlines?.[0]?.source || 'WhaleRadar',
-            newsScore: moonPick.newsScore,
-            totalScore: moonPick.totalScore,
-            rsiAtEntry: moonPick.rsi1h,
-            atr1hPct: moonPick.atr1hPct || 2.5,
-            takerBuyRatioPct: moonPick.takerBuyRatioPct || 55,
-            obImbalance: moonOb,
-            entryTime: new Date().toISOString(),
-            entryPrice: buyPrice,
-            currentPrice: mq.bestBid || buyPrice,
-            highestPrice: buyPrice,
-            qty,
-            costUsdt: moonAllocUsdt,
-            costTry: Math.round(moonAllocUsdt * USD_TRY_RATE),
-            takeProfitPrice: tpPrice,
-            stopLossPrice: slPrice,
-            tpPct,
-            slPct,
-            partialTpDone: false,
-            stage2TpDone: false,
-            trailingActive: false,
-            rocketMode: false,
-            unrealizedPnlUsdt: Number((((mq.bestBid || buyPrice) - buyPrice) * qty).toFixed(4)),
-            unrealizedPnlPct: Number(((((mq.bestBid || buyPrice) - buyPrice) / buyPrice) * 100).toFixed(2)),
-          });
-
-          logEvent(
-            state,
-            `🎰 [VURGUN SLOTU AÇILDI] ${moonPick.symbol} (${toTL(moonAllocUsdt)} TL) @ $${buyPrice} | Hedef: +%18 | RSI: ${moonPick.rsi1h} | Balina: %${moonPick.takerBuyRatioPct} | SL: -%${slPct}`
-          );
-          break;
-        }
-      }
-    }
-  }
-
-  // Refresh Binance TR wallet status after any buys/sells in this cycle before running Engine #14 Self-Auditor
-  if (state.mode === 'LIVE_BINANCE') {
+  // Refresh Binance TR wallet status ONLY if a trade actually executed in this cycle (avoids redundant HMAC API calls and speeds up scan cycle by 2x!)
+  if (state.mode === 'LIVE_BINANCE' && didTradeInCycle) {
     const postTradeTr = await fetchBinanceTrStatus(cfg);
     if (postTradeTr.ok) {
       trStatus = postTradeTr;
@@ -1488,9 +1398,9 @@ async function runTradingCycle() {
           costUsdt,
           costTry: Math.round(valTry),
           takeProfitPrice: Number((usdtBid * 1.055).toPrecision(5)),
-          stopLossPrice: Number((usdtBid * 0.9724).toPrecision(5)),
+          stopLossPrice: Number((usdtBid * 0.985).toPrecision(5)),
           tpPct: 5.5,
-          slPct: 2.76,
+          slPct: 1.5,
           partialTpDone: false,
           stage2TpDone: false,
           trailingActive: false,
