@@ -395,6 +395,8 @@ function runAdaptiveLearningEngine(state) {
     }
   }
 
+  state.winCount = totalWins;
+  state.lossCount = Math.max(0, lifecycles.length - totalWins);
   state.adaptiveMemory = {
     updatedAt: new Date().toISOString(),
     totalAnalyzedTrades: lifecycles.length,
@@ -967,7 +969,7 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
 
       state.cashUsdt = Number((state.cashUsdt + proceedsUsdt).toFixed(4));
       state.realizedPnlUsdt = Number((state.realizedPnlUsdt + netPnlUsdt).toFixed(4));
-      state.winCount++;
+      state.partialProfitCount = (state.partialProfitCount || 0) + 1;
 
       const exitReason = `💰 1. KADEME (%${tp1LabelPct}) SIFIR RİSK KÂR AL (+%${pos.unrealizedPnlPct} | Kalan %${remainLabelPct} Bedava Uçuşta)`;
       appendTradeTelemetry(pos, currentBid, exitReason, netPnlUsdt, netPnlTry, sellQty);
@@ -1039,7 +1041,7 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
 
       state.cashUsdt = Number((state.cashUsdt + proceedsUsdt).toFixed(4));
       state.realizedPnlUsdt = Number((state.realizedPnlUsdt + netPnlUsdt).toFixed(4));
-      state.winCount++;
+      state.partialProfitCount = (state.partialProfitCount || 0) + 1;
 
       const exitReason = `🚀 2. KADEME (%${tp2LabelPct}) DEV KÂR AL (+%${pos.unrealizedPnlPct} | Kalan %${remainFracOfInit} Sınırsız Roket)`;
       appendTradeTelemetry(pos, currentBid, exitReason, netPnlUsdt, netPnlTry, sellQty);
@@ -1167,12 +1169,14 @@ async function runTradingCycle() {
   const remainingPositions = [];
   for (const pos of state.openPositions) {
     const q = quotes[pos.symbol];
-    if (!q || !q.bestBid) {
+    if (!q || !q.bestBid || (state.mode === 'LIVE_BINANCE' && q.priceSource !== 'BINANCE_TR')) {
       remainingPositions.push(pos);
       continue;
     }
 
     const currentBid = q.bestBid;
+    if (q.bestBidTry) pos.currentBidTry = q.bestBidTry;
+    if (q.bestAskTry) pos.currentAskTry = q.bestAskTry;
     pos.currentPrice = currentBid;
     pos.highestPrice = Math.max(pos.highestPrice || pos.entryPrice, currentBid);
     pos.unrealizedPnlUsdt = Number(((currentBid - pos.entryPrice) * pos.qty).toFixed(4));
@@ -1313,9 +1317,11 @@ async function runTradingCycle() {
         state.cooldowns[pos.symbol] = nowMs + 6 * 3600 * 1000;
       }
 
-      appendTradeTelemetry(pos, currentBid, exitReason, netPnlUsdt, netPnlTry);
+      appendTradeTelemetry(pos, currentBid, exitReason, netPnlUsdt, netPnlTry, soldQty);
       state.closedTrades.unshift({
         ...pos,
+        positionId: pos.id,
+        leg: 'FINAL',
         qty: soldQty,
         costUsdt: exactCostUsdt,
         exitPrice: currentBid,
@@ -2247,11 +2253,13 @@ async function runFastPositionRiskTick() {
 
     for (const pos of state.openPositions) {
       const q = quotes[pos.symbol];
-      if (!q || !q.bestBid) {
+      if (!q || !q.bestBid || (state.mode === 'LIVE_BINANCE' && q.priceSource !== 'BINANCE_TR')) {
         remaining.push(pos);
         continue;
       }
       const currentBid = q.bestBid;
+      if (q.bestBidTry) pos.currentBidTry = q.bestBidTry;
+      if (q.bestAskTry) pos.currentAskTry = q.bestAskTry;
       pos.currentPrice = currentBid;
       pos.highestPrice = Math.max(pos.highestPrice || pos.entryPrice, currentBid);
       pos.unrealizedPnlUsdt = Number(((currentBid - pos.entryPrice) * pos.qty).toFixed(4));
@@ -2320,9 +2328,11 @@ async function runFastPositionRiskTick() {
         const exitReason = isProfitLock
           ? `🔒 4sn HIZLI KÂR KİLİDİ (+%${pos.unrealizedPnlPct})`
           : `🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%${pos.unrealizedPnlPct} | ${netPnlTryExec.toFixed(2)} TL)`;
-        appendTradeTelemetry(pos, currentBid, exitReason, netPnlUsdt, netPnlTry);
+        appendTradeTelemetry(pos, currentBid, exitReason, netPnlUsdt, netPnlTry, soldQty);
         state.closedTrades.unshift({
           ...pos,
+          positionId: pos.id,
+          leg: 'FINAL',
           qty: soldQty,
           costUsdt: exactCostUsdt,
           exitPrice: currentBid,

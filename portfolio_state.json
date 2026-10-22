@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-22T07:05:23.530Z",
+  "updatedAt": "2026-10-22T07:10:38.203Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.1898,
@@ -25,7 +25,7 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-22T04:50:59.199Z",
       "entryPrice": 264.9,
-      "currentPrice": 262.75,
+      "currentPrice": 262.366,
       "highestPrice": 266.2,
       "qty": 0.0162674,
       "costUsdt": 4.3092,
@@ -38,16 +38,18 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.035,
-      "unrealizedPnlPct": -0.81,
-      "currentPriceTry": 13014.0075,
-      "currentValueTry": 211.7,
+      "unrealizedPnlUsdt": -0.0412,
+      "unrealizedPnlPct": -0.96,
+      "currentPriceTry": 12994.988,
+      "currentValueTry": 211.39,
       "stopHitCount": 0,
       "firstStopHitAt": 0,
       "tp1Pct": 2.2,
       "tp2Pct": 5.5,
       "initialCostUsdt": 4.3092,
-      "initialQty": 0.0162674
+      "initialQty": 0.0162674,
+      "currentBidTry": 12995,
+      "currentAskTry": 13006
     }
   ],
   "closedTrades": [
@@ -1340,10 +1342,10 @@
     "[18:12:09] ⚡ [AKILLI ROTASYON] INJ kapatıldı, yerine 94.6 puanlık dev fırsat (RAY) alınıyor!",
     "[18:11:09] 🎰 [VURGUN SLOTU AÇILDI] THETA (164,24 TL) @ $0.2073 | Hedef: +%18 | RSI: 40.54 | Balina: %57.5 | SL: -%2.4"
   ],
-  "totalEquityUsdt": 20.0705,
-  "totalEquityTry": 994.09,
-  "totalPnlUsdt": -0.1193,
-  "totalPnlPct": -0.59,
+  "totalEquityUsdt": 20.0634,
+  "totalEquityTry": 993.74,
+  "totalPnlUsdt": -0.1264,
+  "totalPnlPct": -0.63,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -1361,28 +1363,8 @@
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
   "usdTryRate": 49.53,
-  "totalPnlTry": -5.91,
+  "totalPnlTry": -6.26,
   "equityHistory": [
-    {
-      "t": "08:27",
-      "v": 998.17
-    },
-    {
-      "t": "08:28",
-      "v": 998.97
-    },
-    {
-      "t": "08:29",
-      "v": 998.89
-    },
-    {
-      "t": "08:30",
-      "v": 997.94
-    },
-    {
-      "t": "08:31",
-      "v": 997.64
-    },
     {
       "t": "08:32",
       "v": 997.2
@@ -1746,6 +1728,26 @@
     {
       "t": "10:05",
       "v": 994.09
+    },
+    {
+      "t": "10:06",
+      "v": 993.73
+    },
+    {
+      "t": "10:07",
+      "v": 993.84
+    },
+    {
+      "t": "10:08",
+      "v": 993.8
+    },
+    {
+      "t": "10:09",
+      "v": 993.94
+    },
+    {
+      "t": "10:10",
+      "v": 993.74
     }
   ],
   "walletAssetsMap": {
@@ -1780,10 +1782,10 @@
     "WLD": 0.0814,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.1584,
-  "dustAssetsTry": 57.38,
+  "dustAssetsUsdt": 1.1577,
+  "dustAssetsTry": 57.34,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-22T07:05:23.527Z",
+    "updatedAt": "2026-10-22T07:10:38.200Z",
     "totalAnalyzedTrades": 35,
     "globalWR": 0.595,
     "coinStats": {
@@ -2439,13 +2441,13 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 994.09,
+    "totalNetWorthTry": 993.74,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
       "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %60 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-22T07:05:23.530Z"
+    "updatedAt": "2026-10-22T07:10:38.203Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254
