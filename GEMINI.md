@@ -7,3 +7,7 @@
    - **Main Loop (`runTradingCycle`) vs. 4-Second Fast Loop (`runFastPositionRiskTick`):** Both loops must execute identical `BINANCE_TR` fail-closed quote guards, identical `processProfitTargets`, identical ratchet ladders, and identical `Slow-Bleed` / `Time-Deterministic Stop` confirmations.
    - **Exchange Constraints (`LOT_SIZE` & `MIN_NOTIONAL >= 55 TL`):** Never split a position into a partial sell or moonbag below `55 TL` on Binance TR; lock the full position stop instead so no unsellable dust is created.
    - **Lifecycle Accounting:** `winCount`, `lossCount`, Bayes `n`, and the 45-minute Global Circuit Breaker must always be computed from completed position lifecycles (`positionId` grouping `TP1 + TP2 + FINAL`), never inflated by individual partial legs.
+
+## Skill-First Execution & Explicit Announcement Rule (Mandatory)
+1. **Check Skills Before Action:** Before starting any task, bug fix, audit, or feature, check all installed skills (`superpowers`, `ponytail`, and custom skills) first and read the matching `SKILL.md`.
+2. **Announce Active Skill(s):** Whenever a skill is used, explicitly state which skill(s) were used at the top of the response (`🛠️ Kullanılan Skill: <skill-adı>`).
