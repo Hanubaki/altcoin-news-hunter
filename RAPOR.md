@@ -1,17 +1,17 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 22.10.2026 09:15:58
+**Son Güncelleme:** 22.10.2026 09:31:01
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`995,45 TL`**
-* **Toplam Net Kâr / Zarar:** **`-4,55 TL` (`%-0.46`)**
+* **Şu Anki Toplam Para:** **`994,68 TL`**
+* **Toplam Net Kâr / Zarar:** **`-5,32 TL` (`%-0.53`)**
 * **Boşta Bekleyen Nakit:** `725,01 TL`
-* **Coinde Olan Para (Açık İşlemler):** `212,79 TL`
-* **Cüzdandaki Küsürat (Dust) Varlıklar:** `57,65 TL` *(Aynı coine tekrar girildiğinde otomatik birleştirilip nakite çevrilir)*
+* **Coinde Olan Para (Açık İşlemler):** `212,15 TL`
+* **Cüzdandaki Küsürat (Dust) Varlıklar:** `57,53 TL` *(Aynı coine tekrar girildiğinde otomatik birleştirilip nakite çevrilir)*
 * **Başarılı Satış / Zarar Kes:** `21 Kârlı Satış / 14 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0077 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 0.8140 | ICP: 0.0002 | INJ: 0.0075 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0008 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 0.0628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TAO: 0.0163 | THETA: 0.0680 | TIA: 0.0058 | TRY: 725.0048 | UNI: 0.0080 | WLD: 0.0814 | ZRO: 0.0037)`
 
@@ -63,7 +63,7 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Teknik Destek (Stop) & Direnç (Hedef) Seviyeleri | Risk & Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **TAO** | `213,43 TL` | `212,79 TL` | **`-0,64 TL (%-0.3)`** | 📉 **Destek (Stop):** `$260.93` (`-%1.5`)<br>📈 **Direnç 1:** `$272.32` (`+%2.8`) | **Direnç 2:** `$276.82` | 🛡️ Kesin Demir Kilit (-%1.5 Stop | +%1,5'te Sıfır Risk, +%2,8'de %40 Hasat) |
+| **TAO** | `213,43 TL` | `212,15 TL` | **`-1,29 TL (%-0.6)`** | 📉 **Destek (Stop):** `$260.93` (`-%1.5`)<br>📈 **Direnç 1:** `$272.32` (`+%2.8`) | **Direnç 2:** `$276.82` | 🛡️ Kesin Demir Kilit (-%1.5 Stop | +%1,5'te Sıfır Risk, +%2,8'de %40 Hasat) |
 
 ---
 
@@ -76,29 +76,29 @@
 | **LTC** | `0G / 1Z` | **`-3.50 TL`** | 🛑 **Sıkılaştırıldı:** Max RSI `<=65`, Min Balina `>=%51.5`, Skor Cezası `-1` Puan |
 | **PNUT** | `0G / 1Z` | **`-4.69 TL`** | 🛑 **Sıkılaştırıldı:** Max RSI `<=65`, Min Balina `>=%51.5`, Skor Cezası `-1` Puan |
 | **CAKE** | `2G / 1Z` | **`+6.09 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+2` Puan (Standart Filtre) |
-| **HBAR** | `1G / 1Z` | **`+0.58 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+2` Puan (Standart Filtre) |
+| **HBAR** | `1G / 1Z` | **`+0.58 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+1` Puan (Standart Filtre) |
 | **OP** | `0G / 1Z` | **`-5.77 TL`** | 🛑 **Sıkılaştırıldı:** Max RSI `<=65`, Min Balina `>=%51.5`, Skor Cezası `-1` Puan |
-| **WLD** | `1G / 0Z` | **`+4.50 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+2` Puan (Standart Filtre) |
-| **PENDLE** | `1G / 0Z` | **`+1.93 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+2` Puan (Standart Filtre) |
-| **RSR** | `1G / 1Z` | **`+0.54 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+2` Puan (Standart Filtre) |
-| **INJ** | `1G / 1Z` | **`+0.93 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+2` Puan (Standart Filtre) |
+| **WLD** | `1G / 0Z` | **`+4.50 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+1` Puan (Standart Filtre) |
+| **PENDLE** | `1G / 0Z` | **`+1.93 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+1` Puan (Standart Filtre) |
+| **RSR** | `1G / 1Z` | **`+0.54 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+1` Puan (Standart Filtre) |
+| **INJ** | `1G / 1Z` | **`+0.93 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+1` Puan (Standart Filtre) |
 | **ZRO** | `0G / 1Z` | **`-10.12 TL`** | 🛑 **Sıkılaştırıldı:** Max RSI `<=65`, Min Balina `>=%51.5`, Skor Cezası `-1` Puan |
-| **RAY** | `1G / 1Z` | **`+0.30 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+2` Puan (Standart Filtre) |
+| **RAY** | `1G / 1Z` | **`+0.30 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+1` Puan (Standart Filtre) |
 | **PYTH** | `0G / 1Z` | **`-0.02 TL`** | 🛑 **Sıkılaştırıldı:** Max RSI `<=65`, Min Balina `>=%51.5`, Skor Cezası `-1` Puan |
 | **THETA** | `0G / 1Z` | **`-2.44 TL`** | 🛑 **Sıkılaştırıldı:** Max RSI `<=65`, Min Balina `>=%51.5`, Skor Cezası `-1` Puan |
-| **UNI** | `1G / 0Z` | **`+1.06 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+2` Puan (Standart Filtre) |
+| **UNI** | `1G / 0Z` | **`+1.06 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+1` Puan (Standart Filtre) |
 | **EDU** | `2G / 0Z` | **`+3.88 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+2` Puan (Standart Filtre) |
-| **BEAMX** | `1G / 0Z` | **`+1.09 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+2` Puan (Standart Filtre) |
+| **BEAMX** | `1G / 0Z` | **`+1.09 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+1` Puan (Standart Filtre) |
 | **JASMY** | `0G / 1Z` | **`-0.84 TL`** | 🛑 **Sıkılaştırıldı:** Max RSI `<=65`, Min Balina `>=%51.5`, Skor Cezası `-1` Puan |
 | **TIA** | `0G / 1Z` | **`-1.26 TL`** | 🛑 **Sıkılaştırıldı:** Max RSI `<=65`, Min Balina `>=%51.5`, Skor Cezası `-1` Puan |
 | **STX** | `2G / 0Z` | **`+7.87 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+2` Puan (Standart Filtre) |
 | **SAND** | `0G / 1Z` | **`-4.47 TL`** | 🛑 **Sıkılaştırıldı:** Max RSI `<=65`, Min Balina `>=%51.5`, Skor Cezası `-1` Puan |
-| **FET** | `1G / 0Z` | **`+0.87 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+2` Puan (Standart Filtre) |
-| **ARB** | `1G / 0Z` | **`+1.12 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+2` Puan (Standart Filtre) |
-| **AVAX** | `1G / 0Z` | **`+0.53 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+2` Puan (Standart Filtre) |
-| **ICP** | `1G / 0Z` | **`+1.25 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+2` Puan (Standart Filtre) |
+| **FET** | `1G / 0Z` | **`+0.87 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+1` Puan (Standart Filtre) |
+| **ARB** | `1G / 0Z` | **`+1.12 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+1` Puan (Standart Filtre) |
+| **AVAX** | `1G / 0Z` | **`+0.53 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+1` Puan (Standart Filtre) |
+| **ICP** | `1G / 0Z` | **`+1.25 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+1` Puan (Standart Filtre) |
 | **LDO** | `2G / 0Z` | **`+17.26 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+2` Puan (Standart Filtre) |
-| **SEI** | `1G / 0Z` | **`+7.34 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+2` Puan (Standart Filtre) |
+| **SEI** | `1G / 0Z` | **`+7.34 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+1` Puan (Standart Filtre) |
 
 ---
 
@@ -106,7 +106,7 @@
 
 * **Banka & Entegrasyon:** `İş Bankası (İşCep & Gmail Bildirim Entegreli)`
 * **İş Bankası Güncel Bakiye:** **`0,00 TL`**
-* **Toplam Kişisel Servet (İş Bankası + Binance TR):** **`995,45 TL`**
+* **Toplam Kişisel Servet (İş Bankası + Binance TR):** **`994,68 TL`**
 * **Beklenen Aylık Gelir Akışı:** `Staj Maaşı: 8.000 TL | Mevcut Burs: 3.000 TL | Yeni Başvurulan Burs: 3.500 TL (Toplam: 14.500 TL/Ay)`
 * **Aylık Dokunulmaz Yaşam & Nakit Kalkanı:** `5.500 TL` *(Haftalık Harcama Limiti: `1.375 TL` | Bu Hafta Harcanan: `0 TL`)*
 * **💡 Günün Otonom CFO Tüyoları & Bütçe Emirleri:**

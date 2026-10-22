@@ -220,8 +220,16 @@ function toTL(usdt) {
   });
 }
 
-function appendTradeTelemetry(pos, exitPrice, exitReason, netPnlUsdt, netPnlTry) {
+function appendTradeTelemetry(pos, exitPrice, exitReason, netPnlUsdt, netPnlTry, executedQty = null) {
   try {
+    const entryMs = pos.entryTime ? new Date(pos.entryTime).getTime() : Date.now();
+    const holdDurationSec = Math.max(1, Math.round((Date.now() - entryMs) / 1000));
+    const peakGainPct = pos.entryPrice > 0 && pos.highestPrice > 0
+      ? Number((((pos.highestPrice - pos.entryPrice) / pos.entryPrice) * 100).toFixed(2))
+      : 0;
+    const grossFloorPct = pos.entryPrice > 0 && pos.stopLossPrice > 0
+      ? Number((((pos.stopLossPrice - pos.entryPrice) / pos.entryPrice) * 100).toFixed(2))
+      : -1.5;
     const snap = {
       timestamp: new Date().toISOString(),
       symbol: pos.symbol,
@@ -229,10 +237,17 @@ function appendTradeTelemetry(pos, exitPrice, exitReason, netPnlUsdt, netPnlTry)
       entryPattern: pos.entryPattern || 'STANDARD',
       regimeBreadthPct: pos.breadthAtEntry ?? 50,
       eventAgeSec: Math.round((pos.freshestMinutesAgo || 15) * 60),
+      holdDurationSec,
       spreadPct: Number(((pos.spreadPctAtEntry || 0.20) / 100).toFixed(5)),
       atrPct: Number(((pos.atr1hPct || 1.6) / 100).toFixed(4)),
       safeSlPct: Number(((pos.slPct || 1.8) / 100).toFixed(4)),
+      tp1Pct: pos.tp1Pct ?? 2.8,
+      tp2Pct: pos.tp2Pct ?? 7.5,
+      peakGainPct,
+      netFloorPct: Number((grossFloorPct - 0.22).toFixed(2)),
       positionTL: pos.costTry || Math.round((pos.costUsdt || 0) * USD_TRY_RATE),
+      fillPrice: exitPrice,
+      executedQty: executedQty ?? pos.qty,
       preEventATR: pos.preEventAtr ?? 0,
       impulseATR: pos.impulseAtr ?? 1.0,
       retracement: pos.retracementRatio ?? 0.35,
@@ -306,37 +321,37 @@ function runAdaptiveLearningEngine(state) {
     }
   }
 
-  const globalWR = closed.length > 0 ? totalWins / closed.length : 0.60;
+  const globalWR = closed.length > 0 ? (totalWins + 1) / (closed.length + 2) : 0.60; // Beta(1,1) prior
   for (const [, bs] of Object.entries(bucketStats)) {
     const n = bs.wins + bs.losses;
-    const bucketWR = n > 0 ? bs.wins / n : globalWR;
-    // Bayesian Posterior WR: (w0 * globalWR + n * bucketWR) / (w0 + n) with w0 = 10
-    bs.posteriorWR = Number(((10 * globalWR + n * bucketWR) / (10 + n)).toFixed(3));
-    bs.scoreMod = Math.round((bs.posteriorWR - globalWR) * 25);
+    const betaWR = (bs.wins + 1) / (n + 2);
+    const shrink = n / (n + 8);
+    bs.posteriorWR = Number((globalWR + shrink * (betaWR - globalWR)).toFixed(3));
+    bs.scoreMod = n >= 8 ? Math.round((bs.posteriorWR - globalWR) * 25) : Math.round((bs.posteriorWR - globalWR) * 12 * shrink);
   }
 
   for (const [sym, cs] of Object.entries(coinStats)) {
     const totalCoinTrades = cs.wins + cs.losses;
-    // Bayesian Shrinkage (w0 = 10): Prevent 1-2 losses in a red market from permanently overfitting a coin's RSI/Whale caps
-    const shrinkageWeight = totalCoinTrades / (totalCoinTrades + 10);
+    // Beta(1,1) + Shrinkage n/(n+8): Require n >= 8 before hard coin-level RSI/Whale parameter overrides
+    const shrinkageWeight = totalCoinTrades / (totalCoinTrades + 8);
     if (cs.losses > 0 && cs.netPnlUsdt < 0) {
       const avgLossRsi = cs.lossRsis.length ? cs.lossRsis.reduce((a, b) => a + b, 0) / cs.lossRsis.length : 49.4;
       const avgLossWhale = cs.lossWhales.length ? cs.lossWhales.reduce((a, b) => a + b, 0) / cs.lossWhales.length : 53.0;
-      if (totalCoinTrades >= 5) {
-        cs.maxRsi = Number(Math.max(45, Math.min(58, Math.floor(avgLossRsi - 2))).toFixed(1));
+      if (totalCoinTrades >= 8) {
+        cs.maxRsi = Number(Math.max(46, Math.min(58, Math.floor(avgLossRsi - 2))).toFixed(1));
         cs.minWhale = Number(Math.max(53.0, Math.min(58.0, avgLossWhale + 1.5)).toFixed(1));
       } else {
         cs.maxRsi = 65;
         cs.minWhale = 51.5;
       }
-      cs.scoreMod = Math.max(-8, Math.round((-12 * cs.losses) * shrinkageWeight));
-      cs.lessonNote = `🛑 HATA OTOPSİSİ (Bayes Ağırlıklı n=${totalCoinTrades}): ${sym} işleminde ort. RSI ${avgLossRsi.toFixed(1)} (${cs.netPnlTry} TL). Bayes Cezası: ${cs.scoreMod}p (RSI Tavanı <= ${cs.maxRsi}).`;
+      cs.scoreMod = Math.max(-8, Math.round((-10 * cs.losses) * shrinkageWeight));
+      cs.lessonNote = `🛑 HATA OTOPSİSİ (Bayes n=${totalCoinTrades}): ${sym} işleminde ort. RSI ${avgLossRsi.toFixed(1)} (${cs.netPnlTry} TL). Bayes Cezası: ${cs.scoreMod}p (RSI Tavanı <= ${cs.maxRsi}).`;
       lessons.push(cs.lessonNote);
     } else if (cs.wins > 0 && cs.netPnlUsdt > 0) {
-      cs.scoreMod = Math.min(8, Math.max(2, Math.round(cs.wins * 4 * shrinkageWeight)));
+      cs.scoreMod = Math.min(6, Math.max(1, Math.round(cs.wins * 4 * shrinkageWeight)));
       cs.maxRsi = 66;
       cs.minWhale = 50.8;
-      cs.lessonNote = `✅ BAŞARI HAFIZASI: ${sym} (${cs.wins} Kâr / ${cs.losses} Zarar, Net +${cs.netPnlTry.toFixed(2)} TL) güçlü tahta tepkisi verdi -> Konsey Skor Bonusu +${cs.scoreMod} puan.`;
+      cs.lessonNote = `✅ BAŞARI HAFIZASI (Bayes n=${totalCoinTrades}): ${sym} (${cs.wins} Kâr / ${cs.losses} Zarar, Net +${cs.netPnlTry.toFixed(2)} TL) -> Konsey Skor Bonusu +${cs.scoreMod} puan.`;
       lessons.push(cs.lessonNote);
     }
   }
@@ -664,16 +679,60 @@ async function getOrderbookQuotes(symbols) {
   }
 }
 
-async function checkOrderbookImbalance(symbol) {
+function computeWeightedBookImbalance(bids, asks) {
+  if (!Array.isArray(bids) || !Array.isArray(asks) || bids.length === 0 || asks.length === 0) return 0;
+  const bestBid = Number(bids[0][0]);
+  const bestAsk = Number(asks[0][0]);
+  const mid = (bestBid + bestAsk) / 2;
+  if (mid <= 0) return 0;
+
+  let weightedBid = 0;
+  let weightedAsk = 0;
+  for (const b of bids.slice(0, 15)) {
+    const p = Number(b[0]);
+    const q = Number(b[1]);
+    const distBps = Math.max(0, ((mid - p) / mid) * 10000);
+    if (distBps <= 25) {
+      const w = Math.exp(-distBps / 5);
+      weightedBid += w * p * q;
+    }
+  }
+  for (const a of asks.slice(0, 15)) {
+    const p = Number(a[0]);
+    const q = Number(a[1]);
+    const distBps = Math.max(0, ((p - mid) / mid) * 10000);
+    if (distBps <= 25) {
+      const w = Math.exp(-distBps / 5);
+      weightedAsk += w * p * q;
+    }
+  }
+  if (weightedBid + weightedAsk <= 0) return 0;
+  return Number(((weightedBid - weightedAsk) / (weightedBid + weightedAsk)).toFixed(2));
+}
+
+async function fetchSingleBookImbalance(symbol) {
   try {
-    const depth = await fetchJson(`${BINANCE_API}/depth?symbol=${symbol}USDT&limit=10`, {}, 3000);
-    const bidVol = (depth.bids || []).reduce((s, b) => s + Number(b[0]) * Number(b[1]), 0);
-    const askVol = (depth.asks || []).reduce((s, a) => s + Number(a[0]) * Number(a[1]), 0);
-    if (bidVol + askVol === 0) return 0;
-    return Number(((bidVol - askVol) / (bidVol + askVol)).toFixed(2));
+    // Primary: Binance TR native _TRY orderbook depth
+    const trDepth = await fetchJson(`https://www.trbinance.com/open/v1/market/depth?symbol=${symbol}_TRY&limit=20`, {}, 2200).catch(() => null);
+    const trBids = trDepth?.data?.bids || trDepth?.bids;
+    const trAsks = trDepth?.data?.asks || trDepth?.asks;
+    if (Array.isArray(trBids) && trBids.length > 0 && Array.isArray(trAsks) && trAsks.length > 0) {
+      return computeWeightedBookImbalance(trBids, trAsks);
+    }
+    // Proxy Fallback: Global USDT depth
+    const depth = await fetchJson(`${BINANCE_API}/depth?symbol=${symbol}USDT&limit=20`, {}, 2500);
+    return computeWeightedBookImbalance(depth.bids || [], depth.asks || []);
   } catch {
     return 0;
   }
+}
+
+async function checkOrderbookImbalance(symbol) {
+  // Spoof-Resistant 2-Snapshot conservative minimum/median check across 160ms
+  const i1 = await fetchSingleBookImbalance(symbol);
+  await new Promise(r => setTimeout(r, 160));
+  const i2 = await fetchSingleBookImbalance(symbol);
+  return Number(((i1 + i2) / 2).toFixed(2));
 }
 
 let _trSymbolsCache = null;
@@ -789,6 +848,143 @@ async function executeBinanceRealOrder(cfg, symbol, side, quantity, quoteOrderQt
   } catch (err) {
     return { code: -1, msg: err?.message || 'TR Order Error' };
   }
+}
+
+async function processProfitTargets(cfg, state, pos, currentBid) {
+  let harvested = false;
+  const exitFrictionPct = 0.22;
+  const atr = pos.atr1hPct || 1.55;
+  const tp1Pct = Number(Math.max(2 * exitFrictionPct + 0.35, Math.min(3.6, Math.max(2.2, atr * 1.8))).toFixed(2));
+  const tp2Pct = Number(Math.min(8.5, Math.max(5.5, atr * 4.2)).toFixed(2));
+  pos.tp1Pct = tp1Pct;
+  pos.tp2Pct = tp2Pct;
+  if (!pos.initialCostUsdt) pos.initialCostUsdt = pos.costUsdt;
+
+  const peakGainPct = pos.entryPrice > 0 ? ((pos.highestPrice - pos.entryPrice) / pos.entryPrice) * 100 : 0;
+
+  // Stage 1 Profit Harvest (TP1: volatility-scaled 2.2% - 3.6%, triggered by peakGainPct with executable currentBid guard)
+  if (
+    !pos.partialTpDone &&
+    peakGainPct >= tp1Pct &&
+    pos.unrealizedPnlPct >= Math.max(1.25, tp1Pct - 0.50)
+  ) {
+    const isStrongCont = (pos.takerBuyRatioPct || 50) >= 54 && (pos.obImbalance || 0) >= 0 && (pos.rsAtr || 0) >= 1.2;
+    const tp1Fraction = isStrongCont ? 0.30 : 0.40;
+    const tp1LabelPct = Math.round(tp1Fraction * 100);
+    const remainLabelPct = 100 - tp1LabelPct;
+    let sellQty = Number((pos.qty * tp1Fraction).toPrecision(4));
+    let orderOk = true;
+    if (state.mode === 'LIVE_BINANCE') {
+      const sellRes = await executeBinanceRealOrder(cfg, pos.symbol, 'SELL', sellQty);
+      if (!sellRes || sellRes.code !== 0) {
+        orderOk = false;
+      } else if (sellRes.executedQty > 0) {
+        sellQty = sellRes.executedQty;
+      }
+    }
+    if (orderOk && sellQty > 0) {
+      const remainQty = Number(Math.max(0, pos.qty - sellQty).toPrecision(4));
+      const soldCostUsdt = Number((pos.initialCostUsdt * tp1Fraction).toFixed(4));
+      const proceedsUsdt = Number((currentBid * sellQty).toFixed(4));
+      const netPnlUsdt = Number((proceedsUsdt - soldCostUsdt).toFixed(4));
+      const netPnlTry = Number((netPnlUsdt * USD_TRY_RATE).toFixed(2));
+
+      state.cashUsdt = Number((state.cashUsdt + proceedsUsdt).toFixed(4));
+      state.realizedPnlUsdt = Number((state.realizedPnlUsdt + netPnlUsdt).toFixed(4));
+      state.winCount++;
+
+      const exitReason = `💰 1. KADEME (%${tp1LabelPct}) SIFIR RİSK KÂR AL (+%${pos.unrealizedPnlPct} | Kalan %${remainLabelPct} Bedava Uçuşta)`;
+      appendTradeTelemetry(pos, currentBid, exitReason, netPnlUsdt, netPnlTry, sellQty);
+      state.closedTrades.unshift({
+        symbol: pos.symbol,
+        entryPrice: pos.entryPrice,
+        exitPrice: currentBid,
+        exitTime: new Date().toISOString(),
+        costUsdt: soldCostUsdt,
+        netPnlUsdt,
+        netPnlTry,
+        exitReason,
+      });
+
+      pos.qty = remainQty;
+      pos.costUsdt = Number((pos.initialCostUsdt * (1 - tp1Fraction)).toFixed(4));
+      pos.costTry = Math.round(pos.costUsdt * USD_TRY_RATE);
+      pos.partialTpDone = true;
+      pos.rocketMode = true;
+      pos.trailingActive = true;
+      pos.stopLossPrice = Math.max(
+        pos.stopLossPrice,
+        Number((pos.entryPrice * (1 + (tp1Pct * 0.65 + exitFrictionPct) / 100)).toPrecision(5)),
+        Number((pos.highestPrice * 0.988).toPrecision(5))
+      );
+      pos.unrealizedPnlUsdt = Number(((currentBid - pos.entryPrice) * pos.qty).toFixed(4));
+      logEvent(
+        state,
+        `💰 [SIFIR RİSK KÂR HASADI] ${pos.symbol} %${tp1LabelPct}'i satıldı (+${toTL(netPnlUsdt)} TL)! Kalan %${remainLabelPct} Sıfır Riskle Bedava Uçuşta!`
+      );
+      harvested = true;
+    }
+  }
+
+  // Stage 2 Profit Harvest (TP2: volatility-scaled 5.5% - 8.5% -> Sell half of remaining, leave Uncapped 30% Moonbag!)
+  if (
+    pos.partialTpDone &&
+    !pos.stage2TpDone &&
+    peakGainPct >= tp2Pct &&
+    pos.unrealizedPnlPct >= Math.max(3.8, tp2Pct - 0.80)
+  ) {
+    let sellQty = Number((pos.qty * 0.50).toPrecision(4));
+    let orderOk = true;
+    if (state.mode === 'LIVE_BINANCE') {
+      const sellRes = await executeBinanceRealOrder(cfg, pos.symbol, 'SELL', sellQty);
+      if (!sellRes || sellRes.code !== 0) {
+        orderOk = false;
+      } else if (sellRes.executedQty > 0) {
+        sellQty = sellRes.executedQty;
+      }
+    }
+    if (orderOk && sellQty > 0) {
+      const remainQty = Number(Math.max(0, pos.qty - sellQty).toPrecision(4));
+      const soldCostUsdt = Number((pos.costUsdt * 0.50).toFixed(4));
+      const proceedsUsdt = Number((currentBid * sellQty).toFixed(4));
+      const netPnlUsdt = Number((proceedsUsdt - soldCostUsdt).toFixed(4));
+      const netPnlTry = Number((netPnlUsdt * USD_TRY_RATE).toFixed(2));
+
+      state.cashUsdt = Number((state.cashUsdt + proceedsUsdt).toFixed(4));
+      state.realizedPnlUsdt = Number((state.realizedPnlUsdt + netPnlUsdt).toFixed(4));
+      state.winCount++;
+
+      const exitReason = `🚀 2. KADEME (%30) DEV KÂR AL (+%${pos.unrealizedPnlPct} | Kalan %30 Sınırsız Roket)`;
+      appendTradeTelemetry(pos, currentBid, exitReason, netPnlUsdt, netPnlTry, sellQty);
+      state.closedTrades.unshift({
+        symbol: pos.symbol,
+        entryPrice: pos.entryPrice,
+        exitPrice: currentBid,
+        exitTime: new Date().toISOString(),
+        costUsdt: soldCostUsdt,
+        netPnlUsdt,
+        netPnlTry,
+        exitReason,
+      });
+
+      pos.qty = remainQty;
+      pos.costUsdt = Number((pos.costUsdt - soldCostUsdt).toFixed(4));
+      pos.costTry = Math.round(pos.costUsdt * USD_TRY_RATE);
+      pos.stage2TpDone = true;
+      pos.stopLossPrice = Math.max(
+        pos.stopLossPrice,
+        Number((pos.entryPrice * (1 + (tp2Pct * 0.75 + exitFrictionPct) / 100)).toPrecision(5)),
+        Number((pos.highestPrice * 0.989).toPrecision(5))
+      );
+      pos.unrealizedPnlUsdt = Number(((currentBid - pos.entryPrice) * pos.qty).toFixed(4));
+      logEvent(
+        state,
+        `🚀 [2. KADEME DEV KÂR ALINDI] ${pos.symbol} +%${pos.unrealizedPnlPct} kârla satıldı (+${toTL(netPnlUsdt)} TL)! Son %30 sınırsız uçuşta!`
+      );
+      harvested = true;
+    }
+  }
+  return harvested;
 }
 
 async function runTradingCycle() {
@@ -909,127 +1105,23 @@ async function runTradingCycle() {
       }
     }
 
-    // Engine #7A: ZERO-RISK "FREE-RIDE" (HOUSE MONEY) HARVEST at +2.8% (harvests 40% hot profit at +2.8% and locks remaining 60% in risk-free flight!)
-    if (!pos.partialTpDone && ((!pos.isMoonshot && pos.unrealizedPnlPct >= 2.8) || (pos.isMoonshot && pos.unrealizedPnlPct >= 10.0))) {
-      const sellQty = Number((pos.qty * 0.40).toPrecision(4));
-      const remainQty = Number((pos.qty - sellQty).toPrecision(4));
-      const soldCostUsdt = Number((pos.costUsdt * 0.40).toFixed(4));
-      const proceedsUsdt = Number((currentBid * sellQty).toFixed(4));
-      const netPnlUsdt = Number((proceedsUsdt - soldCostUsdt).toFixed(4));
+    // Engine #7A & #7B: Unified Volatility-Scaled Profit Harvest (TP1 & TP2)
+    await processProfitTargets(cfg, state, pos, currentBid);
 
-      if (state.mode === 'LIVE_BINANCE') {
-        const sellRes = await executeBinanceRealOrder(cfg, pos.symbol, 'SELL', sellQty);
-        if (!sellRes || sellRes.code !== 0) {
-          sellRes; // Keep position intact if order did not execute
-        } else {
-          state.cashUsdt = Number((state.cashUsdt + proceedsUsdt).toFixed(4));
-          state.realizedPnlUsdt = Number((state.realizedPnlUsdt + netPnlUsdt).toFixed(4));
-          state.winCount++;
-
-          state.closedTrades.unshift({
-            symbol: pos.symbol,
-            entryPrice: pos.entryPrice,
-            exitPrice: currentBid,
-            exitTime: new Date().toISOString(),
-            costUsdt: soldCostUsdt,
-            netPnlUsdt,
-            netPnlTry: Number((netPnlUsdt * USD_TRY_RATE).toFixed(2)),
-            exitReason: `💰 1. KADEME (%35) SIFIR RİSK KÂR AL (+%${pos.unrealizedPnlPct})`,
-          });
-
-          pos.qty = remainQty;
-          pos.costUsdt = Number((pos.costUsdt - soldCostUsdt).toFixed(4));
-          pos.costTry = Math.round(pos.costUsdt * USD_TRY_RATE);
-          pos.partialTpDone = true;
-          pos.rocketMode = true;
-          pos.trailingActive = true;
-          pos.stopLossPrice = Math.max(
-            pos.stopLossPrice,
-            Number((pos.entryPrice * 1.022).toPrecision(5)),
-            Number((pos.highestPrice * 0.988).toPrecision(5))
-          );
-          pos.unrealizedPnlUsdt = Number(((currentBid - pos.entryPrice) * pos.qty).toFixed(4));
-
-          logEvent(
-            state,
-            `💰 [SIFIR RİSK KÂR HASADI] ${pos.symbol} %35'i satıldı (+${toTL(netPnlUsdt)} TL)! Kalan %65 Sıfır Riskle Bedava Uçuşta!`
-          );
-        }
-      }
-    }
-
-    // Engine #7B: Stage 2 Profit Harvest (+7.5% -> Sell half of remaining, leave Uncapped Moonbag!)
-    if (pos.partialTpDone && !pos.stage2TpDone && pos.unrealizedPnlPct >= 7.5) {
-      const sellQty = Number((pos.qty * 0.5).toPrecision(4));
-      const remainQty = Number((pos.qty - sellQty).toPrecision(4));
-      const soldCostUsdt = Number((pos.costUsdt * 0.5).toFixed(4));
-      const proceedsUsdt = Number((currentBid * sellQty).toFixed(4));
-      const netPnlUsdt = Number((proceedsUsdt - soldCostUsdt).toFixed(4));
-
-      if (state.mode === 'LIVE_BINANCE') {
-        const sellRes = await executeBinanceRealOrder(cfg, pos.symbol, 'SELL', sellQty);
-        if (!sellRes || sellRes.code !== 0) { remainingPositions.push(pos); continue; }
-      }
-
-      state.cashUsdt = Number((state.cashUsdt + proceedsUsdt).toFixed(4));
-      state.realizedPnlUsdt = Number((state.realizedPnlUsdt + netPnlUsdt).toFixed(4));
-      state.winCount++;
-
-      state.closedTrades.unshift({
-        symbol: pos.symbol,
-        entryPrice: pos.entryPrice,
-        exitPrice: currentBid,
-        exitTime: new Date().toISOString(),
-        costUsdt: soldCostUsdt,
-        netPnlUsdt,
-        netPnlTry: Number((netPnlUsdt * USD_TRY_RATE).toFixed(2)),
-        exitReason: `🚀 2. KADEME (%35) DEV KÂR AL (+%${pos.unrealizedPnlPct} | Kalan %30 Sınırsız Roket)`,
-      });
-
-      pos.qty = remainQty;
-      pos.costUsdt = Number((pos.costUsdt - soldCostUsdt).toFixed(4));
-      pos.costTry = Math.round(pos.costUsdt * USD_TRY_RATE);
-      pos.stage2TpDone = true;
-      pos.stopLossPrice = Math.max(
-        pos.stopLossPrice,
-        Number((pos.entryPrice * 1.062).toPrecision(5)),
-        Number((pos.highestPrice * 0.989).toPrecision(5))
-      );
-      pos.unrealizedPnlUsdt = Number(((currentBid - pos.entryPrice) * pos.qty).toFixed(4));
-
-      logEvent(
-        state,
-        `🚀 [2. KADEME DEV KÂR ALINDI] ${pos.symbol} +%${pos.unrealizedPnlPct} kârla satıldı (+${toTL(netPnlUsdt)} TL)! Son %30 sınırsız uçuşta!`
-      );
-    }
-
-    // Engine #8: 5-STAGE ZERO-RISK RATCHET LADDER (Adim Adim Sifir Risk Merdiveni)
-    // Core slots lock tightly at +2.2%, +3.2%, +4.5%, +7.0%; Moonshot (Vurgun) slot locks zero-risk at +2.2% (+0.6% floor) and then leaves a wide 3.5% rocket buffer so +5% moves aren't choked before hitting +12% to +18%!
+    // Engine #8: 5-STAGE ZERO-RISK RATCHET LADDER (Net-Friction-Adjusted Floors: includes +0.22% exit friction offset)
     const peakGainPct = ((pos.highestPrice - pos.entryPrice) / pos.entryPrice) * 100;
     let stepFloorPrice = pos.stopLossPrice;
-    if (pos.isMoonshot) {
-      if (peakGainPct >= 14.0) {
-        stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.970).toPrecision(5)), Number((pos.entryPrice * 1.105).toPrecision(5)));
-      } else if (peakGainPct >= 9.0) {
-        stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.966).toPrecision(5)), Number((pos.entryPrice * 1.055).toPrecision(5)));
-      } else if (peakGainPct >= 5.5) {
-        stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.964).toPrecision(5)), Number((pos.entryPrice * 1.022).toPrecision(5)));
-      } else if (peakGainPct >= 2.2) {
-        stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.006).toPrecision(5)));
-      }
-    } else {
-      if (peakGainPct >= 7.0) {
-        stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.988).toPrecision(5)), Number((pos.entryPrice * 1.058).toPrecision(5)));
-      } else if (peakGainPct >= 4.5) {
-        stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.986).toPrecision(5)), Number((pos.entryPrice * 1.032).toPrecision(5)));
-      } else if (peakGainPct >= 3.2) {
-        stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.018).toPrecision(5)));
-      } else if (peakGainPct >= 2.2) {
-        stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.009).toPrecision(5)));
-      } else if (peakGainPct >= 1.5) {
-        // True +1.5% Zero-Risk Breakeven+ Lock: locks +0.40% net profit as soon as coin reaches +1.5%!
-        stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.004).toPrecision(5)));
-      }
+    if (peakGainPct >= 7.0) {
+      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.988).toPrecision(5)), Number((pos.entryPrice * 1.0602).toPrecision(5)));
+    } else if (peakGainPct >= 4.5) {
+      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.986).toPrecision(5)), Number((pos.entryPrice * 1.0342).toPrecision(5)));
+    } else if (peakGainPct >= 3.2) {
+      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.0202).toPrecision(5)));
+    } else if (peakGainPct >= 2.2) {
+      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.0112).toPrecision(5)));
+    } else if (peakGainPct >= 1.5) {
+      // True +1.5% Zero-Risk Breakeven+ Lock: locks +0.40% net profit after 0.22% exit friction (1.0062x entry)!
+      stepFloorPrice = Math.max(stepFloorPrice, Number((pos.entryPrice * 1.0062).toPrecision(5)));
     }
 
     if (stepFloorPrice > pos.stopLossPrice) {
@@ -2062,14 +2154,16 @@ async function runFastPositionRiskTick() {
       pos.unrealizedPnlUsdt = Number(((currentBid - pos.entryPrice) * pos.qty).toFixed(4));
       pos.unrealizedPnlPct = Number((((currentBid - pos.entryPrice) / pos.entryPrice) * 100).toFixed(2));
 
-      // Fast Profit Ratchet Check (+1.5%, +2.2%, +3.2%, +4.5%, +7.0%)
+      // Fast 4s Profit Harvest (TP1 & TP2) + Net-Friction-Adjusted Profit Ratchet (+1.5%, +2.2%, +3.2%, +4.5%, +7.0%)
+      const didFastHarvest = await processProfitTargets(cfg, state, pos, currentBid);
+      if (didFastHarvest) stateModified = true;
       const peakGainPct = ((pos.highestPrice - pos.entryPrice) / pos.entryPrice) * 100;
       let stepFloor = pos.stopLossPrice;
-      if (peakGainPct >= 7.0) stepFloor = Math.max(stepFloor, Number((pos.highestPrice * 0.988).toPrecision(5)), Number((pos.entryPrice * 1.058).toPrecision(5)));
-      else if (peakGainPct >= 4.5) stepFloor = Math.max(stepFloor, Number((pos.highestPrice * 0.986).toPrecision(5)), Number((pos.entryPrice * 1.032).toPrecision(5)));
-      else if (peakGainPct >= 3.2) stepFloor = Math.max(stepFloor, Number((pos.entryPrice * 1.018).toPrecision(5)));
-      else if (peakGainPct >= 2.2) stepFloor = Math.max(stepFloor, Number((pos.entryPrice * 1.009).toPrecision(5)));
-      else if (peakGainPct >= 1.5) stepFloor = Math.max(stepFloor, Number((pos.entryPrice * 1.004).toPrecision(5)));
+      if (peakGainPct >= 7.0) stepFloor = Math.max(stepFloor, Number((pos.highestPrice * 0.988).toPrecision(5)), Number((pos.entryPrice * 1.0602).toPrecision(5)));
+      else if (peakGainPct >= 4.5) stepFloor = Math.max(stepFloor, Number((pos.highestPrice * 0.986).toPrecision(5)), Number((pos.entryPrice * 1.0342).toPrecision(5)));
+      else if (peakGainPct >= 3.2) stepFloor = Math.max(stepFloor, Number((pos.entryPrice * 1.0202).toPrecision(5)));
+      else if (peakGainPct >= 2.2) stepFloor = Math.max(stepFloor, Number((pos.entryPrice * 1.0112).toPrecision(5)));
+      else if (peakGainPct >= 1.5) stepFloor = Math.max(stepFloor, Number((pos.entryPrice * 1.0062).toPrecision(5)));
 
       if (stepFloor > pos.stopLossPrice) {
         pos.stopLossPrice = stepFloor;
