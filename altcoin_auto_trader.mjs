@@ -683,14 +683,13 @@ ${(pf.cfoTips || []).map(t => `  - ${t}`).join('\n')}
 
 ---
 
-## 6. AKTİF KORUMA VE MAKSİMUM KAZANÇ MOTORLARI (v9.5)
+## 6. AKTİF KORUMA VE MAKSİMUM KAZANÇ MOTORLARI (Quant v10.8 — Institutional Suite)
 
-1. **📏 ATR Nefes Payı Kalkanı (-%2,0 ile -%3,2):** Coinlerin 15 dakikalık normal iğnelerde erken stop olmasını önleyen gerçek volatilite bazlı stop-loss mesafesi.
-2. **🛡️ +%1,5 Gerçek Sıfır Risk Kilidi (True Breakeven Lock):** Bir coin \`+%1,5\` yükseldiği anda Stop-Loss otomatik olarak maliyetin \`+%0,35\` üstüne çekilir; kâr kilidi sadece stop fiyatı gerçekten maliyetin üstündeyken aktif olur.
-3. **🎰 +%2,8 Bedava Sürüş (Free-Ride / House Money) Hasadı:** Coin \`+%2,8\` yaptığı anda \`%40\`'ı satılıp sıcak kâr cebe atılır, kalan \`%60\`'ın stopu \`+%1,2+\` net kâra kilitlenir ve **%100 sıfır riskle** \`+%7,5\` ve sınırsız uçuşa bırakılır.
-4. **🚫 Tepe (Overbought) ve Bayat Haber Engelleyici:** \`RSI > 55\` olan tepedeki coinlere ve son 12 saatte zarar yazmış bayat haber başlıklarına tekrar girilmez.
-5. **🧠 Engine #15 — Otonom Hata Otopsisi ve Öz-Öğrenme Motoru:** Zarar edilen her işlemden sonra ilgili coinin RSI tavanını, minimum Balina giriş oranını ve Konsey güven puanını otonom olarak günceller; aynı hatayı ikinci kez yapmaz.
-6. **🏦 Engine #16 — Kişisel CFO & İş Bankası Fon Yöneticisi:** Giren/çıkan banka nakit akışını, staj/burs gelirlerini, haftalık harcama limitini ve kripto kasa büyümesini tek merkezden yönetir.
+1. **🛡️ Engine #19 — Tek Yönlü Gölge Tuzak Avcısı (Defensive Shadow Trap Detector):** Gerçek para yatırmadan önce adayları arka planda sanal izler (\`0%\` pozitif puan şişirme riski); sanalda çakılan veya 75dk sürünerek eriyen tuzak coinleri gerçek para kaybetmeden 4 saat kara listeye alır (\`shadow_telemetry.jsonl\`).
+2. **🧪 Engine #20 & #21 — Kurumsal Mikroyapı & İğne Tuzak Kalkanı:** Gerçek **Amihud Likidite Oranı (\`|ret_1h%| / $1M\`)**, örneklem korumalı **Taker Akış Yavaşlama Filtresi**, zaman-hizalı **Fiyat–OI Ayı Uyumsuzluğu (\`PRICE_OI_DIVERGENCE\`)**, **Aşırı Kaldıraçlı Long Tasfiye Kalkanı (\`OVERLEVERAGED_LONG_TRAP\`)** ve **Üst Fitil Boğa Tuzağı (\`UPPER_WICK_REJECTION\`)** korumalarıyla sahte yükselişlere tek kuruş kaptırmaz.
+3. **🔗 Engine #22 — Sektör Bulaşma Kalkanı & Küsürat (Dust) Süpürücü:** Bir ekosistemde zarar kes yaşanırsa aynı sektöre 45 dakika bulaşmaz; cüzdanda sıkışmış küsüratı (\`>= 1.50 TL\`) bulunan A+ onaylı coinlerde çıkışta küsüratı da birleştirip gerçek \`TRY\` nakite çevirir.
+4. **💰 Çakışmasız Kademeli Hasat (\`TP1 -> TP2 -> Moonbag\`) & \`+%1,75\` Net Kâr Kilidi:** \`TP1\` (\`%2,2–%3,6\`) alınmadan üst stop basamakları coini erken boğmaz; \`< 55 TL\` küsürat oluşacak pozisyonları bölmeden tam stop kilidine alır.
+5. **🧠 Engine #15 & #16 — Tamamlanmış Ömür (Lifecycle) Bayes Öğrenme & Kişisel CFO:** Parçalı satışları tek işlem ömründe (\`positionId\`) birleştirerek öğrenir ve İş Bankası + Binance TR servetini tek merkezden yönetir.
 `;
 
   fs.writeFileSync(RAPOR_FILE, md, 'utf8');
@@ -940,9 +939,11 @@ async function executeBinanceRealOrder(cfg, symbol, side, quantity, quoteOrderQt
   try {
     const rule = await getBinanceTrSymbolRules(symbol);
     const status = await fetchBinanceTrStatus(cfg);
+    const preTryFree = status.ok ? Number(status.tryFree || 0) : 0;
+    const preCoinFree = status.ok ? Number(status.assetsMap?.[symbol] || 0) : 0;
     let adjQty = quantity;
     if (side === 'SELL' && status.ok) {
-      const walletFree = status.assetsMap?.[symbol] || 0;
+      const walletFree = preCoinFree;
       if (walletFree <= 0 || walletFree < quantity * 0.1) {
         return { code: 0, alreadySold: true };
       }
@@ -951,11 +952,9 @@ async function executeBinanceRealOrder(cfg, symbol, side, quantity, quoteOrderQt
         adjQty = walletFree;
       }
     }
-    if (rule) {
-      const lotFilter = (rule.filters || []).find(f => f.filterType === 'LOT_SIZE');
-      if (lotFilter?.stepSize) {
-        adjQty = roundToStepSize(adjQty, lotFilter.stepSize);
-      }
+    const lotFilter = (rule?.filters || []).find(f => f.filterType === 'LOT_SIZE');
+    if (lotFilter?.stepSize) {
+      adjQty = roundToStepSize(adjQty, lotFilter.stepSize);
     }
 
     const trParams = new URLSearchParams({
@@ -987,6 +986,31 @@ async function executeBinanceRealOrder(cfg, symbol, side, quantity, quoteOrderQt
     });
     if (trRes && trRes.code === 0) {
       await new Promise(r => setTimeout(r, 2200));
+      const postStatus = await fetchBinanceTrStatus(cfg);
+      if (side === 'BUY' && postStatus.ok) {
+        const postCoinFree = Number(postStatus.assetsMap?.[symbol] || 0);
+        const rawDeltaQty = Math.max(0, postCoinFree - preCoinFree);
+        const spentTry = Math.max(0, preTryFree - Number(postStatus.tryFree || 0));
+        const filledQty =
+          rawDeltaQty > 0
+            ? lotFilter?.stepSize
+              ? roundToStepSize(rawDeltaQty, lotFilter.stepSize)
+              : rawDeltaQty
+            : adjQty;
+        const fillPriceTry = filledQty > 0 && spentTry > 10 ? Number((spentTry / filledQty).toFixed(6)) : null;
+        const fillPriceUsdt = fillPriceTry ? Number((fillPriceTry / USD_TRY_RATE).toPrecision(5)) : null;
+        const dustSweepQty = Math.max(0, Number((postCoinFree - filledQty).toPrecision(4)));
+        return { ...trRes, executedQty: filledQty, fillPriceTry, fillPriceUsdt, spentTry, dustSweepQty, postStatus };
+      }
+      if (side === 'SELL' && postStatus.ok) {
+        const postCoinFree = Number(postStatus.assetsMap?.[symbol] || 0);
+        const rawSoldQty = Math.max(0, preCoinFree - postCoinFree);
+        const receivedTry = Math.max(0, Number(postStatus.tryFree || 0) - preTryFree);
+        const soldExecQty = rawSoldQty > 0 ? rawSoldQty : adjQty;
+        const fillPriceTry = soldExecQty > 0 && receivedTry > 10 ? Number((receivedTry / soldExecQty).toFixed(6)) : null;
+        const fillPriceUsdt = fillPriceTry ? Number((fillPriceTry / USD_TRY_RATE).toPrecision(5)) : null;
+        return { ...trRes, executedQty: soldExecQty, fillPriceTry, fillPriceUsdt, receivedTry, postStatus };
+      }
       return { ...trRes, executedQty: adjQty };
     }
     return { code: -1, msg: JSON.stringify(trRes || {}) };
@@ -1039,12 +1063,14 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
       return true;
     }
     let orderOk = true;
+    let tp1ExitBid = currentBid;
     if (state.mode === 'LIVE_BINANCE') {
       const sellRes = await executeBinanceRealOrder(cfg, pos.symbol, 'SELL', sellQty);
       if (!sellRes || sellRes.code !== 0) {
         orderOk = false;
-      } else if (sellRes.executedQty > 0) {
-        sellQty = sellRes.executedQty;
+      } else {
+        if (sellRes.executedQty > 0) sellQty = Math.min(pos.qty, sellRes.executedQty);
+        if (sellRes.fillPriceUsdt > 0) tp1ExitBid = sellRes.fillPriceUsdt;
       }
     }
     if (orderOk && sellQty > 0) {
@@ -1053,7 +1079,7 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
       const tp1LabelPct = Math.round(actualSoldFraction * 100);
       const remainLabelPct = Math.max(0, 100 - tp1LabelPct);
       const soldCostUsdt = Number((pos.initialCostUsdt * actualSoldFraction).toFixed(4));
-      const proceedsUsdt = Number((currentBid * sellQty).toFixed(4));
+      const proceedsUsdt = Number((tp1ExitBid * sellQty).toFixed(4));
       const netPnlUsdt = Number((proceedsUsdt - soldCostUsdt).toFixed(4));
       const netPnlTry = Number((netPnlUsdt * USD_TRY_RATE).toFixed(2));
 
@@ -1062,7 +1088,7 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
       state.partialProfitCount = (state.partialProfitCount || 0) + 1;
 
       const exitReason = `💰 1. KADEME (%${tp1LabelPct}) SIFIR RİSK KÂR AL (+%${pos.unrealizedPnlPct} | Kalan %${remainLabelPct} Bedava Uçuşta)`;
-      appendTradeTelemetry(pos, currentBid, exitReason, netPnlUsdt, netPnlTry, sellQty);
+      appendTradeTelemetry(pos, tp1ExitBid, exitReason, netPnlUsdt, netPnlTry, sellQty);
       state.closedTrades.unshift({
         positionId: pos.id,
         leg: 'TP1',
@@ -1073,7 +1099,7 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
         rsiAtEntry: pos.rsiAtEntry,
         takerBuyRatioPct: pos.takerBuyRatioPct,
         entryPrice: pos.entryPrice,
-        exitPrice: currentBid,
+        exitPrice: tp1ExitBid,
         exitTime: new Date().toISOString(),
         costUsdt: soldCostUsdt,
         netPnlUsdt,
@@ -1126,12 +1152,14 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
       return true;
     }
     let orderOk = true;
+    let tp2ExitBid = currentBid;
     if (state.mode === 'LIVE_BINANCE') {
       const sellRes = await executeBinanceRealOrder(cfg, pos.symbol, 'SELL', sellQty);
       if (!sellRes || sellRes.code !== 0) {
         orderOk = false;
-      } else if (sellRes.executedQty > 0) {
-        sellQty = sellRes.executedQty;
+      } else {
+        if (sellRes.executedQty > 0) sellQty = Math.min(pos.qty, sellRes.executedQty);
+        if (sellRes.fillPriceUsdt > 0) tp2ExitBid = sellRes.fillPriceUsdt;
       }
     }
     if (orderOk && sellQty > 0) {
@@ -1140,7 +1168,7 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
       const remainFracOfInit = pos.initialQty > 0 ? Math.round((remainQty / pos.initialQty) * 100) : 30;
       const tp2LabelPct = Math.round(actualTp2FracOfInit * 100);
       const soldCostUsdt = Number(Math.min(pos.costUsdt, pos.initialCostUsdt * actualTp2FracOfInit).toFixed(4));
-      const proceedsUsdt = Number((currentBid * sellQty).toFixed(4));
+      const proceedsUsdt = Number((tp2ExitBid * sellQty).toFixed(4));
       const netPnlUsdt = Number((proceedsUsdt - soldCostUsdt).toFixed(4));
       const netPnlTry = Number((netPnlUsdt * USD_TRY_RATE).toFixed(2));
 
@@ -1149,7 +1177,7 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
       state.partialProfitCount = (state.partialProfitCount || 0) + 1;
 
       const exitReason = `🚀 2. KADEME (%${tp2LabelPct}) DEV KÂR AL (+%${pos.unrealizedPnlPct} | Kalan %${remainFracOfInit} Sınırsız Roket)`;
-      appendTradeTelemetry(pos, currentBid, exitReason, netPnlUsdt, netPnlTry, sellQty);
+      appendTradeTelemetry(pos, tp2ExitBid, exitReason, netPnlUsdt, netPnlTry, sellQty);
       state.closedTrades.unshift({
         positionId: pos.id,
         leg: 'TP2',
@@ -1160,7 +1188,7 @@ async function processProfitTargets(cfg, state, pos, currentBid) {
         rsiAtEntry: pos.rsiAtEntry,
         takerBuyRatioPct: pos.takerBuyRatioPct,
         entryPrice: pos.entryPrice,
-        exitPrice: currentBid,
+        exitPrice: tp2ExitBid,
         exitTime: new Date().toISOString(),
         costUsdt: soldCostUsdt,
         netPnlUsdt,
@@ -1235,9 +1263,10 @@ async function runTradingCycle() {
     if (trStatus.ok) {
       state.cashUsdt = Number((trStatus.tryFree / USD_TRY_RATE).toFixed(4));
       for (const p of state.openPositions || []) {
-        const realQty = trStatus.assetsMap?.[p.symbol];
-        if (realQty && realQty > 0 && Math.abs(realQty - p.qty) / p.qty < 0.08) {
-          p.qty = realQty;
+        const rawRealQty = trStatus.assetsMap?.[p.symbol];
+        const effectiveRealQty = rawRealQty ? Math.max(0, rawRealQty - Number(p.dustSweepQty || 0)) : 0;
+        if (effectiveRealQty > 0 && Math.abs(effectiveRealQty - p.qty) / p.qty < 0.08) {
+          p.qty = effectiveRealQty;
         }
         p.costUsdt = Number((p.entryPrice * p.qty).toFixed(4));
       }
@@ -1406,17 +1435,19 @@ async function runTradingCycle() {
 
     if (exitReason) {
       let soldQty = pos.qty;
+      let realExitBid = currentBid;
       if (state.mode === 'LIVE_BINANCE') {
         const sellRes = await executeBinanceRealOrder(cfg, pos.symbol, 'SELL', pos.qty);
         if (!sellRes || sellRes.code !== 0) {
           remainingPositions.push(pos);
           continue;
         }
-        if (sellRes.executedQty > 0) soldQty = sellRes.executedQty;
+        if (sellRes.executedQty > 0) soldQty = Math.min(pos.qty, sellRes.executedQty);
+        if (sellRes.fillPriceUsdt > 0) realExitBid = sellRes.fillPriceUsdt;
       }
-      const proceedsUsdt = Number((currentBid * soldQty).toFixed(4));
+      const proceedsUsdt = Number((realExitBid * soldQty).toFixed(4));
       const exactCostUsdt = Number((pos.entryPrice * soldQty).toFixed(4));
-      const netPnlUsdt = Number(((currentBid - pos.entryPrice) * soldQty).toFixed(4));
+      const netPnlUsdt = Number(((realExitBid - pos.entryPrice) * soldQty).toFixed(4));
       const netPnlTry = Number((netPnlUsdt * USD_TRY_RATE).toFixed(2));
       state.cashUsdt = Number((state.cashUsdt + proceedsUsdt).toFixed(4));
       state.realizedPnlUsdt = Number((state.realizedPnlUsdt + netPnlUsdt).toFixed(4));
@@ -1428,20 +1459,20 @@ async function runTradingCycle() {
         state.cooldowns[pos.symbol] = nowMs + 6 * 3600 * 1000;
       }
 
-      appendTradeTelemetry(pos, currentBid, exitReason, netPnlUsdt, netPnlTry, soldQty);
+      appendTradeTelemetry(pos, realExitBid, exitReason, netPnlUsdt, netPnlTry, soldQty);
       state.closedTrades.unshift({
         ...pos,
         positionId: pos.id,
         leg: 'FINAL',
         qty: soldQty,
         costUsdt: exactCostUsdt,
-        exitPrice: currentBid,
+        exitPrice: realExitBid,
         exitTime: new Date().toISOString(),
         exitReason,
         netPnlUsdt,
         netPnlTry,
       });
-      logEvent(state, `🏁 [POZİSYON KAPANDI] ${pos.symbol} @ $${currentBid} | ${exitReason} | Net: ${toTL(netPnlUsdt)} TL`);
+      logEvent(state, `🏁 [POZİSYON KAPANDI] ${pos.symbol} @ $${realExitBid} | ${exitReason} | Net: ${toTL(netPnlUsdt)} TL`);
     } else {
       remainingPositions.push(pos);
     }
@@ -1459,7 +1490,7 @@ async function runTradingCycle() {
     }
   }
 
-  // Compute completed lifecycle net PnL (TP1 + TP2 + FINAL grouped by positionId) for Lifecycle-Based Circuit Breaker
+  // Compute completed lifecycle net PnL (TP1 + TP2 + FINAL grouped by positionId) for Lifecycle-Based Circuit Breaker & Ecosystem Contagion Shield
   const openPosIdsForCb = new Set((state.openPositions || []).map(p => p.id).filter(Boolean));
   const cbLifecycleMap = new Map();
   for (let i = 0; i < (state.closedTrades || []).length; i++) {
@@ -1467,7 +1498,11 @@ async function runTradingCycle() {
     const pid = ct.positionId || ct.id || `legacy_cb_${i}`;
     if (openPosIdsForCb.has(pid)) continue;
     if (!cbLifecycleMap.has(pid)) {
-      cbLifecycleMap.set(pid, { netPnlUsdt: 0, exitTime: ct.exitTime || null });
+      cbLifecycleMap.set(pid, {
+        netPnlUsdt: 0,
+        exitTime: ct.exitTime || null,
+        leaderSymbol: ct.leaderSymbol || ct.symbol || null,
+      });
     }
     const g = cbLifecycleMap.get(pid);
     g.netPnlUsdt = Number((g.netPnlUsdt + Number(ct.netPnlUsdt || 0)).toFixed(4));
@@ -1475,10 +1510,15 @@ async function runTradingCycle() {
   }
   let consecutiveLosses = 0;
   let lastLossExitMs = 0;
+  const recentLosingLeaders = new Set();
   for (const lc of cbLifecycleMap.values()) {
+    const exitMs = lc.exitTime ? new Date(lc.exitTime).getTime() : 0;
+    if (lc.netPnlUsdt < -0.05 && exitMs > 0 && nowMs - exitMs < 45 * 60 * 1000 && lc.leaderSymbol) {
+      recentLosingLeaders.add(lc.leaderSymbol);
+    }
     if (lc.netPnlUsdt < -0.05) {
       consecutiveLosses++;
-      if (!lastLossExitMs && lc.exitTime) lastLossExitMs = new Date(lc.exitTime).getTime();
+      if (!lastLossExitMs && exitMs > 0) lastLossExitMs = exitMs;
     } else if (lc.netPnlUsdt > 0.02) {
       break;
     }
@@ -1662,6 +1702,8 @@ async function runTradingCycle() {
       // In Red Markets (breadth < 24%), require Market-Independent Catalyst + Relative Strength (RS_ATR >= 1.2) instead of impossible RSI <= 32!
       if (isRedMarketDump && (cand.rsAtr || 0) < 1.2) continue;
       if (usedLeaders.has(cand.leaderSymbol) && !(isCashIdleTooLong && cand.totalScore >= 75)) continue;
+      // Engine #22: Correlated Ecosystem Contagion Shield (45m sector cooldown after a lifecycle loss in the same leader ecosystem)
+      if (cand.leaderSymbol && recentLosingLeaders.has(cand.leaderSymbol)) continue;
       const adaptiveMem = state.adaptiveMemory || runAdaptiveLearningEngine(state);
       const coinMem = adaptiveMem?.coinStats?.[cand.symbol];
       const srcName = cand.headlines?.[0]?.source || 'RSS';
@@ -1671,7 +1713,11 @@ async function runTradingCycle() {
       const bucketMod = adaptiveMem?.bucketStats?.[bucketKey]?.scoreMod || 0;
       // Defensive-Only Shadow Trap Penalty (Strictly <= 0: never boosts score, only blocks/penalizes proven paper bull-traps!)
       const shadowPenalty = Math.min(0, Number(state.shadowTrapMemory?.[cand.symbol]?.scoreMod || 0));
-      const learnedScoreMod = (coinMem?.scoreMod || 0) + (srcMem?.scoreMod || 0) + bucketMod + shadowPenalty;
+      // Dust-Sweep Tie-Breaker (+1.0p only when symbol has >= 1.50 TL trapped dust in wallet AND zero shadow penalty)
+      const existingDustQty = Number(state.walletAssetsMap?.[cand.symbol] || 0);
+      const existingDustTry = existingDustQty * Number(quotes[cand.symbol]?.bestBid || cand.lastPrice || 0) * USD_TRY_RATE;
+      const dustSweepTieBreaker = shadowPenalty === 0 && existingDustTry >= 1.5 ? 1.0 : 0;
+      const learnedScoreMod = (coinMem?.scoreMod || 0) + (srcMem?.scoreMod || 0) + bucketMod + shadowPenalty + dustSweepTieBreaker;
       const effectiveTotalScore = Number((cand.totalScore + learnedScoreMod).toFixed(1));
       const hasInstitutionalWhaleSurge =
         ((cand.topWhaleLongPct || 0) >= 60 && (cand.oiChange15mPct || 0) >= 0.2) ||
@@ -1742,19 +1788,19 @@ async function runTradingCycle() {
       );
       if (costUsdt < 1.50) continue;
 
-      const buyPrice = q.bestAsk;
+      let buyPrice = q.bestAsk;
+      let buyPriceTry = q.bestAskTry || Number((buyPrice * USD_TRY_RATE).toFixed(4));
       let qty = Number((costUsdt / buyPrice).toPrecision(4));
+      let dustSweepQty = 0;
 
       if (state.mode === 'LIVE_BINANCE') {
         const buyRes = await executeBinanceRealOrder(cfg, cand.symbol, 'BUY', qty, costUsdt);
         if (!buyRes || buyRes.code !== 0) continue;
-        // Reconcile post-commission wallet balance floored to LOT_SIZE stepSize
-        const postBuyTr = await fetchBinanceTrStatus(cfg);
-        if (postBuyTr.ok && postBuyTr.assetsMap?.[cand.symbol] > 0) {
-          const rawWalletQty = postBuyTr.assetsMap[cand.symbol];
-          const lotFilter = (trRule?.filters || []).find(f => f.filterType === 'LOT_SIZE');
-          qty = lotFilter?.stepSize ? roundToStepSize(rawWalletQty, lotFilter.stepSize) : rawWalletQty;
-        }
+        // Reconcile exact newly bought quantity, realized fill price, and pre-existing dustSweepQty
+        if (buyRes.executedQty > 0) qty = buyRes.executedQty;
+        if (buyRes.fillPriceUsdt > 0) buyPrice = buyRes.fillPriceUsdt;
+        if (buyRes.fillPriceTry > 0) buyPriceTry = buyRes.fillPriceTry;
+        if (buyRes.dustSweepQty > 0) dustSweepQty = buyRes.dustSweepQty;
       }
 
       const tpPrice = Number((buyPrice * (1 + cand.tpPct / 100)).toPrecision(5));
@@ -1787,12 +1833,13 @@ async function runTradingCycle() {
         obImbalance,
         entryTime: new Date().toISOString(),
         entryPrice: buyPrice,
-        entryPriceTry: q.bestAskTry || Number((buyPrice * USD_TRY_RATE).toFixed(4)),
+        entryPriceTry: buyPriceTry,
         priceSource: q.priceSource || 'BINANCE_TR',
         currentPrice: q.bestBid || buyPrice,
         highestPrice: buyPrice,
         qty,
         initialQty: qty,
+        dustSweepQty,
         initialCostUsdt: Number((buyPrice * qty).toFixed(4)),
         costUsdt: Number((buyPrice * qty).toFixed(4)),
         costTry: Math.round(buyPrice * qty * USD_TRY_RATE),
@@ -2594,17 +2641,19 @@ async function runFastPositionRiskTick() {
 
       if (isConfirmedStop) {
         let soldQty = pos.qty;
+        let realExitBid = currentBid;
         if (state.mode === 'LIVE_BINANCE') {
           const sellRes = await executeBinanceRealOrder(cfg, pos.symbol, 'SELL', pos.qty);
           if (!sellRes || sellRes.code !== 0) {
             remaining.push(pos);
             continue;
           }
-          if (sellRes.executedQty > 0) soldQty = sellRes.executedQty;
+          if (sellRes.executedQty > 0) soldQty = Math.min(pos.qty, sellRes.executedQty);
+          if (sellRes.fillPriceUsdt > 0) realExitBid = sellRes.fillPriceUsdt;
         }
-        const proceedsUsdt = Number((currentBid * soldQty).toFixed(4));
+        const proceedsUsdt = Number((realExitBid * soldQty).toFixed(4));
         const exactCostUsdt = Number((pos.entryPrice * soldQty).toFixed(4));
-        const netPnlUsdt = Number(((currentBid - pos.entryPrice) * soldQty).toFixed(4));
+        const netPnlUsdt = Number(((realExitBid - pos.entryPrice) * soldQty).toFixed(4));
         const netPnlTry = Number((netPnlUsdt * USD_TRY_RATE).toFixed(2));
         state.cashUsdt = Number((state.cashUsdt + proceedsUsdt).toFixed(4));
         state.realizedPnlUsdt = Number((state.realizedPnlUsdt + netPnlUsdt).toFixed(4));
@@ -2619,20 +2668,20 @@ async function runFastPositionRiskTick() {
           : isProfitLock
             ? `🔒 4sn HIZLI KÂR KİLİDİ (+%${pos.unrealizedPnlPct})`
             : `🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%${pos.unrealizedPnlPct} | ${netPnlTryExec.toFixed(2)} TL)`;
-        appendTradeTelemetry(pos, currentBid, exitReason, netPnlUsdt, netPnlTry, soldQty);
+        appendTradeTelemetry(pos, realExitBid, exitReason, netPnlUsdt, netPnlTry, soldQty);
         state.closedTrades.unshift({
           ...pos,
           positionId: pos.id,
           leg: 'FINAL',
           qty: soldQty,
           costUsdt: exactCostUsdt,
-          exitPrice: currentBid,
+          exitPrice: realExitBid,
           exitTime: new Date().toISOString(),
           exitReason,
           netPnlUsdt,
           netPnlTry,
         });
-        logEvent(state, `⚡ [4sn HIZLI ÇIKIŞ] ${pos.symbol} @ $${currentBid} | ${exitReason} | Net: ${toTL(netPnlUsdt)} TL`);
+        logEvent(state, `⚡ [4sn HIZLI ÇIKIŞ] ${pos.symbol} @ $${realExitBid} | ${exitReason} | Net: ${toTL(netPnlUsdt)} TL`);
         stateModified = true;
       } else {
         remaining.push(pos);

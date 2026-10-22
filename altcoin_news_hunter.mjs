@@ -721,13 +721,15 @@ function analyzeWhaleAndCandleFlow(klines) {
   const last1hTakerBuy = last1hQuote > 0 ? Number((last1hTaker / last1hQuote).toFixed(3)) : takerBuyRatio;
   const takerFlowDecel = Number((takerBuyRatio - last1hTakerBuy).toFixed(3));
 
-  // Check if latest candle is turning green or bouncing strongly off its low
+  // Check if latest candle is turning green or bouncing strongly off its low (excluding shooting-star upper-wick bull traps!)
   const open = Number(last[1]);
   const high = Number(last[2]);
   const low = Number(last[3]);
   const range = Math.max(0.0000001, high - low);
   const closePositionInRange = (close - low) / range;
-  const isGreenBounce = close >= open || closePositionInRange >= 0.55;
+  const intrabarPumpPct = open > 0 ? ((high - open) / open) * 100 : 0;
+  const isUpperWickRejection = intrabarPumpPct >= 1.4 && closePositionInRange <= 0.30;
+  const isGreenBounce = (close >= open && closePositionInRange >= 0.45) || closePositionInRange >= 0.60;
 
   return {
     takerBuyRatio,
@@ -735,6 +737,7 @@ function analyzeWhaleAndCandleFlow(klines) {
     last1hQuoteVolUsd: Math.round(last1hQuote),
     takerFlowDecel,
     amihudIlliquidity,
+    isUpperWickRejection,
     isGreenBounce,
     aboveVwap,
     vwap24h,
@@ -871,6 +874,7 @@ async function main() {
       last1hQuoteVolUsd,
       takerFlowDecel,
       amihudIlliquidity,
+      isUpperWickRejection,
       isGreenBounce,
       aboveVwap,
       vwap24h,
@@ -960,9 +964,12 @@ async function main() {
       takerBuyRatio < 0.48 ||
       (last1hQuoteVolUsd >= 150000 && (last1hTakerBuy < 0.42 || takerFlowDecel > 0.11));
     if (isExtremeTakerCollapse) continue;
+    // Engine #20: Overleveraged Long Liquidation Cascade Shield (reject extreme futures long overheating)
+    if (fundingHourlyPct >= 0.06 || basisSpreadPct <= -0.50) continue;
     const microstructureFlags = [];
     const isModerateTakerDecel =
       last1hQuoteVolUsd >= 100000 && (last1hTakerBuy < 0.46 || takerFlowDecel > 0.07);
+    const isOverleveragedLong = fundingHourlyPct >= 0.035 || basisSpreadPct <= -0.25;
 
     // TradingArena.ai 4-Model Hive-Mind Consensus
     const hiveMind = computeArenaHiveMind({
@@ -986,6 +993,14 @@ async function main() {
     if (isModerateTakerDecel) {
       totalScore -= 8;
       microstructureFlags.push('TAKER_FLOW_DECEL');
+    }
+    if (isOverleveragedLong) {
+      totalScore -= 10;
+      microstructureFlags.push('OVERLEVERAGED_LONG_TRAP');
+    }
+    if (isUpperWickRejection) {
+      totalScore -= 12;
+      microstructureFlags.push('UPPER_WICK_REJECTION');
     }
     if (rsi1h <= 34) totalScore += 18;
     else if (rsi1h <= 45) totalScore += 12;
