@@ -975,17 +975,18 @@ async function runTradingCycle() {
       }
     }
 
-    if (stepFloorPrice > pos.stopLossPrice && currentBid > stepFloorPrice) {
+    if (stepFloorPrice > pos.stopLossPrice) {
       pos.stopLossPrice = stepFloorPrice;
     }
     // Only mark trailingActive = true if stop-loss is genuinely above entry price (in profit)
     pos.trailingActive = pos.stopLossPrice > pos.entryPrice;
     if (peakGainPct >= 2.5 && pos.trailingActive) pos.rocketMode = true;
 
-    // Hard -1.5% Maximum Downside Risk Lock: Never allow any position to bleed down to -2.8% or -3.2%!
-    if (!pos.trailingActive && (pos.slPct || 2.0) > 1.5) {
+    // Hard -1.5% Maximum Downside Risk Lock: Never allow any position to bleed past -1.5%!
+    const hardFloor15 = Number((pos.entryPrice * (1 - 0.015)).toPrecision(5));
+    if (!pos.trailingActive && ((pos.slPct || 2.0) > 1.5 || pos.stopLossPrice < hardFloor15)) {
       pos.slPct = 1.5;
-      pos.stopLossPrice = Number((pos.entryPrice * (1 - 0.015)).toPrecision(5));
+      pos.stopLossPrice = hardFloor15;
     }
 
     const hoursHeld = (nowMs - new Date(pos.entryTime).getTime()) / (1000 * 3600);
@@ -1000,7 +1001,7 @@ async function runTradingCycle() {
       liveObForScratch = await checkOrderbookImbalance(pos.symbol);
     }
 
-    if (currentBid <= pos.stopLossPrice) {
+    if (currentBid <= pos.stopLossPrice || (!pos.trailingActive && pos.unrealizedPnlPct <= -1.5)) {
       const isProfitLock = pos.stopLossPrice > pos.entryPrice && pos.unrealizedPnlPct >= 0;
       exitReason = pos.rocketMode && isProfitLock
         ? `🚀 UÇUŞ MODU KÂR KİLİDİ (+%${pos.unrealizedPnlPct})`
