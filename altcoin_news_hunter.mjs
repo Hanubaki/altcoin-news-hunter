@@ -159,6 +159,8 @@ const BEARISH_TERMS = [
   'fear', 'bear', 'bearish', 'down', 'plunge', 'plunges', 'tumble', 'attack', 'attacks',
   'fail', 'failed', 'fails', 'failure', 'bull trap', 'sell the news', 'unlock', 'unlocks',
   'struggle', 'struggles', 'stall', 'stalls', 'weak', 'bleed', 'ran out of',
+  'retest', 'may retest', 'could drop', 'could fall', 'price prediction', 'before its next',
+  'contain', 'restrict', 'crackdown', 'pullback', 'correction', 'downside',
 ];
 
 function getAllTrackedSymbols() {
@@ -358,9 +360,11 @@ async function scanAllNewsFeeds() {
         entry.ecosystems.add(eco.name);
         titleKw.forEach(k => entry.matchedKeywords.add(k.trim()));
 
-        const directMention = titleLower.includes(` ${alt.toLowerCase()} `) || titleKw.some(k => k.toUpperCase() === alt);
+        const directMention = titleLower.includes(` ${alt.toLowerCase()} `) || titleKw.some(k => k.trim().toUpperCase() === alt);
+        // Prevent weak/unrelated single-coin sympathy contagion: non-direct sympathy requires genuine positive sentiment (>= 1.2)
+        if (!directMention && netHeadlineSentiment < 1.2) continue;
         const catalystPoints = Number(
-          (netHeadlineSentiment * recencyWeight * srcWeight * (directMention ? 1.35 : 1.0)).toFixed(2)
+          (netHeadlineSentiment * recencyWeight * srcWeight * (directMention ? 1.85 : 0.90)).toFixed(2)
         );
 
         if (item.minutesAgo < entry.freshestMinutesAgo) {
@@ -936,12 +940,13 @@ async function main() {
   if ((groqKey || geminiKey || openrouterKey) && selectedTop4.length > 0) {
     await Promise.all(
       selectedTop4.map(async item => {
-        const prompt = `Sen TradingArena.ai şampiyonu kurumsal bir kripto fon yöneticisisin. Şu altcoin verisini analiz et ve SADECE tek satır geçerli bir JSON döndür (başka hiçbir açıklama yazma): {"decision":"LONG","confidence":82,"reason":"Kısa Türkçe sebep (en fazla 10 kelime)"}. Eğer haber olumsuz/tuzaksa decision "WAIT" olsun. Coin: ${item.symbol}, Haber: "${item.headlines[0]?.title || ''}", RSI(14): ${item.rsi1h}, BalinaAlim: %${item.takerBuyRatioPct}, Destek: ${item.support}, Direnc: ${item.resistance}`;
+        const prompt = `Sen TradingArena.ai şampiyonu kurumsal bir kripto fon yöneticisisin. Şu altcoin ve haber verisini analiz et, SADECE tek satır geçerli JSON döndür: {"decision":"LONG","confidence":82,"reason":"Kısa Türkçe sebep (en fazla 10 kelime)"}. KRİTİK KURAL: Eğer haber bu coin (${item.symbol}) veya ekosistemi için doğrudan güçlü bir POZİTİF katalizör değilse, başka bir coin hakkındaysa, analist fiyat tahmini/düşüş/retest içeriyorsa veya alakasızsa (RSI düşük olsa bile!) KESİNLİKLE decision "WAIT" ve confidence 90+ ver! Coin: ${item.symbol}, Haber: "${item.headlines[0]?.title || ''}", DoğrudanGeçiyorMu: ${item.headlines[0]?.directMention ? 'EVET' : 'HAYIR (Ekosistem Sempati)'}, RSI(14): ${item.rsi1h}, BalinaAlim: %${item.takerBuyRatioPct}`;
 
         const aiVerdicts = [];
 
         if (groqKey) {
           const groqModels = [
+            { id: 'llama-3.3-70b-versatile', label: 'Llama-3.3-70B' },
             { id: 'openai/gpt-oss-120b', label: 'GPT-120B' },
             { id: 'qwen/qwen3.8-27b', label: 'Qwen-3.8' },
           ];
@@ -1012,19 +1017,24 @@ async function main() {
           item.realApiVerdicts = aiVerdicts;
           const longVotes = aiVerdicts.filter(v => v.decision === 'LONG' || v.decision === 'BUY');
           const waitVotes = aiVerdicts.filter(v => v.decision === 'WAIT' || v.decision === 'SELL' || v.decision === 'AVOID');
+          const hasHighConfVeto = waitVotes.some(v => v.confidence >= 82);
           const avgConf = Math.round(aiVerdicts.reduce((s, v) => s + v.confidence, 0) / aiVerdicts.length);
-          item.liveLlmDecision = longVotes.length >= waitVotes.length ? 'LONG' : 'WAIT';
-          item.liveLlmConfidence = avgConf;
+          // Strict Institutional Veto: Any high-confidence (>=82%) WAIT vote or WAIT majority blocks the trade!
+          item.liveLlmDecision = !hasHighConfVeto && longVotes.length > waitVotes.length ? 'LONG' : 'WAIT';
+          item.liveLlmConfidence = hasHighConfVeto
+            ? Math.max(...waitVotes.map(v => v.confidence))
+            : avgConf;
           item.liveLlmReason = aiVerdicts.map(v => `[${v.model}: ${v.decision} %${v.confidence}] ${v.reason}`).join(' | ');
 
           if (item.liveLlmDecision === 'LONG' && avgConf >= 65) {
             item.totalScore = Number(Math.min(99, item.totalScore + 6).toFixed(1));
           } else if (item.liveLlmDecision === 'WAIT') {
-            item.totalScore = Number(Math.max(10, item.totalScore - 18).toFixed(1));
+            item.totalScore = Number(Math.max(10, item.totalScore - 35).toFixed(1));
           }
         }
       })
     );
+    selectedTop4.sort((a, b) => b.totalScore - a.totalScore);
   }
 
   console.log(`📰 [Kaynaklar (${newsScan.totalHeadlines} Haber)]: ${newsScan.activeFeeds.join(' | ')}`);
