@@ -292,10 +292,70 @@ async function fetchCoinGeckoTrending() {
   }
 }
 
+async function fetchTelegramPublicChannels() {
+  const defaultChannels = [
+    { handle: 'binance_announcements', name: 'BinanceTG', weight: 2.5 },
+    { handle: 'WatcherGuru', name: 'WatcherGuruTG', weight: 1.75 },
+    { handle: 'unfolded', name: 'UnfoldedTG', weight: 1.75 },
+  ];
+  try {
+    const stPath = path.resolve('portfolio_state.json');
+    if (fs.existsSync(stPath)) {
+      const st = JSON.parse(fs.readFileSync(stPath, 'utf8').replace(/^\uFEFF/, ''));
+      for (const ch of st.customTelegramChannels || []) {
+        const cleanHandle = String(ch).replace(/^@|^https?:\/\/t\.me\/(s\/)?/i, '').trim();
+        if (cleanHandle && !defaultChannels.some(d => d.handle.toLowerCase() === cleanHandle.toLowerCase())) {
+          defaultChannels.push({ handle: cleanHandle, name: `TG:@${cleanHandle}`, weight: 1.7 });
+        }
+      }
+    }
+  } catch {}
+
+  const now = Date.now();
+  const results = await Promise.all(
+    defaultChannels.map(async ch => {
+      try {
+        const html = await fetchText(`https://t.me/s/${ch.handle}`, 2800);
+        const blocks = html.split('tgme_widget_message_wrap').slice(1);
+        const items = [];
+        for (const blk of blocks.slice(-10)) {
+          const txtMatch = blk.match(/<div class="tgme_widget_message_text[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
+          if (!txtMatch) continue;
+          const timeMatch = blk.match(/<time datetime="([^"]+)"/i);
+          const pubMs = timeMatch ? Date.parse(timeMatch[1]) : now;
+          const minutesAgo = !Number.isNaN(pubMs) && pubMs > 0 ? Math.max(1, Math.round((now - pubMs) / 60000)) : 30;
+          if (minutesAgo > 360) continue;
+          const cleanTxt = txtMatch[1]
+            .replace(/<br\s*\/?>/gi, ' ')
+            .replace(/<[^>]+>/g, ' ')
+            .replace(/&amp;/g, '&')
+            .replace(/&quot;/g, '"')
+            .replace(/&#039;|&#39;/g, "'")
+            .replace(/\s+/g, ' ')
+            .trim();
+          if (cleanTxt.length < 15) continue;
+          items.push({
+            source: ch.name === 'BinanceTG' && /will list|launchpool|hodler/i.test(cleanTxt) ? 'BinanceListingSniper' : ch.name,
+            title: cleanTxt.slice(0, 180),
+            summary: cleanTxt.slice(0, 320),
+            minutesAgo,
+            sourceWeight: ch.weight,
+          });
+        }
+        return { name: ch.name, items };
+      } catch {
+        return { name: ch.name, items: [] };
+      }
+    })
+  );
+  return results;
+}
+
 async function scanAllNewsFeeds() {
-  const [binanceAnns, trendingSet, ...feedResults] = await Promise.all([
+  const [binanceAnns, trendingSet, tgChannelResults, ...feedResults] = await Promise.all([
     fetchBinanceAnnouncements(),
     fetchCoinGeckoTrending(),
+    fetchTelegramPublicChannels(),
     ...NEWS_FEEDS.map(f =>
       fetchText(f.url, 3200)
         .then(xml => parseRssFeed(xml, f.name))
@@ -306,6 +366,12 @@ async function scanAllNewsFeeds() {
   const headlines = [...binanceAnns];
   const activeFeeds = [];
   if (binanceAnns.length > 0) activeFeeds.push(`BinanceCMS (${binanceAnns.length})`);
+  for (const tgRes of tgChannelResults || []) {
+    if (tgRes.items?.length > 0) {
+      headlines.push(...tgRes.items);
+      activeFeeds.push(`${tgRes.name} (${tgRes.items.length})`);
+    }
+  }
 
   feedResults.forEach((list, idx) => {
     if (Array.isArray(list) && list.length > 0) {

@@ -1,17 +1,17 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 22.10.2026 08:40:32
+**Son Güncelleme:** 22.10.2026 08:43:32
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`997,74 TL`**
-* **Toplam Net Kâr / Zarar:** **`-2,26 TL` (`%-0.23`)**
+* **Şu Anki Toplam Para:** **`998,06 TL`**
+* **Toplam Net Kâr / Zarar:** **`-1,94 TL` (`%-0.19`)**
 * **Boşta Bekleyen Nakit:** `498,98 TL`
-* **Coinde Olan Para (Açık İşlemler):** `443,58 TL`
-* **Cüzdandaki Küsürat (Dust) Varlıklar:** `55,18 TL` *(Aynı coine tekrar girildiğinde otomatik birleştirilip nakite çevrilir)*
+* **Coinde Olan Para (Açık İşlemler):** `443,86 TL`
+* **Cüzdandaki Küsürat (Dust) Varlıklar:** `55,22 TL` *(Aynı coine tekrar girildiğinde otomatik birleştirilip nakite çevrilir)*
 * **Başarılı Satış / Zarar Kes:** `21 Kârlı Satış / 13 Zarar Kes`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0077 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 0.8140 | ICP: 0.0002 | INJ: 0.0075 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0768 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 0.0628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TAO: 0.0163 | THETA: 0.0680 | TIA: 0.0058 | TRY: 498.9777 | UNI: 0.0080 | WLD: 0.0814 | ZRO: 0.0037)`
 
@@ -62,8 +62,8 @@
 
 | Coin | Yatırılan Para | Şu Anki Değeri | Anlık Net Kâr | Otomatik Satış Planı |
 | :--- | :--- | :--- | :--- | :--- |
-| **LTC** | `232,60 TL` | `230,39 TL` | **`-2,21 TL (%-0.95)`** | 🛡️ ATR Kalkanı (-%1.5 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
-| **TAO** | `213,43 TL` | `213,19 TL` | **`-0,24 TL (%-0.11)`** | 🛡️ ATR Kalkanı (-%1.5 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **LTC** | `232,60 TL` | `230,43 TL` | **`-2,17 TL (%-0.93)`** | 🛡️ ATR Kalkanı (-%1.5 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
+| **TAO** | `213,43 TL` | `213,44 TL` | **`+0,00 TL (%0)`** | 🛡️ ATR Kalkanı (-%1.5 Nefes Payı | +%1,5'te Sıfır Riske Geçer, +%2,8'de %40 Kâr Alır) |
 
 ---
 
@@ -105,11 +105,11 @@
 
 * **Banka & Entegrasyon:** `İş Bankası (İşCep & Gmail Bildirim Entegreli)`
 * **İş Bankası Güncel Bakiye:** **`0,00 TL`**
-* **Toplam Kişisel Servet (İş Bankası + Binance TR):** **`997,74 TL`**
+* **Toplam Kişisel Servet (İş Bankası + Binance TR):** **`998,06 TL`**
 * **Beklenen Aylık Gelir Akışı:** `Staj Maaşı: 8.000 TL | Mevcut Burs: 3.000 TL | Yeni Başvurulan Burs: 3.500 TL (Toplam: 14.500 TL/Ay)`
 * **Aylık Dokunulmaz Yaşam & Nakit Kalkanı:** `5.500 TL` *(Haftalık Harcama Limiti: `1.375 TL` | Bu Hafta Harcanan: `0 TL`)*
 * **💡 Günün Otonom CFO Tüyoları & Bütçe Emirleri:**
-  - 📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %61.8 isabetle (21G/13Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 997.74 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle ("Performans Ödülü" usulü) ekleme yap.
+  - 📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %61.8 isabetle (21G/13Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 998.06 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle ("Performans Ödülü" usulü) ekleme yap.
   - 🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız.
 
 ---

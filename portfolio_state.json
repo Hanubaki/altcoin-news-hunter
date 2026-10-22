@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-22T05:40:32.685Z",
+  "updatedAt": "2026-10-22T05:43:32.350Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.1898,
@@ -25,7 +25,7 @@
       "obImbalance": 0.06,
       "entryTime": "2026-10-22T02:04:34.904Z",
       "entryPrice": 61.11,
-      "currentPrice": 60.53,
+      "currentPrice": 60.54,
       "highestPrice": 61.27,
       "qty": 0.076846,
       "costUsdt": 4.6961,
@@ -38,10 +38,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0446,
-      "unrealizedPnlPct": -0.95,
-      "currentPriceTry": 2998.0509,
-      "currentValueTry": 230.39
+      "unrealizedPnlUsdt": -0.0438,
+      "unrealizedPnlPct": -0.93,
+      "currentPriceTry": 2998.5462,
+      "currentValueTry": 230.43
     },
     {
       "id": "pos_1792644659199_TAO",
@@ -58,7 +58,7 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-22T04:50:59.199Z",
       "entryPrice": 264.9,
-      "currentPrice": 264.6,
+      "currentPrice": 264.9,
       "highestPrice": 266.2,
       "qty": 0.0162674,
       "costUsdt": 4.3092,
@@ -71,10 +71,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0049,
-      "unrealizedPnlPct": -0.11,
-      "currentPriceTry": 13105.638,
-      "currentValueTry": 213.19
+      "unrealizedPnlUsdt": 0,
+      "unrealizedPnlPct": 0,
+      "currentPriceTry": 13120.497,
+      "currentValueTry": 213.44
     }
   ],
   "closedTrades": [
@@ -1329,10 +1329,10 @@
     "[18:11:09] 🎰 [VURGUN SLOTU AÇILDI] THETA (164,24 TL) @ $0.2073 | Hedef: +%18 | RSI: 40.54 | Balina: %57.5 | SL: -%2.4",
     "[18:11:06] ⚡ [AKILLI ROTASYON] BEAMX kapatıldı, yerine 100.2 puanlık dev fırsat (UNI) alınıyor!"
   ],
-  "totalEquityUsdt": 20.1442,
-  "totalEquityTry": 997.74,
-  "totalPnlUsdt": -0.0456,
-  "totalPnlPct": -0.23,
+  "totalEquityUsdt": 20.1506,
+  "totalEquityTry": 998.06,
+  "totalPnlUsdt": -0.0392,
+  "totalPnlPct": -0.19,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -1349,20 +1349,8 @@
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
   "usdTryRate": 49.53,
-  "totalPnlTry": -2.26,
+  "totalPnlTry": -1.94,
   "equityHistory": [
-    {
-      "t": "06:06",
-      "v": 1003.06
-    },
-    {
-      "t": "06:07",
-      "v": 1003.04
-    },
-    {
-      "t": "06:07",
-      "v": 1002.54
-    },
     {
       "t": "06:08",
       "v": 1001.52
@@ -1734,6 +1722,18 @@
     {
       "t": "08:40",
       "v": 997.74
+    },
+    {
+      "t": "08:41",
+      "v": 997.8
+    },
+    {
+      "t": "08:42",
+      "v": 997.81
+    },
+    {
+      "t": "08:43",
+      "v": 998.06
     }
   ],
   "walletAssetsMap": {
@@ -1768,10 +1768,10 @@
     "WLD": 0.0814,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.1141,
-  "dustAssetsTry": 55.18,
+  "dustAssetsUsdt": 1.1148,
+  "dustAssetsTry": 55.22,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-22T05:40:32.685Z",
+    "updatedAt": "2026-10-22T05:43:32.350Z",
     "totalAnalyzedTrades": 34,
     "coinStats": {
       "PNUT": {
@@ -2349,13 +2349,13 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 997.74,
+    "totalNetWorthTry": 998.06,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
-      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %61.8 isabetle (21G/13Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 997.74 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
+      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %61.8 isabetle (21G/13Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 998.06 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-22T05:40:32.685Z"
+    "updatedAt": "2026-10-22T05:43:32.350Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254

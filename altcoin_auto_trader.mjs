@@ -1986,6 +1986,20 @@ async function pollTelegramUpdatesOnce() {
       } else if (lower.startsWith('/nakit') || lower === 'nakit') {
         const r = await sellAllPositionsManual('🤖 TELEGRAM ACİL NAKİT KOMUTU');
         reply = `🛡️ Tüm açık coinler (${r.count} adet) satıldı ve TL nakite geçildi!\n\n${buildSimpleWhatsAppMessage(r.state)}`;
+      } else if (lower.startsWith('/kanal')) {
+        const arg = text.split(/\s+/)[1] || '';
+        const st = loadPortfolioState(cfg);
+        if (!Array.isArray(st.customTelegramChannels)) st.customTelegramChannels = [];
+        if (arg) {
+          const cleanHandle = arg.replace(/^@|^https?:\/\/t\.me\/(s\/)?/i, '').trim();
+          if (cleanHandle && !st.customTelegramChannels.includes(cleanHandle)) {
+            st.customTelegramChannels.push(cleanHandle);
+            savePortfolioState(st);
+          }
+          reply = `📡 @${cleanHandle} kanalı 7/24 Canlı Telegram Haber & Sinyal Tarayıcısına eklendi!\n\nAktif Telegram Kanalları:\n• @binance_announcements (Resmi Binance)\n• @WatcherGuru (Küresel Anlık Haber)\n• @unfolded (Kurumsal Kripto Haber)\n${st.customTelegramChannels.map(c => `• @${c}`).join('\n')}`;
+        } else {
+          reply = `📡 7/24 Aktif Telegram Haber & Balina Kanalları:\n• @binance_announcements (Resmi Binance)\n• @WatcherGuru (Küresel Anlık Haber)\n• @unfolded (Kurumsal Kripto Haber)\n${(st.customTelegramChannels || []).map(c => `• @${c}`).join('\n') || '• (Henüz özel kanal eklenmedi)'}\n\n💡 Yeni bir Telegram kanalı bağlamak için:\n/kanal @kanal_adi yazman yeterli!`;
+        }
       } else if (lower.startsWith('/tara') || lower === 'tara') {
         const r = await safeRunTradingCycle();
         reply = `⚡ Anlık haber ve tahta taraması tamamlandı!\n\n${buildSimpleWhatsAppMessage(r.state)}`;
