@@ -1,11 +1,11 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-22T03:47:12.957Z",
+  "updatedAt": "2026-10-22T04:54:42.255Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
-  "initialBankrollUsdt": 20.2102,
+  "initialBankrollUsdt": 20.202,
   "initialBankrollTry": 1000,
-  "cashUsdt": 4.3369,
+  "cashUsdt": 0.0155,
   "realizedPnlUsdt": 0.7359,
   "winCount": 21,
   "lossCount": 11,
@@ -25,11 +25,11 @@
       "obImbalance": 0.33,
       "entryTime": "2026-10-22T01:11:11.334Z",
       "entryPrice": 2.232,
-      "currentPrice": 2.19,
+      "currentPrice": 2.197,
       "highestPrice": 2.235,
       "qty": 2.2277,
       "costUsdt": 4.9722,
-      "costTry": 246.02,
+      "costTry": 246.12,
       "takeProfitPrice": 2.3324,
       "stopLossPrice": 2.1695,
       "tpPct": 4.5,
@@ -38,10 +38,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0936,
-      "unrealizedPnlPct": -1.88,
-      "currentPriceTry": 108.3612,
-      "currentValueTry": 241.4
+      "unrealizedPnlUsdt": -0.078,
+      "unrealizedPnlPct": -1.57,
+      "currentPriceTry": 108.7515,
+      "currentValueTry": 242.27
     },
     {
       "id": "pos_1792633225628_PNUT",
@@ -62,7 +62,7 @@
       "highestPrice": 0.0449,
       "qty": 118.3628,
       "costUsdt": 5.3145,
-      "costTry": 262.96,
+      "costTry": 263.07,
       "takeProfitPrice": 0.04692,
       "stopLossPrice": 0.043643,
       "tpPct": 4.5,
@@ -73,8 +73,8 @@
       "rocketMode": false,
       "unrealizedPnlUsdt": -0.0829,
       "unrealizedPnlPct": -1.56,
-      "currentPriceTry": 2.187,
-      "currentValueTry": 258.86
+      "currentPriceTry": 2.1879,
+      "currentValueTry": 258.97
     },
     {
       "id": "pos_1792634674904_LTC",
@@ -91,11 +91,11 @@
       "obImbalance": 0.06,
       "entryTime": "2026-10-22T02:04:34.904Z",
       "entryPrice": 61.11,
-      "currentPrice": 60.64,
+      "currentPrice": 60.66,
       "highestPrice": 61.27,
       "qty": 0.076846,
       "costUsdt": 4.6961,
-      "costTry": 232.36,
+      "costTry": 232.46,
       "takeProfitPrice": 63.86,
       "stopLossPrice": 59.399,
       "tpPct": 4.5,
@@ -104,10 +104,43 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0361,
-      "unrealizedPnlPct": -0.77,
-      "currentPriceTry": 3000.4672,
-      "currentValueTry": 230.57
+      "unrealizedPnlUsdt": -0.0346,
+      "unrealizedPnlPct": -0.74,
+      "currentPriceTry": 3002.67,
+      "currentValueTry": 230.74
+    },
+    {
+      "id": "pos_1792644659199_TAO",
+      "symbol": "TAO",
+      "leaderSymbol": "FET",
+      "ecosystem": "Yapay Zeka (AI), OpenAI, NVIDIA & GPU Ağı",
+      "headline": "Nvidia Unveils Its Full-Stack Blueprint to Contain and Monitor AI Agents",
+      "newsSource": "Decrypt",
+      "newsScore": 4.48,
+      "totalScore": 99,
+      "rsiAtEntry": 24.09,
+      "atr1hPct": 1.2,
+      "takerBuyRatioPct": 54.2,
+      "obImbalance": 0.28,
+      "entryTime": "2026-10-22T04:50:59.199Z",
+      "entryPrice": 264.9,
+      "currentPrice": 265.3,
+      "highestPrice": 265.3,
+      "qty": 0.0162674,
+      "costUsdt": 4.3092,
+      "costTry": 213.31,
+      "takeProfitPrice": 276.82,
+      "stopLossPrice": 257.48,
+      "tpPct": 4.5,
+      "slPct": 2.8,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": 0.0065,
+      "unrealizedPnlPct": 0.15,
+      "currentPriceTry": 13132.35,
+      "currentValueTry": 213.63
     }
   ],
   "closedTrades": [
@@ -1245,6 +1278,7 @@
     }
   ],
   "recentLogs": [
+    "[07:50:59] 🟢 [OTOMATİK ALIM] TAO (214,34 TL) @ $264.9 | Skor: 99 | RSI: 24.09 | Balina: %54.2 | SL: -%2.8",
     "[06:26:59] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[05:28:11] 🏁 [POZİSYON KAPANDI] HBAR @ $0.08261 | 🛡️ ATR KORUMA KALKANI (%-2.03) | Net: -4,47 TL",
     "[05:04:34] 🟢 [OTOMATİK ALIM] LTC (235,38 TL) @ $61.11 | Skor: 118.8 | RSI: 36.14 | Balina: %60.5 | SL: -%2",
@@ -1283,13 +1317,12 @@
     "[18:11:06] ⚡ [AKILLI ROTASYON] BEAMX kapatıldı, yerine 100.2 puanlık dev fırsat (UNI) alınıyor!",
     "[15:29:07] 🟢 [OTOMATİK ALIM] EDU (365,58 TL) @ $0.0732 | Skor: 73.9 | RSI: 52.17 | Balina: %63.8 | SL: -%2",
     "[15:29:04] ⚡ [AKILLI ROTASYON] JASMY kapatıldı, yerine 105.7 puanlık dev fırsat (JTO) alınıyor!",
-    "[14:57:37] 🟢 [OTOMATİK ALIM] INJ (283,96 TL) @ $8.756 | Skor: 103.9 | RSI: 46.34 | Balina: %58.7 | SL: -%3.2",
-    "[14:57:34] ⚡ [AKILLI ROTASYON] EDU kapatıldı, yerine 103.9 puanlık dev fırsat (INJ) alınıyor!"
+    "[14:57:37] 🟢 [OTOMATİK ALIM] INJ (283,96 TL) @ $8.756 | Skor: 103.9 | RSI: 46.34 | Balina: %58.7 | SL: -%3.2"
   ],
-  "totalEquityUsdt": 20.2112,
-  "totalEquityTry": 1000.05,
-  "totalPnlUsdt": 0.001,
-  "totalPnlPct": 0.01,
+  "totalEquityUsdt": 20.2184,
+  "totalEquityTry": 1000.81,
+  "totalPnlUsdt": 0.0164,
+  "totalPnlPct": 0.08,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -1299,21 +1332,13 @@
     "OP": 1792656269455,
     "HBAR": 1792657688598
   },
-  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 2.2277 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 0.8140 | ICP: 0.0002 | INJ: 0.0075 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0768 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 118.3628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | THETA: 0.0680 | TIA: 0.0058 | TRY: 214.5915 | UNI: 0.0080 | WLD: 0.0814 | ZRO: 0.0037)",
-  "lastWhatsAppReportAt": 1792636093778,
+  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 2.2277 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 0.8140 | ICP: 0.0002 | INJ: 0.0075 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0768 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 118.3628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TAO: 0.0163 | THETA: 0.0680 | TIA: 0.0058 | TRY: 0.7681 | UNI: 0.0080 | WLD: 0.0814 | ZRO: 0.0037)",
+  "lastWhatsAppReportAt": 1792644662262,
   "highWaterMarkUsdt": 20.8625,
-  "cashIdleSince": 1792636088598,
-  "usdTryRate": 49.48,
-  "totalPnlTry": 0.05,
+  "cashIdleSince": null,
+  "usdTryRate": 49.5,
+  "totalPnlTry": 0.81,
   "equityHistory": [
-    {
-      "t": "05:23",
-      "v": 1006.06
-    },
-    {
-      "t": "05:24",
-      "v": 1006.38
-    },
     {
       "t": "05:25",
       "v": 1006.45
@@ -1689,6 +1714,14 @@
     {
       "t": "06:47",
       "v": 1000.05
+    },
+    {
+      "t": "07:51",
+      "v": 1000.69
+    },
+    {
+      "t": "07:54",
+      "v": 1000.81
     }
   ],
   "walletAssetsMap": {
@@ -1715,17 +1748,18 @@
     "SAND": 0.0674,
     "SEI": 0.0926,
     "STX": 0.07,
+    "TAO": 0.0162674,
     "THETA": 0.068,
     "TIA": 0.00578,
-    "TRY": 214.5915376,
+    "TRY": 0.7681376,
     "UNI": 0.00804,
     "WLD": 0.0814,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.1039,
-  "dustAssetsTry": 54.62,
+  "dustAssetsUsdt": 1.0997,
+  "dustAssetsTry": 54.43,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-22T03:47:12.957Z",
+    "updatedAt": "2026-10-22T04:54:42.252Z",
     "totalAnalyzedTrades": 32,
     "coinStats": {
       "HBAR": {
@@ -2280,13 +2314,14 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 1000.05,
+    "totalNetWorthTry": 1000.81,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
-      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %65.6 isabetle (21G/11Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1000.05 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
+      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %65.6 isabetle (21G/11Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 1000.81 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-22T03:47:12.957Z"
+    "updatedAt": "2026-10-22T04:54:42.255Z"
   },
-  "_apiFailCount": 0
+  "_apiFailCount": 0,
+  "lastTelegramUpdateId": 444799254
 }

@@ -1,8 +1,7 @@
 name: 24-7 Cloud Altcoin Auto-Trader (TradingArena AI v9.5)
 
 on:
-  schedule:
-    - cron: '*/5 * * * *'
+  # Lokal PC acikken cakisma olmamasi icin sadece manuel tetikleme acik tutulur.
   workflow_dispatch:
 
 concurrency:

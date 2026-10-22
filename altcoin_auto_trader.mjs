@@ -457,7 +457,8 @@ function writeCleanTlReport(state) {
 * **Şu Anki Toplam Para:** **\`${totalTry} TL\`**
 * **Toplam Net Kâr / Zarar:** **\`${netPnlSign}${toTL(state.totalPnlUsdt)} TL\` (\`${netPnlSign}%${state.totalPnlPct}\`)**
 * **Boşta Bekleyen Nakit:** \`${cashTry} TL\`
-* **Coinde Olan Para:** \`${openValTry} TL\`
+* **Coinde Olan Para (Açık İşlemler):** \`${openValTry} TL\`
+* **Cüzdandaki Küsürat (Dust) Varlıklar:** \`${toTL(state.dustAssetsUsdt || 0)} TL\` *(Aynı coine tekrar girildiğinde otomatik birleştirilip nakite çevrilir)*
 * **Başarılı Satış / Zarar Kes:** \`${state.winCount} Kârlı Satış / ${state.lossCount} Zarar Kes\`
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** \`${state.binanceTrStatus || 'API Doğrulandı (trbinance.com — Alım/Satım Yetkisi Aktif)'}\`
 
@@ -684,7 +685,8 @@ async function executeBinanceRealOrder(cfg, symbol, side, quantity, quoteOrderQt
       if (walletFree <= 0 || walletFree < quantity * 0.1) {
         return { code: 0, alreadySold: true };
       }
-      if (adjQty > walletFree) {
+      // Sweep 100% of wallet balance (including any accumulated dust) on full position exits
+      if (adjQty > walletFree || adjQty >= walletFree * 0.80) {
         adjQty = walletFree;
       }
     }
@@ -850,11 +852,11 @@ async function runTradingCycle() {
       }
     }
 
-    // Engine #7A: ZERO-RISK "FREE-RIDE" (HOUSE MONEY) HARVEST at +3.8% (rides full 100% size up to +3.8% while protected by +1.2% Zero-Risk Stop Lock!)
-    if (!pos.partialTpDone && ((!pos.isMoonshot && pos.unrealizedPnlPct >= 3.8) || (pos.isMoonshot && pos.unrealizedPnlPct >= 12.0))) {
-      const sellQty = Number((pos.qty * 0.35).toPrecision(4));
+    // Engine #7A: ZERO-RISK "FREE-RIDE" (HOUSE MONEY) HARVEST at +2.8% (harvests 40% hot profit at +2.8% and locks remaining 60% in risk-free flight!)
+    if (!pos.partialTpDone && ((!pos.isMoonshot && pos.unrealizedPnlPct >= 2.8) || (pos.isMoonshot && pos.unrealizedPnlPct >= 10.0))) {
+      const sellQty = Number((pos.qty * 0.40).toPrecision(4));
       const remainQty = Number((pos.qty - sellQty).toPrecision(4));
-      const soldCostUsdt = Number((pos.costUsdt * 0.35).toFixed(4));
+      const soldCostUsdt = Number((pos.costUsdt * 0.40).toFixed(4));
       const proceedsUsdt = Number((currentBid * sellQty).toFixed(4));
       const netPnlUsdt = Number((proceedsUsdt - soldCostUsdt).toFixed(4));
 
