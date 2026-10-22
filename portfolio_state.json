@@ -1,11 +1,11 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-22T05:22:58.242Z",
+  "updatedAt": "2026-10-22T05:29:59.020Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
-  "initialBankrollUsdt": 20.202,
+  "initialBankrollUsdt": 20.1939,
   "initialBankrollTry": 1000,
-  "cashUsdt": 10.0804,
+  "cashUsdt": 10.0763,
   "realizedPnlUsdt": 0.561,
   "winCount": 21,
   "lossCount": 13,
@@ -25,11 +25,11 @@
       "obImbalance": 0.06,
       "entryTime": "2026-10-22T02:04:34.904Z",
       "entryPrice": 61.11,
-      "currentPrice": 60.48,
+      "currentPrice": 60.57,
       "highestPrice": 61.27,
       "qty": 0.076846,
       "costUsdt": 4.6961,
-      "costTry": 232.46,
+      "costTry": 232.55,
       "takeProfitPrice": 63.86,
       "stopLossPrice": 60.193,
       "tpPct": 4.5,
@@ -38,10 +38,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0484,
-      "unrealizedPnlPct": -1.03,
-      "currentPriceTry": 2993.76,
-      "currentValueTry": 230.06
+      "unrealizedPnlUsdt": -0.0415,
+      "unrealizedPnlPct": -0.88,
+      "currentPriceTry": 2999.4264,
+      "currentValueTry": 230.49
     },
     {
       "id": "pos_1792644659199_TAO",
@@ -58,11 +58,11 @@
       "obImbalance": 0.28,
       "entryTime": "2026-10-22T04:50:59.199Z",
       "entryPrice": 264.9,
-      "currentPrice": 264.7,
+      "currentPrice": 265.3,
       "highestPrice": 266.2,
       "qty": 0.0162674,
       "costUsdt": 4.3092,
-      "costTry": 213.31,
+      "costTry": 213.39,
       "takeProfitPrice": 276.82,
       "stopLossPrice": 260.93,
       "tpPct": 4.5,
@@ -71,10 +71,10 @@
       "stage2TpDone": false,
       "trailingActive": false,
       "rocketMode": false,
-      "unrealizedPnlUsdt": -0.0033,
-      "unrealizedPnlPct": -0.08,
-      "currentPriceTry": 13102.65,
-      "currentValueTry": 213.15
+      "unrealizedPnlUsdt": 0.0065,
+      "unrealizedPnlPct": 0.15,
+      "currentPriceTry": 13137.656,
+      "currentValueTry": 213.72
     }
   ],
   "closedTrades": [
@@ -1288,6 +1288,7 @@
     }
   ],
   "recentLogs": [
+    "[08:29:12] ⚠️ Haber tarayıcı uyarısı: fetch failed",
     "[08:19:33] 🏁 [POZİSYON KAPANDI] PNUT @ $0.0441 | 🛡️ ATR KORUMA KALKANI (%-1.78) | Net: -4,69 TL",
     "[08:19:30] 🏁 [POZİSYON KAPANDI] CAKE @ $2.196 | 🛡️ ATR KORUMA KALKANI (%-1.61) | Net: -3,97 TL",
     "[07:50:59] 🟢 [OTOMATİK ALIM] TAO (214,34 TL) @ $264.9 | Skor: 99 | RSI: 24.09 | Balina: %54.2 | SL: -%2.8",
@@ -1326,13 +1327,12 @@
     "[18:12:12] 🟢 [OTOMATİK ALIM] RAY (315,62 TL) @ $1.9967 | Skor: 94.6 | RSI: 49.83 | Balina: %53.2 | SL: -%2",
     "[18:12:09] ⚡ [AKILLI ROTASYON] INJ kapatıldı, yerine 94.6 puanlık dev fırsat (RAY) alınıyor!",
     "[18:11:09] 🎰 [VURGUN SLOTU AÇILDI] THETA (164,24 TL) @ $0.2073 | Hedef: +%18 | RSI: 40.54 | Balina: %57.5 | SL: -%2.4",
-    "[18:11:06] ⚡ [AKILLI ROTASYON] BEAMX kapatıldı, yerine 100.2 puanlık dev fırsat (UNI) alınıyor!",
-    "[15:29:07] 🟢 [OTOMATİK ALIM] EDU (365,58 TL) @ $0.0732 | Skor: 73.9 | RSI: 52.17 | Balina: %63.8 | SL: -%2"
+    "[18:11:06] ⚡ [AKILLI ROTASYON] BEAMX kapatıldı, yerine 100.2 puanlık dev fırsat (UNI) alınıyor!"
   ],
-  "totalEquityUsdt": 20.1509,
-  "totalEquityTry": 997.47,
-  "totalPnlUsdt": -0.0511,
-  "totalPnlPct": -0.25,
+  "totalEquityUsdt": 20.1644,
+  "totalEquityTry": 998.54,
+  "totalPnlUsdt": -0.0295,
+  "totalPnlPct": -0.15,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -1348,37 +1348,9 @@
   "lastWhatsAppReportAt": 1792646378448,
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
-  "usdTryRate": 49.5,
-  "totalPnlTry": -2.53,
+  "usdTryRate": 49.52,
+  "totalPnlTry": -1.46,
   "equityHistory": [
-    {
-      "t": "05:50",
-      "v": 1003.47
-    },
-    {
-      "t": "05:51",
-      "v": 1003.58
-    },
-    {
-      "t": "05:52",
-      "v": 1003.63
-    },
-    {
-      "t": "05:53",
-      "v": 1002.85
-    },
-    {
-      "t": "05:54",
-      "v": 1002.28
-    },
-    {
-      "t": "05:55",
-      "v": 1002.33
-    },
-    {
-      "t": "05:56",
-      "v": 1002.33
-    },
     {
       "t": "05:57",
       "v": 1002.34
@@ -1734,6 +1706,34 @@
     {
       "t": "08:22",
       "v": 997.72
+    },
+    {
+      "t": "08:23",
+      "v": 997.2
+    },
+    {
+      "t": "08:24",
+      "v": 996.66
+    },
+    {
+      "t": "08:25",
+      "v": 997.52
+    },
+    {
+      "t": "08:26",
+      "v": 998.01
+    },
+    {
+      "t": "08:27",
+      "v": 998.17
+    },
+    {
+      "t": "08:28",
+      "v": 998.97
+    },
+    {
+      "t": "08:29",
+      "v": 998.89
     }
   ],
   "walletAssetsMap": {
@@ -1768,10 +1768,10 @@
     "WLD": 0.0814,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.1169,
-  "dustAssetsTry": 55.28,
+  "dustAssetsUsdt": 1.1178,
+  "dustAssetsTry": 55.35,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-22T05:22:58.242Z",
+    "updatedAt": "2026-10-22T05:29:59.020Z",
     "totalAnalyzedTrades": 34,
     "coinStats": {
       "PNUT": {
@@ -2349,13 +2349,13 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 997.47,
+    "totalNetWorthTry": 998.54,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
-      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %61.8 isabetle (21G/13Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 997.47 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
+      "📊 [Veri & Öz-Öğrenme Evresi]: Bot şu an %61.8 isabetle (21G/13Z) harika gidiyor. Engine #15'in 35+ işlem verisine ulaşması için mevcut 998.54 TL kasa kendi içinde bileşik faizle dönsün; staj/burs yattığında tek seferde basmak yerine haftalık 2000 TL dilimlerle (\"Performans Ödülü\" usulü) ekleme yap.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-22T05:22:58.242Z"
+    "updatedAt": "2026-10-22T05:29:59.020Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254
