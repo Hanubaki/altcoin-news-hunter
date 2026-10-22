@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-22T08:14:29.375Z",
+  "updatedAt": "2026-10-22T08:28:29.103Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.202,
@@ -1310,6 +1310,7 @@
     }
   ],
   "recentLogs": [
+    "[11:17:01] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[10:52:36] 🏁 [POZİSYON KAPANDI] TAO @ $261.879 | 🛡️ BAYATLAYAN İVME & SATIŞ BASKISI ERKEN TAHLİYESİ (182dk Tepkisiz + Tahta -0.36 -> Stop Beklenmeden Çıkıldı %-1.14) | Net: -2,42 TL",
     "[08:56:08] 🏁 [POZİSYON KAPANDI] LTC @ $60.19 | 🛡️ ATR KORUMA KALKANI (%-1.51) | Net: -3,50 TL",
     "[08:29:12] ⚠️ Haber tarayıcı uyarısı: fetch failed",
@@ -1348,12 +1349,11 @@
     "[19:10:51] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[19:02:22] 🟢 [OTOMATİK ALIM] UNI (372,85 TL) @ $7.605 | Skor: 93.5 | RSI: 48.44 | Balina: %53.7 | SL: -%2.31",
     "[18:33:53] ⚡ [AKILLI ROTASYON] EDU kapatıldı, yerine 106.4 puanlık dev fırsat (ALGO) alınıyor!",
-    "[18:12:12] 🟢 [OTOMATİK ALIM] RAY (315,62 TL) @ $1.9967 | Skor: 94.6 | RSI: 49.83 | Balina: %53.2 | SL: -%2",
-    "[18:12:09] ⚡ [AKILLI ROTASYON] INJ kapatıldı, yerine 94.6 puanlık dev fırsat (RAY) alınıyor!"
+    "[18:12:12] 🟢 [OTOMATİK ALIM] RAY (315,62 TL) @ $1.9967 | Skor: 94.6 | RSI: 49.83 | Balina: %53.2 | SL: -%2"
   ],
-  "totalEquityUsdt": 20.0513,
-  "totalEquityTry": 992.54,
-  "totalPnlUsdt": -0.1507,
+  "totalEquityUsdt": 20.0509,
+  "totalEquityTry": 992.52,
+  "totalPnlUsdt": -0.1511,
   "totalPnlPct": -0.75,
   "cooldowns": {
     "ARB": 1792544650227,
@@ -1373,64 +1373,8 @@
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
   "usdTryRate": 49.5,
-  "totalPnlTry": -7.46,
+  "totalPnlTry": -7.48,
   "equityHistory": [
-    {
-      "t": "09:35",
-      "v": 994
-    },
-    {
-      "t": "09:36",
-      "v": 994.35
-    },
-    {
-      "t": "09:37",
-      "v": 994.28
-    },
-    {
-      "t": "09:38",
-      "v": 994.37
-    },
-    {
-      "t": "09:39",
-      "v": 994.3
-    },
-    {
-      "t": "09:40",
-      "v": 994.11
-    },
-    {
-      "t": "09:41",
-      "v": 994.46
-    },
-    {
-      "t": "09:42",
-      "v": 994.48
-    },
-    {
-      "t": "09:43",
-      "v": 994.47
-    },
-    {
-      "t": "09:44",
-      "v": 994.48
-    },
-    {
-      "t": "09:45",
-      "v": 994.55
-    },
-    {
-      "t": "09:46",
-      "v": 994.29
-    },
-    {
-      "t": "09:47",
-      "v": 994.35
-    },
-    {
-      "t": "09:48",
-      "v": 994.36
-    },
     {
       "t": "09:49",
       "v": 994.57
@@ -1758,6 +1702,62 @@
     {
       "t": "11:14",
       "v": 992.54
+    },
+    {
+      "t": "11:15",
+      "v": 992.48
+    },
+    {
+      "t": "11:16",
+      "v": 992.5
+    },
+    {
+      "t": "11:17",
+      "v": 992.54
+    },
+    {
+      "t": "11:18",
+      "v": 992.54
+    },
+    {
+      "t": "11:19",
+      "v": 992.51
+    },
+    {
+      "t": "11:20",
+      "v": 992.49
+    },
+    {
+      "t": "11:21",
+      "v": 992.5
+    },
+    {
+      "t": "11:22",
+      "v": 992.52
+    },
+    {
+      "t": "11:23",
+      "v": 992.48
+    },
+    {
+      "t": "11:24",
+      "v": 992.51
+    },
+    {
+      "t": "11:25",
+      "v": 992.51
+    },
+    {
+      "t": "11:26",
+      "v": 992.56
+    },
+    {
+      "t": "11:27",
+      "v": 992.55
+    },
+    {
+      "t": "11:28",
+      "v": 992.52
     }
   ],
   "walletAssetsMap": {
@@ -1792,10 +1792,10 @@
     "WLD": 0.0814,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.1709,
-  "dustAssetsTry": 57.96,
+  "dustAssetsUsdt": 1.1704,
+  "dustAssetsTry": 57.93,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-22T08:14:29.375Z",
+    "updatedAt": "2026-10-22T08:28:29.103Z",
     "totalAnalyzedTrades": 36,
     "globalWR": 0.579,
     "coinStats": {
@@ -2470,16 +2470,18 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 992.54,
+    "totalNetWorthTry": 992.52,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
       "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %58.3 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-22T08:14:29.375Z"
+    "updatedAt": "2026-10-22T08:28:29.103Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254,
-  "noBuyShort": "🛡️ Raad ol, nakit kalkanı devrede: Piyasanın %99'u kırmızı (%1 yeşil) ve direkt pump haberi yok; 934,58 TL nakiti eritmemek için bekliyoruz.",
-  "noBuyDetail": "1) **Piyasa Kan Gölü (%1 Yeşil / %99 Kırmızı):** Altcoinlerin %99'u şu an düşüşte (1s BTC: %-0.32). 2) **%65 Nakit Koruma Zırhı (Quant v10.4):** Yeşil oranı %24'ün altındayken kasanın en az %65'i güvenli TRY nakitte tutulur (Maksimum Coin Tavanı: `327 TL`, Şu An Coinde: `0 TL`). 3) **Haber Filtresi (101 Haber Tarandı):** Taranan haberler içinde kırmızı piyasayı tek başına yenecek (`RS_ATR >= 1.2` ve `directMention = true`) nitelikli A+ haber sayısı: **0**. Piyasa yeşermeden veya gerçek bomba haber düşmeden sahte sinyale para sıkılmaz!"
+  "noBuyShort": "🛡️ Raad ol, nakit kalkanı devrede: Piyasanın %97'u kırmızı (%3 yeşil) ve direkt pump haberi yok; 934,58 TL nakiti eritmemek için bekliyoruz.",
+  "noBuyDetail": "1) **Piyasa Kan Gölü (%3 Yeşil / %97 Kırmızı):** Altcoinlerin %97'u şu an düşüşte (1s BTC: %-0.35). 2) **%65 Nakit Koruma Zırhı (Quant v10.4):** Yeşil oranı %24'ün altındayken kasanın en az %65'i güvenli TRY nakitte tutulur (Maksimum Coin Tavanı: `327 TL`, Şu An Coinde: `0 TL`). 3) **Haber Filtresi (81 Haber Tarandı):** Taranan haberler içinde kırmızı piyasayı tek başına yenecek (`RS_ATR >= 1.2` ve `directMention = true`) nitelikli A+ haber sayısı: **0**. Piyasa yeşermeden veya gerçek bomba haber düşmeden sahte sinyale para sıkılmaz!",
+  "shadowPositions": [],
+  "shadowTrapMemory": {}
 }

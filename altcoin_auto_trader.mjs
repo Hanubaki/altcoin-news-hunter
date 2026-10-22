@@ -1645,7 +1645,9 @@ async function runTradingCycle() {
       const regimeBucket = breadthPct < 24 ? 'RED' : breadthPct < 40 ? 'NEUTRAL' : 'GREEN';
       const bucketKey = `${srcName}:${regimeBucket}:${cand.entryPattern || 'STANDARD'}`;
       const bucketMod = adaptiveMem?.bucketStats?.[bucketKey]?.scoreMod || 0;
-      const learnedScoreMod = (coinMem?.scoreMod || 0) + (srcMem?.scoreMod || 0) + bucketMod;
+      // Defensive-Only Shadow Trap Penalty (Strictly <= 0: never boosts score, only blocks/penalizes proven paper bull-traps!)
+      const shadowPenalty = Math.min(0, Number(state.shadowTrapMemory?.[cand.symbol]?.scoreMod || 0));
+      const learnedScoreMod = (coinMem?.scoreMod || 0) + (srcMem?.scoreMod || 0) + bucketMod + shadowPenalty;
       const effectiveTotalScore = Number((cand.totalScore + learnedScoreMod).toFixed(1));
       const hasInstitutionalWhaleSurge =
         ((cand.topWhaleLongPct || 0) >= 60 && (cand.oiChange15mPct || 0) >= 0.2) ||
@@ -1795,6 +1797,58 @@ async function runTradingCycle() {
       );
     }
   }
+
+  // Engine #19: Defensive-Only Shadow Trap Detector (Zero Real-Money Risk, Strictly <= 0 Score Modifier)
+  // Tracks unbought news candidates on live quotes; if they fail/dump on paper, puts a 4h trap shield & -3p penalty on that symbol!
+  if (!Array.isArray(state.shadowPositions)) state.shadowPositions = [];
+  if (!state.shadowTrapMemory) state.shadowTrapMemory = {};
+  const openRealSyms = new Set((state.openPositions || []).map(p => p.symbol));
+  const nextShadow = [];
+  for (const sp of state.shadowPositions) {
+    if (openRealSyms.has(sp.symbol)) continue;
+    const sq = quotes[sp.symbol];
+    const bid = sq?.bestBid || sp.currentBid || sp.entryAsk;
+    sp.currentBid = bid;
+    sp.highestBid = Math.max(sp.highestBid || sp.entryAsk, bid);
+    const execBid = bid * (1 - 0.0022);
+    const netPct = sp.entryAsk > 0 ? ((execBid - sp.entryAsk) / sp.entryAsk) * 100 : 0;
+    const peakPct = sp.entryAsk > 0 ? ((sp.highestBid - sp.entryAsk) / sp.entryAsk) * 100 : 0;
+    const ageMins = (nowMs - new Date(sp.entryTime).getTime()) / 60000;
+    if (peakPct >= 2.2) {
+      // Shadow trade succeeded: clear any prior trap penalty, but NEVER add a positive score bonus (>0 forbidden)
+      state.shadowTrapMemory[sp.symbol] = { traps: 0, scoreMod: 0, updatedAt: new Date().toISOString() };
+    } else if (netPct <= -1.45 || (ageMins >= 75 && peakPct < 1.0 && netPct <= -0.55)) {
+      const prevTraps = (state.shadowTrapMemory[sp.symbol]?.traps || 0) + 1;
+      state.shadowTrapMemory[sp.symbol] = {
+        traps: prevTraps,
+        scoreMod: Math.max(-4, -2 * prevTraps),
+        lastHeadline: sp.headline,
+        updatedAt: new Date().toISOString(),
+      };
+      state.cooldowns[sp.symbol] = Math.max(state.cooldowns[sp.symbol] || 0, nowMs + 4 * 3600 * 1000);
+      logEvent(state, `👻 [GÖLGE TUZAK YAKALANDI] ${sp.symbol} sanal takipte %${netPct.toFixed(2)} düştü -> Gerçek para kaybetmeden 4 saat kara listeye alındı!`);
+    } else if (ageMins < 180) {
+      nextShadow.push(sp);
+    }
+  }
+  const shadowSyms = new Set(nextShadow.map(s => s.symbol));
+  for (const cand of candidates.slice(0, 6)) {
+    if (nextShadow.length >= 3) break;
+    if (openRealSyms.has(cand.symbol) || shadowSyms.has(cand.symbol)) continue;
+    if (cand.hasDirectMention === false || (cand.freshestMinutesAgo || 99) > 75) continue;
+    const sq = quotes[cand.symbol];
+    if (!sq || !sq.bestAsk) continue;
+    nextShadow.push({
+      symbol: cand.symbol,
+      headline: cand.headlines?.[0]?.title || '',
+      entryAsk: sq.bestAsk,
+      currentBid: sq.bestBid || sq.bestAsk,
+      highestBid: sq.bestBid || sq.bestAsk,
+      entryTime: new Date().toISOString(),
+    });
+    shadowSyms.add(cand.symbol);
+  }
+  state.shadowPositions = nextShadow;
 
   // Refresh Binance TR wallet status ONLY if a trade actually executed in this cycle (avoids redundant HMAC API calls and speeds up scan cycle by 2x!)
   if (state.mode === 'LIVE_BINANCE' && didTradeInCycle) {

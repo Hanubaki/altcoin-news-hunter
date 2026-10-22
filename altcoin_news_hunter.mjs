@@ -911,7 +911,9 @@ async function main() {
       (impulsePct >= 4.2 && retracementRatio < 0.25) ||
       retracementRatio > 0.80; // Failed impulse (>80% given back)
     if (!hasDirectMention || rsi1h > maxAllowedRsi || isNoChaseOverextended || bbPctB > 0.92 || mkt.change24hPct > 14.0) continue;
-    if (takerBuyRatio < 0.48) continue;
+    // Amihud Illiquidity Floor ($3.5M min 24h volume) + VPIN Toxic Flow Guard (reject if 1h taker buy collapsed below 46% or decelerated >7% vs 3h avg)
+    if ((mkt.quoteVol24h || 0) < 3500000) continue;
+    if (takerBuyRatio < 0.48 || last1hTakerBuy < 0.46 || (takerBuyRatio - last1hTakerBuy) > 0.07) continue;
 
     // TradingArena.ai 4-Model Hive-Mind Consensus
     const hiveMind = computeArenaHiveMind({
@@ -1073,7 +1075,12 @@ async function main() {
           if (oi0 > 0) {
             const oiChg15mPct = Number((((oi1 - oi0) / oi0) * 100).toFixed(2));
             item.oiChange15mPct = oiChg15mPct;
-            if (oiChg15mPct >= 0.4) item.totalScore = Number((item.totalScore + 6).toFixed(1));
+            if (oiChg15mPct >= 0.4) {
+              item.totalScore = Number((item.totalScore + 6).toFixed(1));
+            } else if (item.change1hPct >= 1.2 && oiChg15mPct <= -0.8) {
+              // Bearish Price-OI Divergence: Price rose on news but whales are closing/unwinding Futures OI -> Bull Trap Penalty!
+              item.totalScore = Number(Math.max(10, item.totalScore - 14).toFixed(1));
+            }
           }
         }
       } catch {}
