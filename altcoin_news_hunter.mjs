@@ -1186,8 +1186,8 @@ async function main() {
     else if (takerBuyRatio >= 0.53) totalScore += 10;
     else if (takerBuyRatio >= 0.49) totalScore += 5;
 
-    // Reversal Candle Confirmation Bonus
-    if (isGreenBounce) totalScore += 7;
+    // Reversal Candle Confirmation Bonus (Engine #21 zero-conflict: never award green bounce bonus if upper-wick rejection!)
+    if (isGreenBounce && !isUpperWickRejection) totalScore += 7;
 
     // CoinGecko Global Trending Bonus
     if (isTrending) totalScore += 9;
@@ -1305,9 +1305,11 @@ async function main() {
           }
         }
         if (item.isGoldenAgeCandidate) {
+          const hasValidOi = Number.isFinite(item.oiChange15mPct);
           const hasFuturesConfirmation =
-            ((item.topWhaleLongPct || 0) >= 55 && (item.oiChange15mPct ?? 0) >= 0) ||
-            (item.oiChange15mPct || 0) >= 0.25;
+            hasValidOi &&
+            (((item.topWhaleLongPct || 0) >= 55 && item.oiChange15mPct >= 0) ||
+              item.oiChange15mPct >= 0.25);
           if (hasFuturesConfirmation && !(item.microstructureFlags || []).includes('PRICE_OI_DIVERGENCE')) {
             item.isGoldenAgeLeader = true;
             item.liveLlmDecision = 'LONG';

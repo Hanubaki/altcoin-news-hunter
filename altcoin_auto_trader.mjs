@@ -879,6 +879,88 @@ async function checkOrderbookImbalance(symbol) {
   return Number(((i1 + i2) / 2).toFixed(2));
 }
 
+async function fetchBookSnapshot(symbol, requireBinanceTr = true) {
+  try {
+    const trDepth = await fetchJson(`https://www.trbinance.com/open/v1/market/depth?symbol=${symbol}_TRY&limit=20`, {}, 2200).catch(() => null);
+    const trBids = trDepth?.data?.bids || trDepth?.bids;
+    const trAsks = trDepth?.data?.asks || trDepth?.asks;
+    let bids = null;
+    let asks = null;
+    let priceSource = 'BINANCE_TR';
+    if (Array.isArray(trBids) && trBids.length > 0 && Array.isArray(trAsks) && trAsks.length > 0) {
+      bids = trBids;
+      asks = trAsks;
+    } else if (!requireBinanceTr) {
+      const depth = await fetchJson(`${BINANCE_API}/depth?symbol=${symbol}USDT&limit=20`, {}, 2500).catch(() => null);
+      if (Array.isArray(depth?.bids) && depth.bids.length > 0 && Array.isArray(depth?.asks) && depth.asks.length > 0) {
+        bids = depth.bids;
+        asks = depth.asks;
+        priceSource = 'GLOBAL_PROXY';
+      }
+    }
+    if (!bids || !asks) return null;
+    const bestBid = Number(bids[0][0]);
+    const bestBidQty = Number(bids[0][1]);
+    const bestAsk = Number(asks[0][0]);
+    const bestAskQty = Number(asks[0][1]);
+    if (bestBid <= 0 || bestAsk < bestBid) return null;
+    const mid = (bestBid + bestAsk) / 2;
+    const spreadPct = Number((((bestAsk - bestBid) / bestBid) * 100).toFixed(3));
+    const microprice =
+      bestBidQty + bestAskQty > 0
+        ? (bestBid * bestAskQty + bestAsk * bestBidQty) / (bestBidQty + bestAskQty)
+        : mid;
+    const micropricePremBps = mid > 0 ? Number((((microprice - mid) / mid) * 10000).toFixed(2)) : 0;
+    const imbalance = computeWeightedBookImbalance(bids, asks);
+    return { bestBid, bestAsk, mid, spreadPct, micropricePremBps, imbalance, priceSource };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Engine #27 (Codex Council — PERSISTENT_BOOK_CONFIRMATION):
+ * Takes 2 Binance TR orderbook snapshots 2.1s apart right before live BUY.
+ * Vetoes entry if spread > 0.60%, imbalance < minAllowedOb, microprice premium < 0,
+ * imbalance deteriorates by > 0.12, or bid drops while ask rises (book hollowing out).
+ */
+async function verifyPersistentBookConfirmation(symbol, minAllowedOb = -0.05, requireBinanceTr = true) {
+  const s1 = await fetchBookSnapshot(symbol, requireBinanceTr);
+  if (!s1) return { ok: false, rejectReason: 'NO_BOOK_SNAPSHOT_1' };
+  await new Promise(r => setTimeout(r, 2100));
+  const s2 = await fetchBookSnapshot(symbol, requireBinanceTr);
+  if (!s2) return { ok: false, rejectReason: 'NO_BOOK_SNAPSHOT_2', ob1: s1.imbalance };
+
+  const midMovePct = s1.mid > 0 ? Number((((s2.mid - s1.mid) / s1.mid) * 100).toFixed(3)) : 0;
+  const obDecay = Number((s1.imbalance - s2.imbalance).toFixed(2));
+  const isHollowingOut = s2.bestBid < s1.bestBid && s2.bestAsk > s1.bestAsk;
+
+  let rejectReason = null;
+  if (s1.spreadPct > 0.60 || s2.spreadPct > 0.60) {
+    rejectReason = `WIDE_SPREAD (${s1.spreadPct}% -> ${s2.spreadPct}%)`;
+  } else if (s1.imbalance < minAllowedOb || s2.imbalance < minAllowedOb) {
+    rejectReason = `WEAK_IMBALANCE (${s1.imbalance} -> ${s2.imbalance} < ${minAllowedOb})`;
+  } else if (s1.micropricePremBps < 0 || s2.micropricePremBps < 0) {
+    rejectReason = `NEGATIVE_MICROPRICE_PREM (${s1.micropricePremBps}bps -> ${s2.micropricePremBps}bps)`;
+  } else if (obDecay > 0.12) {
+    rejectReason = `SPOOF_DECAY (ob1=${s1.imbalance} -> ob2=${s2.imbalance}, decay=${obDecay})`;
+  } else if (isHollowingOut) {
+    rejectReason = `BOOK_HOLLOWING_OUT (bid fell & ask rose)`;
+  }
+
+  return {
+    ok: !rejectReason,
+    rejectReason,
+    ob1: s1.imbalance,
+    ob2: s2.imbalance,
+    imbalance: Number(((s1.imbalance + s2.imbalance) / 2).toFixed(2)),
+    spreadPct: Math.max(s1.spreadPct, s2.spreadPct),
+    micropricePremBps: s2.micropricePremBps,
+    midMovePct,
+    latestQuote: s2,
+  };
+}
+
 let _trSymbolsCache = null;
 async function getBinanceTrSymbolRules(symbol) {
   try {
@@ -1765,19 +1847,28 @@ async function runTradingCycle() {
         if (!trRule || trRule.spotTradingEnable !== 1) continue;
       }
 
-      const obImbalance = await checkOrderbookImbalance(cand.symbol);
+      // Engine #27 (Codex Council — PERSISTENT_BOOK_CONFIRMATION):
+      // Two Binance TR orderbook snapshots 2.1s apart; requires spread <= 0.60%, obImbalance >= minAllowedOb,
+      // microprice premium >= 0, no spoof decay (> 0.12), and no book hollowing out (bid falling while ask rises).
       const minAllowedOb = isRedMarketDump ? 0.0 : isCashIdleTooLong ? -0.15 : -0.05;
-      if (obImbalance < minAllowedOb) {
-        logEvent(state, `⚖️ [Tahta Kalkanı] ${cand.symbol} önünde satış duvarı (${obImbalance}) var, pas geçildi.`);
+      const bookCheck = await verifyPersistentBookConfirmation(cand.symbol, minAllowedOb, state.mode === 'LIVE_BINANCE');
+      if (!bookCheck.ok) {
+        logEvent(
+          state,
+          `⚖️ [Engine #27 Kalıcı Tahta Vetosu] ${cand.symbol} pas geçildi (${bookCheck.rejectReason} | ob1:${bookCheck.ob1 ?? 'N/A'} -> ob2:${bookCheck.ob2 ?? 'N/A'})`
+        );
         continue;
       }
-
-      // Fixed-TL-Risk Dynamic Position Sizing + Noise-Filtered Dynamic Stop (1.5% - 2.4%)
-      // Separate illiquidity guard (spreadPct > 0.60% rejected) & un-duplicated exit friction (slippage 0.12% + fee 0.10% = 0.22%)
-      const spreadPct = q.bestBid > 0 ? ((q.bestAsk - q.bestBid) / q.bestBid) * 100 : 0.20;
-      if (spreadPct > 0.60) {
-        logEvent(state, `⚠️ [Likidite Kalkanı] ${cand.symbol} makası fazla açık (%${spreadPct.toFixed(2)} > %0.60), pas geçildi.`);
-        continue;
+      const obImbalance = bookCheck.imbalance;
+      const spreadPct = bookCheck.spreadPct;
+      if (bookCheck.latestQuote && bookCheck.latestQuote.priceSource === 'BINANCE_TR') {
+        q = {
+          bestBid: Number((bookCheck.latestQuote.bestBid / USD_TRY_RATE).toPrecision(6)),
+          bestAsk: Number((bookCheck.latestQuote.bestAsk / USD_TRY_RATE).toPrecision(6)),
+          bestBidTry: bookCheck.latestQuote.bestBid,
+          bestAskTry: bookCheck.latestQuote.bestAsk,
+          priceSource: 'BINANCE_TR',
+        };
       }
       const safeSlPct = Number(
         Math.min(2.4, Math.max(1.5, (cand.atr1hPct || 1.6) * 0.90, spreadPct * 3.0)).toFixed(2)
@@ -1839,6 +1930,10 @@ async function runTradingCycle() {
         takerBuyRatioPct: cand.takerBuyRatioPct || 50,
         last1hTakerBuyPct: cand.last1hTakerBuyPct ?? cand.takerBuyRatioPct ?? 50,
         obImbalance,
+        bookOb1: bookCheck.ob1,
+        bookOb2: bookCheck.ob2,
+        micropricePremBps: bookCheck.micropricePremBps,
+        midMovePctAtEntry: bookCheck.midMovePct,
         entryTime: new Date().toISOString(),
         entryPrice: buyPrice,
         entryPriceTry: buyPriceTry,
