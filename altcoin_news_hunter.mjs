@@ -1319,7 +1319,7 @@ async function main() {
           } else {
             item.isGoldenAgeLeader = false;
             item.liveLlmDecision = 'WAIT';
-            item.totalScore = Number(Math.max(10, item.totalScore - 35).toFixed(1));
+            if (hasValidOi) item.totalScore = Number(Math.max(10, item.totalScore - 35).toFixed(1));
           }
         }
       } catch {}

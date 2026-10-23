@@ -851,7 +851,7 @@ function computeWeightedBookImbalance(bids, asks) {
     }
   }
   if (weightedBid + weightedAsk <= 0) return 0;
-  return Number(((weightedBid - weightedAsk) / (weightedBid + weightedAsk)).toFixed(2));
+  return Number(((weightedBid - weightedAsk) / (weightedBid + weightedAsk)).toFixed(4));
 }
 
 async function fetchSingleBookImbalance(symbol) {
@@ -932,7 +932,8 @@ async function verifyPersistentBookConfirmation(symbol, minAllowedOb = -0.05, re
   if (!s2) return { ok: false, rejectReason: 'NO_BOOK_SNAPSHOT_2', ob1: s1.imbalance };
 
   const midMovePct = s1.mid > 0 ? Number((((s2.mid - s1.mid) / s1.mid) * 100).toFixed(3)) : 0;
-  const obDecay = Number((s1.imbalance - s2.imbalance).toFixed(2));
+  const rawObDecay = s1.imbalance - s2.imbalance;
+  const obDecay = Number(rawObDecay.toFixed(3));
   const isHollowingOut = s2.bestBid < s1.bestBid && s2.bestAsk > s1.bestAsk;
 
   let rejectReason = null;
@@ -942,7 +943,7 @@ async function verifyPersistentBookConfirmation(symbol, minAllowedOb = -0.05, re
     rejectReason = `WEAK_IMBALANCE (${s1.imbalance} -> ${s2.imbalance} < ${minAllowedOb})`;
   } else if (s1.micropricePremBps < 0 || s2.micropricePremBps < 0) {
     rejectReason = `NEGATIVE_MICROPRICE_PREM (${s1.micropricePremBps}bps -> ${s2.micropricePremBps}bps)`;
-  } else if (obDecay > 0.12) {
+  } else if (rawObDecay > 0.12) {
     rejectReason = `SPOOF_DECAY (ob1=${s1.imbalance} -> ob2=${s2.imbalance}, decay=${obDecay})`;
   } else if (isHollowingOut) {
     rejectReason = `BOOK_HOLLOWING_OUT (bid fell & ask rose)`;
