@@ -1238,7 +1238,9 @@ async function main() {
         rsi1h < (isSovereignCrisisCandidate ? 38 : 25) ||
         rsi1h > 62 ||
         !aboveVwap ||
-        isUpperWickRejection
+        isUpperWickRejection ||
+        takerFlowDecel > 0.08 ||
+        (closePositionInRange < 0.45 && last1hTakerBuy < 0.54)
       ) {
         continue;
       }
