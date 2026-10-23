@@ -683,13 +683,16 @@ ${(pf.cfoTips || []).map(t => `  - ${t}`).join('\n')}
 
 ---
 
-## 6. AKTİF KORUMA VE MAKSİMUM KAZANÇ MOTORLARI (Quant v10.8 — Institutional Suite)
+## 6. AKTİF KORUMA VE MAKSİMUM KAZANÇ MOTORLARI (Quant v10.9.1 — Institutional Suite)
 
 1. **🛡️ Engine #19 — Tek Yönlü Gölge Tuzak Avcısı (Defensive Shadow Trap Detector):** Gerçek para yatırmadan önce adayları arka planda sanal izler (\`0%\` pozitif puan şişirme riski); sanalda çakılan veya 75dk sürünerek eriyen tuzak coinleri gerçek para kaybetmeden 4 saat kara listeye alır (\`shadow_telemetry.jsonl\`).
 2. **🧪 Engine #20 & #21 — Kurumsal Mikroyapı & İğne Tuzak Kalkanı:** Gerçek **Amihud Likidite Oranı (\`|ret_1h%| / $1M\`)**, örneklem korumalı **Taker Akış Yavaşlama Filtresi**, zaman-hizalı **Fiyat–OI Ayı Uyumsuzluğu (\`PRICE_OI_DIVERGENCE\`)**, **Aşırı Kaldıraçlı Long Tasfiye Kalkanı (\`OVERLEVERAGED_LONG_TRAP\`)** ve **Üst Fitil Boğa Tuzağı (\`UPPER_WICK_REJECTION\`)** korumalarıyla sahte yükselişlere tek kuruş kaptırmaz.
 3. **🔗 Engine #22 — Sektör Bulaşma Kalkanı & Küsürat (Dust) Süpürücü:** Bir ekosistemde zarar kes yaşanırsa aynı sektöre 45 dakika bulaşmaz; cüzdanda sıkışmış küsüratı (\`>= 1.50 TL\`) bulunan A+ onaylı coinlerde çıkışta küsüratı da birleştirip gerçek \`TRY\` nakite çevirir.
-4. **💰 Çakışmasız Kademeli Hasat (\`TP1 -> TP2 -> Moonbag\`) & \`+%1,75\` Net Kâr Kilidi:** \`TP1\` (\`%2,2–%3,6\`) alınmadan üst stop basamakları coini erken boğmaz; \`< 55 TL\` küsürat oluşacak pozisyonları bölmeden tam stop kilidine alır.
-5. **🧠 Engine #15 & #16 — Tamamlanmış Ömür (Lifecycle) Bayes Öğrenme & Kişisel CFO:** Parçalı satışları tek işlem ömründe (\`positionId\`) birleştirerek öğrenir ve İş Bankası + Binance TR servetini tek merkezden yönetir.
+4. **⚡ Engine #23 & #24 — V-Dip Genişlik İtişi & Altın Çağ Kurumsal Lider Ateşleyici:** Piyasa dipten dönerken (\`1s BTC >= +%0,30\` + \`Altcoin >= %24 Yeşil\` + \`Kurtarma >= %38\`) 24s gecikmesini sıfırlar; teyitli Altın Çağ'da RSS haberi gecikse bile kurumsal likidite liderlerini (\`Hacim >= $15M\`, \`Amihud <= 8.0\`, \`Taker >= %55\`, \`RS/ATR >= 1.25\`) yakalar.
+5. **🧹 Engine #25 & #26 — Taze Haber Kalkanı, Binance AI Hype & Shapiro Haber-Tepkisizlik Kapısı:** \`>75dk\` bayat haberlerin taze haberin sırtına binmesini ve clickbait başlıkları engeller; Binance Web3 AI duyarlılığını ve habere rağmen VWAP altında ezilen (\`<=-%0,85\`) zayıf coinleri eler.
+6. **🔬 Engine #27 — İki Aşamalı Kalıcı Tahta Doğrulayıcı (\`PERSISTENT_BOOK_CONFIRMATION\`):** Alım emrinden hemen önce Binance TR \`_TRY\` tahtasından \`2.1sn\` arayla iki ayrı fotoğraf çeker; sahte alış duvarı (\`spoof decay > 0.12\`), tahta boşalması (\`hollowing\`), geniş makas (\`>%0,60\`) veya negatif mikro-fiyat primi varsa emri saniyesinde iptal eder.
+7. **💰 Çakışmasız Kademeli Hasat (\`TP1 -> TP2 -> Moonbag\`) & \`+%1,75\` Net Kâr Kilidi:** \`TP1\` (\`%2,2–%3,6\`) alınmadan üst stop basamakları coini erken boğmaz; \`< 55 TL\` küsürat oluşacak pozisyonları bölmeden tam stop kilidine alır.
+8. **🧠 Engine #15 & #16 — Tamamlanmış Ömür (Lifecycle) Bayes Öğrenme & Kişisel CFO:** Parçalı satışları tek işlem ömründe (\`positionId\`) birleştirerek öğrenir ve İş Bankası + Binance TR servetini tek merkezden yönetir.
 `;
 
   fs.writeFileSync(RAPOR_FILE, md, 'utf8');
