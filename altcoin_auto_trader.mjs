@@ -2073,7 +2073,7 @@ async function runTradingCycle() {
       const minReqWhale = coinMem && !isBnfEntryAllowed ? Math.max(baseMinWhale, coinMem.minWhale) : baseMinWhale;
       const maxReqRsi = coinMem ? Math.min(baseMaxRsi, coinMem.maxRsi) : baseMaxRsi;
       if (effectiveTotalScore < minReqScore) continue;
-      const maxAllowedNewsAgeMins = confirmedRegime === 'C' || isRedMarketDump || isWeakMarket ? 45 : 75;
+      const maxAllowedNewsAgeMins = isRedMarketDump || isWeakMarket ? 45 : confirmedRegime === 'C' ? 60 : 75;
       const primaryHeadlineAgeMins = Math.max(cand.freshestMinutesAgo || 0, cand.headlines?.[0]?.minutesAgo || 0);
       if (primaryHeadlineAgeMins > maxAllowedNewsAgeMins) continue; // Engine #25: Reject stale primary news older than 45-75 minutes!
       const isSynthCand = ['WhaleOrderflowRadar', 'ShortSqueezeRadar'].includes(cand.headlines?.[0]?.source);
