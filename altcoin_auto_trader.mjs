@@ -1552,6 +1552,83 @@ async function runTradingCycle() {
     pos.trailingActive = pos.stopLossPrice > pos.entryPrice;
     if (peakGainPct >= 2.5 && pos.trailingActive) pos.rocketMode = true;
 
+    // Engine #30.1 (Qullamaggie Zero-Risk Winner Pyramiding — Sifir Riskli Kârda Piramitleme):
+    // Only scales into a winner AFTER Leg 1 is up >= +1.35% AND its stop-loss is locked above breakeven (>= 1.0068x entry).
+    // Requires fresh Engine #27 persistent book confirmation (spread <= 0.40%, obImbalance >= +0.12) and immediately locks the combined position at net breakeven+!
+    if (
+      !pos.isMoonshot &&
+      !pos.pyramidAdded &&
+      !pos.partialTpDone &&
+      pos.engineOwner !== 'BNF' &&
+      pos.trailingActive &&
+      pos.stopLossPrice >= pos.entryPrice * 1.0068 &&
+      pos.unrealizedPnlPct >= 1.35 &&
+      pos.unrealizedPnlPct <= Number(pos.tp1Pct || 2.5) * 0.88 &&
+      !signalsData.btcCrashAlert &&
+      (signalsData.marketBreadthPct ?? 50) >= 32 &&
+      state.cashUsdt * USD_TRY_RATE >= 120
+    ) {
+      const pyrBook = await verifyPersistentBookConfirmation(pos.symbol, 0.12, state.mode === 'LIVE_BINANCE');
+      if (pyrBook.ok && pyrBook.spreadPct <= 0.40 && pyrBook.imbalance >= 0.12) {
+        const pyrAskUsdt = pyrBook.latestQuote?.bestAsk
+          ? pyrBook.latestQuote.priceSource === 'BINANCE_TR'
+            ? Number((pyrBook.latestQuote.bestAsk / USD_TRY_RATE).toPrecision(6))
+            : Number(pyrBook.latestQuote.bestAsk.toPrecision(6))
+          : q.bestAsk || currentBid * 1.001;
+        const curEquityUsdt = state.cashUsdt + state.openPositions.reduce((s, p) => s + p.currentPrice * p.qty, 0);
+        const pyrTargetUsdt = Math.min(curEquityUsdt * 0.20, pos.costUsdt * 0.65, Math.floor(state.cashUsdt * 100) / 100);
+        const pyrRule = state.mode === 'LIVE_BINANCE' ? await getBinanceTrSymbolRules(pos.symbol) : null;
+        const pyrLot = (pyrRule?.filters || []).find(f => f.filterType === 'LOT_SIZE');
+        let pyrQty = roundToStepSize(pyrTargetUsdt / pyrAskUsdt, pyrLot?.stepSize);
+        let pyrCostUsdt = Number((pyrQty * pyrAskUsdt).toFixed(4));
+        const pyrNotionalTry = pyrCostUsdt * USD_TRY_RATE;
+        // Verify that locking the combined position at 1.0068x newAvgEntry (full net breakeven+ after 0.44% round-trip friction) stays strictly below currentBid
+        const projTotalQty = pos.qty + pyrQty;
+        const projAvgEntry = projTotalQty > 0 ? (pos.entryPrice * pos.qty + pyrAskUsdt * pyrQty) / projTotalQty : pos.entryPrice;
+        const projCombinedBreakevenFloor = Number((projAvgEntry * 1.0068).toPrecision(5));
+        if (pyrQty > 0 && pyrNotionalTry >= 60 && currentBid > projCombinedBreakevenFloor * 1.0025) {
+          let pyrOk = true;
+          let fillPyrPrice = pyrAskUsdt;
+          if (state.mode === 'LIVE_BINANCE') {
+            const pyrRes = await executeBinanceRealOrder(cfg, pos.symbol, 'BUY', pyrQty, pyrCostUsdt);
+            if (!pyrRes || pyrRes.code !== 0) pyrOk = false;
+            else {
+              if (pyrRes.executedQty > 0) pyrQty = pyrRes.executedQty;
+              if (pyrRes.fillPriceUsdt > 0) fillPyrPrice = pyrRes.fillPriceUsdt;
+              pyrCostUsdt = Number((pyrQty * fillPyrPrice).toFixed(4));
+            }
+          }
+          if (pyrOk && pyrQty > 0) {
+            const newTotalQty = Number((pos.qty + pyrQty).toFixed(8));
+            const newAvgEntry = Number(((pos.entryPrice * pos.qty + fillPyrPrice * pyrQty) / newTotalQty).toPrecision(6));
+            pos.entryPrice = newAvgEntry;
+            pos.entryPriceTry = Number((newAvgEntry * USD_TRY_RATE).toFixed(4));
+            pos.qty = newTotalQty;
+            pos.initialQty = newTotalQty;
+            pos.costUsdt = Number((newAvgEntry * newTotalQty).toFixed(4));
+            pos.initialCostUsdt = pos.costUsdt;
+            pos.costTry = Math.round(pos.costUsdt * USD_TRY_RATE);
+            pos.pyramidAdded = true;
+            const postFillBreakevenPlus = Number((newAvgEntry * 1.0068).toPrecision(5));
+            const safeBidCeiling = Number((currentBid * 0.9980).toPrecision(5));
+            pos.stopLossPrice = Math.max(
+              pos.stopLossPrice,
+              Math.min(postFillBreakevenPlus, safeBidCeiling),
+              Number((newAvgEntry * 1.0046).toPrecision(5))
+            );
+            pos.trailingActive = pos.stopLossPrice > pos.entryPrice;
+            pos.unrealizedPnlUsdt = Number(((currentBid - pos.entryPrice) * pos.qty).toFixed(4));
+            pos.unrealizedPnlPct = Number((((currentBid - pos.entryPrice) / pos.entryPrice) * 100).toFixed(2));
+            state.cashUsdt = Number(Math.max(0, state.cashUsdt - pyrCostUsdt).toFixed(4));
+            logEvent(
+              state,
+              `🔥 [Engine #30.1 Qullamaggie Sıfır Riskli Piramitleme] ${pos.symbol} kâr kilidindeyken 2. mermi (+${toTL(pyrCostUsdt)} TL) eklendi! Toplam: ${toTL(pos.costUsdt)} TL | Yeni Garanti Kâr Stopu: ${pos.stopLossPrice}`
+            );
+          }
+        }
+      }
+    }
+
     // Dynamic Noise-Filtered Stop (never lower an existing stopLossPrice; BNF preserves exact sweepLow stop)
     const dynamicNoiseSlPct = Number(Math.min(2.4, Math.max(1.5, (pos.atr1hPct || 1.6) * 0.90)).toFixed(2));
     if (!pos.trailingActive && pos.engineOwner !== 'BNF') {
@@ -2099,14 +2176,44 @@ async function runTradingCycle() {
         continue;
       }
       const fKelly = Math.max(0, (pLower95 * payoffB - (1 - pLower95)) / payoffB);
-      const maxAccountRiskFrac = isAntiMeltdownActive ? 0.0038 : 0.0050; // Hard cap: 0.5% of Equity per trade (~5 TL on 1,000 TL)
-      const fRisk = Math.min(0.25 * fKelly, maxAccountRiskFrac);
+      // Engine #30.1 (Qullamaggie Small-Bankroll Conviction Tiers — 0.58% Standard / 0.80% High / 1.00% Ultra A+ Risk, 22%-38% Slot Cap):
+      // Never bets 80% on an unproven entry (prevents thin-book stop slippage ruin), while scaling A+ setups up to Qullamaggie's 30%-38% ceiling!
+      const isUltraApexSetup = Boolean(
+        !isAntiMeltdownActive &&
+          effectiveTotalScore >= 84 &&
+          (cand.hasDirectMention || cand.isSovereignCrisisLeader || cand.isEpRetestOptimal) &&
+          obImbalance >= 0.15 &&
+          spreadPct <= 0.35
+      );
+      const isHighConvictionSetup = Boolean(
+        !isAntiMeltdownActive &&
+          !isUltraApexSetup &&
+          (effectiveTotalScore >= 76 || cand.isSovereignCrisisLeader || cand.isEpRetestOptimal) &&
+          obImbalance >= 0.08 &&
+          spreadPct <= 0.45
+      );
+      const maxAccountRiskFrac = isAntiMeltdownActive
+        ? 0.0040
+        : isUltraApexSetup
+          ? 0.0100
+          : isHighConvictionSetup
+            ? 0.0080
+            : 0.0058;
+      const kellyScale = isAntiMeltdownActive ? 0.25 : 0.35;
+      const fRisk = Math.min(kellyScale * fKelly, maxAccountRiskFrac);
       if (!Number.isFinite(fRisk) || fRisk <= 0) continue;
 
+      const slotCapFrac = isAntiMeltdownActive
+        ? 0.20
+        : isUltraApexSetup
+          ? 0.38
+          : isHighConvictionSetup
+            ? 0.30
+            : 0.22;
       const riskBudgetUsdt = currentTotalEquity * fRisk;
       const riskBudgetTry = Number((riskBudgetUsdt * USD_TRY_RATE).toFixed(2));
       const riskSizedUsdt = riskBudgetUsdt / netLossL;
-      const maxSlotCapUsdt = Number((currentTotalEquity * 0.20).toFixed(4)); // Engine #30 Portfolio Cap: max 20% of Equity per symbol
+      const maxSlotCapUsdt = Number((currentTotalEquity * slotCapFrac).toFixed(4));
       const availCashUsdt = Math.floor(Math.max(0, state.cashUsdt) * 100) / 100;
       const rawTargetUsdt = Math.min(riskSizedUsdt, maxSlotCapUsdt, remainingExposureUsdt, availCashUsdt);
       if (rawTargetUsdt <= 0) continue;

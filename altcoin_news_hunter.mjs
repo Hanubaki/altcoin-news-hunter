@@ -1083,7 +1083,7 @@ async function main() {
   const tsiHour = tsiNow.getUTCHours();
   // Engine #28: Friday Bull-Trap & Pre-Weekend De-Risking Shield (2-yr empirical backtest: 85.4% altcoin Friday PM dump probability after Thu drop + Fri AM bounce)
   const isFridayMorningTrapSetup = isFriday && tsiHour >= 8 && tsiHour < 15 && breadth24hPct < 46 && intradayRecoveryPct >= 42;
-  const isFridayPmDumpWindow = isFriday && tsiHour >= 15 && tsiHour <= 23;
+  const isFridayPmDumpWindow = isFriday && tsiHour >= 15 && tsiHour <= 23 && breadth24hPct < 52;
   const isConfirmedGoldenAge =
     confirmedRegime === 'C' &&
     !btcCrashAlert &&
@@ -1289,8 +1289,8 @@ async function main() {
     const epAtrUnit = Number.isFinite(atr1hPrice) && atr1hPrice > 0 ? atr1hPrice : mkt.lastPrice * (atr1hPct / 100);
     const epMaxEntryPrice =
       openingRangeHigh > 0
-        ? Number(Math.min(openingRangeHigh + 0.25 * epAtrUnit, openingRangeHigh * 1.01).toPrecision(6))
-        : Number((mkt.lastPrice * 1.005).toPrecision(6));
+        ? Number(Math.min(openingRangeHigh + 0.65 * epAtrUnit, openingRangeHigh * 1.018).toPrecision(6))
+        : Number((mkt.lastPrice * 1.012).toPrecision(6));
     let eventPvSum = 0;
     let eventVolSum = 0;
     for (let kIdx = eventBarIdx; kIdx < klines.length; kIdx++) {
@@ -1306,7 +1306,7 @@ async function main() {
     const isEpRetestOptimal =
       hasCompletedOrBreakout &&
       mkt.lastPrice >= openingRangeHigh &&
-      mkt.lastPrice <= openingRangeHigh + 0.15 * epAtrUnit;
+      mkt.lastPrice <= openingRangeHigh + 0.25 * epAtrUnit;
     const isEpCandidate = Boolean(
       confirmedRegime === 'C' &&
         engineOwner === 'EP' &&
@@ -1314,16 +1314,16 @@ async function main() {
         healthyScanStreak >= 2 &&
         ((hasDirectMention &&
           eventAgeMins <= 45 &&
-          volRatio >= 2.2 &&
-          hasCompletedOrBreakout &&
+          ((volRatio >= 1.65 && hasCompletedOrBreakout) ||
+            (eventAgeMins <= 35 && volRatio >= 1.15 && aboveVwap && last1hTakerBuy >= 0.54 && impulseAtr <= 1.20)) &&
           impulseAtr <= 1.50 &&
-          mkt.lastPrice <= eventVwap * 1.010 &&
+          mkt.lastPrice <= Math.max(eventVwap, vwap24h) * 1.015 &&
           mkt.lastPrice <= epMaxEntryPrice) ||
           (isGoldenAgeCandidate &&
             isConfirmedGoldenAge &&
-            volRatio >= 1.25 &&
+            volRatio >= 1.20 &&
             impulseAtr <= 1.50 &&
-            mkt.lastPrice <= eventVwap * 1.010 &&
+            mkt.lastPrice <= Math.max(eventVwap, vwap24h) * 1.018 &&
             mkt.lastPrice <= epMaxEntryPrice))
     );
     if (confirmedRegime === 'C' && hasDirectMention && !isEpCandidate) {

@@ -11,3 +11,10 @@
 ## Skill-First Execution & Explicit Announcement Rule (Mandatory)
 1. **Check Skills Before Action:** Before starting any task, bug fix, audit, or feature, check all installed skills (`superpowers`, `ponytail`, and custom skills) first and read the matching `SKILL.md`.
 2. **Announce Active Skill(s):** Whenever a skill is used, explicitly state which skill(s) were used at the top of the response (`🛠️ Kullanılan Skill: <skill-adı>`).
+
+## Devil's Advocate & Anti-Sycophancy Risk Audit Rule (Mandatory)
+1. **Never Blindly Agree with User Proposals (`Körü Körüne Onaylama Yasağı`):** When the user proposes or asks about a trading strategy, position sizing change, leverage/concentration idea, or architectural change, NEVER act as a "yes-man" (`sycophant`) that only highlights the upside to please the user.
+2. **Mandatory Downside & Ruin Research First (`Önce Batma/Zarar Senaryosu Araştırması`):** Before recommending or implementing any strategy or parameter change, automatically research and present in the very first response:
+   - **Historical Blow-Up Cases (`Batanlar & Neden Battıkları`):** Real-world failure modes (e.g., stop-loss slippage in thin order books, flash crashes, consecutive loss drawdowns, Kelly overbetting ruin).
+   - **Exchange Microstructure Reality (`Binance TR _TRY Gerçekliği`):** How the idea behaves under actual `_TRY` order book depth, spread, and fee/slippage friction (`0.44%+`), not just idealized textbook math.
+   - **Objective Verdict (`Net ve Dürüst Karar`):** If an idea carries asymmetric ruin risk or contradicts proven quantitative rules, push back directly and state why it is dangerous on the very first turn, without waiting for the user to ask "batan var mı?".

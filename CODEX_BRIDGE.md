@@ -245,3 +245,24 @@ Stop mesafesi `d=(entry-stop)/entry` ve tüm maliyetler dahil olduğunda emir no
 - Ratchet tabanlarını **brüt** giriş fiyatına göre değil, beklenen çıkış sürtünmesi sonrasında net pozitif olacak şekilde kurun. Örneğin +%0,4 tabanı %0,22 exit sürtünmesi altında çok dar kalabilir; `netFloorPct = targetGrossPct - exitFrictionPct` telemetriye de kaydedilsin.
 
 **Öncelik 4 — öğrenmeyi küçük örneklemden koruyun.** RAPOR’daki 35 işlem / 21 kâr, strateji parametrelerini coin bazında kesinleştirmek için az; 1–2 işlemlik sonuçlara verilen kalıcı +/- puanlar aşırı uyum riski taşır. `trade_telemetry.jsonl` içine `peakGainPct`, TP1/TP2 tetik-fiyatı/zamanı, gerçek fill fiyatı, yürütülen miktar, hold süresi ve çıkış anındaki OB medyanını ekleyin. Coin/kaynak/bucket skor ayarını ancak en az 8 gözlemden sonra, Beta(1,1) önseli ile Wilson/Bayes alt güven sınırına göre uygulayın; daha küçük örneklemde etkiyi `n/(n+8)` ile shrink edin. Böylece bot, rastlantısal iki kazancı yapısal alpha sanmaz.
+
+
+---
+
+## [2026-10-23 18:53 TSİ] Engine #30.1: Qullamaggie Small-Bankroll Conviction Tiers (%22 / %30 / %38) + Zero-Risk Winner Pyramiding (Codex `gpt-6-luna` Onaylı)
+
+### 1. Tespit Edilen Sorunlar (Neden Kasa 1.000 TL'de Küçük Kârlara Sıkışıyordu?)
+- **Cuma Öğleden Sonra Kör Kilidi (`isFridayPmDumpWindow`):** `breadth24hPct < 52` kontrolü olmadığı için piyasa `%58–%68` yemyeşil (`Rejim C`) olsa bile Cuma 15:00–23:00 arasında `isConfirmedGoldenAge = false` zorlanıyor ve tüm `GoldenAgeLeader` adayları bloke ediliyordu.
+- **Rejim C `isEpCandidate` Aşırı Dar Boğazı:** Aynı anda hem `volRatio >= 2.2` hem `openingRangeHigh` kırılımı hem de `+0.25 ATR` tavanı şart koşulduğu için henüz fiyatlanmamış (`volRatio 1.15x–2.1x`) taze doğrudan haberler (`directMention`) `%100` eleniyordu.
+- **Sabit `%20` (`~198 TL`) Slot Tavanı ve `0.25x Kelly`:** En güçlü `A+` doğrudan haberlerde bile pozisyon büyüklüğü `198 TL` ile sınırlı kalıyor, `%3` yükselişte bile cebe sadece `~5 TL` giriyordu.
+
+### 2. Codex (`gpt-6-luna`) Denetimi & Ortak Karar (`Engine #30.1`)
+- **Neden Tek Seferde `%80` (`800 TL`) Basmak Reddedildi? (Devil's Advocate Risk Analizi):**
+  - Binance TR `_TRY` tahtalarında ilk kademe derinliği sığ olduğu için henüz kendini kanıtlamamış bir coine tek kalemde `800 TL` basmak, stop patladığında `-%1.5` yerine `-%3.0 / -%4.5` kayma (`slippage`) yaratır.
+- **Çözüm 1 — Qullamaggie Kademeli İkna Büyüklüğü (`Conviction Tiers`):**
+  - **Standart Sinyal (`Skor < 76`):** Kasa Tavanı `%22` (`~220 TL`), Maksimum Risk `%0.58` (`~5.8 TL`).
+  - **Yüksek İkna (`Skor >= 76`, `obImbalance >= +0.08`, `spread <= %0.45`):** Kasa Tavanı `%30` (`~300 TL` — Qullamaggie standart tavanı), Maksimum Risk `%0.80` (`~8.0 TL`).
+  - **Ultra A+ Apex (`Skor >= 84`, `directMention || SovereignCrisisLeader || EpRetestOptimal`, `obImbalance >= +0.15`, `spread <= %0.35`):** Kasa Tavanı `%38` (`~380 TL`), Maksimum Risk `%1.00` (`~10.0 TL` — Qullamaggie 1.0% kuralı).
+- **Çözüm 2 — Sıfır Riskli Kârda Piramitleme (`Zero-Risk Winner Pyramiding`):**
+  - 1. mermi en az `+%1.35` kâra geçip stop-loss seviyesi `1.0068x` (`+%0.46` net kâr kilidi) üstüne kilitlendikten sonra, `Engine #27` kalıcı tahta kontrolü (`spread <= %0.40`, `obImbalance >= +0.12`) alıcıların devam ettiğini doğrularsa **2. mermi (`+%20` kasa / maks `0.65x` 1. mermi)** eklenir.
+  - Codex (`gpt-6-luna`) uyarısıyla: 2. mermi eklendiği saniye `pos.initialQty` ve `pos.initialCostUsdt` (`TP1/TP2` kademeli satış muhasebesi için) güncellenir ve birleşik pozisyonun (`~480–580 TL`) stopu anında `newAvgEntry * 1.0068` (`0.44%` komisyon+kayma sonrası tam net kâr kilidi ve `currentBid` altında güvenli mesafe) seviyesine çekilir.
