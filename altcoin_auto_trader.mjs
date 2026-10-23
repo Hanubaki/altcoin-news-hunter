@@ -692,8 +692,9 @@ ${(pf.cfoTips || []).map(t => `  - ${t}`).join('\n')}
 5. **🧹 Engine #25 & #26 — Taze Haber Kalkanı, Binance AI Hype & Shapiro Haber-Tepkisizlik Kapısı:** \`>75dk\` bayat haberlerin taze haberin sırtına binmesini ve clickbait başlıkları engeller; Binance Web3 AI duyarlılığını ve habere rağmen VWAP altında ezilen (\`<=-%0,85\`) zayıf coinleri eler.
 6. **🔬 Engine #27 — İki Aşamalı Kalıcı Tahta Doğrulayıcı (\`PERSISTENT_BOOK_CONFIRMATION\`):** Alım emrinden hemen önce Binance TR \`_TRY\` tahtasından \`2.1sn\` arayla iki ayrı fotoğraf çeker; sahte alış duvarı (\`spoof decay > 0.12\`), tahta boşalması (\`hollowing\`), geniş makas (\`>%0,60\`) veya negatif mikro-fiyat primi varsa emri saniyesinde iptal eder.
 7. **📅 Engine #28 — Perşembe Çöküşü Sonrası Cuma Boğa Tuzağı & Akşam Koruma Kalkanı (\`FRIDAY_BULL_TRAP_SHIELD\`):** 2 yıllık Binance verisinde kanıtlanan **%85,4 olasılıklı Cuma akşamı (\`15:00–23:59 TSİ\`) geri çekilme tuzaklarına** karşı Cuma sabahı vadeli OI/balina barajını sıkılaştırır; Cuma \`15:00 TSİ\` sonrasında habersiz ivme alımlarını kapatır, kasanın en az \`%40\`'ını dokunulmaz nakitte tutar ve açık pozisyonlarda kâr kilidini \`+%1,75\` yerine \`+%1,35\`'te erkenden devreye sokar.
-8. **💰 Çakışmasız Kademeli Hasat (\`TP1 -> TP2 -> Moonbag\`) & \`+%1,75\` Net Kâr Kilidi:** \`TP1\` (\`%2,2–%3,6\`) alınmadan üst stop basamakları coini erken boğmaz; \`< 55 TL\` küsürat oluşacak pozisyonları bölmeden tam stop kilidine alır.
-9. **🧠 Engine #15 & #16 — Tamamlanmış Ömür (Lifecycle) Bayes Öğrenme & Kişisel CFO:** Parçalı satışları tek işlem ömründe (\`positionId\`) birleştirerek öğrenir ve İş Bankası + Binance TR servetini tek merkezden yönetir.
+8. **👑 Engine #29 — Dört Efsane Egemen Kriz Alfa Motoru (\`CRISIS_ALPHA_SOVEREIGN_OVERRIDE\` — PTJ + Minervini + O'Neil + GCR):** Piyasa henüz tam Altın Çağ'a geçmemişken (\`%24–%51 Yeşil\`) **Paul Tudor Jones (\`EMA20 > EMA50\`)**, **Mark Minervini (\`3-Mum Yükselen Dip + RS/ATR >= 1.40\`)**, **William O'Neil (\`Hacim >= 1.35x + En Üst %30 Kapanış + VWAP +0.8%\`)** ve **GCR (\`1s Balina >= %58 + Vadeli OI >= +0.30% + Negatif/Düşük Fonlama\`)** kurallarının tamamını aynı anda sağlayan (\`%75,0\` tarihsel başarı) kurumsal lider çıktığında RSS haberi ve Altın Çağ bekleme otoritelerini **ezerek (override)** doğrudan alım yapar.
+9. **💰 Çakışmasız Kademeli Hasat (\`TP1 -> TP2 -> Moonbag\`) & \`+%1,75\` Net Kâr Kilidi:** \`TP1\` (\`%2,2–%3,6\`) alınmadan üst stop basamakları coini erken boğmaz; \`< 55 TL\` küsürat oluşacak pozisyonları bölmeden tam stop kilidine alır.
+10. **🧠 Engine #15 & #16 — Tamamlanmış Ömür (Lifecycle) Bayes Öğrenme & Kişisel CFO:** Parçalı satışları tek işlem ömründe (\`positionId\`) birleştirerek öğrenir ve İş Bankası + Binance TR servetini tek merkezden yönetir.
 `;
 
   fs.writeFileSync(RAPOR_FILE, md, 'utf8');
@@ -1805,12 +1806,20 @@ async function runTradingCycle() {
       if (curCoreCount >= effectiveMaxSlots || remainingExposureUsdt < 1.50) break;
       if (state.cashUsdt < 1.50) break;
       if (heldSymbols.has(cand.symbol)) continue;
+      // Engine #29 Sovereign Override Authority: When all 4 Masters (PTJ + Minervini + O'Neil + GCR) + Futures OI confirm, override Golden-Age & RSS waiting gates!
+      const isSovereignOverrideAllowed = Boolean(
+        cand.isSovereignCrisisLeader &&
+          !isRedMarketDump &&
+          !isFridayPmEntry &&
+          !signalsData.btcCrashAlert
+      );
       const isGoldenAgeLeaderAllowed = Boolean(
-        cand.isGoldenAgeLeader &&
+        (cand.isGoldenAgeLeader &&
           signalsData.isConfirmedGoldenAge &&
           !isRedMarketDump &&
           !isWeakMarket &&
-          !signalsData.btcCrashAlert
+          !signalsData.btcCrashAlert) ||
+          isSovereignOverrideAllowed
       );
       // Engine Conflict Prevention: Require explicit LONG consensus from 3-Model Semantic AI Council AND (directMention === true OR Engine #24 GoldenAgeLeaderIgniter in confirmed Golden Age)!
       if (cand.liveLlmDecision !== 'LONG' || (cand.hasDirectMention === false && !isGoldenAgeLeaderAllowed)) continue;

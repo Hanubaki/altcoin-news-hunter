@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-23T07:25:01.685Z",
+  "updatedAt": "2026-10-23T08:01:09.479Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.1572,
@@ -1310,6 +1310,7 @@
     }
   ],
   "recentLogs": [
+    "[10:51:29] ⚠️ Haber tarayıcı uyarısı: fetch failed",
     "[08:53:20] ⚠️ Haber tarayıcı uyarısı: fetch failed",
     "[08:38:04] ⚠️ Haber tarayıcı uyarısı: fetch failed",
     "[07:52:23] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
@@ -1348,13 +1349,12 @@
     "[01:02:50] 🟢 [OTOMATİK ALIM] INJ (247,94 TL) @ $8.652 | Skor: 131.2 | RSI: 42.45 | Balina: %62.1 | SL: -%2.34",
     "[01:02:47] ⚡ [AKILLI ROTASYON] RAY kapatıldı, yerine 131.2 puanlık dev fırsat (INJ) alınıyor!",
     "[23:23:32] 🟢 [OTOMATİK ALIM] WLD (262,60 TL) @ $0.5704 | Skor: 89.3 | RSI: 40.45 | Balina: %47 | SL: -%2.61",
-    "[23:22:28] 🏁 [MANUEL SATIŞ] PYTH @ $0.07979 | 📲 TELEFONDAN MANUEL SATIŞ (Kâr/Nakit Alındı) | Net: -0,02 TL",
-    "[23:21:44] 🏁 [POZİSYON KAPANDI] THETA @ $0.2042 | 🔄 SEÇENEK 2 GEÇİŞİ (Vurgun Slotu Kapatılıp 3 Ana Slota Aktarıldı %-1.5) | Net: -2,44 TL"
+    "[23:22:28] 🏁 [MANUEL SATIŞ] PYTH @ $0.07979 | 📲 TELEFONDAN MANUEL SATIŞ (Kâr/Nakit Alındı) | Net: -0,02 TL"
   ],
-  "totalEquityUsdt": 20.0095,
-  "totalEquityTry": 992.67,
-  "totalPnlUsdt": -0.1478,
-  "totalPnlPct": -0.73,
+  "totalEquityUsdt": 20.0054,
+  "totalEquityTry": 992.47,
+  "totalPnlUsdt": -0.1518,
+  "totalPnlPct": -0.75,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -1374,152 +1374,8 @@
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
   "usdTryRate": 49.61,
-  "totalPnlTry": -7.33,
+  "totalPnlTry": -7.53,
   "equityHistory": [
-    {
-      "t": "08:50",
-      "v": 992.77
-    },
-    {
-      "t": "08:51",
-      "v": 992.79
-    },
-    {
-      "t": "08:52",
-      "v": 992.75
-    },
-    {
-      "t": "08:53",
-      "v": 992.7
-    },
-    {
-      "t": "08:54",
-      "v": 992.7
-    },
-    {
-      "t": "08:55",
-      "v": 992.68
-    },
-    {
-      "t": "08:56",
-      "v": 992.7
-    },
-    {
-      "t": "08:57",
-      "v": 992.7
-    },
-    {
-      "t": "08:58",
-      "v": 992.71
-    },
-    {
-      "t": "08:59",
-      "v": 992.7
-    },
-    {
-      "t": "09:00",
-      "v": 992.66
-    },
-    {
-      "t": "09:01",
-      "v": 992.6
-    },
-    {
-      "t": "09:02",
-      "v": 992.58
-    },
-    {
-      "t": "09:03",
-      "v": 992.55
-    },
-    {
-      "t": "09:04",
-      "v": 992.52
-    },
-    {
-      "t": "09:05",
-      "v": 992.6
-    },
-    {
-      "t": "09:06",
-      "v": 992.6
-    },
-    {
-      "t": "09:07",
-      "v": 992.61
-    },
-    {
-      "t": "09:08",
-      "v": 992.64
-    },
-    {
-      "t": "09:09",
-      "v": 992.67
-    },
-    {
-      "t": "09:10",
-      "v": 992.66
-    },
-    {
-      "t": "09:11",
-      "v": 992.69
-    },
-    {
-      "t": "09:12",
-      "v": 992.67
-    },
-    {
-      "t": "09:13",
-      "v": 992.69
-    },
-    {
-      "t": "09:14",
-      "v": 992.71
-    },
-    {
-      "t": "09:15",
-      "v": 992.77
-    },
-    {
-      "t": "09:16",
-      "v": 992.77
-    },
-    {
-      "t": "09:17",
-      "v": 992.81
-    },
-    {
-      "t": "09:18",
-      "v": 992.8
-    },
-    {
-      "t": "09:19",
-      "v": 992.77
-    },
-    {
-      "t": "09:20",
-      "v": 992.79
-    },
-    {
-      "t": "09:21",
-      "v": 992.8
-    },
-    {
-      "t": "09:22",
-      "v": 992.83
-    },
-    {
-      "t": "09:23",
-      "v": 992.77
-    },
-    {
-      "t": "09:24",
-      "v": 992.75
-    },
-    {
-      "t": "09:25",
-      "v": 992.71
-    },
     {
       "t": "09:26",
       "v": 992.69
@@ -1759,6 +1615,150 @@
     {
       "t": "10:25",
       "v": 992.67
+    },
+    {
+      "t": "10:26",
+      "v": 992.65
+    },
+    {
+      "t": "10:27",
+      "v": 992.64
+    },
+    {
+      "t": "10:28",
+      "v": 992.65
+    },
+    {
+      "t": "10:29",
+      "v": 992.63
+    },
+    {
+      "t": "10:30",
+      "v": 992.61
+    },
+    {
+      "t": "10:31",
+      "v": 992.67
+    },
+    {
+      "t": "10:32",
+      "v": 992.71
+    },
+    {
+      "t": "10:33",
+      "v": 992.77
+    },
+    {
+      "t": "10:34",
+      "v": 992.8
+    },
+    {
+      "t": "10:35",
+      "v": 992.75
+    },
+    {
+      "t": "10:36",
+      "v": 992.76
+    },
+    {
+      "t": "10:37",
+      "v": 992.79
+    },
+    {
+      "t": "10:38",
+      "v": 992.78
+    },
+    {
+      "t": "10:39",
+      "v": 992.81
+    },
+    {
+      "t": "10:40",
+      "v": 992.78
+    },
+    {
+      "t": "10:41",
+      "v": 992.81
+    },
+    {
+      "t": "10:42",
+      "v": 992.78
+    },
+    {
+      "t": "10:43",
+      "v": 992.76
+    },
+    {
+      "t": "10:44",
+      "v": 992.71
+    },
+    {
+      "t": "10:45",
+      "v": 992.67
+    },
+    {
+      "t": "10:46",
+      "v": 992.65
+    },
+    {
+      "t": "10:47",
+      "v": 992.66
+    },
+    {
+      "t": "10:48",
+      "v": 992.65
+    },
+    {
+      "t": "10:49",
+      "v": 992.65
+    },
+    {
+      "t": "10:50",
+      "v": 992.62
+    },
+    {
+      "t": "10:51",
+      "v": 992.59
+    },
+    {
+      "t": "10:52",
+      "v": 992.55
+    },
+    {
+      "t": "10:53",
+      "v": 992.56
+    },
+    {
+      "t": "10:54",
+      "v": 992.58
+    },
+    {
+      "t": "10:55",
+      "v": 992.61
+    },
+    {
+      "t": "10:56",
+      "v": 992.57
+    },
+    {
+      "t": "10:57",
+      "v": 992.56
+    },
+    {
+      "t": "10:58",
+      "v": 992.5
+    },
+    {
+      "t": "10:59",
+      "v": 992.52
+    },
+    {
+      "t": "11:00",
+      "v": 992.5
+    },
+    {
+      "t": "11:01",
+      "v": 992.47
     }
   ],
   "walletAssetsMap": {
@@ -1793,10 +1793,10 @@
     "WLD": 0.0814,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.1709,
-  "dustAssetsTry": 58.09,
+  "dustAssetsUsdt": 1.1669,
+  "dustAssetsTry": 57.89,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-23T07:25:01.682Z",
+    "updatedAt": "2026-10-23T08:01:09.477Z",
     "totalAnalyzedTrades": 36,
     "globalWR": 0.579,
     "coinStats": {
@@ -2471,30 +2471,19 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 992.67,
+    "totalNetWorthTry": 992.47,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
       "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %58.3 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-23T07:25:01.685Z"
+    "updatedAt": "2026-10-23T08:01:09.479Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254,
-  "noBuyShort": "📡 Raad ol, pusudayız: Piyasa normal (%44 yeşil) ama 99 haber içinde henüz gerçek A+ pump haberi yok, sahte sinyale girmiyoruz.",
-  "noBuyDetail": "1) **Piyasa Durumu:** Altcoinlerin %44'i yeşil (1s BTC: %-0.18). 2) **Sıfır Sahte Sinyal Kuralı:** 14 kaynaktan 100 haber tarandı ancak doğrudan bir coini uçuracak (`directMention = true` + `AI Konseyi LONG`) kriterleri geçen aday çıkmadı. A+ haber düştüğü saniye otomatik alım yapılacak.",
-  "shadowPositions": [
-    {
-      "symbol": "XRP",
-      "headline": "80% of XAO DAO’s XRP Treasury Set for Firelight Deployment",
-      "priceSource": "BINANCE_TR",
-      "spreadPct": 0.015,
-      "entryAsk": 1.31949,
-      "currentBid": 1.32373,
-      "highestBid": 1.32373,
-      "entryTime": "2026-10-23T04:50:30.307Z"
-    }
-  ],
+  "noBuyShort": "📡 Raad ol, pusudayız: Piyasa normal (%40 yeşil) ama 99 haber içinde henüz gerçek A+ pump haberi yok, sahte sinyale girmiyoruz.",
+  "noBuyDetail": "1) **Piyasa Durumu:** Altcoinlerin %40'i yeşil (1s BTC: %-0.39). 2) **Sıfır Sahte Sinyal Kuralı:** 14 kaynaktan 101 haber tarandı ancak doğrudan bir coini uçuracak (`directMention = true` + `AI Konseyi LONG`) kriterleri geçen aday çıkmadı. A+ haber düştüğü saniye otomatik alım yapılacak.",
+  "shadowPositions": [],
   "shadowTrapMemory": {
     "DOGE": {
       "traps": 1,
