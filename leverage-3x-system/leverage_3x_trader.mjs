@@ -192,6 +192,7 @@ async function sendProfitNotification(state, info) {
   const toEmail = cfg.ALERT_EMAIL_TO || 'berkeakdemir5855@gmail.com';
   const rawPass = (cfg.GMAIL_APP_PASSWORD || '').replace(/\s+/g, '');
   const appPass = rawPass && !rawPass.includes('@') ? rawPass : '';
+  const composioKey = (cfg.COMPOSIO_API_KEY || '').trim();
   const ts = new Date().toLocaleString('tr-TR');
   const equityAfterTry = toTL(
     state.marginCashUsdt +
@@ -216,9 +217,73 @@ async function sendProfitNotification(state, info) {
   ].join('\n');
 
   const channels = ['🏦 Spot Cüzdana Atıldı'];
+  let emailSent = false;
 
-  // 1. Send Direct Email to berkeakdemir5855@gmail.com if Gmail App Password is set
-  if (appPass) {
+  // 1A. Direct Zero-Password HTTPS Mail Relay (FormSubmit -> berkeakdemir5855@gmail.com)
+  try {
+    const fsRes = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(toEmail)}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Origin: `http://localhost:${DASHBOARD_PORT}`,
+        Referer: `http://localhost:${DASHBOARD_PORT}/`,
+      },
+      body: JSON.stringify({
+        _subject: subject,
+        _template: 'table',
+        _captcha: 'false',
+        Tarih_Saat: ts,
+        Kazandiran_Coin: `${info.symbol} (${info.leverage}x ${info.side})`,
+        Islem_Turu: info.type,
+        Net_Kazanc: `+${info.netPnlTry} TL (ROE +%${info.roePct})`,
+        Spot_Cuzdana_Atilan: `+${spotTransferTry} TL (Toplam Spot Kâr Kasası: +${totalSpotVaultTry} TL)`,
+        Fiyat_Hareketi: `$${info.entryPrice} -> $${info.exitPrice}`,
+        Aktif_Kaldirac_Kasasi: `${equityAfterTry} TL (Max 100 TL Sabit Ana Para)`,
+        Strateji_Tezi: info.thesis || '-',
+      }),
+      signal: AbortSignal.timeout(10000),
+    });
+    const fsJson = await fsRes.json().catch(() => null);
+    if (fsJson && (fsJson.success === true || fsJson.success === 'true')) {
+      channels.unshift(`📧 Doğrudan Mail (${toEmail})`);
+      emailSent = true;
+    } else if (fsJson && String(fsJson.message || '').includes('Activation')) {
+      channels.unshift(`📧 Mail Aktivasyon Bekliyor (${toEmail})`);
+    }
+  } catch {
+    // ignore transient error
+  }
+
+  // 1B. Composio GMAIL_SEND_EMAIL API (if COMPOSIO_API_KEY is configured)
+  if (!emailSent && composioKey) {
+    try {
+      const compRes = await fetch('https://backend.composio.dev/api/v2/actions/GMAIL_SEND_EMAIL/execute', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': composioKey,
+        },
+        body: JSON.stringify({
+          input: {
+            recipient_email: toEmail,
+            subject,
+            body: textBody,
+          },
+        }),
+        signal: AbortSignal.timeout(10000),
+      });
+      if (compRes.ok) {
+        channels.unshift(`📧 Composio Mail (${toEmail})`);
+        emailSent = true;
+      }
+    } catch {
+      // ignore transient error
+    }
+  }
+
+  // 1C. Native TLS Gmail SMTP (if 16-digit Gmail App Password is set)
+  if (!emailSent && appPass) {
     const emailOk = await sendGmailSmtp({
       fromEmail: toEmail,
       appPassword: appPass,
@@ -226,7 +291,10 @@ async function sendProfitNotification(state, info) {
       subject,
       textBody,
     });
-    if (emailOk) channels.unshift(`📧 Mail (${toEmail})`);
+    if (emailOk) {
+      channels.unshift(`📧 SMTP Mail (${toEmail})`);
+      emailSent = true;
+    }
   }
 
   // 2. Send Instant WhatsApp Alert to +905301613459 via CallMeBot
@@ -1968,6 +2036,48 @@ function startDashboardServer(state) {
       res.end(JSON.stringify({ perp: state, spot: loadSpotPortfolioSummary() }));
       return;
     }
+    if (urlObj.pathname === '/api/test-email') {
+      const toEmail = loadEnv().ALERT_EMAIL_TO || 'berkeakdemir5855@gmail.com';
+      const lastWin = (state.profitMails || [])[0] || {
+        symbol: 'ERAUSDT',
+        side: 'LONG',
+        leverage: 6,
+        type: 'TAM HEDEF HASADI (TP)',
+        netPnlTry: 23.23,
+        spotTransferTry: 11.62,
+        roePct: 30.19,
+        entryPrice: 0.07446,
+        exitPrice: 0.07834,
+      };
+      try {
+        await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(toEmail)}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Origin: `http://localhost:${DASHBOARD_PORT}`,
+            Referer: `http://localhost:${DASHBOARD_PORT}/`,
+          },
+          body: JSON.stringify({
+            _subject: `💰 [KÂR & SPOT RAPORU] ${lastWin.symbol} (${lastWin.leverage}x ${lastWin.side}) -> +${lastWin.netPnlTry} TL Kazandın!`,
+            _template: 'table',
+            _captcha: 'false',
+            Kazandiran_Coin: `${lastWin.symbol} (${lastWin.leverage}x ${lastWin.side})`,
+            Islem_Turu: lastWin.type,
+            Net_Kazanc: `+${lastWin.netPnlTry} TL (+%${lastWin.roePct} ROE)`,
+            Spot_Cuzdana_Atilan: `+${lastWin.spotTransferTry || 11.62} TL (Toplam Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL)`,
+            Fiyat_Hareketi: `$${lastWin.entryPrice} -> $${lastWin.exitPrice}`,
+            Aktif_Kaldirac_Kasasi: `${toTL(state.totalEquityUsdt)} TL (Max 100 TL Sabit Ana Para)`,
+          }),
+          signal: AbortSignal.timeout(10000),
+        });
+      } catch {
+        // ignore transient error
+      }
+      res.writeHead(302, { Location: '/' });
+      res.end();
+      return;
+    }
     if (urlObj.pathname === '/api/save-gmail') {
       const inputVal = (urlObj.searchParams.get('pass') || '').trim();
       if (inputVal && fs.existsSync(ENV_FILE)) {
@@ -1977,6 +2087,12 @@ function startDashboardServer(state) {
             envText = envText.replace(/ALERT_EMAIL_TO=.*/, `ALERT_EMAIL_TO=${inputVal}`);
           } else {
             envText += `\nALERT_EMAIL_TO=${inputVal}\n`;
+          }
+        } else if (inputVal.length >= 20) {
+          if (envText.includes('COMPOSIO_API_KEY=')) {
+            envText = envText.replace(/COMPOSIO_API_KEY=.*/, `COMPOSIO_API_KEY=${inputVal}`);
+          } else {
+            envText += `\nCOMPOSIO_API_KEY=${inputVal}\n`;
           }
         } else {
           if (envText.includes('GMAIL_APP_PASSWORD=')) {
@@ -1996,7 +2112,7 @@ function startDashboardServer(state) {
     const spot = loadSpotPortfolioSummary();
     const cfg = loadEnv();
     const rawPass = (cfg.GMAIL_APP_PASSWORD || '').replace(/\s+/g, '');
-    const emailConfigured = Boolean(rawPass && !rawPass.includes('@'));
+    const emailConfigured = Boolean((rawPass && !rawPass.includes('@')) || cfg.COMPOSIO_API_KEY);
     const spotVaultTry = toTL(state.spotVaultUsdt || 0);
     const combinedEquityTry = Number(
       (toTL(state.totalEquityUsdt) + spotVaultTry + (spot ? spot.totalEquityTry : 0)).toFixed(2)
@@ -2063,7 +2179,7 @@ function startDashboardServer(state) {
     <div class="card">
       <div class="lbl">🏛️ Toplam Birleşik Varlık</div>
       <div class="val amber">${combinedEquityTry} TL</div>
-      <div class="sub">📲 WhatsApp & Spot Kâr Sifonu Aktif</div>
+      <div class="sub">📲 WhatsApp & Doğrudan Mail Aktif</div>
     </div>
   </div>
 
@@ -2093,17 +2209,12 @@ function startDashboardServer(state) {
   <div class="section-card">
     <h3>
       <span>📧 2. Hangi Coinden Ne Kadar Kazandım & Spot Cüzdana Ne Kadar Atıldı?</span>
-      <span class="sub">Toplam Spot'a Atılan: <b class="green">+${spotVaultTry} TL</b> | Mail: <b>${cfg.ALERT_EMAIL_TO || 'berkeakdemir5855@gmail.com'}</b></span>
+      <span class="sub">Toplam Spot'a Atılan: <b class="green">+${spotVaultTry} TL</b> | Doğrudan Mail: <b>${cfg.ALERT_EMAIL_TO || 'berkeakdemir5855@gmail.com'}</b></span>
     </h3>
-    ${
-      !emailConfigured
-        ? `<form action="/api/save-gmail" method="get" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;background:#131c31;padding:10px;border-radius:10px;">
-            <span style="font-size:12px;color:#cbd5e1;align-self:center;">📲 WhatsApp (+905301613459) & Spot Transferi <b>AKTİF</b>! Gmail kutuna da gelmesi için 16 haneli Google Uygulama Şifreni gir:</span>
-            <input name="pass" placeholder="16 haneli Google Uygulama Şifresi" style="background:#080c14;border:1px solid #334155;color:#fff;padding:6px 10px;border-radius:8px;font-size:12px;" />
-            <button type="submit" style="background:#10b981;color:#080c14;border:none;padding:6px 12px;border-radius:8px;font-weight:800;font-size:12px;cursor:pointer;">Kaydet</button>
-          </form>`
-        : ''
-    }
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;background:#131c31;padding:10px;border-radius:10px;align-items:center;justify-content:space-between;">
+      <span style="font-size:12px;color:#cbd5e1;">📧 <b>berkeakdemir5855@gmail.com</b> kutuna az önce gelen <b>"Activate Form"</b> mailindeki yeşil butona 1 kez tıkla; şifresiz doğrudan mail aktif olur!</span>
+      <a href="/api/test-email" style="background:#38bdf8;color:#080c14;text-decoration:none;padding:6px 12px;border-radius:8px;font-weight:800;font-size:12px;">📨 Şimdi Mailime Gönder</a>
+    </div>
     <table>
       <tr><th>Tarih / Saat</th><th>Kazandıran Coin</th><th>İşlem Türü</th><th>Net Kazanç (TL & ROE)</th><th>🏦 Spot Cüzdana Atılan</th><th>Giriş -> Çıkış</th><th>Durum</th></tr>
       ${(state.profitMails || [])
