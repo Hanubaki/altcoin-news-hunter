@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-23T08:55:17.099Z",
+  "updatedAt": "2026-10-23T09:02:39.654Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.1572,
@@ -1310,6 +1310,7 @@
     }
   ],
   "recentLogs": [
+    "[12:02:36] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %68 Yeşil | 1s BTC +%0.22 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
     "[10:51:29] ⚠️ Haber tarayıcı uyarısı: fetch failed",
     "[08:53:20] ⚠️ Haber tarayıcı uyarısı: fetch failed",
     "[08:38:04] ⚠️ Haber tarayıcı uyarısı: fetch failed",
@@ -1348,13 +1349,12 @@
     "[01:17:00] 🏁 [POZİSYON KAPANDI] ZRO @ $1.967 | 🛡️ ATR KORUMA KALKANI (%-3.2) | Net: -10,12 TL",
     "[01:02:50] 🟢 [OTOMATİK ALIM] INJ (247,94 TL) @ $8.652 | Skor: 131.2 | RSI: 42.45 | Balina: %62.1 | SL: -%2.34",
     "[01:02:47] ⚡ [AKILLI ROTASYON] RAY kapatıldı, yerine 131.2 puanlık dev fırsat (INJ) alınıyor!",
-    "[23:23:32] 🟢 [OTOMATİK ALIM] WLD (262,60 TL) @ $0.5704 | Skor: 89.3 | RSI: 40.45 | Balina: %47 | SL: -%2.61",
-    "[23:22:28] 🏁 [MANUEL SATIŞ] PYTH @ $0.07979 | 📲 TELEFONDAN MANUEL SATIŞ (Kâr/Nakit Alındı) | Net: -0,02 TL"
+    "[23:23:32] 🟢 [OTOMATİK ALIM] WLD (262,60 TL) @ $0.5704 | Skor: 89.3 | RSI: 40.45 | Balina: %47 | SL: -%2.61"
   ],
-  "totalEquityUsdt": 20.0093,
-  "totalEquityTry": 992.66,
-  "totalPnlUsdt": -0.148,
-  "totalPnlPct": -0.73,
+  "totalEquityUsdt": 20.0079,
+  "totalEquityTry": 992.59,
+  "totalPnlUsdt": -0.1494,
+  "totalPnlPct": -0.74,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -1370,40 +1370,12 @@
     "XRP": 1792708928120
   },
   "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0077 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 0.8140 | ICP: 0.0002 | INJ: 0.0075 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0008 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 0.0628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0926 | STX: 0.0700 | TAO: 0.0001 | THETA: 0.0680 | TIA: 0.0058 | TRY: 934.5854 | UNI: 0.0080 | WLD: 0.0814 | ZRO: 0.0037)",
-  "lastWhatsAppReportAt": 1792745480330,
+  "lastWhatsAppReportAt": 1792746159653,
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
   "usdTryRate": 49.61,
-  "totalPnlTry": -7.34,
+  "totalPnlTry": -7.41,
   "equityHistory": [
-    {
-      "t": "10:20",
-      "v": 992.7
-    },
-    {
-      "t": "10:21",
-      "v": 992.7
-    },
-    {
-      "t": "10:22",
-      "v": 992.67
-    },
-    {
-      "t": "10:23",
-      "v": 992.69
-    },
-    {
-      "t": "10:24",
-      "v": 992.7
-    },
-    {
-      "t": "10:25",
-      "v": 992.67
-    },
-    {
-      "t": "10:26",
-      "v": 992.65
-    },
     {
       "t": "10:27",
       "v": 992.64
@@ -1759,6 +1731,34 @@
     {
       "t": "11:55",
       "v": 992.66
+    },
+    {
+      "t": "11:56",
+      "v": 992.62
+    },
+    {
+      "t": "11:57",
+      "v": 992.64
+    },
+    {
+      "t": "11:58",
+      "v": 992.63
+    },
+    {
+      "t": "11:59",
+      "v": 992.63
+    },
+    {
+      "t": "12:00",
+      "v": 992.53
+    },
+    {
+      "t": "12:01",
+      "v": 992.54
+    },
+    {
+      "t": "12:02",
+      "v": 992.57
     }
   ],
   "walletAssetsMap": {
@@ -1793,10 +1793,10 @@
     "WLD": 0.0814,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.1707,
-  "dustAssetsTry": 58.08,
+  "dustAssetsUsdt": 1.1692,
+  "dustAssetsTry": 58,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-23T08:55:17.099Z",
+    "updatedAt": "2026-10-23T09:02:39.654Z",
     "totalAnalyzedTrades": 36,
     "globalWR": 0.579,
     "coinStats": {
@@ -2471,18 +2471,18 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 992.66,
+    "totalNetWorthTry": 992.59,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
       "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %58.3 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-23T08:55:17.099Z"
+    "updatedAt": "2026-10-23T09:02:39.654Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254,
-  "noBuyShort": "📡 Raad ol, pusudayız (Rejim C -> EP): Piyasa %71 yeşil ama 99 haber içinde henüz mutlak kriterleri geçen aday yok, sahte sinyale girmiyoruz.",
-  "noBuyDetail": "1) **Piyasa & Rejim Durumu:** Altcoinlerin %71'i yeşil (1s BTC: %0.18 | Aktif Motor: `Engine #30 EP`). 2) **Sıfır Sahte Sinyal Kuralı:** 14 kaynaktan 102 haber ve kurumsal liderler tarandı; kriterleri geçen ilk fırsatta otomatik alım yapılacak.",
+  "noBuyShort": "🌟 ALTIN ÇAĞ (Rejim C -> EP) AKTİF (%68 Yeşil | 1s BTC +%0.22): Engine #23, #24 & #30 EP kurumsal liderleri tarıyor!",
+  "noBuyDetail": "1) **Altın Çağ Teyitli (Rejim C):** Altcoinlerin %68'i yeşil (1s BTC: +%0.22). 2) **Engine #24, #27 & #30 Qullamaggie EP Aktif:** $15M+ hacimli kurumsal liderler ve 14 haber kaynağı taranıyor; NO-CHASE (`ask <= Pmax`) ve çift tahta doğrulaması (`Engine #27`) geçen ilk lidere otomatik girilecek.",
   "shadowPositions": [],
   "shadowTrapMemory": {
     "DOGE": {
@@ -2508,7 +2508,8 @@
       "updatedAt": "2026-10-22T18:42:08.120Z"
     }
   },
-  "isConfirmedGoldenAge": false,
+  "isConfirmedGoldenAge": true,
   "confirmedRegime": "C",
-  "regimeEngineOwner": "EP"
+  "regimeEngineOwner": "EP",
+  "goldenAgeStartedAt": "2026-10-23T09:02:36.443Z"
 }

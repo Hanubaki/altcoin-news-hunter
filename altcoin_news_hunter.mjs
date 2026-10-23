@@ -1088,7 +1088,8 @@ async function main() {
     !isFridayPmDumpWindow &&
     healthyScanStreak >= 2 &&
     ((btc1hChangePct >= 0.30 && marketBreadthPct >= 52 && intradayRecoveryPct >= 50) ||
-      (btc1hChangePct >= 0.25 && breadth24hPct >= 48 && marketBreadthPct >= 52));
+      (btc1hChangePct >= 0.25 && breadth24hPct >= 48 && marketBreadthPct >= 52) ||
+      (btc1hChangePct >= 0.10 && breadth24hPct >= 58 && marketBreadthPct >= 58));
 
   const scoredOpportunities = [];
   for (let i = 0; i < positiveNewsAlts.length; i++) {
@@ -1275,7 +1276,7 @@ async function main() {
     const rsAtr = Number((relativeStrength1h / Math.max(0.45, atr1hPct)).toFixed(2));
     if (isGoldenAgeCandidate && rsAtr < (isFridayMorningTrapSetup ? 1.40 : 1.25)) continue;
 
-    // Engine #30 Qullamaggie EP (Episodic Pivot) with Strict NO-CHASE Pmax in Regime C
+    // Engine #30 Qullamaggie EP (Episodic Pivot) with Strict NO-CHASE Pmax & Event-Anchored VWAP in Regime C
     const lastCompBar = completedKlines[completedKlines.length - 1];
     const prevCompBar = completedKlines[completedKlines.length - 2];
     const openingRangeHigh = Number(prevCompBar?.[2] || lastCompBar?.[2] || mkt.lastPrice);
@@ -1289,6 +1290,18 @@ async function main() {
       openingRangeHigh > 0
         ? Number(Math.min(openingRangeHigh + 0.25 * epAtrUnit, openingRangeHigh * 1.01).toPrecision(6))
         : Number((mkt.lastPrice * 1.005).toPrecision(6));
+    let eventPvSum = 0;
+    let eventVolSum = 0;
+    for (let kIdx = eventBarIdx; kIdx < klines.length; kIdx++) {
+      const kBar = klines[kIdx];
+      const typP = (Number(kBar?.[2] || 0) + Number(kBar?.[3] || 0) + Number(kBar?.[4] || 0)) / 3;
+      const vBar = Number(kBar?.[5] || 0);
+      if (typP > 0 && vBar > 0) {
+        eventPvSum += typP * vBar;
+        eventVolSum += vBar;
+      }
+    }
+    const eventVwap = eventVolSum > 0 ? eventPvSum / eventVolSum : vwap24h;
     const isEpRetestOptimal =
       hasCompletedOrBreakout &&
       mkt.lastPrice >= openingRangeHigh &&
@@ -1303,7 +1316,7 @@ async function main() {
         volRatio >= 2.2 &&
         hasCompletedOrBreakout &&
         impulseAtr <= 1.50 &&
-        mkt.lastPrice <= vwap24h * 1.010 &&
+        mkt.lastPrice <= eventVwap * 1.010 &&
         mkt.lastPrice <= epMaxEntryPrice
     );
     if (confirmedRegime === 'C' && hasDirectMention && !isEpCandidate) {
