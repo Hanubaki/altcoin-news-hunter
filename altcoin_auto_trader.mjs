@@ -2715,14 +2715,14 @@ function renderDashboardHtml() {
         <div style="font-size:11.5px;color:#38bdf8;margin-top:3px;" id="goalRemainingTryTxt">Kalan: 79.007,80 TL (%1.24)</div>
       </div>
       <div style="background:#0b0f19;border:1px solid #23304d;padding:12px 14px;border-radius:10px;">
-        <div style="font-size:11.5px;color:#94a3b8;">Günlük Harcanabilir Kâr Kapasitesi</div>
-        <div style="font-size:19px;font-weight:700;margin-top:4px;color:#10b981;" id="goalDailyCashflowTxt">12,40 TL / 1.000 TL</div>
-        <div style="font-size:11.5px;color:#94a3b8;margin-top:3px;" id="goalTodayRealizedTxt">Baz Hız (+%1.25/gün) Üretimi</div>
+        <div style="font-size:11.5px;color:#94a3b8;">Günlük Gerçekçi Kâr Kapasitesi</div>
+        <div style="font-size:19px;font-weight:700;margin-top:4px;color:#10b981;" id="goalDailyCashflowTxt">3,83 TL / 1.000 TL</div>
+        <div style="font-size:11.5px;color:#94a3b8;margin-top:3px;" id="goalTodayRealizedTxt">BTC 2026 Pozitif Ay Bazı (+%12.24/ay)</div>
       </div>
       <div style="background:#0b0f19;border:1px solid #23304d;padding:12px 14px;border-radius:10px;">
-        <div style="font-size:11.5px;color:#94a3b8;">Dış Müdahalesiz Kalan Süre (Bileşik)</div>
-        <div style="font-size:19px;font-weight:700;margin-top:4px;color:#fbbf24;" id="goalDaysBaseTxt">~353 Gün (~11,5 Ay)</div>
-        <div style="font-size:11.5px;color:#cbd5e1;margin-top:3px;" id="goalDaysFastTxt">Güçlü Piyasa (+%1.8/gün): ~245 Gün</div>
+        <div style="font-size:11.5px;color:#94a3b8;">Dış Müdahalesiz Süre (BTC 2026 Bazlı)</div>
+        <div style="font-size:19px;font-weight:700;margin-top:4px;color:#fbbf24;" id="goalDaysBaseTxt">~38 Ay (~1.140 Gün)</div>
+        <div style="font-size:11.5px;color:#cbd5e1;margin-top:3px;" id="goalDaysFastTxt">Ağustos Boğa Hızı (+%27/ay): ~18,3 Ay</div>
       </div>
       <div style="background:#0b0f19;border:1px solid #23304d;padding:12px 14px;border-radius:10px;">
         <div style="font-size:11.5px;color:#94a3b8;">Sıradaki Ara Durak Sayacı</div>
@@ -2847,12 +2847,12 @@ function renderDashboardHtml() {
       document.getElementById('winVal').textContent = s.winCount + ' Kârlı / ' + s.lossCount + ' Stop';
       renderSvgChart(s.equityHistory);
 
-      // Update 80,000 TL & 1,000 TL/Day Goal Counter Widget
+      // Update 80,000 TL & 1,000 TL/Day Goal Counter Widget (Calibrated to Real 2026 BTCTRY & Engine #30 OOS Data)
       const curEqTry = Math.max(1, Number(s.totalEquityUsdt || 0) * RATE);
       const targetEqTry = 80000;
       const targetDailyTry = 1000;
-      const dailyRateBase = 0.0125; // +1.25%/day compound (produces 1,000 TL/day at 80,000 TL)
-      const dailyRateFast = 0.0180; // +1.80%/day strong market compound
+      const dailyRateBase = 0.00386; // +0.386%/day = +12.24%/month (Real 2026 BTCTRY positive-months average with downside cash shield)
+      const dailyRateFast = 0.00799; // +0.799%/day = +26.98%/month (Real August 2026 BTCTRY bull-month speed)
       const curDailyCapTry = curEqTry * dailyRateBase;
       const linearPct = Math.min(100, Math.max(0, (curEqTry / targetEqTry) * 100));
       const remTry = Math.max(0, targetEqTry - curEqTry);
@@ -2877,16 +2877,16 @@ function renderDashboardHtml() {
       const elRemTry = document.getElementById('goalRemainingTryTxt');
       if (elRemTry) elRemTry.textContent = 'Kalan: ' + remTry.toFixed(2) + ' TL (%' + linearPct.toFixed(2) + ')';
       const elDailyCap = document.getElementById('goalDailyCashflowTxt');
-      if (elDailyCap) elDailyCap.textContent = curDailyCapTry.toFixed(2) + ' TL / 1.000,00 TL';
+      if (elDailyCap) elDailyCap.textContent = curDailyCapTry.toFixed(2) + ' TL / 308,80 TL (80K Kapasitesi)';
       const elTodayReal = document.getElementById('goalTodayRealizedTxt');
       if (elTodayReal) {
         const tSign = todayRealizedTry >= 0 ? '+' : '';
-        elTodayReal.textContent = 'Bugün Cebe Giren: ' + tSign + todayRealizedTry.toFixed(2) + ' TL (Baz +%1.25/gün)';
+        elTodayReal.textContent = 'Bugün Cebe Giren: ' + tSign + todayRealizedTry.toFixed(2) + ' TL (BTC Baz +%12.24/ay)';
       }
       const elDaysBase = document.getElementById('goalDaysBaseTxt');
-      if (elDaysBase) elDaysBase.textContent = daysBase > 0 ? '~' + daysBase + ' Gün (~' + (daysBase / 30).toFixed(1) + ' Ay)' : 'HEDEF TAMAMLANDI! 🎉';
+      if (elDaysBase) elDaysBase.textContent = daysBase > 0 ? '~' + (daysBase / 30).toFixed(1) + ' Ay (~' + daysBase + ' Gün)' : 'HEDEF TAMAMLANDI! 🎉';
       const elDaysFast = document.getElementById('goalDaysFastTxt');
-      if (elDaysFast) elDaysFast.textContent = 'Güçlü Piyasa (+%1.8/gün): ~' + daysFast + ' Gün (~' + (daysFast / 30).toFixed(1) + ' Ay)';
+      if (elDaysFast) elDaysFast.textContent = 'Ağustos Boğa Hızı (+%27/ay): ~' + (daysFast / 30).toFixed(1) + ' Ay (~' + daysFast + ' Gün)';
       const elNextStop = document.getElementById('goalNextStopTxt');
       if (elNextStop) elNextStop.textContent = nextStop.toLocaleString('tr-TR') + ',00 TL';
       const elNextStopDays = document.getElementById('goalNextStopDaysTxt');
