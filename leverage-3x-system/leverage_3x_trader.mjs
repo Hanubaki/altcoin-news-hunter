@@ -1331,8 +1331,8 @@ async function manageOpenPosition(state, candidates = []) {
   pos.underlyingMovePct = underlyingMovePct;
   const posLev = pos.leverage || LEVERAGE;
 
-  // Stage 2 (v8.0): Instant 50% TP1 Cash Harvest ("Kâr Cebellezi") at +1.05% Coin Move (+7% to +10.5% ROE)
-  if (!pos.tp1Done && rawCoinMoveFrac >= 0.0105) {
+  // Stage 2 (v8.1 Zero-Choke): Instant 50% TP1 Cash Harvest ("Kâr Cebellezi") at +1.10% Coin Move (+7.7% to +11% ROE)
+  if (!pos.tp1Done && rawCoinMoveFrac >= 0.0110) {
     const harvestFrac = 0.50;
     const closedMarginUsdt = Number((pos.marginUsdt * harvestFrac).toFixed(4));
     const closedNotionalUsdt = Number((pos.notionalUsdt * harvestFrac).toFixed(4));
@@ -1351,24 +1351,24 @@ async function manageOpenPosition(state, candidates = []) {
     pos.ratchetStage = 'TP1_HARVESTED_RUNNER';
 
     if (pos.side === 'LONG') {
-      const lockTp1 = Number((pos.entryPrice * (1 + 0.0055)).toPrecision(6));
+      const lockTp1 = Number((pos.entryPrice * (1 + 0.0045)).toPrecision(6));
       if (lockTp1 > pos.stopPrice) pos.stopPrice = lockTp1;
     } else {
-      const lockTp1 = Number((pos.entryPrice * (1 - 0.0055)).toPrecision(6));
+      const lockTp1 = Number((pos.entryPrice * (1 - 0.0045)).toPrecision(6));
       if (lockTp1 < pos.stopPrice) pos.stopPrice = lockTp1;
     }
 
     logEvent(
       state,
-      `💰 [TP1 %50 KÂR CEBELLEZİ] ${pos.symbol}USDT (${posLev}x ${pos.side}) +%${underlyingMovePct} yürüyüşte yarısı nakde çevrildi (+${partialNetPnlTry} TL cebe indi!) | Kalan %50 Moonbag Stopu +%0.55 Kâra Kilitlendi!`
+      `💰 [TP1 %50 KÂR CEBELLEZİ] ${pos.symbol}USDT (${posLev}x ${pos.side}) +%${underlyingMovePct} yürüyüşte yarısı nakde çevrildi (+${partialNetPnlTry} TL cebe indi!) | Kalan %50 Moonbag Stopu +%0.45 Kâra Kilitlendi!`
     );
   }
 
-  // Stage 1 / Stage 3 (v8.0): Fast Breakeven+ Lock (+0.52% Coin Move) & Parabolic Trailing Runner
-  if (peakCoinMoveFrac >= 0.0155) {
+  // Stage 1 / Stage 3 (v8.1 Zero-Choke): Wait for >= +0.82% move before locking +0.24% Breakeven+ so >= 0.58% breathing room prevents premature stop-out
+  if (peakCoinMoveFrac >= 0.0165) {
     pos.ratchetStage = 'PARABOLIC_SQUEEZE_RUNNER';
     if (pos.side === 'LONG') {
-      const trailStop = Number((pos.extremePrice * (1 - 0.0038)).toPrecision(6));
+      const trailStop = Number((pos.extremePrice * (1 - 0.0048)).toPrecision(6));
       if (trailStop > pos.stopPrice) pos.stopPrice = trailStop;
       if (markExitPrice >= pos.tpPrice * 0.997) {
         const depth = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${pos.fSym}&limit=15`, {}, 2000);
@@ -1378,7 +1378,7 @@ async function manageOpenPosition(state, candidates = []) {
         }
       }
     } else {
-      const trailStop = Number((pos.extremePrice * (1 + 0.0038)).toPrecision(6));
+      const trailStop = Number((pos.extremePrice * (1 + 0.0048)).toPrecision(6));
       if (trailStop < pos.stopPrice) pos.stopPrice = trailStop;
       if (markExitPrice <= pos.tpPrice * 1.003) {
         const depth = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${pos.fSym}&limit=15`, {}, 2000);
@@ -1388,7 +1388,7 @@ async function manageOpenPosition(state, candidates = []) {
         }
       }
     }
-  } else if (peakCoinMoveFrac >= 0.0105) {
+  } else if (peakCoinMoveFrac >= 0.0125) {
     if (!pos.ratchetStage.includes('TP1')) pos.ratchetStage = 'PROFIT_LOCK_2';
     if (pos.side === 'LONG') {
       const lock2 = Number((pos.entryPrice * (1 + 0.0055)).toPrecision(6));
@@ -1397,13 +1397,13 @@ async function manageOpenPosition(state, candidates = []) {
       const lock2 = Number((pos.entryPrice * (1 - 0.0055)).toPrecision(6));
       if (lock2 < pos.stopPrice) pos.stopPrice = lock2;
     }
-  } else if (peakCoinMoveFrac >= 0.0052) {
+  } else if (peakCoinMoveFrac >= 0.0082) {
     pos.ratchetStage = 'FAST_BREAKEVEN_PLUS';
     if (pos.side === 'LONG') {
-      const bePlus = Number((pos.entryPrice * (1 + 0.0022)).toPrecision(6));
+      const bePlus = Number((pos.entryPrice * (1 + 0.0024)).toPrecision(6));
       if (bePlus > pos.stopPrice) pos.stopPrice = bePlus;
     } else {
-      const bePlus = Number((pos.entryPrice * (1 - 0.0022)).toPrecision(6));
+      const bePlus = Number((pos.entryPrice * (1 - 0.0024)).toPrecision(6));
       if (bePlus < pos.stopPrice) pos.stopPrice = bePlus;
     }
   }
@@ -1513,10 +1513,11 @@ async function manageOpenPosition(state, candidates = []) {
       exitReason,
       closedAt: new Date().toLocaleString('tr-TR'),
     });
+    if (!state.symbolCooldowns) state.symbolCooldowns = {};
+    const cdMins = totalLifecyclePnlUsdt >= 0 ? 25 : 35;
+    state.symbolCooldowns[pos.symbol] = Date.now() + cdMins * 60 * 1000;
     if (rotationTarget) {
       state.lastRotationAtMs = Date.now();
-      if (!state.symbolCooldowns) state.symbolCooldowns = {};
-      state.symbolCooldowns[pos.symbol] = Date.now() + 30 * 60 * 1000;
     }
     if (state.closedTrades.length > 30) state.closedTrades.length = 30;
     logEvent(state, `${exitReason} | ${pos.symbol}USDT Toplam Net: ${totalLifecyclePnlTry >= 0 ? '+' : ''}${totalLifecyclePnlTry} TL`);
