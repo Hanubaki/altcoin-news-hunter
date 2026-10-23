@@ -1750,6 +1750,16 @@ async function runTradingCycle() {
     }
     const isCashIdleTooLong = Boolean(!isWeakMarket && !isAntiMeltdownActive && state.cashIdleSince && nowMs - state.cashIdleSince >= 15 * 60 * 1000);
 
+    const wasGoldenAge = Boolean(state.isConfirmedGoldenAge);
+    state.isConfirmedGoldenAge = Boolean(signalsData.isConfirmedGoldenAge);
+    if (state.isConfirmedGoldenAge && !wasGoldenAge) {
+      state.goldenAgeStartedAt = new Date().toISOString();
+      logEvent(
+        state,
+        `🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %${breadthPct} Yeşil | 1s BTC +%${signalsData.btc1hChangePct || 0} -> Engine #23 & #24 Tam Kapasite Devrede!`
+      );
+    }
+
     // Record live "Why No New Coin Bought?" summary + detail for RAPOR.md and Web Dashboard
     const curOpenTry = Math.round(state.openPositions.reduce((s, p) => s + p.currentPrice * p.qty, 0) * USD_TRY_RATE);
     const maxExpTry = Math.round(maxGrossExposureUsdt * USD_TRY_RATE);
@@ -1764,6 +1774,11 @@ async function runTradingCycle() {
         `1) **Piyasa Kan Gölü (%${breadthPct} Yeşil / %${100 - breadthPct} Kırmızı):** Altcoinlerin %${100 - breadthPct}'u şu an düşüşte (1s BTC: %${signalsData.btc1hChangePct || 0}). ` +
         `2) **%65 Nakit Koruma Zırhı (Quant v10.4):** Yeşil oranı %24'ün altındayken kasanın en az %65'i güvenli TRY nakitte tutulur (Maksimum Coin Tavanı: \`${maxExpTry} TL\`, Şu An Coinde: \`${curOpenTry} TL\`). ` +
         `3) **Haber Filtresi (${signalsData.totalHeadlinesScanned || 99} Haber Tarandı):** Taranan haberler içinde kırmızı piyasayı tek başına yenecek (\`RS_ATR >= 1.2\` ve \`directMention = true\`) nitelikli A+ haber sayısı: **${candidates.length}**. Piyasa yeşermeden veya gerçek bomba haber düşmeden sahte sinyale para sıkılmaz!`;
+    } else if (state.isConfirmedGoldenAge && candidates.length === 0) {
+      state.noBuyShort = `🌟 ALTIN ÇAĞ (GOLDEN AGE) AKTİF (%${breadthPct} Yeşil | 1s BTC +%${signalsData.btc1hChangePct || 0}): Engine #23 & #24 kurumsal liderleri ve vadeli OI akışını tarıyor!`;
+      state.noBuyDetail =
+        `1) **Altın Çağ Teyitli:** Altcoinlerin %${breadthPct}'i yeşil (1s BTC: +%${signalsData.btc1hChangePct || 0}). ` +
+        `2) **Engine #24 & #27 Aktif:** $15M+ hacimli kurumsal liderler ve 14 haber kaynağı taranıyor; vadeli OI (\`oiChange15mPct >= 0\`) + balina (\`>=%55\`) + çift tahta doğrulaması (\`Engine #27\`) geçen ilk lidere otomatik girilecek.`;
     } else if (candidates.length === 0) {
       state.noBuyShort = `📡 Raad ol, pusudayız: Piyasa normal (%${breadthPct} yeşil) ama 99 haber içinde henüz gerçek A+ pump haberi yok, sahte sinyale girmiyoruz.`;
       state.noBuyDetail =
@@ -2212,9 +2227,15 @@ async function runTradingCycle() {
   const cycleEvents = state._cycleEvents || [];
   delete state._cycleEvents;
 
-  // Smart WhatsApp Filter: Only send instant WhatsApp on real BUY/SELL/HARVEST events (never spam on orderbook/scanner warnings!)
+  // Smart WhatsApp Filter: Only send instant WhatsApp on real BUY/SELL/HARVEST/GOLDEN_AGE events (never spam on orderbook/scanner warnings!)
   const realTradeEvents = cycleEvents.filter(
-    e => e.includes('🟢 [OTOMATİK ALIM]') || e.includes('🎰 [VURGUN SLOTU') || e.includes('💰 [SIFIR RİSK') || e.includes('🚀 [2. KADEME') || e.includes('🏁 [POZİSYON KAPANDI]')
+    e =>
+      e.includes('🟢 [OTOMATİK ALIM]') ||
+      e.includes('🎰 [VURGUN SLOTU') ||
+      e.includes('💰 [SIFIR RİSK') ||
+      e.includes('🚀 [2. KADEME') ||
+      e.includes('🏁 [POZİSYON KAPANDI]') ||
+      e.includes('🌟 [GOLDEN AGE BAŞLADI]')
   );
   const msSinceLastWa = Date.now() - Number(state.lastWhatsAppReportAt || 0);
   if ((realTradeEvents.length > 0 && msSinceLastWa >= 45 * 1000) || msSinceLastWa >= 120 * 60 * 1000) {
