@@ -2699,6 +2699,46 @@ function renderDashboardHtml() {
     </div>
   </div>
 
+  <div class="section" style="background:linear-gradient(135deg,#131b2e 0%,#0f172a 100%);border:1px solid #1e3a8a;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
+      <h2 style="margin:0;display:flex;align-items:center;gap:8px;font-size:16px;color:#f8fafc;">
+        🎯 80.000 TL Ana Kasa &amp; Günde 1.000 TL Harcanabilir Kâr Sayacı
+      </h2>
+      <span id="goalMilestoneBadge" style="background:#1e293b;border:1px solid #3b82f6;color:#60a5fa;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;">
+        1. Basamak: 1.000 TL ➔ 2.500 TL
+      </span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-bottom:14px;">
+      <div style="background:#0b0f19;border:1px solid #23304d;padding:12px 14px;border-radius:10px;">
+        <div style="font-size:11.5px;color:#94a3b8;">Ana Kasa Hedefi (80.000 TL)</div>
+        <div style="font-size:19px;font-weight:700;margin-top:4px;color:#f8fafc;" id="goalEquityProgressTxt">992,20 / 80.000 TL</div>
+        <div style="font-size:11.5px;color:#38bdf8;margin-top:3px;" id="goalRemainingTryTxt">Kalan: 79.007,80 TL (%1.24)</div>
+      </div>
+      <div style="background:#0b0f19;border:1px solid #23304d;padding:12px 14px;border-radius:10px;">
+        <div style="font-size:11.5px;color:#94a3b8;">Günlük Harcanabilir Kâr Kapasitesi</div>
+        <div style="font-size:19px;font-weight:700;margin-top:4px;color:#10b981;" id="goalDailyCashflowTxt">12,40 TL / 1.000 TL</div>
+        <div style="font-size:11.5px;color:#94a3b8;margin-top:3px;" id="goalTodayRealizedTxt">Baz Hız (+%1.25/gün) Üretimi</div>
+      </div>
+      <div style="background:#0b0f19;border:1px solid #23304d;padding:12px 14px;border-radius:10px;">
+        <div style="font-size:11.5px;color:#94a3b8;">Dış Müdahalesiz Kalan Süre (Bileşik)</div>
+        <div style="font-size:19px;font-weight:700;margin-top:4px;color:#fbbf24;" id="goalDaysBaseTxt">~353 Gün (~11,5 Ay)</div>
+        <div style="font-size:11.5px;color:#cbd5e1;margin-top:3px;" id="goalDaysFastTxt">Güçlü Piyasa (+%1.8/gün): ~245 Gün</div>
+      </div>
+      <div style="background:#0b0f19;border:1px solid #23304d;padding:12px 14px;border-radius:10px;">
+        <div style="font-size:11.5px;color:#94a3b8;">Sıradaki Ara Durak Sayacı</div>
+        <div style="font-size:19px;font-weight:700;margin-top:4px;color:#a78bfa;" id="goalNextStopTxt">2.500,00 TL</div>
+        <div style="font-size:11.5px;color:#94a3b8;margin-top:3px;" id="goalNextStopDaysTxt">Kalan: 1.507,80 TL (~74 Gün)</div>
+      </div>
+    </div>
+    <div style="margin-bottom:6px;display:flex;justify-content:space-between;font-size:12px;color:#cbd5e1;">
+      <span id="goalBarLabelLeft">📈 Bileşik Katlanma Yolu (1.000 TL ➔ 2.5K ➔ 5K ➔ 10K ➔ 25K ➔ 50K ➔ 80.000 TL)</span>
+      <span id="goalBarLabelRight" style="font-weight:700;color:#10b981;">%1.24</span>
+    </div>
+    <div style="width:100%;height:12px;background:#0b0f19;border:1px solid #23304d;border-radius:999px;overflow:hidden;">
+      <div id="goalProgressBar" style="width:1.5%;height:100%;background:linear-gradient(90deg,#3b82f6,#10b981);transition:width 0.4s ease;"></div>
+    </div>
+  </div>
+
   <div class="section">
     <h2>📈 Babaya Karşı 1.000 TL -> Canlı Kasa Büyüme Grafiği</h2>
     <div id="chartBox" style="width:100%;height:130px;"></div>
@@ -2806,6 +2846,57 @@ function renderDashboardHtml() {
 
       document.getElementById('winVal').textContent = s.winCount + ' Kârlı / ' + s.lossCount + ' Stop';
       renderSvgChart(s.equityHistory);
+
+      // Update 80,000 TL & 1,000 TL/Day Goal Counter Widget
+      const curEqTry = Math.max(1, Number(s.totalEquityUsdt || 0) * RATE);
+      const targetEqTry = 80000;
+      const targetDailyTry = 1000;
+      const dailyRateBase = 0.0125; // +1.25%/day compound (produces 1,000 TL/day at 80,000 TL)
+      const dailyRateFast = 0.0180; // +1.80%/day strong market compound
+      const curDailyCapTry = curEqTry * dailyRateBase;
+      const linearPct = Math.min(100, Math.max(0, (curEqTry / targetEqTry) * 100));
+      const remTry = Math.max(0, targetEqTry - curEqTry);
+      const daysBase = curEqTry >= targetEqTry ? 0 : Math.ceil(Math.log(targetEqTry / Math.max(100, curEqTry)) / Math.log(1 + dailyRateBase));
+      const daysFast = curEqTry >= targetEqTry ? 0 : Math.ceil(Math.log(targetEqTry / Math.max(100, curEqTry)) / Math.log(1 + dailyRateFast));
+
+      const milestones = [2500, 5000, 10000, 25000, 50000, 80000];
+      const nextStop = milestones.find(m => curEqTry < m) || 80000;
+      const stopIdx = milestones.indexOf(nextStop) + 1;
+      const prevStop = stopIdx > 1 ? milestones[stopIdx - 2] : 1000;
+      const nextStopRemTry = Math.max(0, nextStop - curEqTry);
+      const nextStopDays = curEqTry >= nextStop ? 0 : Math.ceil(Math.log(nextStop / Math.max(100, curEqTry)) / Math.log(1 + dailyRateBase));
+
+      // Today's realized net P&L in TRY
+      const todayIsoPrefix = new Date().toISOString().slice(0, 10);
+      const todayRealizedTry = (s.closedTrades || [])
+        .filter(t => String(t.exitTime || '').startsWith(todayIsoPrefix))
+        .reduce((sum, t) => sum + Number(t.netPnlUsdt || 0) * RATE, 0);
+
+      const elEqProg = document.getElementById('goalEquityProgressTxt');
+      if (elEqProg) elEqProg.textContent = curEqTry.toFixed(2) + ' / 80.000,00 TL';
+      const elRemTry = document.getElementById('goalRemainingTryTxt');
+      if (elRemTry) elRemTry.textContent = 'Kalan: ' + remTry.toFixed(2) + ' TL (%' + linearPct.toFixed(2) + ')';
+      const elDailyCap = document.getElementById('goalDailyCashflowTxt');
+      if (elDailyCap) elDailyCap.textContent = curDailyCapTry.toFixed(2) + ' TL / 1.000,00 TL';
+      const elTodayReal = document.getElementById('goalTodayRealizedTxt');
+      if (elTodayReal) {
+        const tSign = todayRealizedTry >= 0 ? '+' : '';
+        elTodayReal.textContent = 'Bugün Cebe Giren: ' + tSign + todayRealizedTry.toFixed(2) + ' TL (Baz +%1.25/gün)';
+      }
+      const elDaysBase = document.getElementById('goalDaysBaseTxt');
+      if (elDaysBase) elDaysBase.textContent = daysBase > 0 ? '~' + daysBase + ' Gün (~' + (daysBase / 30).toFixed(1) + ' Ay)' : 'HEDEF TAMAMLANDI! 🎉';
+      const elDaysFast = document.getElementById('goalDaysFastTxt');
+      if (elDaysFast) elDaysFast.textContent = 'Güçlü Piyasa (+%1.8/gün): ~' + daysFast + ' Gün (~' + (daysFast / 30).toFixed(1) + ' Ay)';
+      const elNextStop = document.getElementById('goalNextStopTxt');
+      if (elNextStop) elNextStop.textContent = nextStop.toLocaleString('tr-TR') + ',00 TL';
+      const elNextStopDays = document.getElementById('goalNextStopDaysTxt');
+      if (elNextStopDays) elNextStopDays.textContent = 'Kalan: ' + nextStopRemTry.toFixed(2) + ' TL (~' + nextStopDays + ' Gün)';
+      const elBadge = document.getElementById('goalMilestoneBadge');
+      if (elBadge) elBadge.textContent = stopIdx + '. Basamak: ' + prevStop.toLocaleString('tr-TR') + ' TL ➔ ' + nextStop.toLocaleString('tr-TR') + ' TL';
+      const elBarRight = document.getElementById('goalBarLabelRight');
+      if (elBarRight) elBarRight.textContent = '%' + linearPct.toFixed(2) + ' (Günlük Kapasite: ' + curDailyCapTry.toFixed(2) + ' TL)';
+      const elBar = document.getElementById('goalProgressBar');
+      if (elBar) elBar.style.width = Math.max(1.5, linearPct).toFixed(2) + '%';
 
       const nbBar = document.getElementById('noBuyBar');
       if (nbBar) {
