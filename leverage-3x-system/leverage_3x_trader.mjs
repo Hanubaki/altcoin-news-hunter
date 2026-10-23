@@ -16,7 +16,8 @@ const ENV_FILE = path.join(ROOT_DIR, '.env');
 
 const FAPI_BASE = 'https://fapi.binance.com';
 const USD_TRY_RATE = 49.55;
-const LEVERAGE = 3;
+const LEVERAGE = 5; // Base Conviction Leverage (Dynamic Tiers: 5x / 7x / 10x Ultra-Apex)
+const MAX_CONVICTION_LEVERAGE = 10;
 const INITIAL_BANKROLL_TRY = 100.0;
 const INITIAL_BANKROLL_USDT = Number((INITIAL_BANKROLL_TRY / USD_TRY_RATE).toFixed(4)); // ~2.0182 USDT
 const MIN_NOTIONAL_USDT = 5.0; // Binance Futures hard minimum notional floor
@@ -25,9 +26,51 @@ const DASHBOARD_PORT = 3848;
 
 const PERP_UNIVERSE = [
   'SOL', 'XRP', 'DOGE', 'SUI', 'ADA', 'AVAX', 'LINK', 'NEAR', 'APT', 'ARB',
-  'OP', 'INJ', 'FET', 'RENDER', 'SEI', 'TIA', 'AAVE', 'UNI', 'WIF', 'PEPE',
-  'PENDLE', 'ENA', 'ONDO', 'JUP', 'TAO', 'WLD', 'FIL', 'ATOM', 'DOT', 'TRX'
+  'OP', 'INJ', 'FET', 'RENDER', 'SEI', 'TIA', 'AAVE', 'UNI', 'WIF', '1000PEPE',
+  'PENDLE', 'ENA', 'ONDO', 'JUP', 'TAO', 'WLD', 'FIL', 'ATOM', 'DOT', '1000BONK'
 ];
+
+const EXCLUDED_FAPI_SYMBOLS = new Set([
+  'BTCUSDT', 'ETHUSDT', 'USDCUSDT', 'FDUSDUSDT', 'USDPUSDT', 'TUSDUSDT', 'BUSDUSDT', 'USDTTRY', 'BTCDOMUSDT', 'DEFIUSDT'
+]);
+
+let cachedValidCoinPerps = null;
+let cachedValidCoinPerpsAtMs = 0;
+
+async function getValidCoinPerpMap() {
+  const now = Date.now();
+  if (cachedValidCoinPerps && now - cachedValidCoinPerpsAtMs < 10 * 60 * 1000) {
+    return cachedValidCoinPerps;
+  }
+  const info = await fetchJson(`${FAPI_BASE}/fapi/v1/exchangeInfo`, {}, 5000);
+  if (info && Array.isArray(info.symbols)) {
+    const map = new Map();
+    for (const s of info.symbols) {
+      if (
+        s.contractType === 'PERPETUAL' &&
+        s.status === 'TRADING' &&
+        s.underlyingType === 'COIN' &&
+        s.quoteAsset === 'USDT' &&
+        !EXCLUDED_FAPI_SYMBOLS.has(s.symbol) &&
+        !(Array.isArray(s.underlyingSubType) && s.underlyingSubType.includes('Alpha'))
+      ) {
+        map.set(s.symbol, s);
+      }
+    }
+    if (map.size >= 30) {
+      cachedValidCoinPerps = map;
+      cachedValidCoinPerpsAtMs = now;
+      return map;
+    }
+  }
+  return cachedValidCoinPerps;
+}
+
+function selectConvictionLeverage(score, atr15mPct) {
+  if (score >= 91 && atr15mPct <= 1.65) return 10; // Ultra-Apex Sniper Shot (10x)
+  if (score >= 84 && atr15mPct <= 2.10) return 7;  // High-Conviction Surge (7x)
+  return 5;                                         // Standard Council Trigger (5x)
+}
 
 function getLocalLanIp() {
   const nets = os.networkInterfaces();
@@ -709,7 +752,8 @@ function readSharedNewsSignals() {
 }
 
 async function scanPerpUniverse(state) {
-  const [premiumList, tickerList, btcKlines15m] = await Promise.all([
+  const [validMap, premiumList, tickerList, btcKlines15m] = await Promise.all([
+    getValidCoinPerpMap(),
     fetchJson(`${FAPI_BASE}/fapi/v1/premiumIndex`, {}, 5000),
     fetchJson(`${FAPI_BASE}/fapi/v1/ticker/24hr`, {}, 5000),
     fetchJson(`${FAPI_BASE}/fapi/v1/klines?symbol=BTCUSDT&interval=15m&limit=10`, {}, 4000),
@@ -753,29 +797,48 @@ async function scanPerpUniverse(state) {
   let fundingSum = 0;
   let fundingCnt = 0;
 
-  for (const sym of PERP_UNIVERSE) {
-    const fSym = `${sym}USDT`;
+  // Engine v8.0: Dynamic All-Market High-Velocity Universe (100+ Liquid COIN Perpetuals >= $15M Vol & >= 3.2% 24h Range)
+  const fSymsToScan = new Set();
+  if (validMap && validMap.size > 0) {
+    for (const fSym of validMap.keys()) fSymsToScan.add(fSym);
+  } else {
+    for (const sym of PERP_UNIVERSE) fSymsToScan.add(`${sym}USDT`);
+  }
+  if (state.openPosition?.fSym) fSymsToScan.add(state.openPosition.fSym);
+
+  for (const fSym of fSymsToScan) {
+    const sym = fSym.replace(/USDT$/, '');
     const prem = premMap.get(fSym);
     const tick = tickMap.get(fSym);
     if (!prem || !tick) continue;
+
+    const isCurrentlyOpen = state.openPosition?.symbol === sym;
+    const quoteVol24h = Number(tick.quoteVolume || 0);
+    const high24h = Number(tick.highPrice || 0);
+    const low24h = Number(tick.lowPrice || 0);
+    const range24hPct = low24h > 0 ? Number((((high24h - low24h) / low24h) * 100).toFixed(2)) : 0;
+
+    // Require >= $15M 24h volume and >= 3.2% 24h range (banishes dead stable-like sleepers like TRX unless already open)
+    if (!isCurrentlyOpen && (quoteVol24h < 15e6 || range24hPct < 3.2)) continue;
+
     const fundingRatePct = Number((Number(prem.lastFundingRate || 0) * 100).toFixed(4));
     const markPrice = Number(prem.markPrice || tick.lastPrice || 0);
     const indexPrice = Number(prem.indexPrice || markPrice);
     const basisPct = indexPrice > 0 ? Number((((markPrice - indexPrice) / indexPrice) * 100).toFixed(4)) : 0;
-    const quoteVol24h = Number(tick.quoteVolume || 0);
     const change24hPct = Number(tick.priceChangePercent || 0);
-    const newsCand = newsMap.get(sym);
+    const newsCand = newsMap.get(sym) || newsMap.get(sym.replace(/^1000/, ''));
 
     fundingSum += fundingRatePct;
     fundingCnt++;
 
-    const isCurrentlyOpen = state.openPosition?.symbol === sym;
-
+    // High-Velocity Predator Priority Score (Combines 24h Momentum + Range Expansion + Squeeze Dislocation + Liquidity)
     const priorityScore =
-      (isCurrentlyOpen ? 999 : 0) +
-      Math.abs(fundingRatePct) * 800 +
-      Math.abs(basisPct) * 350 +
-      Math.min(15, Math.abs(change24hPct)) * 1.2 +
+      (isCurrentlyOpen ? 9999 : 0) +
+      Math.min(35, Math.abs(change24hPct)) * 2.4 +
+      Math.min(45, range24hPct) * 1.5 +
+      Math.min(0.35, Math.abs(fundingRatePct)) * 120 +
+      Math.min(0.60, Math.abs(basisPct)) * 55 +
+      Math.log10(Math.max(15, quoteVol24h / 1e6)) * 9 +
       (newsCand?.hasDirectMention ? 35 : newsCand ? 15 : 0);
 
     preCandidates.push({
@@ -787,13 +850,14 @@ async function scanPerpUniverse(state) {
       basisPct,
       quoteVol24h,
       change24hPct,
+      range24hPct,
       newsCand,
       priorityScore,
     });
   }
 
   preCandidates.sort((a, b) => b.priorityScore - a.priorityScore);
-  const topToInspect = preCandidates.slice(0, 15);
+  const topToInspect = preCandidates.slice(0, 20);
 
   const evaluated = [];
   for (const item of topToInspect) {
@@ -827,44 +891,23 @@ async function scanPerpUniverse(state) {
       instBuySellRatio < 0.92 ||
       (prevInstBuySellRatio >= 1.50 && instBuySellRatio < prevInstBuySellRatio * 0.62);
     const isTakerRatioCrashingShort =
-      instBuySellRatio > 1.10 ||
+      instBuySellRatio > 1.08 ||
       (prevInstBuySellRatio <= 0.70 && instBuySellRatio > prevInstBuySellRatio * 1.45);
     let instTakerLongPts = 0;
     let instTakerShortPts = 0;
-    if (instBuySellRatio >= 1.15 && !isTakerRatioCrashingLong) {
-      instTakerLongPts = Math.min(6, Math.round((instBuySellRatio - 1.0) * 18));
-    } else if (instBuySellRatio <= 0.86 && !isTakerRatioCrashingShort) {
-      instTakerShortPts = Math.min(6, Math.round((1.0 - instBuySellRatio) * 18));
+    if (instBuySellRatio >= 1.14 && !isTakerRatioCrashingLong) {
+      instTakerLongPts = Math.min(8, Math.round((instBuySellRatio - 1.0) * 20));
+    } else if (instBuySellRatio <= 0.88 && !isTakerRatioCrashingShort) {
+      instTakerShortPts = Math.min(8, Math.round((1.0 - instBuySellRatio) * 20));
     }
 
     const rsVsBtcAtr = Number(((change1hPct - btc1hChangePct) / Math.max(0.40, atr15mPct)).toFixed(2));
     let bullishRsPts = 0;
     let bearishRsPts = 0;
-    if (rsVsBtcAtr >= 0.75) {
+    if (rsVsBtcAtr >= 0.70) {
       bullishRsPts = Math.min(8, Math.round(rsVsBtcAtr * 4));
-    } else if (rsVsBtcAtr <= -0.75) {
+    } else if (rsVsBtcAtr <= -0.70) {
       bearishRsPts = Math.min(8, Math.round(Math.abs(rsVsBtcAtr) * 4));
-    }
-
-    let bullishBasisPts = 0;
-    let bearishBasisPts = 0;
-    let basisLabel = `Basis ${item.basisPct >= 0 ? '+' : ''}%${item.basisPct}`;
-    if (item.basisPct <= -0.030) {
-      bullishBasisPts = Math.min(8, Math.round(Math.abs(item.basisPct) * 120));
-      basisLabel = `🟢 LightCrypto Spot İskontosu (${item.basisPct}%)`;
-    } else if (item.basisPct >= 0.055) {
-      bearishBasisPts = Math.min(8, Math.round(item.basisPct * 100));
-      basisLabel = `🔴 GCR Vadeli Köpüğü (+${item.basisPct}%)`;
-    }
-
-    let fundingCountdownBonusLong = 0;
-    let fundingCountdownBonusShort = 0;
-    if (minsToNextFunding <= 45) {
-      if (item.fundingRatePct <= -0.015) {
-        fundingCountdownBonusLong = 5;
-      } else if (item.fundingRatePct >= 0.022) {
-        fundingCountdownBonusShort = 5;
-      }
     }
 
     let pvSum = 0;
@@ -877,6 +920,28 @@ async function scanPerpUniverse(state) {
     }
     const vwap4h = vSum > 0 ? pvSum / vSum : lastPrice;
     const vwapDistPct = vwap4h > 0 ? Number((((lastPrice - vwap4h) / vwap4h) * 100).toFixed(3)) : 0;
+
+    let bullishBasisPts = 0;
+    let bearishBasisPts = 0;
+    let basisLabel = `Basis ${item.basisPct >= 0 ? '+' : ''}%${item.basisPct}`;
+    // Wall #6A: Only award Spot-Discount LONG points if price is not in a freefall below 4h VWAP
+    if (item.basisPct <= -0.030 && (lastPrice >= vwap4h * 0.996 || change1hPct > 0)) {
+      bullishBasisPts = Math.min(8, Math.round(Math.abs(item.basisPct) * 110));
+      basisLabel = `🟢 LightCrypto Spot İskontosu (${item.basisPct}%)`;
+    } else if (item.basisPct >= 0.045) {
+      bearishBasisPts = Math.min(8, Math.round(item.basisPct * 100));
+      basisLabel = `🔴 GCR Vadeli Köpüğü (+${item.basisPct}%)`;
+    }
+
+    let fundingCountdownBonusLong = 0;
+    let fundingCountdownBonusShort = 0;
+    if (minsToNextFunding <= 45) {
+      if (item.fundingRatePct <= -0.015 && (lastPrice >= vwap4h * 0.996 || change1hPct > 0)) {
+        fundingCountdownBonusLong = 5;
+      } else if (item.fundingRatePct >= 0.020) {
+        fundingCountdownBonusShort = 5;
+      }
+    }
 
     const recent2 = klines15m.slice(-2);
     const totVol2 = recent2.reduce((s, k) => s + Number(k[5]), 0);
@@ -916,22 +981,22 @@ async function scanPerpUniverse(state) {
       bullishOiPts = Math.min(14, Math.round(7 + oiDelta1hPct * 2.5));
     } else if (change1hPct >= 0.25 && oiDelta1hPct <= -0.50) {
       oiQuadrant = 'Q2 (Fiyat↑ OI↓ Short Kapatma)';
-      bullishOiPts = 4;
+      bullishOiPts = 5;
       if (rsi15m >= 68) bearishOiPts = 6;
     } else if (change1hPct <= -0.25 && oiDelta1hPct >= 0.45) {
       oiQuadrant = 'Q3 (Fiyat↓ OI↑ Agresif Short Yığılması)';
-      if (item.fundingRatePct <= -0.008 && anatomy.bullishCvdPts >= 6) {
+      if (item.fundingRatePct <= -0.008 && anatomy.bullishCvdPts >= 6 && lastPrice >= vwap4h * 0.996) {
         bullishOiPts = 11;
         oiQuadrant = 'Q3-TUZAK (Short Yığılması + Alıcı Emilimi)';
       } else {
-        bearishOiPts = Math.min(13, Math.round(6 + oiDelta1hPct * 2.2));
+        bearishOiPts = Math.min(14, Math.round(7 + oiDelta1hPct * 2.4));
       }
     } else if (change1hPct <= -0.25 && oiDelta1hPct <= -0.50) {
       oiQuadrant = 'Q4 (Fiyat↓ OI↓ Long Tasfiye/Kapitülasyon)';
       if (anatomy.bullishCandlePts >= 8 || anatomy.bullishSmcPts >= 8) {
         bullishOiPts = 10;
       } else {
-        bearishOiPts = 5;
+        bearishOiPts = 9;
       }
     }
 
@@ -947,25 +1012,45 @@ async function scanPerpUniverse(state) {
     }
     const whaleRetailSpread = Number((whaleLongPct - retailLongPct).toFixed(1));
 
+    // Bi-Directional Institutional Taker Override: When live Taker L/S & CVD confirm active institutional dumping, passive account ratio does not penalize/veto SHORT
+    const isLiveInstTakerDumping = instBuySellRatio <= 0.85 && (anatomy.normCvd3BarPct <= -6 || takerBuyPct <= 46.5);
     let bullishWhalePts = 0;
     let bearishWhalePts = 0;
     if (whaleRetailSpread >= 4.0) {
       bullishWhalePts = Math.min(14, Math.round((whaleRetailSpread - 2) * 1.3));
-      bearishWhalePts = -Math.min(18, Math.round(whaleRetailSpread * 1.2));
-    } else if (whaleRetailSpread <= -4.0) {
-      bearishWhalePts = Math.min(14, Math.round((Math.abs(whaleRetailSpread) - 2) * 1.3));
+      bearishWhalePts = isLiveInstTakerDumping ? 0 : -Math.min(14, Math.round(whaleRetailSpread * 1.0));
+    } else if (whaleRetailSpread <= -3.0) {
+      bearishWhalePts = Math.min(15, Math.round((Math.abs(whaleRetailSpread) - 1.5) * 1.35));
       bullishWhalePts = -Math.min(18, Math.round(Math.abs(whaleRetailSpread) * 1.2));
     }
-    const whaleVetoLong = whaleRetailSpread <= -8.0;
-    const whaleVetoShort = whaleRetailSpread >= 8.0;
+    const whaleVetoLong = whaleRetailSpread <= -6.5;
+    const whaleVetoShort = isLiveInstTakerDumping ? whaleRetailSpread >= 16.5 : whaleRetailSpread >= 10.5;
 
     const isGcrCrowdedManiaShort = Boolean(
-      (item.change24hPct >= 10.0 || rsi15m >= 73) &&
-        (whaleRetailSpread <= -5.0 || item.basisPct >= 0.055 || item.fundingRatePct >= 0.020) &&
+      (item.change24hPct >= 10.0 || rsi15m >= 71) &&
+        (whaleRetailSpread <= -4.0 || item.basisPct >= 0.045 || item.fundingRatePct >= 0.018 || isLiveInstTakerDumping) &&
         (anatomy.bearishPattern || anatomy.buySideSweep || anatomy.bearishCvdPts >= 6)
     );
     if (isGcrCrowdedManiaShort) {
       bearishWhalePts = Math.min(16, bearishWhalePts + 6);
+    }
+
+    // Layer #16 (v8.0): High-Velocity Momentum Surge Bonus (Clean MTF + Volume Expansion + 1h Velocity)
+    let velocityLongPts = 0;
+    let velocityShortPts = 0;
+    if (
+      change1hPct >= 0.85 &&
+      mtfSqueeze.mtfBullishPts > 0 &&
+      volRatio15m >= 1.25 &&
+      !anatomy.isFishingTrapLong
+    ) {
+      velocityLongPts = Math.min(8, Math.round(change1hPct * 2.5 + (volRatio15m - 1) * 3));
+    } else if (
+      change1hPct <= -0.85 &&
+      mtfSqueeze.mtfBearishPts > 0 &&
+      (volRatio15m >= 1.15 || isLiveInstTakerDumping)
+    ) {
+      velocityShortPts = Math.min(8, Math.round(Math.abs(change1hPct) * 2.5 + Math.max(0, volRatio15m - 0.9) * 3));
     }
 
     const newsAgeMins = item.newsCand?.freshestMinutesAgo ?? 999;
@@ -996,9 +1081,9 @@ async function scanPerpUniverse(state) {
       liqMagnetLongPts = 5;
       liqMagnetLabel = ' | 🧲 Short Likidasyon Mıknatısı';
     } else if (
-      oiDelta1hPct >= 0.50 &&
+      (oiDelta1hPct >= 0.45 || isLiveInstTakerDumping) &&
       lastPrice <= low4h * 1.012 &&
-      (item.fundingRatePct >= 0.012 || item.basisPct >= 0.035) &&
+      item.fundingRatePct > -0.05 &&
       !anatomy.vetoShort
     ) {
       liqMagnetShortPts = 5;
@@ -1007,7 +1092,7 @@ async function scanPerpUniverse(state) {
 
     let bullishFundNewsPts = fundingCountdownBonusLong;
     let bearishFundNewsPts = fundingCountdownBonusShort;
-    if (item.fundingRatePct <= -0.010) {
+    if (item.fundingRatePct <= -0.010 && (lastPrice >= vwap4h * 0.996 || change1hPct > 0)) {
       bullishFundNewsPts += Math.min(10, Math.round(Math.abs(item.fundingRatePct) * 450));
     }
     if (hasFreshDirectNews) {
@@ -1017,18 +1102,26 @@ async function scanPerpUniverse(state) {
     }
     bullishFundNewsPts = Math.min(14, bullishFundNewsPts);
 
-    if (item.fundingRatePct >= 0.018) {
+    if (item.fundingRatePct >= 0.015) {
       bearishFundNewsPts += Math.min(10, Math.round(item.fundingRatePct * 350));
     }
-    if (rsi15m >= 71) {
-      bearishFundNewsPts += Math.min(8, Math.round((rsi15m - 68) * 1.2));
+    if (rsi15m >= 69) {
+      bearishFundNewsPts += Math.min(8, Math.round((rsi15m - 66) * 1.2));
     }
     bearishFundNewsPts = Math.min(13, bearishFundNewsPts);
 
+    // Wall #6B: Funding Bleed & Counter-Trend Veto
+    const fundingVetoLong = item.fundingRatePct >= 0.080; // Never pay >0.08% funding on overcrowded longs
+    const fundingVetoShort = item.fundingRatePct <= -0.120; // Never short into deep negative funding (-0.12%+) squeeze traps
+
     const vwapLongOk =
       isBnfLiquidationBounce ||
-      (lastPrice >= vwap4h * 0.9985 && vwapDistPct <= 1.65 && rsi15m >= 36 && rsi15m <= 69);
-    const vwapShortOk = (lastPrice <= vwap4h * 1.004 || rsi15m >= 68 || isGcrCrowdedManiaShort) && rsi15m >= 50;
+      (lastPrice >= vwap4h * 0.9985 && vwapDistPct <= 1.85 && rsi15m >= 38 && rsi15m <= 70 && mtfSqueeze.mtfBearishPts === 0);
+    // Unblinded Bi-Directional Short: Allows both Trend Breakdown Shorts (price <= VWAP, RSI 31-66) AND Overbought Mania Fade Shorts (RSI >= 67)
+    const vwapShortOk =
+      (lastPrice <= vwap4h * 1.003 && rsi15m >= 31 && rsi15m <= 66 && mtfSqueeze.mtfBullishPts === 0) ||
+      rsi15m >= 67 ||
+      isGcrCrowdedManiaShort;
 
     const rawLongTotal =
       36 +
@@ -1042,7 +1135,8 @@ async function scanPerpUniverse(state) {
       bullishBasisPts +
       mtfSqueeze.squeezeBullishPts +
       instTakerLongPts +
-      liqMagnetLongPts;
+      liqMagnetLongPts +
+      velocityLongPts;
 
     const rawShortTotal =
       36 +
@@ -1057,14 +1151,15 @@ async function scanPerpUniverse(state) {
       mtfSqueeze.mtfBearishPts +
       mtfSqueeze.squeezeBearishPts +
       instTakerShortPts +
-      liqMagnetShortPts;
+      liqMagnetShortPts +
+      velocityShortPts;
 
     let engine = 'WATCHLIST';
     let side = 'LONG_ADAY';
     let score = 50;
     let thesis = '';
 
-    // Wall #4: Anti-Top-Chase Guard (Wait for 15-20% pullback if 3 green candles already ran >= 1.45 ATR and price is at >0.85 of 4-bar high)
+    // Wall #4: Anti-Top-Chase / Anti-Bottom-Chase Guard
     const isOverextendedMicroTopLong =
       !isBnfLiquidationBounce &&
       anatomy.green3Completed &&
@@ -1075,27 +1170,30 @@ async function scanPerpUniverse(state) {
     const canTriggerLong =
       !btcVetoLong &&
       !whaleVetoLong &&
+      !fundingVetoLong &&
       !anatomy.vetoLong &&
       !isTakerRatioCrashingLong &&
       !isOverextendedMicroTopLong &&
       vwapLongOk &&
       (takerBuyPct >= 51.5 || instBuySellRatio >= 1.14 || isBnfLiquidationBounce) &&
-      (isBnfLiquidationBounce || rsVsBtcAtr >= -0.25) &&
+      (isBnfLiquidationBounce || rsVsBtcAtr >= -0.20) &&
       rawLongTotal >= 76;
 
     const canTriggerShort =
       !btcVetoShort &&
       !whaleVetoShort &&
+      !fundingVetoShort &&
       !anatomy.vetoShort &&
       !isTakerRatioCrashingShort &&
       vwapShortOk &&
       (takerBuyPct <= 48.5 || instBuySellRatio <= 0.88 || isGcrCrowdedManiaShort) &&
-      (rsVsBtcAtr <= 0.35 || isGcrCrowdedManiaShort) &&
+      (rsVsBtcAtr <= 0.25 || isGcrCrowdedManiaShort) &&
       rawShortTotal >= 76;
 
     if (canTriggerLong && (!canTriggerShort || rawLongTotal >= rawShortTotal)) {
       side = 'LONG';
       score = Math.min(99, rawLongTotal);
+      const dynLev = selectConvictionLeverage(score, atr15mPct);
       engine = isBnfLiquidationBounce
         ? 'ENGINE_BNF_LIQUIDATION_BOUNCE_LONG'
         : hasFreshDirectNews
@@ -1105,26 +1203,29 @@ async function scanPerpUniverse(state) {
             : item.basisPct <= -0.030 || item.fundingRatePct <= -0.010
               ? 'ENGINE_LIGHTCRYPTO_SQUEEZE_LONG'
               : 'ENGINE_EUGENE_WHALE_SMC_LONG';
-      thesis = `[${anatomy.patternLabel} | ${mtfSqueeze.squeezeLabel}] ${oiQuadrant} | ${mtfSqueeze.mtfTrend} | RS_BTC: ${rsVsBtcAtr >= 0 ? '+' : ''}${rsVsBtcAtr} ATR | ${basisLabel} | Balina Makası: ${whaleRetailSpread >= 0 ? '+' : ''}%${whaleRetailSpread} (${whaleLongPct}L/${retailLongPct}L) | Taker L/S: ${instBuySellRatio}x | ${anatomy.cvdLabel}${liqMagnetLabel}${hasSpotGoldenLeaderSynergy ? ' | 🤝 Spot Lider Sinerjisi' : ''} -> 3x LONG!`;
+      thesis = `[${anatomy.patternLabel} | ${mtfSqueeze.squeezeLabel}] ${oiQuadrant} | ${mtfSqueeze.mtfTrend} | 1s: ${change1hPct >= 0 ? '+' : ''}%${change1hPct} (24s: ${item.change24hPct >= 0 ? '+' : ''}%${item.change24hPct}) | RS_BTC: ${rsVsBtcAtr >= 0 ? '+' : ''}${rsVsBtcAtr} ATR | ${basisLabel} | Balina Makası: ${whaleRetailSpread >= 0 ? '+' : ''}%${whaleRetailSpread} | Taker L/S: ${instBuySellRatio}x | ${anatomy.cvdLabel}${liqMagnetLabel} -> ${dynLev}x LONG!`;
     } else if (canTriggerShort) {
       side = 'SHORT';
       score = Math.min(99, rawShortTotal);
+      const dynLev = selectConvictionLeverage(score, atr15mPct);
       engine = isGcrCrowdedManiaShort
         ? 'ENGINE_GCR_MANIA_FADE_SHORT'
         : mtfSqueeze.squeezeBearishPts > 0
           ? 'ENGINE_TTM_VOLATILITY_SQUEEZE_SHORT'
           : 'ENGINE_SMC_WHALE_FLUSH_SHORT';
-      thesis = `[${anatomy.patternLabel} | ${mtfSqueeze.squeezeLabel}] ${oiQuadrant} | ${mtfSqueeze.mtfTrend} | RS_BTC: ${rsVsBtcAtr} ATR | ${basisLabel} | Balina Makası: %${whaleRetailSpread} (Küçük %${retailLongPct}L vs Balina %${whaleLongPct}L) | Taker L/S: ${instBuySellRatio}x | ${anatomy.cvdLabel} -> 3x SHORT!`;
+      thesis = `[${anatomy.patternLabel} | ${mtfSqueeze.squeezeLabel}] ${oiQuadrant} | ${mtfSqueeze.mtfTrend} | 1s: %${change1hPct} (24s: %${item.change24hPct}) | RS_BTC: ${rsVsBtcAtr} ATR | ${basisLabel} | Balina Makası: %${whaleRetailSpread} | Kurumsal Taker L/S: ${instBuySellRatio}x | ${anatomy.cvdLabel}${liqMagnetLabel} -> ${dynLev}x SHORT!`;
     } else {
-      if (rawShortTotal > rawLongTotal && !anatomy.vetoShort) {
+      if (rawShortTotal > rawLongTotal && !anatomy.vetoShort && !fundingVetoShort) {
         side = 'SHORT_ADAY';
         score = Math.min(75, Math.max(30, rawShortTotal));
       } else {
         side = 'LONG_ADAY';
         score = Math.min(75, Math.max(30, rawLongTotal));
       }
-      thesis = `${anatomy.patternLabel} | ${mtfSqueeze.squeezeLabel} | ${oiQuadrant} | RS_BTC: ${rsVsBtcAtr >= 0 ? '+' : ''}${rsVsBtcAtr} | ${basisLabel} | Balina Makası: ${whaleRetailSpread >= 0 ? '+' : ''}%${whaleRetailSpread} | Taker L/S: ${instBuySellRatio}x | ${anatomy.cvdLabel}`;
+      thesis = `${anatomy.patternLabel} | ${mtfSqueeze.squeezeLabel} | ${oiQuadrant} | 1s: ${change1hPct >= 0 ? '+' : ''}%${change1hPct} (24s: ${item.change24hPct >= 0 ? '+' : ''}%${item.change24hPct}) | RS_BTC: ${rsVsBtcAtr >= 0 ? '+' : ''}${rsVsBtcAtr} | Balina Makası: ${whaleRetailSpread >= 0 ? '+' : ''}%${whaleRetailSpread} | Taker L/S: ${instBuySellRatio}x | ${anatomy.cvdLabel}`;
     }
+
+    const convictionLeverage = selectConvictionLeverage(score, atr15mPct);
 
     evaluated.push({
       symbol: item.symbol,
@@ -1135,6 +1236,7 @@ async function scanPerpUniverse(state) {
       basisLabel,
       change1hPct,
       change24hPct: item.change24hPct,
+      range24hPct: item.range24hPct,
       rsVsBtcAtr,
       rsi15m,
       atr15mPct,
@@ -1155,6 +1257,7 @@ async function scanPerpUniverse(state) {
       squeezeLabel: mtfSqueeze.squeezeLabel,
       structuralLow: anatomy.structuralLow,
       structuralHigh: anatomy.structuralHigh,
+      convictionLeverage,
       engine,
       side,
       score,
@@ -1172,15 +1275,16 @@ async function scanPerpUniverse(state) {
     btcChange1hPct: btc1hChangePct,
     avgFundingRatePct: avgFunding,
     minsToNextFunding,
+    activeUniverseCount: preCandidates.length,
     regimeLabel: btcVetoLong
       ? `⚠️ BTC SERT DÜŞÜŞ (${btc15mChangePct}%/15dk) -> LONG VETO, SADECE GCR SHORT!`
       : btcVetoShort
         ? `🚀 BTC SERT YÜKSELİŞ (+${btc15mChangePct}%/15dk) -> SHORT VETO, SADECE EUGENE LONG!`
-        : `15 KATMANLI MİLYARDERLER KONSEYİ v7.0 (Fonlama Kesimine: ${minsToNextFunding}dk)`,
+        : `16 KATMANLI YIRTICI KONSEY v8.0 (${preCandidates.length} Likit Kontrat | 5x-7x-10x Dinamik Kaldıraç)`,
     lastScanAt: new Date().toLocaleString('tr-TR'),
     statusNote: state.openPosition
-      ? `🔥 Açık 3x ${state.openPosition.side}: ${state.openPosition.symbol}USDT takip ediliyor.`
-      : `🛡️ Pusuda: 30 Kontratta 12 Katmanlı Milyarderler Konseyi taranıyor.`,
+      ? `🔥 Açık ${state.openPosition.leverage || LEVERAGE}x ${state.openPosition.side}: ${state.openPosition.symbol}USDT takip ediliyor.`
+      : `🛡️ Pusuda: Tüm Binance Futures (${preCandidates.length} Yüksek Hızlı Kontrat) 5x/7x/10x için taranıyor.`,
   };
   state.topCandidates = evaluated.slice(0, 8);
   return evaluated;
@@ -1225,11 +1329,46 @@ async function manageOpenPosition(state, candidates = []) {
   pos.unrealizedPnlTry = netPnlTry;
   pos.roePct = roePct;
   pos.underlyingMovePct = underlyingMovePct;
+  const posLev = pos.leverage || LEVERAGE;
 
-  if (peakCoinMoveFrac >= 0.0175) {
+  // Stage 2 (v8.0): Instant 50% TP1 Cash Harvest ("Kâr Cebellezi") at +1.05% Coin Move (+7% to +10.5% ROE)
+  if (!pos.tp1Done && rawCoinMoveFrac >= 0.0105) {
+    const harvestFrac = 0.50;
+    const closedMarginUsdt = Number((pos.marginUsdt * harvestFrac).toFixed(4));
+    const closedNotionalUsdt = Number((pos.notionalUsdt * harvestFrac).toFixed(4));
+    const partialNetPnlUsdt = Number((closedNotionalUsdt * netCoinMoveFrac).toFixed(4));
+    const partialNetPnlTry = toTL(partialNetPnlUsdt);
+
+    state.marginCashUsdt = Number((state.marginCashUsdt + closedMarginUsdt + partialNetPnlUsdt).toFixed(4));
+    state.realizedPnlUsdt = Number((state.realizedPnlUsdt + partialNetPnlUsdt).toFixed(4));
+
+    pos.marginUsdt = Number((pos.marginUsdt - closedMarginUsdt).toFixed(4));
+    pos.notionalUsdt = Number((pos.notionalUsdt - closedNotionalUsdt).toFixed(4));
+    pos.marginTry = toTL(pos.marginUsdt);
+    pos.notionalTry = toTL(pos.notionalUsdt);
+    pos.realizedPartialUsdt = Number(((pos.realizedPartialUsdt || 0) + partialNetPnlUsdt).toFixed(4));
+    pos.tp1Done = true;
+    pos.ratchetStage = 'TP1_HARVESTED_RUNNER';
+
+    if (pos.side === 'LONG') {
+      const lockTp1 = Number((pos.entryPrice * (1 + 0.0055)).toPrecision(6));
+      if (lockTp1 > pos.stopPrice) pos.stopPrice = lockTp1;
+    } else {
+      const lockTp1 = Number((pos.entryPrice * (1 - 0.0055)).toPrecision(6));
+      if (lockTp1 < pos.stopPrice) pos.stopPrice = lockTp1;
+    }
+
+    logEvent(
+      state,
+      `💰 [TP1 %50 KÂR CEBELLEZİ] ${pos.symbol}USDT (${posLev}x ${pos.side}) +%${underlyingMovePct} yürüyüşte yarısı nakde çevrildi (+${partialNetPnlTry} TL cebe indi!) | Kalan %50 Moonbag Stopu +%0.55 Kâra Kilitlendi!`
+    );
+  }
+
+  // Stage 1 / Stage 3 (v8.0): Fast Breakeven+ Lock (+0.52% Coin Move) & Parabolic Trailing Runner
+  if (peakCoinMoveFrac >= 0.0155) {
     pos.ratchetStage = 'PARABOLIC_SQUEEZE_RUNNER';
     if (pos.side === 'LONG') {
-      const trailStop = Number((pos.extremePrice * (1 - 0.0040)).toPrecision(6));
+      const trailStop = Number((pos.extremePrice * (1 - 0.0038)).toPrecision(6));
       if (trailStop > pos.stopPrice) pos.stopPrice = trailStop;
       if (markExitPrice >= pos.tpPrice * 0.997) {
         const depth = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${pos.fSym}&limit=15`, {}, 2000);
@@ -1239,7 +1378,7 @@ async function manageOpenPosition(state, candidates = []) {
         }
       }
     } else {
-      const trailStop = Number((pos.extremePrice * (1 + 0.0040)).toPrecision(6));
+      const trailStop = Number((pos.extremePrice * (1 + 0.0038)).toPrecision(6));
       if (trailStop < pos.stopPrice) pos.stopPrice = trailStop;
       if (markExitPrice <= pos.tpPrice * 1.003) {
         const depth = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${pos.fSym}&limit=15`, {}, 2000);
@@ -1249,22 +1388,22 @@ async function manageOpenPosition(state, candidates = []) {
         }
       }
     }
-  } else if (peakCoinMoveFrac >= 0.0130) {
-    pos.ratchetStage = 'PROFIT_LOCK_2';
+  } else if (peakCoinMoveFrac >= 0.0105) {
+    if (!pos.ratchetStage.includes('TP1')) pos.ratchetStage = 'PROFIT_LOCK_2';
     if (pos.side === 'LONG') {
-      const lock2 = Number((pos.entryPrice * (1 + 0.0078)).toPrecision(6));
+      const lock2 = Number((pos.entryPrice * (1 + 0.0055)).toPrecision(6));
       if (lock2 > pos.stopPrice) pos.stopPrice = lock2;
     } else {
-      const lock2 = Number((pos.entryPrice * (1 - 0.0078)).toPrecision(6));
+      const lock2 = Number((pos.entryPrice * (1 - 0.0055)).toPrecision(6));
       if (lock2 < pos.stopPrice) pos.stopPrice = lock2;
     }
-  } else if (peakCoinMoveFrac >= 0.0085) {
-    pos.ratchetStage = 'BREAKEVEN_PLUS';
+  } else if (peakCoinMoveFrac >= 0.0052) {
+    pos.ratchetStage = 'FAST_BREAKEVEN_PLUS';
     if (pos.side === 'LONG') {
-      const bePlus = Number((pos.entryPrice * (1 + 0.0028)).toPrecision(6));
+      const bePlus = Number((pos.entryPrice * (1 + 0.0022)).toPrecision(6));
       if (bePlus > pos.stopPrice) pos.stopPrice = bePlus;
     } else {
-      const bePlus = Number((pos.entryPrice * (1 - 0.0028)).toPrecision(6));
+      const bePlus = Number((pos.entryPrice * (1 - 0.0022)).toPrecision(6));
       if (bePlus < pos.stopPrice) pos.stopPrice = bePlus;
     }
   }
@@ -1320,23 +1459,23 @@ async function manageOpenPosition(state, candidates = []) {
         c.symbol !== pos.symbol &&
         c.engine !== 'WATCHLIST' &&
         (c.side === 'LONG' || c.side === 'SHORT') &&
-        c.score >= 92 &&
+        c.score >= 90 &&
         (!symbolCooldowns[c.symbol] || symbolCooldowns[c.symbol] <= nowMs)
     );
-    if (isCurDegraded && bestNewCand && bestNewCand.score - curLiveScore >= 24) {
+    if (isCurDegraded && bestNewCand && bestNewCand.score - curLiveScore >= 22) {
       rotationTarget = bestNewCand;
     }
   }
 
   let exitReason = null;
   if (isTpHit) {
-    exitReason = `🎯 3x TAM HEDEF HASADI (${pos.side} | Coin %${underlyingMovePct} -> Kasa ROE +%${roePct})`;
+    exitReason = `🎯 ${posLev}x TAM HEDEF HASADI (${pos.side} | Coin %${underlyingMovePct} -> Kasa ROE +%${roePct})`;
   } else if (isStopHit) {
     const isProfitStop =
       pos.side === 'LONG' ? pos.stopPrice > pos.entryPrice : pos.stopPrice < pos.entryPrice;
     exitReason = isProfitStop
-      ? `🔒 3x SIFIR RİSK / SIKIŞTIRMA KÂR KİLİDİ (${pos.side} | Kasa ROE +${roePct}%)`
-      : `🛡️ 3x İZOLE STOP KALKANI (${pos.side} | Coin %${underlyingMovePct} -> Kasa ROE ${roePct}%)`;
+      ? `🔒 ${posLev}x SIFIR RİSK / SIKIŞTIRMA KÂR KİLİDİ (${pos.side} | Kasa ROE +${roePct}%)`
+      : `🛡️ ${posLev}x İZOLE STOP KALKANI (${pos.side} | Coin %${underlyingMovePct} -> Kasa ROE ${roePct}%)`;
   } else if (isFishingEmergencyExit) {
     exitReason = `🎣 YEMLEME (FISHING) ERKEN TAHLİYESİ (Kurumsal Alıcı Çöktü [Taker L/S ${curPosLiveCand?.instBuySellRatio ?? 'N/A'}x], Stop Beklenmeden Çıkıldı | ROE ${roePct}%)`;
   } else if (isOrderflowScratch) {
@@ -1348,22 +1487,29 @@ async function manageOpenPosition(state, candidates = []) {
   }
 
   if (exitReason) {
-    state.marginCashUsdt = Number((state.marginCashUsdt + pos.marginUsdt + netPnlUsdt).toFixed(4));
-    state.realizedPnlUsdt = Number((state.realizedPnlUsdt + netPnlUsdt).toFixed(4));
-    if (netPnlUsdt >= 0) state.winCount = (state.winCount || 0) + 1;
+    const finalLegPnlUsdt = Number((pos.notionalUsdt * netCoinMoveFrac).toFixed(4));
+    const totalLifecyclePnlUsdt = Number(((pos.realizedPartialUsdt || 0) + finalLegPnlUsdt).toFixed(4));
+    const totalLifecyclePnlTry = toTL(totalLifecyclePnlUsdt);
+    const initialMarginUsdt = pos.initialMarginUsdt || pos.marginUsdt;
+    const initialNotionalUsdt = pos.initialNotionalUsdt || pos.notionalUsdt;
+    const lifecycleRoePct = Number(((totalLifecyclePnlUsdt / initialMarginUsdt) * 100).toFixed(2));
+
+    state.marginCashUsdt = Number((state.marginCashUsdt + pos.marginUsdt + finalLegPnlUsdt).toFixed(4));
+    state.realizedPnlUsdt = Number((state.realizedPnlUsdt + finalLegPnlUsdt).toFixed(4));
+    if (totalLifecyclePnlUsdt >= 0) state.winCount = (state.winCount || 0) + 1;
     else state.lossCount = (state.lossCount || 0) + 1;
 
     state.closedTrades.unshift({
       symbol: pos.symbol,
       side: pos.side,
       engine: pos.engine,
-      leverage: LEVERAGE,
-      marginTry: toTL(pos.marginUsdt),
-      notionalTry: toTL(pos.notionalUsdt),
+      leverage: posLev,
+      marginTry: toTL(initialMarginUsdt),
+      notionalTry: toTL(initialNotionalUsdt),
       entryPrice: pos.entryPrice,
       exitPrice: markExitPrice,
-      roePct,
-      netPnlTry,
+      roePct: lifecycleRoePct,
+      netPnlTry: totalLifecyclePnlTry,
       exitReason,
       closedAt: new Date().toLocaleString('tr-TR'),
     });
@@ -1373,7 +1519,7 @@ async function manageOpenPosition(state, candidates = []) {
       state.symbolCooldowns[pos.symbol] = Date.now() + 30 * 60 * 1000;
     }
     if (state.closedTrades.length > 30) state.closedTrades.length = 30;
-    logEvent(state, `${exitReason} | ${pos.symbol}USDT Net: ${netPnlTry >= 0 ? '+' : ''}${netPnlTry} TL`);
+    logEvent(state, `${exitReason} | ${pos.symbol}USDT Toplam Net: ${totalLifecyclePnlTry >= 0 ? '+' : ''}${totalLifecyclePnlTry} TL`);
     state.openPosition = null;
   }
 }
@@ -1392,36 +1538,39 @@ async function tryOpenPosition(state, candidates) {
   );
   if (!actionable.length) return;
 
-  // Engine #35.3: Auto-Compounding 3x Growth (Uses 96% of current compounded marginCashUsdt!)
+  // Engine #35.3 + v8.0: Auto-Compounding Growth with Dynamic Conviction Leverage (5x / 7x / 10x)
   const usableMarginUsdt = Number((state.marginCashUsdt * 0.96).toFixed(4));
-  const maxNotionalUsdt = Number((usableMarginUsdt * LEVERAGE).toFixed(4));
-  if (maxNotionalUsdt < MIN_NOTIONAL_USDT) {
-    logEvent(
-      state,
-      `⚠️ [MIN_NOTIONAL KALKANI] Mevcut 3x Alım Gücü ($${maxNotionalUsdt} / ${toTL(maxNotionalUsdt)} TL) Binance Futures alt sınırı olan 5.00 USDT (247.75 TL) altına indiği için yeni emir durduruldu!`
-    );
-    return;
-  }
 
   for (const cand of actionable) {
+    const chosenLev = cand.convictionLeverage || selectConvictionLeverage(cand.score, cand.atr15mPct);
+    const maxNotionalUsdt = Number((usableMarginUsdt * chosenLev).toFixed(4));
+    if (maxNotionalUsdt < MIN_NOTIONAL_USDT) {
+      logEvent(
+        state,
+        `⚠️ [MIN_NOTIONAL KALKANI] Mevcut ${chosenLev}x Alım Gücü ($${maxNotionalUsdt} / ${toTL(maxNotionalUsdt)} TL) Binance Futures alt sınırı olan 5.00 USDT altına indiği için emir durduruldu!`
+      );
+      return;
+    }
+
     const obCheck = await fetchPerpOrderbookConfirm(cand.symbol, cand.side);
     if (!obCheck.ok) {
       logEvent(
         state,
-        `⚖️ [3x Vadeli Tahta Vetosu] ${cand.symbol} (${cand.side}) pas geçildi: ${obCheck.reason}`
+        `⚖️ [Vadeli Tahta Vetosu] ${cand.symbol} (${chosenLev}x ${cand.side} | ${cand.score}p) pas geçildi: ${obCheck.reason}`
       );
       continue;
     }
 
     const entryPrice = cand.side === 'LONG' ? obCheck.bestAsk : obCheck.bestBid;
-    let rawWickDistFrac = 0.0090;
+    let rawWickDistFrac = 0.0080;
     if (cand.side === 'LONG' && cand.structuralLow > 0 && cand.structuralLow < entryPrice) {
       rawWickDistFrac = (entryPrice - cand.structuralLow * 0.999) / entryPrice;
     } else if (cand.side === 'SHORT' && cand.structuralHigh > entryPrice) {
       rawWickDistFrac = (cand.structuralHigh * 1.001 - entryPrice) / entryPrice;
     }
-    const underlyingSlFrac = Math.min(0.0105, Math.max(0.0078, rawWickDistFrac, (cand.atr15mPct / 100) * 0.72));
-    const underlyingTpFrac = Math.max(0.0210, underlyingSlFrac * 2.35);
+    const maxSlCap = chosenLev >= 10 ? 0.0078 : chosenLev >= 7 ? 0.0088 : 0.0098;
+    const underlyingSlFrac = Math.min(maxSlCap, Math.max(0.0068, rawWickDistFrac, (cand.atr15mPct / 100) * 0.68));
+    const underlyingTpFrac = Math.max(0.0220, underlyingSlFrac * 2.60);
 
     const stopPrice =
       cand.side === 'LONG'
@@ -1433,11 +1582,13 @@ async function tryOpenPosition(state, candidates) {
         ? Number((entryPrice * (1 + underlyingTpFrac)).toPrecision(6))
         : Number((entryPrice * (1 - underlyingTpFrac)).toPrecision(6));
 
+    const liqDistFrac = Number((0.92 / chosenLev).toFixed(4));
     const liqPrice =
       cand.side === 'LONG'
-        ? Number((entryPrice * (1 - 0.318)).toPrecision(6))
-        : Number((entryPrice * (1 + 0.318)).toPrecision(6));
+        ? Number((entryPrice * (1 - liqDistFrac)).toPrecision(6))
+        : Number((entryPrice * (1 + liqDistFrac)).toPrecision(6));
 
+    state.leverage = chosenLev;
     state.marginCashUsdt = Number((state.marginCashUsdt - usableMarginUsdt).toFixed(4));
     state.openPosition = {
       id: `perp_${Date.now()}_${cand.symbol}`,
@@ -1446,7 +1597,9 @@ async function tryOpenPosition(state, candidates) {
       side: cand.side,
       engine: cand.engine,
       candlePattern: cand.candlePattern,
-      leverage: LEVERAGE,
+      leverage: chosenLev,
+      initialMarginUsdt: usableMarginUsdt,
+      initialNotionalUsdt: maxNotionalUsdt,
       marginUsdt: usableMarginUsdt,
       marginTry: toTL(usableMarginUsdt),
       notionalUsdt: maxNotionalUsdt,
@@ -1457,6 +1610,8 @@ async function tryOpenPosition(state, candidates) {
       stopPrice,
       tpPrice,
       liqPrice,
+      tp1Done: false,
+      realizedPartialUsdt: 0,
       underlyingSlPct: Number((underlyingSlFrac * 100).toFixed(2)),
       underlyingTpPct: Number((underlyingTpFrac * 100).toFixed(2)),
       fundingRatePct: cand.fundingRatePct,
@@ -1475,7 +1630,7 @@ async function tryOpenPosition(state, candidates) {
 
     logEvent(
       state,
-      `🚀 [3x ${cand.side} GİRİŞ] ${cand.symbol}USDT @ $${entryPrice} | Teminat: ${toTL(usableMarginUsdt)} TL (3x Büyüklük: ${toTL(maxNotionalUsdt)} TL) | Stop: $${stopPrice} (-%${(underlyingSlFrac * 100).toFixed(2)}) | Hedef: $${tpPrice} (+%${(underlyingTpFrac * 100).toFixed(2)}) | ${cand.thesis}`
+      `🚀 [${chosenLev}x ${cand.side} GİRİŞ] ${cand.symbol}USDT @ $${entryPrice} | Teminat: ${toTL(usableMarginUsdt)} TL (${chosenLev}x Büyüklük: ${toTL(maxNotionalUsdt)} TL) | Stop: $${stopPrice} (-%${(underlyingSlFrac * 100).toFixed(2)}) | TP1: +%1.05 (%50 Nakit) | Ana Hedef: $${tpPrice} (+%${(underlyingTpFrac * 100).toFixed(2)}) | ${cand.thesis}`
     );
     break;
   }
@@ -1491,18 +1646,19 @@ function updateAccountingAndReport(state) {
   const lanIp = getLocalLanIp();
 
   const pos = state.openPosition;
+  const activeLev = pos?.leverage || state.leverage || LEVERAGE;
   const openSection = !pos
-    ? '| *Şu an açık 3x vadeli işlem yok (15 Katmanlı Konsey Skoru >= 76 bekleniyor)* | - | - | - | - | - |\n'
-    : `| **${pos.symbol}USDT (${pos.side} 3x)** | \`${pos.marginTry} TL\` *(3x Hacim: ${pos.notionalTry} TL)* | \`$${pos.entryPrice}\` -> \`$${pos.currentPrice}\` | **\`${pos.unrealizedPnlTry >= 0 ? '+' : ''}${pos.unrealizedPnlTry} TL (ROE %${pos.roePct})\`** | 🛑 Stop: \`$${pos.stopPrice}\`<br>🎯 Hedef: \`$${pos.tpPrice}\`<br>💀 Likidasyon: \`$${pos.liqPrice}\` | **${pos.engine}**<br>${pos.thesis} |\n`;
+    ? '| *Şu an açık vadeli işlem yok (16 Katmanlı Yırtıcı Konsey Skoru >= 76 bekleniyor)* | - | - | - | - | - |\n'
+    : `| **${pos.symbol}USDT (${pos.side} ${pos.leverage || LEVERAGE}x)** | \`${pos.marginTry} TL\` *(${pos.leverage || LEVERAGE}x Hacim: ${pos.notionalTry} TL)* | \`$${pos.entryPrice}\` -> \`$${pos.currentPrice}\` | **\`${pos.unrealizedPnlTry >= 0 ? '+' : ''}${pos.unrealizedPnlTry} TL (ROE %${pos.roePct})\`** | 🛑 Stop: \`$${pos.stopPrice}\`<br>🎯 Hedef: \`$${pos.tpPrice}\`<br>💀 Likidasyon: \`$${pos.liqPrice}\` | **${pos.engine}**<br>${pos.thesis} |\n`;
 
   const closedSection =
     !state.closedTrades || state.closedTrades.length === 0
-      ? '| *Henüz kapanan 3x işlem yok* | - | - | - | - |\n'
+      ? '| *Henüz kapanan vadeli işlem yok* | - | - | - | - |\n'
       : state.closedTrades
           .slice(0, 12)
           .map(
             c =>
-              `| **${c.symbol}USDT (${c.side} 3x)** | \`${c.marginTry} TL\` *(${c.notionalTry} TL)* | \`$${c.entryPrice}\` -> \`$${c.exitPrice}\` | **\`${c.netPnlTry >= 0 ? '+' : ''}${c.netPnlTry} TL (%${c.roePct})\`** | ${c.exitReason} |`
+              `| **${c.symbol}USDT (${c.side} ${c.leverage || 3}x)** | \`${c.marginTry} TL\` *(${c.notionalTry} TL)* | \`$${c.entryPrice}\` -> \`$${c.exitPrice}\` | **\`${c.netPnlTry >= 0 ? '+' : ''}${c.netPnlTry} TL (%${c.roePct})\`** | ${c.exitReason} |`
           )
           .join('\n') + '\n';
 
@@ -1512,22 +1668,22 @@ function updateAccountingAndReport(state) {
       : state.topCandidates
           .map(
             c =>
-              `| **${c.symbol}USDT** | \`${c.side}\` (**\`${c.score}/99\`**) | \`%${c.fundingRatePct}\` | \`${c.whaleRetailSpread >= 0 ? '+' : ''}%${c.whaleRetailSpread}\` *(${c.whaleLongPct}L/${c.retailLongPct}L)* | \`%${c.oiDelta1hPct}\` | ${c.thesis} |`
+              `| **${c.symbol}USDT** | \`${c.side}\` (**\`${c.score}/99\`** -> \`${c.convictionLeverage || 5}x\`) | \`%${c.fundingRatePct}\` | \`${c.whaleRetailSpread >= 0 ? '+' : ''}%${c.whaleRetailSpread}\` *(${c.whaleLongPct}L/${c.retailLongPct}L)* | \`%${c.oiDelta1hPct}\` | ${c.thesis} |`
           )
           .join('\n') + '\n';
 
-  const md = `# ⚡ 100 TL -> 3x İZOLE KALDIRAÇ SİSTEMİ (3x Mutlak Yapı v7.0 — Mobil Komuta & 15 Katmanlı Konsey)
+  const md = `# ⚡ 100 TL -> DİNAMİK 5x / 7x / 10x İZOLE KALDIRAÇ SİSTEMİ (Mutlak Yapı v8.0 — Tüm Piyasa Yırtıcı Radar & TP1 Kâr Cebellezi)
 
 **Son Güncelleme:** ${new Date().toLocaleString('tr-TR')}  
 **PC Paneli:** \`http://localhost:${DASHBOARD_PORT}\` | **📱 Telefon Wi-Fi Linki:** \`http://${lanIp}:${DASHBOARD_PORT}\`  
-**Çalışma Modu:** \`${state.mode}\` *(GCR + LightCrypto + Eugene RS + BNF + TTM Squeeze + 16s MTF + Taker L/S + SMC + Balina Makası)*
+**Çalışma Modu:** \`${state.mode}\` *(100+ Likit Kontrat Canlı Tarama + 5x/7x/10x Kademeli Kaldıraç + Çift Yönlü LONG/SHORT + TP1 %50 Kâr Cebellezi)*
 
 ---
 
-## 1. 100 TL (3x KALDIRAÇ) KASA DURUMU
+## 1. 100 TL (5x / 7x / 10x DİNAMİK KALDIRAÇ) KASA DURUMU
 
 * **Başlangıç Teminatı (Margin):** \`${toTL(state.initialBankrollUsdt)} TL\` (\`$${state.initialBankrollUsdt} USDT\`)
-* **3x Kaldıraçlı İşlem Gücü (Notional):** \`${toTL(state.totalEquityUsdt * LEVERAGE)} TL\` (\`$${(state.totalEquityUsdt * LEVERAGE).toFixed(2)} USDT\`)
+* **Dinamik Kaldıraçlı İşlem Gücü (5x–10x Notional):** \`${toTL(state.totalEquityUsdt * activeLev)} TL\` - \`${toTL(state.totalEquityUsdt * MAX_CONVICTION_LEVERAGE)} TL\`
 * **Şu Anki Net Kasa (Teminat Değeri):** **\`${toTL(state.totalEquityUsdt)} TL\`**
 * **Toplam Net Kâr / Zarar:** **\`${state.totalPnlUsdt >= 0 ? '+' : ''}${toTL(state.totalPnlUsdt)} TL\` (\`${state.totalPnlPct >= 0 ? '+' : ''}%${state.totalPnlPct}\`)**
 * **Başarılı İşlem / Stop:** \`${state.winCount} Kazanç / ${state.lossCount} Stop\`
@@ -1535,23 +1691,23 @@ function updateAccountingAndReport(state) {
 
 ---
 
-## 2. AÇIK 3x VADELİ POZİSYON (LONG / SHORT)
+## 2. AÇIK VADELİ POZİSYON (5x / 7x / 10x LONG & SHORT)
 
-| Kontrat & Yön | Teminat (3x Büyüklük) | Giriş -> Güncel | Anlık Net Kâr (ROE) | Stop / Hedef / Likidasyon | Strateji Motoru & Milyarder Tezi |
+| Kontrat & Yön | Teminat (Kaldıraçlı Büyüklük) | Giriş -> Güncel | Anlık Net Kâr (ROE) | Stop / Hedef / Likidasyon | Strateji Motoru & Milyarder Tezi |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 ${openSection}
 ---
 
-## 3. CANLI VADELİ RADAR (12 KATMANLI SIFIR ÇAKIŞMALI KONSEY)
+## 3. CANLI YÜKSEK HIZLI VADELİ RADAR (100+ KONTRAT İÇİNDEN EN GÜÇLÜ 8 ADAY)
 
-| Kontrat | Yön & Skor | Fonlama (8s) | Balina vs Küçük Yatırımcı Makası | OI (1s) | 12 Katmanlı Milyarderler Konseyi Tezi |
+| Kontrat | Yön, Skor & Kaldıraç | Fonlama (8s) | Balina vs Küçük Yatırımcı Makası | OI (1s) | 16 Katmanlı Yırtıcı Konsey Tezi |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 ${candSection}
 ---
 
-## 4. KAPANAN 3x VADELİ İŞLEMLER
+## 4. KAPANAN VADELİ İŞLEMLER
 
-| Kontrat & Yön | Teminat (3x Hacim) | Giriş -> Çıkış | Net Kâr / ROE | Çıkış Sebebi |
+| Kontrat & Yön | Teminat (Hacim) | Giriş -> Çıkış | Net Kâr / ROE | Çıkış Sebebi |
 | :--- | :--- | :--- | :--- | :--- |
 ${closedSection}
 `;
@@ -1571,6 +1727,7 @@ function startDashboardServer(state) {
     const spot = loadSpotPortfolioSummary();
     const combinedEquityTry = Number((toTL(state.totalEquityUsdt) + (spot ? spot.totalEquityTry : 0)).toFixed(2));
     const mobileUrl = `http://${lanIp}:${DASHBOARD_PORT}`;
+    const activeLev = pos?.leverage || state.leverage || LEVERAGE;
 
     const html = `<!doctype html>
 <html lang="tr">
@@ -1580,7 +1737,7 @@ function startDashboardServer(state) {
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#080c14" />
   <meta http-equiv="refresh" content="6" />
-  <title>⚡ Mobil Komuta Merkezi (3x Kaldıraç + 1000 TL Spot)</title>
+  <title>⚡ Mobil Komuta Merkezi (5x-10x Yırtıcı Kaldıraç + 1000 TL Spot)</title>
   <style>
     * { box-sizing:border-box; }
     body { background:#080c14; color:#f1f5f9; font-family:system-ui,-apple-system,sans-serif; margin:0; padding:14px; max-width:1100px; margin-inline:auto; }
@@ -1606,52 +1763,52 @@ function startDashboardServer(state) {
 <body>
   <div class="topbar">
     <div>
-      <div class="title">⚡ Milyarderler Konseyi v7.0 — Cep & PC Komuta Merkezi</div>
-      <div class="sub">GCR + LightCrypto + Eugene RS + BNF + TTM Squeeze + SMC + Balina L/S (Her 6 sn otomatik yenilenir)</div>
+      <div class="title">⚡ Yırtıcı Konsey v8.0 (5x / 7x / 10x) — Cep & PC Komuta Merkezi</div>
+      <div class="sub">Tüm Binance Futures (100+ Likit Kontrat) + Çift Yönlü LONG/SHORT + TP1 %50 Kâr Cebellezi (6 sn'de bir yenilenir)</div>
     </div>
     <div class="pill">📱 Telefon Wi-Fi: ${mobileUrl}</div>
   </div>
 
   <div class="grid">
     <div class="card">
-      <div class="lbl">⚡ 3x Kaldıraç Kasa</div>
+      <div class="lbl">⚡ 5x-10x Kaldıraç Kasa</div>
       <div class="val ${state.totalPnlUsdt >= 0 ? 'green' : 'red'}">${toTL(state.totalEquityUsdt)} TL</div>
-      <div class="sub">${state.totalPnlPct >= 0 ? '+' : ''}%${state.totalPnlPct} (3x Güç: ${toTL(state.totalEquityUsdt * LEVERAGE)} TL)</div>
+      <div class="sub">${state.totalPnlPct >= 0 ? '+' : ''}%${state.totalPnlPct} (5x-10x Güç: ${toTL(state.totalEquityUsdt * activeLev)}-${toTL(state.totalEquityUsdt * MAX_CONVICTION_LEVERAGE)} TL)</div>
     </div>
     <div class="card">
       <div class="lbl">💰 1.000 TL Spot Kasa</div>
       <div class="val ${spot && spot.totalPnlTry >= 0 ? 'green' : 'cyan'}">${spot ? spot.totalEquityTry : '992.13'} TL</div>
-      <div class="sub">Nakit: ${spot ? spot.cashTry : '934.59'} TL | ${spot ? spot.winCount : 21}W/${spot ? spot.lossCount : 15}L</div>
+      <div class="sub">Nakit: ${spot ? spot.cashTry : '934.59'} TL | ${spot ? spot.winCount : 21}W/${spot ? spot.lossCount : 17}L</div>
     </div>
     <div class="card">
       <div class="lbl">🏦 Toplam Birleşik Kasa</div>
       <div class="val amber">${combinedEquityTry} TL</div>
-      <div class="sub">Spot + 3x Vadeli Toplam</div>
+      <div class="sub">Spot + Vadeli Toplam</div>
     </div>
     <div class="card">
       <div class="lbl">🧭 BTC & Vadeli Rejim</div>
       <div class="val" style="font-size:13px;">BTC 15dk: %${state.marketSummary?.btcChange15mPct || 0}</div>
-      <div class="sub">Fonlama Kesimine: ${state.marketSummary?.minsToNextFunding || '-'} dk</div>
+      <div class="sub">${state.marketSummary?.activeUniverseCount || 80}+ Likit Kontrat Taranıyor</div>
     </div>
   </div>
 
   <div class="section-card">
-    <h3><span>🔥 1. Açık 3x Kaldıraçlı İşlem (100 TL Kasa)</span><span class="sub">${state.winCount} Kazanç / ${state.lossCount} Stop</span></h3>
+    <h3><span>🔥 1. Açık Kaldıraçlı İşlem (5x / 7x / 10x Dinamik)</span><span class="sub">${state.winCount} Kazanç / ${state.lossCount} Stop</span></h3>
     ${
       !pos
-        ? '<div class="sub">Şu an açık 3x vadeli işlem yok — 15 Katmanlı Konsey Skoru >= 76/99 olan kusursuz LONG veya SHORT kurulumu bekleniyor.</div>'
+        ? '<div class="sub">Şu an açık vadeli işlem yok — 100+ Yüksek Hızlı Kontrat içinde Skor >= 76/99 olan LONG veya SHORT avlanıyor.</div>'
         : `<div class="pos-box">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-              <div><b style="font-size:16px;">${pos.symbol}USDT</b> <span class="badge ${pos.side === 'LONG' ? 'long' : 'short'}">3x ${pos.side}</span></div>
+              <div><b style="font-size:16px;">${pos.symbol}USDT</b> <span class="badge ${pos.side === 'LONG' ? 'long' : 'short'}">${pos.leverage || LEVERAGE}x ${pos.side}</span></div>
               <div class="${pos.unrealizedPnlTry >= 0 ? 'green' : 'red'}" style="font-size:17px;font-weight:800;font-family:monospace;">
                 ${pos.unrealizedPnlTry >= 0 ? '+' : ''}${pos.unrealizedPnlTry} TL (ROE %${pos.roePct})
               </div>
             </div>
             <div style="font-size:12.5px;color:#cbd5e1;margin-bottom:6px;">
-              Teminat: <b>${pos.marginTry} TL</b> (3x Büyüklük: <b>${pos.notionalTry} TL</b>) | Giriş: <b>$${pos.entryPrice}</b> -> Güncel: <b>$${pos.currentPrice}</b>
+              Teminat: <b>${pos.marginTry} TL</b> (${pos.leverage || LEVERAGE}x Büyüklük: <b>${pos.notionalTry} TL</b>) | Giriş: <b>$${pos.entryPrice}</b> -> Güncel: <b>$${pos.currentPrice}</b>
             </div>
             <div style="font-size:12px;color:#94a3b8;margin-bottom:6px;">
-              🛑 Stop: <b>$${pos.stopPrice}</b> | 🎯 Hedef: <b>$${pos.tpPrice}</b> | 💀 Likidasyon: <b>$${pos.liqPrice}</b>
+              🛑 Stop: <b>$${pos.stopPrice}</b> | 💰 TP1 (%50 Cebellezi): <b>${pos.tp1Done ? 'ALINDI ✅' : '+%1.05'}</b> | 🎯 Hedef: <b>$${pos.tpPrice}</b> | 💀 Likidasyon: <b>$${pos.liqPrice}</b>
             </div>
             <div style="font-size:12px;color:#38bdf8;">${pos.thesis}</div>
           </div>`
@@ -1674,14 +1831,14 @@ function startDashboardServer(state) {
   </div>
 
   <div class="section-card">
-    <h3><span>📡 3. Canlı 3x Vadeli Radar (12 Katmanlı Milyarderler Konseyi)</span></h3>
+    <h3><span>📡 3. Canlı Yüksek Hızlı Vadeli Radar (100+ Kontrat İçinden En Güçlü 8 Aday)</span></h3>
     <table>
-      <tr><th>Kontrat</th><th>Yön & Skor</th><th>Fonlama</th><th>Balina Makası</th><th>OI (1s)</th><th>12 Katmanlı Milyarderler Konseyi Tezi</th></tr>
+      <tr><th>Kontrat</th><th>Yön, Skor & Kaldıraç</th><th>Fonlama</th><th>Balina Makası</th><th>OI (1s)</th><th>16 Katmanlı Yırtıcı Konsey Tezi</th></tr>
       ${(state.topCandidates || [])
         .map(
           c => `<tr>
           <td><b>${c.symbol}USDT</b></td>
-          <td><b>${c.side}</b> (${c.score}/99)</td>
+          <td><b>${c.side}</b> (${c.score}/99 -> <b>${c.convictionLeverage || 5}x</b>)</td>
           <td class="${c.fundingRatePct < 0 ? 'green' : c.fundingRatePct > 0.02 ? 'red' : ''}">%${c.fundingRatePct}</td>
           <td class="${c.whaleRetailSpread >= 4 ? 'green' : c.whaleRetailSpread <= -4 ? 'red' : ''}"><b>${c.whaleRetailSpread >= 0 ? '+' : ''}%${c.whaleRetailSpread}</b> (${c.whaleLongPct}L/${c.retailLongPct}L)</td>
           <td>%${c.oiDelta1hPct}</td>
@@ -1699,7 +1856,7 @@ function startDashboardServer(state) {
   server.on('error', () => {});
   // Bind to 0.0.0.0 so both localhost (PC) and 192.168.x.x (Mobile Phone on Wi-Fi) can connect!
   server.listen(DASHBOARD_PORT, '0.0.0.0', () => {
-    console.log(`🌐 3x Kaldıraç & Birleşik Mobil Panel Aktif:`);
+    console.log(`🌐 5x-10x Yırtıcı Kaldıraç & Birleşik Mobil Panel Aktif:`);
     console.log(`   💻 Bilgisayar: http://localhost:${DASHBOARD_PORT}`);
     console.log(`   📱 Telefon (Aynı Wi-Fi): http://${lanIp}:${DASHBOARD_PORT}`);
   });
@@ -1716,10 +1873,10 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = '3x-Mutlak-Yapi-v7.0-15Layer-Apex';
+  state.version = 'Mutlak-Yapi-v8.0-AllMarket-Predator-5x7x10x';
   console.log('================================================================================');
-  console.log(`⚡ 100 TL -> 3x İZOLE KALDIRAÇ SİSTEMİ (3x Mutlak Yapı v7.0 — Mobil & 15 Katmanlı Konsey)`);
-  console.log(`   Başlangıç: ${toTL(state.initialBankrollUsdt)} TL | Güncel Kasa: ${toTL(state.totalEquityUsdt)} TL | 3x Güç: ${toTL(state.totalEquityUsdt * LEVERAGE)} TL`);
+  console.log(`⚡ 100 TL -> 5x / 7x / 10x YIRTICI KALDIRAÇ SİSTEMİ (Mutlak Yapı v8.0 — Tüm Piyasa & TP1 Cebellezi)`);
+  console.log(`   Başlangıç: ${toTL(state.initialBankrollUsdt)} TL | Güncel Kasa: ${toTL(state.totalEquityUsdt)} TL | 5x-10x Güç: ${toTL(state.totalEquityUsdt * LEVERAGE)}-${toTL(state.totalEquityUsdt * MAX_CONVICTION_LEVERAGE)} TL`);
   console.log('================================================================================');
 
   await runCycle(state);
@@ -1735,7 +1892,7 @@ async function main() {
     } catch {
       // ignore transient network error
     }
-  }, 5000);
+  }, 4000);
 
   setInterval(async () => {
     try {
@@ -1743,7 +1900,7 @@ async function main() {
     } catch {
       // ignore transient network error
     }
-  }, 35000);
+  }, 30000);
 }
 
 main();
