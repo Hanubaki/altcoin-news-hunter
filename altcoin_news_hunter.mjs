@@ -708,6 +708,40 @@ function calcATRPct(klines, period = 14) {
   return Number(avg.toFixed(2));
 }
 
+function calcSimpleMA(closes, period = 25) {
+  if (!Array.isArray(closes) || closes.length < period) return NaN;
+  const slice = closes.slice(-period);
+  if (slice.some(v => !Number.isFinite(v) || v <= 0)) return NaN;
+  const sum = slice.reduce((a, b) => a + b, 0);
+  return sum / period;
+}
+
+function calcATRPrice(klines, period = 14) {
+  if (!Array.isArray(klines) || klines.length < 3) return NaN;
+  const trs = [];
+  for (let i = 1; i < klines.length; i++) {
+    const high = Number(klines[i][2]);
+    const low = Number(klines[i][3]);
+    const prevClose = Number(klines[i - 1][4]);
+    if (Number.isFinite(high) && Number.isFinite(low) && Number.isFinite(prevClose) && prevClose > 0) {
+      trs.push(Math.max(high - low, Math.abs(high - prevClose), Math.abs(low - prevClose)));
+    }
+  }
+  if (trs.length === 0) return NaN;
+  const slice = trs.slice(-period);
+  return slice.reduce((a, b) => a + b, 0) / slice.length;
+}
+
+function estimateTickSize(price) {
+  const p = Number(price);
+  if (!Number.isFinite(p) || p <= 0) return 0.0001;
+  const s = String(p);
+  const dot = s.indexOf('.');
+  if (dot === -1) return p >= 100 ? 0.1 : 0.01;
+  const dec = Math.min(8, Math.max(2, s.length - dot - 1));
+  return 10 ** -dec;
+}
+
 /**
  * Alpha Engine #3 & #4: Whale Taker Buy Ratio + 24h Institutional VWAP + Bottom Bounce Candle Check
  */
@@ -881,14 +915,59 @@ async function main() {
     }
   }
 
+  let prevSignals = null;
+  try {
+    if (fs.existsSync(SIGNALS_FILE)) {
+      prevSignals = JSON.parse(fs.readFileSync(SIGNALS_FILE, 'utf8').replace(/^\uFEFF/, ''));
+    }
+  } catch {}
+
   const qualifiedNewsCats = Object.values(newsScan.altCatalysts).filter(
     c => c.newsScore >= 1.5 && tickerMap[c.symbol] && c.hasDirectMention === true
   );
 
+  // Engine #30 (MUTLAK YAPI): BNF Panic Mean-Reversion Watchlist (Strictly for Regime A <24% breadth, $25M+ 24h volume)
+  const bnfPanicWatchList = [];
+  if (breadth24hPct < 28) {
+    const existingNewsSyms = new Set(qualifiedNewsCats.map(c => c.symbol));
+    const panicTag = new Date().toISOString().slice(0, 13);
+    const liquidPanicAlts = Object.entries(tickerMap)
+      .filter(
+        ([sym, m]) =>
+          sym !== 'BTC' &&
+          !existingNewsSyms.has(sym) &&
+          Number.isFinite(m.quoteVol24h) &&
+          m.quoteVol24h >= 25000000 &&
+          m.change24hPct <= -3.5
+      )
+      .sort((a, b) => a[1].change24hPct - b[1].change24hPct)
+      .slice(0, 10);
+    for (const [sym] of liquidPanicAlts) {
+      bnfPanicWatchList.push({
+        symbol: sym,
+        leaderSymbol: sym,
+        hasDirectMention: false,
+        isGoldenAgeCandidate: false,
+        isBnfWatchCandidate: true,
+        ecosystems: new Set(['BNFPanicReversion']),
+        matchedKeywords: new Set(['bnf-panic-oversold', 'micro-reversal']),
+        newsScore: 5.0,
+        freshestMinutesAgo: 5,
+        headlines: [
+          {
+            source: 'BNFPanicSniper',
+            minutesAgo: 5,
+            title: `Engine #30 BNF Panik Emilim Radarı (${sym} — MA25 -%6 & 5dk/1dk Mikro Dönüş [${panicTag}])`,
+          },
+        ],
+      });
+    }
+  }
+
   // Engine #24 & Engine #29: Golden-Age Institutional Leader Igniter & 4-Master Sovereign Crisis Override Watchlist (active when recovery >= 28% or breadth >= 24%)
   const goldenAgeWatchList = [];
   if (intradayRecoveryPct >= 28 || breadth24hPct >= 24) {
-    const existingSyms = new Set(qualifiedNewsCats.map(c => c.symbol));
+    const existingSyms = new Set([...qualifiedNewsCats, ...bnfPanicWatchList].map(c => c.symbol));
     const waveTag = new Date().toISOString().slice(0, 13);
     const liquidLeaders = Object.entries(tickerMap)
       .filter(
@@ -924,13 +1003,19 @@ async function main() {
     }
   }
 
-  // 100% Real-News + Direct-Mention Priority (plus Golden-Age Institutional Leaders ONLY during confirmed Golden-Age waves)
-  const positiveNewsAlts = [...qualifiedNewsCats, ...goldenAgeWatchList]
+  // Deduplicate symbols so no symbol ever gets evaluated twice in the same scan cycle
+  const seenCandidateSyms = new Set();
+  const positiveNewsAlts = [...qualifiedNewsCats, ...goldenAgeWatchList, ...bnfPanicWatchList]
+    .filter(c => {
+      if (!c?.symbol || seenCandidateSyms.has(c.symbol)) return false;
+      seenCandidateSyms.add(c.symbol);
+      return true;
+    })
     .sort((a, b) => b.newsScore - a.newsScore)
     .slice(0, 55);
 
   const [btcKlinesRes, btc1hKlinesRes, ...klineResults] = await Promise.allSettled([
-    fetchJson(`${BINANCE_API}/klines?symbol=BTCUSDT&interval=15m&limit=5`, {}, 4500),
+    fetchJson(`${BINANCE_API}/klines?symbol=BTCUSDT&interval=15m&limit=6`, {}, 4500),
     fetchJson(`${BINANCE_API}/klines?symbol=BTCUSDT&interval=1h&limit=30`, {}, 4500),
     ...positiveNewsAlts.map(c =>
       fetchJson(`${BINANCE_API}/klines?symbol=${c.symbol}USDT&interval=1h&limit=30`, {}, 4500)
@@ -938,11 +1023,14 @@ async function main() {
   ]);
 
   let btc1hChangePct = 0;
-  if (btcKlinesRes.status === 'fulfilled' && Array.isArray(btcKlinesRes.value) && btcKlinesRes.value.length >= 4) {
-    const k = btcKlinesRes.value;
-    const open1hAgo = Number(k[0][1]);
-    const closeNow = Number(k[k.length - 1][4]);
-    if (open1hAgo > 0) {
+  if (btcKlinesRes.status === 'fulfilled' && Array.isArray(btcKlinesRes.value) && btcKlinesRes.value.length >= 5) {
+    const rawK = btcKlinesRes.value;
+    // Use completed 15m bars for deterministic regime evaluation
+    const compK = rawK.length > 4 && Number(rawK[rawK.length - 1][6]) > Date.now() ? rawK.slice(0, -1) : rawK;
+    const window4 = compK.slice(-4);
+    const open1hAgo = Number(window4[0]?.[1]);
+    const closeNow = Number(window4[window4.length - 1]?.[4]);
+    if (open1hAgo > 0 && Number.isFinite(closeNow)) {
       btc1hChangePct = Number((((closeNow - open1hAgo) / open1hAgo) * 100).toFixed(2));
     }
   }
@@ -951,9 +1039,12 @@ async function main() {
   if (isGoldenAgeThrust) {
     marketBreadthPct = Math.max(breadth24hPct, Math.round(breadth24hPct * 0.40 + intradayRecoveryPct * 0.60));
   }
-  const btc1hCloses = btc1hKlinesRes.status === 'fulfilled' && Array.isArray(btc1hKlinesRes.value)
-    ? btc1hKlinesRes.value.map(k => Number(k[4]))
-    : [];
+  const btc1hRawKlines = btc1hKlinesRes.status === 'fulfilled' && Array.isArray(btc1hKlinesRes.value) ? btc1hKlinesRes.value : [];
+  const btc1hCompletedKlines =
+    btc1hRawKlines.length > 2 && Number(btc1hRawKlines[btc1hRawKlines.length - 1][6]) > Date.now()
+      ? btc1hRawKlines.slice(0, -1)
+      : btc1hRawKlines;
+  const btc1hCloses = btc1hCompletedKlines.map(k => Number(k[4]));
   const btc1hReturns = [];
   for (let b = 1; b < btc1hCloses.length; b++) {
     if (btc1hCloses[b - 1] > 0) {
@@ -961,6 +1052,30 @@ async function main() {
     }
   }
   const btcCrashAlert = btc1hChangePct <= -1.8;
+
+  // Engine #30 (MUTLAK YAPI — GPT-6-Luna Specification):
+  // Mutually exclusive regimes A (<24), B (24..51.99), C (>=52) with 2-consecutive-measurement confirmation & single engineOwner
+  const rawRegime = marketBreadthPct < 24 ? 'A' : marketBreadthPct < 52 ? 'B' : 'C';
+  const prevConfirmedRegime = ['A', 'B', 'C'].includes(prevSignals?.confirmedRegime) ? prevSignals.confirmedRegime : rawRegime;
+  const prevRawRegime = ['A', 'B', 'C'].includes(prevSignals?.rawRegime) ? prevSignals.rawRegime : rawRegime;
+  let confirmedRegime = prevConfirmedRegime;
+  let regimeStreak = 1;
+  if (rawRegime === prevConfirmedRegime) {
+    confirmedRegime = rawRegime;
+    regimeStreak = (Number(prevSignals?.regimeStreak) || 1) + 1;
+  } else if (rawRegime === prevRawRegime) {
+    confirmedRegime = rawRegime;
+    regimeStreak = 2;
+  } else {
+    confirmedRegime = prevConfirmedRegime;
+    regimeStreak = 1;
+  }
+  const healthyScanStreak =
+    !btcCrashAlert && Array.isArray(tickersRes) && tickersRes.length >= 20
+      ? (Number(prevSignals?.healthyScanStreak) || 0) + 1
+      : 0;
+  const regimeEngineOwner = confirmedRegime === 'A' ? 'BNF' : confirmedRegime === 'B' ? 'SOVEREIGN' : 'EP';
+
   const tsiNow = new Date(Date.now() + 3 * 3600 * 1000);
   const isFriday = tsiNow.getUTCDay() === 5;
   const tsiHour = tsiNow.getUTCHours();
@@ -968,10 +1083,12 @@ async function main() {
   const isFridayMorningTrapSetup = isFriday && tsiHour >= 8 && tsiHour < 15 && breadth24hPct < 46 && intradayRecoveryPct >= 42;
   const isFridayPmDumpWindow = isFriday && tsiHour >= 15 && tsiHour <= 23;
   const isConfirmedGoldenAge =
+    confirmedRegime === 'C' &&
     !btcCrashAlert &&
     !isFridayPmDumpWindow &&
+    healthyScanStreak >= 2 &&
     ((btc1hChangePct >= 0.30 && marketBreadthPct >= 52 && intradayRecoveryPct >= 50) ||
-      (btc1hChangePct >= 0.25 && breadth24hPct >= 48));
+      (btc1hChangePct >= 0.25 && breadth24hPct >= 48 && marketBreadthPct >= 52));
 
   const scoredOpportunities = [];
   for (let i = 0; i < positiveNewsAlts.length; i++) {
@@ -981,11 +1098,18 @@ async function main() {
     const leaderMkt = tickerMap[cat.leaderSymbol] || mkt;
 
     const klines = klineResults[i]?.status === 'fulfilled' ? klineResults[i].value : [];
+    const completedKlines =
+      klines.length > 2 && Number(klines[klines.length - 1]?.[6]) > Date.now()
+        ? klines.slice(0, -1)
+        : klines;
+    const completedCloses = completedKlines.map(k => Number(k[4]));
     const closes = klines.map(k => Number(k[4]));
     const volumes = klines.map(k => Number(k[5]));
 
-    const rsi1h = calcRSI(closes, 14);
-    const atr1hPct = calcATRPct(klines, 14);
+    const rsi1h = calcRSI(completedCloses.length >= 15 ? completedCloses : closes, 14);
+    const ma25_1h = calcSimpleMA(completedCloses, 25);
+    const atr1hPct = calcATRPct(completedKlines.length >= 15 ? completedKlines : klines, 14);
+    const atr1hPrice = calcATRPrice(completedKlines.length >= 15 ? completedKlines : klines, 14);
     const { macdBullishTurn } = calcMACD(closes);
     const { bbPctB, bbWidthPct, isSqueeze } = calcBollingerMetrics(closes, 20);
     const { adx, ema20AboveEma50, regime } = calcADXAndRegime(klines, closes);
@@ -1026,14 +1150,39 @@ async function main() {
     const lagVsLeader24h = Number((leaderMkt.change24hPct - mkt.change24hPct).toFixed(2));
     const hasDirectMention = Boolean(cat.hasDirectMention);
     const isGoldenAgeCandidate = Boolean(cat.isGoldenAgeCandidate);
-    // Engine #29: 4-Master Sovereign Crisis Alpha Setup (Paul Tudor Jones + Mark Minervini + William O'Neil + GCR — 75.0% Backtested Win Rate)
-    // Overrides Golden-Age waiting gate when a liquid leader shows 3-bar Higher Lows, EMA20>EMA50, VWAP+0.8%, Vol>=1.35x, ClosePos>=0.70, and Whale Taker>=58% during market chop/recovery!
+    const isBnfWatchCandidate = Boolean(cat.isBnfWatchCandidate);
+
+    // Engine #30 Single Engine Owner per Symbol/Scan Cycle: A -> BNF, B -> SOVEREIGN (#29), C -> EP
+    const engineOwner = regimeEngineOwner;
+    if (confirmedRegime !== 'A' && isBnfWatchCandidate) continue;
+
+    // Engine #30 BNF Panic Mean-Reversion Pre-Condition (Strictly in Regime A, all inputs finite, MA25 on 25 completed 1h bars)
+    const isBnfPanicCandidate = Boolean(
+      confirmedRegime === 'A' &&
+        engineOwner === 'BNF' &&
+        !btcCrashAlert &&
+        Number.isFinite(mkt?.lastPrice) &&
+        Number.isFinite(ma25_1h) &&
+        Number.isFinite(rsi1h) &&
+        Number.isFinite(mkt?.quoteVol24h) &&
+        mkt.quoteVol24h >= 25000000 &&
+        mkt.lastPrice <= 0.94 * ma25_1h &&
+        rsi1h <= 28
+    );
+    if (confirmedRegime === 'A' && !isBnfPanicCandidate) {
+      continue;
+    }
+
+    // Engine #29: 4-Master Sovereign Crisis Alpha Setup (Strictly in Regime B: 24 <= marketBreadthPct < 52)
     const isSovereignCrisisCandidate = Boolean(
-      isGoldenAgeCandidate &&
+      confirmedRegime === 'B' &&
+        engineOwner === 'SOVEREIGN' &&
+        isGoldenAgeCandidate &&
         !btcCrashAlert &&
         !isFridayPmDumpWindow &&
         btc1hChangePct >= -0.25 &&
         marketBreadthPct >= 24 &&
+        marketBreadthPct < 52 &&
         ema20AboveEma50 &&
         isHigherLow3Bar &&
         mkt.lastPrice >= vwap24h * 1.008 &&
@@ -1055,7 +1204,9 @@ async function main() {
     );
     if (isGoldenAgeCandidate) {
       if (
-        (!isConfirmedGoldenAge && !isSovereignCrisisCandidate) ||
+        (confirmedRegime === 'B' && !isSovereignCrisisCandidate) ||
+        (confirmedRegime === 'C' && !isConfirmedGoldenAge) ||
+        confirmedRegime === 'A' ||
         isFridayPmDumpWindow ||
         last1hTakerBuy < 0.55 ||
         takerBuyRatio < 0.53 ||
@@ -1099,8 +1250,8 @@ async function main() {
 
     // 2. Rolling Beta-Adjusted Relative Strength (RS_ATR) vs BTC
     const coinReturns = [];
-    for (let cIdx = 1; cIdx < closes.length; cIdx++) {
-      if (closes[cIdx - 1] > 0) coinReturns.push((closes[cIdx] - closes[cIdx - 1]) / closes[cIdx - 1]);
+    for (let cIdx = 1; cIdx < completedCloses.length; cIdx++) {
+      if (completedCloses[cIdx - 1] > 0) coinReturns.push((completedCloses[cIdx] - completedCloses[cIdx - 1]) / completedCloses[cIdx - 1]);
     }
     let betaBtc = 1.15;
     const nRets = Math.min(coinReturns.length, btc1hReturns.length);
@@ -1124,31 +1275,76 @@ async function main() {
     const rsAtr = Number((relativeStrength1h / Math.max(0.45, atr1hPct)).toFixed(2));
     if (isGoldenAgeCandidate && rsAtr < (isFridayMorningTrapSetup ? 1.40 : 1.25)) continue;
 
+    // Engine #30 Qullamaggie EP (Episodic Pivot) with Strict NO-CHASE Pmax in Regime C
+    const lastCompBar = completedKlines[completedKlines.length - 1];
+    const prevCompBar = completedKlines[completedKlines.length - 2];
+    const openingRangeHigh = Number(prevCompBar?.[2] || lastCompBar?.[2] || mkt.lastPrice);
+    const hasCompletedOrBreakout =
+      completedCloses.length >= 2 &&
+      Number.isFinite(openingRangeHigh) &&
+      openingRangeHigh > 0 &&
+      Number(lastCompBar?.[4]) > openingRangeHigh;
+    const epAtrUnit = Number.isFinite(atr1hPrice) && atr1hPrice > 0 ? atr1hPrice : mkt.lastPrice * (atr1hPct / 100);
+    const epMaxEntryPrice =
+      openingRangeHigh > 0
+        ? Number(Math.min(openingRangeHigh + 0.25 * epAtrUnit, openingRangeHigh * 1.01).toPrecision(6))
+        : Number((mkt.lastPrice * 1.005).toPrecision(6));
+    const isEpRetestOptimal =
+      hasCompletedOrBreakout &&
+      mkt.lastPrice >= openingRangeHigh &&
+      mkt.lastPrice <= openingRangeHigh + 0.15 * epAtrUnit;
+    const isEpCandidate = Boolean(
+      confirmedRegime === 'C' &&
+        engineOwner === 'EP' &&
+        !btcCrashAlert &&
+        healthyScanStreak >= 2 &&
+        hasDirectMention &&
+        eventAgeMins <= 45 &&
+        volRatio >= 2.2 &&
+        hasCompletedOrBreakout &&
+        impulseAtr <= 1.50 &&
+        mkt.lastPrice <= vwap24h * 1.010 &&
+        mkt.lastPrice <= epMaxEntryPrice
+    );
+    if (confirmedRegime === 'C' && hasDirectMention && !isEpCandidate) {
+      continue;
+    }
+
     // 3. NO-CHASE Guard + Pre-Event Leak Filter + Freshness Gate (<= 90m; <= 45m during Friday PM dump window) + Unblinded RSI on Direct News
-    const maxAllowedRsi = hasDirectMention ? (isFridayPmDumpWindow ? 60 : 66) : isGoldenAgeCandidate ? 60 : 50;
+    const maxAllowedRsi = isBnfPanicCandidate ? 28 : hasDirectMention ? (isFridayPmDumpWindow ? 60 : 66) : isGoldenAgeCandidate ? 60 : 50;
     const isNoChaseOverextended =
-      eventAgeMins > (isFridayPmDumpWindow ? 45 : 90) || // Never let stale >90m news crowd out fresh candidates (<=45m on Friday PM)!
-      preEventAtr > 2.2 || // Reject if coin already pumped >2.2 ATR BEFORE the news timestamp (leaked/front-run)
-      impulseAtr > 3.5 ||
-      (impulsePct >= 3.0 && retracementRatio < 0.20) ||
-      (impulsePct >= 4.2 && retracementRatio < 0.25) ||
-      retracementRatio > 0.80; // Failed impulse (>80% given back)
-    if ((!hasDirectMention && !isGoldenAgeCandidate) || rsi1h > maxAllowedRsi || isNoChaseOverextended || bbPctB > 0.92 || mkt.change24hPct > 14.0) continue;
-    // minQuoteVolumeGuard ($3.5M min 24h volume) + true amihudIlliquidityRatio guard (reject if >18% impact per $1M volume)
-    const minQuoteVolumeGuard = (mkt.quoteVol24h || 0) >= 3500000 && amihudIlliquidity <= 18.0;
+      !isBnfPanicCandidate &&
+      (eventAgeMins > (isFridayPmDumpWindow || confirmedRegime === 'C' ? 45 : 90) ||
+        preEventAtr > 2.2 ||
+        impulseAtr > (confirmedRegime === 'C' ? 1.50 : 3.5) ||
+        (impulsePct >= 3.0 && retracementRatio < 0.20) ||
+        (impulsePct >= 4.2 && retracementRatio < 0.25) ||
+        retracementRatio > 0.80);
+    if (
+      (!hasDirectMention && !isGoldenAgeCandidate && !isBnfPanicCandidate) ||
+      rsi1h > maxAllowedRsi ||
+      isNoChaseOverextended ||
+      (!isBnfPanicCandidate && (bbPctB > 0.92 || mkt.change24hPct > 14.0))
+    ) {
+      continue;
+    }
+    // minQuoteVolumeGuard ($3.5M min 24h volume; $25M for BNF) + true amihudIlliquidityRatio guard (reject if >18% impact per $1M volume)
+    const minQuoteVolumeGuard =
+      (mkt.quoteVol24h || 0) >= (isBnfPanicCandidate ? 25000000 : 3500000) && amihudIlliquidity <= 18.0;
     if (!minQuoteVolumeGuard) continue;
     // takerFlowDecelerationGuard with 1h sample-volume guard (prevents low-volume 1h noise from starving valid fresh news):
     // Hard reject only on extreme 3h collapse (<48%) or high-volume 1h seller dump (<42% or decel >11% with >=$150k 1h vol)
     const isExtremeTakerCollapse =
-      takerBuyRatio < 0.48 ||
-      (last1hQuoteVolUsd >= 150000 && (last1hTakerBuy < 0.42 || takerFlowDecel > 0.11));
+      !isBnfPanicCandidate &&
+      (takerBuyRatio < 0.48 ||
+        (last1hQuoteVolUsd >= 150000 && (last1hTakerBuy < 0.42 || takerFlowDecel > 0.11)));
     if (isExtremeTakerCollapse) continue;
     // Engine #20: Overleveraged Long Liquidation Cascade Shield (reject extreme futures long overheating)
     if (fundingHourlyPct >= 0.06 || basisSpreadPct <= -0.50) continue;
     // Engine #26B (tradermonty/news-reaction-failure-analyzer — Jason Shapiro Step 2):
     // If bullish news has been public for >= 25m and the market shrugged it off & dumped below VWAP, reject FAILED_TO_RALLY!
     const isNewsReactionFailure =
-      eventAgeMins >= 25 && change1hPct <= -0.85 && !aboveVwap && !isGreenBounce;
+      !isBnfPanicCandidate && eventAgeMins >= 25 && change1hPct <= -0.85 && !aboveVwap && !isGreenBounce;
     if (isNewsReactionFailure) continue;
 
     const microstructureFlags = [];
@@ -1261,22 +1457,42 @@ async function main() {
     if (volRatio >= 1.1) totalScore += Math.min(7, (volRatio - 1) * 5);
 
     const rangePct = mkt.low24h > 0 ? ((mkt.high24h - mkt.low24h) / mkt.low24h) * 100 : 4;
-    const tpPct = Number(Math.max(4.5, Math.min(9.0, rangePct * 0.65)).toFixed(2));
-    const slPct = Number(Math.max(2.0, Math.min(3.2, atr1hPct * 1.65)).toFixed(2));
+    const tpPct = isBnfPanicCandidate ? 2.20 : Number(Math.max(4.5, Math.min(9.0, rangePct * 0.65)).toFixed(2));
+    const slPct = isBnfPanicCandidate ? 0.72 : Number(Math.max(2.0, Math.min(3.2, atr1hPct * 1.65)).toFixed(2));
+    if (isEpCandidate) {
+      totalScore += isEpRetestOptimal ? 12 : 8;
+    } else if (isBnfPanicCandidate) {
+      totalScore += 10;
+    }
 
     scoredOpportunities.push({
       symbol: sym,
       leaderSymbol: cat.leaderSymbol,
+      engineOwner,
+      confirmedRegime,
       hasDirectMention,
       isGoldenAgeCandidate,
       isSovereignCrisisCandidate,
+      isBnfPanicCandidate,
+      isBnfConfirmed: false,
+      isEpCandidate,
+      isEpRetestOptimal,
+      openingRangeHigh: isEpCandidate ? Number(openingRangeHigh.toPrecision(6)) : null,
+      epMaxEntryPrice: isEpCandidate ? epMaxEntryPrice : null,
+      ma25_1h: Number.isFinite(ma25_1h) ? Number(ma25_1h.toPrecision(6)) : null,
       preEventAtr,
       impulsePct,
       impulseAtr,
       retracementRatio,
       betaBtc,
       rsAtr,
-      entryPattern: isGoldenAgeCandidate ? 'GOLDEN_AGE_THRUST' : entryPattern,
+      entryPattern: isBnfPanicCandidate
+        ? 'BNF_PANIC_REVERSION'
+        : isEpCandidate
+          ? 'QULLAMAGGIE_EP'
+          : isGoldenAgeCandidate
+            ? 'GOLDEN_AGE_THRUST'
+            : entryPattern,
       ecosystems: Array.from(cat.ecosystems),
       matchedKeywords: Array.from(cat.matchedKeywords).slice(0, 6),
       newsScore: cat.newsScore,
@@ -1325,15 +1541,22 @@ async function main() {
 
   scoredOpportunities.sort((a, b) => b.totalScore - a.totalScore);
 
-  // Enrich Top 10 candidates with Binance Institutional Top 20% Whale Long/Short Ratio & Aligned 15m/1h Open Interest Flow
+  // Enrich Top 10 candidates with Binance Institutional Top 20% Whale Long/Short Ratio, 15m/1h Open Interest, & Engine #30 BNF 5m/1m Micro-Reversal
   const top10Slice = scoredOpportunities.slice(0, 10);
   await Promise.all(
     top10Slice.map(async item => {
       try {
-        const [lsRes, oiRes] = await Promise.all([
+        const extraPromises = [
           fetchJson(`https://www.binance.info/futures/data/topLongShortPositionRatio?symbol=${item.symbol}USDT&period=1h&limit=2`, {}, 2500).catch(() => []),
           fetchJson(`https://www.binance.info/futures/data/openInterestHist?symbol=${item.symbol}USDT&period=15m&limit=5`, {}, 2500).catch(() => []),
-        ]);
+        ];
+        if (item.engineOwner === 'BNF' && item.isBnfPanicCandidate) {
+          extraPromises.push(
+            fetchJson(`${BINANCE_API}/klines?symbol=${item.symbol}USDT&interval=5m&limit=16`, {}, 3000).catch(() => []),
+            fetchJson(`${BINANCE_API}/klines?symbol=${item.symbol}USDT&interval=1m&limit=5`, {}, 3000).catch(() => [])
+          );
+        }
+        const [lsRes, oiRes, k5Res, k1Res] = await Promise.all(extraPromises);
         if (Array.isArray(lsRes) && lsRes.length > 0) {
           const latestLs = lsRes[lsRes.length - 1];
           const topWhaleLongPct = Number((Number(latestLs.longAccount || 0.5) * 100).toFixed(1));
@@ -1367,7 +1590,96 @@ async function main() {
             }
           }
         }
-        if (item.isGoldenAgeCandidate) {
+        // Engine #30 BNF Panic Mean-Reversion Mandatory 5m + 1m + 15m OI Micro-Reversal Verification (Zero Falling-Knife Guarantee)
+        if (item.engineOwner === 'BNF' && item.isBnfPanicCandidate) {
+          const comp5m =
+            Array.isArray(k5Res) && k5Res.length > 6 && Number(k5Res[k5Res.length - 1]?.[6]) > Date.now()
+              ? k5Res.slice(0, -1)
+              : Array.isArray(k5Res)
+                ? k5Res
+                : [];
+          const comp1m =
+            Array.isArray(k1Res) && k1Res.length > 2 && Number(k1Res[k1Res.length - 1]?.[6]) > Date.now()
+              ? k1Res.slice(0, -1)
+              : Array.isArray(k1Res)
+                ? k1Res
+                : [];
+          const b5Last = comp5m[comp5m.length - 1];
+          const b5Prev = comp5m[comp5m.length - 2];
+          const b1Last = comp1m[comp1m.length - 1];
+          const prior5mWindow = comp5m.slice(-6, -2);
+          const sweepLow =
+            prior5mWindow.length >= 2
+              ? Math.min(...prior5mWindow.map(k => Number(k[3])).filter(Number.isFinite))
+              : NaN;
+          const last5mOpen = Number(b5Last?.[1]);
+          const last5mHigh = Number(b5Last?.[2]);
+          const last5mLow = Number(b5Last?.[3]);
+          const last5mClose = Number(b5Last?.[4]);
+          const prev5mHigh = Number(b5Prev?.[2]);
+          const prev5mLow = Number(b5Prev?.[3]);
+          const closePos5m =
+            Number.isFinite(last5mHigh) && Number.isFinite(last5mLow) && last5mHigh > last5mLow
+              ? (last5mClose - last5mLow) / (last5mHigh - last5mLow)
+              : 0;
+          const q1mVol = Number(b1Last?.[7]);
+          const t1mVol = Number(b1Last?.[10]);
+          const takerBuy1m = Number.isFinite(q1mVol) && q1mVol > 0 && Number.isFinite(t1mVol) ? t1mVol / q1mVol : 0;
+          const atr5mPrice = calcATRPrice(comp5m, 10);
+          const tickSize = estimateTickSize(item.lastPrice);
+          const rawSlPrice =
+            Number.isFinite(sweepLow) && Number.isFinite(atr5mPrice)
+              ? sweepLow - Math.max(0.15 * atr5mPrice, 2 * tickSize)
+              : NaN;
+          const dFrac =
+            Number.isFinite(rawSlPrice) && rawSlPrice > 0 && item.lastPrice > rawSlPrice
+              ? (item.lastPrice - rawSlPrice) / item.lastPrice
+              : NaN;
+          const cFric = 0.0044;
+          const netTp = 0.022 - cFric;
+          const netSl = Number.isFinite(dFrac) ? dFrac + cFric : NaN;
+          const netRr = Number.isFinite(netSl) && netSl > 0 ? netTp / netSl : 0;
+
+          const hasMicroReversal =
+            Number.isFinite(last5mClose) &&
+            Number.isFinite(last5mOpen) &&
+            Number.isFinite(prev5mHigh) &&
+            Number.isFinite(last5mLow) &&
+            Number.isFinite(prev5mLow) &&
+            Number.isFinite(sweepLow) &&
+            last5mClose > last5mOpen &&
+            last5mClose >= prev5mHigh &&
+            last5mLow >= prev5mLow &&
+            prev5mLow >= sweepLow &&
+            last5mLow >= sweepLow &&
+            closePos5m >= 0.65 &&
+            takerBuy1m >= 0.60 &&
+            Number.isFinite(item.oiChange15mPct) &&
+            item.oiChange15mPct >= 0.25 &&
+            Number.isFinite(dFrac) &&
+            dFrac > 0 &&
+            dFrac <= 0.011 &&
+            netRr >= 1.50;
+
+          if (hasMicroReversal) {
+            item.isBnfConfirmed = true;
+            item.bnfSweepLow = Number(sweepLow.toPrecision(6));
+            item.bnfNetRr = Number(netRr.toFixed(2));
+            item.bnfTakerBuy1mPct = Number((takerBuy1m * 100).toFixed(1));
+            item.slPrice = Number(rawSlPrice.toPrecision(6));
+            item.slPct = Number((dFrac * 100).toFixed(2));
+            item.tpPct = 2.20;
+            item.tpPrice = Number((item.lastPrice * 1.022).toPrecision(6));
+            item.liveLlmDecision = 'LONG';
+            item.liveLlmConfidence = 91;
+            item.liveLlmReason = `[Engine #30 BNF Panik Emilim Onayı (Rejim A)]: Fiyat <= 0.94*MA25 + RSI ${item.rsi1h} + 5dk Kırılım & Yükselen Dip + 1dk Alıcı %${item.bnfTakerBuy1mPct} + 15dk OI +%${item.oiChange15mPct} + NetRR ${item.bnfNetRr}`;
+            item.totalScore = Number(Math.min(99, item.totalScore + 12).toFixed(1));
+          } else {
+            item.isBnfConfirmed = false;
+            item.liveLlmDecision = 'WAIT';
+            item.totalScore = 10;
+          }
+        } else if (item.isGoldenAgeCandidate) {
           const hasValidOi = Number.isFinite(item.oiChange15mPct);
           const minReqWhale = item.isSovereignCrisisCandidate || isFridayMorningTrapSetup ? 56 : 55;
           const minReqOi = item.isSovereignCrisisCandidate ? 0.30 : isFridayMorningTrapSetup ? 0.35 : 0;
@@ -1377,12 +1689,12 @@ async function main() {
               item.oiChange15mPct >= (item.isSovereignCrisisCandidate || isFridayMorningTrapSetup ? 0.45 : 0.25));
           if (hasFuturesConfirmation && !(item.microstructureFlags || []).includes('PRICE_OI_DIVERGENCE')) {
             item.isGoldenAgeLeader = true;
-            item.isSovereignCrisisLeader = Boolean(item.isSovereignCrisisCandidate);
+            item.isSovereignCrisisLeader = Boolean(item.isSovereignCrisisCandidate && confirmedRegime === 'B');
             item.liveLlmDecision = 'LONG';
             item.liveLlmConfidence = item.isSovereignCrisisLeader ? 92 : 88;
             item.liveLlmReason = item.isSovereignCrisisLeader
-              ? `[Engine #29 Dört Efsane Egemen Kriz Alfa (PTJ+Minervini+O'Neil+GCR %75 Başarı)]: 3-Mum Yükselen Dip + VWAP+%0.8 + Hacim ${item.volRatio}x + 1s Balina %${item.last1hTakerBuyPct} + RS_ATR ${item.rsAtr}`
-              : `[Engine #24 Golden-Age Kurumsal Lider]: Piyasa V-Dip İvmesi (%${marketBreadthPct} Yeşil) + 1s Balina %${item.last1hTakerBuyPct} + RS_ATR ${item.rsAtr}`;
+              ? `[Engine #29/#30 Dört Efsane Egemen Kriz Alfa (Rejim B — PTJ+Minervini+O'Neil+GCR %75 Başarı)]: 3-Mum Yükselen Dip + VWAP+%0.8 + Hacim ${item.volRatio}x + 1s Balina %${item.last1hTakerBuyPct} + RS_ATR ${item.rsAtr}`
+              : `[Engine #24 Golden-Age Kurumsal Lider (Rejim C)]: Piyasa V-Dip İvmesi (%${marketBreadthPct} Yeşil) + 1s Balina %${item.last1hTakerBuyPct} + RS_ATR ${item.rsAtr}`;
             item.totalScore = Number(Math.min(99, item.totalScore + (item.isSovereignCrisisLeader ? 10 : 6)).toFixed(1));
           } else {
             item.isGoldenAgeLeader = false;
@@ -1394,12 +1706,16 @@ async function main() {
       } catch {}
     })
   );
-  scoredOpportunities.sort((a, b) => b.totalScore - a.totalScore);
+  const verifiedOpportunities = scoredOpportunities.filter(opp => {
+    if (opp.isBnfPanicCandidate && !opp.isBnfConfirmed) return false;
+    if (opp.isGoldenAgeCandidate && !opp.isGoldenAgeLeader) return false;
+    return true;
+  });
+  verifiedOpportunities.sort((a, b) => b.totalScore - a.totalScore);
 
   const selectedTop4 = [];
   const usedLeaders = new Set();
-  for (const opp of scoredOpportunities) {
-    if (opp.isGoldenAgeCandidate && !opp.isGoldenAgeLeader) continue;
+  for (const opp of verifiedOpportunities) {
     if (usedLeaders.has(opp.leaderSymbol) && selectedTop4.length < 4) continue;
     usedLeaders.add(opp.leaderSymbol);
     selectedTop4.push(opp);
@@ -1425,7 +1741,7 @@ async function main() {
   if ((groqKey || geminiKey || openrouterKey) && selectedTop4.length > 0) {
     await Promise.all(
       selectedTop4.map(async item => {
-        if (item.isGoldenAgeLeader) return;
+        if (item.isGoldenAgeLeader || item.isBnfConfirmed) return;
         const prompt = `Sen kurumsal bir kripto haber semantik doğrulayıcısısın (fiyat falcısı değil). Şu haberi 6 objektif kriterle doğrula ve SADECE tek satır geçerli JSON döndür: {"coinDirectlyAffected":true,"eventPositive":true,"negativeTrap":false,"eventAlreadyOccurred":false,"sourceCredible":true,"symbolAmbiguous":false,"decision":"LONG","confidence":82,"reason":"Kısa Türkçe sebep (en fazla 10 kelime)"}. KURAL: Sadece şu objektif durumlarda decision "WAIT" ver: 1) coinDirectlyAffected=false (haber doğrudan ${item.symbol} ile ilgili değilse), 2) eventPositive=false veya negativeTrap=true (delist, hack, exploit, unlock, dava, düşüş/retest ise), 3) eventAlreadyOccurred=true ("dün listelendi/geçen hafta yükseldi" gibi geçmişte kalmış/bitmiş olay ise), 4) symbolAmbiguous=true (sembol başka bir kelimeyle karıştırılmışsa). Gerçek ve taze pozitif haberde RSI ${item.rsi1h} olsa bile LONG ver! Coin: ${item.symbol}, Haber (${item.freshestMinutesAgo}dk önce): "${item.headlines[0]?.title || ''}", PreEventATR: ${item.preEventAtr}, İmpulsATR: ${item.impulseAtr}, Retracement: ${item.retracementRatio}, BetaRS_ATR: ${item.rsAtr}`;
 
         const aiVerdicts = [];
@@ -1538,13 +1854,13 @@ async function main() {
   }
 
   console.log(`📰 [Kaynaklar (${newsScan.totalHeadlines} Haber)]: ${newsScan.activeFeeds.join(' | ')}`);
-  console.log(`🛡️ [BTC Kalkanı]: 1s BTC %${btc1hChangePct} (${btcCrashAlert ? '🚨 FREN' : '✅ GÜVENLİ'}) | 🌍 Altcoin İştahı: %${marketBreadthPct} Yeşil | 🧭 Korku/Açgözlülük: ${fearGreedVal} (${fearGreedClass}) | BTC Dom: %${btcDominancePct}`);
+  console.log(`🛡️ [BTC Kalkanı]: 1s BTC %${btc1hChangePct} (${btcCrashAlert ? '🚨 FREN' : '✅ GÜVENLİ'}) | 🌍 Altcoin İştahı: %${marketBreadthPct} Yeşil [Rejim ${confirmedRegime} -> ${regimeEngineOwner}] | 🧭 Korku/Açgözlülük: ${fearGreedVal} (${fearGreedClass}) | BTC Dom: %${btcDominancePct}`);
 
   selectedTop4.forEach((item, idx) => {
     const whaleTag = item.topWhaleLongPct ? ` | 🏦 Dev Balina Long: %${item.topWhaleLongPct}` : '';
     const oiTag = item.oiChange15mPct !== undefined ? ` | 📈 15dk OI: %${item.oiChange15mPct}` : '';
     console.log(
-      `\n${idx + 1}. 🎯 ${item.symbol} (Skor: ${item.totalScore}/100 | 🤖 ${item.aiConsensusLabel}) | RSI: ${item.rsi1h}${item.hasRsiDivergence ? ' (Uyumsuzluk ✅)' : ''} | 🐋 Spot Alım: %${item.takerBuyRatioPct}${whaleTag}${oiTag} | VWAP: ${item.vwap24h}`
+      `\n${idx + 1}. 🎯 ${item.symbol} (Skor: ${item.totalScore}/100 | 🏛️ ${item.engineOwner} | 🤖 ${item.aiConsensusLabel}) | RSI: ${item.rsi1h}${item.hasRsiDivergence ? ' (Uyumsuzluk ✅)' : ''} | 🐋 Spot Alım: %${item.takerBuyRatioPct}${whaleTag}${oiTag} | VWAP: ${item.vwap24h}`
     );
     if (item.liveLlmReason) {
       console.log(`   🧠 [4-Model Semantik AI Konseyi (${item.liveLlmDecision} Ort. Güven %${item.liveLlmConfidence})]: ${item.liveLlmReason}`);
@@ -1562,6 +1878,11 @@ async function main() {
     btc1hChangePct,
     btcCrashAlert,
     marketBreadthPct,
+    rawRegime,
+    confirmedRegime,
+    regimeStreak,
+    healthyScanStreak,
+    regimeEngineOwner,
     isConfirmedGoldenAge,
     fearGreedVal,
     fearGreedClass,
@@ -1569,7 +1890,7 @@ async function main() {
     totalHeadlinesScanned: newsScan.totalHeadlines,
     activeFeeds: newsScan.activeFeeds,
     top4AltcoinPicks: selectedTop4,
-    allQualifiedOpportunities: scoredOpportunities,
+    allQualifiedOpportunities: verifiedOpportunities,
   };
 
   fs.writeFileSync(SIGNALS_FILE, JSON.stringify(payload, null, 2), 'utf8');
