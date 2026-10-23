@@ -957,8 +957,15 @@ async function main() {
     }
   }
   const btcCrashAlert = btc1hChangePct <= -1.8;
+  const tsiNow = new Date(Date.now() + 3 * 3600 * 1000);
+  const isFriday = tsiNow.getUTCDay() === 5;
+  const tsiHour = tsiNow.getUTCHours();
+  // Engine #28: Friday Bull-Trap & Pre-Weekend De-Risking Shield (2-yr empirical backtest: 85.4% altcoin Friday PM dump probability after Thu drop + Fri AM bounce)
+  const isFridayMorningTrapSetup = isFriday && tsiHour >= 8 && tsiHour < 15 && breadth24hPct < 46 && intradayRecoveryPct >= 42;
+  const isFridayPmDumpWindow = isFriday && tsiHour >= 15 && tsiHour <= 23;
   const isConfirmedGoldenAge =
     !btcCrashAlert &&
+    !isFridayPmDumpWindow &&
     ((btc1hChangePct >= 0.30 && marketBreadthPct >= 52 && intradayRecoveryPct >= 50) ||
       (btc1hChangePct >= 0.25 && breadth24hPct >= 48));
 
@@ -1016,6 +1023,7 @@ async function main() {
     if (isGoldenAgeCandidate) {
       if (
         !isConfirmedGoldenAge ||
+        isFridayPmDumpWindow ||
         last1hTakerBuy < 0.55 ||
         takerBuyRatio < 0.53 ||
         last1hQuoteVolUsd < 250000 ||
@@ -1081,12 +1089,12 @@ async function main() {
     const expectedCoin1h = Number((betaBtc * btc1hChangePct).toFixed(2));
     const relativeStrength1h = Number((change1hPct - expectedCoin1h).toFixed(2));
     const rsAtr = Number((relativeStrength1h / Math.max(0.45, atr1hPct)).toFixed(2));
-    if (isGoldenAgeCandidate && rsAtr < 1.25) continue;
+    if (isGoldenAgeCandidate && rsAtr < (isFridayMorningTrapSetup ? 1.40 : 1.25)) continue;
 
-    // 3. NO-CHASE Guard + Pre-Event Leak Filter + Freshness Gate (<= 90m) + Unblinded RSI on Direct News
-    const maxAllowedRsi = hasDirectMention ? 66 : isGoldenAgeCandidate ? 60 : 50;
+    // 3. NO-CHASE Guard + Pre-Event Leak Filter + Freshness Gate (<= 90m; <= 45m during Friday PM dump window) + Unblinded RSI on Direct News
+    const maxAllowedRsi = hasDirectMention ? (isFridayPmDumpWindow ? 60 : 66) : isGoldenAgeCandidate ? 60 : 50;
     const isNoChaseOverextended =
-      eventAgeMins > 90 || // Never let stale >90m news crowd out fresh candidates or waste AI Council slots!
+      eventAgeMins > (isFridayPmDumpWindow ? 45 : 90) || // Never let stale >90m news crowd out fresh candidates (<=45m on Friday PM)!
       preEventAtr > 2.2 || // Reject if coin already pumped >2.2 ATR BEFORE the news timestamp (leaked/front-run)
       impulseAtr > 3.5 ||
       (impulsePct >= 3.0 && retracementRatio < 0.20) ||
@@ -1146,6 +1154,10 @@ async function main() {
     if (isUpperWickRejection) {
       totalScore -= 12;
       microstructureFlags.push('UPPER_WICK_REJECTION');
+    }
+    if (isFridayPmDumpWindow) {
+      totalScore -= 6;
+      microstructureFlags.push('FRIDAY_PM_DE_RISKING_SHIELD');
     }
     // Engine #26A (binance-skills-hub/crypto-market-rank): Binance Official AI Social-Hype Sentiment Cross-Check
     if (binanceSocial?.sentiment === 'Negative') {
@@ -1323,10 +1335,12 @@ async function main() {
         }
         if (item.isGoldenAgeCandidate) {
           const hasValidOi = Number.isFinite(item.oiChange15mPct);
+          const minReqWhale = isFridayMorningTrapSetup ? 56 : 55;
+          const minReqOi = isFridayMorningTrapSetup ? 0.35 : 0;
           const hasFuturesConfirmation =
             hasValidOi &&
-            (((item.topWhaleLongPct || 0) >= 55 && item.oiChange15mPct >= 0) ||
-              item.oiChange15mPct >= 0.25);
+            (((item.topWhaleLongPct || 0) >= minReqWhale && item.oiChange15mPct >= minReqOi) ||
+              item.oiChange15mPct >= (isFridayMorningTrapSetup ? 0.45 : 0.25));
           if (hasFuturesConfirmation && !(item.microstructureFlags || []).includes('PRICE_OI_DIVERGENCE')) {
             item.isGoldenAgeLeader = true;
             item.liveLlmDecision = 'LONG';

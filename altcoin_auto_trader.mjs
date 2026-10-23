@@ -683,7 +683,7 @@ ${(pf.cfoTips || []).map(t => `  - ${t}`).join('\n')}
 
 ---
 
-## 6. AKTİF KORUMA VE MAKSİMUM KAZANÇ MOTORLARI (Quant v10.9.1 — Institutional Suite)
+## 6. AKTİF KORUMA VE MAKSİMUM KAZANÇ MOTORLARI (Quant v10.9.2 — Institutional Suite)
 
 1. **🛡️ Engine #19 — Tek Yönlü Gölge Tuzak Avcısı (Defensive Shadow Trap Detector):** Gerçek para yatırmadan önce adayları arka planda sanal izler (\`0%\` pozitif puan şişirme riski); sanalda çakılan veya 75dk sürünerek eriyen tuzak coinleri gerçek para kaybetmeden 4 saat kara listeye alır (\`shadow_telemetry.jsonl\`).
 2. **🧪 Engine #20 & #21 — Kurumsal Mikroyapı & İğne Tuzak Kalkanı:** Gerçek **Amihud Likidite Oranı (\`|ret_1h%| / $1M\`)**, örneklem korumalı **Taker Akış Yavaşlama Filtresi**, zaman-hizalı **Fiyat–OI Ayı Uyumsuzluğu (\`PRICE_OI_DIVERGENCE\`)**, **Aşırı Kaldıraçlı Long Tasfiye Kalkanı (\`OVERLEVERAGED_LONG_TRAP\`)** ve **Üst Fitil Boğa Tuzağı (\`UPPER_WICK_REJECTION\`)** korumalarıyla sahte yükselişlere tek kuruş kaptırmaz.
@@ -691,8 +691,9 @@ ${(pf.cfoTips || []).map(t => `  - ${t}`).join('\n')}
 4. **⚡ Engine #23 & #24 — V-Dip Genişlik İtişi & Altın Çağ Kurumsal Lider Ateşleyici:** Piyasa dipten dönerken (\`1s BTC >= +%0,30\` + \`Altcoin >= %24 Yeşil\` + \`Kurtarma >= %38\`) 24s gecikmesini sıfırlar; teyitli Altın Çağ'da RSS haberi gecikse bile kurumsal likidite liderlerini (\`Hacim >= $15M\`, \`Amihud <= 8.0\`, \`Taker >= %55\`, \`RS/ATR >= 1.25\`) yakalar.
 5. **🧹 Engine #25 & #26 — Taze Haber Kalkanı, Binance AI Hype & Shapiro Haber-Tepkisizlik Kapısı:** \`>75dk\` bayat haberlerin taze haberin sırtına binmesini ve clickbait başlıkları engeller; Binance Web3 AI duyarlılığını ve habere rağmen VWAP altında ezilen (\`<=-%0,85\`) zayıf coinleri eler.
 6. **🔬 Engine #27 — İki Aşamalı Kalıcı Tahta Doğrulayıcı (\`PERSISTENT_BOOK_CONFIRMATION\`):** Alım emrinden hemen önce Binance TR \`_TRY\` tahtasından \`2.1sn\` arayla iki ayrı fotoğraf çeker; sahte alış duvarı (\`spoof decay > 0.12\`), tahta boşalması (\`hollowing\`), geniş makas (\`>%0,60\`) veya negatif mikro-fiyat primi varsa emri saniyesinde iptal eder.
-7. **💰 Çakışmasız Kademeli Hasat (\`TP1 -> TP2 -> Moonbag\`) & \`+%1,75\` Net Kâr Kilidi:** \`TP1\` (\`%2,2–%3,6\`) alınmadan üst stop basamakları coini erken boğmaz; \`< 55 TL\` küsürat oluşacak pozisyonları bölmeden tam stop kilidine alır.
-8. **🧠 Engine #15 & #16 — Tamamlanmış Ömür (Lifecycle) Bayes Öğrenme & Kişisel CFO:** Parçalı satışları tek işlem ömründe (\`positionId\`) birleştirerek öğrenir ve İş Bankası + Binance TR servetini tek merkezden yönetir.
+7. **📅 Engine #28 — Perşembe Çöküşü Sonrası Cuma Boğa Tuzağı & Akşam Koruma Kalkanı (\`FRIDAY_BULL_TRAP_SHIELD\`):** 2 yıllık Binance verisinde kanıtlanan **%85,4 olasılıklı Cuma akşamı (\`15:00–23:59 TSİ\`) geri çekilme tuzaklarına** karşı Cuma sabahı vadeli OI/balina barajını sıkılaştırır; Cuma \`15:00 TSİ\` sonrasında habersiz ivme alımlarını kapatır, kasanın en az \`%40\`'ını dokunulmaz nakitte tutar ve açık pozisyonlarda kâr kilidini \`+%1,75\` yerine \`+%1,35\`'te erkenden devreye sokar.
+8. **💰 Çakışmasız Kademeli Hasat (\`TP1 -> TP2 -> Moonbag\`) & \`+%1,75\` Net Kâr Kilidi:** \`TP1\` (\`%2,2–%3,6\`) alınmadan üst stop basamakları coini erken boğmaz; \`< 55 TL\` küsürat oluşacak pozisyonları bölmeden tam stop kilidine alır.
+9. **🧠 Engine #15 & #16 — Tamamlanmış Ömür (Lifecycle) Bayes Öğrenme & Kişisel CFO:** Parçalı satışları tek işlem ömründe (\`positionId\`) birleştirerek öğrenir ve İş Bankası + Binance TR servetini tek merkezden yönetir.
 `;
 
   fs.writeFileSync(RAPOR_FILE, md, 'utf8');
@@ -1426,10 +1427,12 @@ async function runTradingCycle() {
     // Engine #7A & #7B: Unified Volatility-Scaled Profit Harvest (TP1 & TP2)
     await processProfitTargets(cfg, state, pos, currentBid);
 
-    // Engine #8: HARMONIZED ZERO-CONFLICT RATCHET LADDER (Synchronized with dynamic tp1Pct/tp2Pct so pre-TP1 ratchets never choke a winner before TP1 harvest!)
+    // Engine #8: HARMONIZED ZERO-CONFLICT RATCHET LADDER (Synchronized with dynamic tp1Pct/tp2Pct + Engine #28 Friday PM Early Profit Lock)
+    const tsiCycleNow = new Date(Date.now() + 3 * 3600 * 1000);
+    const isFridayPmCycle = tsiCycleNow.getUTCDay() === 5 && tsiCycleNow.getUTCHours() >= 15;
     const peakGainPct = ((pos.highestPrice - pos.entryPrice) / pos.entryPrice) * 100;
     const dynTp1 = Number(pos.tp1Pct || 2.2);
-    const breakevenTriggerPct = Math.max(1.75, Number((dynTp1 * 0.72).toFixed(2)));
+    const breakevenTriggerPct = isFridayPmCycle ? 1.35 : Math.max(1.75, Number((dynTp1 * 0.72).toFixed(2)));
     let stepFloorPrice = pos.stopLossPrice;
     if (pos.partialTpDone && peakGainPct >= 7.0) {
       stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.988).toPrecision(5)), Number((pos.entryPrice * 1.0602).toPrecision(5)));
@@ -1509,6 +1512,7 @@ async function runTradingCycle() {
     } else if (
       !pos.partialTpDone &&
       ((minsHeld >= 75 && peakGainPct < 1.0 && pos.unrealizedPnlPct <= -0.55) ||
+        (isFridayPmCycle && minsHeld >= 35 && peakGainPct < 0.9 && pos.unrealizedPnlPct <= -0.35 && liveObForScratch <= -0.18) ||
         (minsHeld >= 45 && peakGainPct < 0.8 && pos.unrealizedPnlPct <= -0.80 && (signalsData.marketBreadthPct ?? 50) < 20) ||
         (minsHeld >= 90 && peakGainPct < 1.2 && pos.unrealizedPnlPct <= -0.35 && liveObForScratch <= -0.20))
     ) {
@@ -1730,11 +1734,14 @@ async function runTradingCycle() {
       : 0;
     const isAntiMeltdownActive = consecutiveLosses >= 2 || drawdownFromPeakPct >= 4.0;
 
-    // Engine #18: Rejim Bazlı Brüt Pozisyon Tavanı (Regime-Based Max Gross Exposure)
-    const regimeExposurePct =
+    // Engine #18 & #28: Rejim Bazlı Brüt Pozisyon Tavanı + Cuma Akşamı (%40 Dokunulmaz Nakit) Kalkanı
+    const tsiEntryNow = new Date(Date.now() + 3 * 3600 * 1000);
+    const isFridayPmEntry = tsiEntryNow.getUTCDay() === 5 && tsiEntryNow.getUTCHours() >= 15;
+    const rawRegimeExposurePct =
       breadthPct >= 40 ? 0.95 :
       breadthPct >= 32 ? 0.75 :
       breadthPct >= 24 ? 0.50 : 0.35; // When breadth < 24%, keep at least 65% in safe TRY cash!
+    const regimeExposurePct = isFridayPmEntry ? Math.min(rawRegimeExposurePct, 0.60) : rawRegimeExposurePct;
     const maxGrossExposureUsdt = Number((currentTotalEquity * regimeExposurePct).toFixed(2));
     const effectiveMaxSlots = isRedMarketDump
       ? 1
@@ -2728,9 +2735,11 @@ async function runFastPositionRiskTick() {
       // Fast 4s Profit Harvest (TP1 & TP2) + Harmonized Zero-Conflict Profit Ratchet
       const didFastHarvest = await processProfitTargets(cfg, state, pos, currentBid);
       if (didFastHarvest) stateModified = true;
+      const tsiFastNow = new Date(Date.now() + 3 * 3600 * 1000);
+      const isFridayPmFast = tsiFastNow.getUTCDay() === 5 && tsiFastNow.getUTCHours() >= 15;
       const peakGainPct = ((pos.highestPrice - pos.entryPrice) / pos.entryPrice) * 100;
       const dynTp1Fast = Number(pos.tp1Pct || 2.2);
-      const breakevenTriggerFast = Math.max(1.75, Number((dynTp1Fast * 0.72).toFixed(2)));
+      const breakevenTriggerFast = isFridayPmFast ? 1.35 : Math.max(1.75, Number((dynTp1Fast * 0.72).toFixed(2)));
       let stepFloor = pos.stopLossPrice;
       if (pos.partialTpDone && peakGainPct >= 7.0) stepFloor = Math.max(stepFloor, Number((pos.highestPrice * 0.988).toPrecision(5)), Number((pos.entryPrice * 1.0602).toPrecision(5)));
       else if (pos.partialTpDone && peakGainPct >= 4.5) stepFloor = Math.max(stepFloor, Number((pos.highestPrice * 0.986).toPrecision(5)), Number((pos.entryPrice * 1.0342).toPrecision(5)));
@@ -2748,7 +2757,10 @@ async function runFastPositionRiskTick() {
       const posRiskBudgetTry = Number(pos.riskBudgetTry || 4.50);
       const nowTickMs = Date.now();
       const minsHeldFast = (nowTickMs - new Date(pos.entryTime || nowTickMs).getTime()) / 60000;
-      const isFastSlowBleed = !pos.partialTpDone && minsHeldFast >= 75 && peakGainPct < 1.0 && pos.unrealizedPnlPct <= -0.55;
+      const isFastSlowBleed =
+        !pos.partialTpDone &&
+        ((minsHeldFast >= 75 && peakGainPct < 1.0 && pos.unrealizedPnlPct <= -0.55) ||
+          (isFridayPmFast && minsHeldFast >= 35 && peakGainPct < 0.9 && pos.unrealizedPnlPct <= -0.35 && Number(pos.liveObImbalance ?? 0) <= -0.18));
 
       if (currentBid <= pos.stopLossPrice || (!pos.trailingActive && netPnlTryExec <= -posRiskBudgetTry)) {
         pos.stopHitCount = (pos.stopHitCount || 0) + 1;

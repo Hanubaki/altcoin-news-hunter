@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-23T06:55:33.124Z",
+  "updatedAt": "2026-10-23T07:25:01.685Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.1572,
@@ -1351,9 +1351,9 @@
     "[23:22:28] 🏁 [MANUEL SATIŞ] PYTH @ $0.07979 | 📲 TELEFONDAN MANUEL SATIŞ (Kâr/Nakit Alındı) | Net: -0,02 TL",
     "[23:21:44] 🏁 [POZİSYON KAPANDI] THETA @ $0.2042 | 🔄 SEÇENEK 2 GEÇİŞİ (Vurgun Slotu Kapatılıp 3 Ana Slota Aktarıldı %-1.5) | Net: -2,44 TL"
   ],
-  "totalEquityUsdt": 20.0107,
-  "totalEquityTry": 992.73,
-  "totalPnlUsdt": -0.1465,
+  "totalEquityUsdt": 20.0095,
+  "totalEquityTry": 992.67,
+  "totalPnlUsdt": -0.1478,
   "totalPnlPct": -0.73,
   "cooldowns": {
     "ARB": 1792544650227,
@@ -1374,128 +1374,8 @@
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
   "usdTryRate": 49.61,
-  "totalPnlTry": -7.27,
+  "totalPnlTry": -7.33,
   "equityHistory": [
-    {
-      "t": "08:20",
-      "v": 992.68
-    },
-    {
-      "t": "08:21",
-      "v": 992.6
-    },
-    {
-      "t": "08:22",
-      "v": 992.64
-    },
-    {
-      "t": "08:23",
-      "v": 992.61
-    },
-    {
-      "t": "08:24",
-      "v": 992.67
-    },
-    {
-      "t": "08:25",
-      "v": 992.6
-    },
-    {
-      "t": "08:26",
-      "v": 992.61
-    },
-    {
-      "t": "08:27",
-      "v": 992.58
-    },
-    {
-      "t": "08:28",
-      "v": 992.56
-    },
-    {
-      "t": "08:29",
-      "v": 992.56
-    },
-    {
-      "t": "08:30",
-      "v": 992.58
-    },
-    {
-      "t": "08:31",
-      "v": 992.67
-    },
-    {
-      "t": "08:32",
-      "v": 992.73
-    },
-    {
-      "t": "08:33",
-      "v": 992.76
-    },
-    {
-      "t": "08:34",
-      "v": 992.78
-    },
-    {
-      "t": "08:35",
-      "v": 992.72
-    },
-    {
-      "t": "08:36",
-      "v": 992.77
-    },
-    {
-      "t": "08:37",
-      "v": 992.78
-    },
-    {
-      "t": "08:38",
-      "v": 992.78
-    },
-    {
-      "t": "08:39",
-      "v": 992.78
-    },
-    {
-      "t": "08:40",
-      "v": 992.75
-    },
-    {
-      "t": "08:41",
-      "v": 992.79
-    },
-    {
-      "t": "08:42",
-      "v": 992.8
-    },
-    {
-      "t": "08:43",
-      "v": 992.81
-    },
-    {
-      "t": "08:44",
-      "v": 992.78
-    },
-    {
-      "t": "08:45",
-      "v": 992.8
-    },
-    {
-      "t": "08:46",
-      "v": 992.75
-    },
-    {
-      "t": "08:47",
-      "v": 992.75
-    },
-    {
-      "t": "08:48",
-      "v": 992.78
-    },
-    {
-      "t": "08:49",
-      "v": 992.79
-    },
     {
       "t": "08:50",
       "v": 992.77
@@ -1759,6 +1639,126 @@
     {
       "t": "09:55",
       "v": 992.73
+    },
+    {
+      "t": "09:56",
+      "v": 992.74
+    },
+    {
+      "t": "09:57",
+      "v": 992.73
+    },
+    {
+      "t": "09:58",
+      "v": 992.75
+    },
+    {
+      "t": "09:59",
+      "v": 992.75
+    },
+    {
+      "t": "10:00",
+      "v": 992.77
+    },
+    {
+      "t": "10:01",
+      "v": 992.75
+    },
+    {
+      "t": "10:02",
+      "v": 992.68
+    },
+    {
+      "t": "10:03",
+      "v": 992.66
+    },
+    {
+      "t": "10:04",
+      "v": 992.65
+    },
+    {
+      "t": "10:05",
+      "v": 992.69
+    },
+    {
+      "t": "10:06",
+      "v": 992.72
+    },
+    {
+      "t": "10:07",
+      "v": 992.68
+    },
+    {
+      "t": "10:08",
+      "v": 992.69
+    },
+    {
+      "t": "10:09",
+      "v": 992.7
+    },
+    {
+      "t": "10:10",
+      "v": 992.73
+    },
+    {
+      "t": "10:11",
+      "v": 992.74
+    },
+    {
+      "t": "10:12",
+      "v": 992.74
+    },
+    {
+      "t": "10:13",
+      "v": 992.74
+    },
+    {
+      "t": "10:14",
+      "v": 992.75
+    },
+    {
+      "t": "10:15",
+      "v": 992.74
+    },
+    {
+      "t": "10:16",
+      "v": 992.74
+    },
+    {
+      "t": "10:17",
+      "v": 992.72
+    },
+    {
+      "t": "10:18",
+      "v": 992.7
+    },
+    {
+      "t": "10:19",
+      "v": 992.7
+    },
+    {
+      "t": "10:20",
+      "v": 992.7
+    },
+    {
+      "t": "10:21",
+      "v": 992.7
+    },
+    {
+      "t": "10:22",
+      "v": 992.67
+    },
+    {
+      "t": "10:23",
+      "v": 992.69
+    },
+    {
+      "t": "10:24",
+      "v": 992.7
+    },
+    {
+      "t": "10:25",
+      "v": 992.67
     }
   ],
   "walletAssetsMap": {
@@ -1793,10 +1793,10 @@
     "WLD": 0.0814,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.172,
-  "dustAssetsTry": 58.14,
+  "dustAssetsUsdt": 1.1709,
+  "dustAssetsTry": 58.09,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-23T06:55:33.121Z",
+    "updatedAt": "2026-10-23T07:25:01.682Z",
     "totalAnalyzedTrades": 36,
     "globalWR": 0.579,
     "coinStats": {
@@ -2471,18 +2471,18 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 992.73,
+    "totalNetWorthTry": 992.67,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
       "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %58.3 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-23T06:55:33.124Z"
+    "updatedAt": "2026-10-23T07:25:01.685Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254,
-  "noBuyShort": "📡 Raad ol, pusudayız: Piyasa normal (%42 yeşil) ama 99 haber içinde henüz gerçek A+ pump haberi yok, sahte sinyale girmiyoruz.",
-  "noBuyDetail": "1) **Piyasa Durumu:** Altcoinlerin %42'i yeşil (1s BTC: %0.12). 2) **Sıfır Sahte Sinyal Kuralı:** 14 kaynaktan 79 haber tarandı ancak doğrudan bir coini uçuracak (`directMention = true` + `AI Konseyi LONG`) kriterleri geçen aday çıkmadı. A+ haber düştüğü saniye otomatik alım yapılacak.",
+  "noBuyShort": "📡 Raad ol, pusudayız: Piyasa normal (%44 yeşil) ama 99 haber içinde henüz gerçek A+ pump haberi yok, sahte sinyale girmiyoruz.",
+  "noBuyDetail": "1) **Piyasa Durumu:** Altcoinlerin %44'i yeşil (1s BTC: %-0.18). 2) **Sıfır Sahte Sinyal Kuralı:** 14 kaynaktan 100 haber tarandı ancak doğrudan bir coini uçuracak (`directMention = true` + `AI Konseyi LONG`) kriterleri geçen aday çıkmadı. A+ haber düştüğü saniye otomatik alım yapılacak.",
   "shadowPositions": [
     {
       "symbol": "XRP",
