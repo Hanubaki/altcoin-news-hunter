@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-23T09:02:39.654Z",
+  "updatedAt": "2026-10-23T09:12:10.060Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.1572,
@@ -1351,10 +1351,10 @@
     "[01:02:47] ⚡ [AKILLI ROTASYON] RAY kapatıldı, yerine 131.2 puanlık dev fırsat (INJ) alınıyor!",
     "[23:23:32] 🟢 [OTOMATİK ALIM] WLD (262,60 TL) @ $0.5704 | Skor: 89.3 | RSI: 40.45 | Balina: %47 | SL: -%2.61"
   ],
-  "totalEquityUsdt": 20.0079,
-  "totalEquityTry": 992.59,
-  "totalPnlUsdt": -0.1494,
-  "totalPnlPct": -0.74,
+  "totalEquityUsdt": 20.0067,
+  "totalEquityTry": 992.53,
+  "totalPnlUsdt": -0.1506,
+  "totalPnlPct": -0.75,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -1374,48 +1374,8 @@
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
   "usdTryRate": 49.61,
-  "totalPnlTry": -7.41,
+  "totalPnlTry": -7.47,
   "equityHistory": [
-    {
-      "t": "10:27",
-      "v": 992.64
-    },
-    {
-      "t": "10:28",
-      "v": 992.65
-    },
-    {
-      "t": "10:29",
-      "v": 992.63
-    },
-    {
-      "t": "10:30",
-      "v": 992.61
-    },
-    {
-      "t": "10:31",
-      "v": 992.67
-    },
-    {
-      "t": "10:32",
-      "v": 992.71
-    },
-    {
-      "t": "10:33",
-      "v": 992.77
-    },
-    {
-      "t": "10:34",
-      "v": 992.8
-    },
-    {
-      "t": "10:35",
-      "v": 992.75
-    },
-    {
-      "t": "10:36",
-      "v": 992.76
-    },
     {
       "t": "10:37",
       "v": 992.79
@@ -1759,6 +1719,46 @@
     {
       "t": "12:02",
       "v": 992.57
+    },
+    {
+      "t": "12:03",
+      "v": 992.55
+    },
+    {
+      "t": "12:04",
+      "v": 992.57
+    },
+    {
+      "t": "12:05",
+      "v": 992.56
+    },
+    {
+      "t": "12:06",
+      "v": 992.53
+    },
+    {
+      "t": "12:07",
+      "v": 992.54
+    },
+    {
+      "t": "12:08",
+      "v": 992.53
+    },
+    {
+      "t": "12:09",
+      "v": 992.52
+    },
+    {
+      "t": "12:10",
+      "v": 992.5
+    },
+    {
+      "t": "12:11",
+      "v": 992.51
+    },
+    {
+      "t": "12:12",
+      "v": 992.53
     }
   ],
   "walletAssetsMap": {
@@ -1793,10 +1793,10 @@
     "WLD": 0.0814,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.1692,
-  "dustAssetsTry": 58,
+  "dustAssetsUsdt": 1.1681,
+  "dustAssetsTry": 57.95,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-23T09:02:39.654Z",
+    "updatedAt": "2026-10-23T09:12:10.057Z",
     "totalAnalyzedTrades": 36,
     "globalWR": 0.579,
     "coinStats": {
@@ -2471,18 +2471,18 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 992.59,
+    "totalNetWorthTry": 992.53,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
       "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %58.3 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-23T09:02:39.654Z"
+    "updatedAt": "2026-10-23T09:12:10.060Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254,
-  "noBuyShort": "🌟 ALTIN ÇAĞ (Rejim C -> EP) AKTİF (%68 Yeşil | 1s BTC +%0.22): Engine #23, #24 & #30 EP kurumsal liderleri tarıyor!",
-  "noBuyDetail": "1) **Altın Çağ Teyitli (Rejim C):** Altcoinlerin %68'i yeşil (1s BTC: +%0.22). 2) **Engine #24, #27 & #30 Qullamaggie EP Aktif:** $15M+ hacimli kurumsal liderler ve 14 haber kaynağı taranıyor; NO-CHASE (`ask <= Pmax`) ve çift tahta doğrulaması (`Engine #27`) geçen ilk lidere otomatik girilecek.",
+  "noBuyShort": "🌟 ALTIN ÇAĞ (Rejim C -> EP) AKTİF (%71 Yeşil | 1s BTC +%0.22): Engine #23, #24 & #30 EP kurumsal liderleri tarıyor!",
+  "noBuyDetail": "1) **Altın Çağ Teyitli (Rejim C):** Altcoinlerin %71'i yeşil (1s BTC: +%0.22). 2) **Engine #24, #27 & #30 Qullamaggie EP Aktif:** $15M+ hacimli kurumsal liderler ve 14 haber kaynağı taranıyor; NO-CHASE (`ask <= Pmax`) ve çift tahta doğrulaması (`Engine #27`) geçen ilk lidere otomatik girilecek.",
   "shadowPositions": [],
   "shadowTrapMemory": {
     "DOGE": {

@@ -975,13 +975,15 @@ async function main() {
           sym !== 'BTC' &&
           !existingSyms.has(sym) &&
           m.quoteVol24h >= 15000000 &&
-          m.change24hPct >= -2.5 &&
-          m.change24hPct <= 9.5 &&
-          m.vwapPremiumPct >= 0.15 &&
-          m.posInRange >= 0.48
+          m.change24hPct >= -1.5 &&
+          m.change24hPct <= 6.8 &&
+          m.vwapPremiumPct >= 0.20 &&
+          m.vwapPremiumPct <= 2.80 &&
+          m.posInRange >= 0.52 &&
+          m.posInRange <= 0.88
       )
-      .sort((a, b) => (b[1].vwapPremiumPct * 2 + b[1].bounceFromLowPct * 0.4) - (a[1].vwapPremiumPct * 2 + a[1].bounceFromLowPct * 0.4))
-      .slice(0, 10);
+      .sort((a, b) => (b[1].bounceFromLowPct * 0.6 + b[1].vwapPremiumPct * 1.2) - (a[1].bounceFromLowPct * 0.6 + a[1].vwapPremiumPct * 1.2))
+      .slice(0, 12);
     for (const [sym] of liquidLeaders) {
       goldenAgeWatchList.push({
         symbol: sym,
@@ -1277,14 +1279,13 @@ async function main() {
     if (isGoldenAgeCandidate && rsAtr < (isFridayMorningTrapSetup ? 1.40 : 1.25)) continue;
 
     // Engine #30 Qullamaggie EP (Episodic Pivot) with Strict NO-CHASE Pmax & Event-Anchored VWAP in Regime C
-    const lastCompBar = completedKlines[completedKlines.length - 1];
-    const prevCompBar = completedKlines[completedKlines.length - 2];
-    const openingRangeHigh = Number(prevCompBar?.[2] || lastCompBar?.[2] || mkt.lastPrice);
+    const preEventCompBar = klines[Math.max(0, eventBarIdx - 1)] || completedKlines[completedKlines.length - 1];
+    const openingRangeHigh = Number(preEventCompBar?.[2] || mkt.lastPrice);
     const hasCompletedOrBreakout =
       completedCloses.length >= 2 &&
       Number.isFinite(openingRangeHigh) &&
       openingRangeHigh > 0 &&
-      Number(lastCompBar?.[4]) > openingRangeHigh;
+      mkt.lastPrice >= openingRangeHigh * 0.998;
     const epAtrUnit = Number.isFinite(atr1hPrice) && atr1hPrice > 0 ? atr1hPrice : mkt.lastPrice * (atr1hPct / 100);
     const epMaxEntryPrice =
       openingRangeHigh > 0
@@ -1311,13 +1312,19 @@ async function main() {
         engineOwner === 'EP' &&
         !btcCrashAlert &&
         healthyScanStreak >= 2 &&
-        hasDirectMention &&
-        eventAgeMins <= 45 &&
-        volRatio >= 2.2 &&
-        hasCompletedOrBreakout &&
-        impulseAtr <= 1.50 &&
-        mkt.lastPrice <= eventVwap * 1.010 &&
-        mkt.lastPrice <= epMaxEntryPrice
+        ((hasDirectMention &&
+          eventAgeMins <= 45 &&
+          volRatio >= 2.2 &&
+          hasCompletedOrBreakout &&
+          impulseAtr <= 1.50 &&
+          mkt.lastPrice <= eventVwap * 1.010 &&
+          mkt.lastPrice <= epMaxEntryPrice) ||
+          (isGoldenAgeCandidate &&
+            isConfirmedGoldenAge &&
+            volRatio >= 1.25 &&
+            impulseAtr <= 1.50 &&
+            mkt.lastPrice <= eventVwap * 1.010 &&
+            mkt.lastPrice <= epMaxEntryPrice))
     );
     if (confirmedRegime === 'C' && hasDirectMention && !isEpCandidate) {
       continue;

@@ -1,21 +1,21 @@
 {
-  "updatedAt": "2026-10-23T09:02:36.442Z",
-  "scanDurationMs": 6468,
+  "updatedAt": "2026-10-23T09:12:07.035Z",
+  "scanDurationMs": 6317,
   "bankrollTry": 1000,
   "bankrollUsdt": 20.22,
   "btc1hChangePct": 0.22,
   "btcCrashAlert": false,
-  "marketBreadthPct": 68,
+  "marketBreadthPct": 71,
   "rawRegime": "C",
   "confirmedRegime": "C",
-  "regimeStreak": 18,
-  "healthyScanStreak": 17,
+  "regimeStreak": 32,
+  "healthyScanStreak": 31,
   "regimeEngineOwner": "EP",
   "isConfirmedGoldenAge": true,
   "fearGreedVal": 50,
   "fearGreedClass": "Neutral",
-  "btcDominancePct": 57.31,
-  "totalHeadlinesScanned": 102,
+  "btcDominancePct": 57.33,
+  "totalHeadlinesScanned": 82,
   "activeFeeds": [
     "BinanceCMS (1)",
     "BinanceTG (1)",
@@ -25,8 +25,7 @@
     "CoinTelegraph (20)",
     "Decrypt (20)",
     "CoinDesk (20)",
-    "BeInCrypto (12)",
-    "CryptoPotato (20)"
+    "BeInCrypto (12)"
   ],
   "top4AltcoinPicks": [],
   "allQualifiedOpportunities": []
