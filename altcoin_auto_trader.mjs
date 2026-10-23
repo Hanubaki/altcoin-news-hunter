@@ -2740,7 +2740,7 @@ function renderDashboardHtml() {
   </div>
 
   <div class="section">
-    <h2>📈 Babaya Karşı 1.000 TL -> Canlı Kasa Büyüme Grafiği</h2>
+    <h2>📈 1.000 TL ➔ 80.000 TL Canlı Kasa Büyüme Grafiği</h2>
     <div id="chartBox" style="width:100%;height:130px;"></div>
   </div>
 
