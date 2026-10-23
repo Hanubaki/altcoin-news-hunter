@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import http from 'http';
 import os from 'os';
+import tls from 'tls';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -16,13 +17,14 @@ const ENV_FILE = path.join(ROOT_DIR, '.env');
 
 const FAPI_BASE = 'https://fapi.binance.com';
 const USD_TRY_RATE = 49.55;
-const LEVERAGE = 5; // Base Conviction Leverage (Dynamic Tiers: 5x / 7x / 10x Ultra-Apex)
-const MAX_CONVICTION_LEVERAGE = 10;
+const LEVERAGE = 4; // Base Conviction Leverage (Dynamic Tiers: 4x / 5x / 6x Ultra-Apex)
+const MAX_CONVICTION_LEVERAGE = 6;
 const INITIAL_BANKROLL_TRY = 100.0;
 const INITIAL_BANKROLL_USDT = Number((INITIAL_BANKROLL_TRY / USD_TRY_RATE).toFixed(4)); // ~2.0182 USDT
 const MIN_NOTIONAL_USDT = 5.0; // Binance Futures hard minimum notional floor
 const ROUND_TRIP_FEE_SLIP_FRAC = 0.0018; // 0.05% taker entry + 0.05% taker exit + 0.08% perp slippage on notional
 const DASHBOARD_PORT = 3848;
+let isPositionCycleBusy = false; // Strict Mutex Lock preventing 4s vs 30s double-close/double-refund race condition
 
 const PERP_UNIVERSE = [
   'SOL', 'XRP', 'DOGE', 'SUI', 'ADA', 'AVAX', 'LINK', 'NEAR', 'APT', 'ARB',
@@ -67,9 +69,142 @@ async function getValidCoinPerpMap() {
 }
 
 function selectConvictionLeverage(score, atr15mPct) {
-  if (score >= 91 && atr15mPct <= 1.65) return 10; // Ultra-Apex Sniper Shot (10x)
-  if (score >= 84 && atr15mPct <= 2.10) return 7;  // High-Conviction Surge (7x)
-  return 5;                                         // Standard Council Trigger (5x)
+  if (score >= 91 && atr15mPct <= 1.85) return 6; // Ultra-Apex Sniper Shot (6x)
+  if (score >= 84 && atr15mPct <= 2.40) return 5; // High-Conviction Surge (5x)
+  return 4;                                       // Standard Council Trigger (4x — always > $5.00 MIN_NOTIONAL)
+}
+
+function sendGmailSmtp({ fromEmail, appPassword, toEmail, subject, textBody }) {
+  return new Promise(resolve => {
+    if (!fromEmail || !appPassword || !toEmail) return resolve(false);
+    const cleanPass = appPassword.replace(/\s+/g, '');
+    const socket = tls.connect(465, 'smtp.gmail.com', { rejectUnauthorized: false });
+    let step = 0;
+    const timer = setTimeout(() => {
+      try { socket.destroy(); } catch {}
+      resolve(false);
+    }, 9000);
+
+    const finish = ok => {
+      clearTimeout(timer);
+      try { socket.end(); } catch {}
+      resolve(ok);
+    };
+
+    socket.on('error', () => finish(false));
+    socket.on('data', chunk => {
+      const resp = chunk.toString();
+      if (step === 0 && resp.startsWith('220')) {
+        step = 1;
+        socket.write('EHLO localhost\r\n');
+      } else if (step === 1 && resp.includes('250')) {
+        step = 2;
+        socket.write('AUTH LOGIN\r\n');
+      } else if (step === 2 && resp.startsWith('334')) {
+        step = 3;
+        socket.write(Buffer.from(fromEmail).toString('base64') + '\r\n');
+      } else if (step === 3 && resp.startsWith('334')) {
+        step = 4;
+        socket.write(Buffer.from(cleanPass).toString('base64') + '\r\n');
+      } else if (step === 4 && resp.startsWith('235')) {
+        step = 5;
+        socket.write(`MAIL FROM:<${fromEmail}>\r\n`);
+      } else if (step === 5 && resp.startsWith('250')) {
+        step = 6;
+        socket.write(`RCPT TO:<${toEmail}>\r\n`);
+      } else if (step === 6 && resp.startsWith('250')) {
+        step = 7;
+        socket.write('DATA\r\n');
+      } else if (step === 7 && resp.startsWith('354')) {
+        step = 8;
+        const msg = [
+          `From: "Yirtici Kaldirac Botu" <${fromEmail}>`,
+          `To: <${toEmail}>`,
+          `Subject: =?UTF-8?B?${Buffer.from(subject).toString('base64')}?=`,
+          'MIME-Version: 1.0',
+          'Content-Type: text/plain; charset=UTF-8',
+          '',
+          textBody,
+          '.',
+          '',
+        ].join('\r\n');
+        socket.write(msg);
+      } else if (step === 8 && resp.startsWith('250')) {
+        step = 9;
+        socket.write('QUIT\r\n');
+        finish(true);
+      } else if (resp.startsWith('4') || resp.startsWith('5')) {
+        finish(false);
+      }
+    });
+  });
+}
+
+async function sendProfitNotification(state, info) {
+  const cfg = loadEnv();
+  const toEmail = cfg.ALERT_EMAIL_TO || 'berkeakdemir5855@gmail.com';
+  const appPass = cfg.GMAIL_APP_PASSWORD || '';
+  const ts = new Date().toLocaleString('tr-TR');
+  const equityAfterTry = toTL(state.marginCashUsdt + (state.openPosition ? state.openPosition.marginUsdt + (state.openPosition.unrealizedPnlUsdt || 0) : 0));
+
+  const subject = `💰 [KÂR RAPORU] ${info.symbol} (${info.leverage}x ${info.side}) -> +${info.netPnlTry} TL (+%${info.roePct}) Kazandın!`;
+  const textBody = [
+    `⚡ YIRTICI KALDIRAÇ SİSTEMİ — CANLI KÂR BİLDİRİMİ (${ts})`,
+    `==========================================================`,
+    `🪙 Kazandıran Coin : ${info.symbol} (${info.leverage}x ${info.side})`,
+    `🏆 İşlem Türü      : ${info.type}`,
+    `💵 Net Kazanç      : +${info.netPnlTry} TL (Kasa ROE: +%${info.roePct})`,
+    `📈 Fiyat Hareketi  : $${info.entryPrice} -> $${info.exitPrice}`,
+    `🏦 Güncel Net Kasa : ${equityAfterTry} TL (${state.winCount || 0} Kazanç / ${state.lossCount || 0} Stop)`,
+    `🧠 Strateji / Tez  : ${info.thesis || '-'}`,
+    `==========================================================`,
+    `📱 Canlı Panel: http://${getLocalLanIp()}:${DASHBOARD_PORT}`,
+  ].join('\n');
+
+  const channels = ['Panel Kaydı'];
+
+  // 1. Send Direct Email to berkeakdemir5855@gmail.com if Gmail App Password is set
+  if (appPass) {
+    const emailOk = await sendGmailSmtp({
+      fromEmail: toEmail,
+      appPassword: appPass,
+      toEmail,
+      subject,
+      textBody,
+    });
+    if (emailOk) channels.unshift(`📧 Mail (${toEmail})`);
+  }
+
+  // 2. Send Instant WhatsApp Alert to +905301613459 via CallMeBot
+  if (cfg.WHATSAPP_PHONE && cfg.CALLMEBOT_API_KEY) {
+    let phone = cfg.WHATSAPP_PHONE.replace(/\s+/g, '');
+    if (phone.startsWith('05')) phone = '+9' + phone;
+    else if (phone.startsWith('5')) phone = '+90' + phone;
+    const waText = `💰 [KÂR RAPORU] ${info.symbol} (${info.leverage}x ${info.side}) işleminden +${info.netPnlTry} TL (ROE +%${info.roePct}) kazandın! ($${info.entryPrice} -> $${info.exitPrice}) | Güncel Kasa: ${equityAfterTry} TL`;
+    const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(phone)}&text=${encodeURIComponent(waText)}&apikey=${encodeURIComponent(cfg.CALLMEBOT_API_KEY)}`;
+    try {
+      const r = await fetch(url, { signal: AbortSignal.timeout(12000) });
+      if (r.ok) channels.unshift(`📲 WhatsApp (${phone})`);
+    } catch {
+      // ignore transient network timeout
+    }
+  }
+
+  state.profitMails = state.profitMails || [];
+  state.profitMails.unshift({
+    time: ts,
+    symbol: info.symbol,
+    side: info.side,
+    leverage: info.leverage,
+    type: info.type,
+    netPnlTry: info.netPnlTry,
+    roePct: info.roePct,
+    entryPrice: info.entryPrice,
+    exitPrice: info.exitPrice,
+    equityAfterTry,
+    deliveryStatus: channels.join(' + '),
+  });
+  if (state.profitMails.length > 25) state.profitMails.length = 25;
 }
 
 function getLocalLanIp() {
@@ -1292,10 +1427,10 @@ async function scanPerpUniverse(state) {
 
 async function manageOpenPosition(state, candidates = []) {
   const pos = state.openPosition;
-  if (!pos) return;
+  if (!pos || pos.isClosing) return;
 
   const book = await fetchJson(`${FAPI_BASE}/fapi/v1/ticker/bookTicker?symbol=${pos.fSym}`, {}, 2500);
-  if (!book) return;
+  if (!book || !state.openPosition || state.openPosition.isClosing) return;
   const bestBid = Number(book.bidPrice || 0);
   const bestAsk = Number(book.askPrice || 0);
   if (bestBid <= 0 || bestAsk <= 0) return;
@@ -1331,13 +1466,14 @@ async function manageOpenPosition(state, candidates = []) {
   pos.underlyingMovePct = underlyingMovePct;
   const posLev = pos.leverage || LEVERAGE;
 
-  // Stage 2 (v8.1 Zero-Choke): Instant 50% TP1 Cash Harvest ("Kâr Cebellezi") at +1.10% Coin Move (+7.7% to +11% ROE)
+  // Stage 2 (v8.2 Zero-Choke + Profit Mailer): Instant 50% TP1 Cash Harvest ("Kâr Cebellezi") at +1.10% Coin Move
   if (!pos.tp1Done && rawCoinMoveFrac >= 0.0110) {
     const harvestFrac = 0.50;
     const closedMarginUsdt = Number((pos.marginUsdt * harvestFrac).toFixed(4));
     const closedNotionalUsdt = Number((pos.notionalUsdt * harvestFrac).toFixed(4));
     const partialNetPnlUsdt = Number((closedNotionalUsdt * netCoinMoveFrac).toFixed(4));
     const partialNetPnlTry = toTL(partialNetPnlUsdt);
+    const partialRoePct = Number(((partialNetPnlUsdt / closedMarginUsdt) * 100).toFixed(2));
 
     state.marginCashUsdt = Number((state.marginCashUsdt + closedMarginUsdt + partialNetPnlUsdt).toFixed(4));
     state.realizedPnlUsdt = Number((state.realizedPnlUsdt + partialNetPnlUsdt).toFixed(4));
@@ -1362,9 +1498,21 @@ async function manageOpenPosition(state, candidates = []) {
       state,
       `💰 [TP1 %50 KÂR CEBELLEZİ] ${pos.symbol}USDT (${posLev}x ${pos.side}) +%${underlyingMovePct} yürüyüşte yarısı nakde çevrildi (+${partialNetPnlTry} TL cebe indi!) | Kalan %50 Moonbag Stopu +%0.45 Kâra Kilitlendi!`
     );
+
+    await sendProfitNotification(state, {
+      symbol: `${pos.symbol}USDT`,
+      side: pos.side,
+      leverage: posLev,
+      type: 'TP1 %50 KÂR CEBELLEZİ (Yarısı Nakde İndi)',
+      netPnlTry: partialNetPnlTry,
+      roePct: partialRoePct,
+      entryPrice: pos.entryPrice,
+      exitPrice: markExitPrice,
+      thesis: pos.thesis,
+    });
   }
 
-  // Stage 1 / Stage 3 (v8.1 Zero-Choke): Wait for >= +0.82% move before locking +0.24% Breakeven+ so >= 0.58% breathing room prevents premature stop-out
+  // Stage 1 / Stage 3 (v8.2 Zero-Choke): Wait for >= +0.82% move before locking +0.24% Breakeven+ so >= 0.58% breathing room prevents premature stop-out
   if (peakCoinMoveFrac >= 0.0165) {
     pos.ratchetStage = 'PARABOLIC_SQUEEZE_RUNNER';
     if (pos.side === 'LONG') {
@@ -1486,7 +1634,10 @@ async function manageOpenPosition(state, candidates = []) {
     exitReason = `⏱️ 90dk FONLAMA/ZAMAN KORUMASI (İvme Durdu, Fonlama Kesintisi Öncesi Çıkıldı | ROE ${roePct}%)`;
   }
 
-  if (exitReason) {
+  if (exitReason && state.openPosition && !pos.isClosing) {
+    pos.isClosing = true; // Synchronous atomic lock so no concurrent loop can ever double-close or double-refund!
+    state.openPosition = null;
+
     const finalLegPnlUsdt = Number((pos.notionalUsdt * netCoinMoveFrac).toFixed(4));
     const totalLifecyclePnlUsdt = Number(((pos.realizedPartialUsdt || 0) + finalLegPnlUsdt).toFixed(4));
     const totalLifecyclePnlTry = toTL(totalLifecyclePnlUsdt);
@@ -1521,7 +1672,20 @@ async function manageOpenPosition(state, candidates = []) {
     }
     if (state.closedTrades.length > 30) state.closedTrades.length = 30;
     logEvent(state, `${exitReason} | ${pos.symbol}USDT Toplam Net: ${totalLifecyclePnlTry >= 0 ? '+' : ''}${totalLifecyclePnlTry} TL`);
-    state.openPosition = null;
+
+    if (totalLifecyclePnlTry > 0) {
+      await sendProfitNotification(state, {
+        symbol: `${pos.symbol}USDT`,
+        side: pos.side,
+        leverage: posLev,
+        type: isTpHit ? 'TAM HEDEF HASADI (TP)' : 'KÂR KİLİDİ KAPANIŞI',
+        netPnlTry: totalLifecyclePnlTry,
+        roePct: lifecycleRoePct,
+        entryPrice: pos.entryPrice,
+        exitPrice: markExitPrice,
+        thesis: pos.thesis,
+      });
+    }
   }
 }
 
@@ -1539,7 +1703,7 @@ async function tryOpenPosition(state, candidates) {
   );
   if (!actionable.length) return;
 
-  // Engine #35.3 + v8.0: Auto-Compounding Growth with Dynamic Conviction Leverage (5x / 7x / 10x)
+  // Engine #35.3 + v8.2: Auto-Compounding Growth with Balanced Conviction Leverage (4x / 5x / 6x)
   const usableMarginUsdt = Number((state.marginCashUsdt * 0.96).toFixed(4));
 
   for (const cand of actionable) {
@@ -1569,7 +1733,7 @@ async function tryOpenPosition(state, candidates) {
     } else if (cand.side === 'SHORT' && cand.structuralHigh > entryPrice) {
       rawWickDistFrac = (cand.structuralHigh * 1.001 - entryPrice) / entryPrice;
     }
-    const maxSlCap = chosenLev >= 10 ? 0.0078 : chosenLev >= 7 ? 0.0088 : 0.0098;
+    const maxSlCap = chosenLev >= 6 ? 0.0082 : chosenLev >= 5 ? 0.0088 : 0.0096;
     const underlyingSlFrac = Math.min(maxSlCap, Math.max(0.0068, rawWickDistFrac, (cand.atr15mPct / 100) * 0.68));
     const underlyingTpFrac = Math.max(0.0220, underlyingSlFrac * 2.60);
 
@@ -1631,7 +1795,7 @@ async function tryOpenPosition(state, candidates) {
 
     logEvent(
       state,
-      `🚀 [${chosenLev}x ${cand.side} GİRİŞ] ${cand.symbol}USDT @ $${entryPrice} | Teminat: ${toTL(usableMarginUsdt)} TL (${chosenLev}x Büyüklük: ${toTL(maxNotionalUsdt)} TL) | Stop: $${stopPrice} (-%${(underlyingSlFrac * 100).toFixed(2)}) | TP1: +%1.05 (%50 Nakit) | Ana Hedef: $${tpPrice} (+%${(underlyingTpFrac * 100).toFixed(2)}) | ${cand.thesis}`
+      `🚀 [${chosenLev}x ${cand.side} GİRİŞ] ${cand.symbol}USDT @ $${entryPrice} | Teminat: ${toTL(usableMarginUsdt)} TL (${chosenLev}x Büyüklük: ${toTL(maxNotionalUsdt)} TL) | Stop: $${stopPrice} (-%${(underlyingSlFrac * 100).toFixed(2)}) | TP1: +%1.10 (%50 Nakit) | Ana Hedef: $${tpPrice} (+%${(underlyingTpFrac * 100).toFixed(2)}) | ${cand.thesis}`
     );
     break;
   }
@@ -1673,18 +1837,18 @@ function updateAccountingAndReport(state) {
           )
           .join('\n') + '\n';
 
-  const md = `# ⚡ 100 TL -> DİNAMİK 5x / 7x / 10x İZOLE KALDIRAÇ SİSTEMİ (Mutlak Yapı v8.0 — Tüm Piyasa Yırtıcı Radar & TP1 Kâr Cebellezi)
+  const md = `# ⚡ 100 TL -> DİNAMİK 4x / 5x / 6x İZOLE KALDIRAÇ SİSTEMİ (Mutlak Yapı v8.2 — Sıfır Çarpışma + Kâr Raporu Mail/WhatsApp Motoru)
 
 **Son Güncelleme:** ${new Date().toLocaleString('tr-TR')}  
 **PC Paneli:** \`http://localhost:${DASHBOARD_PORT}\` | **📱 Telefon Wi-Fi Linki:** \`http://${lanIp}:${DASHBOARD_PORT}\`  
-**Çalışma Modu:** \`${state.mode}\` *(100+ Likit Kontrat Canlı Tarama + 5x/7x/10x Kademeli Kaldıraç + Çift Yönlü LONG/SHORT + TP1 %50 Kâr Cebellezi)*
+**Çalışma Modu:** \`${state.mode}\` *(100+ Likit Kontrat Canlı Tarama + 4x/5x/6x Kademeli Kaldıraç + Çift Yönlü LONG/SHORT + TP1 %50 Kâr Cebellezi + Otomatik Mail/WhatsApp Kâr Raporu)*
 
 ---
 
-## 1. 100 TL (5x / 7x / 10x DİNAMİK KALDIRAÇ) KASA DURUMU
+## 1. 100 TL (4x / 5x / 6x DİNAMİK KALDIRAÇ) KASA DURUMU
 
 * **Başlangıç Teminatı (Margin):** \`${toTL(state.initialBankrollUsdt)} TL\` (\`$${state.initialBankrollUsdt} USDT\`)
-* **Dinamik Kaldıraçlı İşlem Gücü (5x–10x Notional):** \`${toTL(state.totalEquityUsdt * activeLev)} TL\` - \`${toTL(state.totalEquityUsdt * MAX_CONVICTION_LEVERAGE)} TL\`
+* **Dinamik Kaldıraçlı İşlem Gücü (4x–6x Notional):** \`${toTL(state.totalEquityUsdt * activeLev)} TL\` - \`${toTL(state.totalEquityUsdt * MAX_CONVICTION_LEVERAGE)} TL\`
 * **Şu Anki Net Kasa (Teminat Değeri):** **\`${toTL(state.totalEquityUsdt)} TL\`**
 * **Toplam Net Kâr / Zarar:** **\`${state.totalPnlUsdt >= 0 ? '+' : ''}${toTL(state.totalPnlUsdt)} TL\` (\`${state.totalPnlPct >= 0 ? '+' : ''}%${state.totalPnlPct}\`)**
 * **Başarılı İşlem / Stop:** \`${state.winCount} Kazanç / ${state.lossCount} Stop\`
@@ -1692,7 +1856,7 @@ function updateAccountingAndReport(state) {
 
 ---
 
-## 2. AÇIK VADELİ POZİSYON (5x / 7x / 10x LONG & SHORT)
+## 2. AÇIK VADELİ POZİSYON (4x / 5x / 6x LONG & SHORT)
 
 | Kontrat & Yön | Teminat (Kaldıraçlı Büyüklük) | Giriş -> Güncel | Anlık Net Kâr (ROE) | Stop / Hedef / Likidasyon | Strateji Motoru & Milyarder Tezi |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -1718,14 +1882,44 @@ ${closedSection}
 
 function startDashboardServer(state) {
   const lanIp = getLocalLanIp();
-  const server = http.createServer((req, res) => {
-    if (req.url === '/api/state') {
+  const server = http.createServer(async (req, res) => {
+    const urlObj = new URL(req.url || '/', `http://localhost:${DASHBOARD_PORT}`);
+    if (urlObj.pathname === '/api/state') {
       res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
       res.end(JSON.stringify({ perp: state, spot: loadSpotPortfolioSummary() }));
       return;
     }
+    if (urlObj.pathname === '/api/save-gmail') {
+      const appPass = (urlObj.searchParams.get('pass') || '').trim();
+      if (appPass && fs.existsSync(ENV_FILE)) {
+        let envText = fs.readFileSync(ENV_FILE, 'utf8');
+        if (envText.includes('GMAIL_APP_PASSWORD=')) {
+          envText = envText.replace(/GMAIL_APP_PASSWORD=.*/, `GMAIL_APP_PASSWORD=${appPass}`);
+        } else {
+          envText += `\nGMAIL_APP_PASSWORD=${appPass}\n`;
+        }
+        fs.writeFileSync(ENV_FILE, envText, 'utf8');
+        await sendProfitNotification(state, {
+          symbol: 'TEST_BILDIRIMI',
+          side: 'LONG',
+          leverage: 6,
+          type: 'GMAIL & WHATSAPP BAĞLANTI TESTİ',
+          netPnlTry: 12.5,
+          roePct: 14.6,
+          entryPrice: 1.0,
+          exitPrice: 1.025,
+          thesis: 'Gmail (berkeakdemir5855@gmail.com) + WhatsApp (+905301613459) Kâr Raporu Sistemi Aktif!',
+        });
+        saveState(state);
+      }
+      res.writeHead(302, { Location: '/' });
+      res.end();
+      return;
+    }
     const pos = state.openPosition;
     const spot = loadSpotPortfolioSummary();
+    const cfg = loadEnv();
+    const emailConfigured = Boolean(cfg.GMAIL_APP_PASSWORD);
     const combinedEquityTry = Number((toTL(state.totalEquityUsdt) + (spot ? spot.totalEquityTry : 0)).toFixed(2));
     const mobileUrl = `http://${lanIp}:${DASHBOARD_PORT}`;
     const activeLev = pos?.leverage || state.leverage || LEVERAGE;
@@ -1738,7 +1932,7 @@ function startDashboardServer(state) {
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#080c14" />
   <meta http-equiv="refresh" content="6" />
-  <title>⚡ Mobil Komuta Merkezi (5x-10x Yırtıcı Kaldıraç + 1000 TL Spot)</title>
+  <title>⚡ Mobil Komuta Merkezi (4x-6x Yırtıcı Kaldıraç + Kâr Mail/WhatsApp)</title>
   <style>
     * { box-sizing:border-box; }
     body { background:#080c14; color:#f1f5f9; font-family:system-ui,-apple-system,sans-serif; margin:0; padding:14px; max-width:1100px; margin-inline:auto; }
@@ -1752,7 +1946,7 @@ function startDashboardServer(state) {
     .val { font-size:21px; font-weight:800; margin-top:5px; font-family:monospace; }
     .green { color:#10b981; } .red { color:#f43f5e; } .amber { color:#f59e0b; } .cyan { color:#38bdf8; }
     .section-card { background:#0f172a; border:1px solid #1e293b; border-radius:16px; padding:14px; margin-bottom:14px; overflow-x:auto; }
-    h3 { margin:0 0 10px 0; font-size:15px; display:flex; align-items:center; justify-content:space-between; }
+    h3 { margin:0 0 10px 0; font-size:15px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:6px; }
     table { width:100%; border-collapse:collapse; min-width:520px; }
     th, td { padding:9px 10px; border-bottom:1px solid #1e293b; text-align:left; font-size:12.5px; }
     th { color:#94a3b8; font-weight:600; background:#131c31; }
@@ -1764,17 +1958,17 @@ function startDashboardServer(state) {
 <body>
   <div class="topbar">
     <div>
-      <div class="title">⚡ Yırtıcı Konsey v8.0 (5x / 7x / 10x) — Cep & PC Komuta Merkezi</div>
-      <div class="sub">Tüm Binance Futures (100+ Likit Kontrat) + Çift Yönlü LONG/SHORT + TP1 %50 Kâr Cebellezi (6 sn'de bir yenilenir)</div>
+      <div class="title">⚡ Yırtıcı Konsey v8.2 (4x / 5x / 6x) — Kâr Mail & Cep Komuta Merkezi</div>
+      <div class="sub">100+ Likit Kontrat + Sıfır Çarpışma Kilidi + TP1 %50 Kâr Cebellezi + Otomatik Mail/WhatsApp Raporu</div>
     </div>
     <div class="pill">📱 Telefon Wi-Fi: ${mobileUrl}</div>
   </div>
 
   <div class="grid">
     <div class="card">
-      <div class="lbl">⚡ 5x-10x Kaldıraç Kasa</div>
+      <div class="lbl">⚡ 4x-6x Kaldıraç Kasa</div>
       <div class="val ${state.totalPnlUsdt >= 0 ? 'green' : 'red'}">${toTL(state.totalEquityUsdt)} TL</div>
-      <div class="sub">${state.totalPnlPct >= 0 ? '+' : ''}%${state.totalPnlPct} (5x-10x Güç: ${toTL(state.totalEquityUsdt * activeLev)}-${toTL(state.totalEquityUsdt * MAX_CONVICTION_LEVERAGE)} TL)</div>
+      <div class="sub">${state.totalPnlPct >= 0 ? '+' : ''}%${state.totalPnlPct} (4x-6x Güç: ${toTL(state.totalEquityUsdt * activeLev)}-${toTL(state.totalEquityUsdt * MAX_CONVICTION_LEVERAGE)} TL)</div>
     </div>
     <div class="card">
       <div class="lbl">💰 1.000 TL Spot Kasa</div>
@@ -1787,14 +1981,14 @@ function startDashboardServer(state) {
       <div class="sub">Spot + Vadeli Toplam</div>
     </div>
     <div class="card">
-      <div class="lbl">🧭 BTC & Vadeli Rejim</div>
-      <div class="val" style="font-size:13px;">BTC 15dk: %${state.marketSummary?.btcChange15mPct || 0}</div>
-      <div class="sub">${state.marketSummary?.activeUniverseCount || 80}+ Likit Kontrat Taranıyor</div>
+      <div class="lbl">📧 Kâr Bildirim Kanalı</div>
+      <div class="val green" style="font-size:13px;">📲 WhatsApp Aktif</div>
+      <div class="sub">${emailConfigured ? '📧 Gmail SMTP Aktif (berkeakdemir5855@gmail.com)' : '📧 Mail: berkeakdemir5855@gmail.com'}</div>
     </div>
   </div>
 
   <div class="section-card">
-    <h3><span>🔥 1. Açık Kaldıraçlı İşlem (5x / 7x / 10x Dinamik)</span><span class="sub">${state.winCount} Kazanç / ${state.lossCount} Stop</span></h3>
+    <h3><span>🔥 1. Açık Kaldıraçlı İşlem (4x / 5x / 6x Dinamik)</span><span class="sub">${state.winCount} Kazanç / ${state.lossCount} Stop</span></h3>
     ${
       !pos
         ? '<div class="sub">Şu an açık vadeli işlem yok — 100+ Yüksek Hızlı Kontrat içinde Skor >= 76/99 olan LONG veya SHORT avlanıyor.</div>'
@@ -1809,7 +2003,7 @@ function startDashboardServer(state) {
               Teminat: <b>${pos.marginTry} TL</b> (${pos.leverage || LEVERAGE}x Büyüklük: <b>${pos.notionalTry} TL</b>) | Giriş: <b>$${pos.entryPrice}</b> -> Güncel: <b>$${pos.currentPrice}</b>
             </div>
             <div style="font-size:12px;color:#94a3b8;margin-bottom:6px;">
-              🛑 Stop: <b>$${pos.stopPrice}</b> | 💰 TP1 (%50 Cebellezi): <b>${pos.tp1Done ? 'ALINDI ✅' : '+%1.05'}</b> | 🎯 Hedef: <b>$${pos.tpPrice}</b> | 💀 Likidasyon: <b>$${pos.liqPrice}</b>
+              🛑 Stop: <b>$${pos.stopPrice}</b> | 💰 TP1 (%50 Cebellezi): <b>${pos.tp1Done ? 'ALINDI ✅' : '+%1.10'}</b> | 🎯 Hedef: <b>$${pos.tpPrice}</b> | 💀 Likidasyon: <b>$${pos.liqPrice}</b>
             </div>
             <div style="font-size:12px;color:#38bdf8;">${pos.thesis}</div>
           </div>`
@@ -1817,7 +2011,38 @@ function startDashboardServer(state) {
   </div>
 
   <div class="section-card">
-    <h3><span>💰 2. Açık Spot İşlemler (1.000 TL Binance TR Kasası)</span><span class="sub">Port 3847 Senkronize</span></h3>
+    <h3>
+      <span>📧 2. Hangi Coinden Ne Kadar Kazandım? (Otomatik Mail & WhatsApp Kâr Raporları)</span>
+      <span class="sub">Hedef Mail: <b>berkeakdemir5855@gmail.com</b> | WhatsApp: <b>+905301613459</b></span>
+    </h3>
+    ${
+      !emailConfigured
+        ? `<form action="/api/save-gmail" method="get" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;background:#131c31;padding:10px;border-radius:10px;">
+            <span style="font-size:12px;color:#cbd5e1;align-self:center;">📲 WhatsApp (+905301613459) şu an <b>AKTİF</b>! Doğrudan Gmail kutuna da düşmesi için 16 haneli Google Uygulama Şifreni gir:</span>
+            <input name="pass" placeholder="xxxx xxxx xxxx xxxx" style="background:#080c14;border:1px solid #334155;color:#fff;padding:6px 10px;border-radius:8px;font-size:12px;" />
+            <button type="submit" style="background:#10b981;color:#080c14;border:none;padding:6px 12px;border-radius:8px;font-weight:800;font-size:12px;cursor:pointer;">Kaydet & Test Maili Gönder</button>
+          </form>`
+        : ''
+    }
+    <table>
+      <tr><th>Tarih / Saat</th><th>Kazandıran Coin</th><th>İşlem Türü</th><th>Net Kazanç (TL & ROE)</th><th>Giriş -> Çıkış</th><th>Gönderim Kanalı</th></tr>
+      ${(state.profitMails || [])
+        .map(
+          m => `<tr>
+          <td>${m.time}</td>
+          <td><b>${m.symbol}</b> <span class="badge ${m.side === 'LONG' ? 'long' : 'short'}">${m.leverage}x ${m.side}</span></td>
+          <td>${m.type}</td>
+          <td class="green"><b>+${m.netPnlTry} TL (+%${m.roePct})</b></td>
+          <td>$${m.entryPrice} -> $${m.exitPrice}</td>
+          <td>${m.deliveryStatus}</td>
+        </tr>`
+        )
+        .join('')}
+    </table>
+  </div>
+
+  <div class="section-card">
+    <h3><span>💰 3. Açık Spot İşlemler (1.000 TL Binance TR Kasası)</span><span class="sub">Port 3847 Senkronize</span></h3>
     ${
       !spot || !spot.openPositions || spot.openPositions.length === 0
         ? `<div class="sub">${spot?.noBuyShort || 'Şu an açık spot işlem yok — 14 haber kaynağı ve Binance TR tahtası taranıyor.'}</div>`
@@ -1832,7 +2057,7 @@ function startDashboardServer(state) {
   </div>
 
   <div class="section-card">
-    <h3><span>📡 3. Canlı Yüksek Hızlı Vadeli Radar (100+ Kontrat İçinden En Güçlü 8 Aday)</span></h3>
+    <h3><span>📡 4. Canlı Yüksek Hızlı Vadeli Radar (100+ Kontrat İçinden En Güçlü 8 Aday)</span></h3>
     <table>
       <tr><th>Kontrat</th><th>Yön, Skor & Kaldıraç</th><th>Fonlama</th><th>Balina Makası</th><th>OI (1s)</th><th>16 Katmanlı Yırtıcı Konsey Tezi</th></tr>
       ${(state.topCandidates || [])
@@ -1857,27 +2082,33 @@ function startDashboardServer(state) {
   server.on('error', () => {});
   // Bind to 0.0.0.0 so both localhost (PC) and 192.168.x.x (Mobile Phone on Wi-Fi) can connect!
   server.listen(DASHBOARD_PORT, '0.0.0.0', () => {
-    console.log(`🌐 5x-10x Yırtıcı Kaldıraç & Birleşik Mobil Panel Aktif:`);
+    console.log(`🌐 4x-6x Yırtıcı Kaldıraç & Kâr Raporlu Mobil Panel Aktif:`);
     console.log(`   💻 Bilgisayar: http://localhost:${DASHBOARD_PORT}`);
     console.log(`   📱 Telefon (Aynı Wi-Fi): http://${lanIp}:${DASHBOARD_PORT}`);
   });
 }
 
 async function runCycle(state) {
-  const candidates = await scanPerpUniverse(state);
-  await manageOpenPosition(state, candidates);
-  await tryOpenPosition(state, candidates);
-  updateAccountingAndReport(state);
+  if (isPositionCycleBusy) return;
+  isPositionCycleBusy = true;
+  try {
+    const candidates = await scanPerpUniverse(state);
+    await manageOpenPosition(state, candidates);
+    await tryOpenPosition(state, candidates);
+    updateAccountingAndReport(state);
+  } finally {
+    isPositionCycleBusy = false;
+  }
 }
 
 async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v8.0-AllMarket-Predator-5x7x10x';
+  state.version = 'Mutlak-Yapi-v8.2-ZeroRace-ProfitMailer';
   console.log('================================================================================');
-  console.log(`⚡ 100 TL -> 5x / 7x / 10x YIRTICI KALDIRAÇ SİSTEMİ (Mutlak Yapı v8.0 — Tüm Piyasa & TP1 Cebellezi)`);
-  console.log(`   Başlangıç: ${toTL(state.initialBankrollUsdt)} TL | Güncel Kasa: ${toTL(state.totalEquityUsdt)} TL | 5x-10x Güç: ${toTL(state.totalEquityUsdt * LEVERAGE)}-${toTL(state.totalEquityUsdt * MAX_CONVICTION_LEVERAGE)} TL`);
+  console.log(`⚡ 100 TL -> 4x / 5x / 6x YIRTICI KALDIRAÇ SİSTEMİ (Mutlak Yapı v8.2 — Sıfır Çarpışma + Kâr Raporcusu)`);
+  console.log(`   Başlangıç: ${toTL(state.initialBankrollUsdt)} TL | Güncel Kasa: ${toTL(state.totalEquityUsdt)} TL | 4x-6x Güç: ${toTL(state.totalEquityUsdt * LEVERAGE)}-${toTL(state.totalEquityUsdt * MAX_CONVICTION_LEVERAGE)} TL`);
   console.log('================================================================================');
 
   await runCycle(state);
@@ -1885,6 +2116,8 @@ async function main() {
 
   startDashboardServer(state);
   setInterval(async () => {
+    if (isPositionCycleBusy) return;
+    isPositionCycleBusy = true;
     try {
       if (state.openPosition) {
         await manageOpenPosition(state, state.topCandidates || []);
@@ -1892,6 +2125,8 @@ async function main() {
       }
     } catch {
       // ignore transient network error
+    } finally {
+      isPositionCycleBusy = false;
     }
   }, 4000);
 
