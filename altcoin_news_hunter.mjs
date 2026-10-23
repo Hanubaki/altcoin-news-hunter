@@ -759,9 +759,13 @@ function analyzeWhaleAndCandleFlow(klines) {
   const vwap24h = sumBaseVol > 0 ? Number((sumQuoteVol / sumBaseVol).toPrecision(5)) : close;
   const aboveVwap = close >= vwap24h * 0.993;
 
-  // Latest 1h whale acceleration & sample volume
-  const last1hQuote = Number(last[7] || 0);
-  const last1hTaker = Number(last[10] || 0);
+  // Latest rolling 60m whale acceleration & sample volume (blends developing 1h bar with remaining weight of prior 1h bar to prevent top-of-hour reset)
+  const openTimeMs = Number(last[0] || 0);
+  const fracHour = openTimeMs > 0 ? Math.min(1, Math.max(0.02, (Date.now() - openTimeMs) / 3600000)) : 1;
+  const prev = klines[klines.length - 2] || last;
+  const prevWeight = 1 - fracHour;
+  const last1hQuote = Number(last[7] || 0) + prevWeight * Number(prev[7] || 0);
+  const last1hTaker = Number(last[10] || 0) + prevWeight * Number(prev[10] || 0);
   const last1hTakerBuy = last1hQuote > 0 ? Number((last1hTaker / last1hQuote).toFixed(3)) : takerBuyRatio;
   const takerFlowDecel = Number((takerBuyRatio - last1hTakerBuy).toFixed(3));
 
@@ -837,6 +841,9 @@ async function main() {
       high24h,
       low24h,
       quoteVol24h: Number(t.quoteVolume),
+      vwapPremiumPct: vwap24 > 0 ? Number((((lastPrice - vwap24) / vwap24) * 100).toFixed(2)) : 0,
+      bounceFromLowPct: Number(bounceFromLowPct.toFixed(2)),
+      posInRange: Number(posInRange.toFixed(2)),
     };
   }
   const breadth24hPct = tickersRes?.length ? Math.round((greenCoinsCount / tickersRes.length) * 100) : 50;
@@ -882,13 +889,16 @@ async function main() {
     const liquidLeaders = Object.entries(tickerMap)
       .filter(
         ([sym, m]) =>
+          sym !== 'BTC' &&
           !existingSyms.has(sym) &&
           m.quoteVol24h >= 15000000 &&
           m.change24hPct >= -2.5 &&
-          m.change24hPct <= 9.5
+          m.change24hPct <= 9.5 &&
+          m.vwapPremiumPct >= 0.15 &&
+          m.posInRange >= 0.48
       )
-      .sort((a, b) => b[1].quoteVol24h - a[1].quoteVol24h)
-      .slice(0, 6);
+      .sort((a, b) => (b[1].vwapPremiumPct * 2 + b[1].bounceFromLowPct * 0.4) - (a[1].vwapPremiumPct * 2 + a[1].bounceFromLowPct * 0.4))
+      .slice(0, 10);
     for (const [sym] of liquidLeaders) {
       goldenAgeWatchList.push({
         symbol: sym,
@@ -949,7 +959,7 @@ async function main() {
   const btcCrashAlert = btc1hChangePct <= -1.8;
   const isConfirmedGoldenAge =
     !btcCrashAlert &&
-    ((btc1hChangePct >= 0.45 && intradayRecoveryPct >= 45) ||
+    ((btc1hChangePct >= 0.30 && marketBreadthPct >= 52 && intradayRecoveryPct >= 50) ||
       (btc1hChangePct >= 0.25 && breadth24hPct >= 48));
 
   const scoredOpportunities = [];
@@ -982,13 +992,20 @@ async function main() {
       vwap24h,
     } = analyzeWhaleAndCandleFlow(klines);
 
-    const change1hPct = closes.length >= 2
-      ? Number((((closes[closes.length - 1] - closes[closes.length - 2]) / closes[closes.length - 2]) * 100).toFixed(2))
+    const lastBar = klines[klines.length - 1];
+    const fracHour = lastBar?.[0] ? Math.min(1, Math.max(0.02, (Date.now() - Number(lastBar[0])) / 3600000)) : 1;
+    const currBarRet = closes.length >= 2 && closes[closes.length - 2] > 0
+      ? (closes[closes.length - 1] - closes[closes.length - 2]) / closes[closes.length - 2]
       : 0;
+    const prevBarRet = closes.length >= 3 && closes[closes.length - 3] > 0
+      ? (closes[closes.length - 2] - closes[closes.length - 3]) / closes[closes.length - 3]
+      : 0;
+    const change1hPct = Number(((currBarRet + (1 - fracHour) * prevBarRet) * 100).toFixed(2));
     const avgVol = volumes.length > 4
       ? volumes.slice(0, -1).reduce((a, b) => a + b, 0) / (volumes.length - 1)
       : 1;
-    const volRatio = Number(((volumes[volumes.length - 1] || avgVol) / Math.max(0.0001, avgVol)).toFixed(2));
+    const rolling1hBaseVol = (volumes[volumes.length - 1] || 0) + (1 - fracHour) * (volumes[volumes.length - 2] || 0);
+    const volRatio = Number(((rolling1hBaseVol || avgVol) / Math.max(0.0001, avgVol)).toFixed(2));
     const fundingHourlyPct = hlMap[sym] ?? 0;
     const basisSpreadPct = basisSpreadMap[sym] ?? 0;
     const isTrending = newsScan.trendingSet.has(sym);
