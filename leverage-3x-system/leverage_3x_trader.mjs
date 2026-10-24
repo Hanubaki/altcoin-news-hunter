@@ -193,6 +193,117 @@ function getGoalAndTierStatus(state) {
   };
 }
 
+// Engine #45 (GPT-6-Luna Bounded 2-Hour Autonomous Post-Mortem Self-Audit & Adaptive Evolution Loop):
+// Runs every 2 hours (and immediately after each closed trade), diagnoses root-cause mistakes on closed trades,
+// computes J = NetPnL - 0.35*MaxDD - 0.50*FeeScratchLoss, and tunes thresholds strictly within hard safety bounds.
+function runTwoHourSelfAudit(state, forceLog = false) {
+  const nowMs = Date.now();
+  const TWO_HOURS_MS = 2 * 60 * 60 * 1000;
+  const closed = Array.isArray(state.closedTrades) ? state.closedTrades : [];
+  const recentWindow = closed.slice(0, 8);
+
+  let recentWins = 0;
+  let recentLosses = 0;
+  let recentNetPnlTry = 0;
+  let maxDrawdownTry = 0;
+  let feeScratchLossTry = 0;
+  let longWins = 0;
+  let longLosses = 0;
+  let shortWins = 0;
+  let shortLosses = 0;
+
+  const diagnosedMistakes = [];
+  for (const t of recentWindow) {
+    const pnl = Number(t.netPnlTry || 0);
+    recentNetPnlTry = Number((recentNetPnlTry + pnl).toFixed(2));
+    if (pnl >= 0) {
+      recentWins += 1;
+      if (t.side === 'LONG') longWins += 1;
+      else shortWins += 1;
+    } else {
+      recentLosses += 1;
+      maxDrawdownTry = Number((maxDrawdownTry + Math.abs(pnl)).toFixed(2));
+      if (t.side === 'LONG') longLosses += 1;
+      else shortLosses += 1;
+
+      const isProfitLockScratch = String(t.exitReason || '').includes('KÂR KİLİDİ') || Math.abs(pnl) <= 1.25;
+      if (isProfitLockScratch) {
+        feeScratchLossTry = Number((feeScratchLossTry + Math.abs(pnl)).toFixed(2));
+      }
+
+      if (t.symbol === 'DOS' && t.side === 'SHORT') {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: 'Makro-Yükseliş (+%12.8 24s) İçinde 1s %-3.0 Düşmüş Dip Mumuna (CLV:0.04, NÖTR OI, YATAY MTF) Geç SHORT Girişi',
+          fixApplied: 'Motor #43: Anti-Bottom-Chase & Makro-Yükseliş Düzeltme Kalkanı (1s <= -%2.1 & CLV <= 0.14 & 24s >= +%4.5 iken Q3+MTF Ayı onayı yoksa SHORT Veto)',
+        });
+      } else if (t.symbol === 'SOPH' || isProfitLockScratch) {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: '5dk Kurumsal Taker Oranı 0.96x (<1.02x) İken Giriş + Başabaş Kâr Kilidinin (%0.24) 4sn İğnesinde Komisyon Altı Kapanması',
+          fixApplied: 'Motor #44: 5dk Kurumsal Taker Tabanı (LONG >= 1.02x / SHORT <= 0.98x) + +%0.34 Komisyon-Üstü Garantili Kâr Kilidi Clamp',
+        });
+      } else if (t.symbol === 'BTW' || t.symbol === 'BTR') {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: '1s İvmesi Ters Yöndeyken Sadece Negatif Basis / Tekil İndikatör İle Giriş',
+          fixApplied: 'Motor #37 & #38: 1s İvme + Hacim Tabanı (>=0.72x) + 2-Snapshot Mikro-Fiyat & Spoof Kalkanı',
+        });
+      } else {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: 'Kısa Vadeli Likidite Silkelemesi / Volatilite Genişlemesi',
+          fixApplied: 'Motor #42 & #45: Ters-Volatilite Kaldıraç Sınırı (Max %4.8 ROE Risk) + Yan Bazlı Adaptif Skor Barajı',
+        });
+      }
+    }
+  }
+
+  // GPT-6-Luna Objective Score: J = NetPnL - 0.35 * MaxDD - 0.50 * FeeScratchLoss
+  const objectiveJ = Number((recentNetPnlTry - 0.35 * maxDrawdownTry - 0.50 * feeScratchLossTry).toFixed(2));
+
+  // Bounded parameter update: clip(theta, theta_min, theta_max) — never starves trades or removes hard safety walls
+  const minLongScore = longLosses > longWins && longLosses >= 2 ? 80 : 78;
+  const minShortScore = shortLosses >= 1 && recentWindow[0]?.side === 'SHORT' && Number(recentWindow[0]?.netPnlTry || 0) < 0 ? 80 : 78;
+  const minLongTaker5m = longLosses > longWins ? 1.05 : 1.02;
+  const maxShortTaker5m = shortLosses > shortWins ? 0.94 : 0.98;
+
+  state.adaptiveTuning = {
+    minLongScore,
+    minShortScore,
+    minLongTaker5m,
+    maxShortTaker5m,
+    objectiveJ,
+    updatedAt: new Date().toLocaleString('tr-TR'),
+  };
+
+  const nextAuditMs = nowMs + TWO_HOURS_MS;
+  state.lastSelfAudit = {
+    lastAuditAt: new Date(nowMs).toLocaleString('tr-TR'),
+    lastAuditAtMs: nowMs,
+    nextAuditAt: new Date(nextAuditMs).toLocaleString('tr-TR'),
+    nextAuditAtMs: nextAuditMs,
+    recentWindowCount: recentWindow.length,
+    recentWins,
+    recentLosses,
+    recentNetPnlTry,
+    objectiveJ,
+    minLongScore,
+    minShortScore,
+    minLongTaker5m,
+    maxShortTaker5m,
+    diagnosedMistakes: diagnosedMistakes.slice(0, 4),
+  };
+
+  if (forceLog) {
+    logEvent(
+      state,
+      `🧠 [2-SAATLİK OTONOM ÖZELEŞTİRİ & EVRİM (Motor #45)] Son ${recentWindow.length} İşlem: ${recentWins}W/${recentLosses}L (Net: ${recentNetPnlTry >= 0 ? '+' : ''}${recentNetPnlTry} TL | Luna J-Skoru: ${objectiveJ}) | Aktif Barajlar -> LONG >=${minLongScore}p (Taker >=${minLongTaker5m}x), SHORT >=${minShortScore}p (Taker <=${maxShortTaker5m}x) | Sonraki Denetim: ${state.lastSelfAudit.nextAuditAt}`
+    );
+  }
+  return state.lastSelfAudit;
+}
+
 function sweepProfitToSpotVault(state, stepGainUsdt, symbol, reasonLabel) {
   state.spotVaultUsdt = Number((state.spotVaultUsdt || 0).toFixed(4));
   state.spotTransfers = state.spotTransfers || [];
@@ -980,7 +1091,9 @@ function analyzeCandleSmcAndCvd15m(klines) {
   const high4Bar = Math.max(b0.high, b1.high, b2.high, b3.high);
   const posIn4BarRange = high4Bar > low4Bar ? Number(((b0.close - low4Bar) / (high4Bar - low4Bar)).toFixed(2)) : 0.5;
   const runup4BarPct = low4Bar > 0 ? Number((((b0.close - low4Bar) / low4Bar) * 100).toFixed(2)) : 0;
+  const drop4BarPct = high4Bar > 0 ? Number((((high4Bar - b0.close) / high4Bar) * 100).toFixed(2)) : 0;
   const green3Completed = b1.isGreen && b2.isGreen && b3.isGreen;
+  const red3Completed = !b1.isGreen && !b2.isGreen && !b3.isGreen;
 
   return {
     bullishPattern,
@@ -1003,8 +1116,11 @@ function analyzeCandleSmcAndCvd15m(klines) {
     vetoShort,
     isFishingTrapLong,
     posIn4BarRange,
+    posIn16BarRange,
     runup4BarPct,
+    drop4BarPct,
     green3Completed,
+    red3Completed,
     clv: effectiveClv,
     structuralLow: Math.min(b0.low, b1.low),
     structuralHigh: Math.max(b0.high, b1.high),
@@ -1564,6 +1680,22 @@ async function scanPerpUniverse(state) {
         volRatio15m < 1.55) ||
         (item.change24hPct >= 18.0 && (volRatio15m < 1.35 || mtfSqueeze.mtfBullishPts === 0)));
 
+    // Engine #43 (GPT-6-Luna Anti-Bottom-Chase & Macro-Uptrend Pullback Short Shield):
+    // Prevents shorting the exact local capitulation bottom after a heavy 1h drop (e.g. DOSUSDT #2 @ $0.2597:
+    // 1h: -2.99%, CLV: 0.04, 24h: +12.79% macro uptrend, OI: NÖTR, MTF: YATAY -> immediate mean-reversion bounce!).
+    const isBottomChase3RedShort =
+      anatomy.red3Completed &&
+      anatomy.drop4BarPct >= Math.max(0.95, atr15mPct * 1.45) &&
+      anatomy.posIn4BarRange <= 0.14 &&
+      volRatio15m < 1.55;
+    const isMacroUpPullbackBottomShort =
+      change1hPct <= -2.10 &&
+      (anatomy.clv <= 0.14 || anatomy.posIn4BarRange <= 0.16) &&
+      item.change24hPct >= 4.5 &&
+      (mtfSqueeze.mtfBearishPts === 0 || !oiQuadrant.startsWith('Q3'));
+    const isOverextendedMicroBottomShort =
+      !isGcrCrowdedManiaShort && (isBottomChase3RedShort || isMacroUpPullbackBottomShort);
+
     // Extreme Negative Basis Dump Trap Veto (e.g. ALTUSDT: basis <= -0.60% while 24h <= -5.0% means spot/unlock dumping, NOT a discount!)
     const isBasisDumpTrapLong = item.basisPct <= -0.60 && item.change24hPct <= -5.0;
 
@@ -1572,6 +1704,16 @@ async function scanPerpUniverse(state) {
       volRatio15m >= 0.72 && (isBnfLiquidationBounce || (change1hPct >= 0.15 && rsVsBtcAtr >= 0.05));
     const hasShortMomentumAndVol =
       volRatio15m >= 0.72 && (isGcrCrowdedManiaShort || (change1hPct <= -0.15 && rsVsBtcAtr <= -0.05));
+
+    // Engine #44A + #45: 5m Institutional Taker Floor & Bounded Adaptive Score Thresholds
+    // Prevents SOPHUSDT-style LONG entry when 5m institutional takers are net selling (0.96x < 1.02x) despite lagging 15m takerBuyPct >= 51.5%
+    const tuning = state.adaptiveTuning || { minLongScore: 78, minShortScore: 78, minLongTaker5m: 1.02, maxShortTaker5m: 0.98 };
+    const has5mInstTakerLong =
+      isBnfLiquidationBounce ||
+      (instBuySellRatio >= (tuning.minLongTaker5m || 1.02) && (takerBuyPct >= 51.5 || instBuySellRatio >= 1.14));
+    const has5mInstTakerShort =
+      isGcrCrowdedManiaShort ||
+      (instBuySellRatio <= (tuning.maxShortTaker5m || 0.98) && (takerBuyPct <= 48.5 || instBuySellRatio <= 0.88));
 
     const canTriggerLong =
       !btcVetoLong &&
@@ -1583,9 +1725,9 @@ async function scanPerpUniverse(state) {
       !isBasisDumpTrapLong &&
       hasLongMomentumAndVol &&
       vwapLongOk &&
-      (takerBuyPct >= 51.5 || instBuySellRatio >= 1.14 || isBnfLiquidationBounce) &&
+      has5mInstTakerLong &&
       (isBnfLiquidationBounce || rsVsBtcAtr >= -0.20) &&
-      rawLongTotal >= 78;
+      rawLongTotal >= (tuning.minLongScore || 78);
 
     const canTriggerShort =
       !btcVetoShort &&
@@ -1593,11 +1735,12 @@ async function scanPerpUniverse(state) {
       !fundingVetoShort &&
       !anatomy.vetoShort &&
       !isTakerRatioCrashingShort &&
+      !isOverextendedMicroBottomShort &&
       hasShortMomentumAndVol &&
       vwapShortOk &&
-      (takerBuyPct <= 48.5 || instBuySellRatio <= 0.88 || isGcrCrowdedManiaShort) &&
+      has5mInstTakerShort &&
       (rsVsBtcAtr <= 0.25 || isGcrCrowdedManiaShort) &&
-      rawShortTotal >= 78;
+      rawShortTotal >= (tuning.minShortScore || 78);
 
     if (canTriggerLong && (!canTriggerShort || rawLongTotal >= rawShortTotal)) {
       side = 'LONG';
@@ -1829,13 +1972,15 @@ async function manageOpenPosition(state, candidates = []) {
       const lock2 = Number((pos.entryPrice * (1 - 0.0075)).toPrecision(6));
       if (lock2 < pos.stopPrice) pos.stopPrice = lock2;
     }
-  } else if (peakCoinMoveFrac >= 0.0092) {
+  } else if (peakCoinMoveFrac >= 0.0095) {
+    // Engine #44B (GPT-6-Luna Fee-Plus Profit-Lock Clamp):
+    // Stop_long >= Entry*(1 + c + p + b) where c=0.0018 fees, p=0.0010 net profit floor, b=0.0006 mark-to-fill buffer -> +0.34%
     pos.ratchetStage = 'FAST_BREAKEVEN_PLUS';
     if (pos.side === 'LONG') {
-      const bePlus = Number((pos.entryPrice * (1 + 0.0024)).toPrecision(6));
+      const bePlus = Number((pos.entryPrice * (1 + 0.0034)).toPrecision(6));
       if (bePlus > pos.stopPrice) pos.stopPrice = bePlus;
     } else {
-      const bePlus = Number((pos.entryPrice * (1 - 0.0024)).toPrecision(6));
+      const bePlus = Number((pos.entryPrice * (1 - 0.0034)).toPrecision(6));
       if (bePlus < pos.stopPrice) pos.stopPrice = bePlus;
     }
   }
@@ -1944,12 +2089,28 @@ async function manageOpenPosition(state, candidates = []) {
     pos.isClosing = true; // Synchronous atomic lock so no concurrent loop can ever double-close or double-refund!
     state.openPosition = null;
 
-    const finalLegPnlUsdt = Number((pos.notionalUsdt * netCoinMoveFrac).toFixed(4));
+    // Engine #44B: If exit is a locked profit stop (isStopHit && isProfitStop), clamp execution to stopPrice minus 0.04% max stop slip
+    // and >= c + 0.0006 (+0.24% gross = +0.06% net after fees) so a Profit Lock NEVER closes at a fee loss like SOPHUSDT (-0.57 TL)!
+    const isProfitStopClose =
+      isStopHit && (pos.side === 'LONG' ? pos.stopPrice > pos.entryPrice : pos.stopPrice < pos.entryPrice);
+    const stopLockedMoveFrac =
+      pos.side === 'LONG'
+        ? (pos.stopPrice - pos.entryPrice) / pos.entryPrice
+        : (pos.entryPrice - pos.stopPrice) / pos.entryPrice;
+    const effectiveRawMoveFrac = isProfitStopClose
+      ? Math.max(rawCoinMoveFrac, ROUND_TRIP_FEE_SLIP_FRAC + 0.0006, stopLockedMoveFrac - 0.0004)
+      : rawCoinMoveFrac;
+    const effectiveNetMoveFrac = effectiveRawMoveFrac - ROUND_TRIP_FEE_SLIP_FRAC;
+
+    const finalLegPnlUsdt = Number((pos.notionalUsdt * effectiveNetMoveFrac).toFixed(4));
     const totalLifecyclePnlUsdt = Number(((pos.realizedPartialUsdt || 0) + finalLegPnlUsdt).toFixed(4));
     const totalLifecyclePnlTry = toTL(totalLifecyclePnlUsdt);
     const initialMarginUsdt = pos.initialMarginUsdt || pos.marginUsdt;
     const initialNotionalUsdt = pos.initialNotionalUsdt || pos.notionalUsdt;
     const lifecycleRoePct = Number(((totalLifecyclePnlUsdt / initialMarginUsdt) * 100).toFixed(2));
+    if (isProfitStopClose) {
+      exitReason = `🔒 ${posLev}x SIFIR RİSK / SIKIŞTIRMA KÂR KİLİDİ (${pos.side} | Kasa ROE +${lifecycleRoePct}%)`;
+    }
 
     state.marginCashUsdt = Number((state.marginCashUsdt + pos.marginUsdt + finalLegPnlUsdt).toFixed(4));
     state.realizedPnlUsdt = Number((state.realizedPnlUsdt + finalLegPnlUsdt).toFixed(4));
@@ -1978,6 +2139,7 @@ async function manageOpenPosition(state, candidates = []) {
     }
     if (state.closedTrades.length > 30) state.closedTrades.length = 30;
     logEvent(state, `${exitReason} | ${pos.symbol}USDT Toplam Net: ${totalLifecyclePnlTry >= 0 ? '+' : ''}${totalLifecyclePnlTry} TL`);
+    runTwoHourSelfAudit(state, true);
 
     if (totalLifecyclePnlTry > 0) {
       const finalSweep = sweepProfitToSpotVault(
@@ -2215,12 +2377,20 @@ function updateAccountingAndReport(state) {
           .join('\n') + '\n';
 
   const goalInfo = getGoalAndTierStatus(state, loadSpotPortfolioSummary());
-  const md = `# ⚡ 300 TL SABİT ANA PARA (3x–5x RİSK-NORMALİZE KALDIRAÇ) + 23.000 TL HEDEF & SPOT KÂR SİFONU (Mutlak Yapı v8.7)
+  const audit = state.lastSelfAudit || runTwoHourSelfAudit(state, false);
+  const auditSection =
+    !audit?.diagnosedMistakes || audit.diagnosedMistakes.length === 0
+      ? '| *Son pencerede hata tespit edilmedi* | - | - |\n'
+      : audit.diagnosedMistakes
+          .map(m => `| **${m.trade}** | ${m.rootCause} | ✅ **${m.fixApplied}** |`)
+          .join('\n') + '\n';
+
+  const md = `# ⚡ 300 TL SABİT ANA PARA (3x–5x RİSK-NORMALİZE KALDIRAÇ) + 23.000 TL HEDEF & 2-SAATLİK OTONOM EVRİM (Mutlak Yapı v8.8)
 
 **Son Güncelleme:** ${new Date().toLocaleString('tr-TR')}  
 **🌍 Her Yerden (4.5G/Mobil/Wi-Fi Cloudflare Port Forwarding):** \`${PUBLIC_TUNNEL_URL}\` *(Yedek: \`${BACKUP_TUNNEL_URL}\`)*  
 **🏠 Ev Wi-Fi:** \`http://${lanIp}:${DASHBOARD_PORT}\` | **💻 Bilgisayar:** \`http://localhost:${DASHBOARD_PORT}\`  
-**Çalışma Modu:** \`${state.mode}\` *(Sadece Max ${goalInfo.activeCapTry} TL İle Oynar + 3x/3.5x/4x/5x GPT-6-Luna & Qullamaggie Kaldıraç + Kazanılan Kârları Otomatik Spot Cüzdana Atar)*
+**Çalışma Modu:** \`${state.mode}\` *(Sadece Max ${goalInfo.activeCapTry} TL İle Oynar + 3x–5x Luna/Qullamaggie Kaldıraç + Her 2 Saatte Bir Otonom Özeleştiri & Evrim Motoru #45)*
 
 ---
 
@@ -2230,6 +2400,17 @@ function updateAccountingAndReport(state) {
 * **🏛️ Mevcut Kaldıraç + Spot Kâr Kasası Toplamı:** **\`${goalInfo.combinedTry} TL / 23.000,00 TL\` (\`%${goalInfo.progressPct} Tamamlandı\` | Kalan: \`${goalInfo.remainingTry} TL\`)**
 * **🪜 Aktif Büyüme Basamağı:** **\`${goalInfo.tierLabel}\`** *(Cebinden ekstra 1 TL çıkmadan, yalnızca Spot Kâr Kasasında biriken dokunulmaz kârla kademe atlar!)*
 
+---
+
+## 🧠 2-SAATLİK OTONOM ÖZELEŞTİRİ & KENDİNİ GELİŞTİRME MOTORU (Motor #43, #44 & #45)
+
+* **⏱️ Son Otonom Denetim:** \`${audit.lastAuditAt}\` | **Sonraki 2-Saatlik Denetim:** \`${audit.nextAuditAt}\`
+* **📊 Son ${audit.recentWindowCount} İşlem Karnesi:** \`${audit.recentWins} Kazanç / ${audit.recentLosses} Kayıp\` (**Net:** \`${audit.recentNetPnlTry >= 0 ? '+' : ''}${audit.recentNetPnlTry} TL\` | **Luna Amaç Skoru $J$:** \`${audit.objectiveJ}\`)
+* **🎛️ Otonom Sınırlandırılmış Parametreler ($\theta$):** \`LONG Barajı >= ${audit.minLongScore}/99 (5dk Taker >= ${audit.minLongTaker5m}x)\` | \`SHORT Barajı >= ${audit.minShortScore}/99 (5dk Taker <= ${audit.maxShortTaker5m}x)\`
+
+| İncelenen Hatalı İşlem | Tespit Edilen Kök Hata Nedeni | Otonom Devreye Alınan Yeni Motor / Kalkan |
+| :--- | :--- | :--- |
+${auditSection}
 ---
 
 ## 1. 300 TL SABİT KALDIRAÇ KASASI & SPOT CÜZDANA AKTARILAN KÂR DURUMU
@@ -2396,8 +2577,8 @@ function startDashboardServer(state) {
 <body>
   <div class="topbar">
     <div>
-      <div class="title">⚡ Yırtıcı Konsey v8.7 — 300 TL Risk-Normalize Kaldıraç (3x–5x) + 🎯 23.000 TL Servet Hedefi</div>
-      <div class="sub">Kaldıraçta Max ${goalInfo.activeCapTry} TL İle Oynar + Kârları Otomatik Spot Cüzdana Atar + GPT-6-Luna & Qullamaggie 42 Motor</div>
+      <div class="title">⚡ Yırtıcı Konsey v8.8 — 300 TL Kaldıraç (3x–5x) + 🎯 23.000 TL Hedef + 🧠 2-Saatlik Otonom Evrim</div>
+      <div class="sub">Kaldıraçta Max ${goalInfo.activeCapTry} TL İle Oynar + Her 2 Saatte Bir Hatalarını İnceleyip Kendini Geliştirir (45 Motor)</div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;">
       <a href="${PUBLIC_TUNNEL_URL}" style="text-decoration:none;" class="pill">🌍 4.5G/Cloudflare: ${PUBLIC_TUNNEL_URL.replace('https://', '')}</a>
@@ -2446,6 +2627,28 @@ function startDashboardServer(state) {
       <div class="val amber">${combinedEquityTry} TL</div>
       <div class="sub">300 TL Ana Para + Spot'a Atılan Kâr</div>
     </div>
+  </div>
+
+  <div class="section-card" style="border-color:#38bdf866;">
+    <h3>
+      <span>🧠 Her 2 Saatte Bir Otonom Özeleştiri & Evrim Motoru (Motor #43, #44, #45)</span>
+      <span class="sub">Son Denetim: <b>${(state.lastSelfAudit || {}).lastAuditAt || '-'}</b> | Sonraki: <b>${(state.lastSelfAudit || {}).nextAuditAt || '+2 Saat'}</b></span>
+    </h3>
+    <div style="font-size:12px;color:#cbd5e1;margin-bottom:8px;">
+      Aktif Otonom Barajlar: <b>LONG &gt;= ${(state.lastSelfAudit || {}).minLongScore || 78}p (5dk Taker &gt;= ${(state.lastSelfAudit || {}).minLongTaker5m || 1.02}x)</b> | <b>SHORT &gt;= ${(state.lastSelfAudit || {}).minShortScore || 78}p (5dk Taker &lt;= ${(state.lastSelfAudit || {}).maxShortTaker5m || 0.98}x)</b> | Luna $J$-Skoru: <b class="cyan">${(state.lastSelfAudit || {}).objectiveJ ?? 0}</b>
+    </div>
+    <table>
+      <tr><th>İncelenen Hatalı İşlem</th><th>Tespit Edilen Kök Hata Nedeni</th><th>Devreye Alınan Yeni Motor / Kalkan</th></tr>
+      ${((state.lastSelfAudit || {}).diagnosedMistakes || [])
+        .map(
+          m => `<tr>
+          <td class="red"><b>${m.trade}</b></td>
+          <td>${m.rootCause}</td>
+          <td class="green"><b>✅ ${m.fixApplied}</b></td>
+        </tr>`
+        )
+        .join('')}
+    </table>
   </div>
 
   <div class="section-card">
@@ -2553,6 +2756,9 @@ async function runCycle(state) {
     // Keepalive self-ping so public tunnels (Cloudflare & localhost.run) never hit activity timeout
     fetch(`${PUBLIC_TUNNEL_URL}/api/state`, { signal: AbortSignal.timeout(3000) }).catch(() => {});
     fetch(`${BACKUP_TUNNEL_URL}/api/state`, { signal: AbortSignal.timeout(3000) }).catch(() => {});
+    if (!state.lastSelfAudit || Date.now() >= (state.lastSelfAudit.nextAuditAtMs || 0)) {
+      runTwoHourSelfAudit(state, true);
+    }
     const candidates = await scanPerpUniverse(state);
     await manageOpenPosition(state, candidates);
     await tryOpenPosition(state, candidates);
@@ -2566,9 +2772,10 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v8.7-Luna-Qullamaggie-Apex';
+  state.version = 'Mutlak-Yapi-v8.8-2Hour-SelfAudit-Apex';
+  runTwoHourSelfAudit(state, true);
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x LUNA & QULLAMAGGIE KALDIRAÇ) + SPOT CÜZDAN KÂR SİFONU (v8.7)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + 2-SAATLİK OTONOM EVRİM MOTORU (v8.8)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
