@@ -978,11 +978,33 @@ function computeWeightedBookImbalance(bids, asks) {
 }
 
 async function fetchPerpOrderbookConfirm(symbol, side) {
+  // Engine #38 (GPT-6-Luna Two-Snapshot Perp Microprice & Spoof-Decay Gate — 1.8s Interval):
   const d1 = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${symbol}USDT&limit=20`, {}, 2500);
   if (!d1?.bids?.length || !d1?.asks?.length) return { ok: false, reason: 'NO_DEPTH_1' };
-  await new Promise(r => setTimeout(r, 1200));
+  await new Promise(r => setTimeout(r, 1800));
   const d2 = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${symbol}USDT&limit=20`, {}, 2500);
   if (!d2?.bids?.length || !d2?.asks?.length) return { ok: false, reason: 'NO_DEPTH_2' };
+
+  const seq1 = Number(d1.lastUpdateId || 0);
+  const seq2 = Number(d2.lastUpdateId || 0);
+  if (seq1 > 0 && seq2 > 0 && seq2 < seq1) {
+    return { ok: false, reason: `STALE_BOOK_SEQUENCE (${seq1}->${seq2})` };
+  }
+
+  const bestBid1 = Number(d1.bids[0][0]);
+  const bestAsk1 = Number(d1.asks[0][0]);
+  const bidVol1 = Number(d1.bids[0][1] || 0);
+  const askVol1 = Number(d1.asks[0][1] || 0);
+  const midPrice1 = (bestBid1 + bestAsk1) / 2;
+  const microPrice1 =
+    bidVol1 + askVol1 > 0
+      ? (bestBid1 * askVol1 + bestAsk1 * bidVol1) / (bidVol1 + askVol1)
+      : midPrice1;
+  const halfSpread1 = (bestAsk1 - bestBid1) / 2;
+  const microSkew1 =
+    halfSpread1 > 0
+      ? Number(((microPrice1 - midPrice1) / halfSpread1).toFixed(3))
+      : 0;
 
   const bestBid = Number(d2.bids[0][0]);
   const bestAsk = Number(d2.asks[0][0]);
@@ -993,25 +1015,41 @@ async function fetchPerpOrderbookConfirm(symbol, side) {
     bidVol0 + askVol0 > 0
       ? (bestBid * askVol0 + bestAsk * bidVol0) / (bidVol0 + askVol0)
       : midPrice;
+  const halfSpread2 = (bestAsk - bestBid) / 2;
   const microSkew =
-    bestAsk > bestBid
-      ? Number(((microPrice - midPrice) / (bestAsk - bestBid)).toFixed(3))
+    halfSpread2 > 0
+      ? Number(((microPrice - midPrice) / halfSpread2).toFixed(3))
       : 0;
   const spreadPct = bestBid > 0 ? Number((((bestAsk - bestBid) / bestBid) * 100).toFixed(4)) : 99;
   const ob1 = computeWeightedBookImbalance(d1.bids, d1.asks);
   const ob2 = computeWeightedBookImbalance(d2.bids, d2.asks);
   const avgOb = Number(((ob1 + ob2) / 2).toFixed(3));
+  const obDelta = Number((ob2 - ob1).toFixed(3));
+  const bookHollowing = bestBid < bestBid1 && bestAsk > bestAsk1;
 
   if (spreadPct > 0.18) {
     return { ok: false, reason: `WIDE_SPREAD (${spreadPct}%)`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
   }
-  if (side === 'LONG' && (avgOb < 0.05 || ob2 < 0.01 || (microSkew < -0.12 && avgOb < 0.16))) {
-    return { ok: false, reason: `WEAK_LONG_OB_OR_MICROPRICE (ob:${ob1}->${ob2} | microSkew:${microSkew})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
+  if (bookHollowing) {
+    return { ok: false, reason: `BOOK_HOLLOWING (bid ${bestBid1}->${bestBid} | ask ${bestAsk1}->${bestAsk})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
   }
-  if (side === 'SHORT' && (avgOb > -0.05 || ob2 > -0.01 || (microSkew > 0.12 && avgOb > -0.16))) {
-    return { ok: false, reason: `WEAK_SHORT_OB_OR_MICROPRICE (ob:${ob1}->${ob2} | microSkew:${microSkew})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
+  if (side === 'LONG') {
+    if (obDelta < -0.10) {
+      return { ok: false, reason: `SPOOF_WALL_DECAY_LONG (ob:${ob1}->${ob2} | dI:${obDelta})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
+    }
+    if (avgOb < 0.05 || ob2 < 0.02 || microSkew < -0.16 || (microSkew1 < -0.20 && microSkew < 0)) {
+      return { ok: false, reason: `WEAK_LONG_OB_OR_MICROPRICE (ob:${ob1}->${ob2} | x1:${microSkew1}->x2:${microSkew})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
+    }
   }
-  return { ok: true, bestBid, bestAsk, spreadPct, avgOb, ob1, ob2, microSkew };
+  if (side === 'SHORT') {
+    if (obDelta > 0.10) {
+      return { ok: false, reason: `SPOOF_WALL_DECAY_SHORT (ob:${ob1}->${ob2} | dI:+${obDelta})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
+    }
+    if (avgOb > -0.05 || ob2 > -0.02 || microSkew > 0.16 || (microSkew1 > 0.20 && microSkew > 0)) {
+      return { ok: false, reason: `WEAK_SHORT_OB_OR_MICROPRICE (ob:${ob1}->${ob2} | x1:${microSkew1}->x2:${microSkew})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
+    }
+  }
+  return { ok: true, bestBid, bestAsk, spreadPct, avgOb, ob1, ob2, obDelta, microSkew1, microSkew };
 }
 
 function readSharedNewsSignals() {
@@ -1096,6 +1134,11 @@ async function scanPerpUniverse(state) {
     if (!isCurrentlyOpen && (quoteVol24h < 15e6 || range24hPct < 3.2)) continue;
 
     const fundingRatePct = Number((Number(prem.lastFundingRate || 0) * 100).toFixed(4));
+    const contractNextFundingMs = Number(prem.nextFundingTime || 0);
+    const contractMinsToFunding =
+      contractNextFundingMs > Date.now()
+        ? Math.max(0, Math.round((contractNextFundingMs - Date.now()) / 60000))
+        : minsToNextFunding;
     const markPrice = Number(prem.markPrice || tick.lastPrice || 0);
     const indexPrice = Number(prem.indexPrice || markPrice);
     const basisPct = indexPrice > 0 ? Number((((markPrice - indexPrice) / indexPrice) * 100).toFixed(4)) : 0;
@@ -1121,6 +1164,7 @@ async function scanPerpUniverse(state) {
       markPrice,
       indexPrice,
       fundingRatePct,
+      minsToFunding: contractMinsToFunding,
       basisPct,
       quoteVol24h,
       change24hPct,
@@ -1209,7 +1253,8 @@ async function scanPerpUniverse(state) {
 
     let fundingCountdownBonusLong = 0;
     let fundingCountdownBonusShort = 0;
-    if (minsToNextFunding <= 45) {
+    const itemMinsToFunding = Number.isFinite(item.minsToFunding) ? item.minsToFunding : minsToNextFunding;
+    if (itemMinsToFunding > 15 && itemMinsToFunding <= 45) {
       if (item.fundingRatePct <= -0.015 && (lastPrice >= vwap4h * 0.996 || change1hPct > 0)) {
         fundingCountdownBonusLong = 5;
       } else if (item.fundingRatePct >= 0.020) {
@@ -1384,9 +1429,16 @@ async function scanPerpUniverse(state) {
     }
     bearishFundNewsPts = Math.min(13, bearishFundNewsPts);
 
-    // Wall #6B: Funding Bleed & Counter-Trend Veto
-    const fundingVetoLong = item.fundingRatePct >= 0.080; // Never pay >0.08% funding on overcrowded longs
-    const fundingVetoShort = item.fundingRatePct <= -0.120; // Never short into deep negative funding (-0.12%+) squeeze traps
+    // Wall #6B + Engine #39 (GPT-6-Luna Contract-Specific nextFundingTime Settlement Cost & Dump Guard):
+    // 1) Block paying-direction entry within 15m of settlement if |funding| >= 0.035%
+    // 2) Block fresh LONG within 12m of settlement on extreme negative funding (<= -0.35%) before funding-farmers dump at the clock boundary
+    const fundingVetoLong =
+      item.fundingRatePct >= 0.080 ||
+      (itemMinsToFunding <= 15 && item.fundingRatePct >= 0.035) ||
+      (itemMinsToFunding <= 12 && item.fundingRatePct <= -0.35);
+    const fundingVetoShort =
+      item.fundingRatePct <= -0.120 ||
+      (itemMinsToFunding <= 15 && item.fundingRatePct <= -0.035);
 
     const vwapLongOk =
       isBnfLiquidationBounce ||
@@ -1519,6 +1571,7 @@ async function scanPerpUniverse(state) {
       fSym: item.fSym,
       markPrice: lastPrice,
       fundingRatePct: item.fundingRatePct,
+      minsToFunding: itemMinsToFunding,
       basisPct: item.basisPct,
       basisLabel,
       change1hPct,
@@ -1567,7 +1620,7 @@ async function scanPerpUniverse(state) {
       ? `⚠️ BTC SERT DÜŞÜŞ (${btc15mChangePct}%/15dk) -> LONG VETO, SADECE GCR SHORT!`
       : btcVetoShort
         ? `🚀 BTC SERT YÜKSELİŞ (+${btc15mChangePct}%/15dk) -> SHORT VETO, SADECE EUGENE LONG!`
-        : `18 KATMANLI YIRTICI KONSEY v8.5 (${preCandidates.length} Likit Kontrat | 3x-3.5x-4x Anti-İğne Kaldıraç)`,
+        : `20 KATMANLI YIRTICI KONSEY v8.6 (${preCandidates.length} Likit Kontrat | 3x-3.5x-4x Anti-İğne + Luna Mikro-Fiyat Kalkanı)`,
     lastScanAt: new Date().toLocaleString('tr-TR'),
     statusNote: state.openPosition
       ? `🔥 Açık ${state.openPosition.leverage || LEVERAGE}x ${state.openPosition.side}: ${state.openPosition.symbol}USDT takip ediliyor.`
@@ -1727,7 +1780,24 @@ async function manageOpenPosition(state, candidates = []) {
 
   let isOrderflowScratch = false;
   let isFishingEmergencyExit = false;
+  let isFundingSettlementHarvest = false;
   const curPosLiveCand = candidates.find(c => c.symbol === pos.symbol);
+  if (!isTpHit && !isStopHit && curPosLiveCand && Number.isFinite(curPosLiveCand.minsToFunding)) {
+    const posMinsToFund = curPosLiveCand.minsToFunding;
+    const liveFundPct = curPosLiveCand.fundingRatePct;
+    const isPayingHeavyFunding =
+      (pos.side === 'LONG' && liveFundPct >= 0.050) ||
+      (pos.side === 'SHORT' && liveFundPct <= -0.050);
+    const isExtremeNegFundFarmerDumpRisk =
+      pos.side === 'LONG' && liveFundPct <= -0.40 && !pos.tp1Done && rawCoinMoveFrac < 0.0125;
+    if (
+      posMinsToFund <= 5 &&
+      rawCoinMoveFrac >= ROUND_TRIP_FEE_SLIP_FRAC + 0.0015 &&
+      (isPayingHeavyFunding || isExtremeNegFundFarmerDumpRisk)
+    ) {
+      isFundingSettlementHarvest = true;
+    }
+  }
   if (!isTpHit && !isStopHit && minsHeld >= 12 && rawCoinMoveFrac <= 0.0010 && rawCoinMoveFrac >= -0.0060 && curPosLiveCand) {
     if (
       (pos.side === 'LONG' && (curPosLiveCand.instBuySellRatio <= 0.75 || curPosLiveCand.candlePattern.includes('Yemleme/Fishing')) && curPosLiveCand.takerBuyPct <= 44.0) ||
@@ -1792,6 +1862,8 @@ async function manageOpenPosition(state, candidates = []) {
     exitReason = `🎣 YEMLEME (FISHING) ERKEN TAHLİYESİ (Kurumsal Alıcı Çöktü [Taker L/S ${curPosLiveCand?.instBuySellRatio ?? 'N/A'}x], Stop Beklenmeden Çıkıldı | ROE ${roePct}%)`;
   } else if (isOrderflowScratch) {
     exitReason = `🛡️ EUGENE ERKEN TAHTA TAHLİYESİ (Emir Defteri Tersine Döndü, Stop Beklenmeden Çıkıldı | ROE ${roePct}%)`;
+  } else if (isFundingSettlementHarvest) {
+    exitReason = `⏱️ FONLAMA KESİNTİSİ ÖNCESİ KÂR HASADI (Kesime <=5dk | Fonlama %${curPosLiveCand?.fundingRatePct ?? 0} | ROE +${roePct}%)`;
   } else if (rotationTarget) {
     exitReason = `🔄 ULTRA-APEX SIFIR-ZARAR SLOT ROTASYONU (Başabaş/Kârlı İşlemden ${rotationTarget.symbol} [${rotationTarget.score}/99] Fırsatına Geçildi | ROE +${roePct}%)`;
   } else if (isTimeStop) {
