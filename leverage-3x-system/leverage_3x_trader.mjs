@@ -621,12 +621,19 @@ function runTwoHourSelfAudit(state, forceLog = false) {
       if (t.side === 'LONG') longLosses += 1;
       else shortLosses += 1;
 
-      const isProfitLockScratch = String(t.exitReason || '').includes('KÂR KİLİDİ') || Math.abs(pnl) <= 1.25;
-      if (isProfitLockScratch) {
+      const isProfitLockScratch = String(t.exitReason || '').includes('KÂR KİLİDİ');
+      const isStaleRecoveryScratch = String(t.exitReason || '').includes('BAYAT İVME') && Math.abs(pnl) <= 1.50;
+      if (isProfitLockScratch || isStaleRecoveryScratch) {
         feeScratchLossTry = Number((feeScratchLossTry + Math.abs(pnl)).toFixed(2));
       }
 
-      if (t.symbol === 'DOS' && t.side === 'SHORT') {
+      if (isStaleRecoveryScratch) {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: 'Yapısal Destek ($0.08341) Tutup Fiyat Giriş Üstüne ($0.08450) Toparlanırken 24. Dakikada Erken Bayat-İvme Tahliyesi',
+          fixApplied: 'Motor #75A & #75B: Giriş Üstü/Başabaş Toparlanan İşlemde Erken Scratch Yasağı + <3.50 TL Scratch İşlemlerde 10s Karantina Muafiyeti',
+        });
+      } else if (t.symbol === 'DOS' && t.side === 'SHORT') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
           rootCause: 'Makro-Yükseliş (+%12.8 24s) İçinde 1s %-3.0 Düşmüş Dip Mumuna (CLV:0.04, NÖTR OI, YATAY MTF) Geç SHORT Girişi',
@@ -712,22 +719,26 @@ function runTwoHourSelfAudit(state, forceLog = false) {
     let consec = 0;
     for (const row of closed) {
       if (row.symbol !== t.symbol) continue;
-      if (Number(row.netPnlTry || 0) < 0) consec += 1;
-      else break;
+      const rowPnl = Number(row.netPnlTry || 0);
+      if (rowPnl >= 0) break;
+      const isMaterialStop = rowPnl <= -3.50 || String(row.exitReason || '').includes('İZOLE STOP KALKANI');
+      if (isMaterialStop) consec += 1;
     }
     state.symbolConsecStops[t.symbol] = consec;
-    if (consec >= 2) {
-      const lastLossMs = Number(t.closedAtMs || parseClosedAtMs(t.closedAt) || 0);
-      if (lastLossMs > 0) {
-        const targetQuarantineUntil = lastLossMs + 10 * 60 * 60 * 1000;
-        const maxQuarantineUntil = lastLossMs + 12 * 60 * 60 * 1000;
-        if ((state.symbolCooldowns[t.symbol] || 0) > maxQuarantineUntil) {
-          // Repair cooldowns that were artificially pushed forward by the old nowMs + 6h reset bug
-          state.symbolCooldowns[t.symbol] = targetQuarantineUntil;
-        } else if (nowMs < targetQuarantineUntil && (state.symbolCooldowns[t.symbol] || 0) < targetQuarantineUntil) {
-          state.symbolCooldowns[t.symbol] = targetQuarantineUntil;
-        }
+    const lastLossMs = Number(t.closedAtMs || parseClosedAtMs(t.closedAt) || 0);
+    if (consec >= 2 && lastLossMs > 0) {
+      const targetQuarantineUntil = lastLossMs + 10 * 60 * 60 * 1000;
+      const maxQuarantineUntil = lastLossMs + 12 * 60 * 60 * 1000;
+      if ((state.symbolCooldowns[t.symbol] || 0) > maxQuarantineUntil) {
+        // Repair cooldowns that were artificially pushed forward by the old nowMs + 6h reset bug
+        state.symbolCooldowns[t.symbol] = targetQuarantineUntil;
+      } else if (nowMs < targetQuarantineUntil && (state.symbolCooldowns[t.symbol] || 0) < targetQuarantineUntil) {
+        state.symbolCooldowns[t.symbol] = targetQuarantineUntil;
       }
+    } else if (consec < 2 && lastLossMs > 0 && (state.symbolCooldowns[t.symbol] || 0) > nowMs + 180 * 60 * 1000) {
+      // Engine #75B: Repair false 10-hour quarantines caused by < 3.50 TL tactical scratches
+      const isLastRowScratch = Number(t.netPnlTry || 0) > -3.50 && !String(t.exitReason || '').includes('İZOLE STOP KALKANI');
+      state.symbolCooldowns[t.symbol] = lastLossMs + (isLastRowScratch ? 20 : 180) * 60 * 1000;
     }
   }
 
@@ -3120,29 +3131,33 @@ async function manageOpenPosition(state, candidates = []) {
       isWickTakerCollapseScratch = true;
     }
   }
-  // Engine #49 + #62 (GPT-6-Luna 32-Minute R-Normalized MFE/MAE & Giveback Stale-Trade Scratch):
-  if (!isTpHit && !isStopHit && !isFishingEmergencyExit && !isWickTakerCollapseScratch && !pos.tp1Done) {
+  // Engine #49 + #62 + #75A (GPT-6-Luna 32-Minute R-Normalized MFE/MAE & Giveback Stale-Trade Scratch — Never Cut Recovering Trades Above Entry):
+  // Never scratch a trade when rawCoinMoveFrac > -0.0008 (price is above entry or within 0.08% of entry recovering from a dip, like NILUSDT at $0.08450 vs $0.08442)!
+  if (!isTpHit && !isStopHit && !isFishingEmergencyExit && !isWickTakerCollapseScratch && !pos.tp1Done && rawCoinMoveFrac <= -0.0008) {
     const whaleOrTakerFlippedAgainst = Boolean(
       curPosLiveCand &&
-        ((pos.side === 'SHORT' && (curPosLiveCand.whaleRetailSpread >= 3.0 || curPosLiveCand.instBuySellRatio >= 1.10)) ||
-          (pos.side === 'LONG' && (curPosLiveCand.whaleRetailSpread <= -3.0 || curPosLiveCand.instBuySellRatio <= 0.90)))
+        ((pos.side === 'SHORT' &&
+          (curPosLiveCand.whaleRetailSpread >= 3.0 ||
+            (curPosLiveCand.instBuySellRatio >= 1.15 && (curPosLiveCand.whaleRetailSpread >= 0 || curPosLiveCand.score < 85)))) ||
+          (pos.side === 'LONG' &&
+            (curPosLiveCand.whaleRetailSpread <= -3.0 ||
+              (curPosLiveCand.instBuySellRatio <= 0.85 && (curPosLiveCand.whaleRetailSpread <= 0 || curPosLiveCand.score < 85)))))
     );
     const isGivebackStall =
       minsHeld >= 30 &&
-      rawCoinMoveFrac <= 0.0012 &&
       rawCoinMoveFrac >= -0.0045 &&
       aeR >= 0.30 &&
       mfeR < 0.45 &&
       whaleOrTakerFlippedAgainst;
     if (
       isGivebackStall ||
-      (minsHeld >= 32 && aeR >= 0.35 && mfeR < 0.25) ||
+      (minsHeld >= 32 && aeR >= 0.35 && mfeR < 0.25 && (whaleOrTakerFlippedAgainst || !curPosLiveCand || curPosLiveCand.score < 85)) ||
       (minsHeld >= 22 && aeR >= 0.30 && mfeR < 0.30 && whaleOrTakerFlippedAgainst)
     ) {
       isStaleMomentumScratch = true;
     }
   }
-  if (!isTpHit && !isStopHit && !isFishingEmergencyExit && !isWickTakerCollapseScratch && !isStaleMomentumScratch && minsHeld >= 22 && rawCoinMoveFrac <= 0.0015 && rawCoinMoveFrac >= -0.0045) {
+  if (!isTpHit && !isStopHit && !isFishingEmergencyExit && !isWickTakerCollapseScratch && !isStaleMomentumScratch && minsHeld >= 22 && rawCoinMoveFrac <= -0.0008 && rawCoinMoveFrac >= -0.0045) {
     const depth = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${pos.fSym}&limit=15`, {}, 2000);
     if (state.openPosition?.id !== posId || pos.isClosing) return;
     if (depth?.bids?.length && depth?.asks?.length) {
@@ -3307,7 +3322,7 @@ async function manageOpenPosition(state, candidates = []) {
         `🚫 [Motor #46 Toksik Sembol Karantinası] ${pos.symbol}USDT art arda ${sCount}. stop sonrası ${cdMins / 60} saat (${cdMins}dk) karantinaya alındı!`
       );
     } else {
-      const scratchExpiry = Date.now() + 60 * 60 * 1000;
+      const scratchExpiry = Date.now() + 20 * 60 * 1000;
       state.symbolCooldowns[pos.symbol] = Math.max(state.symbolCooldowns[pos.symbol] || 0, scratchExpiry);
     }
     if (totalLifecyclePnlTry <= -2.50) {
@@ -4218,7 +4233,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v11.4-Structural-Stop-Integrity-And-Short-MTF-Shield';
+  state.version = 'Mutlak-Yapi-v11.5-Recovery-Scratch-Guard-And-Scratch-Quarantine-Fix';
   if (state.openPosition?.thesis && state.openPosition?.leverage) {
     state.openPosition.thesis = String(state.openPosition.thesis).replace(
       /->\s*[\d.]+x\s+(LONG|SHORT)!/,
@@ -4227,7 +4242,7 @@ async function main() {
   }
   runTwoHourSelfAudit(state, true);
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v11.4 — Motor #58-#74)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v11.5 — Motor #58-#75)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
