@@ -3,6 +3,7 @@ import path from 'path';
 import http from 'http';
 import os from 'os';
 import tls from 'tls';
+import crypto from 'crypto';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -70,6 +71,235 @@ async function getValidCoinPerpMap() {
     }
   }
   return cachedValidCoinPerps;
+}
+
+function roundPriceToTick(fSym, rawPrice, mode = 'nearest') {
+  const p = Number(rawPrice || 0);
+  if (!Number.isFinite(p) || p <= 0) return 0;
+  const symInfo = cachedValidCoinPerps?.get(fSym);
+  const tickFilter = symInfo?.filters?.find(f => f.filterType === 'PRICE_FILTER');
+  const tickStr = String(tickFilter?.tickSize || '');
+  const tickSize = Number(tickStr || 0);
+  if (tickSize > 0 && Number.isFinite(tickSize)) {
+    const decimals = tickStr.includes('.')
+      ? (tickStr.split('.')[1] || '').replace(/0+$/, '').length
+      : Math.max(0, -Math.floor(Math.log10(tickSize)));
+    const ratio = p / tickSize;
+    const steps =
+      mode === 'floor'
+        ? Math.floor(ratio + 1e-9)
+        : mode === 'ceil'
+          ? Math.ceil(ratio - 1e-9)
+          : Math.round(ratio);
+    return Number((steps * tickSize).toFixed(Math.min(8, Math.max(0, decimals))));
+  }
+  return Number(p.toPrecision(6));
+}
+
+function roundQtyToStep(fSym, rawQty) {
+  const q = Number(rawQty || 0);
+  if (!Number.isFinite(q) || q <= 0) return 0;
+  const symInfo = cachedValidCoinPerps?.get(fSym);
+  const lotFilter =
+    symInfo?.filters?.find(f => f.filterType === 'MARKET_LOT_SIZE') ||
+    symInfo?.filters?.find(f => f.filterType === 'LOT_SIZE');
+  const stepStr = String(lotFilter?.stepSize || '');
+  const stepSize = Number(stepStr || 0);
+  const minQty = Number(lotFilter?.minQty || 0);
+  if (stepSize > 0 && Number.isFinite(stepSize)) {
+    const decimals = stepStr.includes('.')
+      ? (stepStr.split('.')[1] || '').replace(/0+$/, '').length
+      : Math.max(0, -Math.floor(Math.log10(stepSize)));
+    const steps = Math.floor(q / stepSize + 1e-9);
+    const quantized = Number((steps * stepSize).toFixed(Math.min(8, Math.max(0, decimals))));
+    return quantized >= minQty ? quantized : 0;
+  }
+  return Number(q.toPrecision(5));
+}
+
+// Engine #65-#69: Real Binance Futures (fapi.binance.com) Signed Execution & Hardware Stop-Market Engine
+let fapiTimeOffsetMs = 0;
+let lastFapiTimeSyncMs = 0;
+let cachedDualSidePosition = false;
+
+async function syncFapiServerTime() {
+  const now = Date.now();
+  if (now - lastFapiTimeSyncMs < 5 * 60 * 1000) return fapiTimeOffsetMs;
+  const res = await fetchJson(`${FAPI_BASE}/fapi/v1/time`, {}, 3000);
+  if (res && Number.isFinite(Number(res.serverTime))) {
+    fapiTimeOffsetMs = Number(res.serverTime) - Date.now();
+    lastFapiTimeSyncMs = now;
+  }
+  return fapiTimeOffsetMs;
+}
+
+function getFapiCredentials() {
+  const cfg = loadEnv();
+  const apiKey = (cfg.BINANCE_FUTURES_API_KEY || cfg.BINANCE_API_KEY || '').trim();
+  const secretKey = (cfg.BINANCE_FUTURES_SECRET_KEY || cfg.BINANCE_SECRET_KEY || '').trim();
+  const liveEnabled =
+    String(cfg.LIVE_FUTURES_TRADING || cfg.LIVE_TRADING || 'true').toLowerCase() !== 'false';
+  return { apiKey, secretKey, liveEnabled: Boolean(apiKey && secretKey && liveEnabled) };
+}
+
+async function fapiSignedRequest(method, endpoint, paramsObj = {}, timeoutMs = 5500) {
+  const { apiKey, secretKey, liveEnabled } = getFapiCredentials();
+  if (!liveEnabled) return null;
+  await syncFapiServerTime();
+  const params = new URLSearchParams();
+  for (const [k, v] of Object.entries(paramsObj)) {
+    if (v !== undefined && v !== null && v !== '') params.set(k, String(v));
+  }
+  params.set('timestamp', String(Date.now() + fapiTimeOffsetMs));
+  params.set('recvWindow', '5000');
+  const sig = crypto.createHmac('sha256', secretKey).update(params.toString()).digest('hex');
+  params.set('signature', sig);
+  const url = `${FAPI_BASE}${endpoint}?${params.toString()}`;
+  return fetchJson(
+    url,
+    {
+      method,
+      headers: { 'X-MBX-APIKEY': apiKey },
+    },
+    timeoutMs
+  );
+}
+
+async function syncLiveFapiAccount(state) {
+  const { liveEnabled } = getFapiCredentials();
+  if (!liveEnabled) {
+    state.fapiAccountStatus = 'SIM_LIVE_FAPI (Gerçek Binance Futures API Anahtarı Bekleniyor)';
+    return { ok: false };
+  }
+  const [acc, dualRes] = await Promise.all([
+    fapiSignedRequest('GET', '/fapi/v2/account', {}, 5000),
+    fapiSignedRequest('GET', '/fapi/v1/positionSide/dual', {}, 4000),
+  ]);
+  if (dualRes && typeof dualRes.dualSidePosition === 'boolean') {
+    cachedDualSidePosition = dualRes.dualSidePosition;
+  }
+  if (acc && Array.isArray(acc.assets)) {
+    const usdtAsset = acc.assets.find(a => a.asset === 'USDT');
+    const walletUsdt = Number(usdtAsset?.walletBalance || acc.totalWalletBalance || 0);
+    const availUsdt = Number(usdtAsset?.availableBalance || acc.availableBalance || 0);
+    if (walletUsdt >= 5.0 || state.mode === 'LIVE_BINANCE_FAPI') {
+      const prevMode = state.mode;
+      state.mode = 'LIVE_BINANCE_FAPI';
+      state.fapiAccountStatus = `Aktif (fapi.binance.com — Gerçek Vadeli USDT: $${walletUsdt.toFixed(2)} [${toTL(walletUsdt)} TL] | Kullanılabilir: $${availUsdt.toFixed(2)})`;
+      if (!state.openPosition && walletUsdt >= 5.0) {
+        state.marginCashUsdt = Number(availUsdt.toFixed(4));
+      }
+      if (prevMode !== 'LIVE_BINANCE_FAPI') {
+        logEvent(
+          state,
+          `🏦 [GERÇEK BINANCE FUTURES CÜZDANI AKTİF] fapi.binance.com bağlantısı doğrulandı! Gerçek Vadeli Bakiye: $${walletUsdt.toFixed(2)} USDT (${toTL(walletUsdt)} TL)`
+        );
+      }
+      return { ok: true, walletUsdt, availUsdt };
+    }
+    state.fapiAccountStatus = `API Doğrulandı (fapi.binance.com — Vadeli Cüzdan Bakiyesi: $${walletUsdt.toFixed(2)} USDT; Gerçek Emir İçin >= $5.50 USDT Bekleniyor)`;
+    return { ok: false, walletUsdt, availUsdt };
+  }
+  state.fapiAccountStatus = 'SIM_LIVE_FAPI (Mevcut API Anahtarı Binance TR Spot İçin Geçerli — Global Futures API Bekleniyor)';
+  return { ok: false };
+}
+
+async function syncFapiHardwareStop(pos) {
+  if (!pos || !pos.isLiveFapiOrder || !pos.stopPrice) return;
+  const qStop = roundPriceToTick(pos.fSym, pos.stopPrice, pos.side === 'LONG' ? 'floor' : 'ceil');
+  if (qStop <= 0 || pos.lastSyncedHwStopPrice === qStop) return;
+  await fapiSignedRequest('DELETE', '/fapi/v1/allOpenOrders', { symbol: pos.fSym }, 4000);
+  const stopParams = {
+    symbol: pos.fSym,
+    side: pos.side === 'LONG' ? 'SELL' : 'BUY',
+    type: 'STOP_MARKET',
+    stopPrice: String(qStop),
+    closePosition: 'true',
+    workingType: 'MARK_PRICE',
+  };
+  if (cachedDualSidePosition) {
+    stopParams.positionSide = pos.side === 'LONG' ? 'LONG' : 'SHORT';
+  }
+  const res = await fapiSignedRequest('POST', '/fapi/v1/order', stopParams, 4500);
+  if (res && res.orderId) {
+    pos.lastSyncedHwStopPrice = qStop;
+    pos.hwStopOrderId = res.orderId;
+  }
+}
+
+async function executeFapiRealEntry(state, { fSym, side, chosenLev, notionalUsdt, entryPrice, stopPrice }) {
+  if (state.mode !== 'LIVE_BINANCE_FAPI') return { isLive: false };
+  const intLev = Math.max(1, Math.min(5, Math.ceil(chosenLev)));
+  await fapiSignedRequest('POST', '/fapi/v1/marginType', { symbol: fSym, marginType: 'ISOLATED' }, 4000);
+  await fapiSignedRequest('POST', '/fapi/v1/leverage', { symbol: fSym, leverage: intLev }, 4000);
+  const qty = roundQtyToStep(fSym, notionalUsdt / entryPrice);
+  if (qty <= 0 || qty * entryPrice < MIN_NOTIONAL_USDT) {
+    return { isLive: true, ok: false, reason: `INVALID_LOT_OR_MIN_NOTIONAL (qty=${qty})` };
+  }
+  const orderParams = {
+    symbol: fSym,
+    side: side === 'LONG' ? 'BUY' : 'SELL',
+    type: 'MARKET',
+    quantity: String(qty),
+    newOrderRespType: 'RESULT',
+  };
+  if (cachedDualSidePosition) {
+    orderParams.positionSide = side === 'LONG' ? 'LONG' : 'SHORT';
+  }
+  const ord = await fapiSignedRequest('POST', '/fapi/v1/order', orderParams, 5500);
+  if (!ord || !ord.orderId || Number(ord.executedQty || 0) <= 0) {
+    return { isLive: true, ok: false, reason: 'FAPI_ORDER_REJECTED' };
+  }
+  const execQty = Number(ord.executedQty);
+  const avgPrice = Number(ord.avgPrice || entryPrice) || entryPrice;
+  const execNotionalUsdt = Number((execQty * avgPrice).toFixed(4));
+  const usedMarginUsdt = Number((execNotionalUsdt / chosenLev).toFixed(4));
+  const tempPos = { fSym, side, stopPrice, isLiveFapiOrder: true };
+  await syncFapiHardwareStop(tempPos);
+  return {
+    isLive: true,
+    ok: true,
+    orderId: ord.orderId,
+    execQty,
+    avgPrice,
+    execNotionalUsdt,
+    usedMarginUsdt,
+    hwStopOrderId: tempPos.hwStopOrderId || null,
+  };
+}
+
+async function executeFapiRealExit(pos, closeFraction = 1.0) {
+  if (!pos || !pos.isLiveFapiOrder || !pos.executedQty) return { isLive: false };
+  const rawCloseQty = closeFraction >= 0.99 ? pos.executedQty : pos.executedQty * closeFraction;
+  const closeQty = roundQtyToStep(pos.fSym, rawCloseQty);
+  if (closeQty <= 0) return { isLive: true, ok: false };
+  const closeParams = {
+    symbol: pos.fSym,
+    side: pos.side === 'LONG' ? 'SELL' : 'BUY',
+    type: 'MARKET',
+    quantity: String(closeQty),
+    newOrderRespType: 'RESULT',
+  };
+  if (cachedDualSidePosition) {
+    closeParams.positionSide = pos.side === 'LONG' ? 'LONG' : 'SHORT';
+  } else {
+    closeParams.reduceOnly = 'true';
+  }
+  const ord = await fapiSignedRequest('POST', '/fapi/v1/order', closeParams, 5500);
+  if (closeFraction >= 0.99) {
+    await fapiSignedRequest('DELETE', '/fapi/v1/allOpenOrders', { symbol: pos.fSym }, 4000);
+  }
+  if (ord && Number(ord.executedQty || 0) > 0) {
+    const filledQty = Number(ord.executedQty);
+    pos.executedQty = Math.max(0, Number((pos.executedQty - filledQty).toFixed(8)));
+    return {
+      isLive: true,
+      ok: true,
+      filledQty,
+      avgExitPrice: Number(ord.avgPrice || 0) || null,
+    };
+  }
+  return { isLive: true, ok: false };
 }
 
 function selectConvictionLeverage(score, atr15mPct) {
@@ -1367,11 +1597,11 @@ async function fetchPerpOrderbookConfirm(symbol, side) {
       return { ok: false, vetoCode: 'WEAK_OB', reason: `WEAK_SHORT_OB_OR_MICROPRICE (ob:${ob1}->${ob2} | x1:${microSkew1}->x2:${microSkew})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
     }
   }
-  // Engine #64A (Passive Maker Limit Fill Detection — If our Post-Only limit at bestBid1/bestAsk1 is touched or tight-spread bid-supported, enter as Maker!):
+  // Engine #64A + GPT-6-Luna Fix #1 (Strict Passive Maker Limit Fill — Only classify as Maker Fill if bestAsk1/bestBid1 was actually traded through during the 1.8s window):
   const isPassiveMakerFill =
     side === 'LONG'
-      ? (bestAsk <= bestBid1 || (spreadPct <= 0.05 && ob2 >= 0.12 && microSkew >= 0.05))
-      : (bestBid >= bestAsk1 || (spreadPct <= 0.05 && ob2 <= -0.12 && microSkew <= -0.05));
+      ? bestAsk <= bestBid1 && ob2 >= 0.08
+      : bestBid >= bestAsk1 && ob2 <= -0.08;
   const makerEntryPrice =
     side === 'LONG' ? Math.min(bestBid1, bestAsk) : Math.max(bestAsk1, bestBid);
   return {
@@ -2281,7 +2511,10 @@ async function manageOpenPosition(state, candidates = []) {
   const currentAdverseFrac = Math.max(0, -rawCoinMoveFrac);
   pos.maxAdverseCoinMoveFrac = Math.max(pos.maxAdverseCoinMoveFrac || 0, currentAdverseFrac);
 
-  const effectiveFeeSlipFrac = pos.feeSlipFrac || ROUND_TRIP_FEE_SLIP_FRAC;
+  const effectiveFeeSlipFrac =
+    Number.isFinite(pos.feeSlipFrac) && pos.feeSlipFrac >= 0
+      ? pos.feeSlipFrac
+      : ROUND_TRIP_FEE_SLIP_FRAC;
   const netCoinMoveFrac = rawCoinMoveFrac - effectiveFeeSlipFrac;
   const netPnlUsdt = Number((pos.notionalUsdt * netCoinMoveFrac).toFixed(4));
   const netPnlTry = toTL(netPnlUsdt);
@@ -2319,18 +2552,21 @@ async function manageOpenPosition(state, candidates = []) {
     }
   }
 
+  const prevStopBeforeRatchet = pos.stopPrice;
+
   // Stage 2 (v8.4 Asymmetric Runner + Zero-Choke + MIN_NOTIONAL Full-Lock Guard + Engine #64C Wall Front-Run):
   // If remaining 65% runner is >= MIN_NOTIONAL_USDT ($5.00), harvest 35% at +1.25% (or >= +1.02% wall front-run) and keep 65% Runner (+0.35% stop lock).
   // If position notional is ~300 TL ($6.05 USDT, e.g. 100 TL x 3x), splitting 35%/65% would leave $3.93 (< $5.00 MIN_NOTIONAL); lock 100% full position stop at +0.55% instead!
   if (!pos.tp1Done && (rawCoinMoveFrac >= 0.0125 || isWallFrontRunTp1)) {
-    if (pos.notionalUsdt * 0.65 < MIN_NOTIONAL_USDT) {
+    const canSplitLiveQty = !pos.isLiveFapiOrder || roundQtyToStep(pos.fSym, (pos.executedQty || 0) * 0.35) * markExitPrice >= MIN_NOTIONAL_USDT;
+    if (pos.notionalUsdt * 0.65 < MIN_NOTIONAL_USDT || !canSplitLiveQty) {
       pos.tp1Done = true;
       pos.ratchetStage = 'TP1_FULL_STOP_LOCK_MIN_NOTIONAL';
       if (pos.side === 'LONG') {
-        const lockFull = Number((pos.entryPrice * (1 + 0.0055)).toPrecision(6));
+        const lockFull = roundPriceToTick(pos.fSym, pos.entryPrice * (1 + 0.0055), 'floor');
         if (lockFull > pos.stopPrice) pos.stopPrice = lockFull;
       } else {
-        const lockFull = Number((pos.entryPrice * (1 - 0.0055)).toPrecision(6));
+        const lockFull = roundPriceToTick(pos.fSym, pos.entryPrice * (1 - 0.0055), 'ceil');
         if (lockFull < pos.stopPrice) pos.stopPrice = lockFull;
       }
       logEvent(
@@ -2338,6 +2574,9 @@ async function manageOpenPosition(state, candidates = []) {
         `🔒 [TP1 %100 TAM GÖVDE KÂR KİLİDİ (MIN_NOTIONAL KORUMASI)] ${pos.symbol}USDT (${posLev}x ${pos.side}) +%${underlyingMovePct} yürüyüşte ${pos.marginTry} TL (${pos.notionalTry} TL Hacim) bölünmeden %100 Ana Gövde Stopu +%0.55 Net Kâra Kilitlendi!`
       );
     } else {
+      if (pos.isLiveFapiOrder) {
+        await executeFapiRealExit(pos, 0.35);
+      }
       const harvestFrac = 0.35;
       const closedMarginUsdt = Number((pos.marginUsdt * harvestFrac).toFixed(4));
       const closedNotionalUsdt = Number((pos.notionalUsdt * harvestFrac).toFixed(4));
@@ -2357,10 +2596,10 @@ async function manageOpenPosition(state, candidates = []) {
       pos.ratchetStage = 'TP1_HARVESTED_RUNNER';
 
       if (pos.side === 'LONG') {
-        const lockTp1 = Number((pos.entryPrice * (1 + 0.0035)).toPrecision(6));
+        const lockTp1 = roundPriceToTick(pos.fSym, pos.entryPrice * (1 + 0.0035), 'floor');
         if (lockTp1 > pos.stopPrice) pos.stopPrice = lockTp1;
       } else {
-        const lockTp1 = Number((pos.entryPrice * (1 - 0.0035)).toPrecision(6));
+        const lockTp1 = roundPriceToTick(pos.fSym, pos.entryPrice * (1 - 0.0035), 'ceil');
         if (lockTp1 < pos.stopPrice) pos.stopPrice = lockTp1;
       }
 
@@ -2392,28 +2631,28 @@ async function manageOpenPosition(state, candidates = []) {
     }
   }
 
-  // Stage 1 / Stage 3 (v8.4 Wide-Breathing Ratchet + Bug #42 Capped TP Extensions):
+  // Stage 1 / Stage 3 (v8.4 Wide-Breathing Ratchet + Bug #42 Capped TP Extensions + GPT-6-Luna TickSize Quantization):
   if (peakCoinMoveFrac >= 0.0195) {
     pos.ratchetStage = 'PARABOLIC_SQUEEZE_RUNNER';
     if (pos.side === 'LONG') {
-      const trailStop = Number((pos.extremePrice * (1 - 0.0055)).toPrecision(6));
+      const trailStop = roundPriceToTick(pos.fSym, pos.extremePrice * (1 - 0.0055), 'floor');
       if (trailStop > pos.stopPrice) pos.stopPrice = trailStop;
       if (markExitPrice >= pos.tpPrice * 0.997 && (pos.tpExtensionCount || 0) < 3) {
         const depth = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${pos.fSym}&limit=15`, {}, 2000);
         const liveOb = depth?.bids?.length && depth?.asks?.length ? computeWeightedBookImbalance(depth.bids, depth.asks) : 0;
         if (liveOb >= 0.12) {
-          pos.tpPrice = Number((markExitPrice * 1.015).toPrecision(6));
+          pos.tpPrice = roundPriceToTick(pos.fSym, markExitPrice * 1.015, 'ceil');
           pos.tpExtensionCount = (pos.tpExtensionCount || 0) + 1;
         }
       }
     } else {
-      const trailStop = Number((pos.extremePrice * (1 + 0.0055)).toPrecision(6));
+      const trailStop = roundPriceToTick(pos.fSym, pos.extremePrice * (1 + 0.0055), 'ceil');
       if (trailStop < pos.stopPrice) pos.stopPrice = trailStop;
       if (markExitPrice <= pos.tpPrice * 1.003 && (pos.tpExtensionCount || 0) < 3) {
         const depth = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${pos.fSym}&limit=15`, {}, 2000);
         const liveOb = depth?.bids?.length && depth?.asks?.length ? computeWeightedBookImbalance(depth.bids, depth.asks) : 0;
         if (liveOb <= -0.12) {
-          pos.tpPrice = Number((markExitPrice * 0.985).toPrecision(6));
+          pos.tpPrice = roundPriceToTick(pos.fSym, markExitPrice * 0.985, 'floor');
           pos.tpExtensionCount = (pos.tpExtensionCount || 0) + 1;
         }
       }
@@ -2421,10 +2660,10 @@ async function manageOpenPosition(state, candidates = []) {
   } else if (peakCoinMoveFrac >= 0.0155) {
     if (!pos.ratchetStage.includes('TP1')) pos.ratchetStage = 'PROFIT_LOCK_2';
     if (pos.side === 'LONG') {
-      const lock2 = Number((pos.entryPrice * (1 + 0.0075)).toPrecision(6));
+      const lock2 = roundPriceToTick(pos.fSym, pos.entryPrice * (1 + 0.0075), 'floor');
       if (lock2 > pos.stopPrice) pos.stopPrice = lock2;
     } else {
-      const lock2 = Number((pos.entryPrice * (1 - 0.0075)).toPrecision(6));
+      const lock2 = roundPriceToTick(pos.fSym, pos.entryPrice * (1 - 0.0075), 'ceil');
       if (lock2 < pos.stopPrice) pos.stopPrice = lock2;
     }
   } else if (peakCoinMoveFrac >= 0.0095) {
@@ -2432,10 +2671,10 @@ async function manageOpenPosition(state, candidates = []) {
     // Stop_long >= Entry*(1 + c + p + b) where c=0.0018 fees, p=0.0010 net profit floor, b=0.0006 mark-to-fill buffer -> +0.34%
     pos.ratchetStage = 'FAST_BREAKEVEN_PLUS';
     if (pos.side === 'LONG') {
-      const bePlus = Number((pos.entryPrice * (1 + 0.0034)).toPrecision(6));
+      const bePlus = roundPriceToTick(pos.fSym, pos.entryPrice * (1 + 0.0034), 'floor');
       if (bePlus > pos.stopPrice) pos.stopPrice = bePlus;
     } else {
-      const bePlus = Number((pos.entryPrice * (1 - 0.0034)).toPrecision(6));
+      const bePlus = roundPriceToTick(pos.fSym, pos.entryPrice * (1 - 0.0034), 'ceil');
       if (bePlus < pos.stopPrice) pos.stopPrice = bePlus;
     }
   } else if (peakCoinMoveFrac >= 0.0055 && !pos.tp1Done) {
@@ -2453,10 +2692,10 @@ async function manageOpenPosition(state, candidates = []) {
     if (peakCoinMoveFrac >= 0.0072 || isEarlyTakerDecaying) {
       pos.ratchetStage = 'EARLY_PROFIT_LOCK';
       if (pos.side === 'LONG') {
-        const earlyLock = Number((pos.entryPrice * (1 + 0.0034)).toPrecision(6));
+        const earlyLock = roundPriceToTick(pos.fSym, pos.entryPrice * (1 + 0.0034), 'floor');
         if (earlyLock > pos.stopPrice) pos.stopPrice = earlyLock;
       } else {
-        const earlyLock = Number((pos.entryPrice * (1 - 0.0034)).toPrecision(6));
+        const earlyLock = roundPriceToTick(pos.fSym, pos.entryPrice * (1 - 0.0034), 'ceil');
         if (earlyLock < pos.stopPrice) pos.stopPrice = earlyLock;
       }
     }
@@ -2479,13 +2718,17 @@ async function manageOpenPosition(state, candidates = []) {
     if (isMicroTakerWeakening || isBtc2mShockAgainst) {
       pos.ratchetStage = isBtc2mShockAgainst ? 'BTC_SHOCK_PROFIT_LOCK' : 'MICRO_POP_FEE_LOCK';
       if (pos.side === 'LONG') {
-        const microLock = Number((pos.entryPrice * (1 + 0.0026)).toPrecision(6));
+        const microLock = roundPriceToTick(pos.fSym, pos.entryPrice * (1 + 0.0026), 'floor');
         if (microLock > pos.stopPrice) pos.stopPrice = microLock;
       } else {
-        const microLock = Number((pos.entryPrice * (1 - 0.0026)).toPrecision(6));
+        const microLock = roundPriceToTick(pos.fSym, pos.entryPrice * (1 - 0.0026), 'ceil');
         if (microLock < pos.stopPrice) pos.stopPrice = microLock;
       }
     }
+  }
+
+  if (pos.isLiveFapiOrder && pos.stopPrice !== prevStopBeforeRatchet) {
+    await syncFapiHardwareStop(pos);
   }
 
   const isTpHit =
@@ -2675,6 +2918,9 @@ async function manageOpenPosition(state, candidates = []) {
 
   if (exitReason && state.openPosition && !pos.isClosing) {
     pos.isClosing = true; // Synchronous atomic lock so no concurrent loop can ever double-close or double-refund!
+    if (pos.isLiveFapiOrder) {
+      await executeFapiRealExit(pos, 1.0);
+    }
     state.openPosition = null;
 
     // Engine #44B + #49B + Fixed Bug #35 (Consistent effectiveExitPrice matching booked PnL):
@@ -2836,7 +3082,7 @@ async function tryOpenPosition(state, candidates) {
     }
   }
 
-  // Engine #64D (Human Post-Loss Cool-Down Discipline — After any loss <= -2.50 TL, pause standard entries for 12m unless an A+ [>=86p & 5m Taker >=1.25x] setup appears):
+  // Engine #64D + GPT-6-Luna Fix #3 (Human Post-Loss Cool-Down Discipline with verified takerDataValid):
   const isInPostLossCoolDown = nowEntryMs - (state.lastLossClosedAtMs || 0) < 12 * 60 * 1000;
 
   const actionable = candidates.filter(
@@ -2844,7 +3090,8 @@ async function tryOpenPosition(state, candidates) {
       c.engine !== 'WATCHLIST' &&
       (c.side === 'LONG' || c.side === 'SHORT') &&
       c.score >= (isInPostLossCoolDown ? 86 : 78) &&
-      (!isInPostLossCoolDown || (c.side === 'LONG' ? c.instBuySellRatio >= 1.25 : c.instBuySellRatio <= 0.78)) &&
+      (!isInPostLossCoolDown ||
+        (c.takerDataValid && (c.side === 'LONG' ? c.instBuySellRatio >= 1.25 : c.instBuySellRatio <= 0.78))) &&
       (!symCds[c.symbol] || symCds[c.symbol] <= nowEntryMs) &&
       (!obVetoCds[c.symbol] || obVetoCds[c.symbol] <= nowEntryMs)
   );
@@ -2934,37 +3181,50 @@ async function tryOpenPosition(state, candidates) {
     const maxNotionalUsdt = Number((finalMarginUsdt * chosenLev).toFixed(4));
     const underlyingTpFrac = Math.max(0.0250, underlyingSlFrac * 2.55);
 
-    const symInfo = cachedValidCoinPerps?.get(cand.fSym);
-    const tickFilter = symInfo?.filters?.find(f => f.filterType === 'PRICE_FILTER');
-    const tickSize = Number(tickFilter?.tickSize || 0);
-    const roundToTick = p => {
-      if (tickSize > 0 && Number.isFinite(tickSize)) {
-        const decimals = Math.max(0, -Math.floor(Math.log10(tickSize)) + 1);
-        return Number((Math.round(p / tickSize) * tickSize).toFixed(Math.min(8, decimals)));
-      }
-      return Number(p.toPrecision(6));
-    };
-
     const stopPrice =
       cand.side === 'LONG'
-        ? roundToTick(entryPrice * (1 - underlyingSlFrac))
-        : roundToTick(entryPrice * (1 + underlyingSlFrac));
+        ? roundPriceToTick(cand.fSym, entryPrice * (1 - underlyingSlFrac), 'floor')
+        : roundPriceToTick(cand.fSym, entryPrice * (1 + underlyingSlFrac), 'ceil');
 
     const tpPrice =
       cand.side === 'LONG'
-        ? roundToTick(entryPrice * (1 + underlyingTpFrac))
-        : roundToTick(entryPrice * (1 - underlyingTpFrac));
+        ? roundPriceToTick(cand.fSym, entryPrice * (1 + underlyingTpFrac), 'ceil')
+        : roundPriceToTick(cand.fSym, entryPrice * (1 - underlyingTpFrac), 'floor');
 
     const liqDistFrac = Number((0.92 / chosenLev).toFixed(4));
     const liqPrice =
       cand.side === 'LONG'
-        ? roundToTick(entryPrice * (1 - liqDistFrac))
-        : roundToTick(entryPrice * (1 + liqDistFrac));
+        ? roundPriceToTick(cand.fSym, entryPrice * (1 - liqDistFrac), 'floor')
+        : roundPriceToTick(cand.fSym, entryPrice * (1 + liqDistFrac), 'ceil');
 
     const syncedThesis = String(cand.thesis || '').replace(/->\s*[\d.]+x\s+(LONG|SHORT)!/, `-> ${chosenLev}x $1!`);
 
+    // Engine #65-#68: If connected to Real Binance Futures (LIVE_BINANCE_FAPI), execute real ISOLATED order + hardware STOP_MARKET!
+    let liveExec = { isLive: false };
+    if (state.mode === 'LIVE_BINANCE_FAPI') {
+      liveExec = await executeFapiRealEntry(state, {
+        fSym: cand.fSym,
+        side: cand.side,
+        chosenLev,
+        notionalUsdt: maxNotionalUsdt,
+        entryPrice,
+        stopPrice,
+      });
+      if (!liveExec.ok) {
+        logEvent(
+          state,
+          `⚠️ [GERÇEK FAPI EMİR KORUMASI] ${cand.symbol}USDT gerçek emir gönderilemedi (${liveExec.reason}), bakiye korundu!`
+        );
+        continue;
+      }
+    }
+
+    const bookedEntryPrice = liveExec.isLive && liveExec.avgPrice ? liveExec.avgPrice : entryPrice;
+    const bookedMarginUsdt = liveExec.isLive && liveExec.usedMarginUsdt ? liveExec.usedMarginUsdt : finalMarginUsdt;
+    const bookedNotionalUsdt = liveExec.isLive && liveExec.execNotionalUsdt ? liveExec.execNotionalUsdt : maxNotionalUsdt;
+
     state.leverage = chosenLev;
-    state.marginCashUsdt = Number((state.marginCashUsdt - finalMarginUsdt).toFixed(4));
+    state.marginCashUsdt = Number((state.marginCashUsdt - bookedMarginUsdt).toFixed(4));
     state.openPosition = {
       id: `perp_${Date.now()}_${cand.symbol}`,
       symbol: cand.symbol,
@@ -2973,15 +3233,19 @@ async function tryOpenPosition(state, candidates) {
       engine: cand.engine,
       candlePattern: cand.candlePattern,
       leverage: chosenLev,
-      initialMarginUsdt: finalMarginUsdt,
-      initialNotionalUsdt: maxNotionalUsdt,
-      marginUsdt: finalMarginUsdt,
-      marginTry: toTL(finalMarginUsdt),
-      notionalUsdt: maxNotionalUsdt,
-      notionalTry: toTL(maxNotionalUsdt),
-      entryPrice,
-      currentPrice: entryPrice,
-      extremePrice: entryPrice,
+      isLiveFapiOrder: Boolean(liveExec.isLive && liveExec.ok),
+      executedQty: liveExec.execQty || Number((bookedNotionalUsdt / bookedEntryPrice).toPrecision(5)),
+      hwStopOrderId: liveExec.hwStopOrderId || null,
+      lastSyncedHwStopPrice: stopPrice,
+      initialMarginUsdt: bookedMarginUsdt,
+      initialNotionalUsdt: bookedNotionalUsdt,
+      marginUsdt: bookedMarginUsdt,
+      marginTry: toTL(bookedMarginUsdt),
+      notionalUsdt: bookedNotionalUsdt,
+      notionalTry: toTL(bookedNotionalUsdt),
+      entryPrice: bookedEntryPrice,
+      currentPrice: bookedEntryPrice,
+      extremePrice: bookedEntryPrice,
       maxAdverseCoinMoveFrac: 0,
       feeSlipFrac: posFeeSlipFrac,
       executionMode: isMakerEntry ? 'MAKER_LIMIT_POST_ONLY' : 'TAKER_MARKET_SWEEP',
@@ -3609,6 +3873,7 @@ async function runCycle(state) {
     // Keepalive self-ping so public tunnels (Cloudflare & localhost.run) never hit activity timeout
     fetch(`${PUBLIC_TUNNEL_URL}/api/state`, { signal: AbortSignal.timeout(3000) }).catch(() => {});
     fetch(`${BACKUP_TUNNEL_URL}/api/state`, { signal: AbortSignal.timeout(3000) }).catch(() => {});
+    await syncLiveFapiAccount(state);
     if (!state.lastSelfAudit || Date.now() >= (state.lastSelfAudit.nextAuditAtMs || 0)) {
       runTwoHourSelfAudit(state, true);
     }
@@ -3625,7 +3890,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v10.6-Human-Edge-Synthesis';
+  state.version = 'Mutlak-Yapi-v11.0-Real-FAPI-Fortress';
   if (state.openPosition?.thesis && state.openPosition?.leverage) {
     state.openPosition.thesis = String(state.openPosition.thesis).replace(
       /->\s*[\d.]+x\s+(LONG|SHORT)!/,
@@ -3634,7 +3899,7 @@ async function main() {
   }
   runTwoHourSelfAudit(state, true);
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + İNSAN-ÜSTÜ MELEZ MOTORU (v10.6 — Motor #58-#64)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v11.0 — Motor #58-#70)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
