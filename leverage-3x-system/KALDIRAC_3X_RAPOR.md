@@ -1,6 +1,6 @@
 # ⚡ 300 TL SABİT ANA PARA (3x–5x RİSK-NORMALİZE KALDIRAÇ) + 23.000 TL HEDEF & 2-SAATLİK OTONOM EVRİM (Mutlak Yapı v10.1)
 
-**Son Güncelleme:** 24.10.2026 20:08:05  
+**Son Güncelleme:** 24.10.2026 20:28:39  
 **🌍 Her Yerden (4.5G/Mobil/Wi-Fi Cloudflare Port Forwarding):** `https://absence-coding-laid-spoken.trycloudflare.com` *(Yedek: `https://273725c5cf6e80.lhr.life`)*  
 **🏠 Ev Wi-Fi:** `http://192.168.1.101:3848` | **💻 Bilgisayar:** `http://localhost:3848`  
 **Çalışma Modu:** `SIM_LIVE_FAPI` *(Sadece Max 400 TL İle Oynar + 3x–5x Luna/Qullamaggie Kaldıraç + Her 2 Saatte Bir Otonom Özeleştiri & Evrim Motoru #43–#56)*
@@ -10,14 +10,14 @@
 ## 🎯 23.000,00 TL BÜYÜK HEDEF & KENDİ KÂRIYLA KADEMELİ BÜYÜME YOL HARİTASI
 
 * **🎯 Nihai Servet Hedefi:** **`23.000,00 TL`**
-* **🏛️ Mevcut Kaldıraç + Spot Kâr Kasası Toplamı:** **`351.41 TL / 23.000,00 TL` (`%1.53 Tamamlandı` | Kalan: `22648.59 TL`)**
+* **🏛️ Mevcut Kaldıraç + Spot Kâr Kasası Toplamı:** **`349.17 TL / 23.000,00 TL` (`%1.52 Tamamlandı` | Kalan: `22650.83 TL`)**
 * **🪜 Aktif Büyüme Basamağı:** **`Kademe 1/5 (300 TL Sabit Ana Para -> Hedef: +300 TL Spot Kârı İle 500 TL Kademesine Terfi)`** *(Cebinden ekstra 1 TL çıkmadan, yalnızca Spot Kâr Kasasında biriken dokunulmaz kârla kademe atlar!)*
 
 ---
 
 ## 🧠 2-SAATLİK OTONOM ÖZELEŞTİRİ & KENDİNİ GELİŞTİRME MOTORU (Motor #43–#56)
 
-* **⏱️ Son Otonom Denetim:** `24.10.2026 20:07:24` | **Sonraki 2-Saatlik Denetim:** `24.10.2026 22:07:24`
+* **⏱️ Son Otonom Denetim:** `24.10.2026 20:26:58` | **Sonraki 2-Saatlik Denetim:** `24.10.2026 22:26:58`
 * **📊 Son 8 İşlem Karnesi:** `2 Kazanç / 6 Kayıp` (**Net:** `-48 TL` | **Luna Amaç Skoru $J$:** `-70.28`)
 * **🎛️ Otonom Sınırlandırılmış Parametreler ($	heta$):** `LONG Barajı >= 78/99 (5dk Taker >= 1.04x)` | `SHORT Barajı >= 86/99 (5dk Taker <= 0.86x)`
 
@@ -33,11 +33,11 @@
 ## 1. 300 TL SABİT KALDIRAÇ KASASI & SPOT CÜZDANA AKTARILAN KÂR DURUMU
 
 * **Kaldıraç Sabit Tavanı (Max Ana Para):** `400 TL` (`$8.0727 USDT`)
-* **Aktif Kaldıraç Kasası (Max 400 TL):** **`308.97 TL`** *(3x–4x İşlem Gücü: `1081.39 TL` - `1544.85 TL`)*
+* **Aktif Kaldıraç Kasası (Max 400 TL):** **`306.73 TL`** *(3x–4x İşlem Gücü: `1073.57 TL` - `1533.67 TL`)*
 * **🏦 Spot Cüzdana Atılan Dokunulmaz Kâr Kasası:** **`+42.44 TL`** *(Kaldıraç stopları bu kasaya asla dokunamaz!)*
-* **Toplam Net Kâr / Zarar:** **`-48.59 TL` (`%-12.15`)**
+* **Toplam Net Kâr / Zarar:** **`-50.83 TL` (`%-12.71`)**
 * **Başarılı İşlem / Stop:** `12 Kazanç / 17 Stop`
-* **BTC Kalkanı & Vadeli Rejim:** **`20 KATMANLI YIRTICI KONSEY v10.1 (121 Likit Kontrat | 3x-5x Anti-İğne + 5dk Gerçek Taker & Luna Sıfır-Hata Kalkanı)`** *(BTC 15dk: `%0.01` | 1s: `%0.48`)*
+* **BTC Kalkanı & Vadeli Rejim:** **`20 KATMANLI YIRTICI KONSEY v10.1 (122 Likit Kontrat | 3x-5x Anti-İğne + 5dk Gerçek Taker & Luna Sıfır-Hata Kalkanı)`** *(BTC 15dk: `%0.1` | 1s: `%0.74`)*
 
 ---
 
@@ -45,7 +45,7 @@
 
 | Kontrat & Yön | Teminat (Kaldıraçlı Büyüklük) | Giriş -> Güncel | Anlık Net Kâr (ROE) | Stop / Hedef / Likidasyon | Strateji Motoru & Milyarder Tezi |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **NILUSDT (LONG 3.5x)** | `294.94 TL` *(3.5x Hacim: 1032.28 TL)* | `$0.08312` -> `$0.08341` | **`+1.74 TL (ROE %0.59)`** | 🛑 Stop: `$0.0822223`<br>🎯 Hedef: `$0.0854989`<br>💀 Likidasyon: `$0.0612678` | **ENGINE_HYPE_SQUEEZE_MOMENTUM_LONG**<br>[🟢 Boğa Yutan (Engulfing) (CLV:0.85) | Normal] Q1 (Fiyat↑ OI↑ Yeni Long Girişi) | YATAY MTF | 1s: +%1.52 (24s: +%5.489) | RS_BTC: +0.66 ATR | 🟢 LightCrypto Spot İskontosu (-0.1164%) | Balina Makası: +%20.5 | 5dk Taker: 2.87x | 🟢 Güçlü Taker Alım (CVD +33.3%) -> 4x LONG! |
+| **NILUSDT (LONG 3.5x)** | `294.94 TL` *(3.5x Hacim: 1032.28 TL)* | `$0.08312` -> `$0.08323` | **`-0.49 TL (ROE %-0.17)`** | 🛑 Stop: `$0.0822223`<br>🎯 Hedef: `$0.0854989`<br>💀 Likidasyon: `$0.0612678` | **ENGINE_HYPE_SQUEEZE_MOMENTUM_LONG**<br>[🟢 Boğa Yutan (Engulfing) (CLV:0.85) | Normal] Q1 (Fiyat↑ OI↑ Yeni Long Girişi) | YATAY MTF | 1s: +%1.52 (24s: +%5.489) | RS_BTC: +0.66 ATR | 🟢 LightCrypto Spot İskontosu (-0.1164%) | Balina Makası: +%20.5 | 5dk Taker: 2.87x | 🟢 Güçlü Taker Alım (CVD +33.3%) -> 3.5x LONG! |
 
 ---
 
@@ -53,14 +53,14 @@
 
 | Kontrat | Yön, Skor & Kaldıraç | Fonlama (8s) | Balina vs Küçük Yatırımcı Makası | OI (1s) | 16 Katmanlı Yırtıcı Konsey Tezi |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **AVAUSDT** | `LONG` (**`99/99`** -> `4x`) | `%0.0042` | `%-0.5` *(56.2L/56.7L)* | `%1.32` | [🟢 3 Yükselen Dip (CLV:0.73) | 💥 TTM Sıkışma Patlaması (YUKARI)] Q1 (Fiyat↑ OI↑ Yeni Long Girişi) | YATAY MTF | 1s: +%2.34 (24s: +%3.548) | RS_BTC: +1.1 ATR | 🟢 LightCrypto Spot İskontosu (-0.0468%) | Balina Makası: %-0.5 | 5dk Taker: 2.06x | 🟢 Güçlü Taker Alım (CVD +23.5%) | 🧲 Short Likidasyon Mıknatısı -> 4x LONG! |
-| **LUMIAUSDT** | `LONG` (**`99/99`** -> `4x`) | `%0.005` | `+%31.3` *(71.6L/40.3L)* | `%0.78` | [🟢 3 Yükselen Dip (CLV:0.77) | Normal] Q1 (Fiyat↑ OI↑ Yeni Long Girişi) | YATAY MTF | 1s: +%1.84 (24s: +%6.848) | RS_BTC: +0.98 ATR | 🟢 LightCrypto Spot İskontosu (-0.0535%) | Balina Makası: +%31.3 | 5dk Taker: 1.84x | 🟢 Güçlü Taker Alım (CVD +19.6%) -> 4x LONG! |
-| **LAUSDT** | `LONG` (**`83/99`** -> `3x`) | `%-0.21` | `%-1.9` *(58.2L/60.1L)* | `%0.92` | [🟢 Boğa Marubozu (CLV:0.89) | Yay Sıkışması (TTM Coil)] Q1 (Fiyat↑ OI↑ Yeni Long Girişi) | YATAY MTF | 1s: +%1.79 (24s: +%8.803) | RS_BTC: +0.58 ATR | 🟢 LightCrypto Spot İskontosu (-0.5675%) | Balina Makası: %-1.9 | 5dk Taker: 1.12x | CVD +7% -> 3x LONG! |
-| **NILUSDT** | `LONG_ADAY` (**`75/99`** -> `3x`) | `%0.005` | `+%20.4` *(55.6L/35.2L)* | `%1.86` | ⚠️ Alt İğne Tepkisi (CLV:0.76 — SHORT Veto) | Normal | Q1 (Fiyat↑ OI↑ Yeni Long Girişi) | 1s: +%2.01 (24s: +%6.203) | RS_BTC: +1.07 | Balina Makası: +%20.4 | 5dk Taker: 0.68x | 🟢 Güçlü Taker Alım (CVD +24.1%) |
-| **ORDERUSDT** | `LONG_ADAY` (**`75/99`** -> `3x`) | `%-0.4924` | `%-5.9` *(52.8L/58.7L)* | `%2.86` | 🟢 Boğa Yutan (Engulfing) (CLV:0.84) | Yay Sıkışması (TTM Coil) | Q1 (Fiyat↑ OI↑ Yeni Long Girişi) | 1s: +%1.08 (24s: +%116.128) | RS_BTC: +0.07 | Balina Makası: %-5.9 | 5dk Taker: 1.07x | CVD +0.7% |
-| **ANIMEUSDT** | `LONG_ADAY` (**`75/99`** -> `3x`) | `%-0.5935` | `%-3` *(58.5L/61.5L)* | `%-1.37` | ⚠️ Alt İğne Tepkisi (CLV:0.93 — SHORT Veto) | 💥 TTM Sıkışma Patlaması (YUKARI) | Q2 (Fiyat↑ OI↓ Short Kapatma) | 1s: +%2.71 (24s: +%16.678) | RS_BTC: +0.49 | Balina Makası: %-3 | 5dk Taker: 1.15x | CVD -8.5% |
-| **ERAUSDT** | `LONG_ADAY` (**`75/99`** -> `3x`) | `%-0.1434` | `%-5.9` *(57.4L/63.3L)* | `%4.31` | ⚠️ Alt İğne Tepkisi (CLV:0.77 — SHORT Veto) | Yay Sıkışması (TTM Coil) | Q1 (Fiyat↑ OI↑ Yeni Long Girişi) | 1s: +%0.7 (24s: +%15.825) | RS_BTC: +0.08 | Balina Makası: %-5.9 | 5dk Taker: 0.66x | CVD -7% |
-| **TREEUSDT** | `LONG_ADAY` (**`75/99`** -> `3x`) | `%-0.4933` | `%-11` *(54.3L/65.3L)* | `%1.19` | ⚪ Dengeli Mum (CLV:0.47) | Normal | Q1 (Fiyat↑ OI↑ Yeni Long Girişi) | 1s: +%1.19 (24s: +%7.539) | RS_BTC: +0.24 | Balina Makası: %-11 | 5dk Taker: 1.17x | CVD +1.5% |
+| **NILUSDT** | `LONG_ADAY` (**`75/99`** -> `3x`) | `%0.005` | `+%20` *(55.4L/35.4L)* | `%2.22` | ⚪ Dengeli Mum (CLV:0.47) | Normal | Q1 (Fiyat↑ OI↑ Yeni Long Girişi) | 1s: +%2 (24s: +%6.895) | RS_BTC: +0.87 | Balina Makası: +%20 | 5dk Taker: 3.2x | 🟢 Güçlü Taker Alım (CVD +15.7%) |
+| **ZBTUSDT** | `LONG_ADAY` (**`75/99`** -> `3x`) | `%-0.032` | `+%0.2` *(65.5L/65.3L)* | `%10.07` | ⚠️ Alt İğne Tepkisi (CLV:0.79 — SHORT Veto) | Normal | Q1 (Fiyat↑ OI↑ Yeni Long Girişi) | 1s: +%3.14 (24s: +%12.015) | RS_BTC: +1.19 | Balina Makası: +%0.2 | 5dk Taker: 1.26x | CVD -2.5% |
+| **INUSDT** | `LONG_ADAY` (**`75/99`** -> `3x`) | `%-1.5439` | `%-19.8` *(53L/72.8L)* | `%1.96` | 🎣 Yemleme/Fishing Tuzağı (Hacim↓/Direnç — LONG Veto) | Yay Sıkışması (TTM Coil) | Q1 (Fiyat↑ OI↑ Yeni Long Girişi) | 1s: +%5.79 (24s: +%1.215) | RS_BTC: +1.41 | Balina Makası: %-19.8 | 5dk Taker: 1.52x | CVD +3.2% |
+| **ANIMEUSDT** | `LONG_ADAY` (**`75/99`** -> `3x`) | `%-0.5569` | `%-4.4` *(58.1L/62.5L)* | `%10.23` | ⚠️ Üst İğne Reddi (CLV:0.2 — LONG Veto) | 💥 TTM Sıkışma Patlaması (YUKARI) | Q1 (Fiyat↑ OI↑ Yeni Long Girişi) | 1s: +%3.7 (24s: +%16.713) | RS_BTC: +0.62 | Balina Makası: %-4.4 | 5dk Taker: 0.77x | CVD -2.7% |
+| **ICNTUSDT** | `SHORT_ADAY` (**`75/99`** -> `3x`) | `%0.005` | `+%0.4` *(64.6L/64.2L)* | `%-2.35` | ⚪ Dengeli Mum (CLV:0.33) | 💥 TTM Sıkışma Patlaması (AŞAĞI) | Q4 (Fiyat↓ OI↓ Long Tasfiye/Kapitülasyon) | 1s: %-1.74 (24s: +%3.836) | RS_BTC: -1.76 | Balina Makası: +%0.4 | 5dk Taker: 0.31x | 🔴 Güçlü Taker Satış (CVD -17%) |
+| **LAUSDT** | `LONG_ADAY` (**`75/99`** -> `3x`) | `%-0.192` | `%-2` *(57.9L/59.9L)* | `%0.59` | ⚠️ Alt İğne Tepkisi (CLV:0.81 — SHORT Veto) | Yay Sıkışması (TTM Coil) | Q1 (Fiyat↑ OI↑ Yeni Long Girişi) | 1s: +%3.17 (24s: +%8.794) | RS_BTC: +1.12 | Balina Makası: %-2 | 5dk Taker: 1.19x | CVD +7% |
+| **ZORAUSDT** | `LONG_ADAY` (**`75/99`** -> `3x`) | `%-0.0794` | `%-15.5` *(54.5L/70L)* | `%7.14` | ⚠️ Üst İğne Reddi (CLV:0.13 — LONG Veto) | Normal | Q1 (Fiyat↑ OI↑ Yeni Long Girişi) | 1s: +%2.47 (24s: +%5.341) | RS_BTC: +0.96 | Balina Makası: %-15.5 | 5dk Taker: 0.71x | CVD -6.8% |
+| **LUMIAUSDT** | `LONG_ADAY` (**`75/99`** -> `3x`) | `%0.005` | `+%30.8` *(71.4L/40.6L)* | `%1.9` | ⚠️ Üst İğne Reddi (CLV:0.1 — LONG Veto) | Normal | Q1 (Fiyat↑ OI↑ Yeni Long Girişi) | 1s: +%1.38 (24s: +%5.6) | RS_BTC: +0.46 | Balina Makası: +%30.8 | 5dk Taker: 0.67x | 🟢 Güçlü Taker Alım (CVD +14.2%) |
 
 ---
 

@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-24T17:07:24.700Z",
+  "updatedAt": "2026-10-24T17:28:26.078Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 18.1087,
@@ -1574,9 +1574,9 @@
     "[14:32:22] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
     "[14:02:13] ⚠️ Haber tarayıcı uyarısı: fetch failed"
   ],
-  "totalEquityUsdt": 19.7996,
-  "totalEquityTry": 984.04,
-  "totalPnlUsdt": 1.6909,
+  "totalEquityUsdt": 19.8004,
+  "totalEquityTry": 984.08,
+  "totalPnlUsdt": 1.6918,
   "totalPnlPct": 9.34,
   "cooldowns": {
     "ARB": 1792544650227,
@@ -1599,92 +1599,8 @@
   "highWaterMarkUsdt": 20.8625,
   "cashIdleSince": null,
   "usdTryRate": 49.7,
-  "totalPnlTry": 84.04,
+  "totalPnlTry": 84.08,
   "equityHistory": [
-    {
-      "t": "18:32",
-      "v": 983.69
-    },
-    {
-      "t": "18:33",
-      "v": 983.77
-    },
-    {
-      "t": "18:34",
-      "v": 983.81
-    },
-    {
-      "t": "18:35",
-      "v": 983.82
-    },
-    {
-      "t": "18:36",
-      "v": 983.7
-    },
-    {
-      "t": "18:37",
-      "v": 983.66
-    },
-    {
-      "t": "18:38",
-      "v": 983.66
-    },
-    {
-      "t": "18:39",
-      "v": 983.56
-    },
-    {
-      "t": "18:40",
-      "v": 983.62
-    },
-    {
-      "t": "18:41",
-      "v": 983.58
-    },
-    {
-      "t": "18:42",
-      "v": 983.56
-    },
-    {
-      "t": "18:43",
-      "v": 983.6
-    },
-    {
-      "t": "18:44",
-      "v": 983.57
-    },
-    {
-      "t": "18:45",
-      "v": 983.65
-    },
-    {
-      "t": "18:46",
-      "v": 983.68
-    },
-    {
-      "t": "18:47",
-      "v": 983.57
-    },
-    {
-      "t": "18:48",
-      "v": 983.58
-    },
-    {
-      "t": "18:49",
-      "v": 983.57
-    },
-    {
-      "t": "18:50",
-      "v": 983.59
-    },
-    {
-      "t": "18:51",
-      "v": 983.66
-    },
-    {
-      "t": "18:52",
-      "v": 983.71
-    },
     {
       "t": "18:53",
       "v": 983.65
@@ -1984,6 +1900,90 @@
     {
       "t": "20:07",
       "v": 984.04
+    },
+    {
+      "t": "20:08",
+      "v": 984.05
+    },
+    {
+      "t": "20:09",
+      "v": 983.99
+    },
+    {
+      "t": "20:10",
+      "v": 983.95
+    },
+    {
+      "t": "20:11",
+      "v": 983.96
+    },
+    {
+      "t": "20:12",
+      "v": 984.06
+    },
+    {
+      "t": "20:13",
+      "v": 984.02
+    },
+    {
+      "t": "20:14",
+      "v": 984.02
+    },
+    {
+      "t": "20:15",
+      "v": 984.05
+    },
+    {
+      "t": "20:16",
+      "v": 984.04
+    },
+    {
+      "t": "20:17",
+      "v": 984.04
+    },
+    {
+      "t": "20:18",
+      "v": 984.03
+    },
+    {
+      "t": "20:19",
+      "v": 983.99
+    },
+    {
+      "t": "20:20",
+      "v": 984.01
+    },
+    {
+      "t": "20:21",
+      "v": 984.08
+    },
+    {
+      "t": "20:22",
+      "v": 984.07
+    },
+    {
+      "t": "20:23",
+      "v": 984.06
+    },
+    {
+      "t": "20:24",
+      "v": 984.1
+    },
+    {
+      "t": "20:25",
+      "v": 984.08
+    },
+    {
+      "t": "20:26",
+      "v": 984.07
+    },
+    {
+      "t": "20:27",
+      "v": 984.09
+    },
+    {
+      "t": "20:28",
+      "v": 984.08
     }
   ],
   "walletAssetsMap": {
@@ -2018,10 +2018,10 @@
     "WLD": 0.0658,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.093,
-  "dustAssetsTry": 54.32,
+  "dustAssetsUsdt": 1.0939,
+  "dustAssetsTry": 54.36,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-24T17:07:24.700Z",
+    "updatedAt": "2026-10-24T17:28:26.078Z",
     "totalAnalyzedTrades": 39,
     "globalWR": 0.537,
     "coinStats": {
@@ -2739,18 +2739,18 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 984.04,
+    "totalNetWorthTry": 984.08,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
       "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %53.8 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-24T17:07:24.700Z"
+    "updatedAt": "2026-10-24T17:28:26.078Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254,
   "noBuyShort": "🛡️ Raad ol, nakit kalkanı devrede (Rejim A -> BNF): Piyasanın %99'u kırmızı (%1 yeşil); 929,72 TL nakiti eritmemek için BNF panik dönüş teyidi bekleniyor.",
-  "noBuyDetail": "1) **Piyasa Kan Gölü (%1 Yeşil / %99 Kırmızı — Engine #30 Rejim A):** Altcoinlerin %99'u şu an düşüşte (1s BTC: %0.52). 2) **%65 Nakit Koruma Zırhı & BNF Panik Emilim Kuralı:** Yeşil oranı %24'ün altındayken kasanın en az %65'i güvenli TRY nakitte tutulur (`Maksimum Coin Tavanı: 326 TL`) ve yalnızca `Fiyat <= 0.94*MA25 + RSI<=28 + 5dk/1dk Mikro Dönüş + 15dk OI >= +%0.25 + NetRR >= 1.5` şartlarını eksiksiz sağlayan BNF adayına girilir. 3) **Taranan Adaylar (104 Haber):** Onaylı BNF panik dönüş adayı sayısı: **0**. Düşen bıçak teyitsiz tutulmaz!",
+  "noBuyDetail": "1) **Piyasa Kan Gölü (%1 Yeşil / %99 Kırmızı — Engine #30 Rejim A):** Altcoinlerin %99'u şu an düşüşte (1s BTC: %0.39). 2) **%65 Nakit Koruma Zırhı & BNF Panik Emilim Kuralı:** Yeşil oranı %24'ün altındayken kasanın en az %65'i güvenli TRY nakitte tutulur (`Maksimum Coin Tavanı: 326 TL`) ve yalnızca `Fiyat <= 0.94*MA25 + RSI<=28 + 5dk/1dk Mikro Dönüş + 15dk OI >= +%0.25 + NetRR >= 1.5` şartlarını eksiksiz sağlayan BNF adayına girilir. 3) **Taranan Adaylar (104 Haber):** Onaylı BNF panik dönüş adayı sayısı: **0**. Düşen bıçak teyitsiz tutulmaz!",
   "shadowPositions": [],
   "shadowTrapMemory": {
     "DOGE": {
