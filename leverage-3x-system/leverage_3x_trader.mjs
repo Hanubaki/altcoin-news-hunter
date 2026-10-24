@@ -144,17 +144,16 @@ function sendGmailSmtp({ fromEmail, appPassword, toEmail, subject, textBody }) {
   });
 }
 
-function getGoalAndTierStatus(state, spotSummary = null) {
+function getGoalAndTierStatus(state) {
   const spotVaultTry = toTL(state.spotVaultUsdt || 0);
   const openEquityUsdt = state.openPosition
     ? state.openPosition.marginUsdt + (state.openPosition.unrealizedPnlUsdt || 0)
     : 0;
   const activePerpTry = toTL((state.marginCashUsdt || 0) + openEquityUsdt);
-  const spotBotTry = spotSummary ? Number(spotSummary.totalEquityTry || 0) : 985.81;
-  const combinedTry = Number((activePerpTry + spotVaultTry + spotBotTry).toFixed(2));
   const perpPlusVaultTry = Number((activePerpTry + spotVaultTry).toFixed(2));
-  const progressPct = Number(Math.min(100, (combinedTry / TARGET_GOAL_TRY) * 100).toFixed(2));
-  const remainingTry = Number(Math.max(0, TARGET_GOAL_TRY - combinedTry).toFixed(2));
+  const combinedTry = perpPlusVaultTry; // Strictly 300 TL Leverage + Spot Vault Profits (NOT mixed with the 1.000 TL Spot Bot!)
+  const progressPct = Number(Math.min(100, (perpPlusVaultTry / TARGET_GOAL_TRY) * 100).toFixed(2));
+  const remainingTry = Number(Math.max(0, TARGET_GOAL_TRY - perpPlusVaultTry).toFixed(2));
 
   // Step-Stone House-Money Compounding Tiers (Zero extra out-of-pocket principal risk; scales ONLY from locked Spot Vault profits!)
   let activeCapTry = 300.0;
@@ -2166,7 +2165,7 @@ function updateAccountingAndReport(state) {
 ## 🎯 23.000,00 TL BÜYÜK HEDEF & KENDİ KÂRIYLA KADEMELİ BÜYÜME YOL HARİTASI
 
 * **🎯 Nihai Servet Hedefi:** **\`23.000,00 TL\`**
-* **🏛️ Mevcut Toplam Varlık (Spot + Vadeli + Kâr Kasası):** **\`${goalInfo.combinedTry} TL / 23.000,00 TL\` (\`%${goalInfo.progressPct} Tamamlandı\` | Kalan: \`${goalInfo.remainingTry} TL\`)**
+* **🏛️ Mevcut Kaldıraç + Spot Kâr Kasası Toplamı:** **\`${goalInfo.combinedTry} TL / 23.000,00 TL\` (\`%${goalInfo.progressPct} Tamamlandı\` | Kalan: \`${goalInfo.remainingTry} TL\`)**
 * **🪜 Aktif Büyüme Basamağı:** **\`${goalInfo.tierLabel}\`** *(Cebinden ekstra 1 TL çıkmadan, yalnızca Spot Kâr Kasasında biriken dokunulmaz kârla kademe atlar!)*
 
 ---
@@ -2381,9 +2380,9 @@ function startDashboardServer(state) {
       <div class="sub">Nakit: ${spot ? spot.cashTry : '934.59'} TL | ${spot ? spot.winCount : 21}W/${spot ? spot.lossCount : 17}L</div>
     </div>
     <div class="card">
-      <div class="lbl">🏛️ Toplam Birleşik Varlık</div>
+      <div class="lbl">🏛️ Kaldıraç + Kâr Kasası</div>
       <div class="val amber">${combinedEquityTry} TL</div>
-      <div class="sub">📲 WhatsApp & Doğrudan Mail Aktif</div>
+      <div class="sub">300 TL Ana Para + Spot'a Atılan Kâr</div>
     </div>
   </div>
 
