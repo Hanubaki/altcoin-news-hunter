@@ -2372,8 +2372,15 @@ async function manageOpenPosition(state, candidates = []) {
       isFundingSettlementHarvest = true;
     }
   }
-  if (!isTpHit && !isStopHit && minsHeld >= 12 && rawCoinMoveFrac <= 0.0010 && rawCoinMoveFrac >= -0.0060 && curPosLiveCand) {
+  if (!isTpHit && !isStopHit && minsHeld >= 12 && rawCoinMoveFrac <= 0.0012 && rawCoinMoveFrac >= -0.0060 && curPosLiveCand) {
+    const isSevere5mTakerCollapse =
+      curPosLiveCand.takerDataValid &&
+      minsHeld >= 18 &&
+      curPosLiveCand.volRatio15m <= 0.65 &&
+      ((pos.side === 'LONG' && curPosLiveCand.instBuySellRatio <= 0.55) ||
+        (pos.side === 'SHORT' && curPosLiveCand.instBuySellRatio >= 1.75));
     if (
+      isSevere5mTakerCollapse ||
       (pos.side === 'LONG' && (curPosLiveCand.instBuySellRatio <= 0.75 || curPosLiveCand.candlePattern.includes('Yemleme/Fishing')) && curPosLiveCand.takerBuyPct <= 44.0) ||
       (pos.side === 'SHORT' && curPosLiveCand.instBuySellRatio >= 1.35 && curPosLiveCand.takerBuyPct >= 56.0)
     ) {
@@ -2398,14 +2405,25 @@ async function manageOpenPosition(state, candidates = []) {
       isWickTakerCollapseScratch = true;
     }
   }
-  // Engine #49 (GPT-6-Luna 32-Minute R-Normalized MFE/MAE Stale-Trade & Squeeze Early Scratch):
+  // Engine #49 + #62 (GPT-6-Luna 32-Minute R-Normalized MFE/MAE & Giveback Stale-Trade Scratch):
   if (!isTpHit && !isStopHit && !isFishingEmergencyExit && !isWickTakerCollapseScratch && !pos.tp1Done) {
     const whaleOrTakerFlippedAgainst = Boolean(
       curPosLiveCand &&
         ((pos.side === 'SHORT' && (curPosLiveCand.whaleRetailSpread >= 3.0 || curPosLiveCand.instBuySellRatio >= 1.10)) ||
           (pos.side === 'LONG' && (curPosLiveCand.whaleRetailSpread <= -3.0 || curPosLiveCand.instBuySellRatio <= 0.90)))
     );
-    if ((minsHeld >= 32 && aeR >= 0.35 && mfeR < 0.25) || (minsHeld >= 22 && aeR >= 0.30 && mfeR < 0.30 && whaleOrTakerFlippedAgainst)) {
+    const isGivebackStall =
+      minsHeld >= 30 &&
+      rawCoinMoveFrac <= 0.0012 &&
+      rawCoinMoveFrac >= -0.0045 &&
+      aeR >= 0.30 &&
+      mfeR < 0.45 &&
+      whaleOrTakerFlippedAgainst;
+    if (
+      isGivebackStall ||
+      (minsHeld >= 32 && aeR >= 0.35 && mfeR < 0.25) ||
+      (minsHeld >= 22 && aeR >= 0.30 && mfeR < 0.30 && whaleOrTakerFlippedAgainst)
+    ) {
       isStaleMomentumScratch = true;
     }
   }
@@ -3412,7 +3430,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v10.3-Luna-Apex-Predator';
+  state.version = 'Mutlak-Yapi-v10.4-Luna-Autonomous-Predator';
   if (state.openPosition?.thesis && state.openPosition?.leverage) {
     state.openPosition.thesis = String(state.openPosition.thesis).replace(
       /->\s*[\d.]+x\s+(LONG|SHORT)!/,
@@ -3421,7 +3439,7 @@ async function main() {
   }
   runTwoHourSelfAudit(state, true);
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + LUNA APEX-AVCISI MOTORU (v10.3 — Motor #58-#61)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + LUNA OTONOM-AVCISI MOTORU (v10.4 — Motor #58-#62)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
