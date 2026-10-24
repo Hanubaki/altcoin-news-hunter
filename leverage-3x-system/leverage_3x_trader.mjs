@@ -235,7 +235,13 @@ function runTwoHourSelfAudit(state, forceLog = false) {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
           rootCause: 'Makro-Yükseliş (+%12.8 24s) İçinde 1s %-3.0 Düşmüş Dip Mumuna (CLV:0.04, NÖTR OI, YATAY MTF) Geç SHORT Girişi',
-          fixApplied: 'Motor #43: Anti-Bottom-Chase & Makro-Yükseliş Düzeltme Kalkanı (1s <= -%2.1 & CLV <= 0.14 & 24s >= +%4.5 iken Q3+MTF Ayı onayı yoksa SHORT Veto)',
+          fixApplied: 'Motor #43A: Anti-Bottom-Chase & Makro-Yükseliş Düzeltme Kalkanı (1s <= -%2.1 & 24s >= +%4.5 iken Q3+MTF Ayı onayı yoksa SHORT Veto)',
+        });
+      } else if (t.symbol === 'KAT' && t.side === 'SHORT') {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: '1s %-3.8 Düşüş + Q4 Long Kapitülasyonu Sonrası Yeni 15dk Mumunun İlk Dakikasında (CLV:0.98) GCR Mania Bypass İle Geç SHORT Girişi',
+          fixApplied: 'Motor #43B: Q4 Kapitülasyon & Baby-Candle (effectiveClv >= 0.68) SHORT Vetosu (GCR Mania Sadece Yapı Üst Yarısında Aktif)',
         });
       } else if (t.symbol === 'SOPH' || isProfitLockScratch) {
         diagnosedMistakes.push({
@@ -1064,7 +1070,9 @@ function analyzeCandleSmcAndCvd15m(klines) {
       isFishingTrapLong ||
       b0.upperWickRatio >= 0.48 ||
       (b1.upperWickRatio >= 0.48 && b1.clv <= 0.42 && effectiveClv < 0.65) ||
-      (!isBabyB0 && !b0.isGreen && b0.clv <= 0.30)
+      (!isBabyB0 && !b0.isGreen && b0.clv <= 0.30) ||
+      (isBabyB0 && !b1.isGreen && b1.clv <= 0.32) ||
+      effectiveClv <= 0.28
   );
 
   const vetoShort = Boolean(
@@ -1072,7 +1080,9 @@ function analyzeCandleSmcAndCvd15m(klines) {
       sellSideSweep ||
       (!isBabyB0 && b0.lowerWickRatio >= 0.48) ||
       (b1.lowerWickRatio >= 0.50 && b1.clv >= 0.62 && effectiveClv > 0.35) ||
-      (!isBabyB0 && b0.isGreen && b0.clv >= 0.70)
+      (!isBabyB0 && b0.isGreen && b0.clv >= 0.70) ||
+      (isBabyB0 && b1.isGreen && b1.clv >= 0.65) ||
+      effectiveClv >= 0.68
   );
 
   const patternLabel = isFishingTrapLong
@@ -1519,8 +1529,14 @@ async function scanPerpUniverse(state) {
     const whaleVetoLong = whaleRetailSpread <= -6.5;
     const whaleVetoShort = isLiveInstTakerDumping ? whaleRetailSpread >= 16.5 : whaleRetailSpread >= 10.5;
 
+    // Engine #43B: GCR Mania Fade Short MUST only trigger near the upper half of the 4h structure (posIn16BarRange >= 0.55 & rsi15m >= 58)
+    // and NEVER after an already-completed 1h crash (change1hPct <= -2.2%) or during Q4 Long Capitulation (prevents KATUSDT & LAUSDT bottom-shorts!)
     const isGcrCrowdedManiaShort = Boolean(
       (item.change24hPct >= 10.0 || rsi15m >= 71) &&
+        rsi15m >= 58 &&
+        anatomy.posIn16BarRange >= 0.55 &&
+        change1hPct > -2.20 &&
+        !oiQuadrant.startsWith('Q4') &&
         (whaleRetailSpread <= -4.0 || item.basisPct >= 0.045 || item.fundingRatePct >= 0.018 || isLiveInstTakerDumping) &&
         (anatomy.bearishPattern || anatomy.buySideSweep || anatomy.bearishCvdPts >= 6)
     );
@@ -1680,21 +1696,22 @@ async function scanPerpUniverse(state) {
         volRatio15m < 1.55) ||
         (item.change24hPct >= 18.0 && (volRatio15m < 1.35 || mtfSqueeze.mtfBullishPts === 0)));
 
-    // Engine #43 (GPT-6-Luna Anti-Bottom-Chase & Macro-Uptrend Pullback Short Shield):
-    // Prevents shorting the exact local capitulation bottom after a heavy 1h drop (e.g. DOSUSDT #2 @ $0.2597:
-    // 1h: -2.99%, CLV: 0.04, 24h: +12.79% macro uptrend, OI: NÖTR, MTF: YATAY -> immediate mean-reversion bounce!).
+    // Engine #43 (GPT-6-Luna Anti-Bottom-Chase, Q4 Capitulation & Macro-Uptrend Pullback Short Shield):
+    // Prevents shorting the exact local capitulation bottom after a heavy 1h drop (e.g. DOSUSDT #2 @ $0.2597 & KATUSDT @ $0.004456:
+    // 1h <= -2.1%, 24h >= +4.5% macro uptrend or Q4 Long Capitulation -> immediate mean-reversion bounce!).
     const isBottomChase3RedShort =
       anatomy.red3Completed &&
       anatomy.drop4BarPct >= Math.max(0.95, atr15mPct * 1.45) &&
       anatomy.posIn4BarRange <= 0.14 &&
       volRatio15m < 1.55;
+    const isQ4CapitulationExhaustedShort =
+      change1hPct <= -2.20 && oiQuadrant.startsWith('Q4');
     const isMacroUpPullbackBottomShort =
       change1hPct <= -2.10 &&
-      (anatomy.clv <= 0.14 || anatomy.posIn4BarRange <= 0.16) &&
       item.change24hPct >= 4.5 &&
-      (mtfSqueeze.mtfBearishPts === 0 || !oiQuadrant.startsWith('Q3'));
+      (anatomy.clv <= 0.18 || anatomy.posIn4BarRange <= 0.22 || mtfSqueeze.mtfBearishPts === 0 || !oiQuadrant.startsWith('Q3'));
     const isOverextendedMicroBottomShort =
-      !isGcrCrowdedManiaShort && (isBottomChase3RedShort || isMacroUpPullbackBottomShort);
+      isBottomChase3RedShort || isQ4CapitulationExhaustedShort || isMacroUpPullbackBottomShort;
 
     // Extreme Negative Basis Dump Trap Veto (e.g. ALTUSDT: basis <= -0.60% while 24h <= -5.0% means spot/unlock dumping, NOT a discount!)
     const isBasisDumpTrapLong = item.basisPct <= -0.60 && item.change24hPct <= -5.0;
