@@ -25,6 +25,7 @@ const MIN_NOTIONAL_USDT = 5.0; // Binance Futures hard minimum notional floor
 const ROUND_TRIP_FEE_SLIP_FRAC = 0.0018; // 0.05% taker entry + 0.05% taker exit + 0.08% perp slippage on notional
 const DASHBOARD_PORT = 3848;
 let isPositionCycleBusy = false; // Strict Mutex Lock preventing 4s vs 30s double-close/double-refund race condition
+let busySinceMs = 0; // Self-healing watchdog timestamp so sleep/wake socket hangs can never freeze the bot
 
 const PERP_UNIVERSE = [
   'SOL', 'XRP', 'DOGE', 'SUI', 'ADA', 'AVAX', 'LINK', 'NEAR', 'APT', 'ARB',
@@ -356,15 +357,30 @@ function loadEnv() {
 
 async function fetchJson(url, options = {}, timeoutMs = 4500) {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  let timer = null;
+  const timeoutPromise = new Promise(resolve => {
+    timer = setTimeout(() => {
+      try {
+        controller.abort();
+      } catch {
+        // ignore
+      }
+      resolve(null);
+    }, timeoutMs);
+  });
+  const workPromise = (async () => {
+    try {
+      const res = await fetch(url, { ...options, signal: controller.signal });
+      if (!res.ok) return null;
+      return await res.json();
+    } catch {
+      return null;
+    }
+  })();
   try {
-    const res = await fetch(url, { ...options, signal: controller.signal });
-    if (!res.ok) return null;
-    return await res.json();
-  } catch {
-    return null;
+    return await Promise.race([workPromise, timeoutPromise]);
   } finally {
-    clearTimeout(timer);
+    if (timer) clearTimeout(timer);
   }
 }
 
@@ -1417,13 +1433,23 @@ async function scanPerpUniverse(state) {
     let score = 50;
     let thesis = '';
 
-    // Wall #4: Anti-Top-Chase / Anti-Bottom-Chase Guard
+    // Wall #4: Anti-Top-Chase / Anti-Bottom-Chase + Engine #37 (v8.4 Anti-Exhaustion, 1h Alignment, Volume Floor & Basis Dump Trap Veto)
     const isOverextendedMicroTopLong =
       !isBnfLiquidationBounce &&
-      anatomy.green3Completed &&
-      anatomy.runup4BarPct >= Math.max(0.95, atr15mPct * 1.45) &&
-      anatomy.posIn4BarRange >= 0.86 &&
-      volRatio15m < 1.55;
+      ((anatomy.green3Completed &&
+        anatomy.runup4BarPct >= Math.max(0.95, atr15mPct * 1.45) &&
+        anatomy.posIn4BarRange >= 0.86 &&
+        volRatio15m < 1.55) ||
+        (item.change24hPct >= 18.0 && (volRatio15m < 1.35 || mtfSqueeze.mtfBullishPts === 0)));
+
+    // Extreme Negative Basis Dump Trap Veto (e.g. ALTUSDT: basis <= -0.60% while 24h <= -5.0% means spot/unlock dumping, NOT a discount!)
+    const isBasisDumpTrapLong = item.basisPct <= -0.60 && item.change24hPct <= -5.0;
+
+    // Require active 15m volume participation (volRatio15m >= 0.72) and positive 1h momentum alignment (prevents BTWUSDT 1h:-0.41% & ALTUSDT 0.51x vol traps)
+    const hasLongMomentumAndVol =
+      volRatio15m >= 0.72 && (isBnfLiquidationBounce || (change1hPct >= 0.15 && rsVsBtcAtr >= 0.05));
+    const hasShortMomentumAndVol =
+      volRatio15m >= 0.72 && (isGcrCrowdedManiaShort || (change1hPct <= -0.15 && rsVsBtcAtr <= -0.05));
 
     const canTriggerLong =
       !btcVetoLong &&
@@ -1432,10 +1458,12 @@ async function scanPerpUniverse(state) {
       !anatomy.vetoLong &&
       !isTakerRatioCrashingLong &&
       !isOverextendedMicroTopLong &&
+      !isBasisDumpTrapLong &&
+      hasLongMomentumAndVol &&
       vwapLongOk &&
       (takerBuyPct >= 51.5 || instBuySellRatio >= 1.14 || isBnfLiquidationBounce) &&
       (isBnfLiquidationBounce || rsVsBtcAtr >= -0.20) &&
-      rawLongTotal >= 76;
+      rawLongTotal >= 78;
 
     const canTriggerShort =
       !btcVetoShort &&
@@ -1443,10 +1471,11 @@ async function scanPerpUniverse(state) {
       !fundingVetoShort &&
       !anatomy.vetoShort &&
       !isTakerRatioCrashingShort &&
+      hasShortMomentumAndVol &&
       vwapShortOk &&
       (takerBuyPct <= 48.5 || instBuySellRatio <= 0.88 || isGcrCrowdedManiaShort) &&
       (rsVsBtcAtr <= 0.25 || isGcrCrowdedManiaShort) &&
-      rawShortTotal >= 76;
+      rawShortTotal >= 78;
 
     if (canTriggerLong && (!canTriggerShort || rawLongTotal >= rawShortTotal)) {
       side = 'LONG';
@@ -1589,9 +1618,9 @@ async function manageOpenPosition(state, candidates = []) {
   pos.underlyingMovePct = underlyingMovePct;
   const posLev = pos.leverage || LEVERAGE;
 
-  // Stage 2 (v8.2 Zero-Choke + Profit Mailer): Instant 50% TP1 Cash Harvest ("Kâr Cebellezi") at +1.10% Coin Move
-  if (!pos.tp1Done && rawCoinMoveFrac >= 0.0110) {
-    const harvestFrac = 0.50;
+  // Stage 2 (v8.4 Asymmetric Runner + Zero-Choke): Harvest 35% at +1.25% Coin Move, keep 65% Runner with 0.90% breathing room (+0.35% stop lock)
+  if (!pos.tp1Done && rawCoinMoveFrac >= 0.0125) {
+    const harvestFrac = 0.35;
     const closedMarginUsdt = Number((pos.marginUsdt * harvestFrac).toFixed(4));
     const closedNotionalUsdt = Number((pos.notionalUsdt * harvestFrac).toFixed(4));
     const partialNetPnlUsdt = Number((closedNotionalUsdt * netCoinMoveFrac).toFixed(4));
@@ -1610,23 +1639,23 @@ async function manageOpenPosition(state, candidates = []) {
     pos.ratchetStage = 'TP1_HARVESTED_RUNNER';
 
     if (pos.side === 'LONG') {
-      const lockTp1 = Number((pos.entryPrice * (1 + 0.0045)).toPrecision(6));
+      const lockTp1 = Number((pos.entryPrice * (1 + 0.0035)).toPrecision(6));
       if (lockTp1 > pos.stopPrice) pos.stopPrice = lockTp1;
     } else {
-      const lockTp1 = Number((pos.entryPrice * (1 - 0.0045)).toPrecision(6));
+      const lockTp1 = Number((pos.entryPrice * (1 - 0.0035)).toPrecision(6));
       if (lockTp1 < pos.stopPrice) pos.stopPrice = lockTp1;
     }
 
     logEvent(
       state,
-      `💰 [TP1 %50 KÂR CEBELLEZİ] ${pos.symbol}USDT (${posLev}x ${pos.side}) +%${underlyingMovePct} yürüyüşte yarısı nakde çevrildi (+${partialNetPnlTry} TL cebe indi!) | Kalan %50 Moonbag Stopu +%0.45 Kâra Kilitlendi!`
+      `💰 [TP1 %35 KÂR CEBELLEZİ] ${pos.symbol}USDT (${posLev}x ${pos.side}) +%${underlyingMovePct} yürüyüşte %35 nakde çevrildi (+${partialNetPnlTry} TL cebe indi!) | Kalan %65 Ana Gövde Runner Stopu +%0.35 Kâra Kilitlendi (0.90% Nefes Payı)!`
     );
 
     const tp1Sweep = sweepProfitToSpotVault(
       state,
       partialNetPnlUsdt,
       `${pos.symbol}USDT`,
-      'TP1 %50 KÂR CEBELLEZİ -> Spot Cüzdana Kâr Transferi'
+      'TP1 %35 KÂR CEBELLEZİ -> Spot Cüzdana Kâr Transferi'
     );
     pos.sweptAtTp1Try = tp1Sweep.sweptTry;
 
@@ -1634,7 +1663,7 @@ async function manageOpenPosition(state, candidates = []) {
       symbol: `${pos.symbol}USDT`,
       side: pos.side,
       leverage: posLev,
-      type: 'TP1 %50 KÂR CEBELLEZİ (Yarısı Nakde İndi)',
+      type: 'TP1 %35 KÂR CEBELLEZİ (%65 Runner Devam Ediyor)',
       netPnlTry: partialNetPnlTry,
       spotTransferTry: tp1Sweep.sweptTry,
       roePct: partialRoePct,
@@ -1644,11 +1673,11 @@ async function manageOpenPosition(state, candidates = []) {
     });
   }
 
-  // Stage 1 / Stage 3 (v8.2 Zero-Choke): Wait for >= +0.82% move before locking +0.24% Breakeven+ so >= 0.58% breathing room prevents premature stop-out
-  if (peakCoinMoveFrac >= 0.0165) {
+  // Stage 1 / Stage 3 (v8.4 Wide-Breathing Ratchet): Prevents premature +2.39 TL choke so 65% Runner catches +10 TL to +25 TL waves
+  if (peakCoinMoveFrac >= 0.0195) {
     pos.ratchetStage = 'PARABOLIC_SQUEEZE_RUNNER';
     if (pos.side === 'LONG') {
-      const trailStop = Number((pos.extremePrice * (1 - 0.0048)).toPrecision(6));
+      const trailStop = Number((pos.extremePrice * (1 - 0.0055)).toPrecision(6));
       if (trailStop > pos.stopPrice) pos.stopPrice = trailStop;
       if (markExitPrice >= pos.tpPrice * 0.997) {
         const depth = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${pos.fSym}&limit=15`, {}, 2000);
@@ -1658,7 +1687,7 @@ async function manageOpenPosition(state, candidates = []) {
         }
       }
     } else {
-      const trailStop = Number((pos.extremePrice * (1 + 0.0048)).toPrecision(6));
+      const trailStop = Number((pos.extremePrice * (1 + 0.0055)).toPrecision(6));
       if (trailStop < pos.stopPrice) pos.stopPrice = trailStop;
       if (markExitPrice <= pos.tpPrice * 1.003) {
         const depth = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${pos.fSym}&limit=15`, {}, 2000);
@@ -1668,16 +1697,16 @@ async function manageOpenPosition(state, candidates = []) {
         }
       }
     }
-  } else if (peakCoinMoveFrac >= 0.0125) {
+  } else if (peakCoinMoveFrac >= 0.0155) {
     if (!pos.ratchetStage.includes('TP1')) pos.ratchetStage = 'PROFIT_LOCK_2';
     if (pos.side === 'LONG') {
-      const lock2 = Number((pos.entryPrice * (1 + 0.0055)).toPrecision(6));
+      const lock2 = Number((pos.entryPrice * (1 + 0.0075)).toPrecision(6));
       if (lock2 > pos.stopPrice) pos.stopPrice = lock2;
     } else {
-      const lock2 = Number((pos.entryPrice * (1 - 0.0055)).toPrecision(6));
+      const lock2 = Number((pos.entryPrice * (1 - 0.0075)).toPrecision(6));
       if (lock2 < pos.stopPrice) pos.stopPrice = lock2;
     }
-  } else if (peakCoinMoveFrac >= 0.0082) {
+  } else if (peakCoinMoveFrac >= 0.0092) {
     pos.ratchetStage = 'FAST_BREAKEVEN_PLUS';
     if (pos.side === 'LONG') {
       const bePlus = Number((pos.entryPrice * (1 + 0.0024)).toPrecision(6));
@@ -1717,18 +1746,20 @@ async function manageOpenPosition(state, candidates = []) {
     }
   }
 
+  // Zero-Loss Slot Rotation Rule (v8.4): NEVER rotate out at a loss (rawCoinMoveFrac must cover round-trip fees >= 0.0018)!
   let rotationTarget = null;
   const nowMs = Date.now();
   const isRotationCooldownReady = nowMs - (state.lastRotationAtMs || 0) >= 30 * 60 * 1000;
   const symbolCooldowns = state.symbolCooldowns || {};
+  const obVetoCooldowns = state.obVetoCooldowns || {};
   if (
     !isTpHit &&
     !isStopHit &&
     !isOrderflowScratch &&
     isRotationCooldownReady &&
     minsHeld >= 25 &&
-    rawCoinMoveFrac >= -0.0048 &&
-    rawCoinMoveFrac <= 0.0020 &&
+    rawCoinMoveFrac >= ROUND_TRIP_FEE_SLIP_FRAC &&
+    rawCoinMoveFrac <= 0.0035 &&
     candidates.length > 0
   ) {
     const curLiveCand = candidates.find(c => c.symbol === pos.symbol);
@@ -1739,8 +1770,9 @@ async function manageOpenPosition(state, candidates = []) {
         c.symbol !== pos.symbol &&
         c.engine !== 'WATCHLIST' &&
         (c.side === 'LONG' || c.side === 'SHORT') &&
-        c.score >= 90 &&
-        (!symbolCooldowns[c.symbol] || symbolCooldowns[c.symbol] <= nowMs)
+        c.score >= 92 &&
+        (!symbolCooldowns[c.symbol] || symbolCooldowns[c.symbol] <= nowMs) &&
+        (!obVetoCooldowns[c.symbol] || obVetoCooldowns[c.symbol] <= nowMs)
     );
     if (isCurDegraded && bestNewCand && bestNewCand.score - curLiveScore >= 22) {
       rotationTarget = bestNewCand;
@@ -1761,7 +1793,7 @@ async function manageOpenPosition(state, candidates = []) {
   } else if (isOrderflowScratch) {
     exitReason = `🛡️ EUGENE ERKEN TAHTA TAHLİYESİ (Emir Defteri Tersine Döndü, Stop Beklenmeden Çıkıldı | ROE ${roePct}%)`;
   } else if (rotationTarget) {
-    exitReason = `🔄 ULTRA-APEX SLOT ROTASYONU (Tezi Zayıflayan İşlemden Çıkılıp ${rotationTarget.symbol} [${rotationTarget.score}/99] Fırsatına Geçildi | ROE ${roePct}%)`;
+    exitReason = `🔄 ULTRA-APEX SIFIR-ZARAR SLOT ROTASYONU (Başabaş/Kârlı İşlemden ${rotationTarget.symbol} [${rotationTarget.score}/99] Fırsatına Geçildi | ROE +${roePct}%)`;
   } else if (isTimeStop) {
     exitReason = `⏱️ 90dk FONLAMA/ZAMAN KORUMASI (İvme Durdu, Fonlama Kesintisi Öncesi Çıkıldı | ROE ${roePct}%)`;
   }
@@ -1839,16 +1871,20 @@ async function tryOpenPosition(state, candidates) {
 
   const nowEntryMs = Date.now();
   const symCds = state.symbolCooldowns || {};
+  if (!state.obVetoCooldowns) state.obVetoCooldowns = {};
+  const obVetoCds = state.obVetoCooldowns;
+
   const actionable = candidates.filter(
     c =>
       c.engine !== 'WATCHLIST' &&
       (c.side === 'LONG' || c.side === 'SHORT') &&
-      c.score >= 76 &&
-      (!symCds[c.symbol] || symCds[c.symbol] <= nowEntryMs)
+      c.score >= 78 &&
+      (!symCds[c.symbol] || symCds[c.symbol] <= nowEntryMs) &&
+      (!obVetoCds[c.symbol] || obVetoCds[c.symbol] <= nowEntryMs)
   );
   if (!actionable.length) return;
 
-  // v8.3 Fixed 100 TL Principal Rule: NEVER risk more than 100.00 TL (INITIAL_BANKROLL_USDT) in Leverage!
+  // v8.4 Fixed 100 TL Principal Rule: NEVER risk more than 100.00 TL (INITIAL_BANKROLL_USDT) in Leverage!
   const cappedPrincipalUsdt = Math.min(state.marginCashUsdt, INITIAL_BANKROLL_USDT);
   const usableMarginUsdt = Number((cappedPrincipalUsdt * 0.96).toFixed(4));
 
@@ -1865,9 +1901,11 @@ async function tryOpenPosition(state, candidates) {
 
     const obCheck = await fetchPerpOrderbookConfirm(cand.symbol, cand.side);
     if (!obCheck.ok) {
+      // Engine #36: 12-Minute Orderbook Veto Strike Cooldown (prevents hammering a rejected book 30s later like BTWUSDT)
+      state.obVetoCooldowns[cand.symbol] = Date.now() + 12 * 60 * 1000;
       logEvent(
         state,
-        `⚖️ [Vadeli Tahta Vetosu] ${cand.symbol} (${chosenLev}x ${cand.side} | ${cand.score}p) pas geçildi: ${obCheck.reason}`
+        `⚖️ [Vadeli Tahta Vetosu + 12dk Blok] ${cand.symbol} (${chosenLev}x ${cand.side} | ${cand.score}p) pas geçildi: ${obCheck.reason}`
       );
       continue;
     }
@@ -1881,7 +1919,7 @@ async function tryOpenPosition(state, candidates) {
     }
     const maxSlCap = chosenLev >= 6 ? 0.0082 : chosenLev >= 5 ? 0.0088 : 0.0096;
     const underlyingSlFrac = Math.min(maxSlCap, Math.max(0.0068, rawWickDistFrac, (cand.atr15mPct / 100) * 0.68));
-    const underlyingTpFrac = Math.max(0.0220, underlyingSlFrac * 2.60);
+    const underlyingTpFrac = Math.max(0.0245, underlyingSlFrac * 2.85);
 
     const stopPrice =
       cand.side === 'LONG'
@@ -2281,8 +2319,9 @@ function startDashboardServer(state) {
 }
 
 async function runCycle(state) {
-  if (isPositionCycleBusy) return;
+  if (isPositionCycleBusy && Date.now() - busySinceMs < 25000) return;
   isPositionCycleBusy = true;
+  busySinceMs = Date.now();
   try {
     const candidates = await scanPerpUniverse(state);
     await manageOpenPosition(state, candidates);
@@ -2297,9 +2336,9 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v8.3-100TL-Cap-SpotProfitVault';
+  state.version = 'Mutlak-Yapi-v8.4-LeakProof-AsymmetricRunner';
   console.log('================================================================================');
-  console.log(`⚡ 100 TL SABİT ANA PARA + SPOT CÜZDAN KÂR SİFONU (Mutlak Yapı v8.3 — 4x/5x/6x Kaldıraç)`);
+  console.log(`⚡ 100 TL SABİT ANA PARA + SPOT CÜZDAN KÂR SİFONU (Mutlak Yapı v8.4 — 6 Açık Yamalı + %65 Runner)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
@@ -2308,8 +2347,9 @@ async function main() {
 
   startDashboardServer(state);
   setInterval(async () => {
-    if (isPositionCycleBusy) return;
+    if (isPositionCycleBusy && Date.now() - busySinceMs < 25000) return;
     isPositionCycleBusy = true;
+    busySinceMs = Date.now();
     try {
       if (state.openPosition) {
         await manageOpenPosition(state, state.topCandidates || []);
