@@ -2292,9 +2292,11 @@ async function scanPerpUniverse(state) {
     const hasCvdAlignmentLong = anatomy.normCvd3BarPct >= 3.5;
     const hasCvdAlignmentShort = anatomy.normCvd3BarPct <= -4.0;
 
-    // Engine #63C: Forbid LONG entries in flat range chop (YATAY MTF + Normal Volatility) or heavy GCR Contango (>= +0.065% basis)
+    // Engine #63C + #71A: Forbid LONG entries in flat range chop (YATAY MTF + Normal Volatility), heavy GCR Contango (>= +0.065% basis), or NÖTR OI with positive basis
     const contangoVetoLong =
-      item.basisPct >= 0.065 && !(isSqueezeConfirmedLong && rawInstBuySellRatio >= 1.45);
+      item.basisPct >= 0.120 ||
+      (item.basisPct >= 0.065 && !(item.fundingRatePct <= -0.015 && oiQuadrant.startsWith('Q1') && rawInstBuySellRatio >= 1.45)) ||
+      (oiQuadrant === 'NÖTR' && item.basisPct > 0.015 && !hasFreshDirectNews);
     const hasLongStructureOrBreakout =
       mtfSqueeze.mtfBullishPts > 0 ||
       mtfSqueeze.squeezeBullishPts > 0 ||
@@ -3326,12 +3328,12 @@ function updateAccountingAndReport(state) {
           .map(m => `| **${m.trade}** | ${m.rootCause} | ✅ **${m.fixApplied}** |`)
           .join('\n') + '\n';
 
-  const md = `# ⚡ 300 TL SABİT ANA PARA (3x–5x RİSK-NORMALİZE KALDIRAÇ) + 23.000 TL HEDEF & 2-SAATLİK OTONOM EVRİM (Mutlak Yapı v10.1)
+  const md = `# ⚡ 300 TL SABİT ANA PARA (3x–5x RİSK-NORMALİZE KALDIRAÇ) + 23.000 TL HEDEF & OTONOM EVRİM (${state.version || 'Mutlak-Yapi-v11.1'})
 
 **Son Güncelleme:** ${new Date().toLocaleString('tr-TR')}  
 **🌍 Her Yerden (4.5G/Mobil/Wi-Fi Cloudflare Port Forwarding):** \`${PUBLIC_TUNNEL_URL}\` *(Yedek: \`${BACKUP_TUNNEL_URL}\`)*  
 **🏠 Ev Wi-Fi:** \`http://${lanIp}:${DASHBOARD_PORT}\` | **💻 Bilgisayar:** \`http://localhost:${DASHBOARD_PORT}\`  
-**Çalışma Modu:** \`${state.mode}\` *(Sadece Max ${goalInfo.activeCapTry} TL İle Oynar + 3x–5x Luna/Qullamaggie Kaldıraç + Her 2 Saatte Bir Otonom Özeleştiri & Evrim Motoru #43–#56)*
+**Çalışma Modu:** \`${state.mode}\` — \`${state.fapiAccountStatus || 'SIM_LIVE_FAPI'}\` *(Max ${goalInfo.activeCapTry} TL İle Oynar + 3x–5x Luna/Qullamaggie Kaldıraç + Otonom Özeleştiri & Evrim Motoru #43–#71)*
 
 ---
 
@@ -3343,7 +3345,7 @@ function updateAccountingAndReport(state) {
 
 ---
 
-## 🧠 2-SAATLİK OTONOM ÖZELEŞTİRİ & KENDİNİ GELİŞTİRME MOTORU (Motor #43–#56)
+## 🧠 OTONOM ÖZELEŞTİRİ & KENDİNİ GELİŞTİRME MOTORU (Motor #43–#71)
 
 * **⏱️ Son Otonom Denetim:** \`${audit.lastAuditAt}\` | **Sonraki 2-Saatlik Denetim:** \`${audit.nextAuditAt}\`
 * **📊 Son ${audit.recentWindowCount} İşlem Karnesi:** \`${audit.recentWins} Kazanç / ${audit.recentLosses} Kayıp\` (**Net:** \`${audit.recentNetPnlTry >= 0 ? '+' : ''}${audit.recentNetPnlTry} TL\` | **Luna Amaç Skoru $J$:** \`${audit.objectiveJ}\`)
@@ -3890,7 +3892,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v11.0-Real-FAPI-Fortress';
+  state.version = 'Mutlak-Yapi-v11.1-Zero-Contango-Predator';
   if (state.openPosition?.thesis && state.openPosition?.leverage) {
     state.openPosition.thesis = String(state.openPosition.thesis).replace(
       /->\s*[\d.]+x\s+(LONG|SHORT)!/,
@@ -3899,7 +3901,7 @@ async function main() {
   }
   runTwoHourSelfAudit(state, true);
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v11.0 — Motor #58-#70)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v11.1 — Motor #58-#71)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
