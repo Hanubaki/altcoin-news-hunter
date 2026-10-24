@@ -25,6 +25,8 @@ const TARGET_GOAL_TRY = 23000.0; // User's Ultimate Wealth Goal (23.000 TL)
 const MIN_NOTIONAL_USDT = 5.0; // Binance Futures hard minimum notional floor
 const ROUND_TRIP_FEE_SLIP_FRAC = 0.0018; // 0.05% taker entry + 0.05% taker exit + 0.08% perp slippage on notional
 const DASHBOARD_PORT = 3848;
+const PUBLIC_TUNNEL_URL = 'https://absence-coding-laid-spoken.trycloudflare.com';
+const BACKUP_TUNNEL_URL = 'https://273725c5cf6e80.lhr.life';
 let isPositionCycleBusy = false; // Strict Mutex Lock preventing 4s vs 30s double-close/double-refund race condition
 let busySinceMs = 0; // Self-healing watchdog timestamp so sleep/wake socket hangs can never freeze the bot
 
@@ -2155,7 +2157,8 @@ function updateAccountingAndReport(state) {
   const md = `# ⚡ 300 TL SABİT ANA PARA (3x–4x ANTİ-İĞNE KALDIRAÇ) + 23.000 TL HEDEF & SPOT KÂR SİFONU (Mutlak Yapı v8.6)
 
 **Son Güncelleme:** ${new Date().toLocaleString('tr-TR')}  
-**PC Paneli:** \`http://localhost:${DASHBOARD_PORT}\` | **📱 Telefon Wi-Fi Linki:** \`http://${lanIp}:${DASHBOARD_PORT}\`  
+**🌍 Her Yerden (4.5G/Mobil/Wi-Fi Cloudflare Port Forwarding):** \`${PUBLIC_TUNNEL_URL}\` *(Yedek: \`${BACKUP_TUNNEL_URL}\`)*  
+**🏠 Ev Wi-Fi:** \`http://${lanIp}:${DASHBOARD_PORT}\` | **💻 Bilgisayar:** \`http://localhost:${DASHBOARD_PORT}\`  
 **Çalışma Modu:** \`${state.mode}\` *(Sadece Max ${goalInfo.activeCapTry} TL İle Oynar + 3x/3.5x/4x Anti-İğne Kaldıraç + Kazanılan Kârları Otomatik Spot Cüzdana Atar)*
 
 ---
@@ -2335,7 +2338,10 @@ function startDashboardServer(state) {
       <div class="title">⚡ Yırtıcı Konsey v8.6 — 300 TL Anti-İğne Kaldıraç (3x–4x) + 🎯 23.000 TL Servet Hedefi</div>
       <div class="sub">Kaldıraçta Max ${goalInfo.activeCapTry} TL İle Oynar + Kârları Otomatik Spot Cüzdana Atar + GPT-6-Luna Mikro-Fiyat Kalkanı</div>
     </div>
-    <div class="pill">📱 Telefon Wi-Fi: ${mobileUrl}</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+      <a href="${PUBLIC_TUNNEL_URL}" style="text-decoration:none;" class="pill">🌍 4.5G/Cloudflare: ${PUBLIC_TUNNEL_URL.replace('https://', '')}</a>
+      <div class="pill">🏠 Wi-Fi: ${mobileUrl}</div>
+    </div>
   </div>
 
   <div class="goal-card">
@@ -2483,6 +2489,9 @@ async function runCycle(state) {
   isPositionCycleBusy = true;
   busySinceMs = Date.now();
   try {
+    // Keepalive self-ping so public tunnels (Cloudflare & localhost.run) never hit activity timeout
+    fetch(`${PUBLIC_TUNNEL_URL}/api/state`, { signal: AbortSignal.timeout(3000) }).catch(() => {});
+    fetch(`${BACKUP_TUNNEL_URL}/api/state`, { signal: AbortSignal.timeout(3000) }).catch(() => {});
     const candidates = await scanPerpUniverse(state);
     await manageOpenPosition(state, candidates);
     await tryOpenPosition(state, candidates);
