@@ -1705,7 +1705,9 @@ async function scanPerpUniverse(state) {
       anatomy.posIn4BarRange <= 0.14 &&
       volRatio15m < 1.55;
     const isQ4CapitulationExhaustedShort =
-      change1hPct <= -2.20 && oiQuadrant.startsWith('Q4');
+      oiQuadrant.startsWith('Q4') &&
+      (change1hPct <= -2.20 ||
+        (item.change24hPct <= -8.5 && whaleRetailSpread >= 3.0 && mtfSqueeze.squeezeBearishPts === 0));
     const isMacroUpPullbackBottomShort =
       change1hPct <= -2.10 &&
       item.change24hPct >= 4.5 &&
