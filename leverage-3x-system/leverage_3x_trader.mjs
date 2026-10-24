@@ -21,6 +21,7 @@ const LEVERAGE = 3; // Base Low-Wick Institutional Leverage (300 TL -> 3x = 900 
 const MAX_CONVICTION_LEVERAGE = 4;
 const INITIAL_BANKROLL_TRY = 300.0;
 const INITIAL_BANKROLL_USDT = Number((INITIAL_BANKROLL_TRY / USD_TRY_RATE).toFixed(4)); // ~6.0545 USDT
+const TARGET_GOAL_TRY = 23000.0; // User's Ultimate Wealth Goal (23.000 TL)
 const MIN_NOTIONAL_USDT = 5.0; // Binance Futures hard minimum notional floor
 const ROUND_TRIP_FEE_SLIP_FRAC = 0.0018; // 0.05% taker entry + 0.05% taker exit + 0.08% perp slippage on notional
 const DASHBOARD_PORT = 3848;
@@ -141,21 +142,72 @@ function sendGmailSmtp({ fromEmail, appPassword, toEmail, subject, textBody }) {
   });
 }
 
+function getGoalAndTierStatus(state, spotSummary = null) {
+  const spotVaultTry = toTL(state.spotVaultUsdt || 0);
+  const openEquityUsdt = state.openPosition
+    ? state.openPosition.marginUsdt + (state.openPosition.unrealizedPnlUsdt || 0)
+    : 0;
+  const activePerpTry = toTL((state.marginCashUsdt || 0) + openEquityUsdt);
+  const spotBotTry = spotSummary ? Number(spotSummary.totalEquityTry || 0) : 985.81;
+  const combinedTry = Number((activePerpTry + spotVaultTry + spotBotTry).toFixed(2));
+  const perpPlusVaultTry = Number((activePerpTry + spotVaultTry).toFixed(2));
+  const progressPct = Number(Math.min(100, (combinedTry / TARGET_GOAL_TRY) * 100).toFixed(2));
+  const remainingTry = Number(Math.max(0, TARGET_GOAL_TRY - combinedTry).toFixed(2));
+
+  // Step-Stone House-Money Compounding Tiers (Zero extra out-of-pocket principal risk; scales ONLY from locked Spot Vault profits!)
+  let activeCapTry = 300.0;
+  let tierLabel = 'Kademe 1/5 (300 TL Sabit Ana Para -> Hedef: +300 TL Spot Kârı İle 500 TL Kademesine Terfi)';
+  let nextMilestoneTry = 300.0;
+  if (spotVaultTry >= 6000) {
+    activeCapTry = 4000.0;
+    tierLabel = 'Kademe 5/5 (4.000 TL Kurumsal Tavan -> 23.000 TL Final Hedef Koşusu)';
+    nextMilestoneTry = 23000.0;
+  } else if (spotVaultTry >= 2500) {
+    activeCapTry = 2200.0;
+    tierLabel = 'Kademe 4/5 (2.200 TL Kâr-Destekli Ana Para -> Sonraki Terfi: +6.000 TL Spot Kârı)';
+    nextMilestoneTry = 6000.0;
+  } else if (spotVaultTry >= 900) {
+    activeCapTry = 1000.0;
+    tierLabel = 'Kademe 3/5 (1.000 TL Kâr-Destekli Ana Para -> Sonraki Terfi: +2.500 TL Spot Kârı)';
+    nextMilestoneTry = 2500.0;
+  } else if (spotVaultTry >= 300) {
+    activeCapTry = 500.0;
+    tierLabel = 'Kademe 2/5 (500 TL Kâr-Destekli Ana Para -> Sonraki Terfi: +900 TL Spot Kârı)';
+    nextMilestoneTry = 900.0;
+  }
+  const activeCapUsdt = Number((activeCapTry / USD_TRY_RATE).toFixed(4));
+  return {
+    targetGoalTry: TARGET_GOAL_TRY,
+    combinedTry,
+    perpPlusVaultTry,
+    spotVaultTry,
+    activePerpTry,
+    progressPct,
+    remainingTry,
+    activeCapTry,
+    activeCapUsdt,
+    tierLabel,
+    nextMilestoneTry,
+  };
+}
+
 function sweepProfitToSpotVault(state, stepGainUsdt, symbol, reasonLabel) {
   state.spotVaultUsdt = Number((state.spotVaultUsdt || 0).toFixed(4));
   state.spotTransfers = state.spotTransfers || [];
 
+  const goalInfo = getGoalAndTierStatus(state);
+  const capUsdt = goalInfo.activeCapUsdt; // 6.0545 USDT (300 TL) at Tier 1, scales up ONLY with locked Spot Vault profits!
   const openMarginUsdt = state.openPosition ? Number(state.openPosition.marginUsdt || 0) : 0;
   const currentPrincipalUsdt = Number((state.marginCashUsdt + openMarginUsdt).toFixed(4));
 
-  // Rule 1: 100% of any balance above 100.00 TL (INITIAL_BANKROLL_USDT = 2.0182) is ALWAYS swept to Spot Wallet
-  const excessAbove100Usdt = Math.max(0, Number((currentPrincipalUsdt - INITIAL_BANKROLL_USDT).toFixed(4)));
-  // Rule 2: Even when below 100 TL, 50% of every positive profit is immediately swept to Spot Wallet (keeping >= $1.35 USDT MIN_NOTIONAL safety floor)
+  // Rule 1: 100% of any balance above activeCapTry (300.00 TL) is ALWAYS swept to Spot Wallet
+  const excessAboveCapUsdt = Math.max(0, Number((currentPrincipalUsdt - capUsdt).toFixed(4)));
+  // Rule 2: Even when below activeCapTry (300 TL), 50% of every positive profit is immediately swept to Spot Wallet (keeping >= $2.20 USDT safety floor for 3x MIN_NOTIONAL)
   const halfStepProfitUsdt = stepGainUsdt > 0 ? Number((stepGainUsdt * 0.50).toFixed(4)) : 0;
 
-  let sweepUsdt = Math.max(excessAbove100Usdt, halfStepProfitUsdt);
-  if (currentPrincipalUsdt <= INITIAL_BANKROLL_USDT && currentPrincipalUsdt - sweepUsdt < 1.35) {
-    sweepUsdt = Math.max(0, Number((currentPrincipalUsdt - 1.35).toFixed(4)));
+  let sweepUsdt = Math.max(excessAboveCapUsdt, halfStepProfitUsdt);
+  if (currentPrincipalUsdt <= capUsdt && currentPrincipalUsdt - sweepUsdt < 2.20) {
+    sweepUsdt = Math.max(0, Number((currentPrincipalUsdt - 2.20).toFixed(4)));
   }
   sweepUsdt = Math.min(sweepUsdt, state.marginCashUsdt);
   sweepUsdt = Number(sweepUsdt.toFixed(4));
@@ -182,7 +234,7 @@ function sweepProfitToSpotVault(state, stepGainUsdt, symbol, reasonLabel) {
 
   logEvent(
     state,
-    `🏦 [SPOT CÜZDANA KÂR TRANSFERİ] ${symbol} işleminden +${sweptTry} TL kâr Spot Cüzdana aktarıldı! (Toplam Spot Kâr Kasası: +${totalSpotVaultTry} TL | Aktif Kaldıraç Kasası Max 100 TL Korumasında)`
+    `🏦 [SPOT CÜZDANA KÂR TRANSFERİ] ${symbol} işleminden +${sweptTry} TL kâr Spot Cüzdana aktarıldı! (Toplam Spot Kâr Kasası: +${totalSpotVaultTry} TL | Aktif Kaldıraç Tavanı: ${goalInfo.activeCapTry} TL | 🎯 23.000 TL Hedef: %${goalInfo.progressPct})`
   );
 
   return { sweptUsdt: sweepUsdt, sweptTry, totalSpotVaultTry };
@@ -201,17 +253,20 @@ async function sendProfitNotification(state, info) {
   );
   const spotTransferTry = Number(info.spotTransferTry || 0);
   const totalSpotVaultTry = toTL(state.spotVaultUsdt || 0);
+  const goalInfo = getGoalAndTierStatus(state, loadSpotPortfolioSummary());
 
-  const subject = `💰 [KÂR & SPOT TRANSFER] ${info.symbol} (${info.leverage}x ${info.side}) -> +${info.netPnlTry} TL Kazandın (+${spotTransferTry} TL Spot Cüzdana Atıldı!)`;
+  const subject = `💰 [KÂR & 23.000 TL HEDEF RAPORU] ${info.symbol} (${info.leverage}x ${info.side}) -> +${info.netPnlTry} TL Kazandın (+${spotTransferTry} TL Spot'a Atıldı!)`;
   const textBody = [
-    `⚡ YIRTICI KALDIRAÇ SİSTEMİ — CANLI KÂR & SPOT CÜZDAN BİLDİRİMİ (${ts})`,
+    `⚡ YIRTICI KALDIRAÇ SİSTEMİ — CANLI KÂR & 23.000 TL HEDEF BİLDİRİMİ (${ts})`,
     `==========================================================`,
     `🪙 Kazandıran Coin          : ${info.symbol} (${info.leverage}x ${info.side})`,
     `🏆 İşlem Türü               : ${info.type}`,
     `💵 Net İşlem Kazancı        : +${info.netPnlTry} TL (Kasa ROE: +%${info.roePct})`,
     `🏦 Spot Cüzdana Aktarılan   : +${spotTransferTry} TL (Toplam Spot Kâr Kasası: +${totalSpotVaultTry} TL)`,
     `📈 Fiyat Hareketi           : $${info.entryPrice} -> $${info.exitPrice}`,
-    `⚡ Aktif Kaldıraç Kasası    : ${equityAfterTry} TL (Max 100.00 TL Sabit Ana Para Kuralı)`,
+    `⚡ Aktif Kaldıraç Kasası    : ${equityAfterTry} TL (Tavan: ${goalInfo.activeCapTry} TL Sabit Ana Para)`,
+    `🎯 23.000 TL Büyük Hedef    : ${goalInfo.combinedTry} TL / 23.000 TL (%${goalInfo.progressPct} Tamamlandı | Kalan: ${goalInfo.remainingTry} TL)`,
+    `🪜 Aktif Büyüme Basamağı    : ${goalInfo.tierLabel}`,
     `🧠 Strateji / Tez           : ${info.thesis || '-'}`,
     `==========================================================`,
     `📱 Canlı Panel: http://${getLocalLanIp()}:${DASHBOARD_PORT}`,
@@ -239,8 +294,9 @@ async function sendProfitNotification(state, info) {
         Islem_Turu: info.type,
         Net_Kazanc: `+${info.netPnlTry} TL (ROE +%${info.roePct})`,
         Spot_Cuzdana_Atilan: `+${spotTransferTry} TL (Toplam Spot Kâr Kasası: +${totalSpotVaultTry} TL)`,
+        Hedef_23000_TL_Durumu: `${goalInfo.combinedTry} TL / 23.000 TL (%${goalInfo.progressPct} Tamamlandı | Kalan: ${goalInfo.remainingTry} TL)`,
         Fiyat_Hareketi: `$${info.entryPrice} -> $${info.exitPrice}`,
-        Aktif_Kaldirac_Kasasi: `${equityAfterTry} TL (Max 100 TL Sabit Ana Para)`,
+        Aktif_Kaldirac_Kasasi: `${equityAfterTry} TL (Max ${goalInfo.activeCapTry} TL Ana Para)`,
         Strateji_Tezi: info.thesis || '-',
       }),
       signal: AbortSignal.timeout(10000),
@@ -2095,18 +2151,27 @@ function updateAccountingAndReport(state) {
           )
           .join('\n') + '\n';
 
-  const md = `# ⚡ 300 TL SABİT ANA PARA (3x–4x ANTİ-İĞNE KALDIRAÇ) + SPOT CÜZDAN KÂR SİFONU (Mutlak Yapı v8.5)
+  const goalInfo = getGoalAndTierStatus(state, loadSpotPortfolioSummary());
+  const md = `# ⚡ 300 TL SABİT ANA PARA (3x–4x ANTİ-İĞNE KALDIRAÇ) + 23.000 TL HEDEF & SPOT KÂR SİFONU (Mutlak Yapı v8.6)
 
 **Son Güncelleme:** ${new Date().toLocaleString('tr-TR')}  
 **PC Paneli:** \`http://localhost:${DASHBOARD_PORT}\` | **📱 Telefon Wi-Fi Linki:** \`http://${lanIp}:${DASHBOARD_PORT}\`  
-**Çalışma Modu:** \`${state.mode}\` *(Sadece Max 300 TL İle Oynar + 3x/3.5x/4x Anti-İğne Kaldıraç + Kazanılan Kârları Otomatik Spot Cüzdana Atar)*
+**Çalışma Modu:** \`${state.mode}\` *(Sadece Max ${goalInfo.activeCapTry} TL İle Oynar + 3x/3.5x/4x Anti-İğne Kaldıraç + Kazanılan Kârları Otomatik Spot Cüzdana Atar)*
+
+---
+
+## 🎯 23.000,00 TL BÜYÜK HEDEF & KENDİ KÂRIYLA KADEMELİ BÜYÜME YOL HARİTASI
+
+* **🎯 Nihai Servet Hedefi:** **\`23.000,00 TL\`**
+* **🏛️ Mevcut Toplam Varlık (Spot + Vadeli + Kâr Kasası):** **\`${goalInfo.combinedTry} TL / 23.000,00 TL\` (\`%${goalInfo.progressPct} Tamamlandı\` | Kalan: \`${goalInfo.remainingTry} TL\`)**
+* **🪜 Aktif Büyüme Basamağı:** **\`${goalInfo.tierLabel}\`** *(Cebinden ekstra 1 TL çıkmadan, yalnızca Spot Kâr Kasasında biriken dokunulmaz kârla kademe atlar!)*
 
 ---
 
 ## 1. 300 TL SABİT KALDIRAÇ KASASI & SPOT CÜZDANA AKTARILAN KÂR DURUMU
 
-* **Kaldıraç Sabit Tavanı (Max Ana Para):** \`${toTL(state.initialBankrollUsdt)} TL\` (\`$${state.initialBankrollUsdt} USDT\`)
-* **Aktif Kaldıraç Kasası (Max 300 TL):** **\`${toTL(state.totalEquityUsdt)} TL\`** *(3x–4x İşlem Gücü: \`${toTL(state.totalEquityUsdt * activeLev)} TL\` - \`${toTL(state.totalEquityUsdt * MAX_CONVICTION_LEVERAGE)} TL\`)*
+* **Kaldıraç Sabit Tavanı (Max Ana Para):** \`${goalInfo.activeCapTry} TL\` (\`$${goalInfo.activeCapUsdt} USDT\`)
+* **Aktif Kaldıraç Kasası (Max ${goalInfo.activeCapTry} TL):** **\`${toTL(state.totalEquityUsdt)} TL\`** *(3x–4x İşlem Gücü: \`${toTL(state.totalEquityUsdt * activeLev)} TL\` - \`${toTL(state.totalEquityUsdt * MAX_CONVICTION_LEVERAGE)} TL\`)*
 * **🏦 Spot Cüzdana Atılan Dokunulmaz Kâr Kasası:** **\`+${toTL(state.spotVaultUsdt)} TL\`** *(Kaldıraç stopları bu kasaya asla dokunamaz!)*
 * **Toplam Net Kâr / Zarar:** **\`${state.totalPnlUsdt >= 0 ? '+' : ''}${toTL(state.totalPnlUsdt)} TL\` (\`${state.totalPnlPct >= 0 ? '+' : ''}%${state.totalPnlPct}\`)**
 * **Başarılı İşlem / Stop:** \`${state.winCount} Kazanç / ${state.lossCount} Stop\`
@@ -2225,9 +2290,8 @@ function startDashboardServer(state) {
     const rawPass = (cfg.GMAIL_APP_PASSWORD || '').replace(/\s+/g, '');
     const emailConfigured = Boolean((rawPass && !rawPass.includes('@')) || cfg.COMPOSIO_API_KEY);
     const spotVaultTry = toTL(state.spotVaultUsdt || 0);
-    const combinedEquityTry = Number(
-      (toTL(state.totalEquityUsdt) + spotVaultTry + (spot ? spot.totalEquityTry : 0)).toFixed(2)
-    );
+    const goalInfo = getGoalAndTierStatus(state, spot);
+    const combinedEquityTry = goalInfo.combinedTry;
     const mobileUrl = `http://${lanIp}:${DASHBOARD_PORT}`;
     const activeLev = pos?.leverage || state.leverage || LEVERAGE;
 
@@ -2239,7 +2303,7 @@ function startDashboardServer(state) {
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#080c14" />
   <meta http-equiv="refresh" content="6" />
-  <title>⚡ Mobil Komuta Merkezi (300 TL Anti-İğne Kaldıraç + Otomatik Spot Kâr Kasası)</title>
+  <title>⚡ Mobil Komuta Merkezi (300 TL Anti-İğne Kaldıraç + 23.000 TL Hedef)</title>
   <style>
     * { box-sizing:border-box; }
     body { background:#080c14; color:#f1f5f9; font-family:system-ui,-apple-system,sans-serif; margin:0; padding:14px; max-width:1100px; margin-inline:auto; }
@@ -2260,22 +2324,45 @@ function startDashboardServer(state) {
     .badge { padding:3px 7px; border-radius:6px; font-weight:700; font-size:11px; display:inline-block; }
     .long { background:#064e3b; color:#34d399; } .short { background:#7f1d1d; color:#fca5a5; }
     .pos-box { background:#131c31; border:1px solid #2dd4bf44; border-radius:12px; padding:12px; margin-bottom:10px; }
+    .goal-card { background:linear-gradient(135deg,#0f172a 0%,#131c31 100%); border:1px solid #f59e0b66; border-radius:16px; padding:14px 16px; margin-bottom:14px; }
+    .prog-bg { width:100%; height:12px; background:#1e293b; border-radius:999px; overflow:hidden; margin:8px 0 6px 0; border:1px solid #334155; }
+    .prog-fill { height:100%; background:linear-gradient(90deg,#10b981,#38bdf8,#f59e0b); border-radius:999px; transition:width 0.4s ease; }
   </style>
 </head>
 <body>
   <div class="topbar">
     <div>
-      <div class="title">⚡ Yırtıcı Konsey v8.5 — 300 TL Anti-İğne Kaldıraç (3x–4x) + Otomatik Spot Kâr Kasası</div>
-      <div class="sub">Kaldıraçta Max 300 TL İle Oynar (900-1.200 TL Güç) + Kârları Otomatik Spot Cüzdana Atar + Doğrudan Mail/WhatsApp</div>
+      <div class="title">⚡ Yırtıcı Konsey v8.6 — 300 TL Anti-İğne Kaldıraç (3x–4x) + 🎯 23.000 TL Servet Hedefi</div>
+      <div class="sub">Kaldıraçta Max ${goalInfo.activeCapTry} TL İle Oynar + Kârları Otomatik Spot Cüzdana Atar + GPT-6-Luna Mikro-Fiyat Kalkanı</div>
     </div>
     <div class="pill">📱 Telefon Wi-Fi: ${mobileUrl}</div>
   </div>
 
+  <div class="goal-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+      <div>
+        <span style="font-size:14px;font-weight:800;color:#f59e0b;">🎯 BÜYÜK SERVET HEDEFİ: 23.000,00 TL</span>
+        <span style="font-size:12px;color:#cbd5e1;margin-left:8px;">(${goalInfo.tierLabel})</span>
+      </div>
+      <div style="font-family:monospace;font-size:15px;font-weight:800;color:#10b981;">
+        ${combinedEquityTry} TL / 23.000,00 TL (%${goalInfo.progressPct})
+      </div>
+    </div>
+    <div class="prog-bg">
+      <div class="prog-fill" style="width:${Math.max(3, goalInfo.progressPct)}%;"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:11.5px;color:#94a3b8;flex-wrap:wrap;gap:6px;">
+      <span>🏦 Dokunulmaz Spot Kâr Kasası: <b class="green">+${spotVaultTry} TL</b></span>
+      <span>🪜 Sonraki Terfi Basamağı: <b>+${goalInfo.nextMilestoneTry} TL Spot Kârı</b></span>
+      <span>🏁 Hedefe Kalan: <b class="amber">${goalInfo.remainingTry} TL</b></span>
+    </div>
+  </div>
+
   <div class="grid">
     <div class="card">
-      <div class="lbl">⚡ Kaldıraç Kasası (Max 300 TL)</div>
+      <div class="lbl">⚡ Kaldıraç Kasası (Max ${goalInfo.activeCapTry} TL)</div>
       <div class="val ${state.totalPnlUsdt >= 0 ? 'green' : 'red'}">${toTL(state.totalEquityUsdt)} TL</div>
-      <div class="sub">Tavan: 300.00 TL (3x-4x Güç: ${toTL(state.totalEquityUsdt * activeLev)}-${toTL(state.totalEquityUsdt * MAX_CONVICTION_LEVERAGE)} TL)</div>
+      <div class="sub">Tavan: ${goalInfo.activeCapTry} TL (3x-4x Güç: ${toTL(state.totalEquityUsdt * activeLev)}-${toTL(state.totalEquityUsdt * MAX_CONVICTION_LEVERAGE)} TL)</div>
     </div>
     <div class="card" style="border-color:#10b98166;">
       <div class="lbl">🏦 Spot'a Atılan Kâr Kasası</div>
