@@ -177,6 +177,10 @@ function getGoalAndTierStatus(state) {
     tierLabel = 'Kademe 2/5 (500 TL Kâr-Destekli Ana Para -> Sonraki Terfi: +900 TL Spot Kârı)';
     nextMilestoneTry = 900.0;
   }
+  const injectedSpotTry = toTL(state.injectedSpotMarginUsdt || 0);
+  if (injectedSpotTry > 0) {
+    activeCapTry = Number((activeCapTry + injectedSpotTry).toFixed(2));
+  }
   const activeCapUsdt = Number((activeCapTry / USD_TRY_RATE).toFixed(4));
   return {
     targetGoalTry: TARGET_GOAL_TRY,
@@ -1974,59 +1978,77 @@ async function manageOpenPosition(state, candidates = []) {
   pos.underlyingMovePct = underlyingMovePct;
   const posLev = pos.leverage || LEVERAGE;
 
-  // Stage 2 (v8.4 Asymmetric Runner + Zero-Choke): Harvest 35% at +1.25% Coin Move, keep 65% Runner with 0.90% breathing room (+0.35% stop lock)
+  // Stage 2 (v8.4 Asymmetric Runner + Zero-Choke + MIN_NOTIONAL Full-Lock Guard):
+  // If remaining 65% runner is >= MIN_NOTIONAL_USDT ($5.00), harvest 35% at +1.25% Coin Move and keep 65% Runner (+0.35% stop lock).
+  // If position notional is ~300 TL ($6.05 USDT, e.g. 100 TL x 3x), splitting 35%/65% would leave $3.93 (< $5.00 MIN_NOTIONAL); lock 100% full position stop at +0.55% instead!
   if (!pos.tp1Done && rawCoinMoveFrac >= 0.0125) {
-    const harvestFrac = 0.35;
-    const closedMarginUsdt = Number((pos.marginUsdt * harvestFrac).toFixed(4));
-    const closedNotionalUsdt = Number((pos.notionalUsdt * harvestFrac).toFixed(4));
-    const partialNetPnlUsdt = Number((closedNotionalUsdt * netCoinMoveFrac).toFixed(4));
-    const partialNetPnlTry = toTL(partialNetPnlUsdt);
-    const partialRoePct = Number(((partialNetPnlUsdt / closedMarginUsdt) * 100).toFixed(2));
-
-    state.marginCashUsdt = Number((state.marginCashUsdt + closedMarginUsdt + partialNetPnlUsdt).toFixed(4));
-    state.realizedPnlUsdt = Number((state.realizedPnlUsdt + partialNetPnlUsdt).toFixed(4));
-
-    pos.marginUsdt = Number((pos.marginUsdt - closedMarginUsdt).toFixed(4));
-    pos.notionalUsdt = Number((pos.notionalUsdt - closedNotionalUsdt).toFixed(4));
-    pos.marginTry = toTL(pos.marginUsdt);
-    pos.notionalTry = toTL(pos.notionalUsdt);
-    pos.realizedPartialUsdt = Number(((pos.realizedPartialUsdt || 0) + partialNetPnlUsdt).toFixed(4));
-    pos.tp1Done = true;
-    pos.ratchetStage = 'TP1_HARVESTED_RUNNER';
-
-    if (pos.side === 'LONG') {
-      const lockTp1 = Number((pos.entryPrice * (1 + 0.0035)).toPrecision(6));
-      if (lockTp1 > pos.stopPrice) pos.stopPrice = lockTp1;
+    if (pos.notionalUsdt * 0.65 < MIN_NOTIONAL_USDT) {
+      pos.tp1Done = true;
+      pos.ratchetStage = 'TP1_FULL_STOP_LOCK_MIN_NOTIONAL';
+      if (pos.side === 'LONG') {
+        const lockFull = Number((pos.entryPrice * (1 + 0.0055)).toPrecision(6));
+        if (lockFull > pos.stopPrice) pos.stopPrice = lockFull;
+      } else {
+        const lockFull = Number((pos.entryPrice * (1 - 0.0055)).toPrecision(6));
+        if (lockFull < pos.stopPrice) pos.stopPrice = lockFull;
+      }
+      logEvent(
+        state,
+        `🔒 [TP1 %100 TAM GÖVDE KÂR KİLİDİ (MIN_NOTIONAL KORUMASI)] ${pos.symbol}USDT (${posLev}x ${pos.side}) +%${underlyingMovePct} yürüyüşte ${pos.marginTry} TL (${pos.notionalTry} TL Hacim) bölünmeden %100 Ana Gövde Stopu +%0.55 Net Kâra Kilitlendi!`
+      );
     } else {
-      const lockTp1 = Number((pos.entryPrice * (1 - 0.0035)).toPrecision(6));
-      if (lockTp1 < pos.stopPrice) pos.stopPrice = lockTp1;
+      const harvestFrac = 0.35;
+      const closedMarginUsdt = Number((pos.marginUsdt * harvestFrac).toFixed(4));
+      const closedNotionalUsdt = Number((pos.notionalUsdt * harvestFrac).toFixed(4));
+      const partialNetPnlUsdt = Number((closedNotionalUsdt * netCoinMoveFrac).toFixed(4));
+      const partialNetPnlTry = toTL(partialNetPnlUsdt);
+      const partialRoePct = Number(((partialNetPnlUsdt / closedMarginUsdt) * 100).toFixed(2));
+
+      state.marginCashUsdt = Number((state.marginCashUsdt + closedMarginUsdt + partialNetPnlUsdt).toFixed(4));
+      state.realizedPnlUsdt = Number((state.realizedPnlUsdt + partialNetPnlUsdt).toFixed(4));
+
+      pos.marginUsdt = Number((pos.marginUsdt - closedMarginUsdt).toFixed(4));
+      pos.notionalUsdt = Number((pos.notionalUsdt - closedNotionalUsdt).toFixed(4));
+      pos.marginTry = toTL(pos.marginUsdt);
+      pos.notionalTry = toTL(pos.notionalUsdt);
+      pos.realizedPartialUsdt = Number(((pos.realizedPartialUsdt || 0) + partialNetPnlUsdt).toFixed(4));
+      pos.tp1Done = true;
+      pos.ratchetStage = 'TP1_HARVESTED_RUNNER';
+
+      if (pos.side === 'LONG') {
+        const lockTp1 = Number((pos.entryPrice * (1 + 0.0035)).toPrecision(6));
+        if (lockTp1 > pos.stopPrice) pos.stopPrice = lockTp1;
+      } else {
+        const lockTp1 = Number((pos.entryPrice * (1 - 0.0035)).toPrecision(6));
+        if (lockTp1 < pos.stopPrice) pos.stopPrice = lockTp1;
+      }
+
+      logEvent(
+        state,
+        `💰 [TP1 %35 KÂR CEBELLEZİ] ${pos.symbol}USDT (${posLev}x ${pos.side}) +%${underlyingMovePct} yürüyüşte %35 nakde çevrildi (+${partialNetPnlTry} TL cebe indi!) | Kalan %65 Ana Gövde Runner Stopu +%0.35 Kâra Kilitlendi (0.90% Nefes Payı)!`
+      );
+
+      const tp1Sweep = sweepProfitToSpotVault(
+        state,
+        partialNetPnlUsdt,
+        `${pos.symbol}USDT`,
+        'TP1 %35 KÂR CEBELLEZİ -> Spot Cüzdana Kâr Transferi'
+      );
+      pos.sweptAtTp1Try = tp1Sweep.sweptTry;
+
+      await sendProfitNotification(state, {
+        symbol: `${pos.symbol}USDT`,
+        side: pos.side,
+        leverage: posLev,
+        type: 'TP1 %35 KÂR CEBELLEZİ (%65 Runner Devam Ediyor)',
+        netPnlTry: partialNetPnlTry,
+        spotTransferTry: tp1Sweep.sweptTry,
+        roePct: partialRoePct,
+        entryPrice: pos.entryPrice,
+        exitPrice: markExitPrice,
+        thesis: pos.thesis,
+      });
     }
-
-    logEvent(
-      state,
-      `💰 [TP1 %35 KÂR CEBELLEZİ] ${pos.symbol}USDT (${posLev}x ${pos.side}) +%${underlyingMovePct} yürüyüşte %35 nakde çevrildi (+${partialNetPnlTry} TL cebe indi!) | Kalan %65 Ana Gövde Runner Stopu +%0.35 Kâra Kilitlendi (0.90% Nefes Payı)!`
-    );
-
-    const tp1Sweep = sweepProfitToSpotVault(
-      state,
-      partialNetPnlUsdt,
-      `${pos.symbol}USDT`,
-      'TP1 %35 KÂR CEBELLEZİ -> Spot Cüzdana Kâr Transferi'
-    );
-    pos.sweptAtTp1Try = tp1Sweep.sweptTry;
-
-    await sendProfitNotification(state, {
-      symbol: `${pos.symbol}USDT`,
-      side: pos.side,
-      leverage: posLev,
-      type: 'TP1 %35 KÂR CEBELLEZİ (%65 Runner Devam Ediyor)',
-      netPnlTry: partialNetPnlTry,
-      spotTransferTry: tp1Sweep.sweptTry,
-      roePct: partialRoePct,
-      entryPrice: pos.entryPrice,
-      exitPrice: markExitPrice,
-      thesis: pos.thesis,
-    });
   }
 
   // Stage 1 / Stage 3 (v8.4 Wide-Breathing Ratchet): Prevents premature +2.39 TL choke so 65% Runner catches +10 TL to +25 TL waves
