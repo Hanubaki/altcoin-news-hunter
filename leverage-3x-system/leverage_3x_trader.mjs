@@ -240,8 +240,14 @@ function runTwoHourSelfAudit(state, forceLog = false) {
       } else if (t.symbol === 'KAT' && t.side === 'SHORT') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
-          rootCause: '1s %-3.8 Düşüş + Q4 Long Kapitülasyonu Sonrası Yeni 15dk Mumunun İlk Dakikasında (CLV:0.98) GCR Mania Bypass İle Geç SHORT Girişi',
-          fixApplied: 'Motor #43B: Q4 Kapitülasyon & Baby-Candle (effectiveClv >= 0.68) SHORT Vetosu (GCR Mania Sadece Yapı Üst Yarısında Aktif)',
+          rootCause: 'Q4 Long Kapitülasyonu + Negatif Basis (-%0.40) + 24s +%9.55 Yükselişteki Coine 43dk Sonra 2. Kez SHORT Girişi',
+          fixApplied: 'Motor #46 & #47: 2-Stop Toksik Coin 12 Saat Karantinası + Q4 Kapitülasyon/Negatif-Basis/Yatay-MTF SHORT Vetosu',
+        });
+      } else if (t.symbol === 'SOPH' && Math.abs(pnl) > 2.0) {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: '24s -%9/-%23.6 Çöküş + Negatif Basis (-%0.31) + Negatif CVD (-%6) + Spoofed Tahtaya Surge Reset İle 3 Kez Üst Üste LONG Girişi',
+          fixApplied: 'Motor #46 & #47: Spoofed Tahtada Surge Reset Kilidi + Toksik Coin 12 Saat Karantinası + CVD>=0 & Basis-Dump (-%0.22/-%6) LONG Vetosu',
         });
       } else if (t.symbol === 'SOPH' || isProfitLockScratch) {
         diagnosedMistakes.push({
@@ -261,6 +267,29 @@ function runTwoHourSelfAudit(state, forceLog = false) {
           rootCause: 'Kısa Vadeli Likidite Silkelemesi / Volatilite Genişlemesi',
           fixApplied: 'Motor #42 & #45: Ters-Volatilite Kaldıraç Sınırı (Max %4.8 ROE Risk) + Yan Bazlı Adaptif Skor Barajı',
         });
+      }
+    }
+  }
+
+  // Engine #46 (GPT-6-Luna Toxic-Symbol Quarantine):
+  // Count consecutive losses per symbol from closedTrades; if a symbol has >= 2 consecutive losses (e.g. SOPH, KAT), enforce 12-hour quarantine
+  if (!state.symbolCooldowns) state.symbolCooldowns = {};
+  if (!state.symbolConsecStops) state.symbolConsecStops = {};
+  const seenSymbols = new Set();
+  for (const t of closed) {
+    if (!t.symbol || seenSymbols.has(t.symbol)) continue;
+    seenSymbols.add(t.symbol);
+    let consec = 0;
+    for (const row of closed) {
+      if (row.symbol !== t.symbol) continue;
+      if (Number(row.netPnlTry || 0) < 0) consec += 1;
+      else break;
+    }
+    state.symbolConsecStops[t.symbol] = consec;
+    if (consec >= 2) {
+      const minQuarantineUntil = nowMs + 6 * 60 * 60 * 1000;
+      if ((state.symbolCooldowns[t.symbol] || 0) < minQuarantineUntil) {
+        state.symbolCooldowns[t.symbol] = minQuarantineUntil;
       }
     }
   }
@@ -1696,9 +1725,9 @@ async function scanPerpUniverse(state) {
         volRatio15m < 1.55) ||
         (item.change24hPct >= 18.0 && (volRatio15m < 1.35 || mtfSqueeze.mtfBullishPts === 0)));
 
-    // Engine #43 (GPT-6-Luna Anti-Bottom-Chase, Q4 Capitulation & Macro-Uptrend Pullback Short Shield):
-    // Prevents shorting the exact local capitulation bottom after a heavy 1h drop (e.g. DOSUSDT #2 @ $0.2597 & KATUSDT @ $0.004456:
-    // 1h <= -2.1%, 24h >= +4.5% macro uptrend or Q4 Long Capitulation -> immediate mean-reversion bounce!).
+    // Engine #43 + #47 (GPT-6-Luna Anti-Bottom-Chase, Q4 De-Leveraging & Macro-Uptrend Pullback Short Shield):
+    // VetoShort_Q4 = (Q4 OI) && (R24h >= 3.0% || basis <= -0.15% || MTF != bearish || R1h <= -2.20%)
+    // Prevents shorting KATUSDT #1 & #2 (Q4 OI, 24h +9.55%, basis -0.405%, YATAY MTF) and DOSUSDT #2!
     const isBottomChase3RedShort =
       anatomy.red3Completed &&
       anatomy.drop4BarPct >= Math.max(0.95, atr15mPct * 1.45) &&
@@ -1707,7 +1736,10 @@ async function scanPerpUniverse(state) {
     const isQ4CapitulationExhaustedShort =
       oiQuadrant.startsWith('Q4') &&
       (change1hPct <= -2.20 ||
-        (item.change24hPct <= -8.5 && whaleRetailSpread >= 3.0 && mtfSqueeze.squeezeBearishPts === 0));
+        item.change24hPct >= 3.0 ||
+        item.basisPct <= -0.15 ||
+        mtfSqueeze.mtfBearishPts === 0 ||
+        (item.change24hPct <= -8.5 && whaleRetailSpread >= 3.0));
     const isMacroUpPullbackBottomShort =
       change1hPct <= -2.10 &&
       item.change24hPct >= 4.5 &&
@@ -1715,14 +1747,24 @@ async function scanPerpUniverse(state) {
     const isOverextendedMicroBottomShort =
       isBottomChase3RedShort || isQ4CapitulationExhaustedShort || isMacroUpPullbackBottomShort;
 
-    // Extreme Negative Basis Dump Trap Veto (e.g. ALTUSDT: basis <= -0.60% while 24h <= -5.0% means spot/unlock dumping, NOT a discount!)
-    const isBasisDumpTrapLong = item.basisPct <= -0.60 && item.change24hPct <= -5.0;
+    // Engine #37 + #47 (GPT-6-Luna Basis-Dump Trap & -8% Macro-Crash Long Gate):
+    // 1) basis <= -0.22% while 24h <= -6.0% means active spot/unlock dumping (SOPHUSDT -9.18%/-23.6% with -0.31% basis), NOT a discount!
+    // 2) If 24h <= -8.0%, only allow LONG when MTF is bullish AND OI is Q1 (or BNF Liquidation Bounce).
+    const isBasisDumpTrapLong =
+      (item.basisPct <= -0.22 && item.change24hPct <= -6.0) ||
+      (!isBnfLiquidationBounce &&
+        item.change24hPct <= -8.0 &&
+        !(mtfSqueeze.mtfBullishPts > 0 && oiQuadrant.startsWith('Q1')));
+
+    // Engine #47A: Directional 3-Bar CVD Sign Alignment (prevents SOPHUSDT #2 LONG entry on CVD -6.0%!)
+    const hasCvdAlignmentLong = isBnfLiquidationBounce || anatomy.normCvd3BarPct >= 0;
+    const hasCvdAlignmentShort = isGcrCrowdedManiaShort || anatomy.normCvd3BarPct <= 0;
 
     // Require active 15m volume participation (volRatio15m >= 0.72) and positive 1h momentum alignment (prevents BTWUSDT 1h:-0.41% & ALTUSDT 0.51x vol traps)
     const hasLongMomentumAndVol =
-      volRatio15m >= 0.72 && (isBnfLiquidationBounce || (change1hPct >= 0.15 && rsVsBtcAtr >= 0.05));
+      volRatio15m >= 0.72 && hasCvdAlignmentLong && (isBnfLiquidationBounce || (change1hPct >= 0.15 && rsVsBtcAtr >= 0.05));
     const hasShortMomentumAndVol =
-      volRatio15m >= 0.72 && (isGcrCrowdedManiaShort || (change1hPct <= -0.15 && rsVsBtcAtr <= -0.05));
+      volRatio15m >= 0.72 && hasCvdAlignmentShort && (isGcrCrowdedManiaShort || (change1hPct <= -0.15 && rsVsBtcAtr <= -0.05));
 
     // Engine #44A + #45: 5m Institutional Taker Floor & Bounded Adaptive Score Thresholds
     // Prevents SOPHUSDT-style LONG entry when 5m institutional takers are net selling (0.96x < 1.02x) despite lagging 15m takerBuyPct >= 51.5%
@@ -2150,9 +2192,25 @@ async function manageOpenPosition(state, candidates = []) {
       exitReason,
       closedAt: new Date().toLocaleString('tr-TR'),
     });
+    // Engine #46 (GPT-6-Luna Toxic-Symbol Quarantine):
+    // Win -> 90m cooldown & reset consecStops=0; 1st Stop -> 180m (3h) quarantine; >=2 Consecutive Stops -> 720m (12h) quarantine!
     if (!state.symbolCooldowns) state.symbolCooldowns = {};
-    const cdMins = totalLifecyclePnlUsdt >= 0 ? 25 : 35;
-    state.symbolCooldowns[pos.symbol] = Date.now() + cdMins * 60 * 1000;
+    if (!state.symbolConsecStops) state.symbolConsecStops = {};
+    if (totalLifecyclePnlUsdt >= 0) {
+      state.symbolConsecStops[pos.symbol] = 0;
+      const winExpiry = Date.now() + 90 * 60 * 1000;
+      state.symbolCooldowns[pos.symbol] = Math.max(state.symbolCooldowns[pos.symbol] || 0, winExpiry);
+    } else {
+      const sCount = (state.symbolConsecStops[pos.symbol] || 0) + 1;
+      state.symbolConsecStops[pos.symbol] = sCount;
+      const cdMins = sCount >= 2 ? 720 : 180;
+      const stopExpiry = Date.now() + cdMins * 60 * 1000;
+      state.symbolCooldowns[pos.symbol] = Math.max(state.symbolCooldowns[pos.symbol] || 0, stopExpiry);
+      logEvent(
+        state,
+        `🚫 [Motor #46 Toksik Sembol Karantinası] ${pos.symbol}USDT art arda ${sCount}. stop sonrası ${cdMins / 60} saat (${cdMins}dk) karantinaya alındı!`
+      );
+    }
     if (rotationTarget) {
       state.lastRotationAtMs = Date.now();
     }
@@ -2200,21 +2258,28 @@ async function tryOpenPosition(state, candidates) {
   if (!state.obVetoCooldowns) state.obVetoCooldowns = {};
   if (!state.obVetoStrikes) state.obVetoStrikes = {};
   if (!state.obVetoAtMs) state.obVetoAtMs = {};
+  if (!state.obVetoReasons) state.obVetoReasons = {};
   const obVetoCds = state.obVetoCooldowns;
 
-  // Engine #41 (GPT-6-Luna Institutional Surge Reset):
-  // If >= 90s have elapsed since an orderbook veto and fresh 15m volume + OI + Taker surge arrives, expire cooldown early to re-test live book
+  // Engine #41 + #46 (GPT-6-Luna Spoof-Proof Institutional Surge Reset):
+  // NEVER allow Surge Reset when obVetoStrikes >= 2 OR when the book failed due to SPOOF_WALL_DECAY / BOOK_HOLLOWING (prevents SOPHUSDT #3 spoof trap!)
   for (const c of candidates) {
     if (obVetoCds[c.symbol] && obVetoCds[c.symbol] > nowEntryMs) {
-      const elapsedSinceVetoMs = nowEntryMs - (state.obVetoAtMs[c.symbol] || 0);
-      const isLongSurge = c.side === 'LONG' && c.volRatio15m >= 1.25 && c.oiDelta1hPct >= 0.35 && c.instBuySellRatio >= 1.25;
-      const isShortSurge = c.side === 'SHORT' && c.volRatio15m >= 1.25 && c.oiDelta1hPct >= 0.35 && c.instBuySellRatio <= 0.80;
-      if (elapsedSinceVetoMs >= 90 * 1000 && (isLongSurge || isShortSurge)) {
-        delete obVetoCds[c.symbol];
-        logEvent(
-          state,
-          `⚡ [Engine #41 Kurumsal Surge Reset] ${c.symbol} (${c.side} | Vol:${c.volRatio15m}x | OI:+%${c.oiDelta1hPct} | Taker:${c.instBuySellRatio}x) tahta beklemesi erken sıfırlandı — canlı emir defteri yeniden test ediliyor!`
-        );
+      const strikes = state.obVetoStrikes[c.symbol] || 0;
+      const lastReason = String(state.obVetoReasons[c.symbol] || '');
+      const isSpoofOrHollow = lastReason.includes('SPOOF_WALL_DECAY') || lastReason.includes('BOOK_HOLLOWING');
+      const isQuarantined = symCds[c.symbol] && symCds[c.symbol] > nowEntryMs;
+      if (strikes < 2 && !isSpoofOrHollow && !isQuarantined) {
+        const elapsedSinceVetoMs = nowEntryMs - (state.obVetoAtMs[c.symbol] || 0);
+        const isLongSurge = c.side === 'LONG' && c.volRatio15m >= 1.25 && c.oiDelta1hPct >= 0.35 && c.instBuySellRatio >= 1.25;
+        const isShortSurge = c.side === 'SHORT' && c.volRatio15m >= 1.25 && c.oiDelta1hPct >= 0.35 && c.instBuySellRatio <= 0.80;
+        if (elapsedSinceVetoMs >= 90 * 1000 && (isLongSurge || isShortSurge)) {
+          delete obVetoCds[c.symbol];
+          logEvent(
+            state,
+            `⚡ [Engine #41 Kurumsal Surge Reset] ${c.symbol} (${c.side} | Vol:${c.volRatio15m}x | OI:+%${c.oiDelta1hPct} | Taker:${c.instBuySellRatio}x) tahta beklemesi erken sıfırlandı — canlı emir defteri yeniden test ediliyor!`
+          );
+        }
       }
     }
   }
@@ -2256,6 +2321,7 @@ async function tryOpenPosition(state, candidates) {
         cdMins = strikeCount === 1 ? 2.5 : strikeCount === 2 ? 8.0 : 15.0;
       }
       state.obVetoAtMs[cand.symbol] = Date.now();
+      state.obVetoReasons[cand.symbol] = obCheck.reason;
       state.obVetoCooldowns[cand.symbol] = Date.now() + cdMins * 60 * 1000;
       logEvent(
         state,
