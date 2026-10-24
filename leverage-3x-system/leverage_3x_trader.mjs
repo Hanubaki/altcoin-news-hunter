@@ -843,6 +843,7 @@ function analyzeCandleSmcAndCvd15m(klines) {
   }
 
   const parseBar = raw => {
+    const openTime = Number(raw[0] || 0);
     const open = Number(raw[1]);
     const high = Number(raw[2]);
     const low = Number(raw[3]);
@@ -861,7 +862,7 @@ function analyzeCandleSmcAndCvd15m(klines) {
     const lowerWickRatio = Number((lowerWick / range).toFixed(2));
     const isGreen = close >= open;
     return {
-      open, high, low, close, vol, takerBuyVol, delta, deltaPct,
+      openTime, open, high, low, close, vol, takerBuyVol, delta, deltaPct,
       range, body, upperWick, lowerWick, clv, bodyRatio, upperWickRatio, lowerWickRatio, isGreen,
     };
   };
@@ -873,9 +874,13 @@ function analyzeCandleSmcAndCvd15m(klines) {
   const b2 = bars[n - 3];
   const b3 = bars[n - 4];
 
-  // Wall #1: Unclosed Baby Candle Protection (b0 < 25% of completed 3-bar average volume)
+  // Wall #1 + Engine #55A (GPT-6-Luna Unclosed-Bar Contamination & Elapsed-Time Guard):
+  // High-volume hype coins hit 25% of 3-bar volume in 90 seconds, causing early intrabar wiggles to be misclassified as Shooting Star / Upper Wick Vetoes.
+  // Require both >=35% volume AND >=55% elapsed 15m bar time before treating b0 as non-baby, and >=70% elapsed time before b0 can form a Shooting Star / Wick Veto!
   const avgCompletedVol = (b1.vol + b2.vol + b3.vol) / 3 || 1;
-  const isBabyB0 = b0.vol < avgCompletedVol * 0.25;
+  const b0ElapsedFrac = b0.openTime > 0 ? Math.max(0.05, Math.min(1.0, (Date.now() - b0.openTime) / (15 * 60 * 1000))) : 0.5;
+  const isBabyB0 = b0.vol < avgCompletedVol * 0.35 || b0ElapsedFrac < 0.55;
+  const isMatureB0 = !isBabyB0 && b0ElapsedFrac >= 0.70;
   const effectiveClv = isBabyB0 ? b1.clv : b0.clv;
 
   const isHammerB1 =
@@ -886,7 +891,7 @@ function analyzeCandleSmcAndCvd15m(klines) {
     b1.low <= Math.min(b2.low, b3.low);
 
   const isHammerB0 =
-    !isBabyB0 &&
+    isMatureB0 &&
     b0.lowerWickRatio >= 0.48 &&
     b0.lowerWick >= b0.body * 1.9 &&
     b0.upperWickRatio <= 0.20 &&
@@ -927,11 +932,11 @@ function analyzeCandleSmcAndCvd15m(klines) {
     b1.high >= Math.max(b2.high, b3.high);
 
   const isShootingStarB0 =
-    !isBabyB0 &&
-    b0.upperWickRatio >= 0.48 &&
-    b0.upperWick >= b0.body * 1.9 &&
+    isMatureB0 &&
+    b0.upperWickRatio >= 0.50 &&
+    b0.upperWick >= b0.body * 2.0 &&
     b0.lowerWickRatio <= 0.20 &&
-    b0.clv <= 0.32 &&
+    b0.clv <= 0.30 &&
     b0.high >= Math.max(b1.high, b2.high);
 
   const isBearishEngulfing =
@@ -954,7 +959,7 @@ function analyzeCandleSmcAndCvd15m(klines) {
 
   const isBearishMarubozu =
     (!b1.isGreen && b1.bodyRatio >= 0.72 && b1.lowerWickRatio <= 0.15 && b1.clv <= 0.20) ||
-    (!isBabyB0 && !b0.isGreen && b0.bodyRatio >= 0.74 && b0.lowerWickRatio <= 0.14 && b0.clv <= 0.18);
+    (isMatureB0 && !b0.isGreen && b0.bodyRatio >= 0.74 && b0.lowerWickRatio <= 0.14 && b0.clv <= 0.18);
 
   const isThreeLowerHighs = isBabyB0
     ? b1.high < b2.high && b2.high < b3.high && !b1.isGreen && !b2.isGreen && b1.clv <= 0.40
@@ -1125,9 +1130,9 @@ function analyzeCandleSmcAndCvd15m(klines) {
     bearishPattern ||
       buySideSweep ||
       isFishingTrapLong ||
-      b0.upperWickRatio >= 0.48 ||
+      (isMatureB0 && b0.upperWickRatio >= 0.50 && b0.clv <= 0.38) ||
       (b1.upperWickRatio >= 0.48 && b1.clv <= 0.42 && effectiveClv < 0.65) ||
-      (!isBabyB0 && !b0.isGreen && b0.clv <= 0.30) ||
+      (isMatureB0 && !b0.isGreen && b0.clv <= 0.30) ||
       (isBabyB0 && !b1.isGreen && b1.clv <= 0.32) ||
       effectiveClv <= 0.28
   );
@@ -1135,9 +1140,9 @@ function analyzeCandleSmcAndCvd15m(klines) {
   const vetoShort = Boolean(
     bullishPattern ||
       sellSideSweep ||
-      (!isBabyB0 && b0.lowerWickRatio >= 0.48) ||
+      (isMatureB0 && b0.lowerWickRatio >= 0.50 && b0.clv >= 0.62) ||
       (b1.lowerWickRatio >= 0.50 && b1.clv >= 0.62 && effectiveClv > 0.35) ||
-      (!isBabyB0 && b0.isGreen && b0.clv >= 0.70) ||
+      (isMatureB0 && b0.isGreen && b0.clv >= 0.70) ||
       (isBabyB0 && b1.isGreen && b1.clv >= 0.65) ||
       effectiveClv >= 0.68
   );
@@ -1189,6 +1194,7 @@ function analyzeCandleSmcAndCvd15m(klines) {
     green3Completed,
     red3Completed,
     clv: effectiveClv,
+    b0ElapsedFrac,
     structuralLow: Math.min(b0.low, b1.low),
     structuralHigh: Math.max(b0.high, b1.high),
   };
@@ -1198,6 +1204,7 @@ function computeWeightedBookImbalance(bids, asks) {
   if (!bids?.length || !asks?.length) return 0;
   const bestBid = Number(bids[0][0]);
   const bestAsk = Number(asks[0][0]);
+  if (!Number.isFinite(bestBid) || !Number.isFinite(bestAsk) || bestBid <= 0 || bestAsk <= bestBid) return 0;
   const mid = (bestBid + bestAsk) / 2;
   if (mid <= 0) return 0;
   let wBid = 0;
@@ -1205,14 +1212,16 @@ function computeWeightedBookImbalance(bids, asks) {
   for (const [pStr, qStr] of bids.slice(0, 15)) {
     const p = Number(pStr);
     const q = Number(qStr);
+    if (!Number.isFinite(p) || !Number.isFinite(q) || p <= 0 || q <= 0) continue;
     const distBps = ((mid - p) / mid) * 10000;
-    if (distBps <= 25) wBid += Math.exp(-distBps / 6) * p * q;
+    if (distBps >= 0 && distBps <= 25) wBid += Math.exp(-distBps / 6) * p * q;
   }
   for (const [pStr, qStr] of asks.slice(0, 15)) {
     const p = Number(pStr);
     const q = Number(qStr);
+    if (!Number.isFinite(p) || !Number.isFinite(q) || p <= 0 || q <= 0) continue;
     const distBps = ((p - mid) / mid) * 10000;
-    if (distBps <= 25) wAsk += Math.exp(-distBps / 6) * p * q;
+    if (distBps >= 0 && distBps <= 25) wAsk += Math.exp(-distBps / 6) * p * q;
   }
   if (wBid + wAsk <= 0) return 0;
   return Number(((wBid - wAsk) / (wBid + wAsk)).toFixed(3));
@@ -1221,21 +1230,32 @@ function computeWeightedBookImbalance(bids, asks) {
 async function fetchPerpOrderbookConfirm(symbol, side) {
   // Engine #38 (GPT-6-Luna Two-Snapshot Perp Microprice & Spoof-Decay Gate — 1.8s Interval):
   const d1 = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${symbol}USDT&limit=20`, {}, 2500);
-  if (!d1?.bids?.length || !d1?.asks?.length) return { ok: false, reason: 'NO_DEPTH_1' };
+  if (!d1?.bids?.length || !d1?.asks?.length) return { ok: false, vetoCode: 'NO_DEPTH', reason: 'NO_DEPTH_1' };
   await new Promise(r => setTimeout(r, 1800));
   const d2 = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${symbol}USDT&limit=20`, {}, 2500);
-  if (!d2?.bids?.length || !d2?.asks?.length) return { ok: false, reason: 'NO_DEPTH_2' };
+  if (!d2?.bids?.length || !d2?.asks?.length) return { ok: false, vetoCode: 'NO_DEPTH', reason: 'NO_DEPTH_2' };
 
   const seq1 = Number(d1.lastUpdateId || 0);
   const seq2 = Number(d2.lastUpdateId || 0);
   if (seq1 > 0 && seq2 > 0 && seq2 < seq1) {
-    return { ok: false, reason: `STALE_BOOK_SEQUENCE (${seq1}->${seq2})` };
+    return { ok: false, vetoCode: 'STALE_BOOK', reason: `STALE_BOOK_SEQUENCE (${seq1}->${seq2})` };
   }
 
   const bestBid1 = Number(d1.bids[0][0]);
   const bestAsk1 = Number(d1.asks[0][0]);
   const bidVol1 = Number(d1.bids[0][1] || 0);
   const askVol1 = Number(d1.asks[0][1] || 0);
+  const bestBid = Number(d2.bids[0][0]);
+  const bestAsk = Number(d2.asks[0][0]);
+  const bidVol0 = Number(d2.bids[0][1] || 0);
+  const askVol0 = Number(d2.asks[0][1] || 0);
+  if (
+    !Number.isFinite(bestBid1) || !Number.isFinite(bestAsk1) || bestBid1 <= 0 || bestAsk1 <= bestBid1 ||
+    !Number.isFinite(bestBid) || !Number.isFinite(bestAsk) || bestBid <= 0 || bestAsk <= bestBid
+  ) {
+    return { ok: false, vetoCode: 'CROSSED_OR_INVALID_BOOK', reason: 'CROSSED_OR_INVALID_BOOK' };
+  }
+
   const midPrice1 = (bestBid1 + bestAsk1) / 2;
   const microPrice1 =
     bidVol1 + askVol1 > 0
@@ -1247,10 +1267,6 @@ async function fetchPerpOrderbookConfirm(symbol, side) {
       ? Number(((microPrice1 - midPrice1) / halfSpread1).toFixed(3))
       : 0;
 
-  const bestBid = Number(d2.bids[0][0]);
-  const bestAsk = Number(d2.asks[0][0]);
-  const bidVol0 = Number(d2.bids[0][1] || 0);
-  const askVol0 = Number(d2.asks[0][1] || 0);
   const midPrice = (bestBid + bestAsk) / 2;
   const microPrice =
     bidVol0 + askVol0 > 0
@@ -1266,37 +1282,43 @@ async function fetchPerpOrderbookConfirm(symbol, side) {
   const ob2 = computeWeightedBookImbalance(d2.bids, d2.asks);
   const avgOb = Number(((ob1 + ob2) / 2).toFixed(3));
   const obDelta = Number((ob2 - ob1).toFixed(3));
-  const bookHollowing = bestBid < bestBid1 && bestAsk > bestAsk1;
+  const bookHollowing =
+    (bestBid < bestBid1 && bestAsk > bestAsk1) ||
+    (side === 'LONG' && bestBid < bestBid1 * 0.9992 && spreadPct > 0.10) ||
+    (side === 'SHORT' && bestAsk > bestAsk1 * 1.0008 && spreadPct > 0.10);
 
-  if (spreadPct > 0.18) {
-    return { ok: false, reason: `WIDE_SPREAD (${spreadPct}%)`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
+  if (spreadPct <= 0 || spreadPct > 0.18) {
+    return { ok: false, vetoCode: 'WIDE_SPREAD', reason: `WIDE_SPREAD (${spreadPct}%)`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
   }
   if (bookHollowing) {
-    return { ok: false, reason: `BOOK_HOLLOWING (bid ${bestBid1}->${bestBid} | ask ${bestAsk1}->${bestAsk})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
+    return { ok: false, vetoCode: 'BOOK_HOLLOWING', reason: `BOOK_HOLLOWING (bid ${bestBid1}->${bestBid} | ask ${bestAsk1}->${bestAsk})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
   }
   // Engine #53 (GPT-6-Luna Ask-Sweep-Aware Orderbook Gate):
-  // Previously obDelta < -0.10 rejected 99/99 Hype LONG breakouts (BMTUSDT ob:+0.30, AGTUSDT ob:+0.524->+0.094) even when ob2 remained bid-positive!
-  // SpoofVetoLong only triggers if obDelta < -0.12 AND (ob2 < 0.04 || bestBid < bestBid1).
+  // SpoofVetoLong only triggers if obDelta < -0.12 AND the resulting book actually lost bid support (ob2 < 0.04, or ob2 < 0.08 with bestBid dropping > 3 bps).
+  // Never reject a strongly bid-dominant book like ZORAUSDT (ob: +0.42 -> +0.17, avgOb: +0.295) on a 1-tick micro-jiggle!
   if (side === 'LONG') {
-    if (obDelta < -0.12 && (ob2 < 0.04 || bestBid < bestBid1)) {
-      return { ok: false, reason: `SPOOF_WALL_DECAY_LONG (ob:${ob1}->${ob2} | dI:${obDelta})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
+    if (obDelta < -0.12 && (ob2 < 0.04 || (ob2 < 0.08 && bestBid < bestBid1 * 0.9997))) {
+      return { ok: false, vetoCode: 'SPOOF_WALL_DECAY', reason: `SPOOF_WALL_DECAY_LONG (ob:${ob1}->${ob2} | dI:${obDelta})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
     }
-    const isActivelyLiftingAsks = bestBid > bestBid1 && bestAsk >= bestAsk1;
+    const isActivelyLiftingAsks = bestBid > bestBid1 * 1.0002 && bestAsk >= bestAsk1;
     const minOb2Floor = isActivelyLiftingAsks ? -0.02 : 0.02;
     const minAvgObFloor = isActivelyLiftingAsks ? 0.01 : 0.05;
     if (avgOb < minAvgObFloor || ob2 < minOb2Floor || microSkew < -0.16 || (microSkew1 < -0.20 && microSkew < 0)) {
-      return { ok: false, reason: `WEAK_LONG_OB_OR_MICROPRICE (ob:${ob1}->${ob2} | x1:${microSkew1}->x2:${microSkew})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
+      return { ok: false, vetoCode: 'WEAK_OB', reason: `WEAK_LONG_OB_OR_MICROPRICE (ob:${ob1}->${ob2} | x1:${microSkew1}->x2:${microSkew})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
     }
   }
   if (side === 'SHORT') {
-    if (obDelta > 0.12 && (ob2 > -0.04 || bestAsk > bestAsk1)) {
-      return { ok: false, reason: `SPOOF_WALL_DECAY_SHORT (ob:${ob1}->${ob2} | dI:+${obDelta})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
+    if (obDelta > 0.12 && (ob2 > -0.04 || (ob2 > -0.08 && bestAsk > bestAsk1 * 1.0003))) {
+      return { ok: false, vetoCode: 'SPOOF_WALL_DECAY', reason: `SPOOF_WALL_DECAY_SHORT (ob:${ob1}->${ob2} | dI:+${obDelta})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
     }
-    if (avgOb > -0.05 || ob2 > -0.02 || microSkew > 0.16 || (microSkew1 > 0.20 && microSkew > 0)) {
-      return { ok: false, reason: `WEAK_SHORT_OB_OR_MICROPRICE (ob:${ob1}->${ob2} | x1:${microSkew1}->x2:${microSkew})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
+    const isActivelyHittingBids = bestAsk < bestAsk1 * 0.9998 && bestBid <= bestBid1;
+    const maxOb2Ceil = isActivelyHittingBids ? 0.02 : -0.02;
+    const maxAvgObCeil = isActivelyHittingBids ? -0.01 : -0.05;
+    if (avgOb > maxAvgObCeil || ob2 > maxOb2Ceil || microSkew > 0.16 || (microSkew1 > 0.20 && microSkew > 0)) {
+      return { ok: false, vetoCode: 'WEAK_OB', reason: `WEAK_SHORT_OB_OR_MICROPRICE (ob:${ob1}->${ob2} | x1:${microSkew1}->x2:${microSkew})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
     }
   }
-  return { ok: true, bestBid, bestAsk, spreadPct, avgOb, ob1, ob2, obDelta, microSkew1, microSkew };
+  return { ok: true, vetoCode: 'OK', bestBid, bestAsk, spreadPct, avgOb, ob1, ob2, obDelta, microSkew1, microSkew };
 }
 
 function readSharedNewsSignals() {
@@ -1429,18 +1451,36 @@ async function scanPerpUniverse(state) {
     });
   }
 
+  // Engine #51B + #55B (GPT-6-Luna Deterministic Hype-Shortlist + Priority Scanner):
+  // Guarantee the top 10 pure 24h/squeeze gainers are ALWAYS included in topToInspect, plus the highest priorityScore candidates up to 30 slots!
+  const hypeSorted = [...preCandidates]
+    .filter(c => c.change24hPct >= 4.0)
+    .sort((a, b) => (b.change24hPct + (b.fundingRatePct < -0.02 ? 25 : 0)) - (a.change24hPct + (a.fundingRatePct < -0.02 ? 25 : 0)));
   preCandidates.sort((a, b) => b.priorityScore - a.priorityScore);
-  const topToInspect = preCandidates.slice(0, 30);
+  const inspectMap = new Map();
+  if (state.openPosition?.symbol) {
+    const openPre = preCandidates.find(c => c.symbol === state.openPosition.symbol);
+    if (openPre) inspectMap.set(openPre.symbol, openPre);
+  }
+  for (const h of hypeSorted.slice(0, 10)) {
+    if (inspectMap.size < 30) inspectMap.set(h.symbol, h);
+  }
+  for (const p of preCandidates) {
+    if (inspectMap.size >= 30) break;
+    inspectMap.set(p.symbol, p);
+  }
+  const topToInspect = Array.from(inspectMap.values());
 
   const evaluated = [];
   for (const item of topToInspect) {
-    // Engine #35: Fetch 5 orthogonal institutional streams including `/futures/data/takerlongshortRatio`
+    // Engine #35 + #55C (GPT-6-Luna True 5m Institutional Taker Stream):
+    // Fixed Bug #1: Fetch period=5m&limit=3 (instead of period=15m) for takerlongshortRatio so 5m taker gates use real 5-minute institutional flow!
     const [klines15m, oiHist, topPosRatio, globalAccRatio, instTakerRatio] = await Promise.all([
       fetchJson(`${FAPI_BASE}/fapi/v1/klines?symbol=${item.fSym}&interval=15m&limit=64`, {}, 3500),
       fetchJson(`${FAPI_BASE}/futures/data/openInterestHist?symbol=${item.fSym}&period=15m&limit=5`, {}, 3500),
       fetchJson(`${FAPI_BASE}/futures/data/topLongShortPositionRatio?symbol=${item.fSym}&period=15m&limit=2`, {}, 3500),
       fetchJson(`${FAPI_BASE}/futures/data/globalLongShortAccountRatio?symbol=${item.fSym}&period=15m&limit=2`, {}, 3500),
-      fetchJson(`${FAPI_BASE}/futures/data/takerlongshortRatio?symbol=${item.fSym}&period=15m&limit=2`, {}, 3500),
+      fetchJson(`${FAPI_BASE}/futures/data/takerlongshortRatio?symbol=${item.fSym}&period=5m&limit=3`, {}, 3500),
     ]);
     if (!Array.isArray(klines15m) || klines15m.length < 30) continue;
 
@@ -1453,25 +1493,33 @@ async function scanPerpUniverse(state) {
     const anatomy = analyzeCandleSmcAndCvd15m(klines15m);
     const mtfSqueeze = analyzeMtfAndVolatilitySqueeze(klines15m);
 
-    // Engine #35.1 + Wall #3: Institutional Perp Taker Buy/Sell Volume Ratio & Deceleration Guard
-    let instBuySellRatio = 1.0;
-    let prevInstBuySellRatio = 1.0;
-    if (Array.isArray(instTakerRatio) && instTakerRatio.length > 0) {
-      instBuySellRatio = Number(Number(instTakerRatio[instTakerRatio.length - 1]?.buySellRatio || 1.0).toFixed(2));
-      prevInstBuySellRatio = Number(Number(instTakerRatio[0]?.buySellRatio || instBuySellRatio).toFixed(2));
+    // Engine #35.1 + #55C (GPT-6-Luna Full-Precision 5m Taker Flow & Fail-Closed Validity Check):
+    const takerDataValid =
+      Array.isArray(instTakerRatio) &&
+      instTakerRatio.length >= 2 &&
+      Number.isFinite(Number(instTakerRatio[instTakerRatio.length - 1]?.buySellRatio));
+    let rawInstBuySellRatio = 1.0;
+    let rawPrevInstBuySellRatio = 1.0;
+    if (takerDataValid) {
+      rawInstBuySellRatio = Number(instTakerRatio[instTakerRatio.length - 1].buySellRatio);
+      rawPrevInstBuySellRatio = Number(instTakerRatio[instTakerRatio.length - 2]?.buySellRatio || rawInstBuySellRatio);
     }
+    const instBuySellRatio = Number(rawInstBuySellRatio.toFixed(2));
+    const prevInstBuySellRatio = Number(rawPrevInstBuySellRatio.toFixed(2));
     const isTakerRatioCrashingLong =
-      instBuySellRatio < 0.92 ||
-      (prevInstBuySellRatio >= 1.50 && instBuySellRatio < prevInstBuySellRatio * 0.62);
+      !takerDataValid ||
+      rawInstBuySellRatio < 0.92 ||
+      (rawPrevInstBuySellRatio >= 1.50 && rawInstBuySellRatio < rawPrevInstBuySellRatio * 0.62);
     const isTakerRatioCrashingShort =
-      instBuySellRatio > 1.08 ||
-      (prevInstBuySellRatio <= 0.70 && instBuySellRatio > prevInstBuySellRatio * 1.45);
+      !takerDataValid ||
+      rawInstBuySellRatio > 1.08 ||
+      (rawPrevInstBuySellRatio <= 0.70 && rawInstBuySellRatio > rawPrevInstBuySellRatio * 1.45);
     let instTakerLongPts = 0;
     let instTakerShortPts = 0;
-    if (instBuySellRatio >= 1.14 && !isTakerRatioCrashingLong) {
-      instTakerLongPts = Math.min(8, Math.round((instBuySellRatio - 1.0) * 20));
-    } else if (instBuySellRatio <= 0.88 && !isTakerRatioCrashingShort) {
-      instTakerShortPts = Math.min(8, Math.round((1.0 - instBuySellRatio) * 20));
+    if (takerDataValid && rawInstBuySellRatio >= 1.14 && !isTakerRatioCrashingLong) {
+      instTakerLongPts = Math.min(8, Math.round((rawInstBuySellRatio - 1.0) * 20));
+    } else if (takerDataValid && rawInstBuySellRatio <= 0.88 && !isTakerRatioCrashingShort) {
+      instTakerShortPts = Math.min(8, Math.round((1.0 - rawInstBuySellRatio) * 20));
     }
 
     const rsVsBtcAtr = Number(((change1hPct - btc1hChangePct) / Math.max(0.40, atr15mPct)).toFixed(2));
@@ -1483,9 +1531,10 @@ async function scanPerpUniverse(state) {
       bearishRsPts = Math.min(8, Math.round(Math.abs(rsVsBtcAtr) * 4));
     }
 
+    // Structural 4h VWAP from 16 completed 15m bars (prevents unclosed b0 from distorting the 4h benchmark)
     let pvSum = 0;
     let vSum = 0;
-    for (const k of klines15m.slice(-16)) {
+    for (const k of klines15m.slice(-17, -1)) {
       const typ = (Number(k[2]) + Number(k[3]) + Number(k[4])) / 3;
       const v = Number(k[5]);
       pvSum += typ * v;
@@ -1522,9 +1571,13 @@ async function scanPerpUniverse(state) {
     const takerBuyVol2 = recent2.reduce((s, k) => s + Number(k[9]), 0);
     const takerBuyPct = totVol2 > 0 ? Number(((takerBuyVol2 / totVol2) * 100).toFixed(1)) : 50;
 
+    // Engine #55A: Normalize current unclosed b0 volume by elapsed bar fraction so early-bar volume isn't underestimated
     const prev12VolAvg =
       klines15m.slice(-14, -2).reduce((s, k) => s + Number(k[5]), 0) / 12 || 1;
-    const curBarVol = Math.max(Number(klines15m[klines15m.length - 1][5]), Number(klines15m[klines15m.length - 2][5]));
+    const b0RawVol = Number(klines15m[klines15m.length - 1][5]);
+    const b1RawVol = Number(klines15m[klines15m.length - 2][5]);
+    const b0PacedVol = anatomy.b0ElapsedFrac >= 0.20 ? Math.min(b0RawVol * 2.2, b0RawVol / anatomy.b0ElapsedFrac) : b1RawVol;
+    const curBarVol = Math.max(b1RawVol, b0PacedVol);
     const volRatio15m = Number((curBarVol / prev12VolAvg).toFixed(2));
 
     let oiDelta1hPct = 0;
@@ -1536,7 +1589,7 @@ async function scanPerpUniverse(state) {
       }
     }
 
-    // Engine #54A: Disable Q4-BNF Falling-Knife Override (prevents BIRBUSDT-style -5.3% 1h / -12.8% VWAP / MTF Bearish knife catches from stealing slots from 99/99 Hype LONGs!)
+    // Engine #54A: Disable Q4-BNF Falling-Knife Override
     const isBnfLiquidationBounce = false;
 
     let oiQuadrant = 'NÖTR';
@@ -1581,11 +1634,18 @@ async function scanPerpUniverse(state) {
     }
     const whaleRetailSpread = Number((whaleLongPct - retailLongPct).toFixed(1));
 
-    // Bi-Directional Institutional Taker Override: When live Taker L/S & CVD confirm active institutional dumping, passive account ratio does not penalize/veto SHORT
-    // EXCEPT when Engine #48 (GPT-6-Luna Whale-Divergence & Coiled-Bottom Short-Squeeze Trap) is active (e.g., BTRUSDT: 24h -10.15% with Whales +4.7% LONG absorbing late Q3 shorts!)
-    const isLiveInstTakerDumping = instBuySellRatio <= 0.85 && (anatomy.normCvd3BarPct <= -6 || takerBuyPct <= 46.5);
+    // Engine #55D (GPT-6-Luna Negative-Funding Short-Squeeze Whale-Hedge Override):
+    // Fixed Bug #11: When a coin is in an active negative-funding / backwardation short squeeze (e.g. ORDERUSDT -0.75% funding, +10.25% Q1 OI, +10.18% 1h, or ANIMEUSDT -0.63% funding),
+    // Top-Position short skew (whaleRetailSpread < 0) reflects delta-neutral funding hedges or trapped shorts getting squeezed — NOT distribution!
+    const isActiveShortSqueezeRegime = Boolean(
+      (item.fundingRatePct <= -0.025 || item.basisPct <= -0.080) &&
+        (oiQuadrant.startsWith('Q1') || oiQuadrant.startsWith('Q3-TUZAK') || mtfSqueeze.squeezeBullishPts > 0) &&
+        change1hPct >= 0.50
+    );
+    const isLiveInstTakerDumping = rawInstBuySellRatio <= 0.85 && (anatomy.normCvd3BarPct <= -6 || takerBuyPct <= 46.5);
     const isWhaleAccumulatingOversoldShort = item.change24hPct <= -7.5 && whaleRetailSpread >= 3.0;
-    const isWhaleDistributingOverboughtLong = item.change24hPct >= 7.5 && whaleRetailSpread <= -3.0;
+    const isWhaleDistributingOverboughtLong =
+      !isActiveShortSqueezeRegime && item.change24hPct >= 7.5 && whaleRetailSpread <= -3.0;
     let bullishWhalePts = 0;
     let bearishWhalePts = 0;
     if (whaleRetailSpread >= 4.0) {
@@ -1595,18 +1655,27 @@ async function scanPerpUniverse(state) {
           ? 0
           : -Math.min(14, Math.round(whaleRetailSpread * 1.0));
     } else if (whaleRetailSpread <= -3.0) {
-      bearishWhalePts = Math.min(15, Math.round((Math.abs(whaleRetailSpread) - 1.5) * 1.35));
-      bullishWhalePts = -Math.min(18, Math.round(Math.abs(whaleRetailSpread) * 1.2));
+      if (isActiveShortSqueezeRegime) {
+        // Trapped shorts / basis hedges in negative funding act as short-squeeze fuel, not bearish distribution!
+        bullishWhalePts = Math.min(8, Math.round(Math.abs(item.fundingRatePct) * 60));
+        bearishWhalePts = 0;
+      } else {
+        bearishWhalePts = Math.min(15, Math.round((Math.abs(whaleRetailSpread) - 1.5) * 1.35));
+        bullishWhalePts = -Math.min(18, Math.round(Math.abs(whaleRetailSpread) * 1.2));
+      }
     }
-    const whaleVetoLong = whaleRetailSpread <= -6.5 || isWhaleDistributingOverboughtLong;
+    const whaleVetoLong =
+      (isActiveShortSqueezeRegime ? whaleRetailSpread <= -14.0 : whaleRetailSpread <= -6.5) ||
+      isWhaleDistributingOverboughtLong;
     const whaleVetoShort =
       isWhaleAccumulatingOversoldShort ||
       (isLiveInstTakerDumping ? whaleRetailSpread >= 16.5 : whaleRetailSpread >= 10.5);
 
-    // Engine #43B + #50 (GPT-6-Luna Anti-Backwardation Squeeze & Q1-Uptrend GCR Mania Short Gate):
-    // GCRShortOK = (basisPct >= -0.02%) && (fundingRatePct >= 0) && (!Q1 OI) && (change1hPct <= 0.80%) && (instBuySellRatio <= maxShortTaker5m)
-    // Prevents shorting a parabolic spot-driven short-squeeze in backwardation like LIGHTUSDT (basis -0.7945%, Q1 OI, MTF Bullish, 1h +3.05%, Taker 0.97x)!
-    const curMaxShortTaker5m = state.adaptiveTuning?.maxShortTaker5m || 0.98;
+    // Engine #44A + #45 + #50 + #54B: 5m Institutional Taker Floor & Strict Anti-Bleed SHORT Lockdown
+    const tuning = state.adaptiveTuning || { minLongScore: 78, minShortScore: 86, minLongTaker5m: 1.04, maxShortTaker5m: 0.86 };
+    const curMaxShortTaker5m = Math.min(0.86, tuning.maxShortTaker5m ?? 0.86);
+
+    // Engine #43B + #50 (GPT-6-Luna Unified Anti-Backwardation Squeeze & Q1/Q4 GCR Mania Short Gate):
     const isGcrCrowdedManiaShort = Boolean(
       (item.change24hPct >= 10.0 || rsi15m >= 71) &&
         rsi15m >= 58 &&
@@ -1617,7 +1686,7 @@ async function scanPerpUniverse(state) {
         item.fundingRatePct >= 0.0 &&
         !oiQuadrant.startsWith('Q1') &&
         !oiQuadrant.startsWith('Q4') &&
-        instBuySellRatio <= curMaxShortTaker5m &&
+        rawInstBuySellRatio <= curMaxShortTaker5m &&
         (whaleRetailSpread <= -4.0 || item.basisPct >= 0.045 || item.fundingRatePct >= 0.018 || isLiveInstTakerDumping) &&
         (anatomy.bearishPattern || anatomy.buySideSweep || anatomy.bearishCvdPts >= 6)
     );
@@ -1626,8 +1695,7 @@ async function scanPerpUniverse(state) {
     }
 
     // Layer #16 + Engine #52 (GPT-6-Luna Hype-Breakout & Short-Squeeze Reload LONG Engine):
-    // LongReload = (Q1_OI || SqueezeConfirmed) && (Taker_5m >= 1.08) && (CVD > 0) && (RSI <= 78) && (vwapDistPct <= max(2.4, min(4.2, 1.85*ATR)))
-    // Catches high-volume hype rockets (ORDER +101%, BMT +52%, JCT +27%, ANIME +15%) without getting choked by static RSI<=70 or 18% 24h caps!
+    // Fixed Bug #16 & #20: Enforce rsi15m <= 78 and volRatio15m >= 0.85 directly inside the predicate!
     const isSqueezeConfirmedLong =
       oiQuadrant.startsWith('Q3-TUZAK') ||
       mtfSqueeze.squeezeBullishPts > 0 ||
@@ -1636,7 +1704,10 @@ async function scanPerpUniverse(state) {
       (item.change24hPct >= 2.5 || change1hPct >= 1.25) &&
         change1hPct >= 0.35 &&
         (oiQuadrant.startsWith('Q1') || isSqueezeConfirmedLong) &&
-        instBuySellRatio >= 1.08 &&
+        takerDataValid &&
+        rawInstBuySellRatio >= 1.08 &&
+        volRatio15m >= 0.85 &&
+        rsi15m <= 78 &&
         anatomy.normCvd3BarPct > 0 &&
         anatomy.clv >= 0.56 &&
         mtfSqueeze.mtfBearishPts === 0 &&
@@ -1676,8 +1747,8 @@ async function scanPerpUniverse(state) {
     );
 
     // Layer #15: Liquidation Magnet Cluster Detector (4h High/Low Stop-Hunt & Short/Long Squeeze Magnet)
-    const high4h = Math.max(...klines15m.slice(-16).map(k => Number(k[2])));
-    const low4h = Math.min(...klines15m.slice(-16).map(k => Number(k[3])));
+    const high4h = Math.max(...klines15m.slice(-17, -1).map(k => Number(k[2])));
+    const low4h = Math.min(...klines15m.slice(-17, -1).map(k => Number(k[3])));
     let liqMagnetLongPts = 0;
     let liqMagnetShortPts = 0;
     let liqMagnetLabel = '';
@@ -1720,8 +1791,6 @@ async function scanPerpUniverse(state) {
     bearishFundNewsPts = Math.min(13, bearishFundNewsPts);
 
     // Wall #6B + Engine #39 (GPT-6-Luna Contract-Specific nextFundingTime Settlement Cost & Dump Guard):
-    // 1) Block paying-direction entry within 15m of settlement if |funding| >= 0.035%
-    // 2) Block fresh LONG within 12m of settlement on extreme negative funding (<= -0.35%) before funding-farmers dump at the clock boundary
     const fundingVetoLong =
       item.fundingRatePct >= 0.080 ||
       (itemMinsToFunding <= 15 && item.fundingRatePct >= 0.035) ||
@@ -1731,11 +1800,11 @@ async function scanPerpUniverse(state) {
       (itemMinsToFunding <= 15 && item.fundingRatePct <= -0.035);
 
     // Engine #40 + #52 (Qullamaggie + GPT-6-Luna ATR-and-Orderflow-Adaptive VWAP & RSI Extension Band for Hype Rockets):
-    // When 4-factor institutional participation M or HypeSqueezeMomentum is confirmed, allow ATR-scaled band [2.40%, 4.20%] and RSI up to 78!
     const hasQullamaggieMomentumConfirm =
       isHypeSqueezeMomentumLong ||
       (oiDelta1hPct >= 0.45 &&
-        instBuySellRatio >= 1.18 &&
+        rawInstBuySellRatio >= 1.18 &&
+        volRatio15m >= 0.90 &&
         anatomy.normCvd3BarPct > 8.0 &&
         anatomy.clv >= 0.65);
     const vwapMaxBandPct = hasQullamaggieMomentumConfirm
@@ -1751,10 +1820,10 @@ async function scanPerpUniverse(state) {
         rsi15m >= 38 &&
         rsi15m <= maxAllowedLongRsi &&
         mtfSqueeze.mtfBearishPts === 0);
-    // Unblinded Bi-Directional Short: Allows both Trend Breakdown Shorts (price <= VWAP, RSI 31-66) AND Overbought Mania Fade Shorts (RSI >= 67)
+    // Fixed Bug #15: Overbought short branch requires actual bearish rejection or negative CVD, not RSI >= 67 alone!
     const vwapShortOk =
       (lastPrice <= vwap4h * 1.003 && rsi15m >= 31 && rsi15m <= 66 && mtfSqueeze.mtfBullishPts === 0) ||
-      rsi15m >= 67 ||
+      (rsi15m >= 67 && (anatomy.bearishPattern || anatomy.normCvd3BarPct <= -4)) ||
       isGcrCrowdedManiaShort;
 
     const rawLongTotal =
@@ -1793,15 +1862,20 @@ async function scanPerpUniverse(state) {
     let score = 50;
     let thesis = '';
 
-    // Wall #4: Anti-Top-Chase / Anti-Bottom-Chase + Engine #37 + Engine #48 (GPT-6-Luna Coiled-Top / Coiled-Bottom Exhaustion Shield)
+    // Wall #4 + Bug #17 Fix: Anti-Top-Chase / Hype Exhaustion Ceiling
     const isCoiledTopLongTrap =
       !isBnfLiquidationBounce &&
       mtfSqueeze.squeezeLabel.includes('Yay Sıkışması') &&
       item.change24hPct >= 8.0 &&
       Math.abs(change1hPct) <= 0.85 &&
       anatomy.clv >= 0.80;
+    const isHypeExhaustedTopLong =
+      isHypeSqueezeMomentumLong &&
+      item.change24hPct >= 95.0 &&
+      (volRatio15m < 1.15 || rawInstBuySellRatio < 1.12 || anatomy.posIn4BarRange >= 0.94);
     const isOverextendedMicroTopLong =
       isCoiledTopLongTrap ||
+      isHypeExhaustedTopLong ||
       (!isBnfLiquidationBounce &&
         !isHypeSqueezeMomentumLong &&
         ((anatomy.green3Completed &&
@@ -1810,9 +1884,7 @@ async function scanPerpUniverse(state) {
           volRatio15m < 1.55) ||
           (item.change24hPct >= 18.0 && (volRatio15m < 1.35 || mtfSqueeze.mtfBullishPts === 0))));
 
-    // Engine #43 + #47 + #48 (GPT-6-Luna Anti-Bottom-Chase, Q4 De-Leveraging, Macro-Uptrend Pullback & Coiled-Bottom Short Shield):
-    // Veto_S = (R24h <= -7.5% && WhaleRetailSpread >= +3.0%) || (TTMCoil && R24h <= -8.0% && |R1h| <= 0.85%)
-    // Prevents shorting BTRUSDT (24h -10.145%, TTM Coil, 1h -0.62%, Whale +4.7%), KATUSDT #1 & #2, and DOSUSDT #2!
+    // Engine #43 + #47 + #48: Anti-Bottom-Chase, Q4 De-Leveraging, Macro-Uptrend Pullback & Coiled-Bottom Short Shield
     const isCoiledBottomShortTrap =
       mtfSqueeze.squeezeLabel.includes('Yay Sıkışması') &&
       item.change24hPct <= -8.0 &&
@@ -1840,50 +1912,48 @@ async function scanPerpUniverse(state) {
       isQ4CapitulationExhaustedShort ||
       isMacroUpPullbackBottomShort;
 
-    // Engine #37 + #47 + #54A (GPT-6-Luna Basis-Dump Trap & Falling-Knife Long Ban):
-    // LongVeto = (R24h <= -4.5%) && !(Q1_OI && MTF_bullish && R1h >= +1.20% && Taker_5m >= 1.15)
-    // Prevents catching falling knives like SOPHUSDT (-23.6%) and PHAUSDT (-22.7%) unless full institutional trend reversal holds!
-    const isFallingKnifeLongVeto =
-      item.change24hPct <= -4.5 &&
-      !(oiQuadrant.startsWith('Q1') && mtfSqueeze.mtfBullishPts > 0 && change1hPct >= 1.20 && instBuySellRatio >= 1.15);
+    // Engine #37 + #47 + #54A + Bug #18 Fix (Consolidated Falling-Knife Recovery Predicate):
+    const hasConfirmedKnifeReversal =
+      oiQuadrant.startsWith('Q1') &&
+      mtfSqueeze.mtfBullishPts > 0 &&
+      change1hPct >= 1.20 &&
+      takerDataValid &&
+      rawInstBuySellRatio >= 1.15;
+    const isFallingKnifeLongVeto = item.change24hPct <= -4.5 && !hasConfirmedKnifeReversal;
     const isBasisDumpTrapLong =
       isFallingKnifeLongVeto ||
-      (item.basisPct <= -0.22 && item.change24hPct <= -6.0) ||
-      (!isBnfLiquidationBounce &&
-        item.change24hPct <= -8.0 &&
-        !(mtfSqueeze.mtfBullishPts > 0 && oiQuadrant.startsWith('Q1')));
-
-    // Engine #44A + #45 + #50 + #54B: 5m Institutional Taker Floor & Strict Anti-Bleed SHORT Lockdown
-    const tuning = state.adaptiveTuning || { minLongScore: 78, minShortScore: 86, minLongTaker5m: 1.04, maxShortTaker5m: 0.86 };
+      (item.basisPct <= -0.22 && item.change24hPct <= -6.0);
 
     // Engine #54B (GPT-6-Luna Strict Anti-Bleed Institutional SHORT Lockdown):
-    // ShortOK = (Q3_OI || ValidGCR) && (R24h > -5.0%) && (basis > -0.03%) && (funding > -0.01%) && (Whale <= -2.0%) && (Taker <= 0.86) && (Score >= 86)
-    // Eliminates ALL 10 historical losing short patterns (BR -16.37% Q4, BTR -10.15%, LIGHT -0.79% basis, KAT Q4, DOS neutral)!
     const isStrictShortAllowed =
+      takerDataValid &&
       (oiQuadrant.startsWith('Q3') || isGcrCrowdedManiaShort) &&
       !oiQuadrant.startsWith('Q3-TUZAK') &&
       item.change24hPct > -5.0 &&
       item.basisPct > -0.030 &&
       item.fundingRatePct > -0.010 &&
       whaleRetailSpread <= -2.0 &&
-      instBuySellRatio <= 0.86 &&
-      rawShortTotal >= Math.max(86, tuning.minShortScore || 86);
+      rawInstBuySellRatio <= curMaxShortTaker5m &&
+      rawShortTotal >= Math.max(86, tuning.minShortScore ?? 86);
 
-    // Engine #47A: Directional 3-Bar CVD Sign Alignment (prevents SOPHUSDT #2 LONG entry on CVD -6.0%!)
-    const hasCvdAlignmentLong = isBnfLiquidationBounce || anatomy.normCvd3BarPct >= 0;
-    const hasCvdAlignmentShort = isGcrCrowdedManiaShort || anatomy.normCvd3BarPct <= 0;
+    // Engine #47A + Bug #5 Fix: Hard Directional 3-Bar CVD Sign Alignment
+    const hasCvdAlignmentLong = anatomy.normCvd3BarPct >= 0;
+    const hasCvdAlignmentShort = anatomy.normCvd3BarPct <= 0;
 
-    // Require active 15m volume participation (volRatio15m >= 0.72) and positive 1h momentum alignment (prevents BTWUSDT 1h:-0.41% & ALTUSDT 0.51x vol traps)
+    // Require active 15m volume participation (volRatio15m >= 0.72) and positive 1h momentum alignment
     const hasLongMomentumAndVol =
-      volRatio15m >= 0.72 && hasCvdAlignmentLong && (isBnfLiquidationBounce || (change1hPct >= 0.15 && rsVsBtcAtr >= 0.05));
+      volRatio15m >= 0.72 && hasCvdAlignmentLong && change1hPct >= 0.15 && rsVsBtcAtr >= 0.05;
     const hasShortMomentumAndVol =
       volRatio15m >= 0.72 && hasCvdAlignmentShort && (isGcrCrowdedManiaShort || (change1hPct <= -0.15 && rsVsBtcAtr <= -0.05));
 
     const has5mInstTakerLong =
-      isBnfLiquidationBounce ||
-      (instBuySellRatio >= (tuning.minLongTaker5m || 1.04) && (takerBuyPct >= 51.5 || instBuySellRatio >= 1.14));
+      takerDataValid &&
+      rawInstBuySellRatio >= (tuning.minLongTaker5m ?? 1.04) &&
+      (takerBuyPct >= 51.5 || rawInstBuySellRatio >= 1.14);
     const has5mInstTakerShort =
-      instBuySellRatio <= Math.min(0.86, tuning.maxShortTaker5m || 0.86) && (takerBuyPct <= 48.0 || instBuySellRatio <= 0.84);
+      takerDataValid &&
+      rawInstBuySellRatio <= curMaxShortTaker5m &&
+      (takerBuyPct <= 48.0 || rawInstBuySellRatio <= 0.84);
 
     const canTriggerLong =
       !btcVetoLong &&
@@ -1896,8 +1966,8 @@ async function scanPerpUniverse(state) {
       hasLongMomentumAndVol &&
       vwapLongOk &&
       has5mInstTakerLong &&
-      (isBnfLiquidationBounce || rsVsBtcAtr >= -0.20) &&
-      rawLongTotal >= (tuning.minLongScore || 78);
+      rsVsBtcAtr >= -0.20 &&
+      rawLongTotal >= (tuning.minLongScore ?? 78);
 
     const canTriggerShort =
       isStrictShortAllowed &&
@@ -1911,7 +1981,7 @@ async function scanPerpUniverse(state) {
       vwapShortOk &&
       has5mInstTakerShort &&
       (rsVsBtcAtr <= 0.25 || isGcrCrowdedManiaShort) &&
-      rawShortTotal >= Math.max(86, tuning.minShortScore || 86);
+      rawShortTotal >= Math.max(86, tuning.minShortScore ?? 86);
 
     if (canTriggerLong && (!canTriggerShort || rawLongTotal >= rawShortTotal)) {
       side = 'LONG';
@@ -1928,7 +1998,7 @@ async function scanPerpUniverse(state) {
               : item.basisPct <= -0.030 || item.fundingRatePct <= -0.010
                 ? 'ENGINE_LIGHTCRYPTO_SQUEEZE_LONG'
                 : 'ENGINE_EUGENE_WHALE_SMC_LONG';
-      thesis = `[${anatomy.patternLabel} | ${mtfSqueeze.squeezeLabel}] ${oiQuadrant} | ${mtfSqueeze.mtfTrend} | 1s: ${change1hPct >= 0 ? '+' : ''}%${change1hPct} (24s: ${item.change24hPct >= 0 ? '+' : ''}%${item.change24hPct}) | RS_BTC: ${rsVsBtcAtr >= 0 ? '+' : ''}${rsVsBtcAtr} ATR | ${basisLabel} | Balina Makası: ${whaleRetailSpread >= 0 ? '+' : ''}%${whaleRetailSpread} | Taker L/S: ${instBuySellRatio}x | ${anatomy.cvdLabel}${liqMagnetLabel} -> ${dynLev}x LONG!`;
+      thesis = `[${anatomy.patternLabel} | ${mtfSqueeze.squeezeLabel}] ${oiQuadrant} | ${mtfSqueeze.mtfTrend} | 1s: ${change1hPct >= 0 ? '+' : ''}%${change1hPct} (24s: ${item.change24hPct >= 0 ? '+' : ''}%${item.change24hPct}) | RS_BTC: ${rsVsBtcAtr >= 0 ? '+' : ''}${rsVsBtcAtr} ATR | ${basisLabel} | Balina Makası: ${whaleRetailSpread >= 0 ? '+' : ''}%${whaleRetailSpread} | 5dk Taker: ${instBuySellRatio}x | ${anatomy.cvdLabel}${liqMagnetLabel} -> ${dynLev}x LONG!`;
     } else if (canTriggerShort) {
       side = 'SHORT';
       score = Math.min(99, rawShortTotal);
@@ -1938,7 +2008,7 @@ async function scanPerpUniverse(state) {
         : mtfSqueeze.squeezeBearishPts > 0
           ? 'ENGINE_TTM_VOLATILITY_SQUEEZE_SHORT'
           : 'ENGINE_SMC_WHALE_FLUSH_SHORT';
-      thesis = `[${anatomy.patternLabel} | ${mtfSqueeze.squeezeLabel}] ${oiQuadrant} | ${mtfSqueeze.mtfTrend} | 1s: %${change1hPct} (24s: %${item.change24hPct}) | RS_BTC: ${rsVsBtcAtr} ATR | ${basisLabel} | Balina Makası: %${whaleRetailSpread} | Kurumsal Taker L/S: ${instBuySellRatio}x | ${anatomy.cvdLabel}${liqMagnetLabel} -> ${dynLev}x SHORT!`;
+      thesis = `[${anatomy.patternLabel} | ${mtfSqueeze.squeezeLabel}] ${oiQuadrant} | ${mtfSqueeze.mtfTrend} | 1s: %${change1hPct} (24s: %${item.change24hPct}) | RS_BTC: ${rsVsBtcAtr} ATR | ${basisLabel} | Balina Makası: %${whaleRetailSpread} | 5dk Taker: ${instBuySellRatio}x | ${anatomy.cvdLabel}${liqMagnetLabel} -> ${dynLev}x SHORT!`;
     } else {
       if (rawShortTotal > rawLongTotal && !anatomy.vetoShort && !fundingVetoShort) {
         side = 'SHORT_ADAY';
@@ -1947,7 +2017,7 @@ async function scanPerpUniverse(state) {
         side = 'LONG_ADAY';
         score = Math.min(75, Math.max(30, rawLongTotal));
       }
-      thesis = `${anatomy.patternLabel} | ${mtfSqueeze.squeezeLabel} | ${oiQuadrant} | 1s: ${change1hPct >= 0 ? '+' : ''}%${change1hPct} (24s: ${item.change24hPct >= 0 ? '+' : ''}%${item.change24hPct}) | RS_BTC: ${rsVsBtcAtr >= 0 ? '+' : ''}${rsVsBtcAtr} | Balina Makası: ${whaleRetailSpread >= 0 ? '+' : ''}%${whaleRetailSpread} | Taker L/S: ${instBuySellRatio}x | ${anatomy.cvdLabel}`;
+      thesis = `${anatomy.patternLabel} | ${mtfSqueeze.squeezeLabel} | ${oiQuadrant} | 1s: ${change1hPct >= 0 ? '+' : ''}%${change1hPct} (24s: ${item.change24hPct >= 0 ? '+' : ''}%${item.change24hPct}) | RS_BTC: ${rsVsBtcAtr >= 0 ? '+' : ''}${rsVsBtcAtr} | Balina Makası: ${whaleRetailSpread >= 0 ? '+' : ''}%${whaleRetailSpread} | 5dk Taker: ${instBuySellRatio}x | ${anatomy.cvdLabel}`;
     }
 
     const convictionLeverage = selectConvictionLeverage(score, atr15mPct);
@@ -1955,7 +2025,8 @@ async function scanPerpUniverse(state) {
     evaluated.push({
       symbol: item.symbol,
       fSym: item.fSym,
-      markPrice: lastPrice,
+      markPrice: item.markPrice || lastPrice,
+      klineClosePrice: lastPrice,
       fundingRatePct: item.fundingRatePct,
       minsToFunding: itemMinsToFunding,
       basisPct: item.basisPct,
@@ -1970,6 +2041,7 @@ async function scanPerpUniverse(state) {
       vwapDistPct,
       takerBuyPct,
       instBuySellRatio,
+      takerDataValid,
       volRatio15m,
       oiDelta1hPct,
       oiQuadrant,
@@ -1977,6 +2049,8 @@ async function scanPerpUniverse(state) {
       retailLongPct,
       whaleRetailSpread,
       candlePattern: anatomy.patternLabel,
+      vetoLong: anatomy.vetoLong,
+      vetoShort: anatomy.vetoShort,
       smcLabel: anatomy.smcLabel,
       cvdLabel: anatomy.cvdLabel,
       mtfTrend: mtfSqueeze.mtfTrend,
@@ -2006,13 +2080,16 @@ async function scanPerpUniverse(state) {
       ? `⚠️ BTC SERT DÜŞÜŞ (${btc15mChangePct}%/15dk) -> LONG VETO, SADECE GCR SHORT!`
       : btcVetoShort
         ? `🚀 BTC SERT YÜKSELİŞ (+${btc15mChangePct}%/15dk) -> SHORT VETO, SADECE EUGENE LONG!`
-        : `20 KATMANLI YIRTICI KONSEY v8.6 (${preCandidates.length} Likit Kontrat | 3x-3.5x-4x Anti-İğne + Luna Mikro-Fiyat Kalkanı)`,
+        : `20 KATMANLI YIRTICI KONSEY v10.1 (${preCandidates.length} Likit Kontrat | 3x-5x Anti-İğne + 5dk Gerçek Taker & Luna Sıfır-Hata Kalkanı)`,
     lastScanAt: new Date().toLocaleString('tr-TR'),
     statusNote: state.openPosition
       ? `🔥 Açık ${state.openPosition.leverage || LEVERAGE}x ${state.openPosition.side}: ${state.openPosition.symbol}USDT takip ediliyor.`
       : `🛡️ Pusuda: Tüm Binance Futures (${preCandidates.length} Yüksek Hızlı Kontrat) 3x/3.5x/4x için taranıyor.`,
   };
   state.topCandidates = evaluated.slice(0, 8);
+  state.openPositionLiveCand = state.openPosition
+    ? evaluated.find(c => c.symbol === state.openPosition.symbol) || null
+    : null;
   return evaluated;
 }
 
@@ -2044,6 +2121,10 @@ async function manageOpenPosition(state, candidates = []) {
     pos.side === 'LONG'
       ? (pos.extremePrice - pos.entryPrice) / pos.entryPrice
       : (pos.entryPrice - pos.extremePrice) / pos.entryPrice;
+
+  // Fixed Bug #32: Persist cumulative maximum adverse excursion (MAE) across all ticks instead of instantaneous drawdown only!
+  const currentAdverseFrac = Math.max(0, -rawCoinMoveFrac);
+  pos.maxAdverseCoinMoveFrac = Math.max(pos.maxAdverseCoinMoveFrac || 0, currentAdverseFrac);
 
   const netCoinMoveFrac = rawCoinMoveFrac - ROUND_TRIP_FEE_SLIP_FRAC;
   const netPnlUsdt = Number((pos.notionalUsdt * netCoinMoveFrac).toFixed(4));
@@ -2130,27 +2211,29 @@ async function manageOpenPosition(state, candidates = []) {
     }
   }
 
-  // Stage 1 / Stage 3 (v8.4 Wide-Breathing Ratchet): Prevents premature +2.39 TL choke so 65% Runner catches +10 TL to +25 TL waves
+  // Stage 1 / Stage 3 (v8.4 Wide-Breathing Ratchet + Bug #42 Capped TP Extensions):
   if (peakCoinMoveFrac >= 0.0195) {
     pos.ratchetStage = 'PARABOLIC_SQUEEZE_RUNNER';
     if (pos.side === 'LONG') {
       const trailStop = Number((pos.extremePrice * (1 - 0.0055)).toPrecision(6));
       if (trailStop > pos.stopPrice) pos.stopPrice = trailStop;
-      if (markExitPrice >= pos.tpPrice * 0.997) {
+      if (markExitPrice >= pos.tpPrice * 0.997 && (pos.tpExtensionCount || 0) < 3) {
         const depth = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${pos.fSym}&limit=15`, {}, 2000);
         const liveOb = depth?.bids?.length && depth?.asks?.length ? computeWeightedBookImbalance(depth.bids, depth.asks) : 0;
         if (liveOb >= 0.12) {
           pos.tpPrice = Number((markExitPrice * 1.015).toPrecision(6));
+          pos.tpExtensionCount = (pos.tpExtensionCount || 0) + 1;
         }
       }
     } else {
       const trailStop = Number((pos.extremePrice * (1 + 0.0055)).toPrecision(6));
       if (trailStop < pos.stopPrice) pos.stopPrice = trailStop;
-      if (markExitPrice <= pos.tpPrice * 1.003) {
+      if (markExitPrice <= pos.tpPrice * 1.003 && (pos.tpExtensionCount || 0) < 3) {
         const depth = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${pos.fSym}&limit=15`, {}, 2000);
         const liveOb = depth?.bids?.length && depth?.asks?.length ? computeWeightedBookImbalance(depth.bids, depth.asks) : 0;
         if (liveOb <= -0.12) {
           pos.tpPrice = Number((markExitPrice * 0.985).toPrecision(6));
+          pos.tpExtensionCount = (pos.tpExtensionCount || 0) + 1;
         }
       }
     }
@@ -2182,16 +2265,21 @@ async function manageOpenPosition(state, candidates = []) {
     pos.side === 'LONG' ? markExitPrice <= pos.stopPrice : markExitPrice >= pos.stopPrice;
 
   const minsHeld = (Date.now() - new Date(pos.entryTime).getTime()) / 60000;
-  const isTimeStop = minsHeld >= 90 && rawCoinMoveFrac < 0.0035 && rawCoinMoveFrac > -0.0065;
+  const isTimeStop = minsHeld >= 90 && rawCoinMoveFrac < 0.0035;
 
   let isOrderflowScratch = false;
   let isFishingEmergencyExit = false;
+  let isWickTakerCollapseScratch = false;
   let isFundingSettlementHarvest = false;
   let isStaleMomentumScratch = false;
-  const initRiskFrac = Math.max(0.0085, Number(pos.underlyingSlPct || 1.2) / 100);
+  // Fixed Bug #33: Use immutable initialRiskFrac stored at entry for R-calculations
+  const initRiskFrac = Math.max(0.0085, Number(pos.initialRiskFrac || (pos.underlyingSlPct || 1.2) / 100));
   const mfeR = peakCoinMoveFrac / initRiskFrac;
-  const aeR = Math.max(0, -rawCoinMoveFrac) / initRiskFrac;
-  const curPosLiveCand = candidates.find(c => c.symbol === pos.symbol);
+  const aeR = (pos.maxAdverseCoinMoveFrac || currentAdverseFrac) / initRiskFrac;
+  // Fixed Bug #40 & #41: Resolve open position candidate even when it drops out of top-8 `state.topCandidates` during 4s ticks!
+  const curPosLiveCand =
+    candidates.find(c => c.symbol === pos.symbol) ||
+    (state.openPositionLiveCand?.symbol === pos.symbol ? state.openPositionLiveCand : null);
   if (!isTpHit && !isStopHit && curPosLiveCand && Number.isFinite(curPosLiveCand.minsToFunding)) {
     const posMinsToFund = curPosLiveCand.minsToFunding;
     const liveFundPct = curPosLiveCand.fundingRatePct;
@@ -2216,10 +2304,26 @@ async function manageOpenPosition(state, candidates = []) {
       isFishingEmergencyExit = true;
     }
   }
+  // Engine #56 (GPT-6-Luna Completed-Bar Wick-Rejection & 5m Taker-Collapse Scratch — Fixed Bug #31):
+  // Never cut during the first 15m bar consolidation (FUSDT paused at 9m before ripping +14.71 TL / +5.33% ROE!);
+  // Only scratch if minsHeld >= 16m (at least 1 completed 15m candle), mfeR < 0.22, aeR >= 0.35, AND 5m Taker collapsed <= 0.84x (LONG) / >= 1.18x (SHORT) with completed candle veto!
+  if (!isTpHit && !isStopHit && !isFishingEmergencyExit && !pos.tp1Done && minsHeld >= 16 && aeR >= 0.35 && mfeR < 0.22 && curPosLiveCand) {
+    const isLongWickCollapse =
+      pos.side === 'LONG' &&
+      curPosLiveCand.vetoLong &&
+      curPosLiveCand.instBuySellRatio <= 0.84 &&
+      curPosLiveCand.takerBuyPct <= 46.0;
+    const isShortWickCollapse =
+      pos.side === 'SHORT' &&
+      curPosLiveCand.vetoShort &&
+      curPosLiveCand.instBuySellRatio >= 1.18 &&
+      curPosLiveCand.takerBuyPct >= 54.0;
+    if (isLongWickCollapse || isShortWickCollapse) {
+      isWickTakerCollapseScratch = true;
+    }
+  }
   // Engine #49 (GPT-6-Luna 32-Minute R-Normalized MFE/MAE Stale-Trade & Squeeze Early Scratch):
-  // Scratch_t = (t >= 32m && AE_t >= 0.35R && MFE_t < 0.25R) OR (t >= 22m && AE_t >= 0.30R && MFE_t < 0.30R && Whale/Taker Flipped)
-  // Prevents holding a stagnant short-squeeze trap like BTRUSDT for 49.6 minutes until a full stop-out!
-  if (!isTpHit && !isStopHit && !isFishingEmergencyExit && !pos.tp1Done) {
+  if (!isTpHit && !isStopHit && !isFishingEmergencyExit && !isWickTakerCollapseScratch && !pos.tp1Done) {
     const whaleOrTakerFlippedAgainst = Boolean(
       curPosLiveCand &&
         ((pos.side === 'SHORT' && (curPosLiveCand.whaleRetailSpread >= 3.0 || curPosLiveCand.instBuySellRatio >= 1.10)) ||
@@ -2229,7 +2333,7 @@ async function manageOpenPosition(state, candidates = []) {
       isStaleMomentumScratch = true;
     }
   }
-  if (!isTpHit && !isStopHit && !isFishingEmergencyExit && !isStaleMomentumScratch && minsHeld >= 22 && rawCoinMoveFrac <= 0.0015 && rawCoinMoveFrac >= -0.0045) {
+  if (!isTpHit && !isStopHit && !isFishingEmergencyExit && !isWickTakerCollapseScratch && !isStaleMomentumScratch && minsHeld >= 22 && rawCoinMoveFrac <= 0.0015 && rawCoinMoveFrac >= -0.0045) {
     const depth = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${pos.fSym}&limit=15`, {}, 2000);
     if (depth?.bids?.length && depth?.asks?.length) {
       const liveOb = computeWeightedBookImbalance(depth.bids, depth.asks);
@@ -2253,11 +2357,11 @@ async function manageOpenPosition(state, candidates = []) {
     minsHeld >= 25 &&
     rawCoinMoveFrac >= ROUND_TRIP_FEE_SLIP_FRAC &&
     rawCoinMoveFrac <= 0.0035 &&
-    candidates.length > 0
+    candidates.length > 0 &&
+    curPosLiveCand
   ) {
-    const curLiveCand = candidates.find(c => c.symbol === pos.symbol);
-    const curLiveScore = curLiveCand ? curLiveCand.score : 99; // Fail-closed if missing
-    const isCurDegraded = Boolean(curLiveCand && (curLiveCand.engine === 'WATCHLIST' || curLiveScore < 66));
+    const curLiveScore = curPosLiveCand.score;
+    const isCurDegraded = Boolean(curPosLiveCand.engine === 'WATCHLIST' || curLiveScore < 66);
     const bestNewCand = candidates.find(
       c =>
         c.symbol !== pos.symbol &&
@@ -2273,18 +2377,21 @@ async function manageOpenPosition(state, candidates = []) {
   }
 
   let exitReason = null;
-  if (isTpHit) {
-    exitReason = `🎯 ${posLev}x TAM HEDEF HASADI (${pos.side} | Coin %${underlyingMovePct} -> Kasa ROE +%${roePct})`;
-  } else if (isStopHit) {
+  if (isStopHit) {
+    // Fixed Bug #43: Prioritize protective stop check before TP check in conservative simulation
     const isProfitStop =
       pos.side === 'LONG' ? pos.stopPrice > pos.entryPrice : pos.stopPrice < pos.entryPrice;
     exitReason = isProfitStop
       ? `🔒 ${posLev}x SIFIR RİSK / SIKIŞTIRMA KÂR KİLİDİ (${pos.side} | Kasa ROE +${roePct}%)`
       : `🛡️ ${posLev}x İZOLE STOP KALKANI (${pos.side} | Coin %${underlyingMovePct} -> Kasa ROE ${roePct}%)`;
+  } else if (isTpHit) {
+    exitReason = `🎯 ${posLev}x TAM HEDEF HASADI (${pos.side} | Coin %${underlyingMovePct} -> Kasa ROE +%${roePct})`;
   } else if (isFishingEmergencyExit) {
-    exitReason = `🎣 YEMLEME (FISHING) ERKEN TAHLİYESİ (Kurumsal Alıcı Çöktü [Taker L/S ${curPosLiveCand?.instBuySellRatio ?? 'N/A'}x], Stop Beklenmeden Çıkıldı | ROE ${roePct}%)`;
+    exitReason = `🎣 YEMLEME (FISHING) ERKEN TAHLİYESİ (Kurumsal Alıcı Çöktü [5dk Taker ${curPosLiveCand?.instBuySellRatio ?? 'N/A'}x], Stop Beklenmeden Çıkıldı | ROE ${roePct}%)`;
+  } else if (isWickTakerCollapseScratch) {
+    exitReason = `🛡️ İĞNE REDDİ & 5dk TAKER ÇÖKÜŞÜ ERKEN TAHLİYESİ (Motor #56: ${curPosLiveCand?.candlePattern || 'İğne Reddi'} & 5dk Taker ${curPosLiveCand?.instBuySellRatio ?? 'N/A'}x, Tam Stop Beklenmeden Çıkıldı | ROE ${roePct}%)`;
   } else if (isStaleMomentumScratch) {
-    exitReason = `⏱️ 32dk BAYAT İVME / SIKIŞMA ERKEN TAHLİYESİ (Motor #49: MFE ${(mfeR * 100).toFixed(0)}%R < 25%R & AE ${(aeR * 100).toFixed(0)}%R, Stop Beklenmeden Çıkıldı | ROE ${roePct}%)`;
+    exitReason = `⏱️ 32dk BAYAT İVME / SIKIŞMA ERKEN TAHLİYESİ (Motor #49: MFE ${(mfeR * 100).toFixed(0)}%R < 25%R & MAE ${(aeR * 100).toFixed(0)}%R, Stop Beklenmeden Çıkıldı | ROE ${roePct}%)`;
   } else if (isOrderflowScratch) {
     exitReason = `🛡️ EUGENE ERKEN TAHTA TAHLİYESİ (Emir Defteri Tersine Döndü, Stop Beklenmeden Çıkıldı | ROE ${roePct}%)`;
   } else if (isFundingSettlementHarvest) {
@@ -2299,11 +2406,7 @@ async function manageOpenPosition(state, candidates = []) {
     pos.isClosing = true; // Synchronous atomic lock so no concurrent loop can ever double-close or double-refund!
     state.openPosition = null;
 
-    // Engine #44B + #49B:
-    // 1) If exit is a locked profit stop (isStopHit && isProfitStop), clamp execution to stopPrice minus 0.04% max stop slip
-    //    and >= c + 0.0006 (+0.24% gross = +0.06% net after fees) so a Profit Lock NEVER closes at a fee loss like SOPHUSDT (-0.57 TL)!
-    // 2) If exit is a server-side protective stop (isStopHit && !isProfitStop), model server-side STOP_MARKET trigger at stopPrice
-    //    plus live spread + 5 bps market impact (min 6 bps), avoiding artificial 4-second polling lag while preserving real spread slippage.
+    // Engine #44B + #49B + Fixed Bug #35 (Consistent effectiveExitPrice matching booked PnL):
     const isProfitStopClose =
       isStopHit && (pos.side === 'LONG' ? pos.stopPrice > pos.entryPrice : pos.stopPrice < pos.entryPrice);
     const stopLockedMoveFrac =
@@ -2318,6 +2421,10 @@ async function manageOpenPosition(state, candidates = []) {
         ? Math.max(rawCoinMoveFrac, stopLockedMoveFrac - serverStopSlipFrac)
         : rawCoinMoveFrac;
     const effectiveNetMoveFrac = effectiveRawMoveFrac - ROUND_TRIP_FEE_SLIP_FRAC;
+    const effectiveExitPrice =
+      pos.side === 'LONG'
+        ? Number((pos.entryPrice * (1 + effectiveRawMoveFrac)).toPrecision(6))
+        : Number((pos.entryPrice * (1 - effectiveRawMoveFrac)).toPrecision(6));
 
     const finalLegPnlUsdt = Number((pos.notionalUsdt * effectiveNetMoveFrac).toFixed(4));
     const totalLifecyclePnlUsdt = Number(((pos.realizedPartialUsdt || 0) + finalLegPnlUsdt).toFixed(4));
@@ -2342,21 +2449,21 @@ async function manageOpenPosition(state, candidates = []) {
       marginTry: toTL(initialMarginUsdt),
       notionalTry: toTL(initialNotionalUsdt),
       entryPrice: pos.entryPrice,
-      exitPrice: markExitPrice,
+      exitPrice: effectiveExitPrice,
       roePct: lifecycleRoePct,
       netPnlTry: totalLifecyclePnlTry,
       exitReason,
       closedAt: new Date().toLocaleString('tr-TR'),
     });
-    // Engine #46 (GPT-6-Luna Toxic-Symbol Quarantine):
-    // Win -> 90m cooldown & reset consecStops=0; 1st Stop -> 180m (3h) quarantine; >=2 Consecutive Stops -> 720m (12h) quarantine!
+    // Engine #46 + Fixed Bug #44 (GPT-6-Luna Protective-Stop Quarantine vs Early Scratch Cooldown):
+    // Only increment symbolConsecStops on actual protective stop-outs or losses >= 3.50 TL; early tactical scratches get a 60m cooldown without triggering a 12h toxic quarantine!
     if (!state.symbolCooldowns) state.symbolCooldowns = {};
     if (!state.symbolConsecStops) state.symbolConsecStops = {};
     if (totalLifecyclePnlUsdt >= 0) {
       state.symbolConsecStops[pos.symbol] = 0;
       const winExpiry = Date.now() + 90 * 60 * 1000;
       state.symbolCooldowns[pos.symbol] = Math.max(state.symbolCooldowns[pos.symbol] || 0, winExpiry);
-    } else {
+    } else if ((isStopHit && !isProfitStopClose) || totalLifecyclePnlTry <= -3.50) {
       const sCount = (state.symbolConsecStops[pos.symbol] || 0) + 1;
       state.symbolConsecStops[pos.symbol] = sCount;
       const cdMins = sCount >= 2 ? 720 : 180;
@@ -2366,6 +2473,9 @@ async function manageOpenPosition(state, candidates = []) {
         state,
         `🚫 [Motor #46 Toksik Sembol Karantinası] ${pos.symbol}USDT art arda ${sCount}. stop sonrası ${cdMins / 60} saat (${cdMins}dk) karantinaya alındı!`
       );
+    } else {
+      const scratchExpiry = Date.now() + 60 * 60 * 1000;
+      state.symbolCooldowns[pos.symbol] = Math.max(state.symbolCooldowns[pos.symbol] || 0, scratchExpiry);
     }
     if (rotationTarget) {
       state.lastRotationAtMs = Date.now();
@@ -2391,7 +2501,7 @@ async function manageOpenPosition(state, candidates = []) {
         spotTransferTry: totalSweptForTradeTry,
         roePct: lifecycleRoePct,
         entryPrice: pos.entryPrice,
-        exitPrice: markExitPrice,
+        exitPrice: effectiveExitPrice,
         thesis: pos.thesis,
       });
     }
@@ -2415,17 +2525,29 @@ async function tryOpenPosition(state, candidates) {
   if (!state.obVetoStrikes) state.obVetoStrikes = {};
   if (!state.obVetoAtMs) state.obVetoAtMs = {};
   if (!state.obVetoReasons) state.obVetoReasons = {};
+  if (!state.obVetoCodes) state.obVetoCodes = {};
   const obVetoCds = state.obVetoCooldowns;
 
-  // Engine #41 + #46 (GPT-6-Luna Spoof-Proof Institutional Surge Reset):
-  // NEVER allow Surge Reset when obVetoStrikes >= 2 OR when the book failed due to SPOOF_WALL_DECAY / BOOK_HOLLOWING (prevents SOPHUSDT #3 spoof trap!)
+  // Fixed Bug #46: Decay progressive orderbook strikes if last veto was > 30 minutes ago!
+  for (const symKey of Object.keys(state.obVetoStrikes)) {
+    if (nowEntryMs - (state.obVetoAtMs[symKey] || 0) > 30 * 60 * 1000) {
+      state.obVetoStrikes[symKey] = 0;
+    }
+  }
+
+  // Engine #41 + #46 + Fixed Bug #48 (Structured vetoCode check + real 5m Taker Surge Reset):
   for (const c of candidates) {
     if (obVetoCds[c.symbol] && obVetoCds[c.symbol] > nowEntryMs) {
       const strikes = state.obVetoStrikes[c.symbol] || 0;
+      const lastCode = String(state.obVetoCodes[c.symbol] || '');
       const lastReason = String(state.obVetoReasons[c.symbol] || '');
-      const isSpoofOrHollow = lastReason.includes('SPOOF_WALL_DECAY') || lastReason.includes('BOOK_HOLLOWING');
+      const isSpoofOrHollow =
+        lastCode === 'SPOOF_WALL_DECAY' ||
+        lastCode === 'BOOK_HOLLOWING' ||
+        lastReason.includes('SPOOF_WALL_DECAY') ||
+        lastReason.includes('BOOK_HOLLOWING');
       const isQuarantined = symCds[c.symbol] && symCds[c.symbol] > nowEntryMs;
-      if (strikes < 2 && !isSpoofOrHollow && !isQuarantined) {
+      if (strikes < 2 && !isSpoofOrHollow && !isQuarantined && c.takerDataValid) {
         const elapsedSinceVetoMs = nowEntryMs - (state.obVetoAtMs[c.symbol] || 0);
         const isLongSurge = c.side === 'LONG' && c.volRatio15m >= 1.25 && c.oiDelta1hPct >= 0.35 && c.instBuySellRatio >= 1.25;
         const isShortSurge = c.side === 'SHORT' && c.volRatio15m >= 1.25 && c.oiDelta1hPct >= 0.35 && c.instBuySellRatio <= 0.80;
@@ -2433,7 +2555,7 @@ async function tryOpenPosition(state, candidates) {
           delete obVetoCds[c.symbol];
           logEvent(
             state,
-            `⚡ [Engine #41 Kurumsal Surge Reset] ${c.symbol} (${c.side} | Vol:${c.volRatio15m}x | OI:+%${c.oiDelta1hPct} | Taker:${c.instBuySellRatio}x) tahta beklemesi erken sıfırlandı — canlı emir defteri yeniden test ediliyor!`
+            `⚡ [Engine #41 Kurumsal Surge Reset] ${c.symbol} (${c.side} | Vol:${c.volRatio15m}x | OI:+%${c.oiDelta1hPct} | 5dk Taker:${c.instBuySellRatio}x) tahta beklemesi erken sıfırlandı — canlı emir defteri yeniden test ediliyor!`
           );
         }
       }
@@ -2460,15 +2582,15 @@ async function tryOpenPosition(state, candidates) {
     if (preCheckNotionalUsdt < MIN_NOTIONAL_USDT) {
       logEvent(
         state,
-        `⚠️ [MIN_NOTIONAL KALKANI] Mevcut ${tierLev}x Alım Gücü ($${preCheckNotionalUsdt} / ${toTL(preCheckNotionalUsdt)} TL) Binance Futures alt sınırı olan 5.00 USDT altına indiği için emir durduruldu!`
+        `⚠️ [MIN_NOTIONAL KALKANI] ${cand.symbol} için ${tierLev}x Alım Gücü ($${preCheckNotionalUsdt} / ${toTL(preCheckNotionalUsdt)} TL) 5.00 USDT altında kaldı, sonraki adaya geçiliyor!`
       );
-      return;
+      continue; // Fixed Bug #49: continue to next candidate in case a higher leverage tier passes MIN_NOTIONAL
     }
 
     const obCheck = await fetchPerpOrderbookConfirm(cand.symbol, cand.side);
     if (!obCheck.ok) {
       // Engine #41 (GPT-6-Luna Progressive Strike Orderbook Cooldown: 1st -> 2.5m, 2nd -> 8m, >=3rd -> 15m; NO_DEPTH -> 90s without strike)
-      const isNoDepth = String(obCheck.reason || '').startsWith('NO_DEPTH');
+      const isNoDepth = obCheck.vetoCode === 'NO_DEPTH' || String(obCheck.reason || '').startsWith('NO_DEPTH');
       let cdMins = 1.5;
       let strikeCount = state.obVetoStrikes[cand.symbol] || 0;
       if (!isNoDepth) {
@@ -2478,6 +2600,7 @@ async function tryOpenPosition(state, candidates) {
       }
       state.obVetoAtMs[cand.symbol] = Date.now();
       state.obVetoReasons[cand.symbol] = obCheck.reason;
+      state.obVetoCodes[cand.symbol] = obCheck.vetoCode || 'WEAK_OB';
       state.obVetoCooldowns[cand.symbol] = Date.now() + cdMins * 60 * 1000;
       logEvent(
         state,
@@ -2551,6 +2674,9 @@ async function tryOpenPosition(state, candidates) {
       entryPrice,
       currentPrice: entryPrice,
       extremePrice: entryPrice,
+      maxAdverseCoinMoveFrac: 0,
+      initialRiskFrac: underlyingSlFrac,
+      tpExtensionCount: 0,
       stopPrice,
       tpPrice,
       liqPrice,
@@ -2626,12 +2752,12 @@ function updateAccountingAndReport(state) {
           .map(m => `| **${m.trade}** | ${m.rootCause} | ✅ **${m.fixApplied}** |`)
           .join('\n') + '\n';
 
-  const md = `# ⚡ 300 TL SABİT ANA PARA (3x–5x RİSK-NORMALİZE KALDIRAÇ) + 23.000 TL HEDEF & 2-SAATLİK OTONOM EVRİM (Mutlak Yapı v10.0)
+  const md = `# ⚡ 300 TL SABİT ANA PARA (3x–5x RİSK-NORMALİZE KALDIRAÇ) + 23.000 TL HEDEF & 2-SAATLİK OTONOM EVRİM (Mutlak Yapı v10.1)
 
 **Son Güncelleme:** ${new Date().toLocaleString('tr-TR')}  
 **🌍 Her Yerden (4.5G/Mobil/Wi-Fi Cloudflare Port Forwarding):** \`${PUBLIC_TUNNEL_URL}\` *(Yedek: \`${BACKUP_TUNNEL_URL}\`)*  
 **🏠 Ev Wi-Fi:** \`http://${lanIp}:${DASHBOARD_PORT}\` | **💻 Bilgisayar:** \`http://localhost:${DASHBOARD_PORT}\`  
-**Çalışma Modu:** \`${state.mode}\` *(Sadece Max ${goalInfo.activeCapTry} TL İle Oynar + 3x–5x Luna/Qullamaggie Kaldıraç + Her 2 Saatte Bir Otonom Özeleştiri & Evrim Motoru #43–#54)*
+**Çalışma Modu:** \`${state.mode}\` *(Sadece Max ${goalInfo.activeCapTry} TL İle Oynar + 3x–5x Luna/Qullamaggie Kaldıraç + Her 2 Saatte Bir Otonom Özeleştiri & Evrim Motoru #43–#56)*
 
 ---
 
@@ -2643,7 +2769,7 @@ function updateAccountingAndReport(state) {
 
 ---
 
-## 🧠 2-SAATLİK OTONOM ÖZELEŞTİRİ & KENDİNİ GELİŞTİRME MOTORU (Motor #43–#54)
+## 🧠 2-SAATLİK OTONOM ÖZELEŞTİRİ & KENDİNİ GELİŞTİRME MOTORU (Motor #43–#56)
 
 * **⏱️ Son Otonom Denetim:** \`${audit.lastAuditAt}\` | **Sonraki 2-Saatlik Denetim:** \`${audit.nextAuditAt}\`
 * **📊 Son ${audit.recentWindowCount} İşlem Karnesi:** \`${audit.recentWins} Kazanç / ${audit.recentLosses} Kayıp\` (**Net:** \`${audit.recentNetPnlTry >= 0 ? '+' : ''}${audit.recentNetPnlTry} TL\` | **Luna Amaç Skoru $J$:** \`${audit.objectiveJ}\`)
@@ -2864,7 +2990,7 @@ function startDashboardServer(state) {
   <div id="mc-hit-layer"></div>
   <div class="topbar">
     <div>
-      <div class="title">⚡ Yırtıcı Konsey v10.0 — 300 TL Kaldıraç (3x–5x) + 🎯 23.000 TL Hedef + 🧠 Hype-Avcısı & Short-Kilidi (Motor #43–#54)</div>
+      <div class="title">⚡ Yırtıcı Konsey v10.1 — 300 TL Kaldıraç (3x–5x) + 🎯 23.000 TL Hedef + 🧠 Luna Sıfır-Hata &amp; Hype-Avcısı (Motor #43–#56)</div>
       <div class="sub">Sayfa Yenilenmeden Canlı Akış (Zero-Refresh) + Minecraft/RPG Hit-Marker (+TL / -TL) &bull; Son Senkron: <b id="live-sync-clock" class="cyan">${new Date().toLocaleTimeString('tr-TR')}</b></div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
@@ -3189,10 +3315,10 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v10.0-Hype-Squeeze-Predator';
+  state.version = 'Mutlak-Yapi-v10.1-Luna-Zero-Bug-Predator';
   runTwoHourSelfAudit(state, true);
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + HYPE-AVCISI & OTONOM EVRİM MOTORU (v10.0)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + LUNA SIFIR-HATA & HYPE-AVCISI MOTORU (v10.1)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
