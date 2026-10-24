@@ -462,11 +462,12 @@ async function executeFapiRealExit(pos, closeFraction = 1.0) {
   return { isLive: true, ok: false, reason: ord?.msg || 'CLOSE_ORDER_FAILED' };
 }
 
-function selectConvictionLeverage(score, atr15mPct) {
-  if (score >= 94 && atr15mPct <= 1.35) return 5;   // Engine #42: Qullamaggie + Luna Risk-Normalized Tight-Stop Apex Shot (5x = 1.500 TL Power)
-  if (score >= 90 && atr15mPct <= 1.85) return 4;   // Ultra-Apex Sniper Shot (4x = 1.200 TL Power)
-  if (score >= 85 && atr15mPct <= 2.40) return 3.5; // High-Conviction Surge (3.5x = 1.050 TL Power)
-  return 3;                                         // Standard Anti-Wick Institutional Leverage (3x = 900 TL Power)
+function selectConvictionLeverage(score, atr15mPct, structuralDistPct = 0) {
+  const reqSlPct = Math.max(0.92, Number(structuralDistPct || 0), Number(atr15mPct || 1.2) * 0.72);
+  if (score >= 94 && atr15mPct <= 1.35 && reqSlPct <= 0.96) return 5;   // Engine #42 + #74A: 5x ONLY when true structural stop <= 0.96%
+  if (score >= 90 && atr15mPct <= 1.85 && reqSlPct <= 1.12) return 4;   // Ultra-Apex Sniper Shot (4x when true structural stop <= 1.12%)
+  if (score >= 85 && atr15mPct <= 2.40 && reqSlPct <= 1.40) return 3.5; // High-Conviction Surge (3.5x when true structural stop <= 1.40%)
+  return 3;                                                             // Standard Anti-Wick Institutional Leverage (3x = 900 TL Power)
 }
 
 function sendGmailSmtp({ fromEmail, appPassword, toEmail, subject, textBody }) {
@@ -2491,6 +2492,14 @@ async function scanPerpUniverse(state) {
       mtfSqueeze.squeezeBullishPts > 0 ||
       isHtfCoilContinuationLong ||
       (oiQuadrant.startsWith('Q1') && oiDelta1hPct >= 3.0 && change1hPct >= 2.0 && anatomy.normCvd3BarPct >= 12.0);
+    // Engine #74B (Symmetric Short Structure & Anti-Counter-MTF Shield):
+    // Forbid SHORT entries inside flat range chop (YATAY MTF + Normal) or against MTF YÜKSELİŞ (EMA20>50) unless TTM Downward Breakout or GCR Mania!
+    const hasShortStructureOrBreakdown =
+      (mtfSqueeze.mtfBearishPts > 0 ||
+        mtfSqueeze.squeezeBearishPts > 0 ||
+        isGcrCrowdedManiaShort ||
+        (oiQuadrant.startsWith('Q3') && oiDelta1hPct >= 2.5 && change1hPct <= -1.80 && anatomy.normCvd3BarPct <= -12.0)) &&
+      (mtfSqueeze.mtfBullishPts === 0 || mtfSqueeze.squeezeBearishPts > 0 || isGcrCrowdedManiaShort);
 
     // Require active 15m volume participation (volRatio15m >= 0.72, or >= 0.50 in a Qullamaggie HTF TTM-Coil) and positive 1h momentum alignment
     const hasLongMomentumAndVol =
@@ -2500,7 +2509,10 @@ async function scanPerpUniverse(state) {
       change1hPct >= 0.15 &&
       rsVsBtcAtr >= 0.05;
     const hasShortMomentumAndVol =
-      volRatio15m >= 0.72 && hasCvdAlignmentShort && (isGcrCrowdedManiaShort || (change1hPct <= -0.15 && rsVsBtcAtr <= -0.05));
+      volRatio15m >= 0.72 &&
+      hasCvdAlignmentShort &&
+      hasShortStructureOrBreakdown &&
+      (isGcrCrowdedManiaShort || (change1hPct <= -0.15 && rsVsBtcAtr <= -0.05));
 
     const has5mInstTakerLong =
       takerDataValid &&
@@ -2540,12 +2552,21 @@ async function scanPerpUniverse(state) {
       (rsVsBtcAtr <= 0.25 || isGcrCrowdedManiaShort) &&
       rawShortTotal >= Math.max(86, tuning.minShortScore ?? 86);
 
+    const longStructDistPct =
+      anatomy.structuralLow > 0 && anatomy.structuralLow < lastPrice
+        ? ((lastPrice - anatomy.structuralLow * 0.999) / lastPrice) * 100
+        : 0.95;
+    const shortStructDistPct =
+      anatomy.structuralHigh > lastPrice
+        ? ((anatomy.structuralHigh * 1.001 - lastPrice) / lastPrice) * 100
+        : 0.95;
+
     let rawScore = 50;
     if (canTriggerLong && (!canTriggerShort || rawLongTotal >= rawShortTotal)) {
       side = 'LONG';
       rawScore = rawLongTotal;
       score = Math.min(99, rawLongTotal);
-      const dynLev = selectConvictionLeverage(score, atr15mPct);
+      const dynLev = selectConvictionLeverage(score, atr15mPct, longStructDistPct);
       engine = isHypeSqueezeMomentumLong
         ? 'ENGINE_HYPE_SQUEEZE_MOMENTUM_LONG'
         : isBnfLiquidationBounce
@@ -2562,7 +2583,7 @@ async function scanPerpUniverse(state) {
       side = 'SHORT';
       rawScore = rawShortTotal;
       score = Math.min(99, rawShortTotal);
-      const dynLev = selectConvictionLeverage(score, atr15mPct);
+      const dynLev = selectConvictionLeverage(score, atr15mPct, shortStructDistPct);
       engine = isGcrCrowdedManiaShort
         ? 'ENGINE_GCR_MANIA_FADE_SHORT'
         : mtfSqueeze.squeezeBearishPts > 0
@@ -2582,7 +2603,8 @@ async function scanPerpUniverse(state) {
       thesis = `${anatomy.patternLabel} | ${mtfSqueeze.squeezeLabel} | ${oiQuadrant} | 1s: ${change1hPct >= 0 ? '+' : ''}%${change1hPct} (24s: ${item.change24hPct >= 0 ? '+' : ''}%${item.change24hPct}) | RS_BTC: ${rsVsBtcAtr >= 0 ? '+' : ''}${rsVsBtcAtr} | Balina Makası: ${whaleRetailSpread >= 0 ? '+' : ''}%${whaleRetailSpread} | 5dk Taker: ${instBuySellRatio}x | ${anatomy.cvdLabel}`;
     }
 
-    const convictionLeverage = selectConvictionLeverage(score, atr15mPct);
+    const activeStructDistPct = side.startsWith('SHORT') ? shortStructDistPct : longStructDistPct;
+    const convictionLeverage = selectConvictionLeverage(score, atr15mPct, activeStructDistPct);
 
     evaluated.push({
       symbol: item.symbol,
@@ -2702,6 +2724,57 @@ async function manageOpenPosition(state, candidates = []) {
   // Fixed Bug #32: Persist cumulative maximum adverse excursion (MAE) across all ticks instead of instantaneous drawdown only!
   const currentAdverseFrac = Math.max(0, -rawCoinMoveFrac);
   pos.maxAdverseCoinMoveFrac = Math.max(pos.maxAdverseCoinMoveFrac || 0, currentAdverseFrac);
+
+  // Engine #74A (GPT-6-Luna Structural Stop Self-Healing for Truncated 5x Stops):
+  // If an existing INITIAL_STOP position had its stop truncated inside the 15m structural low/high by old tierSlCap clamping,
+  // immediately restore the true structural stop below structuralLow / above structuralHigh and risk-normalize leverage!
+  if (pos.ratchetStage === 'INITIAL_STOP' && !pos.tp1Done && !pos.structuralStopHealed) {
+    const structCand =
+      candidates.find(c => c.symbol === pos.symbol) ||
+      (state.openPositionLiveCand?.symbol === pos.symbol ? state.openPositionLiveCand : null);
+    if (structCand) {
+      let reqWickDistFrac = 0;
+      if (pos.side === 'LONG' && structCand.structuralLow > 0 && structCand.structuralLow < pos.entryPrice) {
+        reqWickDistFrac = (pos.entryPrice - structCand.structuralLow * 0.999) / pos.entryPrice;
+      } else if (pos.side === 'SHORT' && structCand.structuralHigh > pos.entryPrice) {
+        reqWickDistFrac = (structCand.structuralHigh * 1.001 - pos.entryPrice) / pos.entryPrice;
+      }
+      const trueSlFrac = Math.min(0.0220, Math.max(pos.initialRiskFrac || 0.0095, reqWickDistFrac));
+      const isStopInsideStructure =
+        (pos.side === 'LONG' && structCand.structuralLow > 0 && pos.stopPrice > structCand.structuralLow * 0.9995) ||
+        (pos.side === 'SHORT' && structCand.structuralHigh > 0 && pos.stopPrice < structCand.structuralHigh * 1.0005);
+      if (isStopInsideStructure && trueSlFrac > (pos.initialRiskFrac || 0.0095) + 0.0008) {
+        const oldStop = pos.stopPrice;
+        const healedStop =
+          pos.side === 'LONG'
+            ? roundPriceToTick(pos.fSym, pos.entryPrice * (1 - trueSlFrac), 'floor')
+            : roundPriceToTick(pos.fSym, pos.entryPrice * (1 + trueSlFrac), 'ceil');
+        if (healedStop > 0) {
+          pos.stopPrice = healedStop;
+          pos.initialRiskFrac = Number(trueSlFrac.toFixed(4));
+          pos.underlyingSlPct = Number((trueSlFrac * 100).toFixed(2));
+          if (!pos.isLiveFapiOrder && pos.leverage > 3.5 && trueSlFrac > 0.0110) {
+            const normLev = trueSlFrac <= 0.0138 ? 3.5 : 3;
+            pos.leverage = normLev;
+            pos.notionalUsdt = Number((pos.marginUsdt * normLev).toFixed(4));
+            pos.notionalTry = toTL(pos.notionalUsdt);
+            pos.initialNotionalUsdt = pos.notionalUsdt;
+            pos.executedQty = roundQtyToStep(pos.fSym, pos.notionalUsdt / pos.entryPrice);
+            pos.thesis = String(pos.thesis || '').replace(/->\s*[\d.]+x\s+(LONG|SHORT)!/, `-> ${normLev}x $1!`);
+          }
+          pos.structuralStopHealed = true;
+          logEvent(
+            state,
+            `🛡️ [Motor #74A Yapısal Stop Onarımı] ${pos.fSym} stop noktası mum içi gürültüden ($${oldStop}) gerçek yapısal destek altına ($${healedStop} / -%${pos.underlyingSlPct}) çekildi ve kaldıraç ${pos.leverage}x risk dengesine alındı!`
+          );
+          if (state.mode === 'LIVE_BINANCE_FAPI' && pos.isLiveFapiOrder) {
+            await syncFapiHardwareStop(pos, pos.stopPrice);
+            if (state.openPosition?.id !== posId || pos.isClosing) return;
+          }
+        }
+      }
+    }
+  }
 
   const effectiveFeeSlipFrac =
     Number.isFinite(pos.feeSlipFrac) && pos.feeSlipFrac >= 0
@@ -3291,9 +3364,9 @@ async function tryOpenPosition(state, candidates) {
   if (!state.obVetoCodes) state.obVetoCodes = {};
   const obVetoCds = state.obVetoCooldowns;
 
-  // Fixed Bug #46: Decay progressive orderbook strikes if last veto was > 30 minutes ago!
+  // Fixed Bug #46 + Engine #74C: Decay progressive orderbook strikes if last veto was > 45 minutes ago!
   for (const symKey of Object.keys(state.obVetoStrikes)) {
-    if (nowEntryMs - (state.obVetoAtMs[symKey] || 0) > 30 * 60 * 1000) {
+    if (nowEntryMs - (state.obVetoAtMs[symKey] || 0) > 45 * 60 * 1000) {
       state.obVetoStrikes[symKey] = 0;
     }
   }
@@ -3367,7 +3440,10 @@ async function tryOpenPosition(state, candidates) {
       if (!isNoStrikeWait) {
         strikeCount += 1;
         state.obVetoStrikes[cand.symbol] = strikeCount;
-        cdMins = strikeCount === 1 ? 2.5 : strikeCount === 2 ? 8.0 : 15.0;
+        const isSpoofVeto = obCheck.vetoCode === 'SPOOF_WALL_DECAY' || obCheck.vetoCode === 'BOOK_HOLLOWING';
+        cdMins = isSpoofVeto
+          ? (strikeCount === 1 ? 3.5 : strikeCount === 2 ? 12.0 : 35.0)
+          : (strikeCount === 1 ? 2.5 : strikeCount === 2 ? 8.0 : 18.0);
       }
       state.obVetoAtMs[cand.symbol] = Date.now();
       state.obVetoReasons[cand.symbol] = obCheck.reason;
@@ -3397,13 +3473,12 @@ async function tryOpenPosition(state, candidates) {
     } else if (cand.side === 'SHORT' && cand.structuralHigh > entryPrice) {
       rawWickDistFrac = (cand.structuralHigh * 1.001 - entryPrice) / entryPrice;
     }
-    // Engine #42 + #59 (GPT-6-Luna Risk-Consistent Leverage & ATR-Aware Stop Without Silent Tier Downgrade):
-    // 1. Allow ATR-aware structural stop up to 2.20% on volatile hype rockets so 0.35-ATR noise wiggles don't stop out valid breakouts.
-    // 2. Fix unreachable 4x/5x math (0.0525 risk budget allows 4x at 1.08% stop [4.01x] and 5x at 0.95% stop [4.45x]).
+    // Engine #42 + #59 + #74A (GPT-6-Luna Structural Stop Integrity — NEVER Chop Stop Inside Structural Low/High to Force Higher Leverage):
+    // 1. The candle's actual structural stop (rawStopFrac = max(0.0092, rawWickDistFrac, 0.72 * atr)) dictates underlyingSlFrac up to 2.20%.
+    // 2. Leverage then adapts to underlyingSlFrac so a 5x stop (-0.95%) is NEVER placed above a -1.30% structuralLow!
     // 3. When underlyingSlFrac > 1.50% on a high-ATR rocket, scale position margin down proportionally so max stop loss never exceeds ~4.8% of equity!
     const rawStopFrac = Math.max(0.0092, rawWickDistFrac, (cand.atr15mPct / 100) * 0.72);
-    const tierSlCap = tierLev >= 5 ? 0.0095 : tierLev >= 4 ? 0.0108 : tierLev >= 3.5 ? 0.0135 : 0.0220;
-    const underlyingSlFrac = Math.min(0.0220, (cand.atr15mPct || 1.2) >= 2.20 ? rawStopFrac : Math.min(tierSlCap, rawStopFrac));
+    const underlyingSlFrac = Math.min(0.0220, rawStopFrac);
     const maxRiskLev = 0.0525 / (underlyingSlFrac + ROUND_TRIP_FEE_SLIP_FRAC + 0.0005);
     const microConfirm5x =
       cand.side === 'LONG'
@@ -3411,11 +3486,11 @@ async function tryOpenPosition(state, candidates) {
         : obCheck.microSkew < 0 && obCheck.ob2 <= -0.08;
     const rawAllowedLev = Math.min(tierLev, maxRiskLev);
     const rawChosenLev =
-      rawAllowedLev >= 4.15 && tierLev >= 5 && microConfirm5x && underlyingSlFrac <= 0.0095
+      rawAllowedLev >= 4.15 && tierLev >= 5 && microConfirm5x && underlyingSlFrac <= 0.0096
         ? 5
-        : rawAllowedLev >= 3.90 && tierLev >= 4 && underlyingSlFrac <= 0.0110
+        : rawAllowedLev >= 3.85 && tierLev >= 4 && underlyingSlFrac <= 0.0112
           ? 4
-          : rawAllowedLev >= 3.30 && tierLev >= 3.5 && underlyingSlFrac <= 0.0138
+          : rawAllowedLev >= 3.25 && tierLev >= 3.5 && underlyingSlFrac <= 0.0140
             ? 3.5
             : 3;
     // Engine #72G (GPT-6-Luna Integer Leverage Parity for LIVE_BINANCE_FAPI):
@@ -4143,7 +4218,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v11.3-Eternal-Quarantine-Fix-And-Live-TP1-Parity';
+  state.version = 'Mutlak-Yapi-v11.4-Structural-Stop-Integrity-And-Short-MTF-Shield';
   if (state.openPosition?.thesis && state.openPosition?.leverage) {
     state.openPosition.thesis = String(state.openPosition.thesis).replace(
       /->\s*[\d.]+x\s+(LONG|SHORT)!/,
@@ -4152,7 +4227,7 @@ async function main() {
   }
   runTwoHourSelfAudit(state, true);
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v11.3 — Motor #58-#73)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v11.4 — Motor #58-#74)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
