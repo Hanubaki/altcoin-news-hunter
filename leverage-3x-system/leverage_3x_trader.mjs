@@ -17,10 +17,10 @@ const ENV_FILE = path.join(ROOT_DIR, '.env');
 
 const FAPI_BASE = 'https://fapi.binance.com';
 const USD_TRY_RATE = 49.55;
-const LEVERAGE = 4; // Base Conviction Leverage (Dynamic Tiers: 4x / 5x / 6x Ultra-Apex)
-const MAX_CONVICTION_LEVERAGE = 6;
-const INITIAL_BANKROLL_TRY = 100.0;
-const INITIAL_BANKROLL_USDT = Number((INITIAL_BANKROLL_TRY / USD_TRY_RATE).toFixed(4)); // ~2.0182 USDT
+const LEVERAGE = 3; // Base Low-Wick Institutional Leverage (300 TL -> 3x = 900 TL, 3.5x = 1.050 TL, 4x = 1.200 TL)
+const MAX_CONVICTION_LEVERAGE = 4;
+const INITIAL_BANKROLL_TRY = 300.0;
+const INITIAL_BANKROLL_USDT = Number((INITIAL_BANKROLL_TRY / USD_TRY_RATE).toFixed(4)); // ~6.0545 USDT
 const MIN_NOTIONAL_USDT = 5.0; // Binance Futures hard minimum notional floor
 const ROUND_TRIP_FEE_SLIP_FRAC = 0.0018; // 0.05% taker entry + 0.05% taker exit + 0.08% perp slippage on notional
 const DASHBOARD_PORT = 3848;
@@ -70,9 +70,9 @@ async function getValidCoinPerpMap() {
 }
 
 function selectConvictionLeverage(score, atr15mPct) {
-  if (score >= 91 && atr15mPct <= 1.85) return 6; // Ultra-Apex Sniper Shot (6x)
-  if (score >= 84 && atr15mPct <= 2.40) return 5; // High-Conviction Surge (5x)
-  return 4;                                       // Standard Council Trigger (4x — always > $5.00 MIN_NOTIONAL)
+  if (score >= 92 && atr15mPct <= 1.85) return 4;   // Ultra-Apex Sniper Shot (4x = 1.200 TL Power)
+  if (score >= 85 && atr15mPct <= 2.40) return 3.5; // High-Conviction Surge (3.5x = 1.050 TL Power)
+  return 3;                                         // Standard Anti-Wick Institutional Leverage (3x = 900 TL Power)
 }
 
 function sendGmailSmtp({ fromEmail, appPassword, toEmail, subject, textBody }) {
@@ -1911,15 +1911,16 @@ async function tryOpenPosition(state, candidates) {
     }
 
     const entryPrice = cand.side === 'LONG' ? obCheck.bestAsk : obCheck.bestBid;
-    let rawWickDistFrac = 0.0080;
+    let rawWickDistFrac = 0.0095;
     if (cand.side === 'LONG' && cand.structuralLow > 0 && cand.structuralLow < entryPrice) {
       rawWickDistFrac = (entryPrice - cand.structuralLow * 0.999) / entryPrice;
     } else if (cand.side === 'SHORT' && cand.structuralHigh > entryPrice) {
       rawWickDistFrac = (cand.structuralHigh * 1.001 - entryPrice) / entryPrice;
     }
-    const maxSlCap = chosenLev >= 6 ? 0.0082 : chosenLev >= 5 ? 0.0088 : 0.0096;
-    const underlyingSlFrac = Math.min(maxSlCap, Math.max(0.0068, rawWickDistFrac, (cand.atr15mPct / 100) * 0.68));
-    const underlyingTpFrac = Math.max(0.0245, underlyingSlFrac * 2.85);
+    // v8.5 300 TL Anti-Wick Stop Band (-0.92% to -1.22% structural room so 3x-4x leverage survives normal market wicks)
+    const maxSlCap = chosenLev >= 4 ? 0.0108 : chosenLev >= 3.5 ? 0.0115 : 0.0122;
+    const underlyingSlFrac = Math.min(maxSlCap, Math.max(0.0092, rawWickDistFrac, (cand.atr15mPct / 100) * 0.78));
+    const underlyingTpFrac = Math.max(0.0250, underlyingSlFrac * 2.65);
 
     const stopPrice =
       cand.side === 'LONG'
@@ -1979,7 +1980,7 @@ async function tryOpenPosition(state, candidates) {
 
     logEvent(
       state,
-      `🚀 [${chosenLev}x ${cand.side} GİRİŞ] ${cand.symbol}USDT @ $${entryPrice} | Teminat: ${toTL(usableMarginUsdt)} TL (${chosenLev}x Büyüklük: ${toTL(maxNotionalUsdt)} TL) | Stop: $${stopPrice} (-%${(underlyingSlFrac * 100).toFixed(2)}) | TP1: +%1.10 (%50 Nakit) | Ana Hedef: $${tpPrice} (+%${(underlyingTpFrac * 100).toFixed(2)}) | ${cand.thesis}`
+      `🚀 [${chosenLev}x ${cand.side} GİRİŞ (300 TL Anti-İğne)] ${cand.symbol}USDT @ $${entryPrice} | Teminat: ${toTL(usableMarginUsdt)} TL (${chosenLev}x Büyüklük: ${toTL(maxNotionalUsdt)} TL) | Stop: $${stopPrice} (-%${(underlyingSlFrac * 100).toFixed(2)}) | TP1: +%1.25 (%35 Nakit) | Ana Hedef: $${tpPrice} (+%${(underlyingTpFrac * 100).toFixed(2)}) | ${cand.thesis}`
     );
     break;
   }
@@ -1998,7 +1999,7 @@ function updateAccountingAndReport(state) {
   const pos = state.openPosition;
   const activeLev = pos?.leverage || state.leverage || LEVERAGE;
   const openSection = !pos
-    ? '| *Şu an açık vadeli işlem yok (16 Katmanlı Yırtıcı Konsey Skoru >= 76 bekleniyor)* | - | - | - | - | - |\n'
+    ? '| *Şu an açık vadeli işlem yok (16 Katmanlı Yırtıcı Konsey Skoru >= 78 bekleniyor)* | - | - | - | - | - |\n'
     : `| **${pos.symbol}USDT (${pos.side} ${pos.leverage || LEVERAGE}x)** | \`${pos.marginTry} TL\` *(${pos.leverage || LEVERAGE}x Hacim: ${pos.notionalTry} TL)* | \`$${pos.entryPrice}\` -> \`$${pos.currentPrice}\` | **\`${pos.unrealizedPnlTry >= 0 ? '+' : ''}${pos.unrealizedPnlTry} TL (ROE %${pos.roePct})\`** | 🛑 Stop: \`$${pos.stopPrice}\`<br>🎯 Hedef: \`$${pos.tpPrice}\`<br>💀 Likidasyon: \`$${pos.liqPrice}\` | **${pos.engine}**<br>${pos.thesis} |\n`;
 
   const closedSection =
@@ -2018,22 +2019,22 @@ function updateAccountingAndReport(state) {
       : state.topCandidates
           .map(
             c =>
-              `| **${c.symbol}USDT** | \`${c.side}\` (**\`${c.score}/99\`** -> \`${c.convictionLeverage || 5}x\`) | \`%${c.fundingRatePct}\` | \`${c.whaleRetailSpread >= 0 ? '+' : ''}%${c.whaleRetailSpread}\` *(${c.whaleLongPct}L/${c.retailLongPct}L)* | \`%${c.oiDelta1hPct}\` | ${c.thesis} |`
+              `| **${c.symbol}USDT** | \`${c.side}\` (**\`${c.score}/99\`** -> \`${c.convictionLeverage || 3}x\`) | \`%${c.fundingRatePct}\` | \`${c.whaleRetailSpread >= 0 ? '+' : ''}%${c.whaleRetailSpread}\` *(${c.whaleLongPct}L/${c.retailLongPct}L)* | \`%${c.oiDelta1hPct}\` | ${c.thesis} |`
           )
           .join('\n') + '\n';
 
-  const md = `# ⚡ 100 TL SABİT ANA PARA + SPOT CÜZDAN KÂR SİFONU (Mutlak Yapı v8.3 — 4x/5x/6x Kaldıraç + Otomatik Spot Kâr Kasası)
+  const md = `# ⚡ 300 TL SABİT ANA PARA (3x–4x ANTİ-İĞNE KALDIRAÇ) + SPOT CÜZDAN KÂR SİFONU (Mutlak Yapı v8.5)
 
 **Son Güncelleme:** ${new Date().toLocaleString('tr-TR')}  
 **PC Paneli:** \`http://localhost:${DASHBOARD_PORT}\` | **📱 Telefon Wi-Fi Linki:** \`http://${lanIp}:${DASHBOARD_PORT}\`  
-**Çalışma Modu:** \`${state.mode}\` *(Sadece Max 100 TL İle Oynar + Kazanılan Kârları Otomatik Spot Cüzdana Atar + Mail/WhatsApp Kâr Raporu)*
+**Çalışma Modu:** \`${state.mode}\` *(Sadece Max 300 TL İle Oynar + 3x/3.5x/4x Anti-İğne Kaldıraç + Kazanılan Kârları Otomatik Spot Cüzdana Atar)*
 
 ---
 
-## 1. 100 TL SABİT KALDIRAÇ KASASI & SPOT CÜZDANA AKTARILAN KÂR DURUMU
+## 1. 300 TL SABİT KALDIRAÇ KASASI & SPOT CÜZDANA AKTARILAN KÂR DURUMU
 
 * **Kaldıraç Sabit Tavanı (Max Ana Para):** \`${toTL(state.initialBankrollUsdt)} TL\` (\`$${state.initialBankrollUsdt} USDT\`)
-* **Aktif Kaldıraç Kasası (Max 100 TL):** **\`${toTL(state.totalEquityUsdt)} TL\`** *(4x–6x İşlem Gücü: \`${toTL(state.totalEquityUsdt * activeLev)} TL\` - \`${toTL(state.totalEquityUsdt * MAX_CONVICTION_LEVERAGE)} TL\`)*
+* **Aktif Kaldıraç Kasası (Max 300 TL):** **\`${toTL(state.totalEquityUsdt)} TL\`** *(3x–4x İşlem Gücü: \`${toTL(state.totalEquityUsdt * activeLev)} TL\` - \`${toTL(state.totalEquityUsdt * MAX_CONVICTION_LEVERAGE)} TL\`)*
 * **🏦 Spot Cüzdana Atılan Dokunulmaz Kâr Kasası:** **\`+${toTL(state.spotVaultUsdt)} TL\`** *(Kaldıraç stopları bu kasaya asla dokunamaz!)*
 * **Toplam Net Kâr / Zarar:** **\`${state.totalPnlUsdt >= 0 ? '+' : ''}${toTL(state.totalPnlUsdt)} TL\` (\`${state.totalPnlPct >= 0 ? '+' : ''}%${state.totalPnlPct}\`)**
 * **Başarılı İşlem / Stop:** \`${state.winCount} Kazanç / ${state.lossCount} Stop\`
@@ -2041,7 +2042,7 @@ function updateAccountingAndReport(state) {
 
 ---
 
-## 2. AÇIK VADELİ POZİSYON (4x / 5x / 6x LONG & SHORT — MAX 100 TL ANA PARA)
+## 2. AÇIK VADELİ POZİSYON (3x / 3.5x / 4x LONG & SHORT — MAX 300 TL ANA PARA)
 
 | Kontrat & Yön | Teminat (Kaldıraçlı Büyüklük) | Giriş -> Güncel | Anlık Net Kâr (ROE) | Stop / Hedef / Likidasyon | Strateji Motoru & Milyarder Tezi |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -2105,7 +2106,7 @@ function startDashboardServer(state) {
             Net_Kazanc: `+${lastWin.netPnlTry} TL (+%${lastWin.roePct} ROE)`,
             Spot_Cuzdana_Atilan: `+${lastWin.spotTransferTry || 11.62} TL (Toplam Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL)`,
             Fiyat_Hareketi: `$${lastWin.entryPrice} -> $${lastWin.exitPrice}`,
-            Aktif_Kaldirac_Kasasi: `${toTL(state.totalEquityUsdt)} TL (Max 100 TL Sabit Ana Para)`,
+            Aktif_Kaldirac_Kasasi: `${toTL(state.totalEquityUsdt)} TL (Max 300 TL Sabit Ana Para)`,
           }),
           signal: AbortSignal.timeout(10000),
         });
@@ -2166,7 +2167,7 @@ function startDashboardServer(state) {
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#080c14" />
   <meta http-equiv="refresh" content="6" />
-  <title>⚡ Mobil Komuta Merkezi (100 TL Sabit Kaldıraç + Otomatik Spot Kâr Kasası)</title>
+  <title>⚡ Mobil Komuta Merkezi (300 TL Anti-İğne Kaldıraç + Otomatik Spot Kâr Kasası)</title>
   <style>
     * { box-sizing:border-box; }
     body { background:#080c14; color:#f1f5f9; font-family:system-ui,-apple-system,sans-serif; margin:0; padding:14px; max-width:1100px; margin-inline:auto; }
@@ -2192,17 +2193,17 @@ function startDashboardServer(state) {
 <body>
   <div class="topbar">
     <div>
-      <div class="title">⚡ Yırtıcı Konsey v8.3 — Sadece 100 TL Sabit Kaldıraç + Otomatik Spot Kâr Kasası</div>
-      <div class="sub">Kaldıraçta Max 100 TL İle Oynar + Kazanılan Kârları Otomatik Spot Cüzdana Atar + Mail/WhatsApp Raporu</div>
+      <div class="title">⚡ Yırtıcı Konsey v8.5 — 300 TL Anti-İğne Kaldıraç (3x–4x) + Otomatik Spot Kâr Kasası</div>
+      <div class="sub">Kaldıraçta Max 300 TL İle Oynar (900-1.200 TL Güç) + Kârları Otomatik Spot Cüzdana Atar + Doğrudan Mail/WhatsApp</div>
     </div>
     <div class="pill">📱 Telefon Wi-Fi: ${mobileUrl}</div>
   </div>
 
   <div class="grid">
     <div class="card">
-      <div class="lbl">⚡ Kaldıraç Kasası (Max 100 TL)</div>
+      <div class="lbl">⚡ Kaldıraç Kasası (Max 300 TL)</div>
       <div class="val ${state.totalPnlUsdt >= 0 ? 'green' : 'red'}">${toTL(state.totalEquityUsdt)} TL</div>
-      <div class="sub">Tavan: 100.00 TL (4x-6x Güç: ${toTL(state.totalEquityUsdt * activeLev)}-${toTL(state.totalEquityUsdt * MAX_CONVICTION_LEVERAGE)} TL)</div>
+      <div class="sub">Tavan: 300.00 TL (3x-4x Güç: ${toTL(state.totalEquityUsdt * activeLev)}-${toTL(state.totalEquityUsdt * MAX_CONVICTION_LEVERAGE)} TL)</div>
     </div>
     <div class="card" style="border-color:#10b98166;">
       <div class="lbl">🏦 Spot'a Atılan Kâr Kasası</div>
@@ -2222,10 +2223,10 @@ function startDashboardServer(state) {
   </div>
 
   <div class="section-card">
-    <h3><span>🔥 1. Açık Kaldıraçlı İşlem (Sadece Max 100 TL İle Oynar — 4x / 5x / 6x)</span><span class="sub">${state.winCount} Kazanç / ${state.lossCount} Stop</span></h3>
+    <h3><span>🔥 1. Açık Kaldıraçlı İşlem (Sadece Max 300 TL İle Oynar — 3x / 3.5x / 4x Anti-İğne)</span><span class="sub">${state.winCount} Kazanç / ${state.lossCount} Stop</span></h3>
     ${
       !pos
-        ? '<div class="sub">Şu an açık vadeli işlem yok — 100+ Yüksek Hızlı Kontrat içinde Skor >= 76/99 olan LONG veya SHORT avlanıyor.</div>'
+        ? '<div class="sub">Şu an açık vadeli işlem yok — 100+ Yüksek Hızlı Kontrat içinde Skor >= 78/99 olan LONG veya SHORT avlanıyor.</div>'
         : `<div class="pos-box">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
               <div><b style="font-size:16px;">${pos.symbol}USDT</b> <span class="badge ${pos.side === 'LONG' ? 'long' : 'short'}">${pos.leverage || LEVERAGE}x ${pos.side}</span></div>
@@ -2237,7 +2238,7 @@ function startDashboardServer(state) {
               Teminat: <b>${pos.marginTry} TL</b> (${pos.leverage || LEVERAGE}x Büyüklük: <b>${pos.notionalTry} TL</b>) | Giriş: <b>$${pos.entryPrice}</b> -> Güncel: <b>$${pos.currentPrice}</b>
             </div>
             <div style="font-size:12px;color:#94a3b8;margin-bottom:6px;">
-              🛑 Stop: <b>$${pos.stopPrice}</b> | 💰 TP1 (%50 Cebellezi): <b>${pos.tp1Done ? 'ALINDI ✅' : '+%1.10'}</b> | 🎯 Hedef: <b>$${pos.tpPrice}</b> | 💀 Likidasyon: <b>$${pos.liqPrice}</b>
+              🛑 Stop: <b>$${pos.stopPrice}</b> | 💰 TP1 (%35 Cebellezi): <b>${pos.tp1Done ? 'ALINDI ✅' : '+%1.25'}</b> | 🎯 Hedef: <b>$${pos.tpPrice}</b> | 💀 Likidasyon: <b>$${pos.liqPrice}</b>
             </div>
             <div style="font-size:12px;color:#38bdf8;">${pos.thesis}</div>
           </div>`
@@ -2250,7 +2251,7 @@ function startDashboardServer(state) {
       <span class="sub">Toplam Spot'a Atılan: <b class="green">+${spotVaultTry} TL</b> | Doğrudan Mail: <b>${cfg.ALERT_EMAIL_TO || 'berkeakdemir5855@gmail.com'}</b></span>
     </h3>
     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;background:#131c31;padding:10px;border-radius:10px;align-items:center;justify-content:space-between;">
-      <span style="font-size:12px;color:#cbd5e1;">📧 <b>berkeakdemir5855@gmail.com</b> kutuna az önce gelen <b>"Activate Form"</b> mailindeki yeşil butona 1 kez tıkla; şifresiz doğrudan mail aktif olur!</span>
+      <span style="font-size:12px;color:#cbd5e1;">📧 <b>berkeakdemir5855@gmail.com</b> doğrudan mail + 📲 WhatsApp (+905301613459) + 🏦 Spot Kâr Sifonu <b>AKTİF</b>!</span>
       <a href="/api/test-email" style="background:#38bdf8;color:#080c14;text-decoration:none;padding:6px 12px;border-radius:8px;font-weight:800;font-size:12px;">📨 Şimdi Mailime Gönder</a>
     </div>
     <table>
@@ -2294,7 +2295,7 @@ function startDashboardServer(state) {
         .map(
           c => `<tr>
           <td><b>${c.symbol}USDT</b></td>
-          <td><b>${c.side}</b> (${c.score}/99 -> <b>${c.convictionLeverage || 5}x</b>)</td>
+          <td><b>${c.side}</b> (${c.score}/99 -> <b>${c.convictionLeverage || 3}x</b>)</td>
           <td class="${c.fundingRatePct < 0 ? 'green' : c.fundingRatePct > 0.02 ? 'red' : ''}">%${c.fundingRatePct}</td>
           <td class="${c.whaleRetailSpread >= 4 ? 'green' : c.whaleRetailSpread <= -4 ? 'red' : ''}"><b>${c.whaleRetailSpread >= 0 ? '+' : ''}%${c.whaleRetailSpread}</b> (${c.whaleLongPct}L/${c.retailLongPct}L)</td>
           <td>%${c.oiDelta1hPct}</td>
@@ -2312,7 +2313,7 @@ function startDashboardServer(state) {
   server.on('error', () => {});
   // Bind to 0.0.0.0 so both localhost (PC) and 192.168.x.x (Mobile Phone on Wi-Fi) can connect!
   server.listen(DASHBOARD_PORT, '0.0.0.0', () => {
-    console.log(`🌐 4x-6x Yırtıcı Kaldıraç & Spot Kâr Kasalı Mobil Panel Aktif:`);
+    console.log(`🌐 300 TL (3x-4x Anti-İğne Kaldıraç) & Spot Kâr Kasalı Mobil Panel Aktif:`);
     console.log(`   💻 Bilgisayar: http://localhost:${DASHBOARD_PORT}`);
     console.log(`   📱 Telefon (Aynı Wi-Fi): http://${lanIp}:${DASHBOARD_PORT}`);
   });
@@ -2336,9 +2337,9 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v8.4-LeakProof-AsymmetricRunner';
+  state.version = 'Mutlak-Yapi-v8.5-300TL-LowRisk-SpotVault';
   console.log('================================================================================');
-  console.log(`⚡ 100 TL SABİT ANA PARA + SPOT CÜZDAN KÂR SİFONU (Mutlak Yapı v8.4 — 6 Açık Yamalı + %65 Runner)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–4x ANTİ-İĞNE KALDIRAÇ) + SPOT CÜZDAN KÂR SİFONU (v8.5)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
