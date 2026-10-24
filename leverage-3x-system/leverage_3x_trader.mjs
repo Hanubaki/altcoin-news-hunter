@@ -2564,7 +2564,6 @@ function startDashboardServer(state) {
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#080c14" />
-  <meta http-equiv="refresh" content="6" />
   <title>⚡ Mobil Komuta Merkezi (300 TL Anti-İğne Kaldıraç + 23.000 TL Hedef)</title>
   <style>
     * { box-sizing:border-box; }
@@ -2572,11 +2571,13 @@ function startDashboardServer(state) {
     .topbar { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px; background:#0f172a; border:1px solid #1e293b; border-radius:16px; padding:14px 16px; margin-bottom:14px; }
     .title { font-size:18px; font-weight:800; letter-spacing:-0.3px; }
     .sub { font-size:12px; color:#94a3b8; margin-top:3px; }
-    .pill { background:#1e293b; border:1px solid #334155; color:#38bdf8; padding:6px 10px; border-radius:10px; font-size:12px; font-family:monospace; font-weight:700; }
+    .pill { background:#1e293b; border:1px solid #334155; color:#38bdf8; padding:6px 10px; border-radius:10px; font-size:12px; font-family:monospace; font-weight:700; cursor:pointer; }
     .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(155px,1fr)); gap:10px; margin-bottom:14px; }
-    .card { background:#0f172a; border:1px solid #1e293b; border-radius:14px; padding:13px; }
+    .card { position:relative; background:#0f172a; border:1px solid #1e293b; border-radius:14px; padding:13px; transition:border-color 0.35s ease, box-shadow 0.35s ease; }
+    .card.hit-flash-up { border-color:#10b981 !important; box-shadow:0 0 18px rgba(16,185,129,0.38); }
+    .card.hit-flash-down { border-color:#f43f5e !important; box-shadow:0 0 18px rgba(244,63,94,0.38); }
     .lbl { font-size:11.5px; color:#94a3b8; font-weight:600; text-transform:uppercase; }
-    .val { font-size:21px; font-weight:800; margin-top:5px; font-family:monospace; }
+    .val { font-size:21px; font-weight:800; margin-top:5px; font-family:monospace; position:relative; display:inline-block; }
     .green { color:#10b981; } .red { color:#f43f5e; } .amber { color:#f59e0b; } .cyan { color:#38bdf8; }
     .section-card { background:#0f172a; border:1px solid #1e293b; border-radius:16px; padding:14px; margin-bottom:14px; overflow-x:auto; }
     h3 { margin:0 0 10px 0; font-size:15px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:6px; }
@@ -2585,31 +2586,77 @@ function startDashboardServer(state) {
     th { color:#94a3b8; font-weight:600; background:#131c31; }
     .badge { padding:3px 7px; border-radius:6px; font-weight:700; font-size:11px; display:inline-block; }
     .long { background:#064e3b; color:#34d399; } .short { background:#7f1d1d; color:#fca5a5; }
-    .pos-box { background:#131c31; border:1px solid #2dd4bf44; border-radius:12px; padding:12px; margin-bottom:10px; }
-    .goal-card { background:linear-gradient(135deg,#0f172a 0%,#131c31 100%); border:1px solid #f59e0b66; border-radius:16px; padding:14px 16px; margin-bottom:14px; }
+    .pos-box { background:#131c31; border:1px solid #2dd4bf44; border-radius:12px; padding:12px; margin-bottom:10px; transition:border-color 0.35s ease, box-shadow 0.35s ease; }
+    .pos-box.hit-flash-up { border-color:#10b981 !important; box-shadow:0 0 20px rgba(16,185,129,0.35); }
+    .pos-box.hit-flash-down { border-color:#f43f5e !important; box-shadow:0 0 20px rgba(244,63,94,0.35); }
+    .goal-card { background:linear-gradient(135deg,#0f172a 0%,#131c31 100%); border:1px solid #f59e0b66; border-radius:16px; padding:14px 16px; margin-bottom:14px; transition:box-shadow 0.35s ease; }
     .prog-bg { width:100%; height:12px; background:#1e293b; border-radius:999px; overflow:hidden; margin:8px 0 6px 0; border:1px solid #334155; }
     .prog-fill { height:100%; background:linear-gradient(90deg,#10b981,#38bdf8,#f59e0b); border-radius:999px; transition:width 0.4s ease; }
+    /* Minecraft / RPG Damage-Indicator Floating Hit-Marker Layer (GPU-Accelerated 60 FPS) */
+    #mc-hit-layer { position:fixed; inset:0; pointer-events:none; z-index:9999; overflow:hidden; }
+    .mc-hit-marker {
+      position:fixed;
+      pointer-events:none;
+      font-family:'Courier New',monospace;
+      font-weight:900;
+      font-size:18px;
+      letter-spacing:-0.3px;
+      padding:3px 9px;
+      border-radius:8px;
+      white-space:nowrap;
+      will-change:transform,opacity;
+      text-shadow:0 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      animation:mcFloatUp 1.65s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+    .mc-hit-up {
+      color:#4ade80;
+      background:rgba(6,78,59,0.88);
+      border:1.5px solid #34d399;
+      box-shadow:0 4px 14px rgba(16,185,129,0.45);
+    }
+    .mc-hit-crit {
+      color:#fde047;
+      background:rgba(20,83,45,0.94);
+      border:2px solid #facc15;
+      font-size:20px;
+      box-shadow:0 0 22px rgba(250,204,21,0.65);
+    }
+    .mc-hit-down {
+      color:#fb7185;
+      background:rgba(127,29,29,0.88);
+      border:1.5px solid #f43f5e;
+      box-shadow:0 4px 14px rgba(244,63,94,0.45);
+    }
+    @keyframes mcFloatUp {
+      0% { opacity:0; transform:translate3d(-50%, 6px, 0) scale(0.55); }
+      16% { opacity:1; transform:translate3d(calc(-50% + var(--dx, 0px) * 0.35), -10px, 0) scale(1.22); }
+      32% { opacity:1; transform:translate3d(calc(-50% + var(--dx, 0px) * 0.65), -20px, 0) scale(1.0); }
+      78% { opacity:0.95; transform:translate3d(calc(-50% + var(--dx, 0px)), -44px, 0) scale(0.98); }
+      100% { opacity:0; transform:translate3d(calc(-50% + var(--dx, 0px)), -62px, 0) scale(0.88); }
+    }
   </style>
 </head>
 <body>
+  <div id="mc-hit-layer"></div>
   <div class="topbar">
     <div>
       <div class="title">⚡ Yırtıcı Konsey v8.8 — 300 TL Kaldıraç (3x–5x) + 🎯 23.000 TL Hedef + 🧠 2-Saatlik Otonom Evrim</div>
-      <div class="sub">Kaldıraçta Max ${goalInfo.activeCapTry} TL İle Oynar + Her 2 Saatte Bir Hatalarını İnceleyip Kendini Geliştirir (45 Motor)</div>
+      <div class="sub">Sayfa Yenilenmeden Canlı Akış (Zero-Refresh) + Minecraft/RPG Hit-Marker (+TL / -TL) &bull; Son Senkron: <b id="live-sync-clock" class="cyan">${new Date().toLocaleTimeString('tr-TR')}</b></div>
     </div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+      <button type="button" onclick="window.triggerDemoHitMarkers && window.triggerDemoHitMarkers()" class="pill" style="background:#064e3b;color:#4ade80;border-color:#10b981;">⚔️ Hit-Marker Test (+TL/-TL)</button>
       <a href="${PUBLIC_TUNNEL_URL}" style="text-decoration:none;" class="pill">🌍 4.5G/Cloudflare: ${PUBLIC_TUNNEL_URL.replace('https://', '')}</a>
       <div class="pill">🏠 Wi-Fi: ${mobileUrl}</div>
     </div>
   </div>
 
-  <div class="goal-card">
+  <div class="goal-card" id="sec-goal">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
       <div>
         <span style="font-size:14px;font-weight:800;color:#f59e0b;">🎯 BÜYÜK SERVET HEDEFİ: 23.000,00 TL</span>
         <span style="font-size:12px;color:#cbd5e1;margin-left:8px;">(${goalInfo.tierLabel})</span>
       </div>
-      <div style="font-family:monospace;font-size:15px;font-weight:800;color:#10b981;">
+      <div id="val-goal-top" data-num="${combinedEquityTry}" style="font-family:monospace;font-size:15px;font-weight:800;color:#10b981;">
         ${combinedEquityTry} TL / 23.000,00 TL (%${goalInfo.progressPct})
       </div>
     </div>
@@ -2623,30 +2670,30 @@ function startDashboardServer(state) {
     </div>
   </div>
 
-  <div class="grid">
-    <div class="card">
+  <div class="grid" id="sec-cards">
+    <div class="card" id="card-perp-equity">
       <div class="lbl">⚡ Kaldıraç Kasası (Max ${goalInfo.activeCapTry} TL)</div>
-      <div class="val ${state.totalPnlUsdt >= 0 ? 'green' : 'red'}">${toTL(state.totalEquityUsdt)} TL</div>
+      <div id="val-perp-equity" data-num="${toTL(state.totalEquityUsdt)}" class="val ${state.totalPnlUsdt >= 0 ? 'green' : 'red'}">${toTL(state.totalEquityUsdt)} TL</div>
       <div class="sub">Tavan: ${goalInfo.activeCapTry} TL (3x-4x Güç: ${toTL(state.totalEquityUsdt * activeLev)}-${toTL(state.totalEquityUsdt * MAX_CONVICTION_LEVERAGE)} TL)</div>
     </div>
-    <div class="card" style="border-color:#10b98166;">
+    <div class="card" id="card-spot-vault" style="border-color:#10b98166;">
       <div class="lbl">🏦 Spot'a Atılan Kâr Kasası</div>
-      <div class="val green">+${spotVaultTry} TL</div>
+      <div id="val-spot-vault" data-num="${spotVaultTry}" class="val green">+${spotVaultTry} TL</div>
       <div class="sub">Kaldıraçtan Spot'a Aktarılan Dokunulmaz Kâr</div>
     </div>
-    <div class="card">
+    <div class="card" id="card-spot-equity">
       <div class="lbl">💰 1.000 TL Spot Kasa</div>
-      <div class="val ${spot && spot.totalPnlTry >= 0 ? 'green' : 'cyan'}">${spot ? spot.totalEquityTry : '992.13'} TL</div>
+      <div id="val-spot-equity" data-num="${spot ? spot.totalEquityTry : 992.13}" class="val ${spot && spot.totalPnlTry >= 0 ? 'green' : 'cyan'}">${spot ? spot.totalEquityTry : '992.13'} TL</div>
       <div class="sub">Nakit: ${spot ? spot.cashTry : '934.59'} TL | ${spot ? spot.winCount : 21}W/${spot ? spot.lossCount : 17}L</div>
     </div>
-    <div class="card">
+    <div class="card" id="card-combined-equity">
       <div class="lbl">🏛️ Kaldıraç + Kâr Kasası</div>
-      <div class="val amber">${combinedEquityTry} TL</div>
+      <div id="val-combined-equity" data-num="${combinedEquityTry}" class="val amber">${combinedEquityTry} TL</div>
       <div class="sub">300 TL Ana Para + Spot'a Atılan Kâr</div>
     </div>
   </div>
 
-  <div class="section-card" style="border-color:#38bdf866;">
+  <div class="section-card" id="sec-audit" style="border-color:#38bdf866;">
     <h3>
       <span>🧠 Her 2 Saatte Bir Otonom Özeleştiri & Evrim Motoru (Motor #43, #44, #45)</span>
       <span class="sub">Son Denetim: <b>${(state.lastSelfAudit || {}).lastAuditAt || '-'}</b> | Sonraki: <b>${(state.lastSelfAudit || {}).nextAuditAt || '+2 Saat'}</b></span>
@@ -2668,15 +2715,15 @@ function startDashboardServer(state) {
     </table>
   </div>
 
-  <div class="section-card">
+  <div class="section-card" id="sec-open-pos">
     <h3><span>🔥 1. Açık Kaldıraçlı İşlem (Sadece Max 300 TL İle Oynar — 3x / 3.5x / 4x Anti-İğne)</span><span class="sub">${state.winCount} Kazanç / ${state.lossCount} Stop</span></h3>
     ${
       !pos
         ? '<div class="sub">Şu an açık vadeli işlem yok — 100+ Yüksek Hızlı Kontrat içinde Skor >= 78/99 olan LONG veya SHORT avlanıyor.</div>'
-        : `<div class="pos-box">
+        : `<div class="pos-box" id="box-open-pos">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
               <div><b style="font-size:16px;">${pos.symbol}USDT</b> <span class="badge ${pos.side === 'LONG' ? 'long' : 'short'}">${pos.leverage || LEVERAGE}x ${pos.side}</span></div>
-              <div class="${pos.unrealizedPnlTry >= 0 ? 'green' : 'red'}" style="font-size:17px;font-weight:800;font-family:monospace;">
+              <div id="val-open-pnl" data-num="${pos.unrealizedPnlTry}" class="${pos.unrealizedPnlTry >= 0 ? 'green' : 'red'}" style="font-size:17px;font-weight:800;font-family:monospace;">
                 ${pos.unrealizedPnlTry >= 0 ? '+' : ''}${pos.unrealizedPnlTry} TL (ROE %${pos.roePct})
               </div>
             </div>
@@ -2691,7 +2738,7 @@ function startDashboardServer(state) {
     }
   </div>
 
-  <div class="section-card">
+  <div class="section-card" id="sec-mails">
     <h3>
       <span>📧 2. Hangi Coinden Ne Kadar Kazandım & Spot Cüzdana Ne Kadar Atıldı?</span>
       <span class="sub">Toplam Spot'a Atılan: <b class="green">+${spotVaultTry} TL</b> | Doğrudan Mail: <b>${cfg.ALERT_EMAIL_TO || 'berkeakdemir5855@gmail.com'}</b></span>
@@ -2718,7 +2765,7 @@ function startDashboardServer(state) {
     </table>
   </div>
 
-  <div class="section-card">
+  <div class="section-card" id="sec-spot-pos">
     <h3><span>💰 3. Açık Spot İşlemler (1.000 TL Binance TR Kasası)</span><span class="sub">Port 3847 Senkronize</span></h3>
     ${
       !spot || !spot.openPositions || spot.openPositions.length === 0
@@ -2733,7 +2780,7 @@ function startDashboardServer(state) {
     }
   </div>
 
-  <div class="section-card">
+  <div class="section-card" id="sec-radar">
     <h3><span>📡 4. Canlı Yüksek Hızlı Vadeli Radar (100+ Kontrat İçinden En Güçlü 8 Aday)</span></h3>
     <table>
       <tr><th>Kontrat</th><th>Yön, Skor & Kaldıraç</th><th>Fonlama</th><th>Balina Makası</th><th>OI (1s)</th><th>16 Katmanlı Yırtıcı Konsey Tezi</th></tr>
@@ -2751,6 +2798,135 @@ function startDashboardServer(state) {
         .join('')}
     </table>
   </div>
+
+  <script>
+    (function() {
+      const trackedSelectors = [
+        { id: 'val-perp-equity', cardId: 'card-perp-equity', iconUp: '⚔️', iconDown: '💥', isCrit: false },
+        { id: 'val-spot-vault', cardId: 'card-spot-vault', iconUp: '🏦 CRIT!', iconDown: '🏦', isCrit: true },
+        { id: 'val-spot-equity', cardId: 'card-spot-equity', iconUp: '💎', iconDown: '🔻', isCrit: false },
+        { id: 'val-combined-equity', cardId: 'card-combined-equity', iconUp: '🎯', iconDown: '⚡', isCrit: false },
+        { id: 'val-open-pnl', cardId: 'box-open-pos', iconUp: '🔥', iconDown: '🛡️', isCrit: false }
+      ];
+
+      const prevValues = {};
+      trackedSelectors.forEach(item => {
+        const el = document.getElementById(item.id);
+        if (el && el.dataset.num !== undefined) {
+          prevValues[item.id] = parseFloat(el.dataset.num);
+        }
+      });
+
+      function spawnHitMarker(targetEl, cardEl, deltaTry, item) {
+        if (!targetEl || !Number.isFinite(deltaTry) || Math.abs(deltaTry) < 0.01) return;
+        const layer = document.getElementById('mc-hit-layer');
+        if (!layer) return;
+
+        // Hard cap active particles at 14 so mobile browsers never leak DOM memory
+        while (layer.children.length > 14) {
+          layer.firstElementChild.remove();
+        }
+
+        const rect = targetEl.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+
+        const isUp = deltaTry > 0;
+        const sign = isUp ? '+' : '';
+        const formatted = sign + deltaTry.toFixed(2) + ' TL ' + (isUp ? item.iconUp : item.iconDown);
+
+        const badge = document.createElement('div');
+        badge.className = 'mc-hit-marker ' + (isUp ? (item.isCrit || deltaTry >= 3.0 ? 'mc-hit-crit' : 'mc-hit-up') : 'mc-hit-down');
+        const jitterX = Math.round((Math.random() - 0.5) * 34);
+        badge.style.setProperty('--dx', jitterX + 'px');
+        badge.style.left = Math.round(rect.left + rect.width * 0.5) + 'px';
+        badge.style.top = Math.round(Math.max(18, rect.top - 6)) + 'px';
+        badge.textContent = formatted;
+
+        badge.addEventListener('animationend', () => badge.remove());
+        setTimeout(() => { if (badge.parentNode) badge.remove(); }, 1800);
+        layer.appendChild(badge);
+
+        if (cardEl) {
+          cardEl.classList.remove('hit-flash-up', 'hit-flash-down');
+          void cardEl.offsetWidth;
+          cardEl.classList.add(isUp ? 'hit-flash-up' : 'hit-flash-down');
+          setTimeout(() => cardEl.classList.remove('hit-flash-up', 'hit-flash-down'), 900);
+        }
+      }
+
+      window.triggerDemoHitMarkers = function() {
+        const perpEl = document.getElementById('val-perp-equity');
+        const perpCard = document.getElementById('card-perp-equity');
+        const vaultEl = document.getElementById('val-spot-vault');
+        const vaultCard = document.getElementById('card-spot-vault');
+        const openEl = document.getElementById('val-open-pnl') || document.getElementById('val-combined-equity');
+        const openCard = document.getElementById('box-open-pos') || document.getElementById('card-combined-equity');
+        spawnHitMarker(perpEl, perpCard, +2.45, trackedSelectors[0]);
+        setTimeout(() => spawnHitMarker(vaultEl, vaultCard, +4.80, trackedSelectors[1]), 180);
+        setTimeout(() => spawnHitMarker(openEl, openCard, -0.65, trackedSelectors[4]), 360);
+      };
+
+      const sectionIds = ['sec-goal', 'sec-cards', 'sec-audit', 'sec-open-pos', 'sec-mails', 'sec-spot-pos', 'sec-radar'];
+      let isSyncing = false;
+
+      async function liveSyncDashboard() {
+        if (isSyncing || document.hidden) return;
+        isSyncing = true;
+        try {
+          const res = await fetch(window.location.pathname, { cache: 'no-store', headers: { 'X-Live-Sync': '1' } });
+          if (!res.ok) return;
+          const htmlText = await res.text();
+          const doc = new DOMParser().parseFromString(htmlText, 'text/html');
+
+          // Compute deltas before replacing DOM sections
+          const pendingHits = [];
+          trackedSelectors.forEach(item => {
+            const newEl = doc.getElementById(item.id);
+            if (newEl && newEl.dataset.num !== undefined) {
+              const newVal = parseFloat(newEl.dataset.num);
+              const oldVal = prevValues[item.id];
+              if (Number.isFinite(newVal)) {
+                if (Number.isFinite(oldVal) && Math.abs(newVal - oldVal) >= 0.01) {
+                  pendingHits.push({ item, delta: Number((newVal - oldVal).toFixed(2)) });
+                }
+                prevValues[item.id] = newVal;
+              }
+            } else {
+              delete prevValues[item.id];
+            }
+          });
+
+          // Update sections in-place without touching scroll position or refreshing page
+          sectionIds.forEach(secId => {
+            const curSec = document.getElementById(secId);
+            const nextSec = doc.getElementById(secId);
+            if (curSec && nextSec && curSec.innerHTML !== nextSec.innerHTML) {
+              curSec.innerHTML = nextSec.innerHTML;
+            }
+          });
+
+          const clockEl = document.getElementById('live-sync-clock');
+          if (clockEl) clockEl.textContent = new Date().toLocaleTimeString('tr-TR');
+
+          // Fire Minecraft/RPG floating hit-markers on updated DOM elements
+          pendingHits.forEach(({ item, delta }) => {
+            const targetEl = document.getElementById(item.id);
+            const cardEl = document.getElementById(item.cardId);
+            spawnHitMarker(targetEl, cardEl, delta, item);
+          });
+        } catch (e) {
+          // ignore transient network blip
+        } finally {
+          isSyncing = false;
+        }
+      }
+
+      setInterval(liveSyncDashboard, 2500);
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) liveSyncDashboard();
+      });
+    })();
+  </script>
 </body>
 </html>`;
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
