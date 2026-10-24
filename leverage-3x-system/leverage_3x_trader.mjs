@@ -1536,13 +1536,8 @@ async function scanPerpUniverse(state) {
       }
     }
 
-    const isBnfLiquidationBounce = Boolean(
-      change1hPct <= -2.8 &&
-        oiDelta1hPct <= -1.0 &&
-        rsi15m <= 29 &&
-        (anatomy.bullishPattern || anatomy.sellSideSweep) &&
-        anatomy.normCvd3BarPct >= 0
-    );
+    // Engine #54A: Disable Q4-BNF Falling-Knife Override (prevents BIRBUSDT-style -5.3% 1h / -12.8% VWAP / MTF Bearish knife catches from stealing slots from 99/99 Hype LONGs!)
+    const isBnfLiquidationBounce = false;
 
     let oiQuadrant = 'NÖTR';
     let bullishOiPts = 0;
@@ -1638,7 +1633,7 @@ async function scanPerpUniverse(state) {
       mtfSqueeze.squeezeBullishPts > 0 ||
       ((item.fundingRatePct <= -0.020 || item.basisPct <= -0.10) && oiDelta1hPct >= 0.35);
     const isHypeSqueezeMomentumLong = Boolean(
-      item.change24hPct >= 4.0 &&
+      (item.change24hPct >= 2.5 || change1hPct >= 1.25) &&
         change1hPct >= 0.35 &&
         (oiQuadrant.startsWith('Q1') || isSqueezeConfirmedLong) &&
         instBuySellRatio >= 1.08 &&
