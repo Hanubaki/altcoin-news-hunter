@@ -1567,11 +1567,11 @@ async function scanPerpUniverse(state) {
       ? `⚠️ BTC SERT DÜŞÜŞ (${btc15mChangePct}%/15dk) -> LONG VETO, SADECE GCR SHORT!`
       : btcVetoShort
         ? `🚀 BTC SERT YÜKSELİŞ (+${btc15mChangePct}%/15dk) -> SHORT VETO, SADECE EUGENE LONG!`
-        : `16 KATMANLI YIRTICI KONSEY v8.0 (${preCandidates.length} Likit Kontrat | 5x-7x-10x Dinamik Kaldıraç)`,
+        : `18 KATMANLI YIRTICI KONSEY v8.5 (${preCandidates.length} Likit Kontrat | 3x-3.5x-4x Anti-İğne Kaldıraç)`,
     lastScanAt: new Date().toLocaleString('tr-TR'),
     statusNote: state.openPosition
       ? `🔥 Açık ${state.openPosition.leverage || LEVERAGE}x ${state.openPosition.side}: ${state.openPosition.symbol}USDT takip ediliyor.`
-      : `🛡️ Pusuda: Tüm Binance Futures (${preCandidates.length} Yüksek Hızlı Kontrat) 5x/7x/10x için taranıyor.`,
+      : `🛡️ Pusuda: Tüm Binance Futures (${preCandidates.length} Yüksek Hızlı Kontrat) 3x/3.5x/4x için taranıyor.`,
   };
   state.topCandidates = evaluated.slice(0, 8);
   return evaluated;
