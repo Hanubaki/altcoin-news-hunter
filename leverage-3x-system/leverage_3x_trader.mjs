@@ -52,13 +52,13 @@ async function getValidCoinPerpMap() {
   if (info && Array.isArray(info.symbols)) {
     const map = new Map();
     for (const s of info.symbols) {
+      // Engine #51A (Unblinded Hype Universe): Include all liquid TRADING COIN perpetuals (including Alpha-subtyped high-volume hype rockets like JCTUSDT $316M & ARIAUSDT $20M)
       if (
         s.contractType === 'PERPETUAL' &&
         s.status === 'TRADING' &&
         s.underlyingType === 'COIN' &&
         s.quoteAsset === 'USDT' &&
-        !EXCLUDED_FAPI_SYMBOLS.has(s.symbol) &&
-        !(Array.isArray(s.underlyingSubType) && s.underlyingSubType.includes('Alpha'))
+        !EXCLUDED_FAPI_SYMBOLS.has(s.symbol)
       ) {
         map.set(s.symbol, s);
       }
@@ -259,6 +259,18 @@ function runTwoHourSelfAudit(state, forceLog = false) {
           rootCause: '5dk Kurumsal Taker Oranı 0.96x (<1.02x) İken Giriş + Başabaş Kâr Kilidinin (%0.24) 4sn İğnesinde Komisyon Altı Kapanması',
           fixApplied: 'Motor #44: 5dk Kurumsal Taker Tabanı (LONG >= 1.02x / SHORT <= 0.98x) + +%0.34 Komisyon-Üstü Garantili Kâr Kilidi Clamp',
         });
+      } else if (t.symbol === 'BR' && t.side === 'SHORT') {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: '24s -%16.37 Çökmüş + Q4 Long Kapitülasyonu + Negatif Basis (-%0.1135) + Balina +%0.5 LONG Olan Dip Coine SHORT Girişi',
+          fixApplied: 'Motor #54B (Sıkı Short Kilidi): Q4/NÖTR OI, 24s<=-%5.0, Basis<=-%0.03 veya Balina>-%2.0 Olan Hiçbir Coine SHORT Açılmaz (Sadece Q3/GCR & >=86p)',
+        });
+      } else if (t.symbol === 'PHA' && t.side === 'LONG') {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: '24s -%22.7 Çöken Bıçakta Q1 + MTF Yükseliş + 1s >= +%1.20 Trend Dönüşü Onaylanmadan Erken Dip LONG Girişi',
+          fixApplied: 'Motor #51-#54A: Çöken Bıçak (24s<=-%4.5) LONG Yasağı + Hype/Short-Squeeze Roketlerine (ORDER, BMT, JCT, ANIME) Öncelikli Tarama',
+        });
       } else if (t.symbol === 'LIGHT' && t.side === 'SHORT') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
@@ -313,11 +325,11 @@ function runTwoHourSelfAudit(state, forceLog = false) {
   // GPT-6-Luna Objective Score: J = NetPnL - 0.35 * MaxDD - 0.50 * FeeScratchLoss
   const objectiveJ = Number((recentNetPnlTry - 0.35 * maxDrawdownTry - 0.50 * feeScratchLossTry).toFixed(2));
 
-  // Bounded parameter update: clip(theta, theta_min, theta_max) — never starves trades or removes hard safety walls
-  const minLongScore = longLosses > longWins && longLosses >= 2 ? 80 : 78;
-  const minShortScore = shortLosses >= 1 && recentWindow[0]?.side === 'SHORT' && Number(recentWindow[0]?.netPnlTry || 0) < 0 ? 80 : 78;
-  const minLongTaker5m = longLosses > longWins ? 1.05 : 1.02;
-  const maxShortTaker5m = shortLosses > shortWins ? 0.94 : 0.98;
+  // Bounded parameter update: clip(theta, theta_min, theta_max) — Engine #54B locks SHORT bar at >=86p & Taker<=0.86x while keeping Hype LONG open at >=78p
+  const minLongScore = 78;
+  const minShortScore = 86;
+  const minLongTaker5m = 1.04;
+  const maxShortTaker5m = 0.86;
 
   state.adaptiveTuning = {
     minLongScore,
@@ -1262,16 +1274,22 @@ async function fetchPerpOrderbookConfirm(symbol, side) {
   if (bookHollowing) {
     return { ok: false, reason: `BOOK_HOLLOWING (bid ${bestBid1}->${bestBid} | ask ${bestAsk1}->${bestAsk})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
   }
+  // Engine #53 (GPT-6-Luna Ask-Sweep-Aware Orderbook Gate):
+  // Previously obDelta < -0.10 rejected 99/99 Hype LONG breakouts (BMTUSDT ob:+0.30, AGTUSDT ob:+0.524->+0.094) even when ob2 remained bid-positive!
+  // SpoofVetoLong only triggers if obDelta < -0.12 AND (ob2 < 0.04 || bestBid < bestBid1).
   if (side === 'LONG') {
-    if (obDelta < -0.10) {
+    if (obDelta < -0.12 && (ob2 < 0.04 || bestBid < bestBid1)) {
       return { ok: false, reason: `SPOOF_WALL_DECAY_LONG (ob:${ob1}->${ob2} | dI:${obDelta})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
     }
-    if (avgOb < 0.05 || ob2 < 0.02 || microSkew < -0.16 || (microSkew1 < -0.20 && microSkew < 0)) {
+    const isActivelyLiftingAsks = bestBid > bestBid1 && bestAsk >= bestAsk1;
+    const minOb2Floor = isActivelyLiftingAsks ? -0.02 : 0.02;
+    const minAvgObFloor = isActivelyLiftingAsks ? 0.01 : 0.05;
+    if (avgOb < minAvgObFloor || ob2 < minOb2Floor || microSkew < -0.16 || (microSkew1 < -0.20 && microSkew < 0)) {
       return { ok: false, reason: `WEAK_LONG_OB_OR_MICROPRICE (ob:${ob1}->${ob2} | x1:${microSkew1}->x2:${microSkew})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
     }
   }
   if (side === 'SHORT') {
-    if (obDelta > 0.10) {
+    if (obDelta > 0.12 && (ob2 > -0.04 || bestAsk > bestAsk1)) {
       return { ok: false, reason: `SPOOF_WALL_DECAY_SHORT (ob:${ob1}->${ob2} | dI:+${obDelta})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
     }
     if (avgOb > -0.05 || ob2 > -0.02 || microSkew > 0.16 || (microSkew1 > 0.20 && microSkew > 0)) {
@@ -1359,8 +1377,8 @@ async function scanPerpUniverse(state) {
     const low24h = Number(tick.lowPrice || 0);
     const range24hPct = low24h > 0 ? Number((((high24h - low24h) / low24h) * 100).toFixed(2)) : 0;
 
-    // Require >= $15M 24h volume and >= 3.2% 24h range (banishes dead stable-like sleepers like TRX unless already open)
-    if (!isCurrentlyOpen && (quoteVol24h < 15e6 || range24hPct < 3.2)) continue;
+    // Require >= $12M 24h volume and >= 3.2% 24h range (banishes dead stable-like sleepers like TRX unless already open)
+    if (!isCurrentlyOpen && (quoteVol24h < 12e6 || range24hPct < 3.2)) continue;
 
     const fundingRatePct = Number((Number(prem.lastFundingRate || 0) * 100).toFixed(4));
     const contractNextFundingMs = Number(prem.nextFundingTime || 0);
@@ -1377,14 +1395,22 @@ async function scanPerpUniverse(state) {
     fundingSum += fundingRatePct;
     fundingCnt++;
 
-    // High-Velocity Predator Priority Score (Combines 24h Momentum + Range Expansion + Squeeze Dislocation + Liquidity)
+    // Engine #51B (GPT-6-Luna Hype-Breakout & Short-Squeeze First Priority Ranking):
+    // RankScore = BaseScore + min(65, HypeBoost + SqueezeBoost) - FallingKnifePenalty
+    // Ensures exploding hype rockets (ORDER +101%, BMT +52%, JCT +27%, ANIME +15%) are always inspected first instead of dead -20% falling knives!
+    const hypeBoost = change24hPct >= 3.5 ? Math.min(45, change24hPct * 1.65) : 0;
+    const squeezeBoost =
+      change24hPct >= 1.5 && (fundingRatePct <= -0.020 || basisPct <= -0.10)
+        ? Math.min(35, Math.abs(fundingRatePct) * 85 + Math.abs(basisPct) * 30)
+        : 0;
+    const fallingKnifePenalty = change24hPct <= -5.5 ? -40 : 0;
     const priorityScore =
       (isCurrentlyOpen ? 9999 : 0) +
-      Math.min(35, Math.abs(change24hPct)) * 2.4 +
-      Math.min(45, range24hPct) * 1.5 +
-      Math.min(0.35, Math.abs(fundingRatePct)) * 120 +
-      Math.min(0.60, Math.abs(basisPct)) * 55 +
-      Math.log10(Math.max(15, quoteVol24h / 1e6)) * 9 +
+      Math.min(65, hypeBoost + squeezeBoost) +
+      fallingKnifePenalty +
+      Math.min(30, Math.max(0, change24hPct)) * 1.8 +
+      Math.min(45, range24hPct) * 1.25 +
+      Math.log10(Math.max(12, quoteVol24h / 1e6)) * 12 +
       (newsCand?.hasDirectMention ? 35 : newsCand ? 15 : 0);
 
     preCandidates.push({
@@ -1404,7 +1430,7 @@ async function scanPerpUniverse(state) {
   }
 
   preCandidates.sort((a, b) => b.priorityScore - a.priorityScore);
-  const topToInspect = preCandidates.slice(0, 20);
+  const topToInspect = preCandidates.slice(0, 30);
 
   const evaluated = [];
   for (const item of topToInspect) {
@@ -1604,10 +1630,29 @@ async function scanPerpUniverse(state) {
       bearishWhalePts = Math.min(16, bearishWhalePts + 6);
     }
 
-    // Layer #16 (v8.0): High-Velocity Momentum Surge Bonus (Clean MTF + Volume Expansion + 1h Velocity)
+    // Layer #16 + Engine #52 (GPT-6-Luna Hype-Breakout & Short-Squeeze Reload LONG Engine):
+    // LongReload = (Q1_OI || SqueezeConfirmed) && (Taker_5m >= 1.08) && (CVD > 0) && (RSI <= 78) && (vwapDistPct <= max(2.4, min(4.2, 1.85*ATR)))
+    // Catches high-volume hype rockets (ORDER +101%, BMT +52%, JCT +27%, ANIME +15%) without getting choked by static RSI<=70 or 18% 24h caps!
+    const isSqueezeConfirmedLong =
+      oiQuadrant.startsWith('Q3-TUZAK') ||
+      mtfSqueeze.squeezeBullishPts > 0 ||
+      ((item.fundingRatePct <= -0.020 || item.basisPct <= -0.10) && oiDelta1hPct >= 0.35);
+    const isHypeSqueezeMomentumLong = Boolean(
+      item.change24hPct >= 4.0 &&
+        change1hPct >= 0.35 &&
+        (oiQuadrant.startsWith('Q1') || isSqueezeConfirmedLong) &&
+        instBuySellRatio >= 1.08 &&
+        anatomy.normCvd3BarPct > 0 &&
+        anatomy.clv >= 0.56 &&
+        mtfSqueeze.mtfBearishPts === 0 &&
+        !anatomy.isFishingTrapLong
+    );
+
     let velocityLongPts = 0;
     let velocityShortPts = 0;
-    if (
+    if (isHypeSqueezeMomentumLong) {
+      velocityLongPts = Math.min(14, Math.round(6 + Math.max(0, change1hPct) * 2.2 + Math.max(0, volRatio15m - 0.8) * 3));
+    } else if (
       change1hPct >= 0.85 &&
       mtfSqueeze.mtfBullishPts > 0 &&
       volRatio15m >= 1.25 &&
@@ -1690,21 +1735,27 @@ async function scanPerpUniverse(state) {
       item.fundingRatePct <= -0.120 ||
       (itemMinsToFunding <= 15 && item.fundingRatePct <= -0.035);
 
-    // Engine #40 (Qullamaggie + GPT-6-Luna ATR-and-Orderflow-Adaptive VWAP Extension Band):
-    // Static 1.85% VWAP ceiling previously choked genuine institutional breakouts (LUMIAUSDT +5.71%, IOSTUSDT +3.13%).
-    // When 4-factor institutional participation M is confirmed, allow ATR-scaled band [2.40%, 4.20%] while keeping RSI <= 70.
+    // Engine #40 + #52 (Qullamaggie + GPT-6-Luna ATR-and-Orderflow-Adaptive VWAP & RSI Extension Band for Hype Rockets):
+    // When 4-factor institutional participation M or HypeSqueezeMomentum is confirmed, allow ATR-scaled band [2.40%, 4.20%] and RSI up to 78!
     const hasQullamaggieMomentumConfirm =
-      oiDelta1hPct >= 0.45 &&
-      instBuySellRatio >= 1.18 &&
-      anatomy.normCvd3BarPct > 8.0 &&
-      anatomy.clv >= 0.65;
+      isHypeSqueezeMomentumLong ||
+      (oiDelta1hPct >= 0.45 &&
+        instBuySellRatio >= 1.18 &&
+        anatomy.normCvd3BarPct > 8.0 &&
+        anatomy.clv >= 0.65);
     const vwapMaxBandPct = hasQullamaggieMomentumConfirm
       ? Math.max(2.40, Math.min(4.20, Number((1.85 * atr15mPct).toFixed(2))))
       : 1.85;
+    const maxAllowedLongRsi = isHypeSqueezeMomentumLong ? 78 : 70;
+    const minVwapReloadRatio = isHypeSqueezeMomentumLong ? 0.985 : 0.9985;
 
     const vwapLongOk =
       isBnfLiquidationBounce ||
-      (lastPrice >= vwap4h * 0.9985 && vwapDistPct <= vwapMaxBandPct && rsi15m >= 38 && rsi15m <= 70 && mtfSqueeze.mtfBearishPts === 0);
+      (lastPrice >= vwap4h * minVwapReloadRatio &&
+        vwapDistPct <= vwapMaxBandPct &&
+        rsi15m >= 38 &&
+        rsi15m <= maxAllowedLongRsi &&
+        mtfSqueeze.mtfBearishPts === 0);
     // Unblinded Bi-Directional Short: Allows both Trend Breakdown Shorts (price <= VWAP, RSI 31-66) AND Overbought Mania Fade Shorts (RSI >= 67)
     const vwapShortOk =
       (lastPrice <= vwap4h * 1.003 && rsi15m >= 31 && rsi15m <= 66 && mtfSqueeze.mtfBullishPts === 0) ||
@@ -1757,6 +1808,7 @@ async function scanPerpUniverse(state) {
     const isOverextendedMicroTopLong =
       isCoiledTopLongTrap ||
       (!isBnfLiquidationBounce &&
+        !isHypeSqueezeMomentumLong &&
         ((anatomy.green3Completed &&
           anatomy.runup4BarPct >= Math.max(0.95, atr15mPct * 1.45) &&
           anatomy.posIn4BarRange >= 0.86 &&
@@ -1793,14 +1845,34 @@ async function scanPerpUniverse(state) {
       isQ4CapitulationExhaustedShort ||
       isMacroUpPullbackBottomShort;
 
-    // Engine #37 + #47 (GPT-6-Luna Basis-Dump Trap & -8% Macro-Crash Long Gate):
-    // 1) basis <= -0.22% while 24h <= -6.0% means active spot/unlock dumping (SOPHUSDT -9.18%/-23.6% with -0.31% basis), NOT a discount!
-    // 2) If 24h <= -8.0%, only allow LONG when MTF is bullish AND OI is Q1 (or BNF Liquidation Bounce).
+    // Engine #37 + #47 + #54A (GPT-6-Luna Basis-Dump Trap & Falling-Knife Long Ban):
+    // LongVeto = (R24h <= -4.5%) && !(Q1_OI && MTF_bullish && R1h >= +1.20% && Taker_5m >= 1.15)
+    // Prevents catching falling knives like SOPHUSDT (-23.6%) and PHAUSDT (-22.7%) unless full institutional trend reversal holds!
+    const isFallingKnifeLongVeto =
+      item.change24hPct <= -4.5 &&
+      !(oiQuadrant.startsWith('Q1') && mtfSqueeze.mtfBullishPts > 0 && change1hPct >= 1.20 && instBuySellRatio >= 1.15);
     const isBasisDumpTrapLong =
+      isFallingKnifeLongVeto ||
       (item.basisPct <= -0.22 && item.change24hPct <= -6.0) ||
       (!isBnfLiquidationBounce &&
         item.change24hPct <= -8.0 &&
         !(mtfSqueeze.mtfBullishPts > 0 && oiQuadrant.startsWith('Q1')));
+
+    // Engine #44A + #45 + #50 + #54B: 5m Institutional Taker Floor & Strict Anti-Bleed SHORT Lockdown
+    const tuning = state.adaptiveTuning || { minLongScore: 78, minShortScore: 86, minLongTaker5m: 1.04, maxShortTaker5m: 0.86 };
+
+    // Engine #54B (GPT-6-Luna Strict Anti-Bleed Institutional SHORT Lockdown):
+    // ShortOK = (Q3_OI || ValidGCR) && (R24h > -5.0%) && (basis > -0.03%) && (funding > -0.01%) && (Whale <= -2.0%) && (Taker <= 0.86) && (Score >= 86)
+    // Eliminates ALL 10 historical losing short patterns (BR -16.37% Q4, BTR -10.15%, LIGHT -0.79% basis, KAT Q4, DOS neutral)!
+    const isStrictShortAllowed =
+      (oiQuadrant.startsWith('Q3') || isGcrCrowdedManiaShort) &&
+      !oiQuadrant.startsWith('Q3-TUZAK') &&
+      item.change24hPct > -5.0 &&
+      item.basisPct > -0.030 &&
+      item.fundingRatePct > -0.010 &&
+      whaleRetailSpread <= -2.0 &&
+      instBuySellRatio <= 0.86 &&
+      rawShortTotal >= Math.max(86, tuning.minShortScore || 86);
 
     // Engine #47A: Directional 3-Bar CVD Sign Alignment (prevents SOPHUSDT #2 LONG entry on CVD -6.0%!)
     const hasCvdAlignmentLong = isBnfLiquidationBounce || anatomy.normCvd3BarPct >= 0;
@@ -1812,14 +1884,11 @@ async function scanPerpUniverse(state) {
     const hasShortMomentumAndVol =
       volRatio15m >= 0.72 && hasCvdAlignmentShort && (isGcrCrowdedManiaShort || (change1hPct <= -0.15 && rsVsBtcAtr <= -0.05));
 
-    // Engine #44A + #45 + #50: 5m Institutional Taker Floor & Bounded Adaptive Score Thresholds (Zero Exemption for GCR Short!)
-    // Prevents SOPHUSDT-style LONG entry (0.96x < 1.02x) and LIGHTUSDT-style GCR SHORT entry (0.97x > 0.94x)
-    const tuning = state.adaptiveTuning || { minLongScore: 78, minShortScore: 78, minLongTaker5m: 1.02, maxShortTaker5m: 0.98 };
     const has5mInstTakerLong =
       isBnfLiquidationBounce ||
-      (instBuySellRatio >= (tuning.minLongTaker5m || 1.02) && (takerBuyPct >= 51.5 || instBuySellRatio >= 1.14));
+      (instBuySellRatio >= (tuning.minLongTaker5m || 1.04) && (takerBuyPct >= 51.5 || instBuySellRatio >= 1.14));
     const has5mInstTakerShort =
-      instBuySellRatio <= (tuning.maxShortTaker5m || 0.98) && (takerBuyPct <= 48.5 || instBuySellRatio <= 0.88);
+      instBuySellRatio <= Math.min(0.86, tuning.maxShortTaker5m || 0.86) && (takerBuyPct <= 48.0 || instBuySellRatio <= 0.84);
 
     const canTriggerLong =
       !btcVetoLong &&
@@ -1836,6 +1905,7 @@ async function scanPerpUniverse(state) {
       rawLongTotal >= (tuning.minLongScore || 78);
 
     const canTriggerShort =
+      isStrictShortAllowed &&
       !btcVetoShort &&
       !whaleVetoShort &&
       !fundingVetoShort &&
@@ -1846,21 +1916,23 @@ async function scanPerpUniverse(state) {
       vwapShortOk &&
       has5mInstTakerShort &&
       (rsVsBtcAtr <= 0.25 || isGcrCrowdedManiaShort) &&
-      rawShortTotal >= (tuning.minShortScore || 78);
+      rawShortTotal >= Math.max(86, tuning.minShortScore || 86);
 
     if (canTriggerLong && (!canTriggerShort || rawLongTotal >= rawShortTotal)) {
       side = 'LONG';
       score = Math.min(99, rawLongTotal);
       const dynLev = selectConvictionLeverage(score, atr15mPct);
-      engine = isBnfLiquidationBounce
-        ? 'ENGINE_BNF_LIQUIDATION_BOUNCE_LONG'
-        : hasFreshDirectNews
-          ? 'ENGINE_QULLAMAGGIE_NEWS_OI_LONG'
-          : mtfSqueeze.squeezeBullishPts > 0
-            ? 'ENGINE_TTM_VOLATILITY_SQUEEZE_LONG'
-            : item.basisPct <= -0.030 || item.fundingRatePct <= -0.010
-              ? 'ENGINE_LIGHTCRYPTO_SQUEEZE_LONG'
-              : 'ENGINE_EUGENE_WHALE_SMC_LONG';
+      engine = isHypeSqueezeMomentumLong
+        ? 'ENGINE_HYPE_SQUEEZE_MOMENTUM_LONG'
+        : isBnfLiquidationBounce
+          ? 'ENGINE_BNF_LIQUIDATION_BOUNCE_LONG'
+          : hasFreshDirectNews
+            ? 'ENGINE_QULLAMAGGIE_NEWS_OI_LONG'
+            : mtfSqueeze.squeezeBullishPts > 0
+              ? 'ENGINE_TTM_VOLATILITY_SQUEEZE_LONG'
+              : item.basisPct <= -0.030 || item.fundingRatePct <= -0.010
+                ? 'ENGINE_LIGHTCRYPTO_SQUEEZE_LONG'
+                : 'ENGINE_EUGENE_WHALE_SMC_LONG';
       thesis = `[${anatomy.patternLabel} | ${mtfSqueeze.squeezeLabel}] ${oiQuadrant} | ${mtfSqueeze.mtfTrend} | 1s: ${change1hPct >= 0 ? '+' : ''}%${change1hPct} (24s: ${item.change24hPct >= 0 ? '+' : ''}%${item.change24hPct}) | RS_BTC: ${rsVsBtcAtr >= 0 ? '+' : ''}${rsVsBtcAtr} ATR | ${basisLabel} | Balina Makası: ${whaleRetailSpread >= 0 ? '+' : ''}%${whaleRetailSpread} | Taker L/S: ${instBuySellRatio}x | ${anatomy.cvdLabel}${liqMagnetLabel} -> ${dynLev}x LONG!`;
     } else if (canTriggerShort) {
       side = 'SHORT';
@@ -2559,12 +2631,12 @@ function updateAccountingAndReport(state) {
           .map(m => `| **${m.trade}** | ${m.rootCause} | ✅ **${m.fixApplied}** |`)
           .join('\n') + '\n';
 
-  const md = `# ⚡ 300 TL SABİT ANA PARA (3x–5x RİSK-NORMALİZE KALDIRAÇ) + 23.000 TL HEDEF & 2-SAATLİK OTONOM EVRİM (Mutlak Yapı v9.1)
+  const md = `# ⚡ 300 TL SABİT ANA PARA (3x–5x RİSK-NORMALİZE KALDIRAÇ) + 23.000 TL HEDEF & 2-SAATLİK OTONOM EVRİM (Mutlak Yapı v10.0)
 
 **Son Güncelleme:** ${new Date().toLocaleString('tr-TR')}  
 **🌍 Her Yerden (4.5G/Mobil/Wi-Fi Cloudflare Port Forwarding):** \`${PUBLIC_TUNNEL_URL}\` *(Yedek: \`${BACKUP_TUNNEL_URL}\`)*  
 **🏠 Ev Wi-Fi:** \`http://${lanIp}:${DASHBOARD_PORT}\` | **💻 Bilgisayar:** \`http://localhost:${DASHBOARD_PORT}\`  
-**Çalışma Modu:** \`${state.mode}\` *(Sadece Max ${goalInfo.activeCapTry} TL İle Oynar + 3x–5x Luna/Qullamaggie Kaldıraç + Her 2 Saatte Bir Otonom Özeleştiri & Evrim Motoru #43–#50)*
+**Çalışma Modu:** \`${state.mode}\` *(Sadece Max ${goalInfo.activeCapTry} TL İle Oynar + 3x–5x Luna/Qullamaggie Kaldıraç + Her 2 Saatte Bir Otonom Özeleştiri & Evrim Motoru #43–#54)*
 
 ---
 
@@ -2576,7 +2648,7 @@ function updateAccountingAndReport(state) {
 
 ---
 
-## 🧠 2-SAATLİK OTONOM ÖZELEŞTİRİ & KENDİNİ GELİŞTİRME MOTORU (Motor #43–#50)
+## 🧠 2-SAATLİK OTONOM ÖZELEŞTİRİ & KENDİNİ GELİŞTİRME MOTORU (Motor #43–#54)
 
 * **⏱️ Son Otonom Denetim:** \`${audit.lastAuditAt}\` | **Sonraki 2-Saatlik Denetim:** \`${audit.nextAuditAt}\`
 * **📊 Son ${audit.recentWindowCount} İşlem Karnesi:** \`${audit.recentWins} Kazanç / ${audit.recentLosses} Kayıp\` (**Net:** \`${audit.recentNetPnlTry >= 0 ? '+' : ''}${audit.recentNetPnlTry} TL\` | **Luna Amaç Skoru $J$:** \`${audit.objectiveJ}\`)
@@ -2797,7 +2869,7 @@ function startDashboardServer(state) {
   <div id="mc-hit-layer"></div>
   <div class="topbar">
     <div>
-      <div class="title">⚡ Yırtıcı Konsey v9.1 — 300 TL Kaldıraç (3x–5x) + 🎯 23.000 TL Hedef + 🧠 2-Saatlik Otonom Evrim (Motor #43–#50)</div>
+      <div class="title">⚡ Yırtıcı Konsey v10.0 — 300 TL Kaldıraç (3x–5x) + 🎯 23.000 TL Hedef + 🧠 Hype-Avcısı & Short-Kilidi (Motor #43–#54)</div>
       <div class="sub">Sayfa Yenilenmeden Canlı Akış (Zero-Refresh) + Minecraft/RPG Hit-Marker (+TL / -TL) &bull; Son Senkron: <b id="live-sync-clock" class="cyan">${new Date().toLocaleTimeString('tr-TR')}</b></div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
@@ -2852,7 +2924,7 @@ function startDashboardServer(state) {
 
   <div class="section-card" id="sec-audit" style="border-color:#38bdf866;">
     <h3>
-      <span>🧠 Her 2 Saatte Bir Otonom Özeleştiri & Evrim Motoru (Motor #43–#50)</span>
+      <span>🧠 Her 2 Saatte Bir Otonom Özeleştiri & Evrim Motoru (Motor #43–#54)</span>
       <span class="sub">Son Denetim: <b>${(state.lastSelfAudit || {}).lastAuditAt || '-'}</b> | Sonraki: <b>${(state.lastSelfAudit || {}).nextAuditAt || '+2 Saat'}</b></span>
     </h3>
     <div style="font-size:12px;color:#cbd5e1;margin-bottom:8px;">
@@ -3122,10 +3194,10 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v9.1-2Hour-SelfAudit-Apex';
+  state.version = 'Mutlak-Yapi-v10.0-Hype-Squeeze-Predator';
   runTwoHourSelfAudit(state, true);
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + 2-SAATLİK OTONOM EVRİM MOTORU (v9.1)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + HYPE-AVCISI & OTONOM EVRİM MOTORU (v10.0)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
