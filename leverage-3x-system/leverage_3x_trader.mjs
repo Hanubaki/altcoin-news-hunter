@@ -695,8 +695,13 @@ function runTwoHourSelfAudit(state, forceLog = false) {
     }
   }
 
-  // Engine #46 (GPT-6-Luna Toxic-Symbol Quarantine):
-  // Count consecutive losses per symbol from closedTrades; if a symbol has >= 2 consecutive losses (e.g. SOPH, KAT), enforce 12-hour quarantine
+  // Engine #46 + #73A (GPT-6-Luna Toxic-Symbol Quarantine Without Eternal Reset Bug):
+  // Anchor quarantine expiry to the actual trade close timestamp (t.closedAtMs / t.closedAt), NEVER nowMs + 6h on every audit!
+  const parseClosedAtMs = str => {
+    const m = String(str || '').match(/(\d{1,2})\.(\d{1,2})\.(\d{4})\s+(\d{1,2}):(\d{1,2}):(\d{1,2})/);
+    if (!m) return 0;
+    return new Date(Number(m[3]), Number(m[2]) - 1, Number(m[1]), Number(m[4]), Number(m[5]), Number(m[6])).getTime();
+  };
   if (!state.symbolCooldowns) state.symbolCooldowns = {};
   if (!state.symbolConsecStops) state.symbolConsecStops = {};
   const seenSymbols = new Set();
@@ -711,9 +716,16 @@ function runTwoHourSelfAudit(state, forceLog = false) {
     }
     state.symbolConsecStops[t.symbol] = consec;
     if (consec >= 2) {
-      const minQuarantineUntil = nowMs + 6 * 60 * 60 * 1000;
-      if ((state.symbolCooldowns[t.symbol] || 0) < minQuarantineUntil) {
-        state.symbolCooldowns[t.symbol] = minQuarantineUntil;
+      const lastLossMs = Number(t.closedAtMs || parseClosedAtMs(t.closedAt) || 0);
+      if (lastLossMs > 0) {
+        const targetQuarantineUntil = lastLossMs + 10 * 60 * 60 * 1000;
+        const maxQuarantineUntil = lastLossMs + 12 * 60 * 60 * 1000;
+        if ((state.symbolCooldowns[t.symbol] || 0) > maxQuarantineUntil) {
+          // Repair cooldowns that were artificially pushed forward by the old nowMs + 6h reset bug
+          state.symbolCooldowns[t.symbol] = targetQuarantineUntil;
+        } else if (nowMs < targetQuarantineUntil && (state.symbolCooldowns[t.symbol] || 0) < targetQuarantineUntil) {
+          state.symbolCooldowns[t.symbol] = targetQuarantineUntil;
+        }
       }
     }
   }
@@ -2733,17 +2745,17 @@ async function manageOpenPosition(state, candidates = []) {
     }
   }
 
-  // Stage 2 (v8.4 Asymmetric Runner + Zero-Choke + MIN_NOTIONAL Full-Lock Guard + Engine #64C Wall Front-Run + Engine #72 Live Fill Verification):
+  // Stage 2 (v8.4 Asymmetric Runner + Zero-Choke + MIN_NOTIONAL Full-Lock Guard + Engine #64C Wall Front-Run + Engine #72/#73B Live Fill Parity):
+  // On Binance USD-M Futures, reduceOnly partial closes are exempt from the $5.00 MIN_NOTIONAL filter;
+  // only require liveHarvestQty > 0 (>= minQty) and remaining 65% runner >= $5.00 MIN_NOTIONAL in both SIM and LIVE!
   if (!pos.tp1Done && !pos.externallyClosedOnExchange && (rawCoinMoveFrac >= 0.0125 || isWallFrontRunTp1)) {
-    const prevExecQty = Number(pos.executedQty || 0);
-    const liveHarvestQty = pos.isLiveFapiOrder ? roundQtyToStep(pos.fSym, prevExecQty * 0.35) : 0;
-    const liveRemainQty = pos.isLiveFapiOrder ? roundQtyToStep(pos.fSym, Math.max(0, prevExecQty - liveHarvestQty)) : 0;
+    const prevExecQty = Number(pos.executedQty || roundQtyToStep(pos.fSym, pos.notionalUsdt / pos.entryPrice) || 0);
+    const liveHarvestQty = roundQtyToStep(pos.fSym, prevExecQty * 0.35);
+    const liveRemainQty = roundQtyToStep(pos.fSym, Math.max(0, prevExecQty - liveHarvestQty));
     const canSplitLiveQty =
-      !pos.isLiveFapiOrder ||
-      (liveHarvestQty > 0 &&
-        liveRemainQty > 0 &&
-        liveHarvestQty * markExitPrice >= MIN_NOTIONAL_USDT &&
-        liveRemainQty * markExitPrice >= MIN_NOTIONAL_USDT);
+      liveHarvestQty > 0 &&
+      liveRemainQty > 0 &&
+      liveRemainQty * markExitPrice >= MIN_NOTIONAL_USDT;
     if (pos.notionalUsdt * 0.65 < MIN_NOTIONAL_USDT || !canSplitLiveQty) {
       pos.tp1Done = true;
       pos.ratchetStage = 'TP1_FULL_STOP_LOCK_MIN_NOTIONAL';
@@ -3201,6 +3213,7 @@ async function manageOpenPosition(state, candidates = []) {
       netPnlTry: totalLifecyclePnlTry,
       exitReason,
       closedAt: new Date().toLocaleString('tr-TR'),
+      closedAtMs: Date.now(),
     });
     // Engine #46 + Fixed Bug #44 (GPT-6-Luna Protective-Stop Quarantine vs Early Scratch Cooldown):
     // Only increment symbolConsecStops on actual protective stop-outs or losses >= 3.50 TL; early tactical scratches get a 60m cooldown without triggering a 12h toxic quarantine!
@@ -4130,7 +4143,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v11.2-Bulletproof-Live-FAPI-Fortress';
+  state.version = 'Mutlak-Yapi-v11.3-Eternal-Quarantine-Fix-And-Live-TP1-Parity';
   if (state.openPosition?.thesis && state.openPosition?.leverage) {
     state.openPosition.thesis = String(state.openPosition.thesis).replace(
       /->\s*[\d.]+x\s+(LONG|SHORT)!/,
@@ -4139,7 +4152,7 @@ async function main() {
   }
   runTwoHourSelfAudit(state, true);
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v11.2 — Motor #58-#72)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v11.3 — Motor #58-#73)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
