@@ -1694,19 +1694,34 @@ async function scanPerpUniverse(state) {
       bearishWhalePts = Math.min(16, bearishWhalePts + 6);
     }
 
-    // Layer #16 + Engine #52 (GPT-6-Luna Hype-Breakout & Short-Squeeze Reload LONG Engine):
-    // Fixed Bug #16 & #20: Enforce rsi15m <= 78 and volRatio15m >= 0.85 directly inside the predicate!
+    // Layer #16 + Engine #52 + #57A (GPT-6-Luna Hype-Breakout, Short-Squeeze Reload & Qullamaggie High-Tight-Flag TTM-Coil LONG Engine):
+    // Fixed Bug #16 & #20 + Engine #57A: Allow TTM-Coil volume contraction (volRatio15m >= 0.50) when Q1 + MTF Bullish + 5m Taker >= 1.12x + cooled RSI <= 66!
     const isSqueezeConfirmedLong =
       oiQuadrant.startsWith('Q3-TUZAK') ||
       mtfSqueeze.squeezeBullishPts > 0 ||
       ((item.fundingRatePct <= -0.020 || item.basisPct <= -0.10) && oiDelta1hPct >= 0.35);
+    const isHtfCoilContinuationLong = Boolean(
+      (mtfSqueeze.squeezeLabel.includes('Yay Sıkışması') || mtfSqueeze.squeezeBullishPts > 0) &&
+        item.change24hPct >= 6.0 &&
+        change1hPct >= 0.35 &&
+        (oiQuadrant.startsWith('Q1') || isSqueezeConfirmedLong) &&
+        mtfSqueeze.mtfBullishPts > 0 &&
+        takerDataValid &&
+        rawInstBuySellRatio >= 1.12 &&
+        volRatio15m >= 0.50 &&
+        rsi15m <= 66 &&
+        anatomy.normCvd3BarPct > 0 &&
+        anatomy.clv >= 0.65 &&
+        mtfSqueeze.mtfBearishPts === 0 &&
+        !anatomy.isFishingTrapLong
+    );
     const isHypeSqueezeMomentumLong = Boolean(
       (item.change24hPct >= 2.5 || change1hPct >= 1.25) &&
         change1hPct >= 0.35 &&
         (oiQuadrant.startsWith('Q1') || isSqueezeConfirmedLong) &&
         takerDataValid &&
         rawInstBuySellRatio >= 1.08 &&
-        volRatio15m >= 0.85 &&
+        (volRatio15m >= 0.85 || isHtfCoilContinuationLong) &&
         rsi15m <= 78 &&
         anatomy.normCvd3BarPct > 0 &&
         anatomy.clv >= 0.56 &&
@@ -1799,16 +1814,21 @@ async function scanPerpUniverse(state) {
       item.fundingRatePct <= -0.120 ||
       (itemMinsToFunding <= 15 && item.fundingRatePct <= -0.035);
 
-    // Engine #40 + #52 (Qullamaggie + GPT-6-Luna ATR-and-Orderflow-Adaptive VWAP & RSI Extension Band for Hype Rockets):
+    // Engine #40 + #52 + #57B (Qullamaggie + GPT-6-Luna ATR-Normalized VWAP & RSI Extension Band for High-Tight-Flag / Hype Rockets):
     const hasQullamaggieMomentumConfirm =
       isHypeSqueezeMomentumLong ||
+      isHtfCoilContinuationLong ||
       (oiDelta1hPct >= 0.45 &&
         rawInstBuySellRatio >= 1.18 &&
         volRatio15m >= 0.90 &&
         anatomy.normCvd3BarPct > 8.0 &&
         anatomy.clv >= 0.65);
+    const htfAtrNormCap =
+      rsi15m <= 66 && vwapDistPct <= 0.90 * atr15mPct
+        ? Math.min(6.20, Number((0.90 * atr15mPct).toFixed(2)))
+        : 4.20;
     const vwapMaxBandPct = hasQullamaggieMomentumConfirm
-      ? Math.max(2.40, Math.min(4.20, Number((1.85 * atr15mPct).toFixed(2))))
+      ? Math.max(2.40, Math.min(Math.max(4.20, htfAtrNormCap), Number((1.85 * atr15mPct).toFixed(2))))
       : 1.85;
     const maxAllowedLongRsi = isHypeSqueezeMomentumLong ? 78 : 70;
     const minVwapReloadRatio = isHypeSqueezeMomentumLong ? 0.985 : 0.9985;
@@ -1862,9 +1882,10 @@ async function scanPerpUniverse(state) {
     let score = 50;
     let thesis = '';
 
-    // Wall #4 + Bug #17 Fix: Anti-Top-Chase / Hype Exhaustion Ceiling
+    // Wall #4 + Bug #17 Fix + Engine #57C: Anti-Top-Chase / Hype Exhaustion Ceiling (exempting cooled Qullamaggie HTF TTM-Coil continuations)
     const isCoiledTopLongTrap =
       !isBnfLiquidationBounce &&
+      !isHtfCoilContinuationLong &&
       mtfSqueeze.squeezeLabel.includes('Yay Sıkışması') &&
       item.change24hPct >= 8.0 &&
       Math.abs(change1hPct) <= 0.85 &&
@@ -1872,6 +1893,7 @@ async function scanPerpUniverse(state) {
     const isHypeExhaustedTopLong =
       isHypeSqueezeMomentumLong &&
       item.change24hPct >= 95.0 &&
+      !isHtfCoilContinuationLong &&
       (volRatio15m < 1.15 || rawInstBuySellRatio < 1.12 || anatomy.posIn4BarRange >= 0.94);
     const isOverextendedMicroTopLong =
       isCoiledTopLongTrap ||
@@ -1940,9 +1962,9 @@ async function scanPerpUniverse(state) {
     const hasCvdAlignmentLong = anatomy.normCvd3BarPct >= 0;
     const hasCvdAlignmentShort = anatomy.normCvd3BarPct <= 0;
 
-    // Require active 15m volume participation (volRatio15m >= 0.72) and positive 1h momentum alignment
+    // Require active 15m volume participation (volRatio15m >= 0.72, or >= 0.50 in a Qullamaggie HTF TTM-Coil) and positive 1h momentum alignment
     const hasLongMomentumAndVol =
-      volRatio15m >= 0.72 && hasCvdAlignmentLong && change1hPct >= 0.15 && rsVsBtcAtr >= 0.05;
+      (volRatio15m >= 0.72 || isHtfCoilContinuationLong) && hasCvdAlignmentLong && change1hPct >= 0.15 && rsVsBtcAtr >= 0.05;
     const hasShortMomentumAndVol =
       volRatio15m >= 0.72 && hasCvdAlignmentShort && (isGcrCrowdedManiaShort || (change1hPct <= -0.15 && rsVsBtcAtr <= -0.05));
 
@@ -3315,10 +3337,10 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v10.1-Luna-Zero-Bug-Predator';
+  state.version = 'Mutlak-Yapi-v10.2-Luna-HTF-Coil-Predator';
   runTwoHourSelfAudit(state, true);
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + LUNA SIFIR-HATA & HYPE-AVCISI MOTORU (v10.1)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + LUNA HTF-BOBİN & HYPE-AVCISI MOTORU (v10.2)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
