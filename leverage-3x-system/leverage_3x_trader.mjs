@@ -17,8 +17,8 @@ const ENV_FILE = path.join(ROOT_DIR, '.env');
 
 const FAPI_BASE = 'https://fapi.binance.com';
 const USD_TRY_RATE = 49.55;
-const LEVERAGE = 3; // Base Low-Wick Institutional Leverage (300 TL -> 3x = 900 TL, 3.5x = 1.050 TL, 4x = 1.200 TL)
-const MAX_CONVICTION_LEVERAGE = 4;
+const LEVERAGE = 3; // Base Low-Wick Institutional Leverage (300 TL -> 3x = 900 TL, 3.5x = 1.050 TL, 4x = 1.200 TL, 5x = 1.500 TL)
+const MAX_CONVICTION_LEVERAGE = 5;
 const INITIAL_BANKROLL_TRY = 300.0;
 const INITIAL_BANKROLL_USDT = Number((INITIAL_BANKROLL_TRY / USD_TRY_RATE).toFixed(4)); // ~6.0545 USDT
 const TARGET_GOAL_TRY = 23000.0; // User's Ultimate Wealth Goal (23.000 TL)
@@ -73,7 +73,8 @@ async function getValidCoinPerpMap() {
 }
 
 function selectConvictionLeverage(score, atr15mPct) {
-  if (score >= 92 && atr15mPct <= 1.85) return 4;   // Ultra-Apex Sniper Shot (4x = 1.200 TL Power)
+  if (score >= 94 && atr15mPct <= 1.35) return 5;   // Engine #42: Qullamaggie + Luna Risk-Normalized Tight-Stop Apex Shot (5x = 1.500 TL Power)
+  if (score >= 90 && atr15mPct <= 1.85) return 4;   // Ultra-Apex Sniper Shot (4x = 1.200 TL Power)
   if (score >= 85 && atr15mPct <= 2.40) return 3.5; // High-Conviction Surge (3.5x = 1.050 TL Power)
   return 3;                                         // Standard Anti-Wick Institutional Leverage (3x = 900 TL Power)
 }
@@ -1497,9 +1498,21 @@ async function scanPerpUniverse(state) {
       item.fundingRatePct <= -0.120 ||
       (itemMinsToFunding <= 15 && item.fundingRatePct <= -0.035);
 
+    // Engine #40 (Qullamaggie + GPT-6-Luna ATR-and-Orderflow-Adaptive VWAP Extension Band):
+    // Static 1.85% VWAP ceiling previously choked genuine institutional breakouts (LUMIAUSDT +5.71%, IOSTUSDT +3.13%).
+    // When 4-factor institutional participation M is confirmed, allow ATR-scaled band [2.40%, 4.20%] while keeping RSI <= 70.
+    const hasQullamaggieMomentumConfirm =
+      oiDelta1hPct >= 0.45 &&
+      instBuySellRatio >= 1.18 &&
+      anatomy.normCvd3BarPct > 8.0 &&
+      anatomy.clv >= 0.65;
+    const vwapMaxBandPct = hasQullamaggieMomentumConfirm
+      ? Math.max(2.40, Math.min(4.20, Number((1.85 * atr15mPct).toFixed(2))))
+      : 1.85;
+
     const vwapLongOk =
       isBnfLiquidationBounce ||
-      (lastPrice >= vwap4h * 0.9985 && vwapDistPct <= 1.85 && rsi15m >= 38 && rsi15m <= 70 && mtfSqueeze.mtfBearishPts === 0);
+      (lastPrice >= vwap4h * 0.9985 && vwapDistPct <= vwapMaxBandPct && rsi15m >= 38 && rsi15m <= 70 && mtfSqueeze.mtfBearishPts === 0);
     // Unblinded Bi-Directional Short: Allows both Trend Breakdown Shorts (price <= VWAP, RSI 31-66) AND Overbought Mania Fade Shorts (RSI >= 67)
     const vwapShortOk =
       (lastPrice <= vwap4h * 1.003 && rsi15m >= 31 && rsi15m <= 66 && mtfSqueeze.mtfBullishPts === 0) ||
@@ -1993,15 +2006,37 @@ async function manageOpenPosition(state, candidates = []) {
 async function tryOpenPosition(state, candidates) {
   if (state.openPosition) return;
 
-  // Hard 100 TL Cap Enforcement: If leverage cash ever exceeds 100.00 TL (2.0182 USDT), sweep excess to Spot Vault BEFORE sizing
-  if (state.marginCashUsdt > INITIAL_BANKROLL_USDT + 0.0002) {
-    sweepProfitToSpotVault(state, 0, 'KASA_100TL_TAVAN', '100 TL Üstü Fazla Bakiye -> Spot Cüzdana Otomatik Transfer');
+  const goalInfo = getGoalAndTierStatus(state);
+  const activeCapUsdt = goalInfo.activeCapUsdt; // 6.0545 USDT (300 TL) at Tier 1, scales automatically at Tier 2-5
+
+  // Hard Tier Cap Enforcement: If leverage cash ever exceeds activeCapUsdt (300.00 TL at Tier 1), sweep excess to Spot Vault BEFORE sizing
+  if (state.marginCashUsdt > activeCapUsdt + 0.0002) {
+    sweepProfitToSpotVault(state, 0, 'KASA_TAVAN_KORUMA', `${goalInfo.activeCapTry} TL Üstü Fazla Bakiye -> Spot Cüzdana Otomatik Transfer`);
   }
 
   const nowEntryMs = Date.now();
   const symCds = state.symbolCooldowns || {};
   if (!state.obVetoCooldowns) state.obVetoCooldowns = {};
+  if (!state.obVetoStrikes) state.obVetoStrikes = {};
+  if (!state.obVetoAtMs) state.obVetoAtMs = {};
   const obVetoCds = state.obVetoCooldowns;
+
+  // Engine #41 (GPT-6-Luna Institutional Surge Reset):
+  // If >= 90s have elapsed since an orderbook veto and fresh 15m volume + OI + Taker surge arrives, expire cooldown early to re-test live book
+  for (const c of candidates) {
+    if (obVetoCds[c.symbol] && obVetoCds[c.symbol] > nowEntryMs) {
+      const elapsedSinceVetoMs = nowEntryMs - (state.obVetoAtMs[c.symbol] || 0);
+      const isLongSurge = c.side === 'LONG' && c.volRatio15m >= 1.25 && c.oiDelta1hPct >= 0.35 && c.instBuySellRatio >= 1.25;
+      const isShortSurge = c.side === 'SHORT' && c.volRatio15m >= 1.25 && c.oiDelta1hPct >= 0.35 && c.instBuySellRatio <= 0.80;
+      if (elapsedSinceVetoMs >= 90 * 1000 && (isLongSurge || isShortSurge)) {
+        delete obVetoCds[c.symbol];
+        logEvent(
+          state,
+          `⚡ [Engine #41 Kurumsal Surge Reset] ${c.symbol} (${c.side} | Vol:${c.volRatio15m}x | OI:+%${c.oiDelta1hPct} | Taker:${c.instBuySellRatio}x) tahta beklemesi erken sıfırlandı — canlı emir defteri yeniden test ediliyor!`
+        );
+      }
+    }
+  }
 
   const actionable = candidates.filter(
     c =>
@@ -2013,31 +2048,43 @@ async function tryOpenPosition(state, candidates) {
   );
   if (!actionable.length) return;
 
-  // v8.4 Fixed 100 TL Principal Rule: NEVER risk more than 100.00 TL (INITIAL_BANKROLL_USDT) in Leverage!
-  const cappedPrincipalUsdt = Math.min(state.marginCashUsdt, INITIAL_BANKROLL_USDT);
+  // Tier-Capped Principal Rule: NEVER risk more than activeCapUsdt (300.00 TL at Tier 1) in Leverage!
+  const cappedPrincipalUsdt = Math.min(state.marginCashUsdt, activeCapUsdt);
   const usableMarginUsdt = Number((cappedPrincipalUsdt * 0.96).toFixed(4));
 
   for (const cand of actionable) {
-    const chosenLev = cand.convictionLeverage || selectConvictionLeverage(cand.score, cand.atr15mPct);
-    const maxNotionalUsdt = Number((usableMarginUsdt * chosenLev).toFixed(4));
-    if (maxNotionalUsdt < MIN_NOTIONAL_USDT) {
+    const tierLev = cand.convictionLeverage || selectConvictionLeverage(cand.score, cand.atr15mPct);
+    const preCheckNotionalUsdt = Number((usableMarginUsdt * tierLev).toFixed(4));
+    if (preCheckNotionalUsdt < MIN_NOTIONAL_USDT) {
       logEvent(
         state,
-        `⚠️ [MIN_NOTIONAL KALKANI] Mevcut ${chosenLev}x Alım Gücü ($${maxNotionalUsdt} / ${toTL(maxNotionalUsdt)} TL) Binance Futures alt sınırı olan 5.00 USDT altına indiği için emir durduruldu!`
+        `⚠️ [MIN_NOTIONAL KALKANI] Mevcut ${tierLev}x Alım Gücü ($${preCheckNotionalUsdt} / ${toTL(preCheckNotionalUsdt)} TL) Binance Futures alt sınırı olan 5.00 USDT altına indiği için emir durduruldu!`
       );
       return;
     }
 
     const obCheck = await fetchPerpOrderbookConfirm(cand.symbol, cand.side);
     if (!obCheck.ok) {
-      // Engine #36: 12-Minute Orderbook Veto Strike Cooldown (prevents hammering a rejected book 30s later like BTWUSDT)
-      state.obVetoCooldowns[cand.symbol] = Date.now() + 12 * 60 * 1000;
+      // Engine #41 (GPT-6-Luna Progressive Strike Orderbook Cooldown: 1st -> 2.5m, 2nd -> 8m, >=3rd -> 15m; NO_DEPTH -> 90s without strike)
+      const isNoDepth = String(obCheck.reason || '').startsWith('NO_DEPTH');
+      let cdMins = 1.5;
+      let strikeCount = state.obVetoStrikes[cand.symbol] || 0;
+      if (!isNoDepth) {
+        strikeCount += 1;
+        state.obVetoStrikes[cand.symbol] = strikeCount;
+        cdMins = strikeCount === 1 ? 2.5 : strikeCount === 2 ? 8.0 : 15.0;
+      }
+      state.obVetoAtMs[cand.symbol] = Date.now();
+      state.obVetoCooldowns[cand.symbol] = Date.now() + cdMins * 60 * 1000;
       logEvent(
         state,
-        `⚖️ [Vadeli Tahta Vetosu + 12dk Blok] ${cand.symbol} (${chosenLev}x ${cand.side} | ${cand.score}p) pas geçildi: ${obCheck.reason}`
+        `⚖️ [Vadeli Tahta Vetosu | Strike #${strikeCount} -> ${cdMins}dk Blok] ${cand.symbol} (${tierLev}x ${cand.side} | ${cand.score}p) pas geçildi: ${obCheck.reason}`
       );
       continue;
     }
+
+    // Orderbook confirmed -> reset progressive strike counter
+    state.obVetoStrikes[cand.symbol] = 0;
 
     const entryPrice = cand.side === 'LONG' ? obCheck.bestAsk : obCheck.bestBid;
     let rawWickDistFrac = 0.0095;
@@ -2046,9 +2093,24 @@ async function tryOpenPosition(state, candidates) {
     } else if (cand.side === 'SHORT' && cand.structuralHigh > entryPrice) {
       rawWickDistFrac = (cand.structuralHigh * 1.001 - entryPrice) / entryPrice;
     }
-    // v8.5 300 TL Anti-Wick Stop Band (-0.92% to -1.22% structural room so 3x-4x leverage survives normal market wicks)
-    const maxSlCap = chosenLev >= 4 ? 0.0108 : chosenLev >= 3.5 ? 0.0115 : 0.0122;
+    // v8.7 Anti-Wick Stop Band (-0.92% to -1.22% structural room) + Engine #42 Risk-Normalized Leverage L = min(L_tier, L_risk)
+    const maxSlCap = tierLev >= 5 ? 0.0095 : tierLev >= 4 ? 0.0108 : tierLev >= 3.5 ? 0.0115 : 0.0122;
     const underlyingSlFrac = Math.min(maxSlCap, Math.max(0.0092, rawWickDistFrac, (cand.atr15mPct / 100) * 0.78));
+    const maxRiskLev = 0.0480 / (underlyingSlFrac + ROUND_TRIP_FEE_SLIP_FRAC + 0.0005);
+    const microConfirm5x =
+      cand.side === 'LONG'
+        ? obCheck.microSkew > 0 && obCheck.ob2 >= 0.08
+        : obCheck.microSkew < 0 && obCheck.ob2 <= -0.08;
+    const rawAllowedLev = Math.min(tierLev, maxRiskLev);
+    const chosenLev =
+      rawAllowedLev >= 4.15 && tierLev >= 5 && microConfirm5x && underlyingSlFrac <= 0.0095
+        ? 5
+        : rawAllowedLev >= 3.75 && tierLev >= 4
+          ? 4
+          : rawAllowedLev >= 3.35 && tierLev >= 3.5
+            ? 3.5
+            : 3;
+    const maxNotionalUsdt = Number((usableMarginUsdt * chosenLev).toFixed(4));
     const underlyingTpFrac = Math.max(0.0250, underlyingSlFrac * 2.65);
 
     const stopPrice =
@@ -2153,12 +2215,12 @@ function updateAccountingAndReport(state) {
           .join('\n') + '\n';
 
   const goalInfo = getGoalAndTierStatus(state, loadSpotPortfolioSummary());
-  const md = `# ⚡ 300 TL SABİT ANA PARA (3x–4x ANTİ-İĞNE KALDIRAÇ) + 23.000 TL HEDEF & SPOT KÂR SİFONU (Mutlak Yapı v8.6)
+  const md = `# ⚡ 300 TL SABİT ANA PARA (3x–5x RİSK-NORMALİZE KALDIRAÇ) + 23.000 TL HEDEF & SPOT KÂR SİFONU (Mutlak Yapı v8.7)
 
 **Son Güncelleme:** ${new Date().toLocaleString('tr-TR')}  
 **🌍 Her Yerden (4.5G/Mobil/Wi-Fi Cloudflare Port Forwarding):** \`${PUBLIC_TUNNEL_URL}\` *(Yedek: \`${BACKUP_TUNNEL_URL}\`)*  
 **🏠 Ev Wi-Fi:** \`http://${lanIp}:${DASHBOARD_PORT}\` | **💻 Bilgisayar:** \`http://localhost:${DASHBOARD_PORT}\`  
-**Çalışma Modu:** \`${state.mode}\` *(Sadece Max ${goalInfo.activeCapTry} TL İle Oynar + 3x/3.5x/4x Anti-İğne Kaldıraç + Kazanılan Kârları Otomatik Spot Cüzdana Atar)*
+**Çalışma Modu:** \`${state.mode}\` *(Sadece Max ${goalInfo.activeCapTry} TL İle Oynar + 3x/3.5x/4x/5x GPT-6-Luna & Qullamaggie Kaldıraç + Kazanılan Kârları Otomatik Spot Cüzdana Atar)*
 
 ---
 
@@ -2334,8 +2396,8 @@ function startDashboardServer(state) {
 <body>
   <div class="topbar">
     <div>
-      <div class="title">⚡ Yırtıcı Konsey v8.6 — 300 TL Anti-İğne Kaldıraç (3x–4x) + 🎯 23.000 TL Servet Hedefi</div>
-      <div class="sub">Kaldıraçta Max ${goalInfo.activeCapTry} TL İle Oynar + Kârları Otomatik Spot Cüzdana Atar + GPT-6-Luna Mikro-Fiyat Kalkanı</div>
+      <div class="title">⚡ Yırtıcı Konsey v8.7 — 300 TL Risk-Normalize Kaldıraç (3x–5x) + 🎯 23.000 TL Servet Hedefi</div>
+      <div class="sub">Kaldıraçta Max ${goalInfo.activeCapTry} TL İle Oynar + Kârları Otomatik Spot Cüzdana Atar + GPT-6-Luna & Qullamaggie 42 Motor</div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;">
       <a href="${PUBLIC_TUNNEL_URL}" style="text-decoration:none;" class="pill">🌍 4.5G/Cloudflare: ${PUBLIC_TUNNEL_URL.replace('https://', '')}</a>
@@ -2504,9 +2566,9 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v8.5-300TL-LowRisk-SpotVault';
+  state.version = 'Mutlak-Yapi-v8.7-Luna-Qullamaggie-Apex';
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–4x ANTİ-İĞNE KALDIRAÇ) + SPOT CÜZDAN KÂR SİFONU (v8.5)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x LUNA & QULLAMAGGIE KALDIRAÇ) + SPOT CÜZDAN KÂR SİFONU (v8.7)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
