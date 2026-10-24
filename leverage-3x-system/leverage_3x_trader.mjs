@@ -1244,9 +1244,42 @@ function computeWeightedBookImbalance(bids, asks) {
 }
 
 async function fetchPerpOrderbookConfirm(symbol, side) {
-  // Engine #38 (GPT-6-Luna Two-Snapshot Perp Microprice & Spoof-Decay Gate — 1.8s Interval):
-  const d1 = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${symbol}USDT&limit=20`, {}, 2500);
+  // Engine #38 + #64A (GPT-6-Luna Two-Snapshot Perp Microprice, 1m Spike-Chase Guard & Passive Maker Fill — 1.8s Interval):
+  const [d1, klines1m] = await Promise.all([
+    fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${symbol}USDT&limit=20`, {}, 2500),
+    fetchJson(`${FAPI_BASE}/fapi/v1/klines?symbol=${symbol}USDT&interval=1m&limit=4`, {}, 2500),
+  ]);
   if (!d1?.bids?.length || !d1?.asks?.length) return { ok: false, vetoCode: 'NO_DEPTH', reason: 'NO_DEPTH_1' };
+
+  // Engine #64A (Human 1-Minute Chart Discipline — Never market-buy the exact top of a 1-2 minute vertical spike):
+  if (Array.isArray(klines1m) && klines1m.length >= 3) {
+    const kNow = klines1m[klines1m.length - 1];
+    const kPrev2 = klines1m[klines1m.length - 3];
+    const open2mAgo = Number(kPrev2[1] || 0);
+    const closeNow = Number(kNow[4] || 0);
+    const highNow = Number(kNow[2] || 0);
+    const lowNow = Number(kNow[3] || 0);
+    const openNow = Number(kNow[1] || 0);
+    const rangeNow = Math.max(1e-9, highNow - lowNow);
+    const upperWickNow = (highNow - Math.max(openNow, closeNow)) / rangeNow;
+    const lowerWickNow = (Math.min(openNow, closeNow) - lowNow) / rangeNow;
+    const move2mPct = open2mAgo > 0 ? Number((((closeNow - open2mAgo) / open2mAgo) * 100).toFixed(2)) : 0;
+    if (side === 'LONG' && (move2mPct >= 1.15 || (move2mPct >= 0.65 && upperWickNow >= 0.55))) {
+      return {
+        ok: false,
+        vetoCode: 'MICRO_1M_SPIKE',
+        reason: `MICRO_1M_SPIKE_WAIT_PULLBACK (2dk:+%${move2mPct} | 1dk Üstİğne:${(upperWickNow * 100).toFixed(0)}%)`,
+      };
+    }
+    if (side === 'SHORT' && (move2mPct <= -1.15 || (move2mPct <= -0.65 && lowerWickNow >= 0.55))) {
+      return {
+        ok: false,
+        vetoCode: 'MICRO_1M_SPIKE',
+        reason: `MICRO_1M_DUMP_WAIT_PULLBACK (2dk:%${move2mPct} | 1dk Altİğne:${(lowerWickNow * 100).toFixed(0)}%)`,
+      };
+    }
+  }
+
   await new Promise(r => setTimeout(r, 1800));
   const d2 = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${symbol}USDT&limit=20`, {}, 2500);
   if (!d2?.bids?.length || !d2?.asks?.length) return { ok: false, vetoCode: 'NO_DEPTH', reason: 'NO_DEPTH_2' };
@@ -1334,7 +1367,28 @@ async function fetchPerpOrderbookConfirm(symbol, side) {
       return { ok: false, vetoCode: 'WEAK_OB', reason: `WEAK_SHORT_OB_OR_MICROPRICE (ob:${ob1}->${ob2} | x1:${microSkew1}->x2:${microSkew})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
     }
   }
-  return { ok: true, vetoCode: 'OK', bestBid, bestAsk, spreadPct, avgOb, ob1, ob2, obDelta, microSkew1, microSkew };
+  // Engine #64A (Passive Maker Limit Fill Detection — If our Post-Only limit at bestBid1/bestAsk1 is touched or tight-spread bid-supported, enter as Maker!):
+  const isPassiveMakerFill =
+    side === 'LONG'
+      ? (bestAsk <= bestBid1 || (spreadPct <= 0.05 && ob2 >= 0.12 && microSkew >= 0.05))
+      : (bestBid >= bestAsk1 || (spreadPct <= 0.05 && ob2 <= -0.12 && microSkew <= -0.05));
+  const makerEntryPrice =
+    side === 'LONG' ? Math.min(bestBid1, bestAsk) : Math.max(bestAsk1, bestBid);
+  return {
+    ok: true,
+    vetoCode: 'OK',
+    bestBid,
+    bestAsk,
+    isPassiveMakerFill,
+    makerEntryPrice,
+    spreadPct,
+    avgOb,
+    ob1,
+    ob2,
+    obDelta,
+    microSkew1,
+    microSkew,
+  };
 }
 
 function readSharedNewsSignals() {
@@ -1349,11 +1403,12 @@ function readSharedNewsSignals() {
 }
 
 async function scanPerpUniverse(state) {
-  const [validMap, premiumList, tickerList, btcKlines15m] = await Promise.all([
+  const [validMap, premiumList, tickerList, btcKlines15m, btcKlines1m] = await Promise.all([
     getValidCoinPerpMap(),
     fetchJson(`${FAPI_BASE}/fapi/v1/premiumIndex`, {}, 5000),
     fetchJson(`${FAPI_BASE}/fapi/v1/ticker/24hr`, {}, 5000),
     fetchJson(`${FAPI_BASE}/fapi/v1/klines?symbol=BTCUSDT&interval=15m&limit=10`, {}, 4000),
+    fetchJson(`${FAPI_BASE}/fapi/v1/klines?symbol=BTCUSDT&interval=1m&limit=4`, {}, 3500),
   ]);
   if (!Array.isArray(premiumList) || !Array.isArray(tickerList)) {
     return [];
@@ -1371,8 +1426,14 @@ async function scanPerpUniverse(state) {
     ? Math.max(0, Math.round((Number(btcPrem.nextFundingTime) - Date.now()) / 60000))
     : 240;
 
+  let btc2mChangePct = 0;
   let btc15mChangePct = 0;
   let btc1hChangePct = 0;
+  if (Array.isArray(btcKlines1m) && btcKlines1m.length >= 3) {
+    const b1mLast = Number(btcKlines1m[btcKlines1m.length - 1][4]);
+    const b1mPrev2 = Number(btcKlines1m[btcKlines1m.length - 3][1]);
+    if (b1mPrev2 > 0) btc2mChangePct = Number((((b1mLast - b1mPrev2) / b1mPrev2) * 100).toFixed(2));
+  }
   if (Array.isArray(btcKlines15m) && btcKlines15m.length >= 6) {
     const bLast = Number(btcKlines15m[btcKlines15m.length - 1][4]);
     const bPrev15m = Number(btcKlines15m[btcKlines15m.length - 2][4]);
@@ -1381,8 +1442,9 @@ async function scanPerpUniverse(state) {
     if (bPrev1h > 0) btc1hChangePct = Number((((bLast - bPrev1h) / bPrev1h) * 100).toFixed(2));
   }
 
-  const btcVetoLong = btc15mChangePct <= -0.45 || btc1hChangePct <= -1.10;
-  const btcVetoShort = btc15mChangePct >= 0.45 || btc1hChangePct >= 1.10;
+  // Engine #64B (Human 1-Minute BTC Reflex — Instant veto if BTC dumps <= -0.28% or spikes >= +0.28% in 2 minutes!):
+  const btcVetoLong = btc2mChangePct <= -0.28 || btc15mChangePct <= -0.45 || btc1hChangePct <= -1.10;
+  const btcVetoShort = btc2mChangePct >= 0.28 || btc15mChangePct >= 0.45 || btc1hChangePct >= 1.10;
 
   const sharedNews = readSharedNewsSignals();
   const newsMap = new Map();
@@ -2163,16 +2225,17 @@ async function scanPerpUniverse(state) {
   const avgFunding = fundingCnt > 0 ? Number((fundingSum / fundingCnt).toFixed(4)) : 0;
   state.marketSummary = {
     btcPrice: btcMark,
+    btcChange2mPct: btc2mChangePct,
     btcChange15mPct: btc15mChangePct,
     btcChange1hPct: btc1hChangePct,
     avgFundingRatePct: avgFunding,
     minsToNextFunding,
     activeUniverseCount: preCandidates.length,
     regimeLabel: btcVetoLong
-      ? `⚠️ BTC SERT DÜŞÜŞ (${btc15mChangePct}%/15dk) -> LONG VETO, SADECE GCR SHORT!`
+      ? `⚠️ BTC SERT DÜŞÜŞ (2dk:${btc2mChangePct}% | 15dk:${btc15mChangePct}%) -> LONG VETO, SADECE GCR SHORT!`
       : btcVetoShort
-        ? `🚀 BTC SERT YÜKSELİŞ (+${btc15mChangePct}%/15dk) -> SHORT VETO, SADECE EUGENE LONG!`
-        : `20 KATMANLI YIRTICI KONSEY v10.1 (${preCandidates.length} Likit Kontrat | 3x-5x Anti-İğne + 5dk Gerçek Taker & Luna Sıfır-Hata Kalkanı)`,
+        ? `🚀 BTC SERT YÜKSELİŞ (2dk:+${btc2mChangePct}% | 15dk:+${btc15mChangePct}%) -> SHORT VETO, SADECE EUGENE LONG!`
+        : `20 KATMANLI YIRTICI KONSEY v10.6 (${preCandidates.length} Likit Kontrat | 3x-5x Anti-İğne + İnsan-Üstü Limit/1dk Refleks Kalkanı)`,
     lastScanAt: new Date().toLocaleString('tr-TR'),
     statusNote: state.openPosition
       ? `🔥 Açık ${state.openPosition.leverage || LEVERAGE}x ${state.openPosition.side}: ${state.openPosition.symbol}USDT takip ediliyor.`
@@ -2218,7 +2281,8 @@ async function manageOpenPosition(state, candidates = []) {
   const currentAdverseFrac = Math.max(0, -rawCoinMoveFrac);
   pos.maxAdverseCoinMoveFrac = Math.max(pos.maxAdverseCoinMoveFrac || 0, currentAdverseFrac);
 
-  const netCoinMoveFrac = rawCoinMoveFrac - ROUND_TRIP_FEE_SLIP_FRAC;
+  const effectiveFeeSlipFrac = pos.feeSlipFrac || ROUND_TRIP_FEE_SLIP_FRAC;
+  const netCoinMoveFrac = rawCoinMoveFrac - effectiveFeeSlipFrac;
   const netPnlUsdt = Number((pos.notionalUsdt * netCoinMoveFrac).toFixed(4));
   const netPnlTry = toTL(netPnlUsdt);
   const roePct = Number(((netPnlUsdt / pos.marginUsdt) * 100).toFixed(2));
@@ -2230,10 +2294,35 @@ async function manageOpenPosition(state, candidates = []) {
   pos.underlyingMovePct = underlyingMovePct;
   const posLev = pos.leverage || LEVERAGE;
 
-  // Stage 2 (v8.4 Asymmetric Runner + Zero-Choke + MIN_NOTIONAL Full-Lock Guard):
-  // If remaining 65% runner is >= MIN_NOTIONAL_USDT ($5.00), harvest 35% at +1.25% Coin Move and keep 65% Runner (+0.35% stop lock).
+  // Engine #64C (Human Orderbook Wall Front-Run TP1 Harvest):
+  // If price reaches >= +1.02% (>82% of TP1 +1.25%) and either encounters an opposing orderbook wall (|liveOb| >= 0.24) or 5m Taker weakens,
+  // front-run the wall and harvest TP1 immediately instead of letting the wall reject price back down!
+  let isWallFrontRunTp1 = false;
+  if (!pos.tp1Done && rawCoinMoveFrac >= 0.0102 && rawCoinMoveFrac < 0.0125) {
+    const frontRunCand =
+      candidates.find(c => c.symbol === pos.symbol) ||
+      (state.openPositionLiveCand?.symbol === pos.symbol ? state.openPositionLiveCand : null);
+    const takerWeakNearTp1 = Boolean(
+      frontRunCand?.takerDataValid &&
+        (pos.side === 'LONG' ? frontRunCand.instBuySellRatio <= 0.90 : frontRunCand.instBuySellRatio >= 1.12)
+    );
+    if (takerWeakNearTp1) {
+      isWallFrontRunTp1 = true;
+    } else {
+      const tp1Depth = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${pos.fSym}&limit=15`, {}, 1800);
+      if (tp1Depth?.bids?.length && tp1Depth?.asks?.length) {
+        const tp1Ob = computeWeightedBookImbalance(tp1Depth.bids, tp1Depth.asks);
+        if ((pos.side === 'LONG' && tp1Ob <= -0.24) || (pos.side === 'SHORT' && tp1Ob >= 0.24)) {
+          isWallFrontRunTp1 = true;
+        }
+      }
+    }
+  }
+
+  // Stage 2 (v8.4 Asymmetric Runner + Zero-Choke + MIN_NOTIONAL Full-Lock Guard + Engine #64C Wall Front-Run):
+  // If remaining 65% runner is >= MIN_NOTIONAL_USDT ($5.00), harvest 35% at +1.25% (or >= +1.02% wall front-run) and keep 65% Runner (+0.35% stop lock).
   // If position notional is ~300 TL ($6.05 USDT, e.g. 100 TL x 3x), splitting 35%/65% would leave $3.93 (< $5.00 MIN_NOTIONAL); lock 100% full position stop at +0.55% instead!
-  if (!pos.tp1Done && rawCoinMoveFrac >= 0.0125) {
+  if (!pos.tp1Done && (rawCoinMoveFrac >= 0.0125 || isWallFrontRunTp1)) {
     if (pos.notionalUsdt * 0.65 < MIN_NOTIONAL_USDT) {
       pos.tp1Done = true;
       pos.ratchetStage = 'TP1_FULL_STOP_LOCK_MIN_NOTIONAL';
@@ -2385,8 +2474,10 @@ async function manageOpenPosition(state, candidates = []) {
         microLockCand.takerDataValid &&
         (pos.side === 'LONG' ? microLockCand.instBuySellRatio <= 0.88 : microLockCand.instBuySellRatio >= 1.14)
     );
-    if (isMicroTakerWeakening) {
-      pos.ratchetStage = 'MICRO_POP_FEE_LOCK';
+    const btc2mNow = Number(state.marketSummary?.btcChange2mPct || 0);
+    const isBtc2mShockAgainst = pos.side === 'LONG' ? btc2mNow <= -0.28 : btc2mNow >= 0.28;
+    if (isMicroTakerWeakening || isBtc2mShockAgainst) {
+      pos.ratchetStage = isBtc2mShockAgainst ? 'BTC_SHOCK_PROFIT_LOCK' : 'MICRO_POP_FEE_LOCK';
       if (pos.side === 'LONG') {
         const microLock = Number((pos.entryPrice * (1 + 0.0026)).toPrecision(6));
         if (microLock > pos.stopPrice) pos.stopPrice = microLock;
@@ -2596,11 +2687,11 @@ async function manageOpenPosition(state, candidates = []) {
     const liveSpreadFrac = (bestAsk - bestBid) / Math.max(1e-9, (bestAsk + bestBid) * 0.5);
     const serverStopSlipFrac = Math.max(0.0006, liveSpreadFrac + 0.0004);
     const effectiveRawMoveFrac = isProfitStopClose
-      ? Math.max(rawCoinMoveFrac, ROUND_TRIP_FEE_SLIP_FRAC + 0.0006, stopLockedMoveFrac - 0.0004)
+      ? Math.max(rawCoinMoveFrac, effectiveFeeSlipFrac + 0.0006, stopLockedMoveFrac - 0.0004)
       : isStopHit
         ? Math.max(rawCoinMoveFrac, stopLockedMoveFrac - serverStopSlipFrac)
         : rawCoinMoveFrac;
-    const effectiveNetMoveFrac = effectiveRawMoveFrac - ROUND_TRIP_FEE_SLIP_FRAC;
+    const effectiveNetMoveFrac = effectiveRawMoveFrac - effectiveFeeSlipFrac;
     const effectiveExitPrice =
       pos.side === 'LONG'
         ? Number((pos.entryPrice * (1 + effectiveRawMoveFrac)).toPrecision(6))
@@ -2656,6 +2747,9 @@ async function manageOpenPosition(state, candidates = []) {
     } else {
       const scratchExpiry = Date.now() + 60 * 60 * 1000;
       state.symbolCooldowns[pos.symbol] = Math.max(state.symbolCooldowns[pos.symbol] || 0, scratchExpiry);
+    }
+    if (totalLifecyclePnlTry <= -2.50) {
+      state.lastLossClosedAtMs = Date.now();
     }
     if (rotationTarget) {
       state.lastRotationAtMs = Date.now();
@@ -2742,11 +2836,15 @@ async function tryOpenPosition(state, candidates) {
     }
   }
 
+  // Engine #64D (Human Post-Loss Cool-Down Discipline — After any loss <= -2.50 TL, pause standard entries for 12m unless an A+ [>=86p & 5m Taker >=1.25x] setup appears):
+  const isInPostLossCoolDown = nowEntryMs - (state.lastLossClosedAtMs || 0) < 12 * 60 * 1000;
+
   const actionable = candidates.filter(
     c =>
       c.engine !== 'WATCHLIST' &&
       (c.side === 'LONG' || c.side === 'SHORT') &&
-      c.score >= 78 &&
+      c.score >= (isInPostLossCoolDown ? 86 : 78) &&
+      (!isInPostLossCoolDown || (c.side === 'LONG' ? c.instBuySellRatio >= 1.25 : c.instBuySellRatio <= 0.78)) &&
       (!symCds[c.symbol] || symCds[c.symbol] <= nowEntryMs) &&
       (!obVetoCds[c.symbol] || obVetoCds[c.symbol] <= nowEntryMs)
   );
@@ -2769,11 +2867,14 @@ async function tryOpenPosition(state, candidates) {
 
     const obCheck = await fetchPerpOrderbookConfirm(cand.symbol, cand.side);
     if (!obCheck.ok) {
-      // Engine #41 (GPT-6-Luna Progressive Strike Orderbook Cooldown: 1st -> 2.5m, 2nd -> 8m, >=3rd -> 15m; NO_DEPTH -> 90s without strike)
-      const isNoDepth = obCheck.vetoCode === 'NO_DEPTH' || String(obCheck.reason || '').startsWith('NO_DEPTH');
+      // Engine #41 + #64A (GPT-6-Luna Progressive Strike Orderbook Cooldown; NO_DEPTH & MICRO_1M_SPIKE wait 90s for pullback without strike penalty!)
+      const isNoStrikeWait =
+        obCheck.vetoCode === 'NO_DEPTH' ||
+        obCheck.vetoCode === 'MICRO_1M_SPIKE' ||
+        String(obCheck.reason || '').startsWith('NO_DEPTH');
       let cdMins = 1.5;
       let strikeCount = state.obVetoStrikes[cand.symbol] || 0;
-      if (!isNoDepth) {
+      if (!isNoStrikeWait) {
         strikeCount += 1;
         state.obVetoStrikes[cand.symbol] = strikeCount;
         cdMins = strikeCount === 1 ? 2.5 : strikeCount === 2 ? 8.0 : 15.0;
@@ -2792,7 +2893,14 @@ async function tryOpenPosition(state, candidates) {
     // Orderbook confirmed -> reset progressive strike counter
     state.obVetoStrikes[cand.symbol] = 0;
 
-    const entryPrice = cand.side === 'LONG' ? obCheck.bestAsk : obCheck.bestBid;
+    // Engine #64A: Use passive Maker Limit fill price & lower fee (0.13% vs 0.18%) when Post-Only Bid/Ask fill is confirmed!
+    const isMakerEntry = Boolean(obCheck.isPassiveMakerFill && obCheck.makerEntryPrice > 0);
+    const entryPrice = isMakerEntry
+      ? obCheck.makerEntryPrice
+      : cand.side === 'LONG'
+        ? obCheck.bestAsk
+        : obCheck.bestBid;
+    const posFeeSlipFrac = isMakerEntry ? 0.0013 : ROUND_TRIP_FEE_SLIP_FRAC;
     let rawWickDistFrac = 0.0095;
     if (cand.side === 'LONG' && cand.structuralLow > 0 && cand.structuralLow < entryPrice) {
       rawWickDistFrac = (entryPrice - cand.structuralLow * 0.999) / entryPrice;
@@ -2875,6 +2983,8 @@ async function tryOpenPosition(state, candidates) {
       currentPrice: entryPrice,
       extremePrice: entryPrice,
       maxAdverseCoinMoveFrac: 0,
+      feeSlipFrac: posFeeSlipFrac,
+      executionMode: isMakerEntry ? 'MAKER_LIMIT_POST_ONLY' : 'TAKER_MARKET_SWEEP',
       initialRiskFrac: underlyingSlFrac,
       tpExtensionCount: 0,
       stopPrice,
@@ -3515,7 +3625,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v10.5-Zero-Bleed-Fortress';
+  state.version = 'Mutlak-Yapi-v10.6-Human-Edge-Synthesis';
   if (state.openPosition?.thesis && state.openPosition?.leverage) {
     state.openPosition.thesis = String(state.openPosition.thesis).replace(
       /->\s*[\d.]+x\s+(LONG|SHORT)!/,
@@ -3524,7 +3634,7 @@ async function main() {
   }
   runTwoHourSelfAudit(state, true);
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + LUNA ZERO-BLEED KALESİ (v10.5 — Motor #58-#63)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + İNSAN-ÜSTÜ MELEZ MOTORU (v10.6 — Motor #58-#64)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
