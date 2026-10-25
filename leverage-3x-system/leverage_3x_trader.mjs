@@ -635,6 +635,12 @@ function runTwoHourSelfAudit(state, forceLog = false) {
           rootCause: 'Yapısal Destek ($0.08341) Tutup Fiyat Giriş Üstüne ($0.08450) Toparlanırken 24. Dakikada Erken Bayat-İvme Tahliyesi',
           fixApplied: 'Motor #75A & #75B: Giriş Üstü/Başabaş Toparlanan İşlemde Erken Scratch Yasağı + <3.50 TL Scratch İşlemlerde 10s Karantina Muafiyeti',
         });
+      } else if (t.symbol === 'XMR' && t.side === 'SHORT') {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: 'MTF YÜKSELİŞ (EMA20>50) + NÖTR OI (+%0.04) + Pozitif 1s İvme (+%0.02) + Düşük ATR (%0.52) İçinde Erken GCR Short Girişi',
+          fixApplied: 'Motor #77B & #77C: GCR Short İçin 1s<=-%0.15 & Q3/Q2 OI & MTF Ayı Zorunluluğu + Minimum 15dk ATR >= %0.72 Hız Tabanı',
+        });
       } else if (t.symbol === 'DASH' && t.side === 'LONG') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
@@ -2105,12 +2111,13 @@ async function scanPerpUniverse(state) {
     const curBarVol = Math.max(b1RawVol, wVol * b0PacedVol + (1 - wVol) * b1RawVol);
     const volRatio15m = Number((curBarVol / prev12VolAvg).toFixed(2));
 
+    // Engine #78A (GPT-6-Luna Pure Coin-Contract Open Interest Delta — eliminates price-contaminated sumOpenInterestValue):
     let oiDelta1hPct = 0;
     if (Array.isArray(oiHist) && oiHist.length >= 2) {
-      const firstOi = Number(oiHist[0]?.sumOpenInterestValue || oiHist[0]?.sumOpenInterest || 0);
-      const lastOi = Number(oiHist[oiHist.length - 1]?.sumOpenInterestValue || oiHist[oiHist.length - 1]?.sumOpenInterest || 0);
-      if (firstOi > 0) {
-        oiDelta1hPct = Number((((lastOi - firstOi) / firstOi) * 100).toFixed(2));
+      const firstContractOi = Number(oiHist[0]?.sumOpenInterest || 0);
+      const lastContractOi = Number(oiHist[oiHist.length - 1]?.sumOpenInterest || 0);
+      if (Number.isFinite(firstContractOi) && Number.isFinite(lastContractOi) && firstContractOi > 0 && lastContractOi > 0) {
+        oiDelta1hPct = Number((((lastContractOi - firstContractOi) / firstContractOi) * 100).toFixed(2));
       }
     }
 
@@ -2568,11 +2575,18 @@ async function scanPerpUniverse(state) {
       rawInstBuySellRatio <= curMaxShortTaker5m &&
       (takerBuyPct <= 48.0 || rawInstBuySellRatio <= 0.84);
 
+    // Engine #78C: Block Q2 (falling OI short-covering) LONG entries when whales are net short (<= -2.0%) or inside an unexpanded TTM Coil with < 5.0% 24h momentum
+    const isQ2WeakBounceLongVeto =
+      oiQuadrant.startsWith('Q2') &&
+      !isActiveShortSqueezeRegime &&
+      (whaleRetailSpread <= -2.0 || (mtfSqueeze.squeezeLabel.includes('Yay Sıkışması') && item.change24hPct < 5.0));
+
     const canTriggerLong =
       !btcVetoLong &&
       !whaleVetoLong &&
       !fundingVetoLong &&
       !contangoVetoLong &&
+      !isQ2WeakBounceLongVeto &&
       !anatomy.vetoLong &&
       !isTakerRatioCrashingLong &&
       !isOverextendedMicroTopLong &&
@@ -3013,62 +3027,86 @@ async function manageOpenPosition(state, candidates = []) {
       const bePlus = roundPriceToTick(pos.fSym, pos.entryPrice * (1 - 0.0034), 'ceil');
       if (bePlus < pos.stopPrice) pos.stopPrice = bePlus;
     }
-  } else if (peakCoinMoveFrac >= 0.0055 && !pos.tp1Done) {
-    // Engine #60A + #76B (GPT-6-Luna Pre-TP1 Zero-Choke Early Profit-Lock Bridge):
-    // Never choke a surging breakout (like NILUSDT HamSkor:129, Taker:2.75x) at +0.72% with a 0.38% stop before TP1 (+1.25%);
-    // Only lock +0.34% between +0.55% and +1.01% if institutional taker/whale flow weakens OR if a +0.85% pop pulls back <= +0.44% without strong taker flow!
+  } else if (peakCoinMoveFrac >= 0.0055 && rawCoinMoveFrac >= 0.0036 && !pos.tp1Done) {
+    // Engine #60A + #76B + #78B (GPT-6-Luna Pre-TP1 Zero-Choke & Real-Exchange Valid Stop Placement Bridge):
+    // 1. Require rawCoinMoveFrac >= 0.0036 so the +0.34% stop is ALWAYS strictly below markExitPrice (LONG) / above markExitPrice (SHORT) on real Binance Futures!
+    // 2. Arm at >= 2.5m if 5m Taker crashes (<= 0.85x LONG / >= 1.18x SHORT), at >= 6m if taker/whale weakens, or when a >= +0.60% pop pulls back <= +0.44%!
     const earlyLockCand =
       candidates.find(c => c.symbol === pos.symbol) ||
       (state.openPositionLiveCand?.symbol === pos.symbol ? state.openPositionLiveCand : null);
     const earlyHeldMins = (Date.now() - new Date(pos.entryTime).getTime()) / 60000;
+    const isSevereEarlyTakerCrash = Boolean(
+      earlyHeldMins >= 2.5 &&
+        earlyLockCand &&
+        earlyLockCand.takerDataValid &&
+        (pos.side === 'LONG' ? earlyLockCand.instBuySellRatio <= 0.85 : earlyLockCand.instBuySellRatio >= 1.18)
+    );
     const isEarlyTakerDecaying = Boolean(
-      earlyHeldMins >= 8 &&
+      earlyHeldMins >= 6 &&
         earlyLockCand &&
         (pos.side === 'LONG'
           ? earlyLockCand.instBuySellRatio < 1.05 || earlyLockCand.whaleRetailSpread <= -3.0
           : earlyLockCand.instBuySellRatio > 0.95 || earlyLockCand.whaleRetailSpread >= 3.0)
     );
     const isDeepPullbackFromNearTp1 = Boolean(
-      peakCoinMoveFrac >= 0.0085 &&
+      peakCoinMoveFrac >= 0.0060 &&
         rawCoinMoveFrac <= 0.0044 &&
-        (!earlyLockCand || (pos.side === 'LONG' ? earlyLockCand.instBuySellRatio < 1.35 : earlyLockCand.instBuySellRatio > 0.74))
+        (!earlyLockCand ||
+          (pos.side === 'LONG'
+            ? earlyLockCand.instBuySellRatio < 1.35 || earlyLockCand.whaleRetailSpread < 0
+            : earlyLockCand.instBuySellRatio > 0.74 || earlyLockCand.whaleRetailSpread > 0))
     );
-    if (isEarlyTakerDecaying || isDeepPullbackFromNearTp1) {
-      pos.ratchetStage = 'EARLY_PROFIT_LOCK';
+    if (isSevereEarlyTakerCrash || isEarlyTakerDecaying || isDeepPullbackFromNearTp1) {
       if (pos.side === 'LONG') {
         const earlyLock = roundPriceToTick(pos.fSym, pos.entryPrice * (1 + 0.0034), 'floor');
-        if (earlyLock > pos.stopPrice) pos.stopPrice = earlyLock;
+        if (earlyLock > pos.stopPrice && earlyLock < markExitPrice) {
+          pos.stopPrice = earlyLock;
+          pos.ratchetStage = 'EARLY_PROFIT_LOCK';
+        }
       } else {
         const earlyLock = roundPriceToTick(pos.fSym, pos.entryPrice * (1 - 0.0034), 'ceil');
-        if (earlyLock < pos.stopPrice) pos.stopPrice = earlyLock;
+        if (earlyLock < pos.stopPrice && earlyLock > markExitPrice) {
+          pos.stopPrice = earlyLock;
+          pos.ratchetStage = 'EARLY_PROFIT_LOCK';
+        }
       }
     }
-  } else if (peakCoinMoveFrac >= 0.0034 && !pos.tp1Done) {
-    // Engine #63A (GPT-6-Luna Micro-Pop Fee-Plus Lock — closes the +0.34% to +0.55% NILUSDT blind spot):
-    // If a position reaches >= +0.34% (+1.2% to +1.7% ROE) and after >= 6m its 5m institutional taker flow weakens (<= 0.88x LONG / >= 1.14x SHORT),
-    // lock stop at +0.26% above entry (strictly above 0.18% round-trip fee) so a winning micro-pop can never turn into a -4.84 TL loss!
+  } else if (peakCoinMoveFrac >= 0.0034 && rawCoinMoveFrac >= 0.0028 && !pos.tp1Done) {
+    // Engine #63A + #78B (GPT-6-Luna Micro-Pop Fee-Plus Lock with Real-Exchange Stop Validity):
+    // Require rawCoinMoveFrac >= 0.0028 so the +0.26% stop is strictly on the valid side of current markExitPrice!
     const microLockCand =
       candidates.find(c => c.symbol === pos.symbol) ||
       (state.openPositionLiveCand?.symbol === pos.symbol ? state.openPositionLiveCand : null);
     const microHeldMins = (Date.now() - new Date(pos.entryTime).getTime()) / 60000;
     const longMicroTakerCap = peakCoinMoveFrac >= 0.0042 ? 0.98 : 0.88;
     const shortMicroTakerFloor = peakCoinMoveFrac >= 0.0042 ? 1.02 : 1.14;
+    const isFastMicroTakerCrash = Boolean(
+      microHeldMins >= 2.5 &&
+        microLockCand &&
+        microLockCand.takerDataValid &&
+        (pos.side === 'LONG' ? microLockCand.instBuySellRatio <= 0.80 : microLockCand.instBuySellRatio >= 1.25)
+    );
     const isMicroTakerWeakening = Boolean(
-      microHeldMins >= 6 &&
+      microHeldMins >= 5 &&
         microLockCand &&
         microLockCand.takerDataValid &&
         (pos.side === 'LONG' ? microLockCand.instBuySellRatio <= longMicroTakerCap : microLockCand.instBuySellRatio >= shortMicroTakerFloor)
     );
     const btc2mNow = Number(state.marketSummary?.btcChange2mPct || 0);
     const isBtc2mShockAgainst = pos.side === 'LONG' ? btc2mNow <= -0.28 : btc2mNow >= 0.28;
-    if (isMicroTakerWeakening || isBtc2mShockAgainst) {
-      pos.ratchetStage = isBtc2mShockAgainst ? 'BTC_SHOCK_PROFIT_LOCK' : 'MICRO_POP_FEE_LOCK';
+    if (isFastMicroTakerCrash || isMicroTakerWeakening || isBtc2mShockAgainst) {
       if (pos.side === 'LONG') {
         const microLock = roundPriceToTick(pos.fSym, pos.entryPrice * (1 + 0.0026), 'floor');
-        if (microLock > pos.stopPrice) pos.stopPrice = microLock;
+        if (microLock > pos.stopPrice && microLock < markExitPrice) {
+          pos.stopPrice = microLock;
+          pos.ratchetStage = isBtc2mShockAgainst ? 'BTC_SHOCK_PROFIT_LOCK' : 'MICRO_POP_FEE_LOCK';
+        }
       } else {
         const microLock = roundPriceToTick(pos.fSym, pos.entryPrice * (1 - 0.0026), 'ceil');
-        if (microLock < pos.stopPrice) pos.stopPrice = microLock;
+        if (microLock < pos.stopPrice && microLock > markExitPrice) {
+          pos.stopPrice = microLock;
+          pos.ratchetStage = isBtc2mShockAgainst ? 'BTC_SHOCK_PROFIT_LOCK' : 'MICRO_POP_FEE_LOCK';
+        }
       }
     }
   }
@@ -3277,7 +3315,8 @@ async function manageOpenPosition(state, candidates = []) {
   } else if (isWickTakerCollapseScratch) {
     exitReason = `🛡️ İĞNE REDDİ & 5dk TAKER ÇÖKÜŞÜ ERKEN TAHLİYESİ (Motor #56: ${curPosLiveCand?.candlePattern || 'İğne Reddi'} & 5dk Taker ${curPosLiveCand?.instBuySellRatio ?? 'N/A'}x, Tam Stop Beklenmeden Çıkıldı | ROE ${roePct}%)`;
   } else if (isStaleMomentumScratch) {
-    exitReason = `⏱️ 32dk BAYAT İVME / SIKIŞMA ERKEN TAHLİYESİ (Motor #49: MFE ${(mfeR * 100).toFixed(0)}%R < 25%R & MAE ${(aeR * 100).toFixed(0)}%R, Stop Beklenmeden Çıkıldı | ROE ${roePct}%)`;
+    const staleMfeCapPct = mfeR >= 0.25 ? 45 : 25;
+    exitReason = `⏱️ 32dk BAYAT İVME / SIKIŞMA ERKEN TAHLİYESİ (Motor #49: MFE ${(mfeR * 100).toFixed(0)}%R < ${staleMfeCapPct}%R & MAE ${(aeR * 100).toFixed(0)}%R, Stop Beklenmeden Çıkıldı | ROE ${roePct}%)`;
   } else if (isOrderflowScratch) {
     exitReason = `🛡️ EUGENE ERKEN TAHTA TAHLİYESİ (Emir Defteri Tersine Döndü, Stop Beklenmeden Çıkıldı | ROE ${roePct}%)`;
   } else if (isFundingSettlementHarvest) {
@@ -4291,7 +4330,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v11.7-True-Hype-4h-Resistance-Gate-And-ATR-Velocity-Floor';
+  state.version = 'Mutlak-Yapi-v11.8-Pure-Contract-OI-And-Real-Exchange-Stop-Validity';
   if (state.openPosition?.thesis && state.openPosition?.leverage) {
     state.openPosition.thesis = String(state.openPosition.thesis).replace(
       /->\s*[\d.]+x\s+(LONG|SHORT)!/,
@@ -4300,7 +4339,7 @@ async function main() {
   }
   runTwoHourSelfAudit(state, true);
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v11.7 — Motor #58-#77)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v11.8 — Motor #58-#78)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
