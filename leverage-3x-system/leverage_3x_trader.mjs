@@ -640,6 +640,12 @@ function runTwoHourSelfAudit(state, forceLog = false) {
           rootCause: 'Yapısal Destek ($0.08341) Tutup Fiyat Giriş Üstüne ($0.08450) Toparlanırken 24. Dakikada Erken Bayat-İvme Tahliyesi',
           fixApplied: 'Motor #75A & #75B: Giriş Üstü/Başabaş Toparlanan İşlemde Erken Scratch Yasağı + <3.50 TL Scratch İşlemlerde 10s Karantina Muafiyeti',
         });
+      } else if (t.symbol === 'PONS' && t.side === 'LONG') {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: 'NÖTR OI + Pozitif Basis (+%0.0075) + Sıkışmasız/Formasyonsuz (Alt İğne Tepkisi) 80p Sınır Skor İle Direnç Altı Giriş',
+          fixApplied: 'Motor #91B: NÖTR OI & Sıkışmasız Longlarda Boğa Mum Formasyonu, Negatif Basis/Fonlama veya >=86p Skor Zorunluluğu (-14 TL Stop Yerine -3.74 TL Erken Tahliye)',
+        });
       } else if (t.symbol === 'NEAR' && t.side === 'LONG') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
@@ -2834,20 +2840,31 @@ async function scanPerpUniverse(state) {
       rawInstBuySellRatio <= curMaxShortTaker5m &&
       (takerBuyPct <= 48.0 || rawInstBuySellRatio <= 0.84);
 
-    // Engine #78C + #90A (GPT-6-Luna Strict Anti-Dead-Range Q2 & Flat-MTF Low-24h Filter):
-    // Block Q2 (falling OI short-covering) LONG entries when 24h momentum is flat (< 2.80%), or MTF is flat with weak CLV (< 0.70),
-    // and block flat 24h coins (< 2.20%) that lack Q1 new-buyer OI and MTF Bullish trend (like NEARUSDT 24s:+0.089%, Q2 OI↓, YATAY MTF, CLV:0.55 -> -6.75 TL)!
+    // Engine #78C + #90A + #91B (GPT-6-Luna Strict Anti-Dead-Range Q2 & Neutral-OI Non-Squeeze Quality Floor):
+    // 1. Block Q2 (falling OI short-covering) LONG entries when 24h momentum is flat (< 2.80%), or MTF is flat with weak CLV (< 0.70).
+    // 2. Block flat 24h coins (< 2.20%) that lack Q1 new-buyer OI and MTF Bullish trend (like NEARUSDT 24s:+0.089%, Q2 OI↓, YATAY MTF, CLV:0.55 -> -6.75 TL).
+    // 3. On NÖTR OI without a TTM Squeeze Breakout (!mtfSqueeze.squeezeBullishPts), require a formal bullish candlestick pattern (anatomy.bullishPattern),
+    //    negative-basis/funding squeeze (basisPct <= -0.025 || fundingRatePct <= -0.010), or high-conviction score >= 86 (blocks PONSUSDT NÖTR OI + +0.0075% basis + 80p wick trap)!
+    const isWeakNeutralOiLongVeto =
+      oiQuadrant === 'NÖTR' &&
+      mtfSqueeze.squeezeBullishPts === 0 &&
+      !hasFreshDirectNews &&
+      !anatomy.bullishPattern &&
+      item.basisPct > -0.025 &&
+      item.fundingRatePct > -0.010 &&
+      rawLongTotal < 86;
     const isQ2WeakBounceLongVeto =
-      !isActiveShortSqueezeRegime &&
-      ((oiQuadrant.startsWith('Q2') &&
-        (whaleRetailSpread <= -2.0 ||
-          item.change24hPct < 2.80 ||
-          (mtfSqueeze.mtfBullishPts === 0 && anatomy.clv < 0.70) ||
-          (mtfSqueeze.squeezeLabel.includes('Yay Sıkışması') && item.change24hPct < 5.0))) ||
-        (item.change24hPct < 2.20 &&
-          !oiQuadrant.startsWith('Q1') &&
-          mtfSqueeze.mtfBullishPts === 0 &&
-          !hasFreshDirectNews));
+      isWeakNeutralOiLongVeto ||
+      (!isActiveShortSqueezeRegime &&
+        ((oiQuadrant.startsWith('Q2') &&
+          (whaleRetailSpread <= -2.0 ||
+            item.change24hPct < 2.80 ||
+            (mtfSqueeze.mtfBullishPts === 0 && anatomy.clv < 0.70) ||
+            (mtfSqueeze.squeezeLabel.includes('Yay Sıkışması') && item.change24hPct < 5.0))) ||
+          (item.change24hPct < 2.20 &&
+            !oiQuadrant.startsWith('Q1') &&
+            mtfSqueeze.mtfBullishPts === 0 &&
+            !hasFreshDirectNews)));
 
     const canTriggerLong =
       !btcVetoLong &&
