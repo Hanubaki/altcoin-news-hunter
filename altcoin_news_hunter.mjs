@@ -758,13 +758,18 @@ function analyzeWhaleAndCandleFlow(klines) {
       vwap24h: 0,
     };
   }
-  // Analyze last 3 hours of taker buy volume vs total quote volume
-  const recent = klines.slice(-3);
+  // Analyze rolling 180-minute (3.0h) taker buy volume vs total quote volume (top-of-hour invariant)
+  const lastBarForWindow = klines[klines.length - 1];
+  const winOpenMs = Number(lastBarForWindow?.[0] || 0);
+  const winFracHour = winOpenMs > 0 ? Math.min(1, Math.max(0.02, (Date.now() - winOpenMs) / 3600000)) : 1;
+  const recent4 = klines.slice(-4);
   let totalQuoteVol = 0;
   let takerBuyQuoteVol = 0;
-  for (const k of recent) {
-    totalQuoteVol += Number(k[7] || 0);       // Quote asset volume
-    takerBuyQuoteVol += Number(k[10] || 0);   // Taker buy quote asset volume
+  for (let rIdx = 0; rIdx < recent4.length; rIdx++) {
+    const k = recent4[rIdx];
+    const w = recent4.length === 4 && rIdx === 0 ? 1 - winFracHour : 1.0;
+    totalQuoteVol += Number(k[7] || 0) * w;       // Quote asset volume
+    takerBuyQuoteVol += Number(k[10] || 0) * w;   // Taker buy quote asset volume
   }
   const takerBuyRatio = totalQuoteVol > 0 ? Number((takerBuyQuoteVol / totalQuoteVol).toFixed(3)) : 0.5;
 
@@ -808,12 +813,20 @@ function analyzeWhaleAndCandleFlow(klines) {
   const high = Number(last[2]);
   const low = Number(last[3]);
   const range = Math.max(0.0000001, high - low);
-  const closePositionInRange = (close - low) / range;
+  const rawClosePos = (close - low) / range;
+  const prevRange = Math.max(0.0000001, Number(prev[2] || high) - Number(prev[3] || low));
+  const prevClosePos = (Number(prev[4] || close) - Number(prev[3] || low)) / prevRange;
+  const closePositionInRange =
+    fracHour < 0.30 && close >= Number(prev[3] || low)
+      ? fracHour * rawClosePos + (1 - fracHour) * prevClosePos
+      : rawClosePos;
   const intrabarPumpPct = open > 0 ? ((high - open) / open) * 100 : 0;
-  const isUpperWickRejection = intrabarPumpPct >= 1.4 && closePositionInRange <= 0.30;
+  const isUpperWickRejection = intrabarPumpPct >= 1.4 && rawClosePos <= 0.30;
   const isGreenBounce = (close >= open && closePositionInRange >= 0.45) || closePositionInRange >= 0.60;
   const prev2 = klines[klines.length - 3] || prev;
-  const isHigherLow3Bar = Boolean(low > Number(prev[3] || 0) && Number(prev[3] || 0) >= Number(prev2[3] || 0) * 0.996);
+  const isHigherLow3Bar = Boolean(
+    low >= Number(prev[3] || 0) * 0.998 && Number(prev[3] || 0) >= Number(prev2[3] || 0) * 0.996
+  );
 
   return {
     takerBuyRatio,
@@ -836,12 +849,15 @@ async function main() {
   console.log(`🚀 AltcoinNewsHunter v10.0 (Zero-Risk Institutional Matrix) | 14 Veri Kaynağı + VWAP + Balina OI`);
   console.log('================================================================================\n');
 
-  const allSymbols = getAllTrackedSymbols();
-  const symbolsParam = JSON.stringify(allSymbols.map(s => `${s}USDT`));
+  const baseTrackedSymbols = new Set(getAllTrackedSymbols());
+  const STABLE_OR_EXCLUDED = new Set([
+    'BTC', 'USDT', 'USDC', 'FDUSD', 'TUSD', 'BUSD', 'DAI', 'USDP', 'EUR', 'AEUR', 'EURI', 'TRY', 'PAXG', 'XUSD', 'USD1'
+  ]);
 
-  const [newsScan, tickersRes, hlMetaRes, fapiPremRes, fngRes, globalRes, binanceSocialMap] = await Promise.all([
+  const [newsScan, allBinanceTickersRes, trSymbolsRes, hlMetaRes, fapiPremRes, fngRes, globalRes, binanceSocialMap] = await Promise.all([
     scanAllNewsFeeds(),
-    fetchJson(`${BINANCE_API}/ticker/24hr?symbols=${encodeURIComponent(symbolsParam)}`, {}, 8000),
+    fetchJson(`${BINANCE_API}/ticker/24hr`, {}, 8000).catch(() => []),
+    fetchJson('https://www.trbinance.com/open/v1/common/symbols', {}, 4500).catch(() => null),
     fetchJson(HYPERLIQUID_API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -852,6 +868,21 @@ async function main() {
     fetchJson('https://api.coinpaprika.com/v1/global', {}, 3000).catch(() => null),
     fetchBinanceAiSocialHype(),
   ]);
+
+  const validTrBaseSyms = new Set(baseTrackedSymbols);
+  if (Array.isArray(trSymbolsRes?.data?.list)) {
+    for (const s of trSymbolsRes.data.list) {
+      if (s.quoteAsset === 'TRY' && s.spotTradingEnable === 1 && s.baseAsset && !STABLE_OR_EXCLUDED.has(s.baseAsset)) {
+        validTrBaseSyms.add(s.baseAsset);
+      }
+    }
+  }
+  const tickersRes = (Array.isArray(allBinanceTickersRes) ? allBinanceTickersRes : []).filter(t => {
+    if (!t?.symbol || !t.symbol.endsWith('USDT')) return false;
+    const base = t.symbol.slice(0, -4);
+    if (base === 'BTC') return true;
+    return validTrBaseSyms.has(base) && Number(t.quoteVolume || 0) >= 1500000;
+  });
 
   const fearGreedVal = Number(fngRes?.data?.[0]?.value || 55);
   const fearGreedClass = fngRes?.data?.[0]?.value_classification || 'Greed';
@@ -979,16 +1010,16 @@ async function main() {
         ([sym, m]) =>
           sym !== 'BTC' &&
           !existingSyms.has(sym) &&
-          m.quoteVol24h >= 5000000 &&
-          m.change24hPct >= 1.2 &&
-          m.change24hPct <= 8.5 &&
-          m.vwapPremiumPct >= 0.25 &&
-          m.vwapPremiumPct <= 3.50 &&
-          m.posInRange >= 0.58 &&
-          m.posInRange <= 0.92
+          m.quoteVol24h >= 2500000 &&
+          m.change24hPct >= -0.5 &&
+          m.change24hPct <= 14.0 &&
+          m.vwapPremiumPct >= -0.10 &&
+          m.vwapPremiumPct <= 4.20 &&
+          m.posInRange >= 0.45 &&
+          m.posInRange <= 0.95
       )
       .sort((a, b) => (b[1].posInRange * 3.5 + b[1].vwapPremiumPct * 1.5 + b[1].bounceFromLowPct * 0.4) - (a[1].posInRange * 3.5 + a[1].vwapPremiumPct * 1.5 + a[1].bounceFromLowPct * 0.4))
-      .slice(0, 24);
+      .slice(0, 35);
     for (const [sym] of liquidLeaders) {
       goldenAgeWatchList.push({
         symbol: sym,
@@ -1094,10 +1125,8 @@ async function main() {
     !btcCrashAlert &&
     !isFridayPmDumpWindow &&
     healthyScanStreak >= 2 &&
-    ((btc1hChangePct >= 0.30 && marketBreadthPct >= 52 && intradayRecoveryPct >= 50) ||
-      (btc1hChangePct >= 0.25 && breadth24hPct >= 48 && marketBreadthPct >= 52) ||
-      (btc1hChangePct >= 0.10 && breadth24hPct >= 58 && marketBreadthPct >= 58) ||
-      (btc1hChangePct >= -0.35 && breadth24hPct >= 65 && marketBreadthPct >= 65 && intradayRecoveryPct >= 48));
+    ((btc1hChangePct >= -0.45 && marketBreadthPct >= 52) ||
+      (btc1hChangePct >= -0.65 && breadth24hPct >= 58 && marketBreadthPct >= 55));
 
   const scoredOpportunities = [];
   for (let i = 0; i < positiveNewsAlts.length; i++) {
@@ -1149,11 +1178,12 @@ async function main() {
     const rawChange1hPct = Number(((currBarRet + (1 - fracHour) * prevBarRet) * 100).toFixed(2));
     const low2Bar = Math.min(
       Number(klines[klines.length - 1]?.[3] || mkt.lastPrice),
-      Number(klines[klines.length - 2]?.[3] || mkt.lastPrice)
+      Number(klines[klines.length - 2]?.[3] || mkt.lastPrice),
+      fracHour < 0.75 ? Number(klines[klines.length - 3]?.[3] || mkt.lastPrice) : mkt.lastPrice
     );
     const bounce2BarPct = low2Bar > 0 ? ((mkt.lastPrice - low2Bar) / low2Bar) * 100 : 0;
     const change1hPct =
-      currBarRet >= 0 && closePositionInRange >= 0.55
+      currBarRet >= -0.0025 && closePositionInRange >= 0.48
         ? Number(Math.max(rawChange1hPct, bounce2BarPct * 0.65).toFixed(2))
         : rawChange1hPct;
     const avgVol = volumes.length > 4
@@ -1198,31 +1228,32 @@ async function main() {
         isGoldenAgeCandidate &&
         !btcCrashAlert &&
         !isFridayPmDumpWindow &&
-        btc1hChangePct >= -0.25 &&
+        btc1hChangePct >= -0.45 &&
         marketBreadthPct >= 24 &&
-        marketBreadthPct < 52 &&
-        ema20AboveEma50 &&
-        isHigherLow3Bar &&
-        mkt.lastPrice >= vwap24h * 1.008 &&
-        mkt.change24hPct >= 1.0 &&
-        mkt.change24hPct <= 8.5 &&
-        change1hPct >= 0.85 &&
-        change1hPct <= 2.80 &&
-        change1hPct - btc1hChangePct >= 0.90 &&
-        volRatio >= 1.35 &&
-        closePositionInRange >= 0.70 &&
+        (ema20AboveEma50 || isHigherLow3Bar) &&
+        aboveVwap &&
+        mkt.change24hPct >= 0.8 &&
+        mkt.change24hPct <= 13.5 &&
+        change1hPct >= 0.15 &&
+        change1hPct <= 3.80 &&
+        change1hPct - btc1hChangePct >= 0.25 &&
+        (volRatio >= 0.75 || (volRatio >= 0.50 && last1hQuoteVolUsd >= 180000 && ema20AboveEma50)) &&
+        closePositionInRange >= 0.48 &&
         !isUpperWickRejection &&
-        last1hQuoteVolUsd >= 350000 &&
-        last1hTakerBuy >= 0.58 &&
-        takerBuyRatio >= 0.54 &&
-        amihudIlliquidity <= 6.5 &&
-        fundingHourlyPct <= 0.015 &&
-        rsi1h >= 42 &&
-        rsi1h <= 61
+        last1hQuoteVolUsd >= 120000 &&
+        (last1hTakerBuy >= 0.515 || takerBuyRatio >= 0.51) &&
+        takerBuyRatio >= 0.50 &&
+        amihudIlliquidity <= 8.0 &&
+        fundingHourlyPct <= 0.025 &&
+        rsi1h >= 46 &&
+        rsi1h <= 62
     );
+    const hasConfirmedTrendAlignment = ema20AboveEma50 && (isHigherLow3Bar || macdBullishTurn) && rsi1h >= 48;
     const minGolden1hPct = isSovereignCrisisCandidate
-      ? 0.85
-      : Number(Math.max(0.50, Math.min(0.68, atr1hPct * 0.60)).toFixed(2));
+      ? hasConfirmedTrendAlignment ? 0.15 : 0.35
+      : hasConfirmedTrendAlignment
+        ? 0.10
+        : Number(Math.max(0.28, Math.min(0.50, atr1hPct * 0.35)).toFixed(2));
     if (isGoldenAgeCandidate) {
       if (
         (confirmedRegime === 'B' && !isSovereignCrisisCandidate) ||
@@ -1230,18 +1261,18 @@ async function main() {
         confirmedRegime === 'A' ||
         isFridayPmDumpWindow ||
         (!ema20AboveEma50 && !isHigherLow3Bar && !macdBullishTurn) ||
-        (isSovereignCrisisCandidate ? last1hTakerBuy < 0.58 : (last1hTakerBuy < 0.53 && takerBuyRatio < 0.525)) ||
-        takerBuyRatio < (isSovereignCrisisCandidate ? 0.54 : 0.51) ||
-        last1hQuoteVolUsd < (isSovereignCrisisCandidate ? 350000 : 150000) ||
-        amihudIlliquidity > 7.5 ||
+        (last1hTakerBuy < 0.495 && takerBuyRatio < 0.505) ||
+        takerBuyRatio < 0.495 ||
+        last1hQuoteVolUsd < (isSovereignCrisisCandidate ? 120000 : 90000) ||
+        amihudIlliquidity > 9.5 ||
         change1hPct < minGolden1hPct ||
-        change1hPct > 4.2 ||
-        rsi1h < (isSovereignCrisisCandidate ? 42 : 46) ||
-        rsi1h > 62 ||
+        change1hPct > 4.5 ||
+        rsi1h < 46 ||
+        rsi1h > 65 ||
         !aboveVwap ||
         isUpperWickRejection ||
-        takerFlowDecel > 0.08 ||
-        (closePositionInRange < 0.50 && last1hTakerBuy < 0.55)
+        takerFlowDecel > 0.09 ||
+        (closePositionInRange < 0.45 && last1hTakerBuy < 0.52)
       ) {
         continue;
       }
@@ -1297,7 +1328,7 @@ async function main() {
     const expectedCoin1h = Number((betaBtc * btc1hChangePct).toFixed(2));
     const relativeStrength1h = Number((change1hPct - expectedCoin1h).toFixed(2));
     const rsAtr = Number((relativeStrength1h / Math.max(0.45, atr1hPct)).toFixed(2));
-    if (isGoldenAgeCandidate && rsAtr < (isFridayMorningTrapSetup ? 1.40 : isSovereignCrisisCandidate ? 1.20 : 0.75)) continue;
+    if (isGoldenAgeCandidate && rsAtr < (isFridayMorningTrapSetup ? 1.10 : isSovereignCrisisCandidate ? 0.40 : 0.35)) continue;
 
     // Engine #30 Qullamaggie EP (Episodic Pivot) with Strict NO-CHASE Pmax & Event-Anchored VWAP in Regime C
     const preEventCompBar = klines[Math.max(0, eventBarIdx - 1)] || completedKlines[completedKlines.length - 1];
@@ -1306,12 +1337,12 @@ async function main() {
       completedCloses.length >= 2 &&
       Number.isFinite(openingRangeHigh) &&
       openingRangeHigh > 0 &&
-      mkt.lastPrice >= openingRangeHigh * 0.998;
+      mkt.lastPrice >= openingRangeHigh * 0.992;
     const epAtrUnit = Number.isFinite(atr1hPrice) && atr1hPrice > 0 ? atr1hPrice : mkt.lastPrice * (atr1hPct / 100);
     const epMaxEntryPrice =
       openingRangeHigh > 0
-        ? Number(Math.min(openingRangeHigh + 0.65 * epAtrUnit, openingRangeHigh * 1.018).toPrecision(6))
-        : Number((mkt.lastPrice * 1.012).toPrecision(6));
+        ? Number(Math.min(openingRangeHigh + 1.35 * epAtrUnit, openingRangeHigh * 1.028).toPrecision(6))
+        : Number((mkt.lastPrice * 1.018).toPrecision(6));
     let eventPvSum = 0;
     let eventVolSum = 0;
     for (let kIdx = eventBarIdx; kIdx < klines.length; kIdx++) {
@@ -1327,7 +1358,7 @@ async function main() {
     const isEpRetestOptimal =
       hasCompletedOrBreakout &&
       mkt.lastPrice >= openingRangeHigh &&
-      mkt.lastPrice <= openingRangeHigh + 0.25 * epAtrUnit;
+      mkt.lastPrice <= openingRangeHigh + 0.45 * epAtrUnit;
     const maxRegimeCEventAge = isFridayPmDumpWindow ? 45 : 60;
     const isEpCandidate = Boolean(
       confirmedRegime === 'C' &&
@@ -1339,14 +1370,14 @@ async function main() {
           ((volRatio >= 1.45 && hasCompletedOrBreakout) ||
             (eventAgeMins <= 45 && volRatio >= 0.80 && aboveVwap && last1hTakerBuy >= 0.53 && takerBuyRatio >= 0.52 && impulseAtr <= 1.30)) &&
           impulseAtr <= 1.50 &&
-          mkt.lastPrice <= Math.max(eventVwap, vwap24h) * 1.016 &&
+          mkt.lastPrice <= Math.max(eventVwap, vwap24h) * 1.022 &&
           mkt.lastPrice <= epMaxEntryPrice) ||
           (isGoldenAgeCandidate &&
             isConfirmedGoldenAge &&
-            (ema20AboveEma50 || hasCompletedOrBreakout) &&
-            volRatio >= 0.85 &&
+            (ema20AboveEma50 || isHigherLow3Bar || hasCompletedOrBreakout) &&
+            (volRatio >= 0.72 || (volRatio >= 0.50 && last1hQuoteVolUsd >= 200000 && ema20AboveEma50)) &&
             impulseAtr <= 1.50 &&
-            mkt.lastPrice <= Math.max(eventVwap, vwap24h) * 1.018 &&
+            mkt.lastPrice <= Math.max(eventVwap, vwap24h) * 1.025 &&
             mkt.lastPrice <= epMaxEntryPrice))
     );
     if (confirmedRegime === 'C' && (hasDirectMention || isGoldenAgeCandidate) && !isEpCandidate) {
@@ -1742,18 +1773,30 @@ async function main() {
           }
         } else if (item.isGoldenAgeCandidate) {
           const hasValidOi = Number.isFinite(item.oiChange15mPct);
-          const minReqWhale = item.isSovereignCrisisCandidate || isFridayMorningTrapSetup ? 56 : 55;
-          const minReqOi = item.isSovereignCrisisCandidate ? 0.30 : isFridayMorningTrapSetup ? 0.35 : 0;
+          const minReqWhale = item.isSovereignCrisisCandidate || isFridayMorningTrapSetup ? 54 : 52;
+          const minReqOi = item.isSovereignCrisisCandidate
+            ? (item.topWhaleLongPct || 0) >= 60
+              ? 0.0
+              : 0.12
+            : isFridayMorningTrapSetup
+              ? 0.25
+              : -0.15;
+          const hasSpotWhaleMomentum =
+            (item.last1hTakerBuyPct || 50) >= 54.0 &&
+            (item.takerBuyRatioPct || 50) >= 52.5 &&
+            item.ema20AboveEma50 &&
+            (item.rsi1h || 50) >= 48;
           const hasFuturesConfirmation =
-            hasValidOi &&
             !(item.microstructureFlags || []).includes('PERP_TAKER_SELL_PRESSURE') &&
-            (((item.topWhaleLongPct || 0) >= minReqWhale && item.oiChange15mPct >= minReqOi) ||
-              item.oiChange15mPct >= (item.isSovereignCrisisCandidate || isFridayMorningTrapSetup ? 0.45 : 0.25) ||
-              (!item.isSovereignCrisisCandidate &&
-                !isFridayMorningTrapSetup &&
-                (item.topWhaleLongPct || 0) >= 54 &&
-                (item.instBuySellRatio || 0) >= 1.18 &&
-                item.oiChange15mPct >= -0.10));
+            ((hasValidOi &&
+              (((item.topWhaleLongPct || 0) >= minReqWhale && item.oiChange15mPct >= minReqOi) ||
+                item.oiChange15mPct >= (item.isSovereignCrisisCandidate || isFridayMorningTrapSetup ? 0.30 : 0.15) ||
+                (!item.isSovereignCrisisCandidate &&
+                  !isFridayMorningTrapSetup &&
+                  (item.topWhaleLongPct || 0) >= 51 &&
+                  (item.instBuySellRatio || 0) >= 1.06 &&
+                  item.oiChange15mPct >= -0.25))) ||
+              hasSpotWhaleMomentum);
           if (hasFuturesConfirmation && !(item.microstructureFlags || []).includes('PRICE_OI_DIVERGENCE')) {
             item.isGoldenAgeLeader = true;
             item.isSovereignCrisisLeader = Boolean(item.isSovereignCrisisCandidate && confirmedRegime === 'B');

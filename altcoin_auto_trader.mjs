@@ -445,7 +445,7 @@ let _cachedWalkForwardCalib = null;
 function loadWalkForwardCalibrationFile() {
   if (_cachedWalkForwardCalib) return _cachedWalkForwardCalib;
   try {
-    const calibPath = path.join(WORKSPACE_DIR, 'engine30_walk_forward_calibration.json');
+    const calibPath = path.resolve('engine30_walk_forward_calibration.json');
     if (fs.existsSync(calibPath)) {
       _cachedWalkForwardCalib = JSON.parse(fs.readFileSync(calibPath, 'utf8'));
       return _cachedWalkForwardCalib;
@@ -679,8 +679,19 @@ function writeCleanTlReport(state) {
   const cashTry = toTL(state.cashUsdt);
   const openValUsdt = state.openPositions.reduce((s, p) => s + p.currentPrice * p.qty, 0);
   const openValTry = toTL(openValUsdt);
-  const totalTry = toTL(state.totalEquityUsdt);
-  const netPnlTryNum = Number((state.totalPnlUsdt * USD_TRY_RATE).toFixed(2));
+  const totalTry = Number(state.totalEquityTry || (state.totalEquityUsdt || 0) * USD_TRY_RATE).toLocaleString('tr-TR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  const initTry = Number(state.initialBankrollTry || 1000).toLocaleString('tr-TR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  const netPnlTryNum = Number(state.totalPnlTry ?? (Number(state.totalEquityTry || 0) - 1000));
+  const netPnlTryFmt = netPnlTryNum.toLocaleString('tr-TR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
   const netPnlSign = netPnlTryNum >= 0 ? '+' : '';
 
   const closedRows = state.closedTrades.length === 0
@@ -722,9 +733,9 @@ function writeCleanTlReport(state) {
 
 ## 1. GENEL KASA DURUMU
 
-* **Başlangıç Parası:** \`${toTL(state.initialBankrollUsdt)} TL\`
+* **Başlangıç Parası:** \`${initTry} TL\`
 * **Şu Anki Toplam Para:** **\`${totalTry} TL\`**
-* **Toplam Net Kâr / Zarar:** **\`${netPnlSign}${toTL(state.totalPnlUsdt)} TL\` (\`${netPnlSign}%${state.totalPnlPct}\`)**
+* **Toplam Net Kâr / Zarar:** **\`${netPnlSign}${netPnlTryFmt} TL\` (\`${netPnlSign}%${state.totalPnlPct}\`)**
 * **Boşta Bekleyen Nakit:** \`${cashTry} TL\`
 * **Coinde Olan Para (Açık İşlemler):** \`${openValTry} TL\`
 * **Cüzdandaki Küsürat (Dust) Varlıklar:** \`${toTL(state.dustAssetsUsdt || 0)} TL\` *(Aynı coine tekrar girildiğinde otomatik birleştirilip nakite çevrilir)*
@@ -1043,9 +1054,9 @@ async function verifyPersistentBookConfirmation(symbol, minAllowedOb = -0.05, re
     rejectReason = `WIDE_SPREAD (${s1.spreadPct}% -> ${s2.spreadPct}%)`;
   } else if (s1.imbalance < minAllowedOb || s2.imbalance < minAllowedOb) {
     rejectReason = `WEAK_IMBALANCE (${s1.imbalance} -> ${s2.imbalance} < ${minAllowedOb})`;
-  } else if (s1.micropricePremBps < 0 || s2.micropricePremBps < 0) {
+  } else if ((s1.micropricePremBps < -3.5 && s2.micropricePremBps < -3.5) || (s2.micropricePremBps < -5.0 && s2.imbalance < -0.05)) {
     rejectReason = `NEGATIVE_MICROPRICE_PREM (${s1.micropricePremBps}bps -> ${s2.micropricePremBps}bps)`;
-  } else if (rawObDecay > 0.12) {
+  } else if (rawObDecay > 0.22 && s2.imbalance < -0.05) {
     rejectReason = `SPOOF_DECAY (ob1=${s1.imbalance} -> ob2=${s2.imbalance}, decay=${obDecay})`;
   } else if (isHollowingOut) {
     rejectReason = `BOOK_HOLLOWING_OUT (bid fell & ask rose)`;
@@ -1179,10 +1190,11 @@ async function executeBinanceRealOrder(cfg, symbol, side, quantity, quoteOrderQt
         const filledQty =
           rawDeltaQty > 0
             ? lotFilter?.stepSize
-              ? roundToStepSize(rawDeltaQty, lotFilter.stepSize)
-              : rawDeltaQty
+              ? roundToStepSize(postCoinFree, lotFilter.stepSize)
+              : postCoinFree
             : adjQty;
-        const fillPriceTry = filledQty > 0 && spentTry > 10 ? Number((spentTry / filledQty).toFixed(6)) : null;
+        const priceDenomQty = rawDeltaQty > 0 ? rawDeltaQty : filledQty;
+        const fillPriceTry = priceDenomQty > 0 && spentTry > 10 ? Number((spentTry / priceDenomQty).toFixed(6)) : null;
         const fillPriceUsdt = fillPriceTry ? Number((fillPriceTry / USD_TRY_RATE).toPrecision(5)) : null;
         const dustSweepQty = Math.max(0, Number((postCoinFree - filledQty).toPrecision(4)));
         return { ...trRes, executedQty: filledQty, fillPriceTry, fillPriceUsdt, spentTry, dustSweepQty, postStatus };
@@ -1924,13 +1936,17 @@ async function runTradingCycle() {
     const isWeakMarket = breadthPct < 32;
     const isRedMarketDump = confirmedRegime === 'A' || breadthPct < 24;
 
-    // Engine #13: Kasa Erime Sigortası (Anti-Meltdown & Consecutive-Loss Shield)
-    if (state.highWaterMarkUsdt && state.highWaterMarkUsdt > currentTotalEquity * 1.20 && (state.lossCount || 0) === 0) { state.highWaterMarkUsdt = Number(currentTotalEquity.toFixed(4)); }
-    state.highWaterMarkUsdt = Number(Math.max(state.highWaterMarkUsdt || state.initialBankrollUsdt, currentTotalEquity).toFixed(4));
+    // Engine #13: Kasa Erime Sigortası (Anti-Meltdown & Consecutive-Loss Shield — expires 90m after last loss so it never creates a permanent deadlock)
+    if (!state.highWaterMarkUsdt || state.highWaterMarkUsdt > currentTotalEquity * 1.06) {
+      state.highWaterMarkUsdt = Number(Math.max(state.initialBankrollUsdt || 20.12, currentTotalEquity).toFixed(4));
+    } else {
+      state.highWaterMarkUsdt = Number(Math.max(state.highWaterMarkUsdt, currentTotalEquity).toFixed(4));
+    }
     const drawdownFromPeakPct = state.highWaterMarkUsdt > 0
       ? ((state.highWaterMarkUsdt - currentTotalEquity) / state.highWaterMarkUsdt) * 100
       : 0;
-    const isAntiMeltdownActive = consecutiveLosses >= 2 || drawdownFromPeakPct >= 4.0;
+    const isRecentLossStreak = Boolean(consecutiveLosses >= 2 && lastLossExitMs > 0 && nowMs - lastLossExitMs < 90 * 60 * 1000);
+    const isAntiMeltdownActive = isRecentLossStreak || drawdownFromPeakPct >= 6.0;
 
     // Engine #18 & #28: Rejim Bazlı Brüt Pozisyon Tavanı + Cuma Akşamı (%40 Dokunulmaz Nakit) Kalkanı
     const tsiEntryNow = new Date(Date.now() + 3 * 3600 * 1000);
@@ -1948,12 +1964,14 @@ async function runTradingCycle() {
         : state.cashUsdt >= 3.00
           ? cfg.MAX_OPEN_POSITIONS + 1
           : cfg.MAX_OPEN_POSITIONS;
-    if (!isWeakMarket && !isAntiMeltdownActive && state.cashUsdt >= 1.50 && state.openPositions.filter(p => !p.isMoonshot).length < effectiveMaxSlots) {
-      if (!state.cashIdleSince) state.cashIdleSince = nowMs;
+    if (!isWeakMarket && state.cashUsdt >= 1.50 && state.openPositions.filter(p => !p.isMoonshot).length < effectiveMaxSlots) {
+      if (!state.cashIdleSince) {
+        state.cashIdleSince = state.openPositions.length === 0 && lastLossExitMs > 0 ? lastLossExitMs : nowMs;
+      }
     } else {
       state.cashIdleSince = null;
     }
-    const isCashIdleTooLong = Boolean(!isWeakMarket && !isAntiMeltdownActive && state.cashIdleSince && nowMs - state.cashIdleSince >= 15 * 60 * 1000);
+    const isCashIdleTooLong = Boolean(!isWeakMarket && state.cashIdleSince && nowMs - state.cashIdleSince >= 15 * 60 * 1000);
 
     const wasGoldenAge = Boolean(state.isConfirmedGoldenAge);
     state.isConfirmedGoldenAge = Boolean(signalsData.isConfirmedGoldenAge);
@@ -1995,8 +2013,11 @@ async function runTradingCycle() {
         `1) **Aday Taraması:** ${candidates.length} aday bulundu ancak ya haber çoktan fiyatlanmış (\`NO-CHASE ask > Pmax\`), ya tahta alıcı oranı zayıf ya da kasa koruma limiti (\`${curOpenTry} / ${maxExpTry} TL\`) dolu.`;
     }
 
+    const seenCandSyms = new Set();
     for (const cand of candidates) {
       if (isCircuitBreakerPaused) break;
+      if (!cand?.symbol || seenCandSyms.has(cand.symbol)) continue;
+      seenCandSyms.add(cand.symbol);
       const curCoreCount = state.openPositions.filter(p => !p.isMoonshot).length;
       const curOpenExposureUsdt = state.openPositions.reduce((s, p) => s + p.currentPrice * p.qty, 0);
       const remainingExposureUsdt = Number((maxGrossExposureUsdt - curOpenExposureUsdt).toFixed(2));
@@ -2064,13 +2085,13 @@ async function runTradingCycle() {
       const learnedScoreMod = (coinMem?.scoreMod || 0) + (srcMem?.scoreMod || 0) + bucketMod + shadowPenalty + dustSweepTieBreaker;
       const effectiveTotalScore = Number((cand.totalScore + learnedScoreMod).toFixed(1));
       const hasInstitutionalWhaleSurge =
-        ((cand.topWhaleLongPct || 0) >= 60 && (cand.oiChange15mPct || 0) >= 0.2) ||
-        ((cand.topWhaleLongPct || 0) >= 65 && (cand.oiChange15mPct || 0) >= 0 && (cand.rsi1h || 50) <= 55 && (cand.freshestMinutesAgo || 999) <= 60);
+        ((cand.topWhaleLongPct || 0) >= 60 && (cand.oiChange15mPct || 0) >= 0) ||
+        ((cand.topWhaleLongPct || 0) >= 65 && (cand.oiChange15mPct || 0) >= -0.05 && (cand.rsi1h || 50) <= 58 && (cand.freshestMinutesAgo || 999) <= 60);
       const rawMinReqScore = isRedMarketDump ? 78 : isWeakMarket ? 75 : isAntiMeltdownActive ? 70 : 58;
       const minReqScore = isApexSoftOverride ? Math.max(58, rawMinReqScore - 6) : rawMinReqScore;
-      const baseMinWhale = isBnfEntryAllowed ? 48.0 : isRedMarketDump ? 56.0 : isWeakMarket ? 53.5 : isAntiMeltdownActive ? 53.5 : hasInstitutionalWhaleSurge ? 48.0 : isCashIdleTooLong ? 50.2 : 51.0;
+      const baseMinWhale = isBnfEntryAllowed ? 48.0 : isRedMarketDump ? 56.0 : isWeakMarket ? 53.5 : hasInstitutionalWhaleSurge ? 49.5 : isAntiMeltdownActive ? 53.5 : isCashIdleTooLong ? 50.2 : 51.0;
       const baseMaxRsi = isBnfEntryAllowed ? 28 : isRedMarketDump ? 62 : isWeakMarket ? 60 : 66;
-      const minReqWhale = coinMem && !isBnfEntryAllowed ? Math.max(baseMinWhale, coinMem.minWhale) : baseMinWhale;
+      const minReqWhale = coinMem && !isBnfEntryAllowed && !hasInstitutionalWhaleSurge ? Math.max(baseMinWhale, coinMem.minWhale) : baseMinWhale;
       const maxReqRsi = coinMem ? Math.min(baseMaxRsi, coinMem.maxRsi) : baseMaxRsi;
       if (effectiveTotalScore < minReqScore) continue;
       const maxAllowedNewsAgeMins = isRedMarketDump || isWeakMarket ? 45 : confirmedRegime === 'C' ? 60 : 75;
@@ -2085,7 +2106,8 @@ async function runTradingCycle() {
         continue; // 100% BAN unauthorized synthetic signals!
       }
       if ((cand.rsi1h || 50) > maxReqRsi) continue;
-      if (!isBnfEntryAllowed && (cand.takerBuyRatioPct || 50) < minReqWhale) continue;
+      const effectiveSpotWhalePct = Math.max(Number(cand.takerBuyRatioPct || 50), Number(cand.last1hTakerBuyPct || 50));
+      if (!isBnfEntryAllowed && effectiveSpotWhalePct < minReqWhale) continue;
       if (cand.topWhaleLongPct && cand.topWhaleLongPct < 42) continue; // Reject if Binance Top 20% Whales are shorting
       if (state.cooldowns[cand.symbol] && state.cooldowns[cand.symbol] > nowMs) continue;
 
@@ -2110,7 +2132,7 @@ async function runTradingCycle() {
       // Engine #27 (Codex Council — PERSISTENT_BOOK_CONFIRMATION):
       // Two Binance TR orderbook snapshots 2.1s apart; requires spread <= 0.60%, obImbalance >= minAllowedOb,
       // microprice premium >= 0, no spoof decay (> 0.12), and no book hollowing out (bid falling while ask rises).
-      const minAllowedOb = isRedMarketDump ? 0.0 : isCashIdleTooLong ? -0.15 : -0.05;
+      const minAllowedOb = isRedMarketDump ? 0.0 : isCashIdleTooLong || hasInstitutionalWhaleSurge ? -0.15 : -0.05;
       const bookCheck = await verifyPersistentBookConfirmation(cand.symbol, minAllowedOb, state.mode === 'LIVE_BINANCE');
       if (!bookCheck.ok) {
         logEvent(
@@ -2145,7 +2167,7 @@ async function runTradingCycle() {
       // Engine #30 BNF & Kelly Risk-Budget Sizing (GPT-6-Luna Mathematical Specification)
       const totalFrictionFrac = 0.0044; // Round-trip fee + expected slippage (0.22% entry + 0.22% exit)
       let safeSlPct = Number(
-        Math.min(2.0, Math.max(1.2, (cand.atr1hPct || 1.5) * 0.85, spreadPct * 3.0)).toFixed(2)
+        Math.min(2.0, Math.max(1.5, (cand.atr1hPct || 1.5) * 0.85, spreadPct * 3.0)).toFixed(2)
       );
       let dFrac = safeSlPct / 100;
       let tpRefFrac = Math.max(0.036, Math.min(0.055, Number(cand.tpPct || 4.5) / 100));
@@ -2540,11 +2562,12 @@ async function runTradingCycle() {
   } else {
     state.totalEquityTry = rawTotalEquityTry;
   }
+  state.initialBankrollTry = 1000;
   state.totalEquityUsdt = Number((state.totalEquityTry / USD_TRY_RATE).toFixed(4));
-  state.initialBankrollUsdt = Number(((state.initialBankrollTry || 1000) / USD_TRY_RATE).toFixed(4));
-  state.totalPnlTry = Number((state.totalEquityTry - (state.initialBankrollTry || 1000)).toFixed(2));
+  state.initialBankrollUsdt = Number((1000 / USD_TRY_RATE).toFixed(4));
+  state.totalPnlTry = Number((state.totalEquityTry - 1000).toFixed(2));
   state.totalPnlUsdt = Number((state.totalPnlTry / USD_TRY_RATE).toFixed(4));
-  state.totalPnlPct = Number(((state.totalPnlTry / (state.initialBankrollTry || 1000)) * 100).toFixed(2));
+  state.totalPnlPct = Number(((state.totalPnlTry / 1000) * 100).toFixed(2));
 
   // Record live TL Equity History for Dashboard SVG Growth Chart (keep up to 96 points, ignore transition glitches)
   if (!Array.isArray(state.equityHistory)) {
@@ -2937,7 +2960,8 @@ function renderDashboardHtml() {
       const s = data.state;
       if (s.usdTryRate) RATE = Number(s.usdTryRate);
 
-      const eqTry = fmtTL(s.totalEquityUsdt);
+      const eqTryNum = Number(s.totalEquityTry || Number(s.totalEquityUsdt || 0) * RATE);
+      const eqTry = eqTryNum.toFixed(2) + ' TL';
       document.getElementById('equityVal').textContent = eqTry;
       document.getElementById('cashVal').textContent = fmtTL(s.cashUsdt);
       document.getElementById('rateVal').textContent = RATE.toFixed(2) + ' TL';
@@ -2946,9 +2970,10 @@ function renderDashboardHtml() {
       }
 
       const pnlEl = document.getElementById('pnlVal');
-      const pnlTryNum = Number(s.totalPnlUsdt || 0) * RATE;
+      const pnlTryNum = Number(s.totalPnlTry ?? (eqTryNum - 1000));
+      const pnlPctNum = Number(((pnlTryNum / 1000) * 100).toFixed(2));
       const sign = pnlTryNum >= 0 ? '+' : '';
-      pnlEl.textContent = sign + pnlTryNum.toFixed(2) + ' TL (' + sign + '%' + s.totalPnlPct + ')';
+      pnlEl.textContent = sign + pnlTryNum.toFixed(2) + ' TL (' + sign + '%' + pnlPctNum + ')';
       pnlEl.className = 'kpi-val ' + (pnlTryNum >= 0 ? 'pos' : 'neg');
 
       document.getElementById('winVal').textContent = s.winCount + ' Kârlı / ' + s.lossCount + ' Stop';
