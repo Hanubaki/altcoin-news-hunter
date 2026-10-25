@@ -1229,20 +1229,19 @@ async function main() {
         (confirmedRegime === 'C' && !isConfirmedGoldenAge) ||
         confirmedRegime === 'A' ||
         isFridayPmDumpWindow ||
-        !ema20AboveEma50 ||
-        !isHigherLow3Bar ||
-        (isSovereignCrisisCandidate ? last1hTakerBuy < 0.58 : last1hTakerBuy < 0.56) ||
-        takerBuyRatio < 0.54 ||
-        last1hQuoteVolUsd < (isSovereignCrisisCandidate ? 350000 : 220000) ||
-        amihudIlliquidity > 6.5 ||
+        (!ema20AboveEma50 && !isHigherLow3Bar && !macdBullishTurn) ||
+        (isSovereignCrisisCandidate ? last1hTakerBuy < 0.58 : (last1hTakerBuy < 0.53 && takerBuyRatio < 0.525)) ||
+        takerBuyRatio < (isSovereignCrisisCandidate ? 0.54 : 0.51) ||
+        last1hQuoteVolUsd < (isSovereignCrisisCandidate ? 350000 : 150000) ||
+        amihudIlliquidity > 7.5 ||
         change1hPct < minGolden1hPct ||
         change1hPct > 4.2 ||
         rsi1h < (isSovereignCrisisCandidate ? 42 : 46) ||
         rsi1h > 62 ||
         !aboveVwap ||
         isUpperWickRejection ||
-        takerFlowDecel > 0.06 ||
-        closePositionInRange < 0.58
+        takerFlowDecel > 0.08 ||
+        (closePositionInRange < 0.50 && last1hTakerBuy < 0.55)
       ) {
         continue;
       }
@@ -1344,9 +1343,8 @@ async function main() {
           mkt.lastPrice <= epMaxEntryPrice) ||
           (isGoldenAgeCandidate &&
             isConfirmedGoldenAge &&
-            hasCompletedOrBreakout &&
-            volRatio >= 1.15 &&
-            impulseAtr >= 0.85 &&
+            (ema20AboveEma50 || hasCompletedOrBreakout) &&
+            volRatio >= 0.85 &&
             impulseAtr <= 1.50 &&
             mkt.lastPrice <= Math.max(eventVwap, vwap24h) * 1.018 &&
             mkt.lastPrice <= epMaxEntryPrice))
