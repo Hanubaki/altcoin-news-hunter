@@ -758,9 +758,9 @@ function runTwoHourSelfAudit(state, forceLog = false) {
       lastLossMs > 0 &&
       Number(t.netPnlTry || 0) >= 0 &&
       Number(t.netPnlTry || 0) < 3.50 &&
-      String(t.exitReason || '').includes('KÂR KİLİDİ')
+      (String(t.exitReason || '').includes('KÂR KİLİDİ') || String(t.exitReason || '').includes('KÂR HASADI'))
     ) {
-      // Engine #80A: Repair 90-minute cooldowns on pre-TP1 micro-profit locks (< 3.50 TL, like WOOUSDT +0.65 TL) so real breakouts are never blocked!
+      // Engine #80A + #83: Repair cooldowns on pre-TP1 micro-profit locks/harvests (< 3.50 TL, like WOOUSDT +0.65 TL & AVAUSDT +0.69 TL) so real breakouts are never blocked!
       const microWinCapMs = lastLossMs + 4 * 60 * 1000;
       if ((state.symbolCooldowns[t.symbol] || 0) > microWinCapMs) {
         state.symbolCooldowns[t.symbol] = microWinCapMs;
@@ -2088,14 +2088,16 @@ async function scanPerpUniverse(state) {
 
   const evaluated = [];
   for (const item of topToInspect) {
-    // Engine #35 + #55C (GPT-6-Luna True 5m Institutional Taker Stream):
-    // Fixed Bug #1: Fetch period=5m&limit=3 (instead of period=15m) for takerlongshortRatio so 5m taker gates use real 5-minute institutional flow!
-    const [klines15m, oiHist, topPosRatio, globalAccRatio, instTakerRatio] = await Promise.all([
+    // Engine #35 + #55C + #83A (GPT-6-Luna Zero-Lag Rolling 5m Kline Taker Stream Replacing 8-13m Delayed /futures/data/takerlongshortRatio):
+    // Empirical verification on Binance Futures proved /futures/data/takerlongshortRatio?period=5m is identically kline5m[9] / (kline5m[5] - kline5m[9]),
+    // EXCEPT the /futures/data/takerlongshortRatio endpoint lags by 8 to 13 minutes (omitting live 5m bar b0 and delaying closed 5m bar b1 by ~3.5m).
+    // Fetching /fapi/v1/klines?interval=5m&limit=4 gives 0ms real-time rolling 5-minute taker buy/sell flow!
+    const [klines15m, oiHist, topPosRatio, globalAccRatio, klines5m] = await Promise.all([
       fetchJson(`${FAPI_BASE}/fapi/v1/klines?symbol=${item.fSym}&interval=15m&limit=64`, {}, 3500),
       fetchJson(`${FAPI_BASE}/futures/data/openInterestHist?symbol=${item.fSym}&period=15m&limit=5`, {}, 3500),
       fetchJson(`${FAPI_BASE}/futures/data/topLongShortPositionRatio?symbol=${item.fSym}&period=15m&limit=2`, {}, 3500),
       fetchJson(`${FAPI_BASE}/futures/data/globalLongShortAccountRatio?symbol=${item.fSym}&period=15m&limit=2`, {}, 3500),
-      fetchJson(`${FAPI_BASE}/futures/data/takerlongshortRatio?symbol=${item.fSym}&period=5m&limit=3`, {}, 3500),
+      fetchJson(`${FAPI_BASE}/fapi/v1/klines?symbol=${item.fSym}&interval=5m&limit=4`, {}, 3500),
     ]);
     if (!Array.isArray(klines15m) || klines15m.length < 30) continue;
 
@@ -2113,16 +2115,37 @@ async function scanPerpUniverse(state) {
     const mtfSqueeze = analyzeMtfAndVolatilitySqueeze(klines15m);
     const anatomy = analyzeCandleSmcAndCvd15m(klines15m, atr15mPct, item.change24hPct, mtfSqueeze.mtfBullishPts > 0);
 
-    // Engine #35.1 + #55C (GPT-6-Luna Full-Precision 5m Taker Flow & Fail-Closed Validity Check):
-    const takerDataValid =
-      Array.isArray(instTakerRatio) &&
-      instTakerRatio.length >= 2 &&
-      Number.isFinite(Number(instTakerRatio[instTakerRatio.length - 1]?.buySellRatio));
+    // Engine #83A (GPT-6-Luna Zero-Lag Volume-Weighted Rolling 5m Taker Flow & Prior 5m Window):
+    const klines5mValid =
+      Array.isArray(klines5m) &&
+      klines5m.length >= 3 &&
+      Date.now() - Number(klines5m[klines5m.length - 1]?.[0] || 0) <= 6 * 60 * 1000;
+    let takerDataValid = false;
     let rawInstBuySellRatio = 1.0;
     let rawPrevInstBuySellRatio = 1.0;
-    if (takerDataValid) {
-      rawInstBuySellRatio = Number(instTakerRatio[instTakerRatio.length - 1].buySellRatio);
-      rawPrevInstBuySellRatio = Number(instTakerRatio[instTakerRatio.length - 2]?.buySellRatio || rawInstBuySellRatio);
+    if (klines5mValid) {
+      const b0_5m = klines5m[klines5m.length - 1];
+      const b1_5m = klines5m[klines5m.length - 2];
+      const b2_5m = klines5m[klines5m.length - 3];
+      const w0_5m = Math.max(0.0, Math.min(1.0, (Date.now() - Number(b0_5m[0])) / (5 * 60 * 1000)));
+      const b0Buy = Math.max(0, Number(b0_5m[9]) || 0);
+      const b0Tot = Math.max(b0Buy, Number(b0_5m[5]) || 0);
+      const b0Sell = Math.max(0, b0Tot - b0Buy);
+      const b1Buy = Math.max(0, Number(b1_5m[9]) || 0);
+      const b1Tot = Math.max(b1Buy, Number(b1_5m[5]) || 0);
+      const b1Sell = Math.max(0, b1Tot - b1Buy);
+      const b2Buy = Math.max(0, Number(b2_5m[9]) || 0);
+      const b2Tot = Math.max(b2Buy, Number(b2_5m[5]) || 0);
+      const b2Sell = Math.max(0, b2Tot - b2Buy);
+      const rolling5mBuy = b0Buy + (1 - w0_5m) * b1Buy;
+      const rolling5mSell = b0Sell + (1 - w0_5m) * b1Sell;
+      const prev5mBuy = w0_5m * b1Buy + (1 - w0_5m) * b2Buy;
+      const prev5mSell = w0_5m * b1Sell + (1 - w0_5m) * b2Sell;
+      if (rolling5mBuy + rolling5mSell > 0 && prev5mBuy + prev5mSell > 0) {
+        takerDataValid = true;
+        rawInstBuySellRatio = Math.max(0.05, Math.min(9.99, rolling5mBuy / Math.max(1e-9, rolling5mSell)));
+        rawPrevInstBuySellRatio = Math.max(0.05, Math.min(9.99, prev5mBuy / Math.max(1e-9, prev5mSell)));
+      }
     }
     const instBuySellRatio = Number(rawInstBuySellRatio.toFixed(2));
     const prevInstBuySellRatio = Number(rawPrevInstBuySellRatio.toFixed(2));
@@ -3235,23 +3258,34 @@ async function manageOpenPosition(state, candidates = []) {
       isFundingSettlementHarvest = true;
     }
   }
-  // Engine #63A (GPT-6-Luna Profit-Zone Taker-Collapse Harvest):
-  // If a trade is in net profit (rawCoinMoveFrac >= +0.26%, i.e., +1.74 TL on NILUSDT at 20:07:36) after >= 6m and 5m Taker collapses <= 0.75x (LONG) / >= 1.32x (SHORT),
-  // harvest the net profit immediately instead of waiting for price to drop into negative territory!
+  // Engine #63A + #83B (GPT-6-Luna Anti-Choke Profit-Zone Taker-Collapse Harvest):
+  // Since MICRO_POP_FEE_LOCK (+0.26%) and EARLY_PROFIT_LOCK (+0.34%) already place a hard profit-lock stop below price,
+  // NEVER market-sell a rising breakout near its peak or while live 15m orderflow is healthy (like AVAUSDT at $0.4428 right before surging to $0.4525, +2.49%)!
+  // Only market-exit in the +0.26%..+0.95% zone if:
+  // 1) peakCoinMoveFrac >= 0.0055 and price has actively pulled back >= 0.18% from peak,
+  // 2) rolling 5m Taker has genuinely collapsed (<= 0.68x LONG / >= 1.45x SHORT), AND
+  // 3) live 15m candle confirms orderflow weakness (veto or takerBuyPct <= 48% LONG / >= 52% SHORT).
   if (
     !isTpHit &&
     !isStopHit &&
     !pos.tp1Done &&
     minsHeld >= 6 &&
+    peakCoinMoveFrac >= 0.0055 &&
+    rawCoinMoveFrac <= peakCoinMoveFrac - 0.0018 &&
     rawCoinMoveFrac >= ROUND_TRIP_FEE_SLIP_FRAC + 0.0008 &&
     rawCoinMoveFrac < 0.0095 &&
     curPosLiveCand &&
     curPosLiveCand.takerDataValid
   ) {
-    if (
-      (pos.side === 'LONG' && curPosLiveCand.instBuySellRatio <= 0.75) ||
-      (pos.side === 'SHORT' && curPosLiveCand.instBuySellRatio >= 1.32)
-    ) {
+    const isLongProfitCollapseConfirmed =
+      pos.side === 'LONG' &&
+      curPosLiveCand.instBuySellRatio <= 0.68 &&
+      (curPosLiveCand.vetoLong || curPosLiveCand.takerBuyPct <= 48.0);
+    const isShortProfitCollapseConfirmed =
+      pos.side === 'SHORT' &&
+      curPosLiveCand.instBuySellRatio >= 1.45 &&
+      (curPosLiveCand.vetoShort || curPosLiveCand.takerBuyPct >= 52.0);
+    if (isLongProfitCollapseConfirmed || isShortProfitCollapseConfirmed) {
       isProfitTakerCollapseHarvest = true;
     }
   }
@@ -4412,7 +4446,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v12.2-Baby-Bar-Reversal-Unblinding-And-Single-Bar-Climax-Stop-Gate';
+  state.version = 'Mutlak-Yapi-v12.3-Zero-Lag-Rolling-5m-Kline-Taker-And-Anti-Choke-Profit-Harvest';
   if (state.openPosition?.thesis && state.openPosition?.leverage) {
     state.openPosition.thesis = String(state.openPosition.thesis).replace(
       /->\s*[\d.]+x\s+(LONG|SHORT)!/,
@@ -4421,7 +4455,7 @@ async function main() {
   }
   runTwoHourSelfAudit(state, true);
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v12.2 — Motor #58-#82)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v12.3 — Motor #58-#83)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
