@@ -1965,29 +1965,30 @@ async function fetchPerpOrderbookConfirm(symbol, side, atr15mPct = 1.5) {
   if (bookHollowing) {
     return { ok: false, vetoCode: 'BOOK_HOLLOWING', reason: `BOOK_HOLLOWING (bid ${bestBid1}->${bestBid} | ask ${bestAsk1}->${bestAsk})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
   }
-  // Engine #53 + #87B (GPT-6-Luna & Cont-Kukanov-Stoikov OFI Spoof-Wall Decay vs. Weak-OB Separation):
+  // Engine #53 + #87B + #89D (GPT-6-Luna & Cont-Kukanov-Stoikov OFI Spoof-Wall Decay vs. Active Ask-Lift Gate):
   // A true Spoof Wall Decay (SPOOF_WALL_DECAY) requires an actual directional wall at snapshot 1 (ob1 >= +0.06 for LONG / ob1 <= -0.06 for SHORT)
-  // that subsequently collapsed at snapshot 2 (obDelta < -0.12 LONG / > +0.12 SHORT).
-  // When ob1 was already opposing (e.g. TUSDT ob: -0.11 -> -0.366), classify as WEAK_OB so Engine #41 Surge Reset is never falsely poisoned!
+  // that subsequently collapsed at snapshot 2 (obDelta < -0.18 LONG / > +0.18 SHORT) accompanied by price dropping (LONG) or rising (SHORT).
   if (side === 'LONG') {
-    if (ob1 >= 0.06 && obDelta < -0.12 && (ob2 < 0.04 || (ob2 < 0.08 && bestBid < bestBid1 * 0.9997))) {
+    if (ob1 >= 0.08 && obDelta < -0.18 && bestBid < bestBid1 && ob2 < -0.04) {
       return { ok: false, vetoCode: 'SPOOF_WALL_DECAY', reason: `SPOOF_WALL_DECAY_LONG (ob:${ob1}->${ob2} | dI:${obDelta})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
     }
-    const isActivelyLiftingAsks = bestBid > bestBid1 * 1.0002 && bestAsk >= bestAsk1;
-    const minOb2Floor = isActivelyLiftingAsks ? -0.02 : 0.02;
-    const minAvgObFloor = isActivelyLiftingAsks ? 0.01 : 0.05;
-    if (avgOb < minAvgObFloor || ob2 < minOb2Floor || microSkew < -0.16 || (microSkew1 < -0.20 && microSkew < 0)) {
+    const isActivelyLiftingAsks = bestBid > bestBid1 * 1.0001 && bestAsk >= bestAsk1;
+    const isBidHoldingOrRising = bestBid >= bestBid1 && spreadPct <= 0.12;
+    const minOb2Floor = isActivelyLiftingAsks ? -0.14 : isBidHoldingOrRising ? -0.08 : -0.02;
+    const minAvgObFloor = isActivelyLiftingAsks ? -0.10 : isBidHoldingOrRising ? -0.06 : 0.00;
+    if (avgOb < minAvgObFloor || ob2 < minOb2Floor || (!isActivelyLiftingAsks && microSkew < -0.45 && microSkew1 < -0.45)) {
       return { ok: false, vetoCode: 'WEAK_OB', reason: `WEAK_LONG_OB_OR_MICROPRICE (ob:${ob1}->${ob2} | x1:${microSkew1}->x2:${microSkew})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
     }
   }
   if (side === 'SHORT') {
-    if (ob1 <= -0.06 && obDelta > 0.12 && (ob2 > -0.04 || (ob2 > -0.08 && bestAsk > bestAsk1 * 1.0003))) {
+    if (ob1 <= -0.08 && obDelta > 0.18 && bestAsk > bestAsk1 && ob2 > 0.04) {
       return { ok: false, vetoCode: 'SPOOF_WALL_DECAY', reason: `SPOOF_WALL_DECAY_SHORT (ob:${ob1}->${ob2} | dI:+${obDelta})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
     }
-    const isActivelyHittingBids = bestAsk < bestAsk1 * 0.9998 && bestBid <= bestBid1;
-    const maxOb2Ceil = isActivelyHittingBids ? 0.02 : -0.02;
-    const maxAvgObCeil = isActivelyHittingBids ? -0.01 : -0.05;
-    if (avgOb > maxAvgObCeil || ob2 > maxOb2Ceil || microSkew > 0.16 || (microSkew1 > 0.20 && microSkew > 0)) {
+    const isActivelyHittingBids = bestAsk < bestAsk1 * 0.9999 && bestBid <= bestBid1;
+    const isAskHoldingOrFalling = bestAsk <= bestAsk1 && spreadPct <= 0.12;
+    const maxOb2Ceil = isActivelyHittingBids ? 0.14 : isAskHoldingOrFalling ? 0.08 : 0.02;
+    const maxAvgObCeil = isActivelyHittingBids ? 0.10 : isAskHoldingOrFalling ? 0.06 : 0.00;
+    if (avgOb > maxAvgObCeil || ob2 > maxOb2Ceil || (!isActivelyHittingBids && microSkew > 0.45 && microSkew1 > 0.45)) {
       return { ok: false, vetoCode: 'WEAK_OB', reason: `WEAK_SHORT_OB_OR_MICROPRICE (ob:${ob1}->${ob2} | x1:${microSkew1}->x2:${microSkew})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
     }
   }
@@ -2577,26 +2578,22 @@ async function scanPerpUniverse(state) {
       item.fundingRatePct <= -0.120 ||
       (itemMinsToFunding <= 15 && item.fundingRatePct <= -0.035);
 
-    // Engine #40 + #52 + #57B + #80C (Qullamaggie + GPT-6-Luna ATR-Normalized VWAP & RSI Extension Band):
-    // Preserve at least 1.52 * ATR% room from 4h VWAP (up to 2.85% base, or 4.20%-6.20% on confirmed Qullamaggie/Hype-Squeeze breakouts)
-    // so high-ATR TTM upward squeeze breakouts like INITUSDT (ATR 1.668%, vwapDist 2.49% = 1.49x ATR) are never starved by a static 1.85% cap!
+    // Engine #40 + #52 + #57B + #80C + #89C (Qullamaggie + GPT-6-Luna ATR-Normalized Hype VWAP & RSI Extension Band):
+    // Allow up to 2.35 * ATR% room from 4h VWAP (up to 10.50%) on confirmed Qullamaggie/Hype-Squeeze breakouts
+    // so genuine hype rockets like CAPUSDT (ATR 4.035%, vwapDist 7.76% = 1.92x ATR, +41.9% 24h, Q1 OI, Whale +5.8%, Taker 1.32x) are NEVER starved!
     const hasQullamaggieMomentumConfirm =
       isHypeSqueezeMomentumLong ||
       isHtfCoilContinuationLong ||
-      (oiDelta1hPct >= 0.45 &&
-        rawInstBuySellRatio >= 1.18 &&
-        volRatio15m >= 0.90 &&
-        anatomy.normCvd3BarPct > 8.0 &&
-        anatomy.clv >= 0.65);
-    const htfAtrNormCap =
-      rsi15m <= 66 && vwapDistPct <= 0.90 * atr15mPct
-        ? Math.min(6.20, Number((0.90 * atr15mPct).toFixed(2)))
-        : 4.20;
-    const baseAtrVwapBandPct = Math.max(1.85, Math.min(2.85, Number((1.52 * atr15mPct).toFixed(2))));
+      (oiDelta1hPct >= 0.35 &&
+        rawInstBuySellRatio >= 1.16 &&
+        volRatio15m >= 0.85 &&
+        anatomy.normCvd3BarPct >= 6.0 &&
+        anatomy.clv >= 0.60);
+    const baseAtrVwapBandPct = Math.max(2.10, Math.min(3.60, Number((1.65 * atr15mPct).toFixed(2))));
     const vwapMaxBandPct = hasQullamaggieMomentumConfirm
-      ? Math.max(baseAtrVwapBandPct, 2.50, Math.min(Math.max(4.20, htfAtrNormCap), Number((1.85 * atr15mPct).toFixed(2))))
+      ? Math.max(baseAtrVwapBandPct, 4.20, Math.min(10.50, Number((2.35 * atr15mPct).toFixed(2))))
       : baseAtrVwapBandPct;
-    const maxAllowedLongRsi = isHypeSqueezeMomentumLong ? 78 : 70;
+    const maxAllowedLongRsi = isHypeSqueezeMomentumLong || hasQullamaggieMomentumConfirm ? 78 : 72;
     const minVwapReloadRatio = isHypeSqueezeMomentumLong ? 0.985 : 0.9985;
 
     const vwapLongOk =
@@ -2664,18 +2661,15 @@ async function scanPerpUniverse(state) {
         ? ((anatomy.structuralHigh * 1.001 - lastPrice) / lastPrice) * 100
         : 0.95;
 
-    // Engine #82B + #87A (GPT-6-Luna Unconditional Structural-Stop Cap Integrity & Single-Bar Climax Gate):
-    // 1. Since our maximum stop cap is 2.20% (underlyingSlFrac = Math.min(0.0220, rawStopFrac)), NEVER enter when longStructDistPct > 2.20% or shortStructDistPct > 2.20%
-    //    (which would force the 2.20% stop inside b0/b1's structural low/high!).
-    // 2. When b1 spiked >= max(2.60%, 1.95 * ATR%) in a single 15m bar, also block entering on a red b0 candle (LONG) or green b0 candle (SHORT).
+    // Engine #82B + #89A (GPT-6-Luna Hype-Unchained Single-Bar Climax Gate):
+    // Never blindly ban a hype coin just because its 2-bar range (longStructDistPct) is > 2.20%!
+    // Only block when b1 spiked >= max(3.50%, 2.25 * ATR%) in a single 15m bar AND live bar b0 has turned red (!anatomy.b0IsGreen)!
     const isSingleBarClimaxTopLong =
-      longStructDistPct > 2.20 ||
-      ((anatomy.b1RangePct >= Math.max(2.60, atr15mPct * 1.95) || anatomy.b1MovePct >= Math.max(2.40, atr15mPct * 1.80)) &&
-        !anatomy.b0IsGreen);
+      (anatomy.b1RangePct >= Math.max(3.50, atr15mPct * 2.25) || anatomy.b1MovePct >= Math.max(3.20, atr15mPct * 2.10)) &&
+      !anatomy.b0IsGreen;
     const isSingleBarClimaxBottomShort =
-      shortStructDistPct > 2.20 ||
-      ((anatomy.b1RangePct >= Math.max(2.60, atr15mPct * 1.95) || anatomy.b1MovePct <= -Math.max(2.40, atr15mPct * 1.80)) &&
-        anatomy.b0IsGreen);
+      (anatomy.b1RangePct >= Math.max(3.50, atr15mPct * 2.25) || anatomy.b1MovePct <= -Math.max(3.20, atr15mPct * 2.10)) &&
+      anatomy.b0IsGreen;
 
     // Wall #4 + Bug #17 Fix + Engine #57C + #77A + #82B: Anti-Top-Chase / 4h Double-Top Supply Exhaustion Ceiling
     const isCoiledTopLongTrap =
@@ -2775,16 +2769,23 @@ async function scanPerpUniverse(state) {
     const hasCvdAlignmentLong = anatomy.normCvd3BarPct >= 3.5;
     const hasCvdAlignmentShort = anatomy.normCvd3BarPct <= -4.0;
 
-    // Engine #63C + #71A: Forbid LONG entries in flat range chop (YATAY MTF + Normal Volatility), heavy GCR Contango (>= +0.065% basis), or NÖTR OI with positive basis
+    // Engine #63C + #71A + #89C: Allow perp momentum basis up to +0.38% during confirmed Q1/Hype breakouts (like CAPUSDT +41.9% 24h, Q1 OI, Whale +5.8%, Taker 1.32x, Basis +0.1887%)
+    const hasConfirmedHypeOrQ1FlowLong =
+      isHypeSqueezeMomentumLong ||
+      (oiQuadrant.startsWith('Q1') && whaleRetailSpread >= 0 && rawInstBuySellRatio >= 1.18);
     const contangoVetoLong =
-      item.basisPct >= 0.120 ||
-      (item.basisPct >= 0.065 && !(item.fundingRatePct <= -0.015 && oiQuadrant.startsWith('Q1') && rawInstBuySellRatio >= 1.45)) ||
-      (oiQuadrant === 'NÖTR' && item.basisPct > 0.015 && !hasFreshDirectNews);
+      item.basisPct >= (hasConfirmedHypeOrQ1FlowLong ? 0.380 : 0.140) ||
+      (!hasConfirmedHypeOrQ1FlowLong &&
+        item.basisPct >= 0.075 &&
+        !(item.fundingRatePct <= -0.015 && oiQuadrant.startsWith('Q1') && rawInstBuySellRatio >= 1.35)) ||
+      (oiQuadrant === 'NÖTR' && item.basisPct > 0.045 && !hasFreshDirectNews && whaleRetailSpread < 5.0);
     const hasLongStructureOrBreakout =
       mtfSqueeze.mtfBullishPts > 0 ||
       mtfSqueeze.squeezeBullishPts > 0 ||
       isHtfCoilContinuationLong ||
-      (oiQuadrant.startsWith('Q1') && oiDelta1hPct >= 3.0 && change1hPct >= 2.0 && anatomy.normCvd3BarPct >= 12.0);
+      isHypeSqueezeMomentumLong ||
+      (whaleRetailSpread >= 4.0 && rawInstBuySellRatio >= 1.30 && anatomy.normCvd3BarPct >= 10.0 && change1hPct >= 0.45) ||
+      (oiQuadrant.startsWith('Q1') && oiDelta1hPct >= 1.2 && change1hPct >= 1.2 && anatomy.normCvd3BarPct >= 6.0);
     // Engine #74B + #77B (Symmetric Short Structure & Anti-Counter-MTF Shield):
     // Forbid SHORT entries inside flat range chop (YATAY MTF + Normal) or against MTF YÜKSELİŞ (EMA20>50) unless TTM Downward Breakout or violent dump confirmation!
     const hasShortStructureOrBreakdown =
@@ -2796,20 +2797,20 @@ async function scanPerpUniverse(state) {
         mtfSqueeze.squeezeBearishPts > 0 ||
         (isGcrCrowdedManiaShort && change1hPct <= -0.85 && anatomy.normCvd3BarPct <= -12.0 && rawInstBuySellRatio <= 0.65));
 
-    // Engine #77C + #87A: Require active 15m ATR velocity in the [0.72%, 3.05%] sweet spot:
-    // - >= 0.72% so +1.25% TP1 is <= 1.73x ATR away,
-    // - <= 3.05% so 0.72 * ATR <= 2.20% (never compressing the 2.20% stop cap inside <0.72x ATR candle noise like TUSDT at 4.072% ATR!)
+    // Engine #77C + #89B: Wide Hype-Ready ATR Velocity Window [0.48%, 6.50%] (or up to 9.0% on confirmed Hype Rockets):
+    // Never starve high-velocity hype rockets (CAPUSDT ATR 4.03%, JCTUSDT ATR 8.48%) or tight coil breakouts (ZECUSDT ATR 0.55%, NEARUSDT ATR 0.63%)!
+    const maxAllowedAtrLong = isHypeSqueezeMomentumLong || hasConfirmedHypeOrQ1FlowLong ? 9.0 : 6.0;
     const hasLongMomentumAndVol =
-      atr15mPct >= 0.72 &&
-      atr15mPct <= 3.05 &&
-      (volRatio15m >= 0.72 || isHtfCoilContinuationLong) &&
+      atr15mPct >= 0.48 &&
+      atr15mPct <= maxAllowedAtrLong &&
+      (volRatio15m >= 0.68 || isHtfCoilContinuationLong || isHypeSqueezeMomentumLong) &&
       hasCvdAlignmentLong &&
       hasLongStructureOrBreakout &&
       change1hPct >= 0.15 &&
       rsVsBtcAtr >= 0.05;
     const hasShortMomentumAndVol =
-      atr15mPct >= 0.72 &&
-      atr15mPct <= 3.05 &&
+      atr15mPct >= 0.48 &&
+      atr15mPct <= 6.0 &&
       volRatio15m >= 0.72 &&
       hasCvdAlignmentShort &&
       hasShortStructureOrBreakdown &&
@@ -3845,18 +3846,14 @@ async function tryOpenPosition(state, candidates) {
     } else if (cand.side === 'SHORT' && cand.structuralHigh > entryPrice) {
       rawWickDistFrac = (cand.structuralHigh * 1.001 - entryPrice) / entryPrice;
     }
-    // Engine #42 + #59 + #74A + #87A (GPT-6-Luna Structural Stop Integrity — NEVER Chop Stop Inside Structural Low/High or <0.72x ATR):
-    // 1. The candle's actual structural stop (rawStopFrac = max(0.0092, rawWickDistFrac, 0.72 * atr)) must NEVER exceed our 2.20% hard stop cap; if live bestAsk/bestBid widened rawStopFrac > 2.20%, veto entry!
-    // 2. Leverage then adapts to underlyingSlFrac so a 5x stop (-0.95%) is NEVER placed above a -1.30% structuralLow!
-    // 3. When underlyingSlFrac > 1.50% on a high-ATR rocket, scale position margin down proportionally so max stop loss never exceeds ~4.8% of equity!
-    const rawStopFrac = Math.max(0.0092, rawWickDistFrac, (cand.atr15mPct / 100) * 0.72);
-    if (rawStopFrac > 0.0220) {
-      logEvent(
-        state,
-        `🛡️ [Motor #87A Yapısal Stop Bütünlüğü] ${cand.symbol} (${cand.side}) yapısal/ATR stop mesafesi (%${(rawStopFrac * 100).toFixed(2)}) %2.20 tavanını aştığı için stopu mum içine kesmemek adına pas geçildi!`
-      );
-      continue;
-    }
+    // Engine #42 + #59 + #74A + #89A (GPT-6-Luna Breakout-Midpoint Structural Stop & Volatility-Scaled Margin):
+    // 1. On fast hype breakouts where 2-bar structuralLow is > 2.20% away, anchor the stop at the breakout invalidation zone (max 2.20% coin move)
+    //    and let highAtrMarginScale scale position margin down so TL risk is strictly bounded without starving the hype entry!
+    const rawStopFrac = Math.max(
+      0.0092,
+      Math.min(0.0220, rawWickDistFrac),
+      Math.min(0.0215, (cand.atr15mPct / 100) * 0.65)
+    );
     const underlyingSlFrac = Math.min(0.0220, rawStopFrac);
     const maxRiskLev = 0.0525 / (underlyingSlFrac + ROUND_TRIP_FEE_SLIP_FRAC + 0.0005);
     const microConfirm5x =
@@ -4612,7 +4609,10 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v12.8-Strict-24h-Squeeze-Gate-And-Whale-BSL-Sweep-Early-Scratch';
+  state.version = 'Mutlak-Yapi-v12.9-Unchained-Hype-Rocket-Sniper-And-Volatility-Scaled-Breakout-Stop';
+  // Engine #89 Startup Hygiene: Clear stale orderbook cooldowns so unchained hype rockets are immediately evaluated
+  state.obVetoCooldowns = {};
+  state.obVetoStrikes = {};
   // Engine #87B Startup Hygiene: Reclassify any historical false SPOOF_WALL_DECAY where ob1 was already opposing (ob:- for LONG / ob:+ for SHORT) to WEAK_OB
   if (state.obVetoReasons && state.obVetoCodes) {
     for (const [sym, reason] of Object.entries(state.obVetoReasons)) {
