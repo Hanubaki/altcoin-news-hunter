@@ -638,6 +638,12 @@ function runTwoHourSelfAudit(state, forceLog = false) {
           rootCause: 'Yapısal Destek ($0.08341) Tutup Fiyat Giriş Üstüne ($0.08450) Toparlanırken 24. Dakikada Erken Bayat-İvme Tahliyesi',
           fixApplied: 'Motor #75A & #75B: Giriş Üstü/Başabaş Toparlanan İşlemde Erken Scratch Yasağı + <3.50 TL Scratch İşlemlerde 10s Karantina Muafiyeti',
         });
+      } else if (t.symbol === 'NEAR' && t.side === 'LONG') {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: '24s +%0.089 Yatay Coinde Q2 (Düşen OI) + YATAY MTF + Zayıf Mum Kapanışı (CLV:0.55) İle 3.5x Sıkışma Girişi',
+          fixApplied: 'Motor #90A: Q2 (Düşen OI) & Yatay MTF Long İçin 24s >= +%2.80 İvme veya Q1 + MTF Yükseliş Zorunluluğu (-14 TL Stop Yerine -6.75 TL Erken Tahliye)',
+        });
       } else if (t.symbol === 'MTL' && t.side === 'LONG') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
@@ -2826,11 +2832,20 @@ async function scanPerpUniverse(state) {
       rawInstBuySellRatio <= curMaxShortTaker5m &&
       (takerBuyPct <= 48.0 || rawInstBuySellRatio <= 0.84);
 
-    // Engine #78C: Block Q2 (falling OI short-covering) LONG entries when whales are net short (<= -2.0%) or inside an unexpanded TTM Coil with < 5.0% 24h momentum
+    // Engine #78C + #90A (GPT-6-Luna Strict Anti-Dead-Range Q2 & Flat-MTF Low-24h Filter):
+    // Block Q2 (falling OI short-covering) LONG entries when 24h momentum is flat (< 2.80%), or MTF is flat with weak CLV (< 0.70),
+    // and block flat 24h coins (< 2.20%) that lack Q1 new-buyer OI and MTF Bullish trend (like NEARUSDT 24s:+0.089%, Q2 OI↓, YATAY MTF, CLV:0.55 -> -6.75 TL)!
     const isQ2WeakBounceLongVeto =
-      oiQuadrant.startsWith('Q2') &&
       !isActiveShortSqueezeRegime &&
-      (whaleRetailSpread <= -2.0 || (mtfSqueeze.squeezeLabel.includes('Yay Sıkışması') && item.change24hPct < 5.0));
+      ((oiQuadrant.startsWith('Q2') &&
+        (whaleRetailSpread <= -2.0 ||
+          item.change24hPct < 2.80 ||
+          (mtfSqueeze.mtfBullishPts === 0 && anatomy.clv < 0.70) ||
+          (mtfSqueeze.squeezeLabel.includes('Yay Sıkışması') && item.change24hPct < 5.0))) ||
+        (item.change24hPct < 2.20 &&
+          !oiQuadrant.startsWith('Q1') &&
+          mtfSqueeze.mtfBullishPts === 0 &&
+          !hasFreshDirectNews));
 
     const canTriggerLong =
       !btcVetoLong &&
@@ -4609,7 +4624,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v12.9-Unchained-Hype-Rocket-Sniper-And-Volatility-Scaled-Breakout-Stop';
+  state.version = 'Mutlak-Yapi-v13.0-Strict-Hype-Q1-Quality-Gate-And-Anti-Flat-Range-Q2-Filter';
   // Engine #89 Startup Hygiene: Clear stale orderbook cooldowns so unchained hype rockets are immediately evaluated
   state.obVetoCooldowns = {};
   state.obVetoStrikes = {};
