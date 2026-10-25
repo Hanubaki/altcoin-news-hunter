@@ -640,6 +640,12 @@ function runTwoHourSelfAudit(state, forceLog = false) {
           rootCause: 'Yapısal Destek ($0.08341) Tutup Fiyat Giriş Üstüne ($0.08450) Toparlanırken 24. Dakikada Erken Bayat-İvme Tahliyesi',
           fixApplied: 'Motor #75A & #75B: Giriş Üstü/Başabaş Toparlanan İşlemde Erken Scratch Yasağı + <3.50 TL Scratch İşlemlerde 10s Karantina Muafiyeti',
         });
+      } else if (t.symbol === 'QNT' && t.side === 'LONG') {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: 'Q2 (Düşen OI: -%0.75) + Sıkışmasız (Normal) + Zayıf 1s İvme (1s: +%0.39, RS_BTC: +0.4 ATR) İle Yatay Düzeltmede 3.5x LONG Girişi',
+          fixApplied: 'Motor #93A & #93B: Q2 (Düşen OI) & Sıkışmasız Long İçin 1s >= +%0.65 & RS_BTC >= +0.70 ATR Zorunluluğu + Düşen OI 3x Kaldıraç Tavanı (-14 TL Stop Yerine -5.53 TL Erken Tahliye)',
+        });
       } else if (t.symbol === 'ZRO' && t.side === 'LONG') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
@@ -2854,8 +2860,9 @@ async function scanPerpUniverse(state) {
       rawInstBuySellRatio <= curMaxShortTaker5m &&
       (takerBuyPct <= 48.0 || rawInstBuySellRatio <= 0.84);
 
-    // Engine #78C + #90A + #91B (GPT-6-Luna Strict Anti-Dead-Range Q2 & Neutral-OI Non-Squeeze Quality Floor):
-    // 1. Block Q2 (falling OI short-covering) LONG entries when 24h momentum is flat (< 2.80%), or MTF is flat with weak CLV (< 0.70).
+    // Engine #78C + #90A + #91B + #93A (GPT-6-Luna Strict Anti-Dead-Range Q2 & Neutral-OI Non-Squeeze Quality Floor):
+    // 1. Block Q2 (falling OI short-covering) LONG entries when 24h momentum is flat (< 2.80%), MTF is flat with weak CLV (< 0.70),
+    //    or there is no TTM Squeeze Breakout (!mtfSqueeze.squeezeBullishPts) and 1h momentum is stale (change1hPct < 0.65 || rsVsBtcAtr < 0.70 — blocks QNTUSDT 1s:+0.39%, RS_BTC:+0.4 ATR, OI:-0.75% 32m chop).
     // 2. Block flat 24h coins (< 2.20%) that lack Q1 new-buyer OI and MTF Bullish trend (like NEARUSDT 24s:+0.089%, Q2 OI↓, YATAY MTF, CLV:0.55 -> -6.75 TL).
     // 3. On NÖTR OI without a TTM Squeeze Breakout (!mtfSqueeze.squeezeBullishPts), require a formal bullish candlestick pattern (anatomy.bullishPattern),
     //    negative-basis/funding squeeze (basisPct <= -0.025 || fundingRatePct <= -0.010), or high-conviction score >= 86 (blocks PONSUSDT NÖTR OI + +0.0075% basis + 80p wick trap)!
@@ -2873,6 +2880,7 @@ async function scanPerpUniverse(state) {
         ((oiQuadrant.startsWith('Q2') &&
           (whaleRetailSpread <= -2.0 ||
             item.change24hPct < 2.80 ||
+            (mtfSqueeze.squeezeBullishPts === 0 && (change1hPct < 0.65 || rsVsBtcAtr < 0.70)) ||
             (mtfSqueeze.mtfBullishPts === 0 && anatomy.clv < 0.70) ||
             (mtfSqueeze.squeezeLabel.includes('Yay Sıkışması') && item.change24hPct < 5.0))) ||
           (item.change24hPct < 2.20 &&
@@ -2913,11 +2921,13 @@ async function scanPerpUniverse(state) {
     let rawScore = 50;
     const whaleAlignedLong = whaleRetailSpread >= 0 || (isActiveShortSqueezeRegime && volRatio15m >= 1.35);
     const whaleAlignedShort = whaleRetailSpread <= 0;
+    const isQ2NonSqueezeLong = oiQuadrant.startsWith('Q2') && mtfSqueeze.squeezeBullishPts === 0;
     if (canTriggerLong && (!canTriggerShort || rawLongTotal >= rawShortTotal)) {
       side = 'LONG';
       rawScore = rawLongTotal;
       score = Math.min(99, rawLongTotal);
-      const dynLev = selectConvictionLeverage(score, atr15mPct, longStructDistPct, volRatio15m, whaleAlignedLong);
+      const rawDynLev = selectConvictionLeverage(score, atr15mPct, longStructDistPct, volRatio15m, whaleAlignedLong);
+      const dynLev = isQ2NonSqueezeLong ? Math.min(3, rawDynLev) : rawDynLev;
       engine = isHypeSqueezeMomentumLong
         ? 'ENGINE_HYPE_SQUEEZE_MOMENTUM_LONG'
         : isBnfLiquidationBounce
@@ -2956,7 +2966,8 @@ async function scanPerpUniverse(state) {
 
     const activeStructDistPct = side.startsWith('SHORT') ? shortStructDistPct : longStructDistPct;
     const activeWhaleAligned = side.startsWith('SHORT') ? whaleAlignedShort : whaleAlignedLong;
-    const convictionLeverage = selectConvictionLeverage(score, atr15mPct, activeStructDistPct, volRatio15m, activeWhaleAligned);
+    const rawConvictionLeverage = selectConvictionLeverage(score, atr15mPct, activeStructDistPct, volRatio15m, activeWhaleAligned);
+    const convictionLeverage = !side.startsWith('SHORT') && isQ2NonSqueezeLong ? Math.min(3, rawConvictionLeverage) : rawConvictionLeverage;
 
     evaluated.push({
       symbol: item.symbol,
@@ -4705,7 +4716,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v13.1-Anti-1H-Exhaustion-Spike-On-Neutral-OI-And-Fast-Marubozu-Evacuation';
+  state.version = 'Mutlak-Yapi-v13.2-Anti-Q2-Stale-1H-Momentum-And-3x-Cap';
   // Engine #89 Startup Hygiene: Clear stale orderbook cooldowns so unchained hype rockets are immediately evaluated
   state.obVetoCooldowns = {};
   state.obVetoStrikes = {};
