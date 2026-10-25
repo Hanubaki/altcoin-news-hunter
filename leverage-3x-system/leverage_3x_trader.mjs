@@ -1614,17 +1614,37 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
     bearishCvdPts = 6;
   }
 
-  // Engine #79B (GPT-6-Luna Prior-Bar Supply/Demand Rejection Guard):
+  // Engine #79B + #81B (GPT-6-Luna Prior-Bar Supply/Demand Rejection Guard with Mature Green Reclaim Exemption):
   // When the completed 15m candle b1 is a red upper-wick/low-CLV rejection bar (!b1.isGreen && (b1.clv <= 0.34 || b1.upperWickRatio >= 0.44)),
-  // do NOT lift vetoLong just because b0ElapsedFrac crossed 0.55 (!isBabyB0) unless b0 has actually reclaimed b1.open * 1.001!
+  // do NOT lift vetoLong just because b0ElapsedFrac crossed 0.55 (!isBabyB0) unless b0 has reclaimed b1.open * 1.001
+  // OR b0 is a mature green body (isMatureB0 && b0.isGreen && b0.clv >= 0.78 && b0.bodyRatio >= 0.55 && b1.upperWickRatio < 0.40) reclaiming >=65% of b1's body!
+  const b0MatureBodyReclaimedB1 =
+    isMatureB0 &&
+    b0.isGreen &&
+    b0.clv >= 0.78 &&
+    b0.bodyRatio >= 0.55 &&
+    b0.upperWickRatio <= 0.18 &&
+    b1.upperWickRatio < 0.40 &&
+    b0.close >= b1.close + (b1.open - b1.close) * 0.65;
+  const b0MatureBodyBrokeB1 =
+    isMatureB0 &&
+    !b0.isGreen &&
+    b0.clv <= 0.22 &&
+    b0.bodyRatio >= 0.55 &&
+    b0.lowerWickRatio <= 0.18 &&
+    b1.lowerWickRatio < 0.40 &&
+    b0.close <= b1.close - (b1.close - b1.open) * 0.65;
+
   const isPriorBarBearishRejectionUnreclaimed =
     !b1.isGreen &&
     (b1.clv <= 0.34 || b1.upperWickRatio >= 0.44) &&
-    b0.close <= b1.open * 1.001;
+    b0.close <= b1.open * 1.001 &&
+    !b0MatureBodyReclaimedB1;
   const isPriorBarBullishRejectionUnbroken =
     b1.isGreen &&
     (b1.clv >= 0.66 || b1.lowerWickRatio >= 0.44) &&
-    b0.close >= b1.open * 0.999;
+    b0.close >= b1.open * 0.999 &&
+    !b0MatureBodyBrokeB1;
 
   const vetoLong = Boolean(
     bearishPattern ||
@@ -1656,9 +1676,15 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
       : bearishPattern
         ? `🔴 ${bearishPattern} (CLV:${effectiveClv})`
         : vetoLong
-          ? `⚠️ Üst İğne Reddi (CLV:${effectiveClv} — LONG Veto)`
+          ? isPriorBarBearishRejectionUnreclaimed && effectiveClv >= 0.50
+            ? `⚠️ Önceki Kırmızı Mum Direnci (CLV:${effectiveClv} — LONG Veto)`
+            : buySideSweep && effectiveClv >= 0.50
+              ? `⚠️ Tepe Likidite Süpürmesi (CLV:${effectiveClv} — LONG Veto)`
+              : `⚠️ Üst İğne Reddi (CLV:${effectiveClv} — LONG Veto)`
           : vetoShort
-            ? `⚠️ Alt İğne Tepkisi (CLV:${effectiveClv} — SHORT Veto)`
+            ? isPriorBarBullishRejectionUnbroken && effectiveClv <= 0.50
+              ? `⚠️ Önceki Yeşil Mum Desteği (CLV:${effectiveClv} — SHORT Veto)`
+              : `⚠️ Alt İğne Tepkisi (CLV:${effectiveClv} — SHORT Veto)`
             : `⚪ Dengeli Mum (CLV:${effectiveClv})`;
 
   const low4Bar = Math.min(b0.low, b1.low, b2.low, b3.low);
@@ -2401,11 +2427,13 @@ async function scanPerpUniverse(state) {
     }
     bearishFundNewsPts = Math.min(13, bearishFundNewsPts);
 
-    // Wall #6B + Engine #39 (GPT-6-Luna Contract-Specific nextFundingTime Settlement Cost & Dump Guard):
+    // Wall #6B + Engine #39 + #81C (GPT-6-Luna Contract-Specific nextFundingTime Settlement Cost & Farmer Dump Guard):
+    // Block new LONG entries in the final 8 minutes before funding settlement when funding <= -0.15% (funding farmers dump immediately after snapshot!)
     const fundingVetoLong =
       item.fundingRatePct >= 0.080 ||
       (itemMinsToFunding <= 15 && item.fundingRatePct >= 0.035) ||
-      (itemMinsToFunding <= 12 && item.fundingRatePct <= -0.35);
+      (itemMinsToFunding <= 12 && item.fundingRatePct <= -0.35) ||
+      (itemMinsToFunding <= 8 && item.fundingRatePct <= -0.15);
     const fundingVetoShort =
       item.fundingRatePct <= -0.120 ||
       (itemMinsToFunding <= 15 && item.fundingRatePct <= -0.035);
@@ -3024,10 +3052,18 @@ async function manageOpenPosition(state, candidates = []) {
       const lock2 = roundPriceToTick(pos.fSym, pos.entryPrice * (1 - 0.0075), 'ceil');
       if (lock2 < pos.stopPrice) pos.stopPrice = lock2;
     }
+  } else if (pos.tp1Done && peakCoinMoveFrac >= 0.0130) {
+    // Engine #81A: Intermediate runner ratchet step at +1.30% peak after TP1 harvest -> lock +0.52% on remaining 65% runner!
+    if (pos.side === 'LONG') {
+      const lockRunner1 = roundPriceToTick(pos.fSym, pos.entryPrice * (1 + 0.0052), 'floor');
+      if (lockRunner1 > pos.stopPrice && lockRunner1 < markExitPrice) pos.stopPrice = lockRunner1;
+    } else {
+      const lockRunner1 = roundPriceToTick(pos.fSym, pos.entryPrice * (1 - 0.0052), 'ceil');
+      if (lockRunner1 < pos.stopPrice && lockRunner1 > markExitPrice) pos.stopPrice = lockRunner1;
+    }
   } else if (peakCoinMoveFrac >= 0.0102) {
-    // Engine #44B + #76B (GPT-6-Luna Fee-Plus Profit-Lock Clamp — Only unconditionally lock +0.34% once peak >= +1.02% [>81% of TP1]):
-    // Stop_long >= Entry*(1 + c + p + b) where c=0.0018 fees, p=0.0010 net profit floor, b=0.0006 mark-to-fill buffer -> +0.34%
-    pos.ratchetStage = 'FAST_BREAKEVEN_PLUS';
+    // Engine #44B + #76B + #81A (GPT-6-Luna Fee-Plus Profit-Lock Clamp — Preserve TP1_HARVESTED_RUNNER label when TP1 already done):
+    if (!pos.ratchetStage.includes('TP1')) pos.ratchetStage = 'FAST_BREAKEVEN_PLUS';
     if (pos.side === 'LONG') {
       const bePlus = roundPriceToTick(pos.fSym, pos.entryPrice * (1 + 0.0034), 'floor');
       if (bePlus > pos.stopPrice) pos.stopPrice = bePlus;
@@ -3159,10 +3195,10 @@ async function manageOpenPosition(state, candidates = []) {
       (pos.side === 'LONG' && liveFundPct >= 0.050) ||
       (pos.side === 'SHORT' && liveFundPct <= -0.050);
     const isExtremeNegFundFarmerDumpRisk =
-      pos.side === 'LONG' && liveFundPct <= -0.40 && !pos.tp1Done && rawCoinMoveFrac < 0.0125;
+      pos.side === 'LONG' && liveFundPct <= -0.18 && !pos.tp1Done && rawCoinMoveFrac < 0.0125;
     if (
       posMinsToFund <= 5 &&
-      rawCoinMoveFrac >= ROUND_TRIP_FEE_SLIP_FRAC + 0.0015 &&
+      rawCoinMoveFrac >= ROUND_TRIP_FEE_SLIP_FRAC + 0.0012 &&
       (isPayingHeavyFunding || isExtremeNegFundFarmerDumpRisk)
     ) {
       isFundingSettlementHarvest = true;
@@ -4345,7 +4381,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v12.0-Micro-Lock-Reentry-CLV-Coherence-And-ATR-VWAP-Band';
+  state.version = 'Mutlak-Yapi-v12.1-Runner-Ratchet-Preservation-And-Funding-Cut-Shield';
   if (state.openPosition?.thesis && state.openPosition?.leverage) {
     state.openPosition.thesis = String(state.openPosition.thesis).replace(
       /->\s*[\d.]+x\s+(LONG|SHORT)!/,
@@ -4354,7 +4390,7 @@ async function main() {
   }
   runTwoHourSelfAudit(state, true);
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v12.0 — Motor #58-#80)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v12.1 — Motor #58-#81)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
