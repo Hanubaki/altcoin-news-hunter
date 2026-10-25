@@ -463,13 +463,15 @@ async function executeFapiRealExit(pos, closeFraction = 1.0) {
   return { isLive: true, ok: false, reason: ord?.msg || 'CLOSE_ORDER_FAILED' };
 }
 
-function selectConvictionLeverage(score, atr15mPct, structuralDistPct = 0) {
+function selectConvictionLeverage(score, atr15mPct, structuralDistPct = 0, volRatio15m = 1.15, whaleAligned = true) {
   const atr = Number(atr15mPct || 1.2);
+  const vol = Number(volRatio15m ?? 1.15);
   const reqSlPct = Math.max(0.92, Number(structuralDistPct || 0), atr * 0.72);
-  // Engine #42 + #74A + #77C: Require minimum 15m ATR velocity (>= 0.82% for 4x/5x, >= 0.72% for 3.5x) so dead/low-ATR coins never get high leverage
-  if (score >= 94 && atr >= 0.82 && atr <= 1.35 && reqSlPct <= 0.96) return 5;
-  if (score >= 90 && atr >= 0.82 && atr <= 1.85 && reqSlPct <= 1.12) return 4;
-  if (score >= 85 && atr >= 0.72 && atr <= 2.40 && reqSlPct <= 1.40) return 3.5;
+  // Engine #42 + #74A + #77C + #86B (GPT-6-Luna Volume & Whale-Alignment Gate for 4x/5x Leverage):
+  // Require minimum 15m ATR velocity (>= 0.82% for 4x/5x, >= 0.72% for 3.5x), real volume participation (>=1.15x for 5x, >=1.05x for 4x), and whale alignment so low-volume (<1.0x) arbitrage crawls like MTLUSDT (0.83x vol, -10.3% whale spread) never get 4x/5x leverage!
+  if (score >= 94 && atr >= 0.82 && atr <= 1.35 && reqSlPct <= 0.96 && vol >= 1.15 && whaleAligned) return 5;
+  if (score >= 90 && atr >= 0.82 && atr <= 1.85 && reqSlPct <= 1.12 && vol >= 1.05 && whaleAligned) return 4;
+  if (score >= 85 && atr >= 0.72 && atr <= 2.40 && reqSlPct <= 1.40 && vol >= 0.85) return 3.5;
   return 3;
 }
 
@@ -2342,13 +2344,14 @@ async function scanPerpUniverse(state) {
     }
     const whaleRetailSpread = Number((whaleLongPct - retailLongPct).toFixed(1));
 
-    // Engine #55D + #76A (GPT-6-Luna True Negative-Funding / Parabolic Short-Squeeze Whale-Hedge Override):
-    // Fixed Bug #11 + #76A: Only exempt negative whaleRetailSpread when there is genuine negative funding (<= -0.025%)
-    // OR an extreme backwardation parabolic squeeze (basis <= -0.25% & 24h >= +14% & 1h >= +1.5% & 1h OI >= +2.0%);
-    // 1-tick basis noise (-0.18% on BIGTIMEUSDT with -0.0032% funding) must NEVER bypass whaleVetoLong (-11.7% whale short skew)!
+    // Engine #55D + #76A + #86A (GPT-6-Luna & Freebuff Anti-Arbitrage Fake Short-Squeeze Whale Veto):
+    // Chronic negative funding on low volume (e.g. MTLUSDT -0.2167% funding, 0.83x vol, +2.17% 24h, -10.3% whale spread) is passive spot-perp basis carry, NOT a short squeeze!
+    // Require concurrent volume expansion (volRatio15m >= 1.05 or TTM upward breakout) AND genuine momentum (24h >= +5.0% or 1h >= +1.65%) before activating isActiveShortSqueezeRegime!
     const isActiveShortSqueezeRegime = Boolean(
       (item.fundingRatePct <= -0.025 ||
         (item.basisPct <= -0.25 && item.change24hPct >= 14.0 && change1hPct >= 1.50 && oiDelta1hPct >= 2.0)) &&
+        (volRatio15m >= 1.05 || mtfSqueeze.squeezeBullishPts > 0) &&
+        (item.change24hPct >= 5.0 || change1hPct >= 1.65) &&
         (oiQuadrant.startsWith('Q1') || oiQuadrant.startsWith('Q3-TUZAK') || mtfSqueeze.squeezeBullishPts > 0) &&
         change1hPct >= 0.50
     );
@@ -2366,8 +2369,9 @@ async function scanPerpUniverse(state) {
           : -Math.min(14, Math.round(whaleRetailSpread * 1.0));
     } else if (whaleRetailSpread <= -3.0) {
       if (isActiveShortSqueezeRegime) {
-        // Trapped shorts / basis hedges in negative funding act as short-squeeze fuel, not bearish distribution!
-        bullishWhalePts = Math.min(8, Math.round(Math.abs(item.fundingRatePct) * 60));
+        // Engine #86A: Neutralize bearish whale penalty during confirmed high-volume short squeezes; only award positive squeeze fuel when volume >= 1.35x and 1h >= +2.0%!
+        bullishWhalePts =
+          volRatio15m >= 1.35 && change1hPct >= 2.0 ? Math.min(6, Math.round(Math.abs(item.fundingRatePct) * 45)) : 0;
         bearishWhalePts = 0;
       } else {
         bearishWhalePts = Math.min(15, Math.round((Math.abs(whaleRetailSpread) - 1.5) * 1.35));
@@ -2821,11 +2825,13 @@ async function scanPerpUniverse(state) {
       rawShortTotal >= Math.max(86, tuning.minShortScore ?? 86);
 
     let rawScore = 50;
+    const whaleAlignedLong = whaleRetailSpread >= 0 || (isActiveShortSqueezeRegime && volRatio15m >= 1.35);
+    const whaleAlignedShort = whaleRetailSpread <= 0;
     if (canTriggerLong && (!canTriggerShort || rawLongTotal >= rawShortTotal)) {
       side = 'LONG';
       rawScore = rawLongTotal;
       score = Math.min(99, rawLongTotal);
-      const dynLev = selectConvictionLeverage(score, atr15mPct, longStructDistPct);
+      const dynLev = selectConvictionLeverage(score, atr15mPct, longStructDistPct, volRatio15m, whaleAlignedLong);
       engine = isHypeSqueezeMomentumLong
         ? 'ENGINE_HYPE_SQUEEZE_MOMENTUM_LONG'
         : isBnfLiquidationBounce
@@ -2842,7 +2848,7 @@ async function scanPerpUniverse(state) {
       side = 'SHORT';
       rawScore = rawShortTotal;
       score = Math.min(99, rawShortTotal);
-      const dynLev = selectConvictionLeverage(score, atr15mPct, shortStructDistPct);
+      const dynLev = selectConvictionLeverage(score, atr15mPct, shortStructDistPct, volRatio15m, whaleAlignedShort);
       engine = isGcrCrowdedManiaShort
         ? 'ENGINE_GCR_MANIA_FADE_SHORT'
         : mtfSqueeze.squeezeBearishPts > 0
@@ -2863,7 +2869,8 @@ async function scanPerpUniverse(state) {
     }
 
     const activeStructDistPct = side.startsWith('SHORT') ? shortStructDistPct : longStructDistPct;
-    const convictionLeverage = selectConvictionLeverage(score, atr15mPct, activeStructDistPct);
+    const activeWhaleAligned = side.startsWith('SHORT') ? whaleAlignedShort : whaleAlignedLong;
+    const convictionLeverage = selectConvictionLeverage(score, atr15mPct, activeStructDistPct, volRatio15m, activeWhaleAligned);
 
     evaluated.push({
       symbol: item.symbol,
@@ -4540,7 +4547,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v12.5-Dual-AI-Luna-And-Freebuff-Council-And-Anti-Overconfidence-Guard';
+  state.version = 'Mutlak-Yapi-v12.6-Anti-Arbitrage-Fake-Squeeze-Whale-Veto-And-Volume-Confirmed-Leverage-Gate';
   if (state.openPosition?.thesis && state.openPosition?.leverage) {
     state.openPosition.thesis = String(state.openPosition.thesis).replace(
       /->\s*[\d.]+x\s+(LONG|SHORT)!/,
@@ -4549,7 +4556,7 @@ async function main() {
   }
   runTwoHourSelfAudit(state, true);
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + İKİLİ YAPAY ZEKA (LUNA + FREEBUFF) KALESİ (v12.5 — Motor #58-#85)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + İKİLİ YAPAY ZEKA (LUNA + FREEBUFF) KALESİ (v12.6 — Motor #58-#86)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
