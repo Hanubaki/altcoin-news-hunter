@@ -662,8 +662,8 @@ function buildHoldReasonText(p) {
     return (
       `🧐 **DÜŞERKEN NEDEN SATMIYOR? (${minsHeld} dk'dır açık):** ` +
       `1) **Nefes Payı İçinde:** Şu an \`%${pnlPct}\` (\`${pnlTry} TL\`) seviyesinde; kesin Stop-Loss çizgimiz olan \`$${slPrice}\` (\`-%${p.slPct || 1.5}\` = \`${slLossTry} TL\` maksimum risk sınırı) seviyesine henüz **\`%${slDistPct}\` mesafe** var. ` +
-      `2) **Tahta & Dip Filtresi:** Giriş RSI \`${p.rsiAtEntry || '-'}\` (dip bölgesi), balina alıcı oranı \`%${p.takerBuyRatioPct || '-'}\` ve canlı Binance TR tahtası **${obLabel}** olduğu için normal silkeleme iğnesinde erken panik satışı yapılmıyor. ` +
-      `3) **Ne Zaman Satacak?:** Fiyat \`$${slPrice}\` altına inip 3 sn kalırsa **VEYA** tahta dengesi \`-0.20\` altına bozulursa (Erken Tahliye) saniyesinde otomatik satılacak!`
+      `2) **Tahta & Dip Filtresi:** Giriş RSI \`${p.rsiAtEntry || '-'}\` (dip bölgesi), balina alıcı oranı \`%${p.takerBuyRatioPct || '-'}\` ve canlı Binance TR tahtası **${obLabel}** olduğu için anlık silkeleme iğnesinde erken panik satışı yapılmıyor. ` +
+      `3) **Ne Zaman Satacak?:** Fiyat \`$${slPrice}\` altına inip 3 sn kalırsa **VEYA** 45 dk sonunda ivme sönüp tahta \`-0.25\` altına bozulursa (Yavaş Erime Kalkanı) otomatik satılacak!`
     );
   }
   return (
@@ -2537,13 +2537,17 @@ async function runTradingCycle() {
     p.holdReason = buildHoldReasonText(p);
   }
 
-  const openSymSet = new Set(state.openPositions.map(p => p.symbol));
   let dustAssetsUsdt = 0;
   for (const [asset, freeQty] of Object.entries(trStatus.assetsMap || {})) {
-    if (asset === 'TRY' || openSymSet.has(asset) || freeQty <= 0) continue;
+    if (asset === 'TRY' || freeQty <= 0) continue;
+    const openPosQty = state.openPositions
+      .filter(p => p.symbol === asset)
+      .reduce((s, p) => s + Number(p.qty || 0), 0);
+    const residualDustQty = Math.max(0, Number(freeQty || 0) - openPosQty);
+    if (residualDustQty <= 0) continue;
     const usdtBid = quotes[asset]?.bestBid || 0;
     if (usdtBid > 0) {
-      dustAssetsUsdt += usdtBid * freeQty;
+      dustAssetsUsdt += usdtBid * residualDustQty;
     }
   }
   const dustAssetsTry = dustAssetsUsdt * USD_TRY_RATE;
