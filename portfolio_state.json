@@ -1,16 +1,306 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-25T10:33:48.655Z",
+  "updatedAt": "2026-10-25T21:04:37.705Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
-  "initialBankrollUsdt": 18.1087,
-  "initialBankrollTry": 900,
-  "cashUsdt": 18.7066,
-  "realizedPnlUsdt": 0.2821,
+  "initialBankrollUsdt": 20.1207,
+  "initialBankrollTry": 1000,
+  "cashUsdt": 11.2304,
+  "realizedPnlUsdt": 0.1663,
   "winCount": 21,
-  "lossCount": 18,
-  "openPositions": [],
+  "lossCount": 20,
+  "openPositions": [
+    {
+      "id": "pos_1792955567900_LTC",
+      "symbol": "LTC",
+      "leaderSymbol": "LTC",
+      "engineOwner": "EP",
+      "confirmedRegime": "C",
+      "pWinLower95": 0.423,
+      "kellyRiskFrac": 0.004,
+      "ecosystem": "GoldenAgeWave",
+      "headline": "Golden Age Kurumsal Dönüş Dalgası (LTC — VWAP & Balina İvme Lideri [2026-10-25T19])",
+      "newsSource": "GoldenAgeLeaderIgniter",
+      "entryPattern": "QULLAMAGGIE_EP",
+      "freshestMinutesAgo": 5,
+      "breadthAtEntry": 54,
+      "spreadPctAtEntry": 0.106,
+      "preEventAtr": -0.2,
+      "impulseAtr": 0.07,
+      "retracementRatio": 0.35,
+      "betaBtc": 1.41,
+      "rsAtr": 0.51,
+      "newsScore": 5.2,
+      "totalScore": 92.4,
+      "rsiAtEntry": 50.51,
+      "atr1hPct": 0.7,
+      "amihudIlliquidity": 1.039,
+      "microstructureFlags": [
+        "TAKER_FLOW_DECEL"
+      ],
+      "takerBuyRatioPct": 50.7,
+      "last1hTakerBuyPct": 44.2,
+      "obImbalance": -0.1,
+      "bookOb1": -0.1039,
+      "bookOb2": -0.1039,
+      "micropricePremBps": -1.04,
+      "midMovePctAtEntry": 0,
+      "entryTime": "2026-10-25T19:12:47.900Z",
+      "entryPrice": 57.099,
+      "entryPriceTry": 2837.84,
+      "priceSource": "BINANCE_TR",
+      "currentPrice": 56.9819,
+      "highestPrice": 57.1429,
+      "qty": 0.064,
+      "initialQty": 0.064,
+      "dustSweepQty": 0.000718,
+      "initialCostUsdt": 3.6507,
+      "costUsdt": 3.6543,
+      "costTry": 181.62,
+      "riskBudgetTry": 3.7,
+      "stopHitCount": 0,
+      "firstStopHitAt": 0,
+      "takeProfitPrice": 59.668,
+      "stopLossPrice": 56.243,
+      "tpPct": 4.5,
+      "slPct": 1.5,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": -0.0075,
+      "unrealizedPnlPct": -0.21,
+      "currentPriceTry": 2832.0004,
+      "currentValueTry": 181.25,
+      "holdShort": "😎 Raad ol, kontrol bende: Alıcılar TR tahtasını tutuyor, stopa %1.3 nefes payı var.",
+      "holdReason": "🧐 **DÜŞERKEN NEDEN SATMIYOR? (112 dk'dır açık):** 1) **Nefes Payı İçinde:** Şu an `%-0.21` (`-0.37 TL`) seviyesinde; kesin Stop-Loss çizgimiz olan `$56.243` (`-%1.5` = `-2.72 TL` maksimum risk sınırı) seviyesine henüz **`%1.3` mesafe** var. 2) **Tahta & Dip Filtresi:** Giriş RSI `50.51` (dip bölgesi), balina alıcı oranı `%50.7` ve canlı Binance TR tahtası **Satıcı Baskılı (-0.26)** olduğu için anlık silkeleme iğnesinde erken panik satışı yapılmıyor. 3) **Ne Zaman Satacak?:** Fiyat `$56.243` altına inip 3 sn kalırsa **VEYA** 45 dk sonunda ivme sönüp tahta `-0.25` altına bozulursa (Yavaş Erime Kalkanı) otomatik satılacak!",
+      "currentBidTry": 2832,
+      "currentAskTry": 2834,
+      "tp1Pct": 2.2,
+      "tp2Pct": 5.5,
+      "liveObImbalance": -0.26
+    },
+    {
+      "id": "pos_1792955904346_HYPE",
+      "symbol": "HYPE",
+      "leaderSymbol": "HYPE",
+      "engineOwner": "EP",
+      "confirmedRegime": "C",
+      "pWinLower95": 0.423,
+      "kellyRiskFrac": 0.004,
+      "ecosystem": "GoldenAgeWave",
+      "headline": "Golden Age Kurumsal Dönüş Dalgası (HYPE — VWAP & Balina İvme Lideri [2026-10-25T19])",
+      "newsSource": "GoldenAgeLeaderIgniter",
+      "entryPattern": "QULLAMAGGIE_EP",
+      "freshestMinutesAgo": 5,
+      "breadthAtEntry": 56,
+      "spreadPctAtEntry": 0.104,
+      "preEventAtr": -0.58,
+      "impulseAtr": 0.21,
+      "retracementRatio": 0.35,
+      "betaBtc": 1.61,
+      "rsAtr": 0.44,
+      "newsScore": 5.2,
+      "totalScore": 99,
+      "rsiAtEntry": 53.73,
+      "atr1hPct": 0.78,
+      "amihudIlliquidity": 0.978,
+      "microstructureFlags": [],
+      "takerBuyRatioPct": 64.8,
+      "last1hTakerBuyPct": 74.6,
+      "obImbalance": 0.08,
+      "bookOb1": 0.078,
+      "bookOb2": 0.078,
+      "micropricePremBps": -2.18,
+      "midMovePctAtEntry": 0,
+      "entryTime": "2026-10-25T19:18:24.346Z",
+      "entryPrice": 77.439,
+      "entryPriceTry": 3848.697395,
+      "priceSource": "BINANCE_TR",
+      "currentPrice": 77.1227,
+      "highestPrice": 77.439,
+      "qty": 0.047,
+      "initialQty": 0.047,
+      "dustSweepQty": 0.000904,
+      "initialCostUsdt": 3.6396,
+      "costUsdt": 3.6396,
+      "costTry": 180.89,
+      "riskBudgetTry": 3.7,
+      "stopHitCount": 0,
+      "firstStopHitAt": 0,
+      "takeProfitPrice": 80.924,
+      "stopLossPrice": 76.277,
+      "tpPct": 4.5,
+      "slPct": 1.5,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": -0.0149,
+      "unrealizedPnlPct": -0.41,
+      "currentPriceTry": 3832.9982,
+      "currentValueTry": 180.15,
+      "holdShort": "😎 Raad ol, kontrol bende: Alıcılar TR tahtasını tutuyor, stopa %1.1 nefes payı var.",
+      "holdReason": "🧐 **DÜŞERKEN NEDEN SATMIYOR? (106 dk'dır açık):** 1) **Nefes Payı İçinde:** Şu an `%-0.41` (`-0.74 TL`) seviyesinde; kesin Stop-Loss çizgimiz olan `$76.277` (`-%1.5` = `-2.71 TL` maksimum risk sınırı) seviyesine henüz **`%1.1` mesafe** var. 2) **Tahta & Dip Filtresi:** Giriş RSI `53.73` (dip bölgesi), balina alıcı oranı `%64.8` ve canlı Binance TR tahtası **Alıcı Ağırlıklı (+0.43)** olduğu için anlık silkeleme iğnesinde erken panik satışı yapılmıyor. 3) **Ne Zaman Satacak?:** Fiyat `$76.277` altına inip 3 sn kalırsa **VEYA** 45 dk sonunda ivme sönüp tahta `-0.25` altına bozulursa (Yavaş Erime Kalkanı) otomatik satılacak!",
+      "currentBidTry": 3833,
+      "currentAskTry": 3836,
+      "tp1Pct": 2.2,
+      "tp2Pct": 5.5,
+      "liveObImbalance": 0.39,
+      "lastFastObCheckAtMs": 1792962276868
+    }
+  ],
   "closedTrades": [
+    {
+      "id": "pos_1792942799988_TIA",
+      "symbol": "TIA",
+      "leaderSymbol": "TIA",
+      "engineOwner": "EP",
+      "confirmedRegime": "C",
+      "pWinLower95": 0.4453,
+      "kellyRiskFrac": 0.004,
+      "ecosystem": "GoldenAgeWave",
+      "headline": "Golden Age Kurumsal Dönüş Dalgası (TIA — VWAP & Balina İvme Lideri [2026-10-25T15])",
+      "newsSource": "GoldenAgeLeaderIgniter",
+      "entryPattern": "GOLDEN_AGE_THRUST",
+      "freshestMinutesAgo": 5,
+      "breadthAtEntry": 85,
+      "spreadPctAtEntry": 0.112,
+      "preEventAtr": 0.96,
+      "impulseAtr": 1.1,
+      "retracementRatio": 0.01,
+      "betaBtc": 2,
+      "rsAtr": 0.86,
+      "newsScore": 5.2,
+      "totalScore": 99,
+      "rsiAtEntry": 40.59,
+      "atr1hPct": 1.35,
+      "amihudIlliquidity": 6.599,
+      "microstructureFlags": [],
+      "takerBuyRatioPct": 58.7,
+      "last1hTakerBuyPct": 55.7,
+      "obImbalance": 0.23,
+      "bookOb1": 0.2311,
+      "bookOb2": 0.238,
+      "micropricePremBps": 1.53,
+      "midMovePctAtEntry": 0,
+      "entryTime": "2026-10-25T15:39:59.988Z",
+      "entryPrice": 0.54019,
+      "entryPriceTry": 26.847482,
+      "priceSource": "BINANCE_TR",
+      "currentPrice": 0.532394,
+      "highestPrice": 0.54019,
+      "qty": 6.91,
+      "initialQty": 6.91,
+      "dustSweepQty": 0.00836,
+      "initialCostUsdt": 3.7327,
+      "costUsdt": 3.7327,
+      "costTry": 185.52,
+      "riskBudgetTry": 3.72,
+      "stopHitCount": 2,
+      "firstStopHitAt": 1792945086985,
+      "takeProfitPrice": 0.5645,
+      "stopLossPrice": 0.53371,
+      "tpPct": 4.5,
+      "slPct": 1.5,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": -0.0539,
+      "unrealizedPnlPct": -1.44,
+      "currentPriceTry": 26.47,
+      "currentValueTry": 182.91,
+      "holdShort": "😎 Raad ol, kontrol bende: Alıcılar TR tahtasını tutuyor, stopa %-0.21 nefes payı var.",
+      "holdReason": "🧐 **DÜŞERKEN NEDEN SATMIYOR? (38 dk'dır açık):** 1) **Nefes Payı İçinde:** Şu an `%-1.41` (`-2.61 TL`) seviyesinde; kesin Stop-Loss çizgimiz olan `$0.53371` (`-%1.5` = `-2.23 TL` maksimum risk sınırı) seviyesine henüz **`%-0.21` mesafe** var. 2) **Tahta & Dip Filtresi:** Giriş RSI `40.59` (dip bölgesi), balina alıcı oranı `%58.7` ve canlı Binance TR tahtası **Dengeli (+0.09)** olduğu için normal silkeleme iğnesinde erken panik satışı yapılmıyor. 3) **Ne Zaman Satacak?:** Fiyat `$0.53371` altına inip 3 sn kalırsa **VEYA** tahta dengesi `-0.20` altına bozulursa (Erken Tahliye) saniyesinde otomatik satılacak!",
+      "currentBidTry": 26.46,
+      "currentAskTry": 26.48,
+      "tp1Pct": 2.43,
+      "tp2Pct": 5.67,
+      "liveObImbalance": 0.09,
+      "positionId": "pos_1792942799988_TIA",
+      "leg": "FINAL",
+      "exitPrice": 0.53133,
+      "exitTime": "2026-10-25T16:18:17.225Z",
+      "exitReason": "🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.44 | -3.08 TL)",
+      "netPnlUsdt": -0.0612,
+      "netPnlTry": -3.04
+    },
+    {
+      "id": "pos_1792943248666_FET",
+      "symbol": "FET",
+      "leaderSymbol": "FET",
+      "engineOwner": "EP",
+      "confirmedRegime": "C",
+      "pWinLower95": 0.4453,
+      "kellyRiskFrac": 0.004,
+      "ecosystem": "GoldenAgeWave",
+      "headline": "Golden Age Kurumsal Dönüş Dalgası (FET — VWAP & Balina İvme Lideri [2026-10-25T15])",
+      "newsSource": "GoldenAgeLeaderIgniter",
+      "entryPattern": "GOLDEN_AGE_THRUST",
+      "freshestMinutesAgo": 5,
+      "breadthAtEntry": 85,
+      "spreadPctAtEntry": 0.228,
+      "preEventAtr": 0.35,
+      "impulseAtr": 1.29,
+      "retracementRatio": 0.18,
+      "betaBtc": 2.22,
+      "rsAtr": 0.8,
+      "newsScore": 5.2,
+      "totalScore": 99,
+      "rsiAtEntry": 36.69,
+      "atr1hPct": 0.98,
+      "amihudIlliquidity": 2.901,
+      "microstructureFlags": [],
+      "takerBuyRatioPct": 62.3,
+      "last1hTakerBuyPct": 69.4,
+      "obImbalance": 0.09,
+      "bookOb1": 0.0861,
+      "bookOb2": 0.0861,
+      "micropricePremBps": 0.93,
+      "midMovePctAtEntry": 0,
+      "entryTime": "2026-10-25T15:47:28.667Z",
+      "entryPrice": 0.1777,
+      "entryPriceTry": 8.831857,
+      "priceSource": "BINANCE_TR",
+      "currentPrice": 0.175453,
+      "highestPrice": 0.1777,
+      "qty": 21,
+      "initialQty": 21,
+      "dustSweepQty": 0.087,
+      "initialCostUsdt": 3.7317,
+      "costUsdt": 3.7317,
+      "costTry": 185.47,
+      "riskBudgetTry": 3.71,
+      "stopHitCount": 2,
+      "firstStopHitAt": 1792944974438,
+      "takeProfitPrice": 0.1857,
+      "stopLossPrice": 0.17557,
+      "tpPct": 4.5,
+      "slPct": 1.5,
+      "partialTpDone": false,
+      "stage2TpDone": false,
+      "trailingActive": false,
+      "rocketMode": false,
+      "unrealizedPnlUsdt": -0.0472,
+      "unrealizedPnlPct": -1.26,
+      "currentPriceTry": 8.73,
+      "currentValueTry": 183.33,
+      "holdShort": "😎 Raad ol, kontrol bende: Alıcılar TR tahtasını tutuyor, stopa %0.05 nefes payı var.",
+      "holdReason": "🧐 **DÜŞERKEN NEDEN SATMIYOR? (28 dk'dır açık):** 1) **Nefes Payı İçinde:** Şu an `%-1.15` (`-2.14 TL`) seviyesinde; kesin Stop-Loss çizgimiz olan `$0.17557` (`-%1.5` = `-2.22 TL` maksimum risk sınırı) seviyesine henüz **`%0.05` mesafe** var. 2) **Tahta & Dip Filtresi:** Giriş RSI `36.69` (dip bölgesi), balina alıcı oranı `%62.3` ve canlı Binance TR tahtası **Satıcı Baskılı (-0.69)** olduğu için normal silkeleme iğnesinde erken panik satışı yapılmıyor. 3) **Ne Zaman Satacak?:** Fiyat `$0.17557` altına inip 3 sn kalırsa **VEYA** tahta dengesi `-0.20` altına bozulursa (Erken Tahliye) saniyesinde otomatik satılacak!",
+      "currentBidTry": 8.72,
+      "currentAskTry": 8.74,
+      "tp1Pct": 2.2,
+      "tp2Pct": 5.5,
+      "liveObImbalance": -0.69,
+      "positionId": "pos_1792943248666_FET",
+      "leg": "FINAL",
+      "exitPrice": 0.1751,
+      "exitTime": "2026-10-25T16:16:21.010Z",
+      "exitReason": "🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.26 | -2.75 TL)",
+      "netPnlUsdt": -0.0546,
+      "netPnlTry": -2.71
+    },
     {
       "id": "pos_1792839703505_WLD",
       "symbol": "WLD",
@@ -1533,55 +1823,55 @@
     }
   ],
   "recentLogs": [
-    "[04:03:09] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
-    "[03:31:24] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %61 Yeşil | 1s BTC +%0.3 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
-    "[03:14:52] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %52 Yeşil | 1s BTC +%0.35 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
-    "[03:09:39] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %53 Yeşil | 1s BTC +%0.35 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
-    "[03:08:09] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %53 Yeşil | 1s BTC +%0.35 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
-    "[02:59:53] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %52 Yeşil | 1s BTC +%0.34 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
-    "[02:48:45] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] INJ pas geçildi (WEAK_IMBALANCE (-0.2904 -> -0.0481 < -0.05) | ob1:-0.2904 -> ob2:-0.0481)",
-    "[02:48:42] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] INJ pas geçildi (WEAK_IMBALANCE (-0.2459 -> -0.2904 < -0.05) | ob1:-0.2459 -> ob2:-0.2904)",
-    "[02:46:24] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %52 Yeşil | 1s BTC +%0.34 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
-    "[00:39:52] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
-    "[22:10:36] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
-    "[21:11:56] ⚠️ Haber tarayıcı uyarısı: fetch failed",
-    "[19:41:55] ⚠️ Haber tarayıcı uyarısı: fetch failed",
-    "[17:04:01] ⚠️ Haber tarayıcı uyarısı: fetch failed",
-    "[14:47:28] 🏁 [POZİSYON KAPANDI] WLD @ $0.46978 | 🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (46dk Tepkisiz + Stop Beklenmeden Zarar Küçültüldü %-1.16) | Net: -2,46 TL",
-    "[14:01:43] 🟢 [OTOMATİK ALIM — Engine #30 BNF] WLD (184,46 TL) @ $0.47622 | p_L: %46.3 | RiskBütçesi: 3.72 TL | SL: -%0.69",
-    "[13:04:42] 🚫 [Engine #30 BNF Risk/Ödül Vetosu] WLD d=0.79% (>%1.10) veya netTP/netSL=1.43 (<1.50) -> İşlem atlandı!",
-    "[13:04:39] 🚫 [Engine #30 BNF Risk/Ödül Vetosu] WLD d=0.79% (>%1.10) veya netTP/netSL=1.43 (<1.50) -> İşlem atlandı!",
-    "[09:18:52] ⚠️ Haber tarayıcı uyarısı: fetch failed",
-    "[00:16:13] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
-    "[23:45:20] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %67 Yeşil | 1s BTC +%0.19 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
-    "[23:06:24] ⚠️ Haber tarayıcı uyarısı: fetch failed",
-    "[23:05:27] ⚠️ Haber tarayıcı uyarısı: fetch failed",
-    "[22:59:40] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
-    "[22:58:53] ⚠️ Haber tarayıcı uyarısı: fetch failed",
-    "[22:05:09] ⚡ [4sn HIZLI ÇIKIŞ] SEI @ $0.057715 | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.24 | -2.73 TL) | Net: -2,69 TL",
-    "[22:04:50] ⚡ [4sn HIZLI ÇIKIŞ] TIA @ $0.54859 | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.28 | -2.79 TL) | Net: -2,75 TL",
-    "[21:52:38] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %67 Yeşil | 1s BTC +%-0.1 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
-    "[21:34:14] 🟢 [OTOMATİK ALIM — Engine #30 EP] SEI (186,73 TL) @ $0.05856 | p_L: %47.0 | RiskBütçesi: 3.74 TL | SL: -%1.2",
-    "[21:34:08] 🟢 [OTOMATİK ALIM — Engine #30 EP] TIA (186,72 TL) @ $0.55679 | p_L: %47.0 | RiskBütçesi: 3.74 TL | SL: -%1.2",
-    "[21:34:01] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %81 Yeşil | 1s BTC +%-0.08 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
-    "[20:37:34] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %74 Yeşil | 1s BTC +%0.16 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
-    "[20:34:36] ⚠️ Haber tarayıcı uyarısı: fetch failed",
-    "[20:33:54] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
-    "[20:33:08] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
-    "[20:15:02] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %75 Yeşil | 1s BTC +%0.27 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
-    "[19:45:02] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %73 Yeşil | 1s BTC +%0.34 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
-    "[19:15:01] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %66 Yeşil | 1s BTC +%0.12 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
-    "[17:11:45] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
-    "[12:02:36] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %68 Yeşil | 1s BTC +%0.22 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!"
+    "[23:00:07] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] TRUMP pas geçildi (WEAK_IMBALANCE (-0.5635 -> -0.5635 < -0.15) | ob1:-0.5635 -> ob2:-0.5635)",
+    "[22:31:03] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %53 Yeşil | 1s BTC +%-0.15 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
+    "[22:18:24] 🟢 [OTOMATİK ALIM — Engine #30 EP] HYPE (184,37 TL) @ $77.439 | p_L: %42.3 | RiskBütçesi: 3.7 TL | SL: -%1.5",
+    "[22:12:47] 🟢 [OTOMATİK ALIM — Engine #30 EP] LTC (184,27 TL) @ $57.948 | p_L: %42.3 | RiskBütçesi: 3.7 TL | SL: -%1.2",
+    "[22:11:53] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] LTC pas geçildi (NEGATIVE_MICROPRICE_PREM (2.73bps -> -0.91bps) | ob1:0.2011 -> ob2:-0.0069)",
+    "[22:10:16] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] LTC pas geçildi (WEAK_IMBALANCE (-0.0852 -> -0.0852 < -0.05) | ob1:-0.0852 -> ob2:-0.0852)",
+    "[22:10:12] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] LTC pas geçildi (WEAK_IMBALANCE (-0.0852 -> -0.0852 < -0.05) | ob1:-0.0852 -> ob2:-0.0852)",
+    "[22:06:34] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %54 Yeşil | 1s BTC +%-0.16 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
+    "[21:41:22] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %66 Yeşil | 1s BTC +%-0.13 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
+    "[21:37:36] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %66 Yeşil | 1s BTC +%-0.13 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
+    "[20:50:58] ⚠️ Haber tarayıcı uyarısı: This operation was aborted",
+    "[20:30:23] ⚠️ Haber tarayıcı uyarısı: fetch failed",
+    "[19:53:00] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %68 Yeşil | 1s BTC +%-0.07 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
+    "[19:51:30] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %66 Yeşil | 1s BTC +%-0.07 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
+    "[19:47:00] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %75 Yeşil | 1s BTC +%-0.07 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
+    "[19:42:30] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %81 Yeşil | 1s BTC +%-0.01 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
+    "[19:34:36] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %84 Yeşil | 1s BTC +%-0.01 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
+    "[19:30:51] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %84 Yeşil | 1s BTC +%-0.01 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
+    "[19:18:17] ⚡ [4sn HIZLI ÇIKIŞ] TIA @ $0.53133 | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.44 | -3.08 TL) | Net: -3,04 TL",
+    "[19:16:21] ⚡ [4sn HIZLI ÇIKIŞ] FET @ $0.1751 | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.26 | -2.75 TL) | Net: -2,71 TL",
+    "[18:47:28] 🟢 [OTOMATİK ALIM — Engine #30 EP] FET (185,47 TL) @ $0.1777 | p_L: %44.5 | RiskBütçesi: 3.71 TL | SL: -%1.2",
+    "[18:46:44] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (WEAK_IMBALANCE (-0.1661 -> -0.1728 < -0.05) | ob1:-0.1661 -> ob2:-0.1728)",
+    "[18:46:41] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (WEAK_IMBALANCE (-0.1661 -> -0.1661 < -0.05) | ob1:-0.1661 -> ob2:-0.1661)",
+    "[18:45:58] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (WEAK_IMBALANCE (-0.7659 -> 0.6492 < -0.05) | ob1:-0.7659 -> ob2:0.6492)",
+    "[18:45:55] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (WEAK_IMBALANCE (-0.7659 -> -0.7659 < -0.05) | ob1:-0.7659 -> ob2:-0.7659)",
+    "[18:45:13] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (WEAK_IMBALANCE (-0.4864 -> 0.0544 < -0.05) | ob1:-0.4864 -> ob2:0.0544)",
+    "[18:45:10] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (WEAK_IMBALANCE (-0.4603 -> -0.4864 < -0.05) | ob1:-0.4603 -> ob2:-0.4864)",
+    "[18:44:30] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (WEAK_IMBALANCE (-0.3491 -> -0.3195 < -0.05) | ob1:-0.3491 -> ob2:-0.3195)",
+    "[18:44:26] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (WEAK_IMBALANCE (-0.3491 -> -0.3491 < -0.05) | ob1:-0.3491 -> ob2:-0.3491)",
+    "[18:43:01] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (WEAK_IMBALANCE (-0.1945 -> -0.1313 < -0.05) | ob1:-0.1945 -> ob2:-0.1313)",
+    "[18:42:57] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (NO_BOOK_SNAPSHOT_2 | ob1:-0.1786 -> ob2:N/A)",
+    "[18:42:14] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (WEAK_IMBALANCE (-0.1297 -> -0.1416 < -0.05) | ob1:-0.1297 -> ob2:-0.1416)",
+    "[18:42:12] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (WEAK_IMBALANCE (-0.0801 -> -0.1297 < -0.05) | ob1:-0.0801 -> ob2:-0.1297)",
+    "[18:41:28] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (WEAK_IMBALANCE (-0.76 -> 0.0816 < -0.05) | ob1:-0.76 -> ob2:0.0816)",
+    "[18:41:26] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (WEAK_IMBALANCE (0.679 -> -0.76 < -0.05) | ob1:0.679 -> ob2:-0.76)",
+    "[18:40:45] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (WEAK_IMBALANCE (-0.2646 -> -0.2822 < -0.05) | ob1:-0.2646 -> ob2:-0.2822)",
+    "[18:40:43] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (WEAK_IMBALANCE (-0.2646 -> -0.2646 < -0.05) | ob1:-0.2646 -> ob2:-0.2646)",
+    "[18:40:02] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (WEAK_IMBALANCE (0.342 -> -0.5459 < -0.05) | ob1:0.342 -> ob2:-0.5459)",
+    "[18:39:59] 🟢 [OTOMATİK ALIM — Engine #30 EP] TIA (185,78 TL) @ $0.54019 | p_L: %44.5 | RiskBütçesi: 3.72 TL | SL: -%1.2",
+    "[18:39:54] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (NEGATIVE_MICROPRICE_PREM (-1.05bps -> -1.05bps) | ob1:-0.0283 -> ob2:-0.0283)"
   ],
-  "totalEquityUsdt": 19.8038,
-  "totalEquityTry": 984.25,
-  "totalPnlUsdt": 1.6952,
-  "totalPnlPct": 9.36,
+  "totalEquityUsdt": 19.6911,
+  "totalEquityTry": 978.65,
+  "totalPnlUsdt": -0.4296,
+  "totalPnlPct": -2.14,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
-    "TIA": 1792803890682,
+    "TIA": 1792966697224,
     "THETA": 1792635702056,
     "ZRO": 1792642617964,
     "OP": 1792656269455,
@@ -1592,398 +1882,399 @@
     "TAO": 1792677153218,
     "XRP": 1792708928120,
     "SEI": 1792803909905,
-    "WLD": 1792864044364
+    "WLD": 1792864044364,
+    "FET": 1792966581007
   },
-  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0077 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 0.8140 | ICP: 0.0002 | INJ: 0.0075 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0008 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 0.0628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0636 | STX: 0.0700 | TAO: 0.0001 | THETA: 0.0680 | TIA: 0.0022 | TRY: 929.7163 | UNI: 0.0080 | WLD: 0.0658 | ZRO: 0.0037)",
+  "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0077 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0870 | HBAR: 0.8140 | HYPE: 0.0479 | ICP: 0.0002 | INJ: 0.0075 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0647 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 0.0628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0636 | STX: 0.0700 | TAO: 0.0001 | THETA: 0.0680 | TIA: 0.0084 | TRY: 558.1499 | UNI: 0.0080 | WLD: 0.0658 | ZRO: 0.0037)",
   "lastWhatsAppReportAt": 1792788324267,
-  "highWaterMarkUsdt": 20.8625,
-  "cashIdleSince": null,
+  "highWaterMarkUsdt": 20.1207,
+  "cashIdleSince": 1792945097225,
   "usdTryRate": 49.7,
-  "totalPnlTry": 84.25,
+  "totalPnlTry": -21.35,
   "equityHistory": [
     {
-      "t": "11:59",
-      "v": 984.32
+      "t": "22:27",
+      "v": 973.54
     },
     {
-      "t": "12:00",
-      "v": 984.33
+      "t": "22:28",
+      "v": 973.53
     },
     {
-      "t": "12:01",
-      "v": 984.23
+      "t": "22:29",
+      "v": 973.46
     },
     {
-      "t": "12:02",
-      "v": 984.27
+      "t": "22:30",
+      "v": 973.71
     },
     {
-      "t": "12:03",
-      "v": 984.29
+      "t": "22:31",
+      "v": 973.79
     },
     {
-      "t": "12:04",
-      "v": 984.28
+      "t": "22:32",
+      "v": 979.28
     },
     {
-      "t": "12:05",
-      "v": 984.3
+      "t": "22:33",
+      "v": 979.22
     },
     {
-      "t": "12:06",
-      "v": 957.37
+      "t": "22:34",
+      "v": 979.12
     },
     {
-      "t": "12:06",
-      "v": 984.29
+      "t": "22:35",
+      "v": 979.39
     },
     {
-      "t": "12:07",
-      "v": 984.29
+      "t": "22:36",
+      "v": 979.35
     },
     {
-      "t": "12:08",
-      "v": 984.29
+      "t": "22:37",
+      "v": 979.77
     },
     {
-      "t": "12:09",
-      "v": 984.25
+      "t": "22:38",
+      "v": 979.58
     },
     {
-      "t": "12:10",
-      "v": 984.27
+      "t": "22:39",
+      "v": 979.64
     },
     {
-      "t": "12:11",
-      "v": 984.27
+      "t": "22:40",
+      "v": 979.88
     },
     {
-      "t": "12:12",
-      "v": 984.26
+      "t": "22:41",
+      "v": 979.75
     },
     {
-      "t": "12:13",
-      "v": 984.13
+      "t": "22:42",
+      "v": 979.82
     },
     {
-      "t": "12:14",
-      "v": 984.14
+      "t": "22:43",
+      "v": 979.9
     },
     {
-      "t": "12:15",
-      "v": 984.13
+      "t": "22:44",
+      "v": 979.97
     },
     {
-      "t": "12:16",
-      "v": 984.08
+      "t": "22:45",
+      "v": 980.06
     },
     {
-      "t": "12:17",
-      "v": 984.1
+      "t": "22:46",
+      "v": 979.71
     },
     {
-      "t": "12:18",
-      "v": 984.03
+      "t": "22:47",
+      "v": 979.61
     },
     {
-      "t": "12:19",
-      "v": 983.99
+      "t": "22:48",
+      "v": 979.61
     },
     {
-      "t": "12:20",
-      "v": 984.07
+      "t": "22:49",
+      "v": 979.62
     },
     {
-      "t": "12:21",
-      "v": 984.14
+      "t": "22:50",
+      "v": 979.57
     },
     {
-      "t": "12:22",
-      "v": 984.13
+      "t": "22:51",
+      "v": 979.63
     },
     {
-      "t": "12:23",
-      "v": 984.17
+      "t": "22:52",
+      "v": 979.63
     },
     {
-      "t": "12:24",
-      "v": 984.22
+      "t": "22:53",
+      "v": 979.63
     },
     {
-      "t": "12:25",
-      "v": 984.21
+      "t": "22:54",
+      "v": 979.55
     },
     {
-      "t": "12:26",
-      "v": 984.18
+      "t": "22:55",
+      "v": 979.44
     },
     {
-      "t": "12:27",
-      "v": 984.18
+      "t": "22:56",
+      "v": 979.3
     },
     {
-      "t": "12:28",
-      "v": 984.17
+      "t": "22:57",
+      "v": 979.48
     },
     {
-      "t": "12:29",
-      "v": 984.17
+      "t": "22:58",
+      "v": 979.49
     },
     {
-      "t": "12:30",
-      "v": 984.15
+      "t": "22:59",
+      "v": 979.58
     },
     {
-      "t": "12:31",
-      "v": 984.17
+      "t": "23:00",
+      "v": 979.73
     },
     {
-      "t": "12:32",
-      "v": 984.16
+      "t": "23:01",
+      "v": 979.38
     },
     {
-      "t": "12:33",
-      "v": 984.17
+      "t": "23:02",
+      "v": 979.02
     },
     {
-      "t": "12:34",
-      "v": 984.15
+      "t": "23:03",
+      "v": 978.87
     },
     {
-      "t": "12:35",
-      "v": 984.16
+      "t": "23:04",
+      "v": 978.76
     },
     {
-      "t": "12:36",
-      "v": 984.16
+      "t": "23:05",
+      "v": 978.6
     },
     {
-      "t": "12:37",
-      "v": 984.17
+      "t": "23:06",
+      "v": 978.9
     },
     {
-      "t": "12:38",
-      "v": 984.18
+      "t": "23:07",
+      "v": 979.28
     },
     {
-      "t": "12:39",
-      "v": 984.18
+      "t": "23:08",
+      "v": 979.42
     },
     {
-      "t": "12:40",
-      "v": 984.18
+      "t": "23:09",
+      "v": 979.38
     },
     {
-      "t": "12:41",
-      "v": 984.21
+      "t": "23:10",
+      "v": 979
     },
     {
-      "t": "12:42",
-      "v": 984.22
+      "t": "23:11",
+      "v": 979.05
     },
     {
-      "t": "12:43",
-      "v": 984.24
+      "t": "23:12",
+      "v": 979.11
     },
     {
-      "t": "12:44",
-      "v": 984.26
+      "t": "23:13",
+      "v": 979.44
     },
     {
-      "t": "12:45",
-      "v": 984.27
+      "t": "23:14",
+      "v": 979.71
     },
     {
-      "t": "12:46",
-      "v": 984.31
+      "t": "23:15",
+      "v": 979.34
     },
     {
-      "t": "12:47",
-      "v": 984.32
+      "t": "23:16",
+      "v": 979.4
     },
     {
-      "t": "12:48",
-      "v": 984.33
+      "t": "23:17",
+      "v": 979.44
     },
     {
-      "t": "12:49",
-      "v": 984.34
+      "t": "23:18",
+      "v": 979.3
     },
     {
-      "t": "12:50",
-      "v": 984.32
+      "t": "23:19",
+      "v": 979.35
     },
     {
-      "t": "12:51",
-      "v": 984.35
+      "t": "23:20",
+      "v": 979.43
     },
     {
-      "t": "12:52",
-      "v": 984.35
+      "t": "23:21",
+      "v": 979.77
     },
     {
-      "t": "12:53",
-      "v": 984.33
+      "t": "23:22",
+      "v": 979.59
     },
     {
-      "t": "12:54",
-      "v": 984.35
+      "t": "23:23",
+      "v": 979.72
     },
     {
-      "t": "12:55",
-      "v": 984.36
+      "t": "23:24",
+      "v": 979.65
     },
     {
-      "t": "12:56",
-      "v": 984.37
+      "t": "23:25",
+      "v": 979.57
     },
     {
-      "t": "12:57",
-      "v": 984.35
+      "t": "23:26",
+      "v": 979.51
     },
     {
-      "t": "12:58",
-      "v": 984.35
+      "t": "23:27",
+      "v": 979.42
     },
     {
-      "t": "12:59",
-      "v": 984.35
+      "t": "23:28",
+      "v": 979.14
     },
     {
-      "t": "13:00",
-      "v": 984.36
+      "t": "23:29",
+      "v": 979.11
     },
     {
-      "t": "13:01",
-      "v": 984.34
+      "t": "23:30",
+      "v": 979.11
     },
     {
-      "t": "13:02",
-      "v": 984.33
+      "t": "23:31",
+      "v": 979.16
     },
     {
-      "t": "13:03",
-      "v": 984.38
+      "t": "23:32",
+      "v": 979.08
     },
     {
-      "t": "13:04",
-      "v": 984.34
+      "t": "23:33",
+      "v": 978.9
     },
     {
-      "t": "13:05",
-      "v": 984.38
+      "t": "23:34",
+      "v": 979.11
     },
     {
-      "t": "13:06",
-      "v": 984.38
+      "t": "23:35",
+      "v": 979.29
     },
     {
-      "t": "13:07",
-      "v": 984.34
+      "t": "23:36",
+      "v": 979.36
     },
     {
-      "t": "13:08",
-      "v": 984.33
+      "t": "23:38",
+      "v": 979.53
     },
     {
-      "t": "13:09",
-      "v": 984.37
+      "t": "23:39",
+      "v": 979.25
     },
     {
-      "t": "13:10",
-      "v": 984.39
+      "t": "23:40",
+      "v": 979.24
     },
     {
-      "t": "13:11",
-      "v": 984.38
+      "t": "23:41",
+      "v": 979.19
     },
     {
-      "t": "13:12",
-      "v": 984.38
+      "t": "23:42",
+      "v": 979.24
     },
     {
-      "t": "13:13",
-      "v": 984.41
+      "t": "23:43",
+      "v": 979.29
     },
     {
-      "t": "13:14",
-      "v": 984.38
+      "t": "23:44",
+      "v": 979.09
     },
     {
-      "t": "13:15",
-      "v": 984.36
+      "t": "23:45",
+      "v": 979.06
     },
     {
-      "t": "13:16",
-      "v": 984.32
+      "t": "23:46",
+      "v": 979.05
     },
     {
-      "t": "13:17",
-      "v": 984.33
+      "t": "23:48",
+      "v": 978.9
     },
     {
-      "t": "13:18",
-      "v": 984.33
+      "t": "23:49",
+      "v": 978.61
     },
     {
-      "t": "13:19",
-      "v": 984.31
+      "t": "23:50",
+      "v": 978.6
     },
     {
-      "t": "13:20",
-      "v": 984.32
+      "t": "23:51",
+      "v": 978.6
     },
     {
-      "t": "13:21",
-      "v": 984.32
+      "t": "23:52",
+      "v": 978.53
     },
     {
-      "t": "13:22",
-      "v": 984.32
+      "t": "23:53",
+      "v": 978.71
     },
     {
-      "t": "13:23",
-      "v": 984.3
+      "t": "23:54",
+      "v": 978.72
     },
     {
-      "t": "13:24",
-      "v": 984.29
+      "t": "23:55",
+      "v": 978.88
     },
     {
-      "t": "13:25",
-      "v": 984.28
+      "t": "23:56",
+      "v": 979.02
     },
     {
-      "t": "13:26",
-      "v": 984.27
+      "t": "23:57",
+      "v": 979.13
     },
     {
-      "t": "13:27",
-      "v": 984.27
+      "t": "23:58",
+      "v": 979.23
     },
     {
-      "t": "13:28",
-      "v": 984.27
+      "t": "23:59",
+      "v": 979.06
     },
     {
-      "t": "13:29",
-      "v": 984.3
+      "t": "00:00",
+      "v": 979.23
     },
     {
-      "t": "13:30",
-      "v": 984.3
+      "t": "00:01",
+      "v": 978.84
     },
     {
-      "t": "13:31",
-      "v": 984.31
+      "t": "00:02",
+      "v": 978.95
     },
     {
-      "t": "13:32",
-      "v": 984.28
+      "t": "00:03",
+      "v": 978.84
     },
     {
-      "t": "13:33",
-      "v": 984.28
+      "t": "00:04",
+      "v": 978.65
     }
   ],
   "walletAssetsMap": {
@@ -1994,13 +2285,14 @@
     "CAKE": 0.0077,
     "EDU": 0.672,
     "ETHW": 0.000999,
-    "FET": 0.0292,
+    "FET": 0.087,
     "HBAR": 0.814,
+    "HYPE": 0.047904,
     "ICP": 0.000234,
     "INJ": 0.00754,
     "JASMY": 0.608,
     "LDO": 0.00632,
-    "LTC": 0.000846,
+    "LTC": 0.064718,
     "OP": 0.00454,
     "PENDLE": 0.0954,
     "PNUT": 0.0628,
@@ -2012,19 +2304,63 @@
     "STX": 0.07,
     "TAO": 0.0000674,
     "THETA": 0.068,
-    "TIA": 0.00222,
-    "TRY": 929.7163134,
+    "TIA": 0.00836,
+    "TRY": 558.1498962,
     "UNI": 0.00804,
     "WLD": 0.0658,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.0972,
-  "dustAssetsTry": 54.53,
+  "dustAssetsUsdt": 1.1892,
+  "dustAssetsTry": 59.1,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-25T10:33:48.655Z",
-    "totalAnalyzedTrades": 39,
-    "globalWR": 0.537,
+    "updatedAt": "2026-10-25T21:04:37.705Z",
+    "totalAnalyzedTrades": 41,
+    "globalWR": 0.512,
     "coinStats": {
+      "TIA": {
+        "wins": 0,
+        "losses": 3,
+        "netPnlUsdt": -0.1421,
+        "netPnlTry": -7.05,
+        "lossRsis": [
+          40.59,
+          33.09,
+          41.08
+        ],
+        "lossWhales": [
+          58.7,
+          59,
+          59.1
+        ],
+        "winRsis": [],
+        "winWhales": [],
+        "scoreMod": -8,
+        "maxRsi": 65,
+        "minWhale": 51.5,
+        "lessonNote": "🛑 HATA OTOPSİSİ (Bayes n=3): TIA işleminde ort. RSI 38.3 (-7.05 TL). Bayes Cezası: -8p (RSI Tavanı <= 65)."
+      },
+      "FET": {
+        "wins": 1,
+        "losses": 1,
+        "netPnlUsdt": -0.0369,
+        "netPnlTry": -1.84,
+        "lossRsis": [
+          36.69
+        ],
+        "lossWhales": [
+          62.3
+        ],
+        "winRsis": [
+          55.22
+        ],
+        "winWhales": [
+          52.6
+        ],
+        "scoreMod": -2,
+        "maxRsi": 65,
+        "minWhale": 51.5,
+        "lessonNote": "🛑 HATA OTOPSİSİ (Bayes n=2): FET işleminde ort. RSI 36.7 (-1.84 TL). Bayes Cezası: -2p (RSI Tavanı <= 65)."
+      },
       "WLD": {
         "wins": 1,
         "losses": 1,
@@ -2068,26 +2404,6 @@
         "maxRsi": 66,
         "minWhale": 50.8,
         "lessonNote": "✅ BAŞARI HAFIZASI (Bayes n=2): SEI (1 Kâr / 1 Zarar, Net +4.65 TL) -> Konsey Skor Bonusu +1 puan."
-      },
-      "TIA": {
-        "wins": 0,
-        "losses": 2,
-        "netPnlUsdt": -0.0809,
-        "netPnlTry": -4.01,
-        "lossRsis": [
-          33.09,
-          41.08
-        ],
-        "lossWhales": [
-          59,
-          59.1
-        ],
-        "winRsis": [],
-        "winWhales": [],
-        "scoreMod": -4,
-        "maxRsi": 65,
-        "minWhale": 51.5,
-        "lessonNote": "🛑 HATA OTOPSİSİ (Bayes n=2): TIA işleminde ort. RSI 37.1 (-4.01 TL). Bayes Cezası: -4p (RSI Tavanı <= 65)."
       },
       "TAO": {
         "wins": 0,
@@ -2453,24 +2769,6 @@
         "minWhale": 51.5,
         "lessonNote": "🛑 HATA OTOPSİSİ (Bayes n=1): SAND işleminde ort. RSI 66.6 (-4.47 TL). Bayes Cezası: -1p (RSI Tavanı <= 65)."
       },
-      "FET": {
-        "wins": 1,
-        "losses": 0,
-        "netPnlUsdt": 0.0177,
-        "netPnlTry": 0.87,
-        "lossRsis": [],
-        "lossWhales": [],
-        "winRsis": [
-          55.22
-        ],
-        "winWhales": [
-          52.6
-        ],
-        "scoreMod": 1,
-        "maxRsi": 66,
-        "minWhale": 50.8,
-        "lessonNote": "✅ BAŞARI HAFIZASI (Bayes n=1): FET (1 Kâr / 0 Zarar, Net +0.87 TL) -> Konsey Skor Bonusu +1 puan."
-      },
       "ARB": {
         "wins": 1,
         "losses": 0,
@@ -2545,16 +2843,16 @@
       }
     },
     "sourceStats": {
+      "GoldenAgeLeaderIgniter": {
+        "wins": 0,
+        "losses": 4,
+        "netPnlUsdt": -0.2255,
+        "scoreMod": -6
+      },
       "BNFPanicSniper": {
         "wins": 0,
         "losses": 1,
         "netPnlUsdt": -0.0496,
-        "scoreMod": -6
-      },
-      "GoldenAgeLeaderIgniter": {
-        "wins": 0,
-        "losses": 2,
-        "netPnlUsdt": -0.1097,
         "scoreMod": -6
       },
       "Decrypt": {
@@ -2607,88 +2905,89 @@
       }
     },
     "bucketStats": {
+      "GoldenAgeLeaderIgniter:GREEN:GOLDEN_AGE_THRUST": {
+        "wins": 0,
+        "losses": 3,
+        "netPnlTry": -8.5,
+        "posteriorWR": 0.427,
+        "scoreMod": 0
+      },
       "BNFPanicSniper:RED:BNF_PANIC_REVERSION": {
         "wins": 0,
         "losses": 1,
         "netPnlTry": -2.46,
-        "posteriorWR": 0.514,
+        "posteriorWR": 0.492,
         "scoreMod": 0
       },
       "GoldenAgeLeaderIgniter:GREEN:QULLAMAGGIE_EP": {
         "wins": 0,
         "losses": 1,
         "netPnlTry": -2.69,
-        "posteriorWR": 0.514,
-        "scoreMod": 0
-      },
-      "GoldenAgeLeaderIgniter:GREEN:GOLDEN_AGE_THRUST": {
-        "wins": 0,
-        "losses": 1,
-        "netPnlTry": -2.75,
-        "posteriorWR": 0.514,
+        "posteriorWR": 0.492,
         "scoreMod": 0
       },
       "Decrypt:NEUTRAL:STANDARD": {
         "wins": 1,
         "losses": 1,
         "netPnlTry": 2.08,
-        "posteriorWR": 0.529,
+        "posteriorWR": 0.509,
         "scoreMod": 0
       },
       "ShortSqueezeRadar:NEUTRAL:STANDARD": {
         "wins": 8,
         "losses": 9,
         "netPnlTry": 7.15,
-        "posteriorWR": 0.494,
+        "posteriorWR": 0.486,
         "scoreMod": -1
       },
       "WhaleOrderflowRadar:NEUTRAL:STANDARD": {
         "wins": 2,
         "losses": 2,
         "netPnlTry": -9.58,
-        "posteriorWR": 0.524,
+        "posteriorWR": 0.508,
         "scoreMod": 0
       },
       "CoinTelegraph:NEUTRAL:STANDARD": {
         "wins": 2,
         "losses": 3,
         "netPnlTry": 1.01,
-        "posteriorWR": 0.495,
+        "posteriorWR": 0.48,
         "scoreMod": 0
       },
       "BinanceListingSniper:NEUTRAL:STANDARD": {
         "wins": 2,
         "losses": 0,
         "netPnlTry": 5.94,
-        "posteriorWR": 0.579,
+        "posteriorWR": 0.559,
         "scoreMod": 0
       },
       "RSS:NEUTRAL:STANDARD": {
         "wins": 3,
         "losses": 0,
         "netPnlTry": 12.36,
-        "posteriorWR": 0.608,
+        "posteriorWR": 0.59,
         "scoreMod": 0
       },
       "BeInCrypto:NEUTRAL:STANDARD": {
         "wins": 2,
         "losses": 0,
         "netPnlTry": 2.12,
-        "posteriorWR": 0.579,
+        "posteriorWR": 0.559,
         "scoreMod": 0
       },
       "CryptoPotato:NEUTRAL:STANDARD": {
         "wins": 1,
         "losses": 0,
         "netPnlTry": 0.53,
-        "posteriorWR": 0.551,
+        "posteriorWR": 0.529,
         "scoreMod": 0
       }
     },
     "lessons": [
+      "🛑 HATA OTOPSİSİ (Bayes n=3): TIA işleminde ort. RSI 38.3 (-7.05 TL). Bayes Cezası: -8p (RSI Tavanı <= 65).",
+      "🛑 HATA OTOPSİSİ (Bayes n=2): FET işleminde ort. RSI 36.7 (-1.84 TL). Bayes Cezası: -2p (RSI Tavanı <= 65).",
       "✅ BAŞARI HAFIZASI (Bayes n=2): WLD (1 Kâr / 1 Zarar, Net +2.04 TL) -> Konsey Skor Bonusu +1 puan.",
       "✅ BAŞARI HAFIZASI (Bayes n=2): SEI (1 Kâr / 1 Zarar, Net +4.65 TL) -> Konsey Skor Bonusu +1 puan.",
-      "🛑 HATA OTOPSİSİ (Bayes n=2): TIA işleminde ort. RSI 37.1 (-4.01 TL). Bayes Cezası: -4p (RSI Tavanı <= 65).",
       "🛑 HATA OTOPSİSİ (Bayes n=1): TAO işleminde ort. RSI 24.1 (-2.42 TL). Bayes Cezası: -1p (RSI Tavanı <= 65).",
       "🛑 HATA OTOPSİSİ (Bayes n=1): LTC işleminde ort. RSI 36.1 (-3.5 TL). Bayes Cezası: -1p (RSI Tavanı <= 65).",
       "🛑 HATA OTOPSİSİ (Bayes n=1): PNUT işleminde ort. RSI 40.0 (-4.69 TL). Bayes Cezası: -1p (RSI Tavanı <= 65).",
@@ -2708,7 +3007,6 @@
       "🛑 HATA OTOPSİSİ (Bayes n=1): JASMY işleminde ort. RSI 50.0 (-0.84 TL). Bayes Cezası: -1p (RSI Tavanı <= 65).",
       "✅ BAŞARI HAFIZASI (Bayes n=2): STX (2 Kâr / 0 Zarar, Net +7.87 TL) -> Konsey Skor Bonusu +2 puan.",
       "🛑 HATA OTOPSİSİ (Bayes n=1): SAND işleminde ort. RSI 66.6 (-4.47 TL). Bayes Cezası: -1p (RSI Tavanı <= 65).",
-      "✅ BAŞARI HAFIZASI (Bayes n=1): FET (1 Kâr / 0 Zarar, Net +0.87 TL) -> Konsey Skor Bonusu +1 puan.",
       "✅ BAŞARI HAFIZASI (Bayes n=1): ARB (1 Kâr / 0 Zarar, Net +1.12 TL) -> Konsey Skor Bonusu +1 puan.",
       "✅ BAŞARI HAFIZASI (Bayes n=1): AVAX (1 Kâr / 0 Zarar, Net +0.53 TL) -> Konsey Skor Bonusu +1 puan.",
       "✅ BAŞARI HAFIZASI (Bayes n=1): ICP (1 Kâr / 0 Zarar, Net +1.25 TL) -> Konsey Skor Bonusu +1 puan.",
@@ -2739,19 +3037,40 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 984.25,
+    "totalNetWorthTry": 978.65,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
-      "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %53.8 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
+      "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %51.2 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-25T10:33:48.655Z"
+    "updatedAt": "2026-10-25T21:04:37.705Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254,
-  "noBuyShort": "🛡️ Raad ol, nakit kalkanı devrede (Rejim A -> BNF): Piyasanın %92'u kırmızı (%8 yeşil); 929,72 TL nakiti eritmemek için BNF panik dönüş teyidi bekleniyor.",
-  "noBuyDetail": "1) **Piyasa Kan Gölü (%8 Yeşil / %92 Kırmızı — Engine #30 Rejim A):** Altcoinlerin %92'u şu an düşüşte (1s BTC: %0.19). 2) **%65 Nakit Koruma Zırhı & BNF Panik Emilim Kuralı:** Yeşil oranı %24'ün altındayken kasanın en az %65'i güvenli TRY nakitte tutulur (`Maksimum Coin Tavanı: 326 TL`) ve yalnızca `Fiyat <= 0.94*MA25 + RSI<=28 + 5dk/1dk Mikro Dönüş + 15dk OI >= +%0.25 + NetRR >= 1.5` şartlarını eksiksiz sağlayan BNF adayına girilir. 3) **Taranan Adaylar (103 Haber):** Onaylı BNF panik dönüş adayı sayısı: **0**. Düşen bıçak teyitsiz tutulmaz!",
-  "shadowPositions": [],
+  "noBuyShort": "📡 Raad ol, pusudayız (Rejim B -> SOVEREIGN): Piyasa %50 yeşil ama 99 haber içinde henüz mutlak kriterleri geçen aday yok, sahte sinyale girmiyoruz.",
+  "noBuyDetail": "1) **Piyasa & Rejim Durumu:** Altcoinlerin %50'i yeşil (1s BTC: %-0.09 | Aktif Motor: `Engine #30 SOVEREIGN`). 2) **Sıfır Sahte Sinyal Kuralı:** 14 kaynaktan 104 haber ve kurumsal liderler tarandı; kriterleri geçen ilk fırsatta otomatik alım yapılacak.",
+  "shadowPositions": [
+    {
+      "symbol": "TRUMP",
+      "headline": "Golden Age Kurumsal Dönüş Dalgası (TRUMP — VWAP & Balina İvme Lideri [2026-10-25T19])",
+      "priceSource": "BINANCE_TR",
+      "spreadPct": 0.121,
+      "entryAsk": 1.666,
+      "currentBid": 1.66197,
+      "highestBid": 1.66398,
+      "entryTime": "2026-10-25T20:00:07.800Z"
+    },
+    {
+      "symbol": "AAVE",
+      "headline": "Golden Age Kurumsal Dönüş Dalgası (AAVE — VWAP & Balina İvme Lideri [2026-10-25T20])",
+      "priceSource": "BINANCE_TR",
+      "spreadPct": 0.073,
+      "entryAsk": 137.706,
+      "currentBid": 137.606,
+      "highestBid": 137.606,
+      "entryTime": "2026-10-25T20:00:50.210Z"
+    }
+  ],
   "shadowTrapMemory": {
     "DOGE": {
       "traps": 1,
@@ -2777,7 +3096,7 @@
     }
   },
   "isConfirmedGoldenAge": false,
-  "confirmedRegime": "A",
-  "regimeEngineOwner": "BNF",
-  "goldenAgeStartedAt": "2026-10-25T00:31:24.738Z"
+  "confirmedRegime": "B",
+  "regimeEngineOwner": "SOVEREIGN",
+  "goldenAgeStartedAt": "2026-10-25T19:31:03.682Z"
 }

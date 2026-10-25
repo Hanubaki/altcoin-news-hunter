@@ -1711,12 +1711,13 @@ async function runTradingCycle() {
       exitReason = `🛡️ SIFIR RİSK ERKEN TAHLİYE (İvme Zayıfladı, Başa Baş Noktasında Çıkıldı %${pos.unrealizedPnlPct})`;
     } else if (
       !pos.partialTpDone &&
-      ((minsHeld >= 75 && peakGainPct < 1.0 && pos.unrealizedPnlPct <= -0.55) ||
-        (isFridayPmCycle && minsHeld >= 35 && peakGainPct < 0.9 && pos.unrealizedPnlPct <= -0.35 && liveObForScratch <= -0.18) ||
+      ((minsHeld >= 75 && peakGainPct < 1.0 && pos.unrealizedPnlPct <= -0.65 && liveObForScratch <= -0.15) ||
+        (minsHeld >= 120 && peakGainPct < 0.8 && pos.unrealizedPnlPct <= -0.85) ||
+        (isFridayPmCycle && minsHeld >= 35 && peakGainPct < 0.9 && pos.unrealizedPnlPct <= -0.45 && liveObForScratch <= -0.18) ||
         (minsHeld >= 45 && peakGainPct < 0.8 && pos.unrealizedPnlPct <= -0.80 && (signalsData.marketBreadthPct ?? 50) < 20) ||
-        (minsHeld >= 90 && peakGainPct < 1.2 && pos.unrealizedPnlPct <= -0.35 && liveObForScratch <= -0.20))
+        (minsHeld >= 90 && peakGainPct < 1.2 && pos.unrealizedPnlPct <= -0.40 && liveObForScratch <= -0.22))
     ) {
-      exitReason = `🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (${Math.round(minsHeld)}dk Tepkisiz + Stop Beklenmeden Zarar Küçültüldü %${pos.unrealizedPnlPct})`;
+      exitReason = `🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (${Math.round(minsHeld)}dk Tepkisiz + Tahta ${liveObForScratch} -> Stop Beklenmeden Zarar Küçültüldü %${pos.unrealizedPnlPct})`;
     } else if (pos.isMoonshot) {
       exitReason = `🔄 SEÇENEK 2 GEÇİŞİ (Vurgun Slotu Kapatılıp 3 Ana Slota Aktarıldı %${pos.unrealizedPnlPct})`;
     } else if (hoursHeld >= 12 && pos.unrealizedPnlPct >= 0.15 && pos.unrealizedPnlPct < 0.6 && !pos.partialTpDone) {
@@ -3205,10 +3206,26 @@ async function runFastPositionRiskTick() {
       const posRiskBudgetTry = Number(pos.riskBudgetTry || 4.50);
       const nowTickMs = Date.now();
       const minsHeldFast = (nowTickMs - new Date(pos.entryTime || nowTickMs).getTime()) / 60000;
-      const isFastSlowBleed =
+      if (!pos.partialTpDone && minsHeldFast >= 35 && pos.unrealizedPnlPct <= -0.35 && nowTickMs - (pos.lastFastObCheckAtMs || 0) >= 20000) {
+        pos.liveObImbalance = await checkOrderbookImbalance(pos.symbol);
+        pos.lastFastObCheckAtMs = nowTickMs;
+        stateModified = true;
+      }
+      const fastObImb = Number(pos.liveObImbalance ?? pos.obImbalance ?? 0);
+      const isFastSlowBleedRaw =
         !pos.partialTpDone &&
-        ((minsHeldFast >= 75 && peakGainPct < 1.0 && pos.unrealizedPnlPct <= -0.55) ||
-          (isFridayPmFast && minsHeldFast >= 35 && peakGainPct < 0.9 && pos.unrealizedPnlPct <= -0.35 && Number(pos.liveObImbalance ?? 0) <= -0.18));
+        ((minsHeldFast >= 75 && peakGainPct < 1.0 && pos.unrealizedPnlPct <= -0.65 && fastObImb <= -0.15) ||
+          (minsHeldFast >= 120 && peakGainPct < 0.8 && pos.unrealizedPnlPct <= -0.85) ||
+          (isFridayPmFast && minsHeldFast >= 35 && peakGainPct < 0.9 && pos.unrealizedPnlPct <= -0.45 && fastObImb <= -0.18) ||
+          (minsHeldFast >= 90 && peakGainPct < 1.2 && pos.unrealizedPnlPct <= -0.40 && fastObImb <= -0.22));
+      if (isFastSlowBleedRaw) {
+        pos.slowBleedHitCount = (pos.slowBleedHitCount || 0) + 1;
+        stateModified = true;
+      } else if (pos.slowBleedHitCount > 0) {
+        pos.slowBleedHitCount = 0;
+        stateModified = true;
+      }
+      const isFastSlowBleed = (pos.slowBleedHitCount || 0) >= 2;
 
       if (currentBid <= pos.stopLossPrice || (!pos.trailingActive && netPnlTryExec <= -posRiskBudgetTry)) {
         pos.stopHitCount = (pos.stopHitCount || 0) + 1;

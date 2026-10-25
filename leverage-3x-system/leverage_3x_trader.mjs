@@ -827,8 +827,9 @@ function runTwoHourSelfAudit(state, forceLog = false) {
   // GPT-6-Luna Objective Score: J = NetPnL - 0.35 * MaxDD - 0.50 * FeeScratchLoss
   const objectiveJ = Number((recentNetPnlTry - 0.35 * maxDrawdownTry - 0.50 * feeScratchLossTry).toFixed(2));
 
-  // Bounded parameter update: clip(theta, theta_min, theta_max) — Engine #54B + #61C + #63D (True J-Score Adaptive Tuning within hard safety bounds)
-  const isLongColdStreak = longLosses >= longWins + 2 && objectiveJ < -25;
+  // Bounded parameter update: clip(theta, theta_min, theta_max) — Engine #54B + #61C + #63D + #95 (True J-Score Adaptive Tuning without Winning-Trade Sliding-Window Penalty)
+  const hasActiveLossStreak = Number(closed[0]?.netPnlTry || 0) < 0 && Number(closed[1]?.netPnlTry || 0) < 0;
+  const isLongColdStreak = hasActiveLossStreak && longLosses >= longWins + 2 && objectiveJ < -25;
   const minLongScore = isLongColdStreak ? 80 : 78;
   const minShortScore = 86;
   const minLongTaker5m = isLongColdStreak ? 1.15 : 1.12;
