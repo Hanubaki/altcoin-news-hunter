@@ -469,11 +469,11 @@ function selectConvictionLeverage(score, atr15mPct, structuralDistPct = 0, volRa
   const atr = Number(atr15mPct || 1.2);
   const vol = Number(volRatio15m ?? 1.15);
   const reqSlPct = Math.max(0.92, Number(structuralDistPct || 0), atr * 0.72);
-  // Engine #42 + #74A + #77C + #86B (GPT-6-Luna Volume & Whale-Alignment Gate for 4x/5x Leverage):
-  // Require minimum 15m ATR velocity (>= 0.82% for 4x/5x, >= 0.72% for 3.5x), real volume participation (>=1.15x for 5x, >=1.05x for 4x), and whale alignment so low-volume (<1.0x) arbitrage crawls like MTLUSDT (0.83x vol, -10.3% whale spread) never get 4x/5x leverage!
+  // Engine #42 + #74A + #77C + #86B + #96A (GPT-6-Luna Volume & Whale-Alignment Gate for 3.5x/4x/5x Leverage):
+  // Require minimum 15m ATR velocity (>= 0.82% for 4x/5x, >= 0.72% for 3.5x), real volume participation, and whale alignment so negative-whale setups (like CTUSDT -1.0% whale spread) never get >=3.5x leverage!
   if (score >= 94 && atr >= 0.82 && atr <= 1.35 && reqSlPct <= 0.96 && vol >= 1.15 && whaleAligned) return 5;
   if (score >= 90 && atr >= 0.82 && atr <= 1.85 && reqSlPct <= 1.12 && vol >= 1.05 && whaleAligned) return 4;
-  if (score >= 85 && atr >= 0.72 && atr <= 2.40 && reqSlPct <= 1.40 && vol >= 0.85) return 3.5;
+  if (score >= 85 && atr >= 0.72 && atr <= 2.40 && reqSlPct <= 1.40 && vol >= 0.85 && whaleAligned) return 3.5;
   return 3;
 }
 
@@ -639,6 +639,12 @@ function runTwoHourSelfAudit(state, forceLog = false) {
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
           rootCause: 'Yapısal Destek ($0.08341) Tutup Fiyat Giriş Üstüne ($0.08450) Toparlanırken 24. Dakikada Erken Bayat-İvme Tahliyesi',
           fixApplied: 'Motor #75A & #75B: Giriş Üstü/Başabaş Toparlanan İşlemde Erken Scratch Yasağı + <3.50 TL Scratch İşlemlerde 10s Karantina Muafiyeti',
+        });
+      } else if (t.symbol === 'CT' && t.side === 'LONG') {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: '4s Tepe Direnci Altında Negatif Balina Makası (-%1.0) + Zayıf 1s İvme (+%0.28, RS_BTC: +0.29 ATR) + Sıkışmasız/Formasyonsuz (Alt İğne Tepkisi) Perakende Q1 FOMO Girişi',
+          fixApplied: 'Motor #96A–#96D: Sıkışmasız Longlarda 1s >= +%0.55 & RS_BTC >= +0.55 ATR + Pozitif Balina/Boğa Formasyonu Zorunluluğu + Negatif Balina 3x Kaldıraç Tavanı + 3.5dk DOA Erken Tahliye',
         });
       } else if (t.symbol === 'T' && t.side === 'LONG') {
         diagnosedMistakes.push({
@@ -2557,13 +2563,15 @@ async function scanPerpUniverse(state) {
         item.newsCand.liveLlmDecision === 'LONG'
     );
 
-    // Layer #15 + Engine #77A: Liquidation Magnet Cluster Detector (4h High/Low Stop-Hunt & Short/Long Squeeze Magnet — blocks low-vol 3-green-bar double-top traps)
+    // Layer #15 + Engine #77A + #96B: Liquidation Magnet Cluster Detector (4h High/Low Stop-Hunt & Short/Long Squeeze Magnet — requires whale alignment >= 0 and 1h >= +0.55% so retail FOMO into whale ask walls like CTUSDT never gets magnet bonus!)
     let liqMagnetLongPts = 0;
     let liqMagnetShortPts = 0;
     let liqMagnetLabel = '';
     if (
       oiDelta1hPct >= 0.50 &&
       lastPrice >= high4h * 0.988 &&
+      whaleRetailSpread >= 0 &&
+      change1hPct >= 0.55 &&
       (item.fundingRatePct < 0 || item.basisPct <= -0.025) &&
       !(anatomy.green3Completed && lastPrice < high4h * 1.001 && volRatio15m < 1.30 && item.fundingRatePct > -0.015) &&
       !anatomy.vetoLong
@@ -2573,6 +2581,8 @@ async function scanPerpUniverse(state) {
     } else if (
       (oiDelta1hPct >= 0.45 || isLiveInstTakerDumping) &&
       lastPrice <= low4h * 1.012 &&
+      whaleRetailSpread <= 0 &&
+      change1hPct <= -0.55 &&
       item.fundingRatePct > -0.05 &&
       !anatomy.vetoShort
     ) {
@@ -2889,8 +2899,15 @@ async function scanPerpUniverse(state) {
       item.basisPct > -0.025 &&
       item.fundingRatePct > -0.010 &&
       rawLongTotal < 86;
+    const isStalledNonSqueezeLongVeto =
+      mtfSqueeze.squeezeBullishPts === 0 &&
+      !hasFreshDirectNews &&
+      !isActiveShortSqueezeRegime &&
+      (change1hPct < 0.55 || rsVsBtcAtr < 0.55) &&
+      (whaleRetailSpread <= 0 || !anatomy.bullishPattern);
     const isQ2WeakBounceLongVeto =
       isWeakNeutralOiLongVeto ||
+      isStalledNonSqueezeLongVeto ||
       (!isActiveShortSqueezeRegime &&
         ((oiQuadrant.startsWith('Q2') &&
           (whaleRetailSpread <= -2.0 ||
@@ -3512,7 +3529,36 @@ async function manageOpenPosition(state, candidates = []) {
       ((pos.side === 'LONG' && curPosLiveCand.instBuySellRatio <= 0.45 && curPosLiveCand.takerBuyPct <= 42.0 && curPosLiveCand.vetoLong) ||
         (pos.side === 'SHORT' && curPosLiveCand.instBuySellRatio >= 2.10 && curPosLiveCand.takerBuyPct >= 58.0 && curPosLiveCand.vetoShort))
   );
-  if (isCatastrophicEarlyTakerCrash || isWhaleSweepRejectionTrap) {
+  // Engine #96D (GPT-6-Luna Dead-on-Arrival >=3.5m Instant-Dump Orderbook Rescue):
+  // If a trade has been open >= 3.5m with zero follow-through from entry (peakCoinMoveFrac < 0.18%, mfeR < 0.15)
+  // and has already dumped <= -0.68% (aeR >= 0.52) while whales/candle/taker oppose (like CTUSDT at $0.17126 -> $0.16899),
+  // check live futures orderbook depth and evacuate at ~-7 TL before hitting the full -14 TL stop!
+  let isDeadOnArrivalInstantDump = false;
+  if (
+    !isTpHit &&
+    !isStopHit &&
+    !pos.tp1Done &&
+    minsHeld >= 3.5 &&
+    peakCoinMoveFrac < 0.0018 &&
+    mfeR < 0.15 &&
+    rawCoinMoveFrac <= -0.0068 &&
+    aeR >= 0.52 &&
+    curPosLiveCand &&
+    ((pos.side === 'LONG' &&
+      (curPosLiveCand.vetoLong || curPosLiveCand.whaleRetailSpread < 0 || curPosLiveCand.instBuySellRatio <= 0.95)) ||
+      (pos.side === 'SHORT' &&
+        (curPosLiveCand.vetoShort || curPosLiveCand.whaleRetailSpread > 0 || curPosLiveCand.instBuySellRatio >= 1.05)))
+  ) {
+    const doaDepth = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${pos.fSym}&limit=15`, {}, 2000);
+    if (state.openPosition?.id !== posId || pos.isClosing) return;
+    if (doaDepth?.bids?.length && doaDepth?.asks?.length) {
+      const doaOb = computeWeightedBookImbalance(doaDepth.bids, doaDepth.asks);
+      if ((pos.side === 'LONG' && doaOb <= -0.12) || (pos.side === 'SHORT' && doaOb >= 0.12)) {
+        isDeadOnArrivalInstantDump = true;
+      }
+    }
+  }
+  if (isCatastrophicEarlyTakerCrash || isWhaleSweepRejectionTrap || isDeadOnArrivalInstantDump) {
     isFishingEmergencyExit = true;
   } else if (!isTpHit && !isStopHit && minsHeld >= 12 && rawCoinMoveFrac <= 0.0012 && rawCoinMoveFrac >= -0.0185 && curPosLiveCand) {
     const isSevere5mTakerCollapse =

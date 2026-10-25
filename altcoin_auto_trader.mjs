@@ -2109,6 +2109,16 @@ async function runTradingCycle() {
       if ((cand.rsi1h || 50) > maxReqRsi) continue;
       const effectiveSpotWhalePct = Math.max(Number(cand.takerBuyRatioPct || 50), Number(cand.last1hTakerBuyPct || 50));
       if (!isBnfEntryAllowed && effectiveSpotWhalePct < minReqWhale) continue;
+      if (
+        !cand.hasDirectMention &&
+        !isBnfEntryAllowed &&
+        (Number(cand.last1hTakerBuyPct || 50) < 50.0 ||
+          Number(cand.atr1hPct || 1.0) < 0.85 ||
+          Number(cand.impulseAtr ?? 0.30) < 0.28 ||
+          (Array.isArray(cand.microstructureFlags) && cand.microstructureFlags.includes('TAKER_FLOW_DECEL')))
+      ) {
+        continue; // Engine #30.7: Block sleepy/decelerating synthetic GoldenAge waves (like LTC 0.70% ATR / 44.2% 1h Taker & HYPE 0.78% ATR / 0.21 impulseAtr)
+      }
       if (cand.topWhaleLongPct && cand.topWhaleLongPct < 42) continue; // Reject if Binance Top 20% Whales are shorting
       if (state.cooldowns[cand.symbol] && state.cooldowns[cand.symbol] > nowMs) continue;
 
@@ -2130,10 +2140,14 @@ async function runTradingCycle() {
         if (!trRule || trRule.spotTradingEnable !== 1) continue;
       }
 
-      // Engine #27 (Codex Council — PERSISTENT_BOOK_CONFIRMATION):
-      // Two Binance TR orderbook snapshots 2.1s apart; requires spread <= 0.60%, obImbalance >= minAllowedOb,
-      // microprice premium >= 0, no spoof decay (> 0.12), and no book hollowing out (bid falling while ask rises).
-      const minAllowedOb = isRedMarketDump ? 0.0 : isCashIdleTooLong || hasInstitutionalWhaleSurge ? -0.15 : -0.05;
+      // Engine #27 + #30.7 (Codex Council — PERSISTENT_BOOK_CONFIRMATION):
+      // Two Binance TR orderbook snapshots 2.1s apart; synthetic newsless signals (!cand.hasDirectMention) strictly require buyer-positive book (>= 0.0).
+      const minAllowedOb =
+        isRedMarketDump || !cand.hasDirectMention
+          ? 0.0
+          : isCashIdleTooLong || hasInstitutionalWhaleSurge
+            ? -0.15
+            : -0.05;
       const bookCheck = await verifyPersistentBookConfirmation(cand.symbol, minAllowedOb, state.mode === 'LIVE_BINANCE');
       if (!bookCheck.ok) {
         logEvent(
