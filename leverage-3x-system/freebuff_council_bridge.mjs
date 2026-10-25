@@ -415,10 +415,10 @@ export function buildDualAiPartnerConsensus(state, recentClosed = [], lunaAudit 
   // Brain #1 (GPT-6-Luna): Mathematical Objective J & Bounded Parameter Tuning
   const lunaVerdict =
     streakWins >= 4
-      ? `GPT-6-Luna (Matematiksel Konsey): Son ${streakWins} işlem üst üste kârla kapandı (Objective J=${lunaAudit.objectiveJ ?? 0}). Tavan-İğne Mesafe Kalkanı (Motor #84B: roomToTp1 >= %1.35) ve TP1 Sonrası Cooldown Sıfırlama (Motor #84A) kâr serisini koruyor.`
+      ? `GPT-6-Luna (Matematiksel Konsey): Son ${streakWins} işlem üst üste kârla kapandı (Objective J=${lunaAudit.objectiveJ ?? 0}). Motor #87A (%0.72–%3.05 ATR & <=%2.20 Yapısal Stop Bütünlüğü) ve Motor #87D (TP1 Öncesi MFE Beklenti Kalkanı) kâr serisini koruyor.`
       : streakLosses >= 2
         ? `GPT-6-Luna (Matematiksel Konsey): Ardışık ${streakLosses} stop sonrası barajlar sıkılaştırıldı (LONG >= ${lunaAudit.minLongScore || 80}, SHORT >= ${lunaAudit.minShortScore || 86}).`
-        : `GPT-6-Luna (Matematiksel Konsey): Parametre uzayı dengede (LONG >= ${lunaAudit.minLongScore || 78}, SHORT >= ${lunaAudit.minShortScore || 86}); yapısal stop (Motor #79A) aktif.`;
+        : `GPT-6-Luna (Matematiksel Konsey): Parametre uzayı dengede (LONG >= ${lunaAudit.minLongScore || 78}, SHORT >= ${lunaAudit.minShortScore || 86}); yapısal stop (Motor #87A) aktif.`;
 
   // Brain #2 (Freebuff — GLM 5.3 Flash / DeepSeek V4.1 Flash / Solar Pro 4 Devil's Advocate):
   // Focuses on Overconfidence Bias after winning streaks, Spoof-Wall Decay, and Tail-Risk protection!
@@ -426,12 +426,12 @@ export function buildDualAiPartnerConsensus(state, recentClosed = [], lunaAudit 
   const freebuffMinLongBonus = overconfidenceGuardActive ? 2 : 0;
   const freebuffVerdict =
     streakWins >= 4
-      ? `Freebuff AI (GLM 5.3 Flash / DeepSeek V4.1 — Şeytanın Avukatı): ${streakWins}’li galibiyet serisi sonrası 'Aşırı Özgüven (Overconfidence)' ve tahtadaki ${spoofVetoCount} adet Sahte Duvar (SPOOF_WALL_DECAY) tuzağına karşı teyakkuz! ${overconfidenceGuardActive ? 'Sahte kırılımlara yakalanmamak için zayıf hacimli (<1.10x) LONG adaylarına +2p ek Freebuff Veto Barajı uygulandı.' : 'Hacim ve 5dk Taker onayı olmayan tek mumluk sıçramalar reddediliyor.'}`
+      ? `Freebuff AI (GLM 5.3 Flash / DeepSeek V4.1 — Şeytanın Avukatı): ${streakWins}’li galibiyet serisi sonrası 'Aşırı Özgüven (Overconfidence)', sahte arbitraj sıkıştırması (Motor #86A) ve ${spoofVetoCount} adet gerçek Sahte Duvar (Motor #87B Cont-Kukanov-Stoikov OFI Spoof) tuzağına karşı teyakkuz! ${overconfidenceGuardActive ? 'Sahte kırılımlara yakalanmamak için zayıf hacimli (<1.10x) LONG adaylarına +2p ek Freebuff Veto Barajı uygulandı.' : 'Zayıf tahtalar (WEAK_OB: ' + weakObCount + ') gerçek spoof ile karıştırılmadan Engine #41 Surge Reset için ayrıştırıldı.'}`
       : `Freebuff AI (GLM 5.3 Flash / DeepSeek V4.1 — Şeytanın Avukatı): Emir defterinde ${spoofVetoCount} sahte duvar (Spoof) ve ${weakObCount} zayıf tahta (Weak OB) engellendi. Space Bunny Alpha veri gizliliği nedeniyle kalıcı yasaklı (data_collection: deny).`;
 
   const consensusAction = overconfidenceGuardActive
-    ? `ORTAK KARAR (Luna + Freebuff Motor #85): ${streakWins}’li seri sonrası kârı korumak için düşük hacimli (<1.10x) adaylarda LONG barajı +${freebuffMinLongBonus}p yükseltildi; 300 TL Ana Para Tavanı ve +${((state?.spotVaultUsdt || 0) * 49.55).toFixed(2)} TL Spot Kâr Kasası kilitli.`
-    : `ORTAK KARAR (Luna + Freebuff Motor #85): İki yapay zeka mutabık — LONG >= ${lunaAudit.minLongScore || 78}/99, SHORT >= ${lunaAudit.minShortScore || 86}/99, Tavan-İğne Mesafesi >= %1.35 ve 250ms Anti-Spoof Kalkanı tam kapasite devrede.`;
+    ? `ORTAK KARAR (Luna + Freebuff Motor #85–#87): ${streakWins}’li seri sonrası kârı korumak için düşük hacimli (<1.10x) adaylarda LONG barajı +${freebuffMinLongBonus}p yükseltildi; 300 TL Ana Para Tavanı ve +${((state?.spotVaultUsdt || 0) * 49.55).toFixed(2)} TL Spot Kâr Kasası kilitli.`
+    : `ORTAK KARAR (Luna + Freebuff Motor #85–#87): İki yapay zeka mutabık — LONG >= ${lunaAudit.minLongScore || 78}/99, SHORT >= ${lunaAudit.minShortScore || 86}/99, ATR [%0.72–%3.05], Yapısal Stop <= %2.20 ve Cont-Kukanov-Stoikov OFI Spoof Ayrımı tam kapasite devrede.`;
 
   return {
     updatedAt: new Date().toLocaleString('tr-TR'),

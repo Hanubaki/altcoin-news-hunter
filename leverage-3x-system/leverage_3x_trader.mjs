@@ -1699,16 +1699,23 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
     b0.close >= b1.open * 0.999 &&
     !b0MatureBodyBrokeB1;
 
-  // Engine #84B (GPT-6-Luna Overhead 4h Rejection-Wick Room-to-TP1 Gate):
+  // Engine #84B + #87C (GPT-6-Luna Overhead 4h Rejection-Wick Room-to-TP1 Gate & Active Ceiling-Absorption Exemption):
   // If b1 or b2 set the 16-bar high with a >= 42% upper rejection wick (like LUMIAUSDT b2.high = $0.08182 at 09:07),
-  // and b0.close is at posIn16BarRange >= 0.72 with < 1.15% room to that rejection ceiling (blocking TP1 +1.25%), veto LONG until the wick ceiling is broken!
+  // and b0.close is at posIn16BarRange >= 0.72 with < 1.15% room to that rejection ceiling (blocking TP1 +1.25%), veto LONG until the wick ceiling is broken
+  // UNLESS b0 is actively absorbing the ceiling at the high of the bar (b0.isGreen && b0.clv >= 0.85 && b0.close >= ceiling * 0.9985 && b0.deltaPct >= 10)!
   const b1OrB2WickCeilingHigh = Math.max(
     b1.upperWickRatio >= 0.42 ? b1.high : 0,
     b2.upperWickRatio >= 0.42 ? b2.high : 0
   );
+  const b0ActivelyAbsorbingCeilingLong =
+    b0.isGreen &&
+    b0.clv >= 0.85 &&
+    b0.close >= b1OrB2WickCeilingHigh * 0.9985 &&
+    b0.deltaPct >= 10;
   const isOverheadWickCeilingBlockingTp1Long =
     b1OrB2WickCeilingHigh >= fullHigh16 * 0.998 &&
     b0.close < b1OrB2WickCeilingHigh &&
+    !b0ActivelyAbsorbingCeilingLong &&
     posIn16BarRange >= 0.72 &&
     (b1OrB2WickCeilingHigh - b0.close) / Math.max(1e-9, b0.close) < 0.0115;
 
@@ -1716,10 +1723,16 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
     b1.lowerWickRatio >= 0.42 ? b1.low : Infinity,
     b2.lowerWickRatio >= 0.42 ? b2.low : Infinity
   );
+  const b0ActivelyAbsorbingFloorShort =
+    !b0.isGreen &&
+    b0.clv <= 0.15 &&
+    b0.close <= b1OrB2WickFloorLow * 1.0015 &&
+    b0.deltaPct <= -10;
   const isUnderfootWickFloorBlockingTp1Short =
     Number.isFinite(b1OrB2WickFloorLow) &&
     b1OrB2WickFloorLow <= fullLow16 * 1.002 &&
     b0.close > b1OrB2WickFloorLow &&
+    !b0ActivelyAbsorbingFloorShort &&
     posIn16BarRange <= 0.28 &&
     (b0.close - b1OrB2WickFloorLow) / Math.max(1e-9, b0.close) < 0.0115;
 
@@ -1757,15 +1770,19 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
       : bearishPattern
         ? `🔴 ${bearishPattern} (CLV:${effectiveClv})`
         : vetoLong
-          ? isPriorBarBearishRejectionUnreclaimed && effectiveClv >= 0.50
-            ? `⚠️ Önceki Kırmızı Mum Direnci (CLV:${effectiveClv} — LONG Veto)`
-            : buySideSweep && effectiveClv >= 0.50
-              ? `⚠️ Tepe Likidite Süpürmesi (CLV:${effectiveClv} — LONG Veto)`
-              : `⚠️ Üst İğne Reddi (CLV:${effectiveClv} — LONG Veto)`
+          ? isOverheadWickCeilingBlockingTp1Long
+            ? `⚠️ 4s İğne Tavanı Direnci (CLV:${effectiveClv} — LONG Veto)`
+            : isPriorBarBearishRejectionUnreclaimed && effectiveClv >= 0.50
+              ? `⚠️ Önceki Kırmızı Mum Direnci (CLV:${effectiveClv} — LONG Veto)`
+              : buySideSweep && effectiveClv >= 0.50
+                ? `⚠️ Tepe Likidite Süpürmesi (CLV:${effectiveClv} — LONG Veto)`
+                : `⚠️ Üst İğne Reddi (CLV:${effectiveClv} — LONG Veto)`
           : vetoShort
-            ? isPriorBarBullishRejectionUnbroken && effectiveClv <= 0.50
-              ? `⚠️ Önceki Yeşil Mum Desteği (CLV:${effectiveClv} — SHORT Veto)`
-              : `⚠️ Alt İğne Tepkisi (CLV:${effectiveClv} — SHORT Veto)`
+            ? isUnderfootWickFloorBlockingTp1Short
+              ? `⚠️ 4s İğne Tabanı Desteği (CLV:${effectiveClv} — SHORT Veto)`
+              : isPriorBarBullishRejectionUnbroken && effectiveClv <= 0.50
+                ? `⚠️ Önceki Yeşil Mum Desteği (CLV:${effectiveClv} — SHORT Veto)`
+                : `⚠️ Alt İğne Tepkisi (CLV:${effectiveClv} — SHORT Veto)`
             : `⚪ Dengeli Mum (CLV:${effectiveClv})`;
 
   const low4Bar = Math.min(b0.low, b1.low, b2.low, b3.low);
@@ -1942,11 +1959,12 @@ async function fetchPerpOrderbookConfirm(symbol, side, atr15mPct = 1.5) {
   if (bookHollowing) {
     return { ok: false, vetoCode: 'BOOK_HOLLOWING', reason: `BOOK_HOLLOWING (bid ${bestBid1}->${bestBid} | ask ${bestAsk1}->${bestAsk})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
   }
-  // Engine #53 (GPT-6-Luna Ask-Sweep-Aware Orderbook Gate):
-  // SpoofVetoLong only triggers if obDelta < -0.12 AND the resulting book actually lost bid support (ob2 < 0.04, or ob2 < 0.08 with bestBid dropping > 3 bps).
-  // Never reject a strongly bid-dominant book like ZORAUSDT (ob: +0.42 -> +0.17, avgOb: +0.295) on a 1-tick micro-jiggle!
+  // Engine #53 + #87B (GPT-6-Luna & Cont-Kukanov-Stoikov OFI Spoof-Wall Decay vs. Weak-OB Separation):
+  // A true Spoof Wall Decay (SPOOF_WALL_DECAY) requires an actual directional wall at snapshot 1 (ob1 >= +0.06 for LONG / ob1 <= -0.06 for SHORT)
+  // that subsequently collapsed at snapshot 2 (obDelta < -0.12 LONG / > +0.12 SHORT).
+  // When ob1 was already opposing (e.g. TUSDT ob: -0.11 -> -0.366), classify as WEAK_OB so Engine #41 Surge Reset is never falsely poisoned!
   if (side === 'LONG') {
-    if (obDelta < -0.12 && (ob2 < 0.04 || (ob2 < 0.08 && bestBid < bestBid1 * 0.9997))) {
+    if (ob1 >= 0.06 && obDelta < -0.12 && (ob2 < 0.04 || (ob2 < 0.08 && bestBid < bestBid1 * 0.9997))) {
       return { ok: false, vetoCode: 'SPOOF_WALL_DECAY', reason: `SPOOF_WALL_DECAY_LONG (ob:${ob1}->${ob2} | dI:${obDelta})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
     }
     const isActivelyLiftingAsks = bestBid > bestBid1 * 1.0002 && bestAsk >= bestAsk1;
@@ -1957,7 +1975,7 @@ async function fetchPerpOrderbookConfirm(symbol, side, atr15mPct = 1.5) {
     }
   }
   if (side === 'SHORT') {
-    if (obDelta > 0.12 && (ob2 > -0.04 || (ob2 > -0.08 && bestAsk > bestAsk1 * 1.0003))) {
+    if (ob1 <= -0.06 && obDelta > 0.12 && (ob2 > -0.04 || (ob2 > -0.08 && bestAsk > bestAsk1 * 1.0003))) {
       return { ok: false, vetoCode: 'SPOOF_WALL_DECAY', reason: `SPOOF_WALL_DECAY_SHORT (ob:${ob1}->${ob2} | dI:+${obDelta})`, bestBid, bestAsk, spreadPct, avgOb, microSkew };
     }
     const isActivelyHittingBids = bestAsk < bestAsk1 * 0.9998 && bestBid <= bestBid1;
@@ -2634,15 +2652,18 @@ async function scanPerpUniverse(state) {
         ? ((anatomy.structuralHigh * 1.001 - lastPrice) / lastPrice) * 100
         : 0.95;
 
-    // Engine #82B (GPT-6-Luna Single-Bar Climax & Over-Wide Structural Stop Gate):
-    // When b1 spiked >= max(2.60%, 1.95 * ATR%) in a single 15m bar (like AVAUSDT +4.27% $0.4265->$0.4447),
-    // block entering on a red b0 candle or when structuralLow is > 2.25% away (which would force the 2.20% stop cap inside b1's body)!
+    // Engine #82B + #87A (GPT-6-Luna Unconditional Structural-Stop Cap Integrity & Single-Bar Climax Gate):
+    // 1. Since our maximum stop cap is 2.20% (underlyingSlFrac = Math.min(0.0220, rawStopFrac)), NEVER enter when longStructDistPct > 2.20% or shortStructDistPct > 2.20%
+    //    (which would force the 2.20% stop inside b0/b1's structural low/high!).
+    // 2. When b1 spiked >= max(2.60%, 1.95 * ATR%) in a single 15m bar, also block entering on a red b0 candle (LONG) or green b0 candle (SHORT).
     const isSingleBarClimaxTopLong =
-      (anatomy.b1RangePct >= Math.max(2.60, atr15mPct * 1.95) || anatomy.b1MovePct >= Math.max(2.40, atr15mPct * 1.80)) &&
-      (!anatomy.b0IsGreen || longStructDistPct > 2.25);
+      longStructDistPct > 2.20 ||
+      ((anatomy.b1RangePct >= Math.max(2.60, atr15mPct * 1.95) || anatomy.b1MovePct >= Math.max(2.40, atr15mPct * 1.80)) &&
+        !anatomy.b0IsGreen);
     const isSingleBarClimaxBottomShort =
-      (anatomy.b1RangePct >= Math.max(2.60, atr15mPct * 1.95) || anatomy.b1MovePct <= -Math.max(2.40, atr15mPct * 1.80)) &&
-      (anatomy.b0IsGreen || shortStructDistPct > 2.25);
+      shortStructDistPct > 2.20 ||
+      ((anatomy.b1RangePct >= Math.max(2.60, atr15mPct * 1.95) || anatomy.b1MovePct <= -Math.max(2.40, atr15mPct * 1.80)) &&
+        anatomy.b0IsGreen);
 
     // Wall #4 + Bug #17 Fix + Engine #57C + #77A + #82B: Anti-Top-Chase / 4h Double-Top Supply Exhaustion Ceiling
     const isCoiledTopLongTrap =
@@ -2763,9 +2784,12 @@ async function scanPerpUniverse(state) {
         mtfSqueeze.squeezeBearishPts > 0 ||
         (isGcrCrowdedManiaShort && change1hPct <= -0.85 && anatomy.normCvd3BarPct <= -12.0 && rawInstBuySellRatio <= 0.65));
 
-    // Engine #77C: Require active 15m ATR velocity (atr15mPct >= 0.72% so +1.25% TP1 is <= 1.73x ATR away), 15m volume participation, and 1h momentum alignment
+    // Engine #77C + #87A: Require active 15m ATR velocity in the [0.72%, 3.05%] sweet spot:
+    // - >= 0.72% so +1.25% TP1 is <= 1.73x ATR away,
+    // - <= 3.05% so 0.72 * ATR <= 2.20% (never compressing the 2.20% stop cap inside <0.72x ATR candle noise like TUSDT at 4.072% ATR!)
     const hasLongMomentumAndVol =
       atr15mPct >= 0.72 &&
+      atr15mPct <= 3.05 &&
       (volRatio15m >= 0.72 || isHtfCoilContinuationLong) &&
       hasCvdAlignmentLong &&
       hasLongStructureOrBreakout &&
@@ -2773,6 +2797,7 @@ async function scanPerpUniverse(state) {
       rsVsBtcAtr >= 0.05;
     const hasShortMomentumAndVol =
       atr15mPct >= 0.72 &&
+      atr15mPct <= 3.05 &&
       volRatio15m >= 0.72 &&
       hasCvdAlignmentShort &&
       hasShortStructureOrBreakdown &&
@@ -3196,33 +3221,33 @@ async function manageOpenPosition(state, candidates = []) {
       if (bePlus < pos.stopPrice) pos.stopPrice = bePlus;
     }
   } else if (peakCoinMoveFrac >= 0.0055 && rawCoinMoveFrac >= 0.0036 && !pos.tp1Done) {
-    // Engine #60A + #76B + #78B (GPT-6-Luna Pre-TP1 Zero-Choke & Real-Exchange Valid Stop Placement Bridge):
+    // Engine #60A + #76B + #78B + #87D (GPT-6-Luna Pre-TP1 Zero-Choke & Real-Exchange Valid Stop Placement Bridge):
     // 1. Require rawCoinMoveFrac >= 0.0036 so the +0.34% stop is ALWAYS strictly below markExitPrice (LONG) / above markExitPrice (SHORT) on real Binance Futures!
-    // 2. Arm at >= 2.5m if 5m Taker crashes (<= 0.85x LONG / >= 1.18x SHORT), at >= 6m if taker/whale weakens, or when a >= +0.60% pop pulls back <= +0.44%!
+    // 2. Arm at >= 3.0m if 5m Taker crashes (<= 0.82x LONG / >= 1.22x SHORT), at >= 8m if taker/whale weakens (< 0.96x LONG / > 1.04x SHORT), or when a >= +0.62% pop pulls back <= +0.42%!
     const earlyLockCand =
       candidates.find(c => c.symbol === pos.symbol) ||
       (state.openPositionLiveCand?.symbol === pos.symbol ? state.openPositionLiveCand : null);
     const earlyHeldMins = (Date.now() - new Date(pos.entryTime).getTime()) / 60000;
     const isSevereEarlyTakerCrash = Boolean(
-      earlyHeldMins >= 2.5 &&
+      earlyHeldMins >= 3.0 &&
         earlyLockCand &&
         earlyLockCand.takerDataValid &&
-        (pos.side === 'LONG' ? earlyLockCand.instBuySellRatio <= 0.85 : earlyLockCand.instBuySellRatio >= 1.18)
+        (pos.side === 'LONG' ? earlyLockCand.instBuySellRatio <= 0.82 : earlyLockCand.instBuySellRatio >= 1.22)
     );
     const isEarlyTakerDecaying = Boolean(
-      earlyHeldMins >= 6 &&
+      earlyHeldMins >= 8 &&
         earlyLockCand &&
         (pos.side === 'LONG'
-          ? earlyLockCand.instBuySellRatio < 1.05 || earlyLockCand.whaleRetailSpread <= -3.0
-          : earlyLockCand.instBuySellRatio > 0.95 || earlyLockCand.whaleRetailSpread >= 3.0)
+          ? earlyLockCand.instBuySellRatio < 0.96 || earlyLockCand.whaleRetailSpread <= -3.5
+          : earlyLockCand.instBuySellRatio > 1.04 || earlyLockCand.whaleRetailSpread >= 3.5)
     );
     const isDeepPullbackFromNearTp1 = Boolean(
-      peakCoinMoveFrac >= 0.0060 &&
-        rawCoinMoveFrac <= 0.0044 &&
+      peakCoinMoveFrac >= 0.0062 &&
+        rawCoinMoveFrac <= 0.0042 &&
         (!earlyLockCand ||
           (pos.side === 'LONG'
-            ? earlyLockCand.instBuySellRatio < 1.35 || earlyLockCand.whaleRetailSpread < 0
-            : earlyLockCand.instBuySellRatio > 0.74 || earlyLockCand.whaleRetailSpread > 0))
+            ? earlyLockCand.instBuySellRatio < 1.20 || earlyLockCand.whaleRetailSpread < 0
+            : earlyLockCand.instBuySellRatio > 0.82 || earlyLockCand.whaleRetailSpread > 0))
     );
     if (isSevereEarlyTakerCrash || isEarlyTakerDecaying || isDeepPullbackFromNearTp1) {
       if (pos.side === 'LONG') {
@@ -3239,26 +3264,27 @@ async function manageOpenPosition(state, candidates = []) {
         }
       }
     }
-  } else if (peakCoinMoveFrac >= 0.0034 && rawCoinMoveFrac >= 0.0028 && !pos.tp1Done) {
-    // Engine #63A + #78B (GPT-6-Luna Micro-Pop Fee-Plus Lock with Real-Exchange Stop Validity):
-    // Require rawCoinMoveFrac >= 0.0028 so the +0.26% stop is strictly on the valid side of current markExitPrice!
+  } else if (peakCoinMoveFrac >= 0.0036 && rawCoinMoveFrac >= 0.0028 && !pos.tp1Done) {
+    // Engine #63A + #78B + #87D (GPT-6-Luna Pre-TP1 MFE Expectancy Guard & Micro-Pop Fee-Plus Lock):
+    // 1. Require rawCoinMoveFrac >= 0.0028 so the +0.26% stop is strictly on the valid side of current markExitPrice!
+    // 2. Regular weakening path requires peak >= +0.42%, microHeldMins >= 8, AND 5m taker <= 0.86x LONG / >= 1.16x SHORT so normal breathers are never choked before TP1 (+1.25%)!
+    // 3. Emergency fast path triggers on 2m BTC shock (<= -0.28% LONG / >= +0.28% SHORT) or severe fast taker crash (microHeldMins >= 3.5 && taker <= 0.76x LONG / >= 1.28x SHORT).
     const microLockCand =
       candidates.find(c => c.symbol === pos.symbol) ||
       (state.openPositionLiveCand?.symbol === pos.symbol ? state.openPositionLiveCand : null);
     const microHeldMins = (Date.now() - new Date(pos.entryTime).getTime()) / 60000;
-    const longMicroTakerCap = peakCoinMoveFrac >= 0.0042 ? 0.98 : 0.88;
-    const shortMicroTakerFloor = peakCoinMoveFrac >= 0.0042 ? 1.02 : 1.14;
     const isFastMicroTakerCrash = Boolean(
-      microHeldMins >= 2.5 &&
+      microHeldMins >= 3.5 &&
         microLockCand &&
         microLockCand.takerDataValid &&
-        (pos.side === 'LONG' ? microLockCand.instBuySellRatio <= 0.80 : microLockCand.instBuySellRatio >= 1.25)
+        (pos.side === 'LONG' ? microLockCand.instBuySellRatio <= 0.76 : microLockCand.instBuySellRatio >= 1.28)
     );
     const isMicroTakerWeakening = Boolean(
-      microHeldMins >= 5 &&
+      peakCoinMoveFrac >= 0.0042 &&
+        microHeldMins >= 8 &&
         microLockCand &&
         microLockCand.takerDataValid &&
-        (pos.side === 'LONG' ? microLockCand.instBuySellRatio <= longMicroTakerCap : microLockCand.instBuySellRatio >= shortMicroTakerFloor)
+        (pos.side === 'LONG' ? microLockCand.instBuySellRatio <= 0.86 : microLockCand.instBuySellRatio >= 1.16)
     );
     const btc2mNow = Number(state.marketSummary?.btcChange2mPct || 0);
     const isBtc2mShockAgainst = pos.side === 'LONG' ? btc2mNow <= -0.28 : btc2mNow >= 0.28;
@@ -3787,11 +3813,18 @@ async function tryOpenPosition(state, candidates) {
     } else if (cand.side === 'SHORT' && cand.structuralHigh > entryPrice) {
       rawWickDistFrac = (cand.structuralHigh * 1.001 - entryPrice) / entryPrice;
     }
-    // Engine #42 + #59 + #74A (GPT-6-Luna Structural Stop Integrity — NEVER Chop Stop Inside Structural Low/High to Force Higher Leverage):
-    // 1. The candle's actual structural stop (rawStopFrac = max(0.0092, rawWickDistFrac, 0.72 * atr)) dictates underlyingSlFrac up to 2.20%.
+    // Engine #42 + #59 + #74A + #87A (GPT-6-Luna Structural Stop Integrity — NEVER Chop Stop Inside Structural Low/High or <0.72x ATR):
+    // 1. The candle's actual structural stop (rawStopFrac = max(0.0092, rawWickDistFrac, 0.72 * atr)) must NEVER exceed our 2.20% hard stop cap; if live bestAsk/bestBid widened rawStopFrac > 2.20%, veto entry!
     // 2. Leverage then adapts to underlyingSlFrac so a 5x stop (-0.95%) is NEVER placed above a -1.30% structuralLow!
     // 3. When underlyingSlFrac > 1.50% on a high-ATR rocket, scale position margin down proportionally so max stop loss never exceeds ~4.8% of equity!
     const rawStopFrac = Math.max(0.0092, rawWickDistFrac, (cand.atr15mPct / 100) * 0.72);
+    if (rawStopFrac > 0.0220) {
+      logEvent(
+        state,
+        `🛡️ [Motor #87A Yapısal Stop Bütünlüğü] ${cand.symbol} (${cand.side}) yapısal/ATR stop mesafesi (%${(rawStopFrac * 100).toFixed(2)}) %2.20 tavanını aştığı için stopu mum içine kesmemek adına pas geçildi!`
+      );
+      continue;
+    }
     const underlyingSlFrac = Math.min(0.0220, rawStopFrac);
     const maxRiskLev = 0.0525 / (underlyingSlFrac + ROUND_TRIP_FEE_SLIP_FRAC + 0.0005);
     const microConfirm5x =
@@ -4547,7 +4580,20 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v12.6-Anti-Arbitrage-Fake-Squeeze-Whale-Veto-And-Volume-Confirmed-Leverage-Gate';
+  state.version = 'Mutlak-Yapi-v12.7-ATR-Structural-Stop-Integrity-OFI-Spoof-Separation-And-MFE-Expectancy-Guard';
+  // Engine #87B Startup Hygiene: Reclassify any historical false SPOOF_WALL_DECAY where ob1 was already opposing (ob:- for LONG / ob:+ for SHORT) to WEAK_OB
+  if (state.obVetoReasons && state.obVetoCodes) {
+    for (const [sym, reason] of Object.entries(state.obVetoReasons)) {
+      const rStr = String(reason || '');
+      if (
+        (rStr.startsWith('SPOOF_WALL_DECAY_LONG (ob:-') || rStr.startsWith('SPOOF_WALL_DECAY_SHORT (ob:0.')) &&
+        state.obVetoCodes[sym] === 'SPOOF_WALL_DECAY'
+      ) {
+        state.obVetoCodes[sym] = 'WEAK_OB';
+        state.obVetoStrikes[sym] = Math.min(1, Number(state.obVetoStrikes?.[sym] || 1));
+      }
+    }
+  }
   if (state.openPosition?.thesis && state.openPosition?.leverage) {
     state.openPosition.thesis = String(state.openPosition.thesis).replace(
       /->\s*[\d.]+x\s+(LONG|SHORT)!/,
@@ -4556,7 +4602,7 @@ async function main() {
   }
   runTwoHourSelfAudit(state, true);
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + İKİLİ YAPAY ZEKA (LUNA + FREEBUFF) KALESİ (v12.6 — Motor #58-#86)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + İKİLİ YAPAY ZEKA (LUNA + FREEBUFF) KALESİ (v12.7 — Motor #58-#87)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
