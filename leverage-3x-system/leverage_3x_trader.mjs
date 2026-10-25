@@ -753,6 +753,18 @@ function runTwoHourSelfAudit(state, forceLog = false) {
       // Engine #75B: Repair false 10-hour quarantines caused by < 3.50 TL tactical scratches
       const isLastRowScratch = Number(t.netPnlTry || 0) > -3.50 && !String(t.exitReason || '').includes('İZOLE STOP KALKANI');
       state.symbolCooldowns[t.symbol] = lastLossMs + (isLastRowScratch ? 20 : 180) * 60 * 1000;
+    } else if (
+      consec === 0 &&
+      lastLossMs > 0 &&
+      Number(t.netPnlTry || 0) >= 0 &&
+      Number(t.netPnlTry || 0) < 3.50 &&
+      String(t.exitReason || '').includes('KÂR KİLİDİ')
+    ) {
+      // Engine #80A: Repair 90-minute cooldowns on pre-TP1 micro-profit locks (< 3.50 TL, like WOOUSDT +0.65 TL) so real breakouts are never blocked!
+      const microWinCapMs = lastLossMs + 4 * 60 * 1000;
+      if ((state.symbolCooldowns[t.symbol] || 0) > microWinCapMs) {
+        state.symbolCooldowns[t.symbol] = microWinCapMs;
+      }
     }
   }
 
@@ -1432,21 +1444,27 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
     ? b1.high < b2.high && b2.high < b3.high && !b1.isGreen && !b2.isGreen && b1.clv <= 0.40
     : b0.high < b1.high && b1.high < b2.high && !b0.isGreen && !b1.isGreen && b0.clv <= 0.40;
 
+  // Engine #80B (GPT-6-Luna Completed-Bar Pattern vs. Live-Bar CLV Coherence):
+  // Never allow a b1 Bullish Marubozu / 3 Higher Lows to remain active when b0 has collapsed (effectiveClv < 0.56, like USELESSUSDT CLV:0.12),
+  // and never allow a b1 Bearish Marubozu / 3 Lower Highs to remain active when b0 has bounced (effectiveClv > 0.44, like NEARUSDT CLV:0.58)!
+  const liveBarCollapsedBearish = isMatureB0 && !b0.isGreen && b0.clv <= 0.42;
+  const liveBarReclaimedBullish = isMatureB0 && b0.isGreen && b0.clv >= 0.58;
+
   let bullishPattern = null;
   let bullishCandlePts = 0;
-  if (isBullishEngulfing && effectiveClv >= 0.45) {
+  if (isBullishEngulfing && effectiveClv >= 0.50 && !liveBarCollapsedBearish) {
     bullishPattern = 'Boğa Yutan (Engulfing)';
     bullishCandlePts = 10;
-  } else if ((isHammerB1 && effectiveClv >= 0.45) || isHammerB0) {
+  } else if (((isHammerB1 && effectiveClv >= 0.50) || isHammerB0) && !liveBarCollapsedBearish) {
     bullishPattern = 'Likidite Çekici (Hammer)';
     bullishCandlePts = 10;
-  } else if (isMorningStar && effectiveClv >= 0.45) {
+  } else if (isMorningStar && effectiveClv >= 0.50 && !liveBarCollapsedBearish) {
     bullishPattern = 'Sabah Yıldızı (Morning Star)';
     bullishCandlePts = 9;
-  } else if (isBullishMarubozu) {
+  } else if (isBullishMarubozu && effectiveClv >= 0.56 && !liveBarCollapsedBearish) {
     bullishPattern = 'Boğa Marubozu';
     bullishCandlePts = 8;
-  } else if (isThreeHigherLows) {
+  } else if (isThreeHigherLows && effectiveClv >= 0.56 && !liveBarCollapsedBearish) {
     bullishPattern = '3 Yükselen Dip';
     bullishCandlePts = 6;
   } else if (!isBabyB0 && b0.isGreen && b0.clv >= 0.68) {
@@ -1455,19 +1473,19 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
 
   let bearishPattern = null;
   let bearishCandlePts = 0;
-  if (isBearishEngulfing && effectiveClv <= 0.55) {
+  if (isBearishEngulfing && effectiveClv <= 0.50 && !liveBarReclaimedBullish) {
     bearishPattern = 'Ayı Yutan (Bearish Engulfing)';
     bearishCandlePts = 10;
-  } else if ((isShootingStarB1 && effectiveClv <= 0.55) || isShootingStarB0) {
+  } else if (((isShootingStarB1 && effectiveClv <= 0.50) || isShootingStarB0) && !liveBarReclaimedBullish) {
     bearishPattern = 'Kayan Yıldız (Shooting Star)';
     bearishCandlePts = 10;
-  } else if (isEveningStar && effectiveClv <= 0.55) {
+  } else if (isEveningStar && effectiveClv <= 0.50 && !liveBarReclaimedBullish) {
     bearishPattern = 'Akşam Yıldızı (Evening Star)';
     bearishCandlePts = 9;
-  } else if (isBearishMarubozu) {
+  } else if (isBearishMarubozu && effectiveClv <= 0.44 && !liveBarReclaimedBullish) {
     bearishPattern = 'Ayı Marubozu';
     bearishCandlePts = 8;
-  } else if (isThreeLowerHighs) {
+  } else if (isThreeLowerHighs && effectiveClv <= 0.44 && !liveBarReclaimedBullish) {
     bearishPattern = '3 Alçalan Tepe';
     bearishCandlePts = 6;
   } else if (!isBabyB0 && !b0.isGreen && b0.clv <= 0.32) {
@@ -2289,6 +2307,8 @@ async function scanPerpUniverse(state) {
         !anatomy.vetoLong &&
         !anatomy.isFishingTrapLong
     );
+    const minHypeSqueezeClv =
+      mtfSqueeze.squeezeBullishPts > 0 && volRatio15m >= 1.50 && rawInstBuySellRatio >= 1.25 ? 0.48 : 0.56;
     const isHypeSqueezeMomentumLong = Boolean(
       ((item.change24hPct >= 6.5 && change1hPct >= 0.65) ||
         change1hPct >= 1.65 ||
@@ -2300,8 +2320,9 @@ async function scanPerpUniverse(state) {
         (volRatio15m >= 0.85 || isHtfCoilContinuationLong) &&
         rsi15m <= 78 &&
         anatomy.normCvd3BarPct >= 3.5 &&
-        anatomy.clv >= 0.56 &&
+        anatomy.clv >= minHypeSqueezeClv &&
         mtfSqueeze.mtfBearishPts === 0 &&
+        !anatomy.vetoLong &&
         !anatomy.isFishingTrapLong
     );
 
@@ -2389,7 +2410,9 @@ async function scanPerpUniverse(state) {
       item.fundingRatePct <= -0.120 ||
       (itemMinsToFunding <= 15 && item.fundingRatePct <= -0.035);
 
-    // Engine #40 + #52 + #57B (Qullamaggie + GPT-6-Luna ATR-Normalized VWAP & RSI Extension Band for High-Tight-Flag / Hype Rockets):
+    // Engine #40 + #52 + #57B + #80C (Qullamaggie + GPT-6-Luna ATR-Normalized VWAP & RSI Extension Band):
+    // Preserve at least 1.52 * ATR% room from 4h VWAP (up to 2.85% base, or 4.20%-6.20% on confirmed Qullamaggie/Hype-Squeeze breakouts)
+    // so high-ATR TTM upward squeeze breakouts like INITUSDT (ATR 1.668%, vwapDist 2.49% = 1.49x ATR) are never starved by a static 1.85% cap!
     const hasQullamaggieMomentumConfirm =
       isHypeSqueezeMomentumLong ||
       isHtfCoilContinuationLong ||
@@ -2402,9 +2425,10 @@ async function scanPerpUniverse(state) {
       rsi15m <= 66 && vwapDistPct <= 0.90 * atr15mPct
         ? Math.min(6.20, Number((0.90 * atr15mPct).toFixed(2)))
         : 4.20;
+    const baseAtrVwapBandPct = Math.max(1.85, Math.min(2.85, Number((1.52 * atr15mPct).toFixed(2))));
     const vwapMaxBandPct = hasQullamaggieMomentumConfirm
-      ? Math.max(2.40, Math.min(Math.max(4.20, htfAtrNormCap), Number((1.85 * atr15mPct).toFixed(2))))
-      : 1.85;
+      ? Math.max(baseAtrVwapBandPct, 2.50, Math.min(Math.max(4.20, htfAtrNormCap), Number((1.85 * atr15mPct).toFixed(2))))
+      : baseAtrVwapBandPct;
     const maxAllowedLongRsi = isHypeSqueezeMomentumLong ? 78 : 70;
     const minVwapReloadRatio = isHypeSqueezeMomentumLong ? 0.985 : 0.9985;
 
@@ -3390,8 +3414,15 @@ async function manageOpenPosition(state, candidates = []) {
     if (!state.symbolConsecStops) state.symbolConsecStops = {};
     if (totalLifecyclePnlUsdt >= 0) {
       state.symbolConsecStops[pos.symbol] = 0;
-      const winExpiry = Date.now() + 90 * 60 * 1000;
-      state.symbolCooldowns[pos.symbol] = Math.max(state.symbolCooldowns[pos.symbol] || 0, winExpiry);
+      // Engine #80A (GPT-6-Luna Pre-TP1 Micro-Profit Lock vs. Full Harvest Cooldown):
+      // A pre-TP1 micro-profit lock (< 3.50 TL, !pos.tp1Done, !isTpHit — like WOOUSDT +0.65 TL at 04:58) only gets a 4-minute breather
+      // so the bot never misses the real 99/99 breakout wave (+4.04% on WOOUSDT at 06:08!); full TP1/TP harvests get a 45-minute cooldown.
+      const isMicroProfitScratch = !pos.tp1Done && !isTpHit && totalLifecyclePnlTry < 3.50;
+      const winCooldownMins = isMicroProfitScratch ? 4 : 45;
+      const winExpiry = Date.now() + winCooldownMins * 60 * 1000;
+      state.symbolCooldowns[pos.symbol] = isMicroProfitScratch
+        ? winExpiry
+        : Math.max(state.symbolCooldowns[pos.symbol] || 0, winExpiry);
     } else if ((isStopHit && !isProfitStopClose) || totalLifecyclePnlTry <= -3.50) {
       const sCount = (state.symbolConsecStops[pos.symbol] || 0) + 1;
       state.symbolConsecStops[pos.symbol] = sCount;
@@ -4314,7 +4345,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v11.9-No-Stop-Widening-Prior-Bar-Rejection-And-EMA-Slope-Guard';
+  state.version = 'Mutlak-Yapi-v12.0-Micro-Lock-Reentry-CLV-Coherence-And-ATR-VWAP-Band';
   if (state.openPosition?.thesis && state.openPosition?.leverage) {
     state.openPosition.thesis = String(state.openPosition.thesis).replace(
       /->\s*[\d.]+x\s+(LONG|SHORT)!/,
@@ -4323,7 +4354,7 @@ async function main() {
   }
   runTwoHourSelfAudit(state, true);
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v11.9 — Motor #58-#79)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v12.0 — Motor #58-#80)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
