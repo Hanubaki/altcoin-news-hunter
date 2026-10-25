@@ -757,13 +757,28 @@ function runTwoHourSelfAudit(state, forceLog = false) {
       consec === 0 &&
       lastLossMs > 0 &&
       Number(t.netPnlTry || 0) >= 0 &&
-      Number(t.netPnlTry || 0) < 3.50 &&
       (String(t.exitReason || '').includes('KÂR KİLİDİ') || String(t.exitReason || '').includes('KÂR HASADI'))
     ) {
-      // Engine #80A + #83: Repair cooldowns on pre-TP1 micro-profit locks/harvests (< 3.50 TL, like WOOUSDT +0.65 TL & AVAUSDT +0.69 TL) so real breakouts are never blocked!
-      const microWinCapMs = lastLossMs + 4 * 60 * 1000;
-      if ((state.symbolCooldowns[t.symbol] || 0) > microWinCapMs) {
-        state.symbolCooldowns[t.symbol] = microWinCapMs;
+      // Engine #80A + #83 + #84A (GPT-6-Luna Post-TP1 Cooldown Integrity & Repeat Micro-Win Churn Guard):
+      // Only shorten a win cooldown to 8 minutes if it is a single pre-TP1 micro-profit lock (< 1.25 TL, !t.tp1Done).
+      // Any trade with tp1Done === true, netPnlTry >= 1.25 TL (like LUMIAUSDT +3.02 TL), or >= 2 wins on the same symbol within 60m gets the full 45m cooldown!
+      const sameSymRecentWins = closed.filter(
+        r =>
+          r.symbol === t.symbol &&
+          Number(r.netPnlTry || 0) >= 0 &&
+          Math.abs(lastLossMs - Number(r.closedAtMs || parseClosedAtMs(r.closedAt) || 0)) <= 60 * 60 * 1000
+      ).length;
+      const isTrueSingleMicroWin = !t.tp1Done && Number(t.netPnlTry || 0) < 1.25 && sameSymRecentWins <= 1;
+      if (isTrueSingleMicroWin) {
+        const microWinCapMs = lastLossMs + 8 * 60 * 1000;
+        if ((state.symbolCooldowns[t.symbol] || 0) > microWinCapMs) {
+          state.symbolCooldowns[t.symbol] = microWinCapMs;
+        }
+      } else {
+        const fullWinCooldownMs = lastLossMs + 45 * 60 * 1000;
+        if (nowMs < fullWinCooldownMs && (state.symbolCooldowns[t.symbol] || 0) < fullWinCooldownMs) {
+          state.symbolCooldowns[t.symbol] = fullWinCooldownMs;
+        }
       }
     }
   }
@@ -1660,12 +1675,37 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
     b0.close >= b1.open * 0.999 &&
     !b0MatureBodyBrokeB1;
 
+  // Engine #84B (GPT-6-Luna Overhead 4h Rejection-Wick Room-to-TP1 Gate):
+  // If b1 or b2 set the 16-bar high with a >= 42% upper rejection wick (like LUMIAUSDT b2.high = $0.08182 at 09:07),
+  // and b0.close is at posIn16BarRange >= 0.72 with < 1.15% room to that rejection ceiling (blocking TP1 +1.25%), veto LONG until the wick ceiling is broken!
+  const b1OrB2WickCeilingHigh = Math.max(
+    b1.upperWickRatio >= 0.42 ? b1.high : 0,
+    b2.upperWickRatio >= 0.42 ? b2.high : 0
+  );
+  const isOverheadWickCeilingBlockingTp1Long =
+    b1OrB2WickCeilingHigh >= fullHigh16 * 0.998 &&
+    b0.close < b1OrB2WickCeilingHigh &&
+    posIn16BarRange >= 0.72 &&
+    (b1OrB2WickCeilingHigh - b0.close) / Math.max(1e-9, b0.close) < 0.0115;
+
+  const b1OrB2WickFloorLow = Math.min(
+    b1.lowerWickRatio >= 0.42 ? b1.low : Infinity,
+    b2.lowerWickRatio >= 0.42 ? b2.low : Infinity
+  );
+  const isUnderfootWickFloorBlockingTp1Short =
+    Number.isFinite(b1OrB2WickFloorLow) &&
+    b1OrB2WickFloorLow <= fullLow16 * 1.002 &&
+    b0.close > b1OrB2WickFloorLow &&
+    posIn16BarRange <= 0.28 &&
+    (b0.close - b1OrB2WickFloorLow) / Math.max(1e-9, b0.close) < 0.0115;
+
   const vetoLong = Boolean(
     bearishPattern ||
       buySideSweep ||
       isFishingTrapLong ||
       materialAdverseLongB0 ||
       isPriorBarBearishRejectionUnreclaimed ||
+      isOverheadWickCeilingBlockingTp1Long ||
       (isMatureB0 && b0.upperWickRatio >= 0.50 && b0.clv <= 0.38) ||
       (b1.upperWickRatio >= 0.48 && b1.clv <= 0.42 && effectiveClv < 0.65) ||
       (isMatureB0 && !b0.isGreen && b0.clv <= 0.30) ||
@@ -1678,6 +1718,7 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
       sellSideSweep ||
       materialAdverseShortB0 ||
       isPriorBarBullishRejectionUnbroken ||
+      isUnderfootWickFloorBlockingTp1Short ||
       (isMatureB0 && b0.lowerWickRatio >= 0.50 && b0.clv >= 0.62) ||
       (b1.lowerWickRatio >= 0.50 && b1.clv >= 0.62 && effectiveClv > 0.35) ||
       (isMatureB0 && b0.isGreen && b0.clv >= 0.70) ||
@@ -3494,6 +3535,13 @@ async function manageOpenPosition(state, candidates = []) {
     if (totalLifecyclePnlUsdt >= 0) state.winCount = (state.winCount || 0) + 1;
     else state.lossCount = (state.lossCount || 0) + 1;
 
+    const hadPriorSameSymWin60m = (state.closedTrades || []).some(
+      r =>
+        r.symbol === pos.symbol &&
+        Number(r.netPnlTry || 0) >= 0 &&
+        Date.now() - Number(r.closedAtMs || parseClosedAtMs(r.closedAt) || 0) <= 60 * 60 * 1000
+    );
+
     state.closedTrades.unshift({
       symbol: pos.symbol,
       side: pos.side,
@@ -3505,6 +3553,7 @@ async function manageOpenPosition(state, candidates = []) {
       exitPrice: effectiveExitPrice,
       roePct: lifecycleRoePct,
       netPnlTry: totalLifecyclePnlTry,
+      tp1Done: Boolean(pos.tp1Done),
       exitReason,
       closedAt: new Date().toLocaleString('tr-TR'),
       closedAtMs: Date.now(),
@@ -3515,11 +3564,12 @@ async function manageOpenPosition(state, candidates = []) {
     if (!state.symbolConsecStops) state.symbolConsecStops = {};
     if (totalLifecyclePnlUsdt >= 0) {
       state.symbolConsecStops[pos.symbol] = 0;
-      // Engine #80A (GPT-6-Luna Pre-TP1 Micro-Profit Lock vs. Full Harvest Cooldown):
-      // A pre-TP1 micro-profit lock (< 3.50 TL, !pos.tp1Done, !isTpHit — like WOOUSDT +0.65 TL at 04:58) only gets a 4-minute breather
-      // so the bot never misses the real 99/99 breakout wave (+4.04% on WOOUSDT at 06:08!); full TP1/TP harvests get a 45-minute cooldown.
-      const isMicroProfitScratch = !pos.tp1Done && !isTpHit && totalLifecyclePnlTry < 3.50;
-      const winCooldownMins = isMicroProfitScratch ? 4 : 45;
+      // Engine #80A + #84A (GPT-6-Luna Post-TP1 Cooldown Integrity & Repeat Micro-Win Churn Guard):
+      // Only a first pre-TP1 micro-profit lock (< 1.25 TL, !pos.tp1Done, !isTpHit, !hadPriorSameSymWin60m) gets an 8-minute breather.
+      // Any TP1/TP harvest, >= 1.25 TL win (like LUMIAUSDT +3.02 TL), or 2nd win on the same symbol within 60m gets the full 45-minute cooldown!
+      const isMicroProfitScratch =
+        !pos.tp1Done && !isTpHit && totalLifecyclePnlTry < 1.25 && !hadPriorSameSymWin60m;
+      const winCooldownMins = isMicroProfitScratch ? 8 : 45;
       const winExpiry = Date.now() + winCooldownMins * 60 * 1000;
       state.symbolCooldowns[pos.symbol] = isMicroProfitScratch
         ? winExpiry
@@ -4446,7 +4496,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v12.3-Zero-Lag-Rolling-5m-Kline-Taker-And-Anti-Choke-Profit-Harvest';
+  state.version = 'Mutlak-Yapi-v12.4-Post-TP1-Cooldown-Integrity-And-Wick-Ceiling-Room-To-TP1-Gate';
   if (state.openPosition?.thesis && state.openPosition?.leverage) {
     state.openPosition.thesis = String(state.openPosition.thesis).replace(
       /->\s*[\d.]+x\s+(LONG|SHORT)!/,
@@ -4455,7 +4505,7 @@ async function main() {
   }
   runTwoHourSelfAudit(state, true);
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v12.3 — Motor #58-#83)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v12.4 — Motor #58-#84)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
