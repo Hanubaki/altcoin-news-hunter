@@ -5,6 +5,7 @@ import os from 'os';
 import tls from 'tls';
 import crypto from 'crypto';
 import { fileURLToPath } from 'url';
+import { buildDualAiPartnerConsensus, queryFreebuffCouncil } from './freebuff_council_bridge.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -802,6 +803,15 @@ function runTwoHourSelfAudit(state, forceLog = false) {
     updatedAt: new Date().toLocaleString('tr-TR'),
   };
 
+  const dualAiCouncil = buildDualAiPartnerConsensus(state, closed, {
+    minLongScore,
+    minShortScore,
+    objectiveJ,
+  });
+  if (state.lastSelfAudit?.dualAiCouncil?.liveFreebuffNote) {
+    dualAiCouncil.liveFreebuffNote = state.lastSelfAudit.dualAiCouncil.liveFreebuffNote;
+  }
+
   const nextAuditMs = nowMs + TWO_HOURS_MS;
   state.lastSelfAudit = {
     lastAuditAt: new Date(nowMs).toLocaleString('tr-TR'),
@@ -817,14 +827,26 @@ function runTwoHourSelfAudit(state, forceLog = false) {
     minShortScore,
     minLongTaker5m,
     maxShortTaker5m,
+    dualAiCouncil,
     diagnosedMistakes: diagnosedMistakes.slice(0, 4),
   };
 
   if (forceLog) {
     logEvent(
       state,
-      `🧠 [2-SAATLİK OTONOM ÖZELEŞTİRİ & EVRİM (Motor #45)] Son ${recentWindow.length} İşlem: ${recentWins}W/${recentLosses}L (Net: ${recentNetPnlTry >= 0 ? '+' : ''}${recentNetPnlTry} TL | Luna J-Skoru: ${objectiveJ}) | Aktif Barajlar -> LONG >=${minLongScore}p (Taker >=${minLongTaker5m}x), SHORT >=${minShortScore}p (Taker <=${maxShortTaker5m}x) | Sonraki Denetim: ${state.lastSelfAudit.nextAuditAt}`
+      `🧠 [2-SAATLİK İKİLİ YAPAY ZEKA KONSEYİ (Luna + Freebuff Motor #85)] Son ${recentWindow.length} İşlem: ${recentWins}W/${recentLosses}L (Net: ${recentNetPnlTry >= 0 ? '+' : ''}${recentNetPnlTry} TL | Luna J-Skoru: ${objectiveJ}) | ${dualAiCouncil.consensusAction}`
     );
+    // Asynchronous non-blocking Freebuff Partner query on 2-hour audit cycle
+    queryFreebuffCouncil(
+      `Son ${recentWindow.length} vadeli işlem: ${recentWins}W/${recentLosses}L, Net: ${recentNetPnlTry} TL, Galibiyet Serisi: ${dualAiCouncil.streakWins}, Engellenen Spoof Duvarı: ${dualAiCouncil.spoofVetoCount}. GPT-6-Luna ile ortak çalışan 2. Yapay Zeka (Freebuff) olarak 1 cümlelik Türkçe risk notu ver.`
+    )
+      .then(fbRes => {
+        if (fbRes && fbRes.ok && fbRes.response && state.lastSelfAudit?.dualAiCouncil) {
+          state.lastSelfAudit.dualAiCouncil.liveFreebuffNote = `[${fbRes.modelName}] ${fbRes.response.slice(0, 240)}`;
+          saveState(state);
+        }
+      })
+      .catch(() => {});
   }
   return state.lastSelfAudit;
 }
@@ -3676,14 +3698,21 @@ async function tryOpenPosition(state, candidates) {
     }
   }
 
-  // Engine #64D + GPT-6-Luna Fix #3 (Human Post-Loss Cool-Down Discipline with verified takerDataValid):
+  // Engine #64D + GPT-6-Luna Fix #3 + Engine #85 (Dual-AI Luna + Freebuff Anti-Overconfidence Low-Volume Spoof Guard):
   const isInPostLossCoolDown = nowEntryMs - (state.lastLossClosedAtMs || 0) < 12 * 60 * 1000;
+  const dualAi = state.lastSelfAudit?.dualAiCouncil || {};
+  const fbLongBonus = Number(dualAi.freebuffMinLongBonus || 0);
 
   const actionable = candidates.filter(
     c =>
       c.engine !== 'WATCHLIST' &&
       (c.side === 'LONG' || c.side === 'SHORT') &&
-      c.score >= (isInPostLossCoolDown ? 86 : 78) &&
+      c.score >=
+        (isInPostLossCoolDown
+          ? 86
+          : c.side === 'LONG' && fbLongBonus > 0 && Number(c.volRatio15m || 0) < 1.10
+            ? 78 + fbLongBonus
+            : 78) &&
       (!isInPostLossCoolDown ||
         (c.takerDataValid && (c.side === 'LONG' ? c.instBuySellRatio >= 1.25 : c.instBuySellRatio <= 0.78))) &&
       (!symCds[c.symbol] || symCds[c.symbol] <= nowEntryMs) &&
@@ -3949,9 +3978,13 @@ function updateAccountingAndReport(state) {
 
 ---
 
-## 🧠 OTONOM ÖZELEŞTİRİ & KENDİNİ GELİŞTİRME MOTORU (Motor #43–#71)
+## 🧠 İKİLİ YAPAY ZEKA KONSEYİ (GPT-6-LUNA + FREEBUFF AI — Motor #43–#85)
 
 * **⏱️ Son Otonom Denetim:** \`${audit.lastAuditAt}\` | **Sonraki 2-Saatlik Denetim:** \`${audit.nextAuditAt}\`
+* **🤝 Aktif İkili Yapay Zeka Ortaklığı:** **\`${audit.dualAiCouncil?.partnerModels || 'GPT-6-Luna + Freebuff AI (GLM 5.3 Flash / DeepSeek V4.1)'}\`** *(Gizlilik Kalkanı: \`${audit.dualAiCouncil?.privacyShield || 'Space Bunny Alpha Yasaklı'}\`)*
+* **🧬 1. Beyin (GPT-6-Luna):** ${audit.dualAiCouncil?.lunaVerdict || '-'}
+* **🛡️ 2. Beyin (Freebuff AI — Şeytanın Avukatı):** ${audit.dualAiCouncil?.freebuffVerdict || '-'}${audit.dualAiCouncil?.liveFreebuffNote ? `\n* **💬 Canlı Freebuff Mesajı:** *${audit.dualAiCouncil.liveFreebuffNote}*` : ''}
+* **⚖️ İkili Konsey Ortak Kararı:** **${audit.dualAiCouncil?.consensusAction || '-'}**
 * **📊 Son ${audit.recentWindowCount} İşlem Karnesi:** \`${audit.recentWins} Kazanç / ${audit.recentLosses} Kayıp\` (**Net:** \`${audit.recentNetPnlTry >= 0 ? '+' : ''}${audit.recentNetPnlTry} TL\` | **Luna Amaç Skoru $J$:** \`${audit.objectiveJ}\`)
 * **🎛️ Otonom Sınırlandırılmış Parametreler ($\theta$):** \`LONG Barajı >= ${audit.minLongScore}/99 (5dk Taker >= ${audit.minLongTaker5m}x)\` | \`SHORT Barajı >= ${audit.minShortScore}/99 (5dk Taker <= ${audit.maxShortTaker5m}x)\`
 
@@ -4002,6 +4035,11 @@ function startDashboardServer(state) {
     if (urlObj.pathname === '/api/state') {
       res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
       res.end(JSON.stringify({ perp: state, spot: loadSpotPortfolioSummary() }));
+      return;
+    }
+    if (urlObj.pathname === '/api/dual-ai-council') {
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify(state.lastSelfAudit?.dualAiCouncil || {}, null, 2));
       return;
     }
     if (urlObj.pathname === '/api/test-email') {
@@ -4225,11 +4263,17 @@ function startDashboardServer(state) {
 
   <div class="section-card" id="sec-audit" style="border-color:#38bdf866;">
     <h3>
-      <span>🧠 Her 2 Saatte Bir Otonom Özeleştiri & Evrim Motoru (Motor #43–#54)</span>
+      <span>🧠 İkili Yapay Zeka Konseyi: GPT-6-Luna + Freebuff AI (Motor #43–#85)</span>
       <span class="sub">Son Denetim: <b>${(state.lastSelfAudit || {}).lastAuditAt || '-'}</b> | Sonraki: <b>${(state.lastSelfAudit || {}).nextAuditAt || '+2 Saat'}</b></span>
     </h3>
     <div style="font-size:12px;color:#cbd5e1;margin-bottom:8px;">
       Aktif Otonom Barajlar: <b>LONG &gt;= ${(state.lastSelfAudit || {}).minLongScore || 78}p (5dk Taker &gt;= ${(state.lastSelfAudit || {}).minLongTaker5m || 1.02}x)</b> | <b>SHORT &gt;= ${(state.lastSelfAudit || {}).minShortScore || 78}p (5dk Taker &lt;= ${(state.lastSelfAudit || {}).maxShortTaker5m || 0.98}x)</b> | Luna $J$-Skoru: <b class="cyan">${(state.lastSelfAudit || {}).objectiveJ ?? 0}</b>
+    </div>
+    <div style="background:#131c31;border:1px solid #38bdf844;border-radius:10px;padding:10px;margin-bottom:10px;font-size:12px;line-height:1.5;">
+      <div>🧬 <b class="cyan">1. Beyin (GPT-6-Luna):</b> ${state.lastSelfAudit?.dualAiCouncil?.lunaVerdict || 'Matematiksel konsey aktif.'}</div>
+      <div style="margin-top:4px;">🛡️ <b class="amber">2. Beyin (Freebuff AI — GLM 5.3 / DeepSeek V4.1):</b> ${state.lastSelfAudit?.dualAiCouncil?.freebuffVerdict || 'Anti-Spoof ve Şeytanın Avukatı denetimi aktif.'}</div>
+      ${state.lastSelfAudit?.dualAiCouncil?.liveFreebuffNote ? `<div style="margin-top:4px;color:#34d399;">💬 <b>Canlı Freebuff Notu:</b> ${state.lastSelfAudit.dualAiCouncil.liveFreebuffNote}</div>` : ''}
+      <div style="margin-top:4px;color:#10b981;">⚖️ <b>Ortak Konsey Kararı:</b> ${state.lastSelfAudit?.dualAiCouncil?.consensusAction || 'İki yapay zeka mutabık.'}</div>
     </div>
     <table>
       <tr><th>İncelenen Hatalı İşlem</th><th>Tespit Edilen Kök Hata Nedeni</th><th>Devreye Alınan Yeni Motor / Kalkan</th></tr>
@@ -4496,7 +4540,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v12.4-Post-TP1-Cooldown-Integrity-And-Wick-Ceiling-Room-To-TP1-Gate';
+  state.version = 'Mutlak-Yapi-v12.5-Dual-AI-Luna-And-Freebuff-Council-And-Anti-Overconfidence-Guard';
   if (state.openPosition?.thesis && state.openPosition?.leverage) {
     state.openPosition.thesis = String(state.openPosition.thesis).replace(
       /->\s*[\d.]+x\s+(LONG|SHORT)!/,
@@ -4505,7 +4549,7 @@ async function main() {
   }
   runTwoHourSelfAudit(state, true);
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v12.4 — Motor #58-#84)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + İKİLİ YAPAY ZEKA (LUNA + FREEBUFF) KALESİ (v12.5 — Motor #58-#85)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
