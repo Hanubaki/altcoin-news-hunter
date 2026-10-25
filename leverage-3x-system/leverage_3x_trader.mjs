@@ -638,6 +638,12 @@ function runTwoHourSelfAudit(state, forceLog = false) {
           rootCause: 'Yapısal Destek ($0.08341) Tutup Fiyat Giriş Üstüne ($0.08450) Toparlanırken 24. Dakikada Erken Bayat-İvme Tahliyesi',
           fixApplied: 'Motor #75A & #75B: Giriş Üstü/Başabaş Toparlanan İşlemde Erken Scratch Yasağı + <3.50 TL Scratch İşlemlerde 10s Karantina Muafiyeti',
         });
+      } else if (t.symbol === 'MTL' && t.side === 'LONG') {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: '24s +%2.78 Düşük Trendli Coinde 1s +%1.87 Sıçramanın Sahte Short-Squeeze Sayılarak -%11.7 Balina Makası (45.4L/57.1L) ve RSI 75.46 BSL Sweep Tepesinden LONG Açılması',
+          fixApplied: 'Motor #88A & #88B: Sıkı 24s >= +%6.5 Squeeze/Hype Zorunluluğu (Balina -%6.5 Veto Korundu) + 8dk BSL Sweep & Balina Dağıtım Erken Tahliyesi (-15 TL Stop Yerine -7.35 TL Kurtarıldı)',
+        });
       } else if (t.symbol === 'XMR' && t.side === 'SHORT') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
@@ -2362,16 +2368,16 @@ async function scanPerpUniverse(state) {
     }
     const whaleRetailSpread = Number((whaleLongPct - retailLongPct).toFixed(1));
 
-    // Engine #55D + #76A + #86A (GPT-6-Luna & Freebuff Anti-Arbitrage Fake Short-Squeeze Whale Veto):
-    // Chronic negative funding on low volume (e.g. MTLUSDT -0.2167% funding, 0.83x vol, +2.17% 24h, -10.3% whale spread) is passive spot-perp basis carry, NOT a short squeeze!
-    // Require concurrent volume expansion (volRatio15m >= 1.05 or TTM upward breakout) AND genuine momentum (24h >= +5.0% or 1h >= +1.65%) before activating isActiveShortSqueezeRegime!
+    // Engine #55D + #76A + #86A + #88A (GPT-6-Luna & Freebuff Anti-Arbitrage Fake Short-Squeeze Whale Veto):
+    // Chronic negative funding on low 24h trend (e.g. MTLUSDT -0.34% funding, +2.78% 24h, -11.7% whale spread, RSI 75.46) is passive spot-perp basis carry + BSL sweep trap, NOT a 24h short squeeze!
+    // Require BOTH 24h trend >= +6.5% AND 1h momentum >= +1.50% (with volRatio15m >= 1.15 or TTM upward breakout) before activating isActiveShortSqueezeRegime!
     const isActiveShortSqueezeRegime = Boolean(
       (item.fundingRatePct <= -0.025 ||
         (item.basisPct <= -0.25 && item.change24hPct >= 14.0 && change1hPct >= 1.50 && oiDelta1hPct >= 2.0)) &&
-        (volRatio15m >= 1.05 || mtfSqueeze.squeezeBullishPts > 0) &&
-        (item.change24hPct >= 5.0 || change1hPct >= 1.65) &&
-        (oiQuadrant.startsWith('Q1') || oiQuadrant.startsWith('Q3-TUZAK') || mtfSqueeze.squeezeBullishPts > 0) &&
-        change1hPct >= 0.50
+        (volRatio15m >= 1.15 || mtfSqueeze.squeezeBullishPts > 0) &&
+        item.change24hPct >= 6.5 &&
+        change1hPct >= 1.50 &&
+        (oiQuadrant.startsWith('Q1') || oiQuadrant.startsWith('Q3-TUZAK') || mtfSqueeze.squeezeBullishPts > 0)
     );
     const isLiveInstTakerDumping = rawInstBuySellRatio <= 0.85 && (anatomy.normCvd3BarPct <= -6 || takerBuyPct <= 46.5);
     const isWhaleAccumulatingOversoldShort = item.change24hPct <= -7.5 && whaleRetailSpread >= 3.0;
@@ -2396,8 +2402,13 @@ async function scanPerpUniverse(state) {
         bullishWhalePts = -Math.min(18, Math.round(Math.abs(whaleRetailSpread) * 1.2));
       }
     }
+    const isExplosiveWhaleSqueezeOverride =
+      isActiveShortSqueezeRegime &&
+      item.change24hPct >= 10.0 &&
+      change1hPct >= 2.20 &&
+      rawInstBuySellRatio >= 1.35;
     const whaleVetoLong =
-      (isActiveShortSqueezeRegime ? whaleRetailSpread <= -14.0 : whaleRetailSpread <= -6.5) ||
+      (isExplosiveWhaleSqueezeOverride ? whaleRetailSpread <= -14.0 : whaleRetailSpread <= -6.5) ||
       isWhaleDistributingOverboughtLong;
     const whaleVetoShort =
       isWhaleAccumulatingOversoldShort ||
@@ -2462,10 +2473,11 @@ async function scanPerpUniverse(state) {
     );
     const minHypeSqueezeClv =
       mtfSqueeze.squeezeBullishPts > 0 && volRatio15m >= 1.50 && rawInstBuySellRatio >= 1.25 ? 0.48 : 0.56;
+    // Engine #88A: Require genuine 24h momentum (item.change24hPct >= 6.5%) across ALL branches of isHypeSqueezeMomentumLong
+    // so sleepy low-24h coins (+2.78% 24h like MTLUSDT) NEVER unlock RSI > 70 or wide VWAP extension bands!
     const isHypeSqueezeMomentumLong = Boolean(
-      ((item.change24hPct >= 6.5 && change1hPct >= 0.65) ||
-        change1hPct >= 1.65 ||
-        (isSqueezeConfirmedLong && item.fundingRatePct <= -0.020 && change1hPct >= 0.85)) &&
+      item.change24hPct >= 6.5 &&
+        (change1hPct >= 0.65 || (isSqueezeConfirmedLong && item.fundingRatePct <= -0.020 && change1hPct >= 0.50)) &&
         !isStallingUnder4hResistanceLong &&
         (oiQuadrant.startsWith('Q1') || isSqueezeConfirmedLong) &&
         takerDataValid &&
@@ -3385,7 +3397,27 @@ async function manageOpenPosition(state, candidates = []) {
       isProfitTakerCollapseHarvest = true;
     }
   }
-  // Engine #77D: Allow early (>= 5m) emergency fishing exit if 5m Taker suffers a catastrophic institutional collapse (<= 0.45x LONG / >= 2.10x SHORT) with candle veto
+  // Engine #77D + #88B: Allow early (>= 5m) emergency fishing exit if 5m Taker suffers a catastrophic institutional collapse (<= 0.45x LONG / >= 2.10x SHORT) with candle veto,
+  // OR at >= 8m when caught in a BSL/SSL Liquidity Sweep / Candle Rejection with heavy Whale opposition (<= -8.0% LONG / >= +8.0% SHORT) and sub-1.0x 5m Taker (like MTLUSDT at $0.2847 -> $0.2833)!
+  const isWhaleSweepRejectionTrap = Boolean(
+    !isTpHit &&
+      !isStopHit &&
+      !pos.tp1Done &&
+      minsHeld >= 8 &&
+      rawCoinMoveFrac <= -0.0020 &&
+      rawCoinMoveFrac >= -0.0090 &&
+      mfeR < 0.25 &&
+      curPosLiveCand &&
+      curPosLiveCand.takerDataValid &&
+      ((pos.side === 'LONG' &&
+        curPosLiveCand.vetoLong &&
+        curPosLiveCand.whaleRetailSpread <= -8.0 &&
+        curPosLiveCand.instBuySellRatio <= 0.92) ||
+        (pos.side === 'SHORT' &&
+          curPosLiveCand.vetoShort &&
+          curPosLiveCand.whaleRetailSpread >= 8.0 &&
+          curPosLiveCand.instBuySellRatio >= 1.08))
+  );
   const isCatastrophicEarlyTakerCrash = Boolean(
     !isTpHit &&
       !isStopHit &&
@@ -3397,7 +3429,7 @@ async function manageOpenPosition(state, candidates = []) {
       ((pos.side === 'LONG' && curPosLiveCand.instBuySellRatio <= 0.45 && curPosLiveCand.takerBuyPct <= 42.0 && curPosLiveCand.vetoLong) ||
         (pos.side === 'SHORT' && curPosLiveCand.instBuySellRatio >= 2.10 && curPosLiveCand.takerBuyPct >= 58.0 && curPosLiveCand.vetoShort))
   );
-  if (isCatastrophicEarlyTakerCrash) {
+  if (isCatastrophicEarlyTakerCrash || isWhaleSweepRejectionTrap) {
     isFishingEmergencyExit = true;
   } else if (!isTpHit && !isStopHit && minsHeld >= 12 && rawCoinMoveFrac <= 0.0012 && rawCoinMoveFrac >= -0.0060 && curPosLiveCand) {
     const isSevere5mTakerCollapse =
@@ -4580,7 +4612,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v12.7-ATR-Structural-Stop-Integrity-OFI-Spoof-Separation-And-MFE-Expectancy-Guard';
+  state.version = 'Mutlak-Yapi-v12.8-Strict-24h-Squeeze-Gate-And-Whale-BSL-Sweep-Early-Scratch';
   // Engine #87B Startup Hygiene: Reclassify any historical false SPOOF_WALL_DECAY where ob1 was already opposing (ob:- for LONG / ob:+ for SHORT) to WEAK_OB
   if (state.obVetoReasons && state.obVetoCodes) {
     for (const [sym, reason] of Object.entries(state.obVetoReasons)) {

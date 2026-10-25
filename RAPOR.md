@@ -1,19 +1,19 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 25.10.2026 12:28:33
+**Son Güncelleme:** 25.10.2026 13:33:48
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `900,00 TL`
-* **Şu Anki Toplam Para:** **`984,17 TL`**
-* **Toplam Net Kâr / Zarar:** **`+84,17 TL` (`+%9.35`)**
+* **Şu Anki Toplam Para:** **`984,25 TL`**
+* **Toplam Net Kâr / Zarar:** **`+84,25 TL` (`+%9.36`)**
 * **Boşta Bekleyen Nakit:** `929,72 TL`
 * **Coinde Olan Para (Açık İşlemler):** `0,00 TL`
-* **Cüzdandaki Küsürat (Dust) Varlıklar:** `54,46 TL` *(Aynı coine tekrar girildiğinde otomatik birleştirilip nakite çevrilir)*
+* **Cüzdandaki Küsürat (Dust) Varlıklar:** `54,53 TL` *(Aynı coine tekrar girildiğinde otomatik birleştirilip nakite çevrilir)*
 * **Başarılı Satış / Zarar Kes:** `21 Kârlı Satış / 18 Zarar Kes`
-* **📡 Şu An Neden Yeni Coin Alınmıyor?:** **🛡️ Raad ol, nakit kalkanı devrede (Rejim A -> BNF): Piyasanın %95'u kırmızı (%5 yeşil); 929,72 TL nakiti eritmemek için BNF panik dönüş teyidi bekleniyor.**<br><details><summary>🔍 Detaylı Sebebi Gör</summary>1) **Piyasa Kan Gölü (%5 Yeşil / %95 Kırmızı — Engine #30 Rejim A):** Altcoinlerin %95'u şu an düşüşte (1s BTC: %-0.56). 2) **%65 Nakit Koruma Zırhı & BNF Panik Emilim Kuralı:** Yeşil oranı %24'ün altındayken kasanın en az %65'i güvenli TRY nakitte tutulur (`Maksimum Coin Tavanı: 326 TL`) ve yalnızca `Fiyat <= 0.94*MA25 + RSI<=28 + 5dk/1dk Mikro Dönüş + 15dk OI >= +%0.25 + NetRR >= 1.5` şartlarını eksiksiz sağlayan BNF adayına girilir. 3) **Taranan Adaylar (103 Haber):** Onaylı BNF panik dönüş adayı sayısı: **0**. Düşen bıçak teyitsiz tutulmaz!</details>
+* **📡 Şu An Neden Yeni Coin Alınmıyor?:** **🛡️ Raad ol, nakit kalkanı devrede (Rejim A -> BNF): Piyasanın %92'u kırmızı (%8 yeşil); 929,72 TL nakiti eritmemek için BNF panik dönüş teyidi bekleniyor.**<br><details><summary>🔍 Detaylı Sebebi Gör</summary>1) **Piyasa Kan Gölü (%8 Yeşil / %92 Kırmızı — Engine #30 Rejim A):** Altcoinlerin %92'u şu an düşüşte (1s BTC: %0.19). 2) **%65 Nakit Koruma Zırhı & BNF Panik Emilim Kuralı:** Yeşil oranı %24'ün altındayken kasanın en az %65'i güvenli TRY nakitte tutulur (`Maksimum Coin Tavanı: 326 TL`) ve yalnızca `Fiyat <= 0.94*MA25 + RSI<=28 + 5dk/1dk Mikro Dönüş + 15dk OI >= +%0.25 + NetRR >= 1.5` şartlarını eksiksiz sağlayan BNF adayına girilir. 3) **Taranan Adaylar (103 Haber):** Onaylı BNF panik dönüş adayı sayısı: **0**. Düşen bıçak teyitsiz tutulmaz!</details>
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0077 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0292 | HBAR: 0.8140 | ICP: 0.0002 | INJ: 0.0075 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0008 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 0.0628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0636 | STX: 0.0700 | TAO: 0.0001 | THETA: 0.0680 | TIA: 0.0022 | TRY: 929.7163 | UNI: 0.0080 | WLD: 0.0658 | ZRO: 0.0037)`
 
 ---
@@ -112,7 +112,7 @@
 
 * **Banka & Entegrasyon:** `İş Bankası (İşCep & Gmail Bildirim Entegreli)`
 * **İş Bankası Güncel Bakiye:** **`0,00 TL`**
-* **Toplam Kişisel Servet (İş Bankası + Binance TR):** **`984,17 TL`**
+* **Toplam Kişisel Servet (İş Bankası + Binance TR):** **`984,25 TL`**
 * **Beklenen Aylık Gelir Akışı:** `Staj Maaşı: 8.000 TL | Mevcut Burs: 3.000 TL | Yeni Başvurulan Burs: 3.500 TL (Toplam: 14.500 TL/Ay)`
 * **Aylık Dokunulmaz Yaşam & Nakit Kalkanı:** `5.500 TL` *(Haftalık Harcama Limiti: `1.375 TL` | Bu Hafta Harcanan: `0 TL`)*
 * **💡 Günün Otonom CFO Tüyoları & Bütçe Emirleri:**
