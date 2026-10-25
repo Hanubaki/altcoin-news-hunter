@@ -1353,14 +1353,28 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
   const b2 = bars[n - 3];
   const b3 = bars[n - 4];
 
-  // Wall #1 + Engine #55A (GPT-6-Luna Unclosed-Bar Contamination & Elapsed-Time Guard):
-  // High-volume hype coins hit 25% of 3-bar volume in 90 seconds, causing early intrabar wiggles to be misclassified as Shooting Star / Upper Wick Vetoes.
-  // Require both >=35% volume AND >=55% elapsed 15m bar time before treating b0 as non-baby, and >=70% elapsed time before b0 can form a Shooting Star / Wick Veto!
+  // Wall #1 + Engine #55A + #82A (GPT-6-Luna Unclosed-Bar Contamination & Active Baby-Bar Reversal Unblinding):
+  // High-volume hype coins hit 25% of 3-bar volume in 90 seconds, so small wiggles use b1.clv during b0ElapsedFrac < 0.55.
+  // However, if b0 already has a material adverse body (>= max(0.32%, 0.28 * ATR%)) against the trade (like AVAUSDT dropping $0.4433->$0.4415->$0.4367 at 07:04),
+  // unblind effectiveClv to b0.clv immediately so a falling red b0 candle is never masked by b1.clv = 0.88!
   const avgCompletedVol = (b1.vol + b2.vol + b3.vol) / 3 || 1;
   const b0ElapsedFrac = b0.openTime > 0 ? Math.max(0.05, Math.min(1.0, (Date.now() - b0.openTime) / (15 * 60 * 1000))) : 0.5;
   const isBabyB0 = b0.vol < avgCompletedVol * 0.35 || b0ElapsedFrac < 0.55;
   const isMatureB0 = !isBabyB0 && b0ElapsedFrac >= 0.70;
-  const effectiveClv = isBabyB0 ? b1.clv : b0.clv;
+  const atrFracForBar = (Number(atr15mPct) || 1.2) / 100;
+  const b0BodyFrac = b0.open > 0 ? Math.abs(b0.close - b0.open) / b0.open : 0;
+  const materialAdverseLongB0 =
+    b0.close < b0.open &&
+    b0BodyFrac >= Math.max(0.0032, 0.28 * atrFracForBar) &&
+    b0.clv <= 0.38;
+  const materialAdverseShortB0 =
+    b0.close > b0.open &&
+    b0BodyFrac >= Math.max(0.0032, 0.28 * atrFracForBar) &&
+    b0.clv >= 0.62;
+  const effectiveClv =
+    isBabyB0 && !materialAdverseLongB0 && !materialAdverseShortB0
+      ? b1.clv
+      : b0.clv;
 
   const isHammerB1 =
     b1.lowerWickRatio >= 0.45 &&
@@ -1650,6 +1664,7 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
     bearishPattern ||
       buySideSweep ||
       isFishingTrapLong ||
+      materialAdverseLongB0 ||
       isPriorBarBearishRejectionUnreclaimed ||
       (isMatureB0 && b0.upperWickRatio >= 0.50 && b0.clv <= 0.38) ||
       (b1.upperWickRatio >= 0.48 && b1.clv <= 0.42 && effectiveClv < 0.65) ||
@@ -1661,6 +1676,7 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
   const vetoShort = Boolean(
     bullishPattern ||
       sellSideSweep ||
+      materialAdverseShortB0 ||
       isPriorBarBullishRejectionUnbroken ||
       (isMatureB0 && b0.lowerWickRatio >= 0.50 && b0.clv >= 0.62) ||
       (b1.lowerWickRatio >= 0.50 && b1.clv >= 0.62 && effectiveClv > 0.35) ||
@@ -1725,6 +1741,9 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
     red3Completed,
     clv: effectiveClv,
     b0ElapsedFrac,
+    b0IsGreen: b0.isGreen,
+    b1MovePct: b1.open > 0 ? Number((((b1.close - b1.open) / b1.open) * 100).toFixed(2)) : 0,
+    b1RangePct: b1.low > 0 ? Number((((b1.high - b1.low) / b1.low) * 100).toFixed(2)) : 0,
     structuralLow: Math.min(b0.low, b1.low),
     structuralHigh: Math.max(b0.high, b1.high),
   };
@@ -2516,7 +2535,26 @@ async function scanPerpUniverse(state) {
     let score = 50;
     let thesis = '';
 
-    // Wall #4 + Bug #17 Fix + Engine #57C + #77A: Anti-Top-Chase / 4h Double-Top Supply Exhaustion Ceiling (exempting cooled Qullamaggie HTF TTM-Coil continuations)
+    const longStructDistPct =
+      anatomy.structuralLow > 0 && anatomy.structuralLow < lastPrice
+        ? ((lastPrice - anatomy.structuralLow * 0.999) / lastPrice) * 100
+        : 0.95;
+    const shortStructDistPct =
+      anatomy.structuralHigh > lastPrice
+        ? ((anatomy.structuralHigh * 1.001 - lastPrice) / lastPrice) * 100
+        : 0.95;
+
+    // Engine #82B (GPT-6-Luna Single-Bar Climax & Over-Wide Structural Stop Gate):
+    // When b1 spiked >= max(2.60%, 1.95 * ATR%) in a single 15m bar (like AVAUSDT +4.27% $0.4265->$0.4447),
+    // block entering on a red b0 candle or when structuralLow is > 2.25% away (which would force the 2.20% stop cap inside b1's body)!
+    const isSingleBarClimaxTopLong =
+      (anatomy.b1RangePct >= Math.max(2.60, atr15mPct * 1.95) || anatomy.b1MovePct >= Math.max(2.40, atr15mPct * 1.80)) &&
+      (!anatomy.b0IsGreen || longStructDistPct > 2.25);
+    const isSingleBarClimaxBottomShort =
+      (anatomy.b1RangePct >= Math.max(2.60, atr15mPct * 1.95) || anatomy.b1MovePct <= -Math.max(2.40, atr15mPct * 1.80)) &&
+      (anatomy.b0IsGreen || shortStructDistPct > 2.25);
+
+    // Wall #4 + Bug #17 Fix + Engine #57C + #77A + #82B: Anti-Top-Chase / 4h Double-Top Supply Exhaustion Ceiling
     const isCoiledTopLongTrap =
       !isBnfLiquidationBounce &&
       !isHtfCoilContinuationLong &&
@@ -2538,6 +2576,7 @@ async function scanPerpUniverse(state) {
       !isHtfCoilContinuationLong &&
       (volRatio15m < 1.15 || rawInstBuySellRatio < 1.12 || anatomy.posIn4BarRange >= 0.94);
     const isOverextendedMicroTopLong =
+      isSingleBarClimaxTopLong ||
       isCoiledTopLongTrap ||
       is4hDoubleTopSupplyExhaustionLong ||
       isHypeExhaustedTopLong ||
@@ -2549,7 +2588,7 @@ async function scanPerpUniverse(state) {
           volRatio15m < 1.55) ||
           (item.change24hPct >= 18.0 && (volRatio15m < 1.35 || mtfSqueeze.mtfBullishPts === 0))));
 
-    // Engine #43 + #47 + #48: Anti-Bottom-Chase, Q4 De-Leveraging, Macro-Uptrend Pullback & Coiled-Bottom Short Shield
+    // Engine #43 + #47 + #48 + #82B: Anti-Bottom-Chase, Q4 De-Leveraging, Macro-Uptrend Pullback & Coiled-Bottom Short Shield
     const isCoiledBottomShortTrap =
       mtfSqueeze.squeezeLabel.includes('Yay Sıkışması') &&
       item.change24hPct <= -8.0 &&
@@ -2571,6 +2610,7 @@ async function scanPerpUniverse(state) {
       item.change24hPct >= 4.5 &&
       (anatomy.clv <= 0.18 || anatomy.posIn4BarRange <= 0.22 || mtfSqueeze.mtfBearishPts === 0 || !oiQuadrant.startsWith('Q3'));
     const isOverextendedMicroBottomShort =
+      isSingleBarClimaxBottomShort ||
       isCoiledBottomShortTrap ||
       isWhaleAccumulatingOversoldShort ||
       isBottomChase3RedShort ||
@@ -2693,15 +2733,6 @@ async function scanPerpUniverse(state) {
       has5mInstTakerShort &&
       (rsVsBtcAtr <= 0.25 || isGcrCrowdedManiaShort) &&
       rawShortTotal >= Math.max(86, tuning.minShortScore ?? 86);
-
-    const longStructDistPct =
-      anatomy.structuralLow > 0 && anatomy.structuralLow < lastPrice
-        ? ((lastPrice - anatomy.structuralLow * 0.999) / lastPrice) * 100
-        : 0.95;
-    const shortStructDistPct =
-      anatomy.structuralHigh > lastPrice
-        ? ((anatomy.structuralHigh * 1.001 - lastPrice) / lastPrice) * 100
-        : 0.95;
 
     let rawScore = 50;
     if (canTriggerLong && (!canTriggerShort || rawLongTotal >= rawShortTotal)) {
@@ -4381,7 +4412,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v12.1-Runner-Ratchet-Preservation-And-Funding-Cut-Shield';
+  state.version = 'Mutlak-Yapi-v12.2-Baby-Bar-Reversal-Unblinding-And-Single-Bar-Climax-Stop-Gate';
   if (state.openPosition?.thesis && state.openPosition?.leverage) {
     state.openPosition.thesis = String(state.openPosition.thesis).replace(
       /->\s*[\d.]+x\s+(LONG|SHORT)!/,
@@ -4390,7 +4421,7 @@ async function main() {
   }
   runTwoHourSelfAudit(state, true);
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v12.1 — Motor #58-#81)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v12.2 — Motor #58-#82)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
