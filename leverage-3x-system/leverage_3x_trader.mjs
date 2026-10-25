@@ -18,7 +18,8 @@ const SPOT_STATE_FILE = path.join(ROOT_DIR, 'portfolio_state.json');
 const ENV_FILE = path.join(ROOT_DIR, '.env');
 
 const FAPI_BASE = 'https://fapi.binance.com';
-const USD_TRY_RATE = 49.55;
+let USD_TRY_RATE = 49.55;
+let lastUsdTrySyncMs = 0;
 const LEVERAGE = 3; // Base Low-Wick Institutional Leverage (300 TL -> 3x = 900 TL, 3.5x = 1.050 TL, 4x = 1.200 TL, 5x = 1.500 TL)
 const MAX_CONVICTION_LEVERAGE = 5;
 const INITIAL_BANKROLL_TRY = 300.0;
@@ -27,7 +28,8 @@ const TARGET_GOAL_TRY = 23000.0; // User's Ultimate Wealth Goal (23.000 TL)
 const MIN_NOTIONAL_USDT = 5.0; // Binance Futures hard minimum notional floor
 const ROUND_TRIP_FEE_SLIP_FRAC = 0.0018; // 0.05% taker entry + 0.05% taker exit + 0.08% perp slippage on notional
 const DASHBOARD_PORT = 3848;
-const PUBLIC_TUNNEL_URL = 'https://absence-coding-laid-spoken.trycloudflare.com';
+const TUNNEL_LOG_FILE = path.join(__dirname, '.cloudflared_tunnel.log');
+let PUBLIC_TUNNEL_URL = 'https://absence-coding-laid-spoken.trycloudflare.com';
 const BACKUP_TUNNEL_URL = 'https://273725c5cf6e80.lhr.life';
 let isPositionCycleBusy = false; // Strict Mutex Lock preventing 4s vs 30s double-close/double-refund race condition
 let busySinceMs = 0; // Self-healing watchdog timestamp so sleep/wake socket hangs can never freeze the bot
@@ -4599,11 +4601,59 @@ function startDashboardServer(state) {
   });
 }
 
+async function syncLiveUsdTryRateAndTunnel(state) {
+  const now = Date.now();
+  if (now - lastUsdTrySyncMs >= 120000) {
+    try {
+      const t = await fetchJson('https://data-api.binance.vision/api/v3/ticker/bookTicker?symbol=USDTTRY', {}, 3000);
+      const bid = Number(t?.bidPrice || 0);
+      const ask = Number(t?.askPrice || 0);
+      if (bid > 30 && ask > 30) {
+        USD_TRY_RATE = Number(((bid + ask) / 2).toFixed(2));
+        state.usdTryRate = USD_TRY_RATE;
+        lastUsdTrySyncMs = now;
+      }
+    } catch {
+      // keep last known USD_TRY_RATE
+    }
+  }
+  try {
+    if (fs.existsSync(TUNNEL_LOG_FILE)) {
+      const txt = fs.readFileSync(TUNNEL_LOG_FILE, 'utf8');
+      const matches = [...txt.matchAll(/https:\/\/[a-z0-9-]+\.trycloudflare\.com/gi)];
+      if (matches.length > 0) {
+        const latestUrl = matches[matches.length - 1][0];
+        if (latestUrl && latestUrl !== PUBLIC_TUNNEL_URL) {
+          PUBLIC_TUNNEL_URL = latestUrl;
+        }
+      }
+    }
+    if (PUBLIC_TUNNEL_URL && state.lastNotifiedTunnelUrl && state.lastNotifiedTunnelUrl !== PUBLIC_TUNNEL_URL) {
+      state.lastNotifiedTunnelUrl = PUBLIC_TUNNEL_URL;
+      logEvent(state, `🌐 [YENİ MOBİL PANEL LİNKİ] Cloudflare Tüneli Yenilendi: ${PUBLIC_TUNNEL_URL}`);
+      const cfg = loadEnv();
+      if (cfg.WHATSAPP_PHONE && cfg.CALLMEBOT_API_KEY) {
+        let phone = cfg.WHATSAPP_PHONE.replace(/\s+/g, '');
+        if (phone.startsWith('05')) phone = '+9' + phone;
+        else if (phone.startsWith('5')) phone = '+90' + phone;
+        const waText = `🌐 [YENİ 7/24 MOBİL PANEL LİNKİ] Bilgisayar/Tünel yenilendi! Yeni 4.5G linkin: ${PUBLIC_TUNNEL_URL} (Ev Wi-Fi: http://${getLocalLanIp()}:${DASHBOARD_PORT})`;
+        const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(phone)}&text=${encodeURIComponent(waText)}&apikey=${encodeURIComponent(cfg.CALLMEBOT_API_KEY)}`;
+        fetch(url, { signal: AbortSignal.timeout(10000) }).catch(() => {});
+      }
+    } else if (!state.lastNotifiedTunnelUrl) {
+      state.lastNotifiedTunnelUrl = PUBLIC_TUNNEL_URL;
+    }
+  } catch {
+    // ignore transient file read error
+  }
+}
+
 async function runCycle(state) {
   if (isPositionCycleBusy && Date.now() - busySinceMs < 25000) return;
   isPositionCycleBusy = true;
   busySinceMs = Date.now();
   try {
+    await syncLiveUsdTryRateAndTunnel(state);
     // Keepalive self-ping so public tunnels (Cloudflare & localhost.run) never hit activity timeout
     fetch(`${PUBLIC_TUNNEL_URL}/api/state`, { signal: AbortSignal.timeout(3000) }).catch(() => {});
     fetch(`${BACKUP_TUNNEL_URL}/api/state`, { signal: AbortSignal.timeout(3000) }).catch(() => {});
