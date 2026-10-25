@@ -640,6 +640,12 @@ function runTwoHourSelfAudit(state, forceLog = false) {
           rootCause: 'Yapısal Destek ($0.08341) Tutup Fiyat Giriş Üstüne ($0.08450) Toparlanırken 24. Dakikada Erken Bayat-İvme Tahliyesi',
           fixApplied: 'Motor #75A & #75B: Giriş Üstü/Başabaş Toparlanan İşlemde Erken Scratch Yasağı + <3.50 TL Scratch İşlemlerde 10s Karantina Muafiyeti',
         });
+      } else if (t.symbol === 'GRASS' && t.side === 'LONG') {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: 'Kârlı İşlemden (STEEM +%0.52) Slot Rotasyonu İle 1 Saatte +%3.62 (+3.33 ATR) Şişmiş & Zayıf Mumlu (CLV:0.56 Dengeli Mum, Stop:-%2.20) Q1 Tepeye Geçiş',
+          fixApplied: 'Motor #97A–#97C: Q1 OI Olsa Bile 1s >= +%3.40 / RS_BTC >= +3.00 ATR + Zayıf CLV (<0.68) Tepe Vetosu + Rotasyonda Aşırı Uzamış Coin Yasağı + 8dk Yemleme/Fishing Erken Tahliyesi',
+        });
       } else if (t.symbol === 'CT' && t.side === 'LONG') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
@@ -2742,12 +2748,22 @@ async function scanPerpUniverse(state) {
       !isBnfLiquidationBounce &&
       !oiQuadrant.startsWith('Q1') &&
       (rsVsBtcAtr >= 2.85 || change1hPct >= 3.20);
+    // Engine #97A (GPT-6-Luna Anti-1H-Blowoff-Exhaustion Even on Q1 OI When Candle Closes Weak & Stop Is Stretched):
+    // Even if Q1 OI is present, when a coin has already spiked >= +3.40% in 1h or >= +3.00 ATR vs BTC
+    // AND its 15m candle fails to close strong (anatomy.clv < 0.68 or !anatomy.bullishPattern with longStructDistPct >= 1.85,
+    // like GRASSUSDT 1s:+3.62%, RS_BTC:+3.33 ATR, CLV:0.56 Dengeli Mum, Stop:-2.20% at $0.7372),
+    // the 1-hour vertical leg is exhausted right at local supply!
+    const isQ1OneHourExhaustedTopLong =
+      !isBnfLiquidationBounce &&
+      (rsVsBtcAtr >= 3.00 || change1hPct >= 3.40) &&
+      (anatomy.clv < 0.68 || (!anatomy.bullishPattern && longStructDistPct >= 1.85));
     const isOverextendedMicroTopLong =
       isSingleBarClimaxTopLong ||
       isCoiledTopLongTrap ||
       is4hDoubleTopSupplyExhaustionLong ||
       isHypeExhaustedTopLong ||
       isNonQ1OneHourBlowoffTopLong ||
+      isQ1OneHourExhaustedTopLong ||
       (!isBnfLiquidationBounce &&
         !isHypeSqueezeMomentumLong &&
         ((anatomy.green3Completed &&
@@ -3558,7 +3574,19 @@ async function manageOpenPosition(state, candidates = []) {
       }
     }
   }
-  if (isCatastrophicEarlyTakerCrash || isWhaleSweepRejectionTrap || isDeadOnArrivalInstantDump) {
+  const isEarlyFishingCandleTrap = Boolean(
+    !isTpHit &&
+      !isStopHit &&
+      !pos.tp1Done &&
+      minsHeld >= 8 &&
+      mfeR < 0.15 &&
+      aeR >= 0.45 &&
+      rawCoinMoveFrac <= -0.0065 &&
+      curPosLiveCand &&
+      ((pos.side === 'LONG' && curPosLiveCand.candlePattern && curPosLiveCand.candlePattern.includes('Yemleme/Fishing')) ||
+        (pos.side === 'SHORT' && curPosLiveCand.vetoShort && curPosLiveCand.instBuySellRatio >= 1.25))
+  );
+  if (isCatastrophicEarlyTakerCrash || isWhaleSweepRejectionTrap || isDeadOnArrivalInstantDump || isEarlyFishingCandleTrap) {
     isFishingEmergencyExit = true;
   } else if (!isTpHit && !isStopHit && minsHeld >= 12 && rawCoinMoveFrac <= 0.0012 && rawCoinMoveFrac >= -0.0185 && curPosLiveCand) {
     const isSevere5mTakerCollapse =
@@ -3664,6 +3692,9 @@ async function manageOpenPosition(state, candidates = []) {
         (c.side === 'LONG' || c.side === 'SHORT') &&
         Number(c.rawScore || c.score) >= 96 &&
         (isCurDegraded || Number(c.rawScore || c.score) - curRawScore >= 12) &&
+        Math.abs(Number(c.rsVsBtcAtr || 0)) < 2.50 &&
+        Math.abs(Number(c.change1hPct || 0)) < 3.00 &&
+        !(state.obVetoStrikes && state.obVetoStrikes[c.symbol] >= 1) &&
         (!symbolCooldowns[c.symbol] || symbolCooldowns[c.symbol] <= nowMs) &&
         (!obVetoCooldowns[c.symbol] || obVetoCooldowns[c.symbol] <= nowMs)
     );
@@ -4793,7 +4824,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v13.3-Anti-RoundTrip-0.82Pct-BreakevenPlus-And-Wide-Pullback-Lock';
+  state.version = 'Mutlak-Yapi-v13.6-Anti-Q1-1H-Blowoff-And-Safe-Slot-Rotation-Motor97';
   // Engine #89 Startup Hygiene: Clear stale orderbook cooldowns so unchained hype rockets are immediately evaluated
   state.obVetoCooldowns = {};
   state.obVetoStrikes = {};

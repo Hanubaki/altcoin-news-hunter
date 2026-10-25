@@ -2067,6 +2067,16 @@ async function runTradingCycle() {
       );
       // Engine Conflict Prevention: Require explicit LONG consensus AND (directMention === true OR authorized regime leader/BNF)!
       if (cand.liveLlmDecision !== 'LONG' || (cand.hasDirectMention === false && !isGoldenAgeLeaderAllowed)) continue;
+      // Engine #30.8 (Anti-Correlated Synthetic Beta Concentration in Lukewarm Regime B):
+      // In Regime B (or when breadthPct < 55%), allow at most 1 concurrent newsless synthetic GoldenAgeLeaderIgniter position,
+      // reserving the remaining slots for genuine direct-mention coin news or confirmed Regime C Golden Age waves!
+      if (!cand.hasDirectMention && cand.headlines?.[0]?.source === 'GoldenAgeLeaderIgniter') {
+        const openSynthGoldenCount = state.openPositions.filter(
+          p => !p.isMoonshot && (p.newsSource === 'GoldenAgeLeaderIgniter' || p.ecosystem === 'GoldenAgeWave')
+        ).length;
+        const maxAllowedSynthGoldenSlots = confirmedRegime === 'C' && breadthPct >= 55 ? 2 : 1;
+        if (openSynthGoldenCount >= maxAllowedSynthGoldenSlots) continue;
+      }
       if (usedLeaders.has(cand.leaderSymbol) && !((isCashIdleTooLong || isApexSoftOverride) && cand.totalScore >= 75)) continue;
       // Engine #22: Correlated Ecosystem Contagion Shield (45m sector cooldown after a lifecycle loss in the same leader ecosystem)
       if (cand.leaderSymbol && recentLosingLeaders.has(cand.leaderSymbol)) continue;
