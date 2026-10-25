@@ -704,8 +704,8 @@ function runTwoHourSelfAudit(state, forceLog = false) {
       } else if (t.symbol === 'NIL' && t.side === 'LONG') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
-          rootCause: 'YATAY MTF + Normal Volatilite Sıkışmasında Giriş & +1.74 TL Kârdayken 5dk Taker 2.87x->0.68x Çöktüğü Halde Kâr Kilidinin +%0.55 Beklemesi',
-          fixApplied: 'Motor #63 (Zero-Bleed Fortress): YATAY MTF+Normal LONG Yasağı + +%0.26 Kârda 5dk Taker<=0.75x Anında Kâr Hasadı + +%0.34 Mikro-Pop Kâr Kilidi',
+          rootCause: 'Önceki 15dk Kırmızı Ret Mumu (b1 CLV:0.30, Üst İğne:0.45) + Düşen EMA20/Düşük Hacimli (0.60x) TTM Sıkışması İçinde Giriş & Stop Kırılırken Motor #74A İle Stopun $0.0864->$0.0863 Genişletilmesi',
+          fixApplied: 'Motor #79A–#79C: Pozisyon Açıldıktan Sonra Stop Genişletme Yasağı + Önceki Kırmızı Ret Mumu (b1.open Geçilmeden) LONG Vetosu + EMA20 Eğim & Tamamlanmış Mum Onayı',
         });
       } else {
         diagnosedMistakes.push({
@@ -1200,11 +1200,24 @@ function analyzeMtfAndVolatilitySqueeze(klines) {
   }
   const closes = klines.map(k => Number(k[4]));
   const lastClose = closes[closes.length - 1];
+  const prevClose = closes.length >= 2 ? closes[closes.length - 2] : lastClose;
 
+  // Engine #79C (GPT-6-Luna MTF EMA20 Slope & Completed-Bar Confirmation):
+  // Prevent a momentary intrabar wick (b0) poking into a falling EMA20 after a bearish completed candle (b1 < ema20, like NILUSDT at 05:39)
+  // from flickering mtfBullish to true! Require non-negative EMA20 slope over 3 bars and completed-bar proximity.
   const ema20 = computeEma(closes, 20);
+  const ema20Prev3 = closes.length >= 23 ? computeEma(closes.slice(0, -3), 20) : ema20;
   const ema50 = computeEma(closes, Math.min(50, closes.length));
-  const mtfBullish = lastClose > ema20 && ema20 >= ema50 * 0.999;
-  const mtfBearish = lastClose < ema20 && ema20 <= ema50 * 1.001;
+  const mtfBullish =
+    lastClose > ema20 &&
+    prevClose >= ema20 * 0.9985 &&
+    ema20 >= ema20Prev3 * 0.9995 &&
+    ema20 >= ema50 * 0.999;
+  const mtfBearish =
+    lastClose < ema20 &&
+    prevClose <= ema20 * 1.0015 &&
+    ema20 <= ema20Prev3 * 1.0005 &&
+    ema20 <= ema50 * 1.001;
 
   let mtfTrend = 'YATAY MTF';
   let mtfBullishPts = 0;
@@ -1583,10 +1596,23 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
     bearishCvdPts = 6;
   }
 
+  // Engine #79B (GPT-6-Luna Prior-Bar Supply/Demand Rejection Guard):
+  // When the completed 15m candle b1 is a red upper-wick/low-CLV rejection bar (!b1.isGreen && (b1.clv <= 0.34 || b1.upperWickRatio >= 0.44)),
+  // do NOT lift vetoLong just because b0ElapsedFrac crossed 0.55 (!isBabyB0) unless b0 has actually reclaimed b1.open * 1.001!
+  const isPriorBarBearishRejectionUnreclaimed =
+    !b1.isGreen &&
+    (b1.clv <= 0.34 || b1.upperWickRatio >= 0.44) &&
+    b0.close <= b1.open * 1.001;
+  const isPriorBarBullishRejectionUnbroken =
+    b1.isGreen &&
+    (b1.clv >= 0.66 || b1.lowerWickRatio >= 0.44) &&
+    b0.close >= b1.open * 0.999;
+
   const vetoLong = Boolean(
     bearishPattern ||
       buySideSweep ||
       isFishingTrapLong ||
+      isPriorBarBearishRejectionUnreclaimed ||
       (isMatureB0 && b0.upperWickRatio >= 0.50 && b0.clv <= 0.38) ||
       (b1.upperWickRatio >= 0.48 && b1.clv <= 0.42 && effectiveClv < 0.65) ||
       (isMatureB0 && !b0.isGreen && b0.clv <= 0.30) ||
@@ -1597,6 +1623,7 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
   const vetoShort = Boolean(
     bullishPattern ||
       sellSideSweep ||
+      isPriorBarBullishRejectionUnbroken ||
       (isMatureB0 && b0.lowerWickRatio >= 0.50 && b0.clv >= 0.62) ||
       (b1.lowerWickRatio >= 0.50 && b1.clv >= 0.62 && effectiveClv > 0.35) ||
       (isMatureB0 && b0.isGreen && b0.clv >= 0.70) ||
@@ -2243,19 +2270,23 @@ async function scanPerpUniverse(state) {
       lastPrice < high4h * 1.001 &&
       volRatio15m < 1.35 &&
       item.fundingRatePct > -0.025;
+    // Engine #79B: Inside a TTM Coil, require either confirmed upward squeeze expansion (squeezeBullishPts > 0)
+    // or institutional volume >= 0.72x with no prior-bar bearish rejection veto (!anatomy.vetoLong) — never buy a 0.50x volume coil bleed!
     const isHtfCoilContinuationLong = Boolean(
-      (mtfSqueeze.squeezeLabel.includes('Yay Sıkışması') || mtfSqueeze.squeezeBullishPts > 0) &&
+      (mtfSqueeze.squeezeBullishPts > 0 ||
+        (mtfSqueeze.squeezeLabel.includes('Yay Sıkışması') && volRatio15m >= 0.72)) &&
         item.change24hPct >= 6.0 &&
         change1hPct >= 0.35 &&
         (oiQuadrant.startsWith('Q1') || isSqueezeConfirmedLong) &&
         mtfSqueeze.mtfBullishPts > 0 &&
         takerDataValid &&
         rawInstBuySellRatio >= 1.12 &&
-        volRatio15m >= 0.50 &&
+        volRatio15m >= 0.65 &&
         rsi15m <= 66 &&
         anatomy.normCvd3BarPct >= 3.5 &&
         anatomy.clv >= 0.65 &&
         mtfSqueeze.mtfBearishPts === 0 &&
+        !anatomy.vetoLong &&
         !anatomy.isFishingTrapLong
     );
     const isHypeSqueezeMomentumLong = Boolean(
@@ -2784,56 +2815,9 @@ async function manageOpenPosition(state, candidates = []) {
   const currentAdverseFrac = Math.max(0, -rawCoinMoveFrac);
   pos.maxAdverseCoinMoveFrac = Math.max(pos.maxAdverseCoinMoveFrac || 0, currentAdverseFrac);
 
-  // Engine #74A (GPT-6-Luna Structural Stop Self-Healing for Truncated 5x Stops):
-  // If an existing INITIAL_STOP position had its stop truncated inside the 15m structural low/high by old tierSlCap clamping,
-  // immediately restore the true structural stop below structuralLow / above structuralHigh and risk-normalize leverage!
-  if (pos.ratchetStage === 'INITIAL_STOP' && !pos.tp1Done && !pos.structuralStopHealed) {
-    const structCand =
-      candidates.find(c => c.symbol === pos.symbol) ||
-      (state.openPositionLiveCand?.symbol === pos.symbol ? state.openPositionLiveCand : null);
-    if (structCand) {
-      let reqWickDistFrac = 0;
-      if (pos.side === 'LONG' && structCand.structuralLow > 0 && structCand.structuralLow < pos.entryPrice) {
-        reqWickDistFrac = (pos.entryPrice - structCand.structuralLow * 0.999) / pos.entryPrice;
-      } else if (pos.side === 'SHORT' && structCand.structuralHigh > pos.entryPrice) {
-        reqWickDistFrac = (structCand.structuralHigh * 1.001 - pos.entryPrice) / pos.entryPrice;
-      }
-      const trueSlFrac = Math.min(0.0220, Math.max(pos.initialRiskFrac || 0.0095, reqWickDistFrac));
-      const isStopInsideStructure =
-        (pos.side === 'LONG' && structCand.structuralLow > 0 && pos.stopPrice > structCand.structuralLow * 0.9995) ||
-        (pos.side === 'SHORT' && structCand.structuralHigh > 0 && pos.stopPrice < structCand.structuralHigh * 1.0005);
-      if (isStopInsideStructure && trueSlFrac > (pos.initialRiskFrac || 0.0095) + 0.0008) {
-        const oldStop = pos.stopPrice;
-        const healedStop =
-          pos.side === 'LONG'
-            ? roundPriceToTick(pos.fSym, pos.entryPrice * (1 - trueSlFrac), 'floor')
-            : roundPriceToTick(pos.fSym, pos.entryPrice * (1 + trueSlFrac), 'ceil');
-        if (healedStop > 0) {
-          pos.stopPrice = healedStop;
-          pos.initialRiskFrac = Number(trueSlFrac.toFixed(4));
-          pos.underlyingSlPct = Number((trueSlFrac * 100).toFixed(2));
-          if (!pos.isLiveFapiOrder && pos.leverage > 3.5 && trueSlFrac > 0.0110) {
-            const normLev = trueSlFrac <= 0.0138 ? 3.5 : 3;
-            pos.leverage = normLev;
-            pos.notionalUsdt = Number((pos.marginUsdt * normLev).toFixed(4));
-            pos.notionalTry = toTL(pos.notionalUsdt);
-            pos.initialNotionalUsdt = pos.notionalUsdt;
-            pos.executedQty = roundQtyToStep(pos.fSym, pos.notionalUsdt / pos.entryPrice);
-            pos.thesis = String(pos.thesis || '').replace(/->\s*[\d.]+x\s+(LONG|SHORT)!/, `-> ${normLev}x $1!`);
-          }
-          pos.structuralStopHealed = true;
-          logEvent(
-            state,
-            `🛡️ [Motor #74A Yapısal Stop Onarımı] ${pos.fSym} stop noktası mum içi gürültüden ($${oldStop}) gerçek yapısal destek altına ($${healedStop} / -%${pos.underlyingSlPct}) çekildi ve kaldıraç ${pos.leverage}x risk dengesine alındı!`
-          );
-          if (state.mode === 'LIVE_BINANCE_FAPI' && pos.isLiveFapiOrder) {
-            await syncFapiHardwareStop(pos, pos.stopPrice);
-            if (state.openPosition?.id !== posId || pos.isClosing) return;
-          }
-        }
-      }
-    }
-  }
+  // Engine #79A (GPT-6-Luna Strict One-Way Stop Invariant — No Post-Entry Stop Widening):
+  // tryOpenPosition already sets the full untruncated structural stop at entry. Once a position is open,
+  // pos.stopPrice may ONLY tighten in the favorable direction (ratchet up on LONG / ratchet down on SHORT) and NEVER widen away from entry!
 
   const effectiveFeeSlipFrac =
     Number.isFinite(pos.feeSlipFrac) && pos.feeSlipFrac >= 0
@@ -4330,7 +4314,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v11.8-Pure-Contract-OI-And-Real-Exchange-Stop-Validity';
+  state.version = 'Mutlak-Yapi-v11.9-No-Stop-Widening-Prior-Bar-Rejection-And-EMA-Slope-Guard';
   if (state.openPosition?.thesis && state.openPosition?.leverage) {
     state.openPosition.thesis = String(state.openPosition.thesis).replace(
       /->\s*[\d.]+x\s+(LONG|SHORT)!/,
@@ -4339,7 +4323,7 @@ async function main() {
   }
   runTwoHourSelfAudit(state, true);
   console.log('================================================================================');
-  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v11.8 — Motor #58-#78)`);
+  console.log(`⚡ 300 TL SABİT ANA PARA (3x–5x KALDIRAÇ) + GERÇEK BINANCE FAPI KALESİ (v11.9 — Motor #58-#79)`);
   console.log(`   Max Ana Para: ${toTL(state.initialBankrollUsdt)} TL | Aktif Kasa: ${toTL(state.totalEquityUsdt)} TL | Spot Kâr Kasası: +${toTL(state.spotVaultUsdt || 0)} TL`);
   console.log('================================================================================');
 
