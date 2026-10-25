@@ -2011,7 +2011,7 @@ async function runTradingCycle() {
       if (confirmedRegime === 'A' && (candOwner !== 'BNF' || !cand.isBnfConfirmed)) continue;
       if (confirmedRegime === 'B' && (cand.isBnfPanicCandidate || cand.isEpCandidate)) continue;
       if (confirmedRegime === 'C' && (cand.isBnfPanicCandidate || cand.isSovereignCrisisCandidate)) continue;
-      if (confirmedRegime === 'C' && cand.hasDirectMention && !cand.isEpCandidate) continue;
+      if (confirmedRegime === 'C' && !cand.isEpCandidate) continue;
 
       // Engine #30 Walk-Forward Meta-Label Calibration (One-Sided 95% Lower Bound p_L)
       const wfCal = computeWalkForwardEnginePWinLower95(state, candOwner, nowMs);

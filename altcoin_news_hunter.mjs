@@ -979,12 +979,12 @@ async function main() {
         ([sym, m]) =>
           sym !== 'BTC' &&
           !existingSyms.has(sym) &&
-          m.quoteVol24h >= 2500000 &&
-          m.change24hPct >= -2.5 &&
+          m.quoteVol24h >= 5000000 &&
+          m.change24hPct >= 1.2 &&
           m.change24hPct <= 8.5 &&
-          m.vwapPremiumPct >= -0.15 &&
+          m.vwapPremiumPct >= 0.25 &&
           m.vwapPremiumPct <= 3.50 &&
-          m.posInRange >= 0.48 &&
+          m.posInRange >= 0.58 &&
           m.posInRange <= 0.92
       )
       .sort((a, b) => (b[1].posInRange * 3.5 + b[1].vwapPremiumPct * 1.5 + b[1].bounceFromLowPct * 0.4) - (a[1].posInRange * 3.5 + a[1].vwapPremiumPct * 1.5 + a[1].bounceFromLowPct * 0.4))
@@ -1229,18 +1229,20 @@ async function main() {
         (confirmedRegime === 'C' && !isConfirmedGoldenAge) ||
         confirmedRegime === 'A' ||
         isFridayPmDumpWindow ||
-        (isSovereignCrisisCandidate ? last1hTakerBuy < 0.58 : (last1hTakerBuy < 0.52 && takerBuyRatio < 0.525)) ||
-        takerBuyRatio < (isSovereignCrisisCandidate ? 0.54 : 0.495) ||
-        last1hQuoteVolUsd < (isSovereignCrisisCandidate ? 350000 : 110000) ||
-        amihudIlliquidity > 8.0 ||
+        !ema20AboveEma50 ||
+        !isHigherLow3Bar ||
+        (isSovereignCrisisCandidate ? last1hTakerBuy < 0.58 : last1hTakerBuy < 0.56) ||
+        takerBuyRatio < 0.54 ||
+        last1hQuoteVolUsd < (isSovereignCrisisCandidate ? 350000 : 220000) ||
+        amihudIlliquidity > 6.5 ||
         change1hPct < minGolden1hPct ||
         change1hPct > 4.2 ||
-        rsi1h < (isSovereignCrisisCandidate ? 38 : 25) ||
+        rsi1h < (isSovereignCrisisCandidate ? 42 : 46) ||
         rsi1h > 62 ||
         !aboveVwap ||
         isUpperWickRejection ||
-        takerFlowDecel > 0.08 ||
-        (closePositionInRange < 0.45 && last1hTakerBuy < 0.54)
+        takerFlowDecel > 0.06 ||
+        closePositionInRange < 0.58
       ) {
         continue;
       }
@@ -1342,12 +1344,14 @@ async function main() {
           mkt.lastPrice <= epMaxEntryPrice) ||
           (isGoldenAgeCandidate &&
             isConfirmedGoldenAge &&
-            volRatio >= 0.95 &&
+            hasCompletedOrBreakout &&
+            volRatio >= 1.15 &&
+            impulseAtr >= 0.85 &&
             impulseAtr <= 1.50 &&
             mkt.lastPrice <= Math.max(eventVwap, vwap24h) * 1.018 &&
             mkt.lastPrice <= epMaxEntryPrice))
     );
-    if (confirmedRegime === 'C' && hasDirectMention && !isEpCandidate) {
+    if (confirmedRegime === 'C' && (hasDirectMention || isGoldenAgeCandidate) && !isEpCandidate) {
       continue;
     }
 
@@ -1437,7 +1441,10 @@ async function main() {
       totalScore += 5;
       microstructureFlags.push('BINANCE_SOCIAL_POSITIVE');
     }
-    if (rsi1h <= 34) totalScore += 18;
+    if (isGoldenAgeCandidate) {
+      if (rsi1h >= 46 && rsi1h <= 60) totalScore += 12;
+      else if (rsi1h > 60 && rsi1h <= 62 && takerBuyRatio >= 0.56) totalScore += 6;
+    } else if (rsi1h <= 34) totalScore += 18;
     else if (rsi1h <= 45) totalScore += 12;
     else if (rsi1h <= 58) totalScore += 8;
     else if (rsi1h <= 66 && takerBuyRatio >= 0.55) totalScore += 6;
