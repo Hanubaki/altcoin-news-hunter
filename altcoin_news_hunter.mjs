@@ -1221,31 +1221,33 @@ async function main() {
       continue;
     }
 
-    // Engine #29: 4-Master Sovereign Crisis Alpha Setup (Strictly in Regime B: 24 <= marketBreadthPct < 52)
+    // Engine #29 + #30.9: 4-Master Sovereign Crisis Alpha Setup (Strictly in Regime B: 24 <= marketBreadthPct < 52)
+    // Requires genuine PTJ + Minervini + O'Neil + GCR strength (blocks weak Regime B rollovers like BCH rsAtr:0.97, INJ rsAtr:0.69, NEAR taker:50.6%)
     const isSovereignCrisisCandidate = Boolean(
       confirmedRegime === 'B' &&
         engineOwner === 'SOVEREIGN' &&
         isGoldenAgeCandidate &&
         !btcCrashAlert &&
         !isFridayPmDumpWindow &&
-        btc1hChangePct >= -0.45 &&
-        marketBreadthPct >= 24 &&
-        (ema20AboveEma50 || isHigherLow3Bar) &&
+        btc1hChangePct >= -0.15 &&
+        marketBreadthPct >= 28 &&
+        ema20AboveEma50 &&
+        (isHigherLow3Bar || macdBullishTurn) &&
         aboveVwap &&
-        mkt.change24hPct >= 0.8 &&
+        mkt.change24hPct >= 1.2 &&
         mkt.change24hPct <= 13.5 &&
-        change1hPct >= 0.15 &&
+        change1hPct >= 0.40 &&
         change1hPct <= 3.80 &&
-        change1hPct - btc1hChangePct >= 0.25 &&
-        (volRatio >= 0.75 || (volRatio >= 0.50 && last1hQuoteVolUsd >= 180000 && ema20AboveEma50)) &&
-        closePositionInRange >= 0.48 &&
+        change1hPct - btc1hChangePct >= 0.45 &&
+        volRatio >= 0.90 &&
+        closePositionInRange >= 0.56 &&
         !isUpperWickRejection &&
-        last1hQuoteVolUsd >= 120000 &&
-        (last1hTakerBuy >= 0.515 || takerBuyRatio >= 0.51) &&
-        takerBuyRatio >= 0.50 &&
-        amihudIlliquidity <= 8.0 &&
-        fundingHourlyPct <= 0.025 &&
-        rsi1h >= 46 &&
+        last1hQuoteVolUsd >= 150000 &&
+        last1hTakerBuy >= 0.535 &&
+        takerBuyRatio >= 0.518 &&
+        amihudIlliquidity <= 7.0 &&
+        fundingHourlyPct <= 0.020 &&
+        rsi1h >= 48 &&
         rsi1h <= 62
     );
     const hasConfirmedTrendAlignment = ema20AboveEma50 && (isHigherLow3Bar || macdBullishTurn) && rsi1h >= 48;
@@ -1784,6 +1786,7 @@ async function main() {
               ? 0.25
               : -0.15;
           const hasSpotWhaleMomentum =
+            !item.isSovereignCrisisCandidate &&
             (item.last1hTakerBuyPct || 50) >= 54.0 &&
             (item.takerBuyRatioPct || 50) >= 52.5 &&
             item.ema20AboveEma50 &&

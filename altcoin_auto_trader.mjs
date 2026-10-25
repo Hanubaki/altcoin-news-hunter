@@ -2122,12 +2122,14 @@ async function runTradingCycle() {
       if (
         !cand.hasDirectMention &&
         !isBnfEntryAllowed &&
-        (Number(cand.last1hTakerBuyPct || 50) < 50.0 ||
+        (Number(cand.last1hTakerBuyPct || 50) < 52.0 ||
+          Number(cand.takerBuyRatioPct || 50) < 51.5 ||
+          Number(cand.rsAtr ?? 1.2) < 1.05 ||
           Number(cand.atr1hPct || 1.0) < 0.85 ||
           Number(cand.impulseAtr ?? 0.30) < 0.28 ||
           (Array.isArray(cand.microstructureFlags) && cand.microstructureFlags.includes('TAKER_FLOW_DECEL')))
       ) {
-        continue; // Engine #30.7: Block sleepy/decelerating synthetic GoldenAge waves (like LTC 0.70% ATR / 44.2% 1h Taker & HYPE 0.78% ATR / 0.21 impulseAtr)
+        continue; // Engine #30.7 + #30.9: Block sleepy/low-RS synthetic GoldenAge waves (like LTC 0.70% ATR, INJ 0.69 rsAtr, BCH 0.97 rsAtr, NEAR 50.6% Taker)
       }
       if (cand.topWhaleLongPct && cand.topWhaleLongPct < 42) continue; // Reject if Binance Top 20% Whales are shorting
       if (state.cooldowns[cand.symbol] && state.cooldowns[cand.symbol] > nowMs) continue;
@@ -3279,6 +3281,7 @@ async function runFastPositionRiskTick() {
       if (isConfirmedStop) {
         let soldQty = pos.qty;
         let realExitBid = currentBid;
+        let fastPostStatus = null;
         if (state.mode === 'LIVE_BINANCE') {
           const sellRes = await executeBinanceRealOrder(cfg, pos.symbol, 'SELL', pos.qty);
           if (!sellRes || sellRes.code !== 0) {
@@ -3287,12 +3290,19 @@ async function runFastPositionRiskTick() {
           }
           if (sellRes.executedQty > 0) soldQty = Math.min(pos.qty, sellRes.executedQty);
           if (sellRes.fillPriceUsdt > 0) realExitBid = sellRes.fillPriceUsdt;
+          if (sellRes.postStatus?.ok) fastPostStatus = sellRes.postStatus;
         }
         const proceedsUsdt = Number((realExitBid * soldQty).toFixed(4));
         const exactCostUsdt = Number((pos.entryPrice * soldQty).toFixed(4));
         const netPnlUsdt = Number(((realExitBid - pos.entryPrice) * soldQty).toFixed(4));
         const netPnlTry = Number((netPnlUsdt * USD_TRY_RATE).toFixed(2));
-        state.cashUsdt = Number((state.cashUsdt + proceedsUsdt).toFixed(4));
+        if (fastPostStatus) {
+          state.binanceTrStatus = fastPostStatus.summary;
+          state.walletAssetsMap = fastPostStatus.assetsMap;
+          state.cashUsdt = Number((fastPostStatus.tryFree / USD_TRY_RATE).toFixed(4));
+        } else {
+          state.cashUsdt = Number((state.cashUsdt + proceedsUsdt).toFixed(4));
+        }
         state.realizedPnlUsdt = Number((state.realizedPnlUsdt + netPnlUsdt).toFixed(4));
         if (netPnlUsdt >= 0) state.winCount++;
         else {
