@@ -640,6 +640,12 @@ function runTwoHourSelfAudit(state, forceLog = false) {
           rootCause: 'Yapısal Destek ($0.08341) Tutup Fiyat Giriş Üstüne ($0.08450) Toparlanırken 24. Dakikada Erken Bayat-İvme Tahliyesi',
           fixApplied: 'Motor #75A & #75B: Giriş Üstü/Başabaş Toparlanan İşlemde Erken Scratch Yasağı + <3.50 TL Scratch İşlemlerde 10s Karantina Muafiyeti',
         });
+      } else if (t.symbol === 'ZRO' && t.side === 'LONG') {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: 'NÖTR OI (+%0.04) İçinde 1 Saatte +%4.30 (+3.59 ATR) Şişmiş Tepeye (Formasyonsuz Alt İğne Tepkisi) Geç Giriş',
+          fixApplied: 'Motor #92A & #92B: Q1 OI Olmayan Coinde 1s >= +%3.20 / RS_BTC >= +2.85 ATR Tepe Kovalaması LONG Vetosu + -%0.60 Kör Nokta Kaldırma',
+        });
       } else if (t.symbol === 'PONS' && t.side === 'LONG') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
@@ -2706,11 +2712,19 @@ async function scanPerpUniverse(state) {
       item.change24hPct >= 95.0 &&
       !isHtfCoilContinuationLong &&
       (volRatio15m < 1.15 || rawInstBuySellRatio < 1.12 || anatomy.posIn4BarRange >= 0.94);
+    // Engine #92A (GPT-6-Luna Anti-1H-Blowoff-Exhaustion-on-Non-Q1-OI):
+    // When Open Interest is NOT expanding (NÖTR or Q2, !oiQuadrant.startsWith('Q1')), a >= +3.20% 1-hour spike or >= +2.85 ATR relative extension
+    // (like ZROUSDT 1s:+4.30%, RS_BTC:+3.59 ATR, NÖTR OI +0.04% at $1.7713) is an exhausted 1-hour blow-off top right before mean-reversion!
+    const isNonQ1OneHourBlowoffTopLong =
+      !isBnfLiquidationBounce &&
+      !oiQuadrant.startsWith('Q1') &&
+      (rsVsBtcAtr >= 2.85 || change1hPct >= 3.20);
     const isOverextendedMicroTopLong =
       isSingleBarClimaxTopLong ||
       isCoiledTopLongTrap ||
       is4hDoubleTopSupplyExhaustionLong ||
       isHypeExhaustedTopLong ||
+      isNonQ1OneHourBlowoffTopLong ||
       (!isBnfLiquidationBounce &&
         !isHypeSqueezeMomentumLong &&
         ((anatomy.green3Completed &&
@@ -3458,7 +3472,7 @@ async function manageOpenPosition(state, candidates = []) {
       !isStopHit &&
       minsHeld >= 5 &&
       rawCoinMoveFrac <= -0.0015 &&
-      rawCoinMoveFrac >= -0.0065 &&
+      rawCoinMoveFrac >= -0.0185 &&
       curPosLiveCand &&
       curPosLiveCand.takerDataValid &&
       ((pos.side === 'LONG' && curPosLiveCand.instBuySellRatio <= 0.45 && curPosLiveCand.takerBuyPct <= 42.0 && curPosLiveCand.vetoLong) ||
@@ -3466,7 +3480,7 @@ async function manageOpenPosition(state, candidates = []) {
   );
   if (isCatastrophicEarlyTakerCrash || isWhaleSweepRejectionTrap) {
     isFishingEmergencyExit = true;
-  } else if (!isTpHit && !isStopHit && minsHeld >= 12 && rawCoinMoveFrac <= 0.0012 && rawCoinMoveFrac >= -0.0060 && curPosLiveCand) {
+  } else if (!isTpHit && !isStopHit && minsHeld >= 12 && rawCoinMoveFrac <= 0.0012 && rawCoinMoveFrac >= -0.0185 && curPosLiveCand) {
     const isSevere5mTakerCollapse =
       curPosLiveCand.takerDataValid &&
       minsHeld >= 18 &&
@@ -4691,7 +4705,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v13.0-Strict-Hype-Q1-Quality-Gate-And-Anti-Flat-Range-Q2-Filter';
+  state.version = 'Mutlak-Yapi-v13.1-Anti-1H-Exhaustion-Spike-On-Neutral-OI-And-Fast-Marubozu-Evacuation';
   // Engine #89 Startup Hygiene: Clear stale orderbook cooldowns so unchained hype rockets are immediately evaluated
   state.obVetoCooldowns = {};
   state.obVetoStrikes = {};
