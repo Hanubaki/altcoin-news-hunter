@@ -1584,9 +1584,9 @@
     "APR": 1792997972718
   },
   "adaptiveTuning": {
-    "minLongScore": 80,
+    "minLongScore": 84,
     "minShortScore": 86,
-    "minLongTaker5m": 1.15,
+    "minLongTaker5m": 1.18,
     "maxShortTaker5m": 0.86,
     "objectiveJ": -39.78,
     "updatedAt": "26.10.2026 10:35:04"
@@ -1601,9 +1601,9 @@
     "recentLosses": 5,
     "recentNetPnlTry": -29.06,
     "objectiveJ": -39.78,
-    "minLongScore": 80,
+    "minLongScore": 84,
     "minShortScore": 86,
-    "minLongTaker5m": 1.15,
+    "minLongTaker5m": 1.18,
     "maxShortTaker5m": 0.86,
     "dualAiCouncil": {
       "updatedAt": "26.10.2026 10:35:04",

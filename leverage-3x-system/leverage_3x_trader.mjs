@@ -866,10 +866,11 @@ function runTwoHourSelfAudit(state, forceLog = false) {
   // Bounded parameter update: clip(theta, theta_min, theta_max) — Engine #54B + #61C + #63D + #95 (True J-Score Adaptive Tuning without Winning-Trade Sliding-Window Penalty)
   const hasActiveLossStreak = Number(closed[0]?.netPnlTry || 0) < 0 && Number(closed[1]?.netPnlTry || 0) < 0;
   const isLongColdStreak = hasActiveLossStreak && longLosses >= longWins + 2 && objectiveJ < -25;
-  const minLongScore = isLongColdStreak ? 80 : 78;
+  // Engine #106A (Loss-Stopper Sniper Floor): Raise LONG floor from 78 -> 84 (86 on cold streak) and 5m Taker from 1.12x -> 1.18x to eliminate mediocre 30m overtrading!
+  const minLongScore = isLongColdStreak ? 86 : 84;
   const minShortScore = 86;
-  const minLongTaker5m = isLongColdStreak ? 1.15 : 1.12;
-  const maxShortTaker5m = 0.86;
+  const minLongTaker5m = isLongColdStreak ? 1.22 : 1.18;
+  const maxShortTaker5m = 0.84;
 
   state.adaptiveTuning = {
     minLongScore,
@@ -2624,7 +2625,7 @@ async function scanPerpUniverse(state) {
       (isLiveInstTakerDumping ? whaleRetailSpread >= 16.5 : whaleRetailSpread >= 10.5);
 
     // Engine #44A + #45 + #50 + #54B + #63D: 5m Institutional Taker Floor (>=1.12x LONG) & Strict Anti-Bleed SHORT Lockdown
-    const tuning = state.adaptiveTuning || { minLongScore: 78, minShortScore: 86, minLongTaker5m: 1.12, maxShortTaker5m: 0.86 };
+    const tuning = state.adaptiveTuning || { minLongScore: 84, minShortScore: 86, minLongTaker5m: 1.18, maxShortTaker5m: 0.84 };
     const curMaxShortTaker5m = Math.min(0.86, tuning.maxShortTaker5m ?? 0.86);
 
     const high4h = Math.max(...klines15m.slice(-17, -1).map(k => Number(k[2])));
@@ -3085,8 +3086,8 @@ async function scanPerpUniverse(state) {
 
     const has5mInstTakerLong =
       takerDataValid &&
-      rawInstBuySellRatio >= Math.max(1.12, tuning.minLongTaker5m ?? 1.12) &&
-      (takerBuyPct >= 51.5 || rawInstBuySellRatio >= 1.16);
+      rawInstBuySellRatio >= Math.max(1.18, tuning.minLongTaker5m ?? 1.18) &&
+      (takerBuyPct >= 52.0 || rawInstBuySellRatio >= 1.22);
     const has5mInstTakerShort =
       takerDataValid &&
       rawInstBuySellRatio <= curMaxShortTaker5m &&
@@ -3164,7 +3165,7 @@ async function scanPerpUniverse(state) {
       vwapLongOk &&
       has5mInstTakerLong &&
       rsVsBtcAtr >= -0.20 &&
-      rawLongTotal >= (tuning.minLongScore ?? 78);
+      rawLongTotal >= Math.max(84, tuning.minLongScore ?? 84);
 
     const canTriggerShort =
       isStrictShortAllowed &&
@@ -3569,7 +3570,7 @@ async function manageOpenPosition(state, candidates = []) {
       const lockRunner1 = roundPriceToTick(pos.fSym, pos.entryPrice * (1 - 0.0052), 'ceil');
       if (lockRunner1 < pos.stopPrice && lockRunner1 > markExitPrice) pos.stopPrice = lockRunner1;
     }
-  } else if (peakCoinMoveFrac >= 0.0082 && rawCoinMoveFrac >= 0.0036) {
+  } else if (peakCoinMoveFrac >= 0.0108 && rawCoinMoveFrac >= 0.0052) { // Engine #106B: Only lock pre-TP1 profit floor once coin reaches +1.08% (near TP1 +1.25%), never choke at +0.46 TL!
     // Engine #44B + #76B + #81A + #94A + #99A + #100C (GPT-6-Luna Anti-RoundTrip 0.82% MFE Fee-Plus Lock & Zero-Dead-Zone Breathing Guard):
     // Once a leveraged trade reaches >= +0.82% underlying move (+2.46% to +3.28% ROE at 3x-4x), lock +0.34% net fee-plus stop
     // UNLESS the position is < 10m old (< 12m if tp1Done), peak < +1.30%, and institutional flow is still actively expanding
@@ -3610,7 +3611,7 @@ async function manageOpenPosition(state, candidates = []) {
         }
       }
     }
-  } else if (peakCoinMoveFrac >= 0.0055 && rawCoinMoveFrac >= 0.0036 && !pos.tp1Done) {
+  } else if (peakCoinMoveFrac >= 0.0098 && rawCoinMoveFrac >= 0.0048 && !pos.tp1Done) { // Engine #106B: Prevent +0.34% EARLY_PROFIT_LOCK from choking normal <1.0% breathers
     // Engine #60A + #76B + #78B + #87D + #94B + #99A (GPT-6-Luna Pre-TP1 Zero-Choke & Orderflow-Confirmed Pullback Lock):
     // 1. Require rawCoinMoveFrac >= 0.0036 so the +0.34% stop is ALWAYS strictly below markExitPrice (LONG) / above markExitPrice (SHORT) on real Binance Futures!
     // 2. Motor #99A: Never lock +0.34% unconditionally at minute 1-3 when Taker >= 1.05x & Whale >= 0! Require peak >= +0.75%, pullback <= +0.50%, AND either held >= 8m or orderflow/whale/candle weakening.
@@ -3655,7 +3656,7 @@ async function manageOpenPosition(state, candidates = []) {
         }
       }
     }
-  } else if (peakCoinMoveFrac >= 0.0036 && rawCoinMoveFrac >= 0.0028 && !pos.tp1Done) {
+  } else if (peakCoinMoveFrac >= 0.0092 && rawCoinMoveFrac >= 0.0042 && !pos.tp1Done) { // Engine #106B: Prevent +0.26% MICRO_POP_FEE_LOCK (+0.46 TL) from choking winning trades before TP1
     // Engine #63A + #78B + #87D (GPT-6-Luna Pre-TP1 MFE Expectancy Guard & Micro-Pop Fee-Plus Lock):
     // 1. Require rawCoinMoveFrac >= 0.0028 so the +0.26% stop is strictly on the valid side of current markExitPrice!
     // 2. Regular weakening path requires peak >= +0.42%, microHeldMins >= 8, AND 5m taker <= 0.86x LONG / >= 1.16x SHORT so normal breathers are never choked before TP1 (+1.25%)!
@@ -3770,9 +3771,9 @@ async function manageOpenPosition(state, candidates = []) {
     !isTpHit &&
     !isStopHit &&
     !pos.tp1Done &&
-    minsHeld >= 6 &&
-    peakCoinMoveFrac >= 0.0055 &&
-    rawCoinMoveFrac <= peakCoinMoveFrac - 0.0018 &&
+    minsHeld >= 12 &&
+    peakCoinMoveFrac >= 0.0105 &&
+    rawCoinMoveFrac <= peakCoinMoveFrac - 0.0025 &&
     rawCoinMoveFrac >= ROUND_TRIP_FEE_SLIP_FRAC + 0.0008 &&
     rawCoinMoveFrac < 0.0095 &&
     curPosLiveCand &&
@@ -3895,22 +3896,21 @@ async function manageOpenPosition(state, candidates = []) {
             String(curPosLiveCand.squeezeLabel || '').includes('YUKARI') ||
             curPosLiveCand.whaleRetailSpread >= 0)))
   );
-  if (isCatastrophicEarlyTakerCrash || isWhaleSweepRejectionTrap || isDeadOnArrivalInstantDump || isEarlyFishingCandleTrap || isActiveStructureBreakdownExit) {
+  // Engine #106C (Anti-Self-Mutilation Scratch Guard): Forbid panic market-dumping at minute 5-15 on noisy 5m taker dips (like BR -5.83 TL & NIL -9.61 TL);
+  // Only allow emergency fishing exit when minsHeld >= 18, mfeR < 0.12, aeR >= 0.72, and catastrophic 5m taker + whale + candle collapse all confirm simultaneously!
+  if (
+    !isTpHit &&
+    !isStopHit &&
+    !pos.tp1Done &&
+    minsHeld >= 18 &&
+    mfeR < 0.12 &&
+    aeR >= 0.72 &&
+    isCatastrophicEarlyTakerCrash &&
+    curPosLiveCand &&
+    ((pos.side === 'LONG' && curPosLiveCand.whaleRetailSpread <= -6.0 && curPosLiveCand.instBuySellRatio <= 0.45) ||
+      (pos.side === 'SHORT' && curPosLiveCand.whaleRetailSpread >= 6.0 && curPosLiveCand.instBuySellRatio >= 2.15))
+  ) {
     isFishingEmergencyExit = true;
-  } else if (!isTpHit && !isStopHit && minsHeld >= 12 && rawCoinMoveFrac <= 0.0012 && rawCoinMoveFrac >= -0.0185 && curPosLiveCand) {
-    const isSevere5mTakerCollapse =
-      curPosLiveCand.takerDataValid &&
-      minsHeld >= 18 &&
-      curPosLiveCand.volRatio15m <= 0.65 &&
-      ((pos.side === 'LONG' && curPosLiveCand.instBuySellRatio <= 0.55) ||
-        (pos.side === 'SHORT' && curPosLiveCand.instBuySellRatio >= 1.75));
-    if (
-      isSevere5mTakerCollapse ||
-      (pos.side === 'LONG' && (curPosLiveCand.instBuySellRatio <= 0.75 || curPosLiveCand.candlePattern.includes('Yemleme/Fishing')) && curPosLiveCand.takerBuyPct <= 44.0) ||
-      (pos.side === 'SHORT' && curPosLiveCand.instBuySellRatio >= 1.35 && curPosLiveCand.takerBuyPct >= 56.0)
-    ) {
-      isFishingEmergencyExit = true;
-    }
   }
   // Engine #56 + #94D (GPT-6-Luna Completed-Bar Wick-Rejection & Failed-Breakout Round-Trip Scratch):
   // Never cut during the first 15m bar consolidation (FUSDT paused at 9m before ripping +14.71 TL / +5.33% ROE!);
@@ -3982,11 +3982,14 @@ async function manageOpenPosition(state, candidates = []) {
           ? Number(curPosLiveCand?.whaleRetailSpread ?? 0) < 0 || Number(curPosLiveCand?.volRatio15m ?? 1) < 0.80
           : Number(curPosLiveCand?.whaleRetailSpread ?? 0) > 0 || Number(curPosLiveCand?.volRatio15m ?? 1) < 0.80)
     );
+    // Engine #106C: Require >= 50m (over 3 full 15m bars) and deep currentAdverseR >= 0.50 before stale momentum scratch can fire (prevents 22m/32m -5.45 TL GRASS & -2.02 TL POLYX chops!)
     if (
-      isGivebackStall ||
-      isDeepMaeWatchlistDegraded22m ||
-      (minsHeld >= 32 && aeR >= 0.35 && mfeR < 0.25 && (whaleOrTakerFlippedAgainst || !curPosLiveCand || curPosLiveCand.score < 85)) ||
-      (minsHeld >= 22 && !hasHeavyFavorableFundingAndHigherHigh && aeR >= 0.30 && currentAdverseR >= 0.25 && mfeR < 0.30 && whaleOrTakerFlippedAgainst)
+      minsHeld >= 50 &&
+      !hasHeavyFavorableFundingAndHigherHigh &&
+      aeR >= 0.60 &&
+      currentAdverseR >= 0.50 &&
+      mfeR < 0.15 &&
+      whaleOrTakerFlippedAgainst
     ) {
       isStaleMomentumScratch = true;
     }
@@ -4279,7 +4282,9 @@ async function tryOpenPosition(state, candidates) {
   }
 
   // Engine #64D + GPT-6-Luna Fix #3 + Engine #85 (Dual-AI Luna + Freebuff Anti-Overconfidence Low-Volume Spoof Guard):
-  const isInPostLossCoolDown = nowEntryMs - (state.lastLossClosedAtMs || 0) < 12 * 60 * 1000;
+  const isInPostLossCoolDown = nowEntryMs - (state.lastLossClosedAtMs || 0) < 25 * 60 * 1000;
+  const lastAnyClosedMs = Number(state.closedTrades?.[0]?.closedAtMs || 0);
+  const isInGlobalBreathingCooldown = lastAnyClosedMs > 0 && nowEntryMs - lastAnyClosedMs < 15 * 60 * 1000;
   const dualAi = state.lastSelfAudit?.dualAiCouncil || {};
   const fbLongBonus = Number(dualAi.freebuffMinLongBonus || 0);
 
@@ -4287,12 +4292,15 @@ async function tryOpenPosition(state, candidates) {
     if (
       c.engine === 'WATCHLIST' ||
       (c.side !== 'LONG' && c.side !== 'SHORT') ||
+      (isInGlobalBreathingCooldown && c.score < 90) ||
+      Number(c.volRatio15m || 0) < 1.10 ||
+      (c.side === 'LONG' ? Number(c.whaleRetailSpread || 0) < 0 : Number(c.whaleRetailSpread || 0) > 0) ||
       c.score <
         (isInPostLossCoolDown
-          ? 86
-          : c.side === 'LONG' && fbLongBonus > 0 && Number(c.volRatio15m || 0) < 1.10
-            ? 78 + fbLongBonus
-            : 78) ||
+          ? 88
+          : c.side === 'LONG' && fbLongBonus > 0 && Number(c.volRatio15m || 0) < 1.20
+            ? Math.max(84, 82 + fbLongBonus)
+            : 84) ||
       (isInPostLossCoolDown &&
         !(
           c.takerDataValid &&

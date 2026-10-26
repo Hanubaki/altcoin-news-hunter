@@ -2146,14 +2146,19 @@ async function runTradingCycle() {
       if (
         !cand.hasDirectMention &&
         !isBnfEntryAllowed &&
-        (Number(cand.last1hTakerBuyPct || 50) < 52.0 ||
-          Number(cand.takerBuyRatioPct || 50) < 51.5 ||
-          Number(cand.rsAtr ?? 1.2) < 1.05 ||
-          Number(cand.atr1hPct || 1.0) < 0.85 ||
-          Number(cand.impulseAtr ?? 0.30) < 0.28 ||
+        (confirmedRegime !== 'C' ||
+          breadthPct < 62 ||
+          btc1hPct < 0.35 ||
+          Number(cand.last1hTakerBuyPct || 50) < 54.5 ||
+          Number(cand.takerBuyRatioPct || 50) < 53.5 ||
+          Number(cand.rsAtr ?? 1.2) < 1.45 ||
+          Number(cand.atr1hPct || 1.0) < 0.95 ||
+          Number(cand.impulseAtr ?? 0.30) < 0.35 ||
+          Number(cand.oiChange15mPct || 0) < 0.30 ||
+          Number(cand.topWhaleLongPct || 50) < 56.0 ||
           (Array.isArray(cand.microstructureFlags) && cand.microstructureFlags.includes('TAKER_FLOW_DECEL')))
       ) {
-        continue; // Engine #30.7 + #30.9: Block sleepy/low-RS synthetic GoldenAge waves (like LTC 0.70% ATR, INJ 0.69 rsAtr, BCH 0.97 rsAtr, NEAR 50.6% Taker)
+        continue; // Engine #30.12 (Zero-Synthetic-Bleed Shield): Forbid newsless synthetic GoldenAge entries outside confirmed Regime C bull surges (blocks 9/9 recent synthetic losses!)
       }
       if (cand.topWhaleLongPct && cand.topWhaleLongPct < 42) continue; // Reject if Binance Top 20% Whales are shorting
       if (state.cooldowns[cand.symbol] && state.cooldowns[cand.symbol] > nowMs) continue;

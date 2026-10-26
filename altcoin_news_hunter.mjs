@@ -1038,7 +1038,7 @@ async function main() {
 
   // Engine #24 & Engine #29: Golden-Age Institutional Leader Igniter & 4-Master Sovereign Crisis Override Watchlist (active when recovery >= 28% or breadth >= 24%)
   const goldenAgeWatchList = [];
-  if (intradayRecoveryPct >= 28 || breadth24hPct >= 24) {
+  if (intradayRecoveryPct >= 58 && breadth24hPct >= 62) { // Engine #30.12: Zero-Synthetic-Bleed Shield (only in confirmed Regime C bull surge)
     const existingSyms = new Set([...qualifiedNewsCats, ...bnfPanicWatchList].map(c => c.symbol));
     const waveTag = new Date().toISOString().slice(0, 13);
     const liquidLeaders = Object.entries(tickerMap)
