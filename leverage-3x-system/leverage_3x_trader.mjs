@@ -1554,14 +1554,23 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
   //    artificially inflates b0.clv = 0.52 while the mature 15m candle is RED and actively dumping from its peak!
   // 2. Even if b0 is still slightly green (like ETHFIUSDT at 11:59:08, b0ElapsedFrac = 0.94, CLV: 0.43, upperWickRatio: 0.58, 52s before closing as a Shooting Star CLV:0.29),
   //    any mature candle with b0.clv <= 0.46 and heavy upper wick (upperWickRatio >= 0.42 or b0RejectFromHighFrac >= 0.0045) is actively rolling over and must be vetoed for LONG!
+  // Motor #110B (GPT-6-Luna Intrabar Pump-Then-Reject Upper-Wick Unblinding When Early Dip Masks b0.clv):
+  // Even if an early lower tail (L < O, like PHAUSDT dipping $0.05094->$0.05058 before spiking to $0.05160 and dumping -0.60% to $0.05129 at b0ElapsedFrac=0.63)
+  // keeps raw b0.clv artificially high (0.70), if b0 spiked >= max(0.95%, 0.75*ATR%) above open and rejected >= max(0.52%, 0.40*ATR%) from high with upperWick >= 0.85*body, veto LONG!
   const isMatureRedPeakRejectionLongB0 =
-    b0ElapsedFrac >= 0.60 &&
+    b0ElapsedFrac >= 0.55 &&
     ((!b0.isGreen && (b0RejectFromHighFrac >= 0.0045 || b0.clv <= 0.48)) ||
-      (b0.clv <= 0.46 && (b0.upperWickRatio >= 0.42 || b0RejectFromHighFrac >= 0.0045)));
+      (b0.clv <= 0.46 && (b0.upperWickRatio >= 0.42 || b0RejectFromHighFrac >= 0.0045)) ||
+      (b0SpikeUpFrac >= Math.max(0.0095, 0.75 * atrFracForBar) &&
+        b0RejectFromHighFrac >= Math.max(0.0052, 0.40 * atrFracForBar) &&
+        b0.upperWick >= b0.body * 0.85));
   const isMatureGreenTroughBounceShortB0 =
-    b0ElapsedFrac >= 0.60 &&
+    b0ElapsedFrac >= 0.55 &&
     ((b0.isGreen && (b0BounceFromLowFrac >= 0.0045 || b0.clv >= 0.52)) ||
-      (b0.clv >= 0.54 && (b0.lowerWickRatio >= 0.42 || b0BounceFromLowFrac >= 0.0045)));
+      (b0.clv >= 0.54 && (b0.lowerWickRatio >= 0.42 || b0BounceFromLowFrac >= 0.0045)) ||
+      (b0SpikeDownFrac >= Math.max(0.0095, 0.75 * atrFracForBar) &&
+        b0BounceFromLowFrac >= Math.max(0.0052, 0.40 * atrFracForBar) &&
+        b0.lowerWick >= b0.body * 0.85));
   const effectiveClv =
     isBabyB0 && !materialAdverseLongB0 && !materialAdverseShortB0 && !rejectedBabyLongB0 && !rejectedBabyShortB0
       ? b1.clv
@@ -2134,13 +2143,23 @@ async function fetchPerpOrderbookConfirm(symbol, side, atr15mPct = 1.5) {
     const bothPrev2Green = prev1Close > prev1Open && prev2Close > prev2Open;
     const prev1IsRedDump = prev1Close < prev1Open && prev1Clv <= 0.25 && prev1BodyPct <= -0.25;
     const prev1IsGreenSqueeze = prev1Close > prev1Open && prev1Clv >= 0.75 && prev1BodyPct >= 0.25;
+    // Motor #110A (GPT-6-Luna 1m Shooting-Star Climax & Post-Spike Falling-Knife Guard):
+    // A 1m candle that spikes and closes near its low with >= 50% upper wick (like PHAUSDT 13:53 O:0.05130 H:0.05160 L:0.05124 C:0.05131, CLV:0.19, upperWick:81%)
+    // is a violent 1m Shooting Star rejection even if C > O by 1 tick! Never buy into the subsequent falling 1m candle!
+    const prev1UpperWickRatio = prev1Range > 0 ? (prev1High - Math.max(prev1Open, prev1Close)) / prev1Range : 0;
+    const prev1LowerWickRatio = prev1Range > 0 ? (Math.min(prev1Open, prev1Close) - prev1Low) / prev1Range : 0;
+    const prev1RangePct = prev1Open > 0 ? (prev1Range / prev1Open) * 100 : 0;
+    const prev1IsShootingStarReject = prev1RangePct >= 0.35 && prev1Clv <= 0.32 && prev1UpperWickRatio >= 0.50;
+    const prev1IsHammerBounce = prev1RangePct >= 0.35 && prev1Clv >= 0.68 && prev1LowerWickRatio >= 0.50;
     const recentSpikeRejectionLong =
-      (spike3mPct >= 0.90 && rejectionFrom3mHighPct >= 0.38 && (prev1IsRedDump || rejectionFrom3mHighPct >= 0.50)) ||
-      (runup5mPct >= 0.85 && dropFrom5mPeakPct >= 0.45 && (bothPrev2Red || prev1IsRedDump)) ||
+      (spike3mPct >= 0.80 && rejectionFrom3mHighPct >= 0.38 && (prev1IsRedDump || prev1IsShootingStarReject || rejectionFrom3mHighPct >= 0.48)) ||
+      (runup5mPct >= 0.85 && dropFrom5mPeakPct >= 0.42 && (bothPrev2Red || prev1IsRedDump || prev1IsShootingStarReject || closeNow < openNow)) ||
+      (prev1IsShootingStarReject && closeNow <= prev1Close) ||
       (prev1BodyPct <= -0.40 && prev1Clv <= 0.20 && closeNow <= prev1Open * 0.999);
     const recentDumpRejectionShort =
-      (dump3mPct <= -0.90 && bounceFrom3mLowPct >= 0.38 && (prev1IsGreenSqueeze || bounceFrom3mLowPct >= 0.50)) ||
-      (runup5mPct >= 0.85 && bounceFrom5mLowPct >= 0.45 && (bothPrev2Green || prev1IsGreenSqueeze)) ||
+      (dump3mPct <= -0.80 && bounceFrom3mLowPct >= 0.38 && (prev1IsGreenSqueeze || prev1IsHammerBounce || bounceFrom3mLowPct >= 0.48)) ||
+      (runup5mPct >= 0.85 && bounceFrom5mLowPct >= 0.42 && (bothPrev2Green || prev1IsGreenSqueeze || prev1IsHammerBounce || closeNow > openNow)) ||
+      (prev1IsHammerBounce && closeNow >= prev1Close) ||
       (prev1BodyPct >= 0.40 && prev1Clv >= 0.80 && closeNow >= prev1Open * 1.001);
     const move2mPct = open2mAgo > 0 ? Number((((closeNow - open2mAgo) / open2mAgo) * 100).toFixed(2)) : 0;
     const max2mSpikePct = Number(Math.max(1.15, Math.min(2.40, Number(atr15mPct || 1.5) * 0.78)).toFixed(2));
@@ -5332,7 +5351,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v13.18-NonSqueeze3GreenStretchedTopVeto-And-StrictSlotRotation-Motor109';
+  state.version = 'Mutlak-Yapi-v13.19-1mShootingStarPostSpikeVeto-And-IntrabarPeakRejectUnblind-Motor110';
   // Engine #89 Startup Hygiene: Clear stale orderbook cooldowns so unchained hype rockets are immediately evaluated
   state.obVetoCooldowns = {};
   state.obVetoStrikes = {};
