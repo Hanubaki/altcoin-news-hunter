@@ -673,8 +673,8 @@ function runTwoHourSelfAudit(state, forceLog = false) {
       } else if (t.symbol === 'QNT' && t.side === 'LONG') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
-          rootCause: 'Q2 (Düşen OI: -%0.75) + Sıkışmasız (Normal) + Zayıf 1s İvme (1s: +%0.39, RS_BTC: +0.4 ATR) İle Yatay Düzeltmede 3.5x LONG Girişi',
-          fixApplied: 'Motor #93A & #93B: Q2 (Düşen OI) & Sıkışmasız Long İçin 1s >= +%0.65 & RS_BTC >= +0.70 ATR Zorunluluğu + Düşen OI 3x Kaldıraç Tavanı (-14 TL Stop Yerine -5.53 TL Erken Tahliye)',
+          rootCause: 'Yay Sıkışması (TTM Coil — Kırılımsız) + Düşük Bağıl Güç (RS_BTC: +0.49 ATR < 0.58) & Pozitif Basis (+%0.0025) İle 78p Sınır Giriş + +%0.75 Sıçrama Sonrası Düşen Tepe Tepkisinin ($191.06) Kilitlenmemesi',
+          fixApplied: 'Motor #101A & #101B: Kırılımsız (TTM Coil/Normal) Longlarda RS_BTC >= +0.58 ATR & 1s >= +%0.65 Zorunluluğu + +%0.52 Sıçrama Sonrası Giriş Altı İnip Tekrar +%0.28 Tepki Veren İşlemde Anlık Başabaş+ Kâr Kilidi',
         });
       } else if (t.symbol === 'ZRO' && t.side === 'LONG') {
         diagnosedMistakes.push({
@@ -2927,22 +2927,26 @@ async function scanPerpUniverse(state) {
       item.basisPct > -0.025 &&
       item.fundingRatePct > -0.010 &&
       rawLongTotal < 86;
+    // Engine #96A + #98A + #101A (GPT-6-Luna Non-Breakout TTM-Coil Lagging-RS Veto & GCR Perp-Bubble Guard):
+    // 1. If a coin has NOT broken out of a TTM Squeeze (mtfSqueeze.squeezeBullishPts === 0, i.e. Yay Sıkışması / Normal),
+    //    strictly forbid LONG entries when 1h relative strength is lagging (rsVsBtcAtr < 0.58 ATR or change1hPct < 0.65)
+    //    unless backed by a true negative-basis short squeeze (isActiveShortSqueezeRegime && basisPct <= -0.05 && clv >= 0.72 && rawLongTotal >= 84),
+    //    blocking 100% of our last 4 non-breakout coil losses (QNT #1 RS:+0.40, ARIA RS:+0.44, ENA RS:+0.41, QNT #2 RS:+0.49 in TTM Coil -> -7.71 TL)!
     const isStalledNonSqueezeLongVeto =
       mtfSqueeze.squeezeBullishPts === 0 &&
+      !isBnfLiquidationBounce &&
       !hasFreshDirectNews &&
-      !isActiveShortSqueezeRegime &&
-      (change1hPct < 0.55 || rsVsBtcAtr < 0.55) &&
-      (whaleRetailSpread <= 0 || !anatomy.bullishPattern);
-    // Engine #98A (GPT-6-Luna GCR Perp-Bubble & Lagging-RS Wide-Stop Long Veto):
-    // 1. Block LONG when perpetuals are in a GCR Perp Bubble (basisPct >= +0.18%) while RS is weak (< 0.90 ATR), whales are flat (< +3.0%), stop is wide (>= 1.85%), or stuck in TTM Coil (blocks ARIAUSDT +0.3071% Basis, RS_BTC:+0.44, Balina:+0.1%, Stop:-2.20% -> -12.40 TL).
-    // 2. Block lagging 1h relative-strength LONGs (rsVsBtcAtr < 0.55 ATR) when whales are not actively leading (<= +0.5%), stop is stretched (>= 1.95%), or candle lacks a bullish pattern with non-negative basis (blocks ENAUSDT RS_BTC:+0.41, Balina:-1.4%, Alt İğne Tepkisi).
+      !(isActiveShortSqueezeRegime && item.basisPct <= -0.05 && anatomy.clv >= 0.72 && rawLongTotal >= 84) &&
+      (rsVsBtcAtr < 0.58 ||
+        change1hPct < 0.65 ||
+        ((change1hPct < 0.75 || rsVsBtcAtr < 0.65) && (whaleRetailSpread <= 0 || !anatomy.bullishPattern || anatomy.clv < 0.68)));
     const isGcrPerpBubbleOrLaggingRsLongVeto =
       !isBnfLiquidationBounce &&
       !hasFreshDirectNews &&
       ((item.basisPct >= 0.18 &&
         (rsVsBtcAtr < 0.90 || whaleRetailSpread < 3.0 || longStructDistPct >= 1.85 || mtfSqueeze.squeezeLabel.includes('Yay Sıkışması'))) ||
-        (rsVsBtcAtr < 0.55 &&
-          (whaleRetailSpread <= 0.5 || longStructDistPct >= 1.95 || (!anatomy.bullishPattern && item.basisPct >= 0))));
+        (rsVsBtcAtr < 0.58 &&
+          (mtfSqueeze.squeezeBullishPts === 0 || whaleRetailSpread <= 0.5 || longStructDistPct >= 1.95 || (!anatomy.bullishPattern && item.basisPct >= 0))));
     const isQ2WeakBounceLongVeto =
       isWeakNeutralOiLongVeto ||
       isStalledNonSqueezeLongVeto ||
@@ -3158,6 +3162,10 @@ async function manageOpenPosition(state, candidates = []) {
   // Fixed Bug #32: Persist cumulative maximum adverse excursion (MAE) across all ticks instead of instantaneous drawdown only!
   const currentAdverseFrac = Math.max(0, -rawCoinMoveFrac);
   pos.maxAdverseCoinMoveFrac = Math.max(pos.maxAdverseCoinMoveFrac || 0, currentAdverseFrac);
+  // Engine #101B: Track if a position already popped >= +0.52% and then rejected below entry (<= -0.15%) so any subsequent second-chance lower-high bounce (>= +0.28%) locks fee-plus profit!
+  if (peakCoinMoveFrac >= 0.0052 && rawCoinMoveFrac <= -0.0015) {
+    pos.dippedBelowEntryAfterPop = true;
+  }
 
   // Engine #79A (GPT-6-Luna Strict One-Way Stop Invariant — No Post-Entry Stop Widening):
   // tryOpenPosition already sets the full untruncated structural stop at entry. Once a position is open,
@@ -3481,18 +3489,32 @@ async function manageOpenPosition(state, candidates = []) {
     );
     const btc2mNow = Number(state.marketSummary?.btcChange2mPct || 0);
     const isBtc2mShockAgainst = pos.side === 'LONG' ? btc2mNow <= -0.28 : btc2mNow >= 0.28;
-    if (isFastMicroTakerCrash || isMicroTakerWeakening || isBtc2mShockAgainst) {
+    // Engine #101B (Second-Chance Lower-High Bounce Lock):
+    // If the trade already spiked >= +0.52%, rejected below entry (<= -0.15%), and then bounced back to >= +0.28% (like QNTUSDT bouncing to $191.06 +0.315% at minute 9 after dipping to $190.10),
+    // lock the +0.26% fee-plus stop immediately on the lower-high bounce before the real breakdown hits!
+    const isSecondChanceBounceAfterDip = Boolean(
+      pos.dippedBelowEntryAfterPop && peakCoinMoveFrac >= 0.0052 && rawCoinMoveFrac >= 0.0028
+    );
+    if (isFastMicroTakerCrash || isMicroTakerWeakening || isBtc2mShockAgainst || isSecondChanceBounceAfterDip) {
       if (pos.side === 'LONG') {
         const microLock = roundPriceToTick(pos.fSym, pos.entryPrice * (1 + 0.0026), 'floor');
         if (microLock > pos.stopPrice && microLock < markExitPrice) {
           pos.stopPrice = microLock;
-          pos.ratchetStage = isBtc2mShockAgainst ? 'BTC_SHOCK_PROFIT_LOCK' : 'MICRO_POP_FEE_LOCK';
+          pos.ratchetStage = isBtc2mShockAgainst
+            ? 'BTC_SHOCK_PROFIT_LOCK'
+            : isSecondChanceBounceAfterDip
+              ? 'SECOND_CHANCE_BOUNCE_LOCK'
+              : 'MICRO_POP_FEE_LOCK';
         }
       } else {
         const microLock = roundPriceToTick(pos.fSym, pos.entryPrice * (1 - 0.0026), 'ceil');
         if (microLock < pos.stopPrice && microLock > markExitPrice) {
           pos.stopPrice = microLock;
-          pos.ratchetStage = isBtc2mShockAgainst ? 'BTC_SHOCK_PROFIT_LOCK' : 'MICRO_POP_FEE_LOCK';
+          pos.ratchetStage = isBtc2mShockAgainst
+            ? 'BTC_SHOCK_PROFIT_LOCK'
+            : isSecondChanceBounceAfterDip
+              ? 'SECOND_CHANCE_BOUNCE_LOCK'
+              : 'MICRO_POP_FEE_LOCK';
         }
       }
     }
@@ -4958,7 +4980,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v13.9-Zero-DeadZone-TP1-Pullback-Harvest-And-LiveCand-Sync-Motor100';
+  state.version = 'Mutlak-Yapi-v13.10-Anti-Coil-LaggingRS-Veto-And-SecondChance-Bounce-Lock-Motor101';
   // Engine #89 Startup Hygiene: Clear stale orderbook cooldowns so unchained hype rockets are immediately evaluated
   state.obVetoCooldowns = {};
   state.obVetoStrikes = {};
