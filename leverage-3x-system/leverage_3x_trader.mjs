@@ -3829,18 +3829,29 @@ async function manageOpenPosition(state, candidates = []) {
     const isSecondChanceBounceAfterDip = Boolean(
       pos.dippedBelowEntryAfterPop && peakCoinMoveFrac >= 0.0052 && rawCoinMoveFrac >= 0.0028
     );
-    // Motor #111A (GPT-6-Luna Deep-Drawdown / Mature Supply-Ceiling Recovery Lock):
-    // When a position suffered >= 0.65% MAE (like PHAUSDT -1.01% MAE) or has been open >= 20m, and then recovers to >= +0.62% MFE while hitting a 15m resistance veto or held >= 25m,
-    // lock +0.26% fee-plus stop so a hard-fought recovery into resistance never round-trips back to a loss!
-    const isDeepMaeOrStaleResistanceRecoveryLock = Boolean(
+    // Motor #111A + #113A (GPT-6-Luna Deep-Drawdown / Mature Supply-Ceiling / Sub-TP1 Watchlist-Veto Recovery Lock):
+    // 1. When a position suffered >= 0.65% MAE or has been open >= 20m, and recovers to >= +0.62% MFE while hitting a 15m resistance veto or held >= 25m (#111A), lock +0.26%.
+    // 2. When a position pops to >= +0.62% MFE (just below PROFIT_LOCK_1 +0.75%, like RLCUSDT peaking at +0.676% / $0.5510) at microHeldMins >= 8 while downgraded to WATCHLIST (<78p) AND printing an opposing 15m candle veto with stalled 5m Taker (<=1.05x LONG / >=0.95x SHORT, #113A), lock +0.26% immediately before it round-trips to a -5.65 TL loss!
+    const isSubTp1WickVetoDegradedLock = Boolean(
       peakCoinMoveFrac >= 0.0062 &&
         rawCoinMoveFrac >= 0.0028 &&
-        ((pos.maxAdverseCoinMoveFrac || 0) >= 0.0065 || microHeldMins >= 20) &&
-        (microHeldMins >= 25 ||
-          (microLockCand &&
-            (pos.side === 'LONG'
-              ? microLockCand.vetoLong || microLockCand.instBuySellRatio <= 0.95 || microLockCand.whaleRetailSpread < 0
-              : microLockCand.vetoShort || microLockCand.instBuySellRatio >= 1.05 || microLockCand.whaleRetailSpread > 0)))
+        microHeldMins >= 8 &&
+        microLockCand &&
+        (microLockCand.engine === 'WATCHLIST' || Number(microLockCand.score || 0) < 78) &&
+        (pos.side === 'LONG'
+          ? Boolean(microLockCand.vetoLong) && Number(microLockCand.instBuySellRatio ?? 1) <= 1.05
+          : Boolean(microLockCand.vetoShort) && Number(microLockCand.instBuySellRatio ?? 1) >= 0.95)
+    );
+    const isDeepMaeOrStaleResistanceRecoveryLock = Boolean(
+      isSubTp1WickVetoDegradedLock ||
+        (peakCoinMoveFrac >= 0.0062 &&
+          rawCoinMoveFrac >= 0.0028 &&
+          ((pos.maxAdverseCoinMoveFrac || 0) >= 0.0065 || microHeldMins >= 20) &&
+          (microHeldMins >= 25 ||
+            (microLockCand &&
+              (pos.side === 'LONG'
+                ? microLockCand.vetoLong || microLockCand.instBuySellRatio <= 0.95 || microLockCand.whaleRetailSpread < 0
+                : microLockCand.vetoShort || microLockCand.instBuySellRatio >= 1.05 || microLockCand.whaleRetailSpread > 0))))
     );
     if (isFastMicroTakerCrash || isMicroTakerWeakening || isBtc2mShockAgainst || isSecondChanceBounceAfterDip || isDeepMaeOrStaleResistanceRecoveryLock) {
       if (pos.side === 'LONG') {
@@ -4077,7 +4088,18 @@ async function manageOpenPosition(state, candidates = []) {
     pos.ratchetStage === 'INITIAL_STOP' &&
     peakCoinMoveFrac >= 0.0065 &&
     rawCoinMoveFrac <= -0.0030;
-  if (!isTpHit && !isStopHit && !isFishingEmergencyExit && !pos.tp1Done && minsHeld >= 35 && aeR >= 0.65 && currentAdverseFrac >= 0.0075 && mfeR < 0.12 && curPosLiveCand) { // Engine #106D: Stop 15m wick-scratch bleed (saved T -7.11 TL, ZRO -9.19 TL, PONS -3.74 TL)
+  // Motor #113B: Unblock isFailedBreakoutRoundTrip (which always has mfeR >= 0.30 and was dead code behind mfeR < 0.12!)
+  if (
+    !isTpHit &&
+    !isStopHit &&
+    !isFishingEmergencyExit &&
+    !pos.tp1Done &&
+    minsHeld >= 35 &&
+    aeR >= 0.65 &&
+    currentAdverseFrac >= 0.0075 &&
+    (mfeR < 0.12 || (isFailedBreakoutRoundTrip && mfeR < 0.45)) &&
+    curPosLiveCand
+  ) {
     const isLongWickCollapse =
       pos.side === 'LONG' &&
       curPosLiveCand.vetoLong &&
@@ -4351,7 +4373,8 @@ async function manageOpenPosition(state, candidates = []) {
     } else if ((isStopHit && !isProfitStopClose) || totalLifecyclePnlTry <= -3.50) {
       const sCount = (state.symbolConsecStops[pos.symbol] || 0) + 1;
       state.symbolConsecStops[pos.symbol] = sCount;
-      const cdMins = sCount >= 2 ? 720 : 180;
+      // Motor #113C: Enforce 360m (6h) quarantine on heavy first stop (<= -5.00 TL, like RLCUSDT -7.73 TL) so it cannot re-enter 3h55m later!
+      const cdMins = sCount >= 2 ? 720 : totalLifecyclePnlTry <= -5.00 ? 360 : 180;
       const stopExpiry = Date.now() + cdMins * 60 * 1000;
       state.symbolCooldowns[pos.symbol] = Math.max(state.symbolCooldowns[pos.symbol] || 0, stopExpiry);
       logEvent(
