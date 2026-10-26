@@ -640,6 +640,12 @@ function runTwoHourSelfAudit(state, forceLog = false) {
           rootCause: 'Yapısal Destek ($0.08341) Tutup Fiyat Giriş Üstüne ($0.08450) Toparlanırken 24. Dakikada Erken Bayat-İvme Tahliyesi',
           fixApplied: 'Motor #75A & #75B: Giriş Üstü/Başabaş Toparlanan İşlemde Erken Scratch Yasağı + <3.50 TL Scratch İşlemlerde 10s Karantina Muafiyeti',
         });
+      } else if (t.symbol === 'ARIA' && t.side === 'LONG') {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: '🔴 GCR Vadeli Köpüğü (+%0.3071 Basis & +%0.0254 Fonlama) + Zayıf Bağıl Güç (RS_BTC: +0.44 ATR) + Yay Sıkışması & Maksimum Stop (-%2.20) İle 79p Sınır Giriş',
+          fixApplied: 'Motor #98A–#98D: GCR Vadeli Köpüğü (>=+%0.18) & Düşük RS (<0.55 ATR) LONG Vetosu + Stop Sonrası 12dk Balina/RS Zorunluluğu + 6dk Q3/Ayı Yutan Yıkım Tahliyesi',
+        });
       } else if (t.symbol === 'GRASS' && t.side === 'LONG') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
@@ -2921,9 +2927,20 @@ async function scanPerpUniverse(state) {
       !isActiveShortSqueezeRegime &&
       (change1hPct < 0.55 || rsVsBtcAtr < 0.55) &&
       (whaleRetailSpread <= 0 || !anatomy.bullishPattern);
+    // Engine #98A (GPT-6-Luna GCR Perp-Bubble & Lagging-RS Wide-Stop Long Veto):
+    // 1. Block LONG when perpetuals are in a GCR Perp Bubble (basisPct >= +0.18%) while RS is weak (< 0.90 ATR), whales are flat (< +3.0%), stop is wide (>= 1.85%), or stuck in TTM Coil (blocks ARIAUSDT +0.3071% Basis, RS_BTC:+0.44, Balina:+0.1%, Stop:-2.20% -> -12.40 TL).
+    // 2. Block lagging 1h relative-strength LONGs (rsVsBtcAtr < 0.55 ATR) when whales are not actively leading (<= +0.5%), stop is stretched (>= 1.95%), or candle lacks a bullish pattern with non-negative basis (blocks ENAUSDT RS_BTC:+0.41, Balina:-1.4%, Alt İğne Tepkisi).
+    const isGcrPerpBubbleOrLaggingRsLongVeto =
+      !isBnfLiquidationBounce &&
+      !hasFreshDirectNews &&
+      ((item.basisPct >= 0.18 &&
+        (rsVsBtcAtr < 0.90 || whaleRetailSpread < 3.0 || longStructDistPct >= 1.85 || mtfSqueeze.squeezeLabel.includes('Yay Sıkışması'))) ||
+        (rsVsBtcAtr < 0.55 &&
+          (whaleRetailSpread <= 0.5 || longStructDistPct >= 1.95 || (!anatomy.bullishPattern && item.basisPct >= 0))));
     const isQ2WeakBounceLongVeto =
       isWeakNeutralOiLongVeto ||
       isStalledNonSqueezeLongVeto ||
+      isGcrPerpBubbleOrLaggingRsLongVeto ||
       (!isActiveShortSqueezeRegime &&
         ((oiQuadrant.startsWith('Q2') &&
           (whaleRetailSpread <= -2.0 ||
@@ -3586,7 +3603,33 @@ async function manageOpenPosition(state, candidates = []) {
       ((pos.side === 'LONG' && curPosLiveCand.candlePattern && curPosLiveCand.candlePattern.includes('Yemleme/Fishing')) ||
         (pos.side === 'SHORT' && curPosLiveCand.vetoShort && curPosLiveCand.instBuySellRatio >= 1.25))
   );
-  if (isCatastrophicEarlyTakerCrash || isWhaleSweepRejectionTrap || isDeadOnArrivalInstantDump || isEarlyFishingCandleTrap) {
+  // Engine #98C (GPT-6-Luna >=6m Active Q3 / Bearish-Breakout Reversal Rescue):
+  // If a trade has been open >= 6m with weak MFE (mfeR < 0.30) and is already down <= -0.72% (aeR >= 0.48)
+  // while live structure flips to candle veto + 5m Taker collapse (<= 0.84x LONG / >= 1.18x SHORT) + Q3/Down-Breakout/Whale-Flip (like ARIAUSDT flipping to Bearish Engulfing + Q3 + TTM Down + 0.72x Taker),
+  // evacuate immediately before hitting the full -2.20% (-12.40 TL) stop!
+  const isActiveStructureBreakdownExit = Boolean(
+    !isTpHit &&
+      !isStopHit &&
+      !pos.tp1Done &&
+      minsHeld >= 6 &&
+      mfeR < 0.30 &&
+      aeR >= 0.48 &&
+      rawCoinMoveFrac <= -0.0072 &&
+      curPosLiveCand &&
+      ((pos.side === 'LONG' &&
+        curPosLiveCand.vetoLong &&
+        curPosLiveCand.instBuySellRatio <= 0.84 &&
+        (String(curPosLiveCand.oiQuadrant || '').startsWith('Q3') ||
+          String(curPosLiveCand.squeezeLabel || '').includes('AŞAĞI') ||
+          curPosLiveCand.whaleRetailSpread <= 0)) ||
+        (pos.side === 'SHORT' &&
+          curPosLiveCand.vetoShort &&
+          curPosLiveCand.instBuySellRatio >= 1.18 &&
+          (String(curPosLiveCand.oiQuadrant || '').startsWith('Q1') ||
+            String(curPosLiveCand.squeezeLabel || '').includes('YUKARI') ||
+            curPosLiveCand.whaleRetailSpread >= 0)))
+  );
+  if (isCatastrophicEarlyTakerCrash || isWhaleSweepRejectionTrap || isDeadOnArrivalInstantDump || isEarlyFishingCandleTrap || isActiveStructureBreakdownExit) {
     isFishingEmergencyExit = true;
   } else if (!isTpHit && !isStopHit && minsHeld >= 12 && rawCoinMoveFrac <= 0.0012 && rawCoinMoveFrac >= -0.0185 && curPosLiveCand) {
     const isSevere5mTakerCollapse =
@@ -3647,8 +3690,18 @@ async function manageOpenPosition(state, candidates = []) {
       aeR >= 0.30 &&
       mfeR < 0.45 &&
       whaleOrTakerFlippedAgainst;
+    const isDeepMaeWatchlistDegraded22m = Boolean(
+      minsHeld >= 22 &&
+        aeR >= 0.55 &&
+        mfeR < 0.15 &&
+        (!curPosLiveCand || curPosLiveCand.engine === 'WATCHLIST' || curPosLiveCand.score < 78) &&
+        (pos.side === 'LONG'
+          ? Number(curPosLiveCand?.whaleRetailSpread ?? 0) < 0 || Number(curPosLiveCand?.volRatio15m ?? 1) < 0.80
+          : Number(curPosLiveCand?.whaleRetailSpread ?? 0) > 0 || Number(curPosLiveCand?.volRatio15m ?? 1) < 0.80)
+    );
     if (
       isGivebackStall ||
+      isDeepMaeWatchlistDegraded22m ||
       (minsHeld >= 32 && aeR >= 0.35 && mfeR < 0.25 && (whaleOrTakerFlippedAgainst || !curPosLiveCand || curPosLiveCand.score < 85)) ||
       (minsHeld >= 22 && aeR >= 0.30 && mfeR < 0.30 && whaleOrTakerFlippedAgainst)
     ) {
@@ -3947,7 +4000,11 @@ async function tryOpenPosition(state, candidates) {
             ? 78 + fbLongBonus
             : 78) &&
       (!isInPostLossCoolDown ||
-        (c.takerDataValid && (c.side === 'LONG' ? c.instBuySellRatio >= 1.25 : c.instBuySellRatio <= 0.78))) &&
+        (c.takerDataValid &&
+          Math.abs(Number(c.rsVsBtcAtr || 0)) >= 0.80 &&
+          (c.side === 'LONG'
+            ? c.instBuySellRatio >= 1.25 && Number(c.whaleRetailSpread || 0) >= 2.0 && Number(c.basisPct || 0) < 0.15
+            : c.instBuySellRatio <= 0.78 && Number(c.whaleRetailSpread || 0) <= -2.0))) &&
       (!symCds[c.symbol] || symCds[c.symbol] <= nowEntryMs) &&
       (!obVetoCds[c.symbol] || obVetoCds[c.symbol] <= nowEntryMs)
   );
@@ -4824,7 +4881,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v13.6-Anti-Q1-1H-Blowoff-And-Safe-Slot-Rotation-Motor97';
+  state.version = 'Mutlak-Yapi-v13.7-Anti-GCR-Perp-Bubble-And-PostLoss-Guard-Motor98';
   // Engine #89 Startup Hygiene: Clear stale orderbook cooldowns so unchained hype rockets are immediately evaluated
   state.obVetoCooldowns = {};
   state.obVetoStrikes = {};
