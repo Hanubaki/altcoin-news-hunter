@@ -1038,7 +1038,7 @@ async function main() {
 
   // Engine #24 & Engine #29: Golden-Age Institutional Leader Igniter & 4-Master Sovereign Crisis Override Watchlist (active when recovery >= 28% or breadth >= 24%)
   const goldenAgeWatchList = [];
-  if (intradayRecoveryPct >= 58 && breadth24hPct >= 62) { // Engine #30.12: Zero-Synthetic-Bleed Shield (only in confirmed Regime C bull surge)
+  if (intradayRecoveryPct >= 58 && breadth24hPct >= 62) { // Engine #30.12: Zero-Synthetic-Bleed Shield (only in confirmed Regime C bull surge with BTC 1h >= +0.35% verified below)
     const existingSyms = new Set([...qualifiedNewsCats, ...bnfPanicWatchList].map(c => c.symbol));
     const waveTag = new Date().toISOString().slice(0, 13);
     const liquidLeaders = Object.entries(tickerMap)
@@ -1812,6 +1812,20 @@ async function main() {
             item.totalScore = 10;
           }
         } else if (item.isGoldenAgeCandidate) {
+          // Engine #30.12 Cross-Engine Harmonization: Match altcoin_auto_trader.mjs synthetic GoldenAge execution gates 1:1 so un-executable synthetic picks never crowd out top4AltcoinPicks!
+          const passesEngine3012SynthGate =
+            item.hasDirectMention ||
+            (confirmedRegime === 'C' &&
+              marketBreadthPct >= 62 &&
+              btc1hChangePct >= 0.35 &&
+              Number(item.last1hTakerBuyPct || 50) >= 54.5 &&
+              Number(item.takerBuyRatioPct || 50) >= 53.5 &&
+              Number(item.rsAtr ?? 0) >= 0.35 &&
+              Number(item.atr1hPct || 0) >= 0.95 &&
+              Number(item.impulseAtr ?? 0) >= 0.35 &&
+              Number(item.oiChange15mPct || 0) >= 0.30 &&
+              Number(item.topWhaleLongPct || 50) >= 56.0 &&
+              !(Array.isArray(item.microstructureFlags) && item.microstructureFlags.includes('TAKER_FLOW_DECEL')));
           const hasValidOi = Number.isFinite(item.oiChange15mPct);
           const minReqWhale = item.isSovereignCrisisCandidate || isFridayMorningTrapSetup ? 54 : 52;
           const minReqOi = item.isSovereignCrisisCandidate
@@ -1838,7 +1852,7 @@ async function main() {
                   (item.instBuySellRatio || 0) >= 1.06 &&
                   item.oiChange15mPct >= -0.25))) ||
               hasSpotWhaleMomentum);
-          if (hasFuturesConfirmation && !(item.microstructureFlags || []).includes('PRICE_OI_DIVERGENCE')) {
+          if (passesEngine3012SynthGate && hasFuturesConfirmation && !(item.microstructureFlags || []).includes('PRICE_OI_DIVERGENCE')) {
             item.isGoldenAgeLeader = true;
             item.isSovereignCrisisLeader = Boolean(item.isSovereignCrisisCandidate && confirmedRegime === 'B');
             item.liveLlmDecision = 'LONG';

@@ -3779,37 +3779,53 @@ async function manageOpenPosition(state, candidates = []) {
         }
       }
     }
-  } else if (peakCoinMoveFrac >= 0.0092 && rawCoinMoveFrac >= 0.0042 && !pos.tp1Done) { // Engine #106B: Prevent +0.26% MICRO_POP_FEE_LOCK (+0.46 TL) from choking winning trades before TP1
-    // Engine #63A + #78B + #87D (GPT-6-Luna Pre-TP1 MFE Expectancy Guard & Micro-Pop Fee-Plus Lock):
+  } else if (peakCoinMoveFrac >= 0.0052 && rawCoinMoveFrac >= 0.0028 && !pos.tp1Done) { // Engine #106B + #111A: Keep normal weakening gated at >=0.92%, while unblocking #101B Second-Chance Bounce & Deep-MAE/20m+ Supply-Ceiling Recovery Lock!
+    // Engine #63A + #78B + #87D + #111A (GPT-6-Luna Pre-TP1 MFE Expectancy Guard & Deep-Drawdown Recovery Lock):
     // 1. Require rawCoinMoveFrac >= 0.0028 so the +0.26% stop is strictly on the valid side of current markExitPrice!
-    // 2. Regular weakening path requires peak >= +0.42%, microHeldMins >= 8, AND 5m taker <= 0.86x LONG / >= 1.16x SHORT so normal breathers are never choked before TP1 (+1.25%)!
-    // 3. Emergency fast path triggers on 2m BTC shock (<= -0.28% LONG / >= +0.28% SHORT) or severe fast taker crash (microHeldMins >= 3.5 && taker <= 0.76x LONG / >= 1.28x SHORT).
+    // 2. Regular weakening path requires peak >= +0.92%, raw >= +0.42%, microHeldMins >= 8, AND 5m taker <= 0.86x LONG / >= 1.16x SHORT so normal breathers are never choked before TP1 (+1.25%)!
+    // 3. Second-chance bounce (#101B) or Deep-MAE (>=0.65% adverse) / >=20m recovery to >=+0.62% MFE against live resistance veto (#111A, like PHAUSDT recovering from -1.01% MAE to +0.68% MFE at 35m into 4h wick ceiling) locks +0.26% immediately!
     const microLockCand =
       candidates.find(c => c.symbol === pos.symbol) ||
       (state.openPositionLiveCand?.symbol === pos.symbol ? state.openPositionLiveCand : null);
     const microHeldMins = (Date.now() - new Date(pos.entryTime).getTime()) / 60000;
     const isFastMicroTakerCrash = Boolean(
-      microHeldMins >= 3.5 &&
+      peakCoinMoveFrac >= 0.0085 &&
+        rawCoinMoveFrac >= 0.0038 &&
+        microHeldMins >= 3.5 &&
         microLockCand &&
         microLockCand.takerDataValid &&
         (pos.side === 'LONG' ? microLockCand.instBuySellRatio <= 0.76 : microLockCand.instBuySellRatio >= 1.28)
     );
     const isMicroTakerWeakening = Boolean(
-      peakCoinMoveFrac >= 0.0042 &&
+      peakCoinMoveFrac >= 0.0092 &&
+        rawCoinMoveFrac >= 0.0042 &&
         microHeldMins >= 8 &&
         microLockCand &&
         microLockCand.takerDataValid &&
         (pos.side === 'LONG' ? microLockCand.instBuySellRatio <= 0.86 : microLockCand.instBuySellRatio >= 1.16)
     );
     const btc2mNow = Number(state.marketSummary?.btcChange2mPct || 0);
-    const isBtc2mShockAgainst = pos.side === 'LONG' ? btc2mNow <= -0.28 : btc2mNow >= 0.28;
+    const isBtc2mShockAgainst = Boolean(peakCoinMoveFrac >= 0.0065 && (pos.side === 'LONG' ? btc2mNow <= -0.28 : btc2mNow >= 0.28));
     // Engine #101B (Second-Chance Lower-High Bounce Lock):
     // If the trade already spiked >= +0.52%, rejected below entry (<= -0.15%), and then bounced back to >= +0.28% (like QNTUSDT bouncing to $191.06 +0.315% at minute 9 after dipping to $190.10),
     // lock the +0.26% fee-plus stop immediately on the lower-high bounce before the real breakdown hits!
     const isSecondChanceBounceAfterDip = Boolean(
       pos.dippedBelowEntryAfterPop && peakCoinMoveFrac >= 0.0052 && rawCoinMoveFrac >= 0.0028
     );
-    if (isFastMicroTakerCrash || isMicroTakerWeakening || isBtc2mShockAgainst || isSecondChanceBounceAfterDip) {
+    // Motor #111A (GPT-6-Luna Deep-Drawdown / Mature Supply-Ceiling Recovery Lock):
+    // When a position suffered >= 0.65% MAE (like PHAUSDT -1.01% MAE) or has been open >= 20m, and then recovers to >= +0.62% MFE while hitting a 15m resistance veto or held >= 25m,
+    // lock +0.26% fee-plus stop so a hard-fought recovery into resistance never round-trips back to a loss!
+    const isDeepMaeOrStaleResistanceRecoveryLock = Boolean(
+      peakCoinMoveFrac >= 0.0062 &&
+        rawCoinMoveFrac >= 0.0028 &&
+        ((pos.maxAdverseCoinMoveFrac || 0) >= 0.0065 || microHeldMins >= 20) &&
+        (microHeldMins >= 25 ||
+          (microLockCand &&
+            (pos.side === 'LONG'
+              ? microLockCand.vetoLong || microLockCand.instBuySellRatio <= 0.95 || microLockCand.whaleRetailSpread < 0
+              : microLockCand.vetoShort || microLockCand.instBuySellRatio >= 1.05 || microLockCand.whaleRetailSpread > 0)))
+    );
+    if (isFastMicroTakerCrash || isMicroTakerWeakening || isBtc2mShockAgainst || isSecondChanceBounceAfterDip || isDeepMaeOrStaleResistanceRecoveryLock) {
       if (pos.side === 'LONG') {
         const microLock = roundPriceToTick(pos.fSym, pos.entryPrice * (1 + 0.0026), 'floor');
         if (microLock > pos.stopPrice && microLock < markExitPrice) {
@@ -5351,7 +5367,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v13.19-1mShootingStarPostSpikeVeto-And-IntrabarPeakRejectUnblind-Motor110';
+  state.version = 'Mutlak-Yapi-v13.20-DeepMaeRecoveryProfitLock-And-SpotGoldenAgeHarmonization-Motor111';
   // Engine #89 Startup Hygiene: Clear stale orderbook cooldowns so unchained hype rockets are immediately evaluated
   state.obVetoCooldowns = {};
   state.obVetoStrikes = {};
