@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-26T06:37:24.144Z",
+  "updatedAt": "2026-10-26T07:35:09.237Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.1207,
@@ -2107,10 +2107,10 @@
     "[18:43:01] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (WEAK_IMBALANCE (-0.1945 -> -0.1313 < -0.05) | ob1:-0.1945 -> ob2:-0.1313)",
     "[18:42:57] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (NO_BOOK_SNAPSHOT_2 | ob1:-0.1786 -> ob2:N/A)"
   ],
-  "totalEquityUsdt": 19.4495,
-  "totalEquityTry": 966.64,
-  "totalPnlUsdt": -0.6712,
-  "totalPnlPct": -3.34,
+  "totalEquityUsdt": 19.4471,
+  "totalEquityTry": 966.52,
+  "totalPnlUsdt": -0.6736,
+  "totalPnlPct": -3.35,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -2135,242 +2135,10 @@
   "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BCH: 0.0010 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0077 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0870 | HBAR: 0.8140 | HYPE: 0.0009 | ICP: 0.0002 | INJ: 0.0067 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0007 | NEAR: 0.0004 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 0.0628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0636 | STX: 0.0700 | TAO: 0.0001 | THETA: 0.0680 | TIA: 0.0084 | TRY: 895.1391 | UNI: 0.0080 | WLD: 0.0658 | ZRO: 0.0037)",
   "lastWhatsAppReportAt": 1792788324267,
   "highWaterMarkUsdt": 20.1207,
-  "cashIdleSince": null,
+  "cashIdleSince": 1792971034087,
   "usdTryRate": 49.7,
-  "totalPnlTry": -33.36,
+  "totalPnlTry": -33.48,
   "equityHistory": [
-    {
-      "t": "08:02",
-      "v": 967.46
-    },
-    {
-      "t": "08:03",
-      "v": 967.5
-    },
-    {
-      "t": "08:04",
-      "v": 967.52
-    },
-    {
-      "t": "08:05",
-      "v": 967.57
-    },
-    {
-      "t": "08:06",
-      "v": 967.51
-    },
-    {
-      "t": "08:07",
-      "v": 967.49
-    },
-    {
-      "t": "08:08",
-      "v": 967.46
-    },
-    {
-      "t": "08:09",
-      "v": 967.43
-    },
-    {
-      "t": "08:10",
-      "v": 967.43
-    },
-    {
-      "t": "08:11",
-      "v": 967.44
-    },
-    {
-      "t": "08:12",
-      "v": 967.5
-    },
-    {
-      "t": "08:13",
-      "v": 967.54
-    },
-    {
-      "t": "08:14",
-      "v": 967.51
-    },
-    {
-      "t": "08:15",
-      "v": 967.52
-    },
-    {
-      "t": "08:16",
-      "v": 967.49
-    },
-    {
-      "t": "08:17",
-      "v": 967.5
-    },
-    {
-      "t": "08:18",
-      "v": 967.43
-    },
-    {
-      "t": "08:19",
-      "v": 967.35
-    },
-    {
-      "t": "08:20",
-      "v": 967.33
-    },
-    {
-      "t": "08:21",
-      "v": 967.31
-    },
-    {
-      "t": "08:22",
-      "v": 967.37
-    },
-    {
-      "t": "08:23",
-      "v": 967.46
-    },
-    {
-      "t": "08:24",
-      "v": 967.37
-    },
-    {
-      "t": "08:25",
-      "v": 967.42
-    },
-    {
-      "t": "08:26",
-      "v": 967.52
-    },
-    {
-      "t": "08:27",
-      "v": 967.48
-    },
-    {
-      "t": "08:28",
-      "v": 967.48
-    },
-    {
-      "t": "08:29",
-      "v": 967.42
-    },
-    {
-      "t": "08:30",
-      "v": 967.35
-    },
-    {
-      "t": "08:31",
-      "v": 967.36
-    },
-    {
-      "t": "08:32",
-      "v": 967.37
-    },
-    {
-      "t": "08:33",
-      "v": 967.41
-    },
-    {
-      "t": "08:34",
-      "v": 967.39
-    },
-    {
-      "t": "08:35",
-      "v": 967.38
-    },
-    {
-      "t": "08:36",
-      "v": 967.37
-    },
-    {
-      "t": "08:37",
-      "v": 967.37
-    },
-    {
-      "t": "08:38",
-      "v": 967.43
-    },
-    {
-      "t": "08:39",
-      "v": 967.53
-    },
-    {
-      "t": "08:40",
-      "v": 967.45
-    },
-    {
-      "t": "08:41",
-      "v": 967.41
-    },
-    {
-      "t": "08:42",
-      "v": 967.43
-    },
-    {
-      "t": "08:43",
-      "v": 967.45
-    },
-    {
-      "t": "08:44",
-      "v": 967.43
-    },
-    {
-      "t": "08:45",
-      "v": 967.47
-    },
-    {
-      "t": "08:46",
-      "v": 967.48
-    },
-    {
-      "t": "08:47",
-      "v": 967.47
-    },
-    {
-      "t": "08:48",
-      "v": 967.49
-    },
-    {
-      "t": "08:49",
-      "v": 967.54
-    },
-    {
-      "t": "08:50",
-      "v": 967.59
-    },
-    {
-      "t": "08:51",
-      "v": 967.53
-    },
-    {
-      "t": "08:52",
-      "v": 967.55
-    },
-    {
-      "t": "08:53",
-      "v": 967.48
-    },
-    {
-      "t": "08:54",
-      "v": 967.46
-    },
-    {
-      "t": "08:55",
-      "v": 967.46
-    },
-    {
-      "t": "08:56",
-      "v": 967.45
-    },
-    {
-      "t": "08:57",
-      "v": 967.45
-    },
-    {
-      "t": "08:58",
-      "v": 967.45
-    },
-    {
-      "t": "08:59",
-      "v": 967.48
-    },
     {
       "t": "09:00",
       "v": 967.5
@@ -2522,6 +2290,238 @@
     {
       "t": "09:37",
       "v": 966.64
+    },
+    {
+      "t": "09:38",
+      "v": 966.71
+    },
+    {
+      "t": "09:39",
+      "v": 966.78
+    },
+    {
+      "t": "09:40",
+      "v": 966.83
+    },
+    {
+      "t": "09:41",
+      "v": 966.78
+    },
+    {
+      "t": "09:42",
+      "v": 966.77
+    },
+    {
+      "t": "09:43",
+      "v": 966.75
+    },
+    {
+      "t": "09:44",
+      "v": 966.69
+    },
+    {
+      "t": "09:45",
+      "v": 966.67
+    },
+    {
+      "t": "09:46",
+      "v": 966.68
+    },
+    {
+      "t": "09:47",
+      "v": 966.71
+    },
+    {
+      "t": "09:48",
+      "v": 966.73
+    },
+    {
+      "t": "09:49",
+      "v": 966.77
+    },
+    {
+      "t": "09:50",
+      "v": 966.73
+    },
+    {
+      "t": "09:51",
+      "v": 966.81
+    },
+    {
+      "t": "09:52",
+      "v": 966.85
+    },
+    {
+      "t": "09:53",
+      "v": 966.8
+    },
+    {
+      "t": "09:54",
+      "v": 966.73
+    },
+    {
+      "t": "09:55",
+      "v": 966.72
+    },
+    {
+      "t": "09:56",
+      "v": 966.74
+    },
+    {
+      "t": "09:57",
+      "v": 966.76
+    },
+    {
+      "t": "09:58",
+      "v": 966.82
+    },
+    {
+      "t": "09:59",
+      "v": 966.83
+    },
+    {
+      "t": "10:00",
+      "v": 966.93
+    },
+    {
+      "t": "10:01",
+      "v": 967.05
+    },
+    {
+      "t": "10:02",
+      "v": 966.95
+    },
+    {
+      "t": "10:03",
+      "v": 966.85
+    },
+    {
+      "t": "10:04",
+      "v": 966.9
+    },
+    {
+      "t": "10:05",
+      "v": 966.86
+    },
+    {
+      "t": "10:06",
+      "v": 966.87
+    },
+    {
+      "t": "10:07",
+      "v": 966.82
+    },
+    {
+      "t": "10:08",
+      "v": 966.82
+    },
+    {
+      "t": "10:09",
+      "v": 966.8
+    },
+    {
+      "t": "10:10",
+      "v": 966.79
+    },
+    {
+      "t": "10:11",
+      "v": 966.78
+    },
+    {
+      "t": "10:12",
+      "v": 966.78
+    },
+    {
+      "t": "10:13",
+      "v": 966.75
+    },
+    {
+      "t": "10:14",
+      "v": 966.76
+    },
+    {
+      "t": "10:15",
+      "v": 966.74
+    },
+    {
+      "t": "10:16",
+      "v": 966.73
+    },
+    {
+      "t": "10:17",
+      "v": 966.72
+    },
+    {
+      "t": "10:18",
+      "v": 966.8
+    },
+    {
+      "t": "10:19",
+      "v": 966.74
+    },
+    {
+      "t": "10:20",
+      "v": 966.71
+    },
+    {
+      "t": "10:21",
+      "v": 966.76
+    },
+    {
+      "t": "10:22",
+      "v": 966.73
+    },
+    {
+      "t": "10:23",
+      "v": 966.8
+    },
+    {
+      "t": "10:24",
+      "v": 966.79
+    },
+    {
+      "t": "10:25",
+      "v": 966.78
+    },
+    {
+      "t": "10:26",
+      "v": 966.73
+    },
+    {
+      "t": "10:27",
+      "v": 966.69
+    },
+    {
+      "t": "10:28",
+      "v": 966.65
+    },
+    {
+      "t": "10:29",
+      "v": 966.64
+    },
+    {
+      "t": "10:30",
+      "v": 966.5
+    },
+    {
+      "t": "10:31",
+      "v": 966.56
+    },
+    {
+      "t": "10:32",
+      "v": 966.58
+    },
+    {
+      "t": "10:33",
+      "v": 966.57
+    },
+    {
+      "t": "10:34",
+      "v": 966.56
+    },
+    {
+      "t": "10:35",
+      "v": 966.52
     }
   ],
   "walletAssetsMap": {
@@ -2559,10 +2559,10 @@
     "WLD": 0.0658,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.4386,
-  "dustAssetsTry": 71.5,
+  "dustAssetsUsdt": 1.4363,
+  "dustAssetsTry": 71.38,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-26T06:37:24.144Z",
+    "updatedAt": "2026-10-26T07:35:09.237Z",
     "totalAnalyzedTrades": 46,
     "globalWR": 0.458,
     "coinStats": {
@@ -3347,18 +3347,18 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 966.64,
+    "totalNetWorthTry": 966.52,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
       "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %45.7 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-26T06:37:24.144Z"
+    "updatedAt": "2026-10-26T07:35:09.237Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254,
-  "noBuyShort": "📡 Raad ol, pusudayız (Rejim B -> SOVEREIGN): Piyasa %29 yeşil ama 99 haber içinde henüz mutlak kriterleri geçen aday yok, sahte sinyale girmiyoruz.",
-  "noBuyDetail": "1) **Piyasa & Rejim Durumu:** Altcoinlerin %29'i yeşil (1s BTC: %-0.24 | Aktif Motor: `Engine #30 SOVEREIGN`). 2) **Sıfır Sahte Sinyal Kuralı:** 14 kaynaktan 106 haber ve kurumsal liderler tarandı; kriterleri geçen ilk fırsatta otomatik alım yapılacak.",
+  "noBuyShort": "📡 Raad ol, pusudayız (Rejim B -> SOVEREIGN): Piyasa %34 yeşil ama 99 haber içinde henüz mutlak kriterleri geçen aday yok, sahte sinyale girmiyoruz.",
+  "noBuyDetail": "1) **Piyasa & Rejim Durumu:** Altcoinlerin %34'i yeşil (1s BTC: %0.05 | Aktif Motor: `Engine #30 SOVEREIGN`). 2) **Sıfır Sahte Sinyal Kuralı:** 14 kaynaktan 110 haber ve kurumsal liderler tarandı; kriterleri geçen ilk fırsatta otomatik alım yapılacak.",
   "shadowPositions": [
     {
       "symbol": "XRP",

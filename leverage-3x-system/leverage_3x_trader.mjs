@@ -742,6 +742,12 @@ function runTwoHourSelfAudit(state, forceLog = false) {
           rootCause: '5dk Kurumsal Taker Oranı 0.96x (<1.02x) İken Giriş + Başabaş Kâr Kilidinin (%0.24) 4sn İğnesinde Komisyon Altı Kapanması',
           fixApplied: 'Motor #44: 5dk Kurumsal Taker Tabanı (LONG >= 1.02x / SHORT <= 0.98x) + +%0.34 Komisyon-Üstü Garantili Kâr Kilidi Clamp',
         });
+      } else if (t.symbol === 'BR' && t.side === 'LONG') {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: 'Kırmızı b1 Mum ($0.4869, CLV:0.40) ve 2s Çoklu Üst İğne Direnci ($0.4925–$0.4948) Altında 5.dk Kapanmamış Baby-Bar Sıçramasının ($0.4938) Sahte TTM Patlaması Sayılarak NÖTR OI + YATAY MTF + Formasyonsuz Girişi (-10.3 TL Stop Yerine Motor #104C İle -5.83 TL Erken Kurtarış)',
+          fixApplied: 'Motor #105A–#105C: Kırmızı b1 Sonrası 2s Yerel Zirve ($H_8$) Kırılmadan Baby-Bar TTM Patlaması Yasağı + 2-Saatlik (8-Bar) Çoklu İğne Tavanı Vetosu + Stop Sonrası/NÖTR OI YATAY MTF Formasyonsuz Giriş Kilidi',
+        });
       } else if (t.symbol === 'BR' && t.side === 'SHORT') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
@@ -1375,11 +1381,29 @@ function analyzeMtfAndVolatilitySqueeze(klines) {
   const prevStats = calcSliceStats(klines.length - 1);
   const prev2Stats = calcSliceStats(klines.length - 2);
 
-  const wasRecentlyCoiled = prevStats.isCoiled || prev2Stats.isCoiled || prevStats.bbWidthPct <= 1.85;
-  const isExpandingUp = wasRecentlyCoiled && lastClose > curStats.mean + 1.15 * curStats.std;
-  const isExpandingDown = wasRecentlyCoiled && lastClose < curStats.mean - 1.15 * curStats.std;
+  // Motor #105A (GPT-6-Luna Confirmed TTM Squeeze Expansion vs. Unclosed Intrabar Spike After Red b1):
+  // An unclosed baby/mid bar b0 spiking into local resistance after a red completed bar b1 (like BRUSDT at 10:05:32: b1 $0.4890->$0.4869 red CLV:0.40, b0 5m spike to $0.4938 below 2h high H8=$0.4948)
+  // must NEVER manufacture a fake +6p TTM Squeeze Breakout! Require either completed-bar alignment (b1IsGreen) or an actual breakout above the 8-bar completed high H8 (or below L8 for short).
+  const b0Raw = klines[klines.length - 1] || [];
+  const b1Raw = klines[klines.length - 2] || [];
+  const b0OpenTime = Number(b0Raw[0] || 0);
+  const b0ElapsedFrac = b0OpenTime > 0 ? Math.max(0.05, Math.min(1.0, (Date.now() - b0OpenTime) / (15 * 60 * 1000))) : 0.5;
+  const b1IsGreen = Number(b1Raw[4] || 0) >= Number(b1Raw[1] || 0);
+  const prior8Completed = klines.slice(Math.max(0, klines.length - 9), klines.length - 1);
+  const high8Completed = prior8Completed.length ? Math.max(...prior8Completed.map(k => Number(k[2]))) : lastClose;
+  const low8Completed = prior8Completed.length ? Math.min(...prior8Completed.map(k => Number(k[3]))) : lastClose;
+  const confirmedBreakAboveH8 = lastClose >= high8Completed * 1.0005 || prevClose > prevStats.mean + 1.05 * prevStats.std;
+  const confirmedBreakBelowL8 = lastClose <= low8Completed * 0.9995 || prevClose < prevStats.mean - 1.05 * prevStats.std;
 
-  let squeezeLabel = curStats.isCoiled ? 'Yay Sıkışması (TTM Coil)' : 'Normal';
+  const wasRecentlyCoiled = prevStats.isCoiled || prev2Stats.isCoiled || prevStats.bbWidthPct <= 1.85;
+  const rawExpandingUp = wasRecentlyCoiled && lastClose > curStats.mean + 1.15 * curStats.std;
+  const rawExpandingDown = wasRecentlyCoiled && lastClose < curStats.mean - 1.15 * curStats.std;
+  const isExpandingUp = rawExpandingUp && (confirmedBreakAboveH8 || (b1IsGreen && b0ElapsedFrac >= 0.60));
+  const isExpandingDown = rawExpandingDown && (confirmedBreakBelowL8 || (!b1IsGreen && b0ElapsedFrac >= 0.60));
+
+  let squeezeLabel = curStats.isCoiled || (wasRecentlyCoiled && (rawExpandingUp || rawExpandingDown) && !isExpandingUp && !isExpandingDown)
+    ? 'Yay Sıkışması (TTM Coil)'
+    : 'Normal';
   let squeezeBullishPts = 0;
   let squeezeBearishPts = 0;
   if (isExpandingUp) {
@@ -1809,46 +1833,89 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
     b0.close > requiredPriorBullishBreakLevel &&
     !b0MatureBodyBrokeB1;
 
-  // Engine #84B + #87C + #104A (GPT-6-Luna Overhead 4h Rejection-Wick / Twin-Bar Supply Room-to-TP1 Gate & Volume-Backed Absorption Exemption):
-  // If b1 or b2 set the 16-bar high with a >= 42% upper rejection wick (like LUMIAUSDT b2.high = $0.08182) OR a 2-bar twin-candle supply rejection (like NILUSDT $0.09492),
-  // and b0.close is at posIn16BarRange >= 0.72 with < 1.15% room to that rejection ceiling (blocking TP1 +1.25%), veto LONG until the ceiling is broken
-  // UNLESS b0 is actively absorbing the ceiling at the high of the bar with volume parity (b0.vol >= max(b1.vol, b2.vol) * 0.85 when twin-bar supply is present)!
+  // Engine #84B + #87C + #104A + #105B (GPT-6-Luna Overhead 4h & 2h Local Multi-Wick / Twin-Bar Supply Room-to-TP1 Gate):
+  // 1. Check both the 4h (16-bar) ceiling (fullHigh16) AND the 2h (8-bar) local ceiling (fullHigh8) so an old 3.5h spike (like BRUSDT 04:30 $0.5070)
+  //    never blinds the bot to a 2-hour local multi-wick supply ceiling (BRUSDT 05:00..06:45 $0.4925–$0.4948 with 83% and 48% upper wicks on b3/b2)!
+  const window8 = bars.slice(-8);
+  const fullLow8 = Math.min(...window8.map(b => b.low));
+  const fullHigh8 = Math.max(...window8.map(b => b.high));
+  const posIn8BarRange = fullHigh8 > fullLow8 ? Number(((b0.close - fullLow8) / (fullHigh8 - fullLow8)).toFixed(2)) : 0.5;
+  const prior3UpperRejectCnt = [b1, b2, b3].filter(
+    b => b.upperWickRatio >= 0.40 || (!b.isGreen && b.clv <= 0.42 && b.upperWickRatio >= 0.25)
+  ).length;
+  const prior3LowerRejectCnt = [b1, b2, b3].filter(
+    b => b.lowerWickRatio >= 0.40 || (b.isGreen && b.clv >= 0.58 && b.lowerWickRatio >= 0.25)
+  ).length;
+  const local8BarWickCeilingHigh = Math.max(
+    b1.upperWickRatio >= 0.42 ? b1.high : 0,
+    b2.upperWickRatio >= 0.42 ? b2.high : 0,
+    b3.upperWickRatio >= 0.42 ? b3.high : 0,
+    prior3UpperRejectCnt >= 2 ? fullHigh8 : 0
+  );
+  const local8BarWickFloorLow = Math.min(
+    b1.lowerWickRatio >= 0.42 ? b1.low : Infinity,
+    b2.lowerWickRatio >= 0.42 ? b2.low : Infinity,
+    b3.lowerWickRatio >= 0.42 ? b3.low : Infinity,
+    prior3LowerRejectCnt >= 2 ? fullLow8 : Infinity
+  );
+
   const b1OrB2WickCeilingHigh = Math.max(
     b1.upperWickRatio >= 0.42 ? b1.high : 0,
     b2.upperWickRatio >= 0.42 ? b2.high : 0,
     isTwinBarBearishSupplyCeiling ? Math.max(b1.high, b2.high) : 0
   );
+  const activeWickCeilingHigh = Math.max(b1OrB2WickCeilingHigh, local8BarWickCeilingHigh);
   const b0ActivelyAbsorbingCeilingLong =
     b0.isGreen &&
     b0.clv >= 0.85 &&
-    b0.close >= b1OrB2WickCeilingHigh * 0.9985 &&
+    b0.close >= activeWickCeilingHigh * 0.9985 &&
     b0.deltaPct >= 10 &&
-    (!isTwinBarBearishSupplyCeiling || b0.vol >= Math.max(b1.vol, b2.vol) * 0.85);
-  const isOverheadWickCeilingBlockingTp1Long =
+    b0.vol >= Math.max(b1.vol, b2.vol) * 0.85;
+  const is4hWickCeilingBlockingTp1Long =
     b1OrB2WickCeilingHigh >= fullHigh16 * 0.998 &&
     b0.close < b1OrB2WickCeilingHigh &&
     !b0ActivelyAbsorbingCeilingLong &&
     posIn16BarRange >= 0.72 &&
     (b1OrB2WickCeilingHigh - b0.close) / Math.max(1e-9, b0.close) < 0.0115;
+  const isLocal8BarWickCeilingBlockingTp1Long =
+    local8BarWickCeilingHigh >= fullHigh8 * 0.994 &&
+    prior3UpperRejectCnt >= 2 &&
+    b0.close < fullHigh8 &&
+    !b0ActivelyAbsorbingCeilingLong &&
+    posIn8BarRange >= 0.76 &&
+    (fullHigh8 - b0.close) / Math.max(1e-9, b0.close) < 0.0115;
+  const isOverheadWickCeilingBlockingTp1Long =
+    is4hWickCeilingBlockingTp1Long || isLocal8BarWickCeilingBlockingTp1Long;
 
   const b1OrB2WickFloorLow = Math.min(
     b1.lowerWickRatio >= 0.42 ? b1.low : Infinity,
     b2.lowerWickRatio >= 0.42 ? b2.low : Infinity,
     isTwinBarBullishDemandFloor ? Math.min(b1.low, b2.low) : Infinity
   );
+  const activeWickFloorLow = Math.min(b1OrB2WickFloorLow, local8BarWickFloorLow);
   const b0ActivelyAbsorbingFloorShort =
     !b0.isGreen &&
     b0.clv <= 0.15 &&
-    b0.close <= b1OrB2WickFloorLow * 1.0015 &&
+    b0.close <= activeWickFloorLow * 1.0015 &&
     b0.deltaPct <= -10 &&
-    (!isTwinBarBullishDemandFloor || b0.vol >= Math.max(b1.vol, b2.vol) * 0.85);
-  const isUnderfootWickFloorBlockingTp1Short =
+    b0.vol >= Math.max(b1.vol, b2.vol) * 0.85;
+  const is4hWickFloorBlockingTp1Short =
     Number.isFinite(b1OrB2WickFloorLow) &&
     b1OrB2WickFloorLow <= fullLow16 * 1.002 &&
     b0.close > b1OrB2WickFloorLow &&
     !b0ActivelyAbsorbingFloorShort &&
     posIn16BarRange <= 0.28 &&
     (b0.close - b1OrB2WickFloorLow) / Math.max(1e-9, b0.close) < 0.0115;
+  const isLocal8BarWickFloorBlockingTp1Short =
+    Number.isFinite(local8BarWickFloorLow) &&
+    local8BarWickFloorLow <= fullLow8 * 1.006 &&
+    prior3LowerRejectCnt >= 2 &&
+    b0.close > fullLow8 &&
+    !b0ActivelyAbsorbingFloorShort &&
+    posIn8BarRange <= 0.24 &&
+    (b0.close - fullLow8) / Math.max(1e-9, b0.close) < 0.0115;
+  const isUnderfootWickFloorBlockingTp1Short =
+    is4hWickFloorBlockingTp1Short || isLocal8BarWickFloorBlockingTp1Short;
 
   const vetoLong = Boolean(
     bearishPattern ||
@@ -3029,16 +3096,18 @@ async function scanPerpUniverse(state) {
     // 1. Block Q2 (falling OI short-covering) LONG entries when 24h momentum is flat (< 2.80%), MTF is flat with weak CLV (< 0.70),
     //    or there is no TTM Squeeze Breakout (!mtfSqueeze.squeezeBullishPts) and 1h momentum is stale (change1hPct < 0.65 || rsVsBtcAtr < 0.70 — blocks QNTUSDT 1s:+0.39%, RS_BTC:+0.4 ATR, OI:-0.75% 32m chop).
     // 2. Block flat 24h coins (< 2.20%) that lack Q1 new-buyer OI and MTF Bullish trend (like NEARUSDT 24s:+0.089%, Q2 OI↓, YATAY MTF, CLV:0.55 -> -6.75 TL).
-    // 3. On NÖTR OI without a TTM Squeeze Breakout (!mtfSqueeze.squeezeBullishPts), require a formal bullish candlestick pattern (anatomy.bullishPattern),
-    //    negative-basis/funding squeeze (basisPct <= -0.025 || fundingRatePct <= -0.010), or high-conviction score >= 86 (blocks PONSUSDT NÖTR OI + +0.0075% basis + 80p wick trap)!
+    // 3. On NÖTR OI, require either Q1/MTF Bullish confirmation, a formal bullish candlestick pattern (anatomy.bullishPattern),
+    //    negative-basis/funding squeeze (basisPct <= -0.025 || fundingRatePct <= -0.010), or high-conviction score >= 86
+    //    (Motor #105C: even if TTM expansion is present, never allow NÖTR OI + YATAY MTF + !bullishPattern + positive basis/funding + stretched stop >= 1.70% or prior stop like BRUSDT 78p -> -5.83 TL)!
     const isWeakNeutralOiLongVeto =
       oiQuadrant === 'NÖTR' &&
-      mtfSqueeze.squeezeBullishPts === 0 &&
       !hasFreshDirectNews &&
       !anatomy.bullishPattern &&
       item.basisPct > -0.025 &&
       item.fundingRatePct > -0.010 &&
-      rawLongTotal < 86;
+      rawLongTotal < 86 &&
+      (mtfSqueeze.squeezeBullishPts === 0 ||
+        (mtfSqueeze.mtfBullishPts === 0 && (symPriorStops >= 1 || longStructDistPct >= 1.70 || rawLongTotal < 82)));
     // Engine #96A + #98A + #101A (GPT-6-Luna Non-Breakout TTM-Coil Lagging-RS Veto & GCR Perp-Bubble Guard):
     // 1. If a coin has NOT broken out of a TTM Squeeze (mtfSqueeze.squeezeBullishPts === 0, i.e. Yay Sıkışması / Normal),
     //    strictly forbid LONG entries when 1h relative strength is lagging (rsVsBtcAtr < 0.58 ATR or change1hPct < 0.65)
@@ -3061,8 +3130,9 @@ async function scanPerpUniverse(state) {
           (mtfSqueeze.squeezeBullishPts === 0 || whaleRetailSpread <= 0.5 || longStructDistPct >= 1.95 || (!anatomy.bullishPattern && item.basisPct >= 0))));
     const isPriorStopRangeChopLongVeto =
       symPriorStops >= 1 &&
-      mtfSqueeze.squeezeBullishPts === 0 &&
-      (mtfSqueeze.mtfBullishPts === 0 || (!oiQuadrant.startsWith('Q1') && item.fundingRatePct > -0.015));
+      ((mtfSqueeze.squeezeBullishPts === 0 &&
+        (mtfSqueeze.mtfBullishPts === 0 || (!oiQuadrant.startsWith('Q1') && item.fundingRatePct > -0.015))) ||
+        (mtfSqueeze.mtfBullishPts === 0 && !oiQuadrant.startsWith('Q1') && !anatomy.bullishPattern && item.fundingRatePct > -0.015));
     const isQ2WeakBounceLongVeto =
       isWeakNeutralOiLongVeto ||
       isStalledNonSqueezeLongVeto ||
@@ -5134,7 +5204,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v13.13-Anti-TwinBar-DoubleTop-Ceiling-And-EarlyRejection-Scratch-Motor104';
+  state.version = 'Mutlak-Yapi-v13.14-Anti-Intrabar-SqueezeFakeout-And-Local8BarWickCeiling-Motor105';
   // Engine #89 Startup Hygiene: Clear stale orderbook cooldowns so unchained hype rockets are immediately evaluated
   state.obVetoCooldowns = {};
   state.obVetoStrikes = {};
