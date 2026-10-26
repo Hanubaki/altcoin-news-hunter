@@ -640,6 +640,12 @@ function runTwoHourSelfAudit(state, forceLog = false) {
           rootCause: 'Yapısal Destek ($0.08341) Tutup Fiyat Giriş Üstüne ($0.08450) Toparlanırken 24. Dakikada Erken Bayat-İvme Tahliyesi',
           fixApplied: 'Motor #75A & #75B: Giriş Üstü/Başabaş Toparlanan İşlemde Erken Scratch Yasağı + <3.50 TL Scratch İşlemlerde 10s Karantina Muafiyeti',
         });
+      } else if (t.symbol === 'POLYX' && t.side === 'LONG') {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: 'Negatif Balina Makasında (-%2.8) 90sn Erken Surge Reset Girişi + -%0.86 Dipten +%0.55 Tepeye Toparlanıp -%0.158 Fonlama İle Sadece -%0.26 (0.12R) Gerideyken Eski MAE (39%R) Yüzünden 22.dk Komisyon-Zararı Tahliyesi',
+          fixApplied: 'Motor #102A & #102B: Engine #41 Surge Reset İçin Balina Uyumu (>=0 LONG / <=0 SHORT) Zorunluluğu + 22dk/32dk Bayat Tahliyede Anlık Drawdown (currentAdverseR >= 0.20 & <= -%0.32) ve Negatif Fonlama Kalkanı',
+        });
       } else if (t.symbol === 'ENA' && t.side === 'LONG') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
@@ -3742,9 +3748,19 @@ async function manageOpenPosition(state, candidates = []) {
       isWickTakerCollapseScratch = true;
     }
   }
-  // Engine #49 + #62 + #75A (GPT-6-Luna 32-Minute R-Normalized MFE/MAE & Giveback Stale-Trade Scratch — Never Cut Recovering Trades Above Entry):
-  // Never scratch a trade when rawCoinMoveFrac > -0.0008 (price is above entry or within 0.08% of entry recovering from a dip, like NILUSDT at $0.08450 vs $0.08442)!
-  if (!isTpHit && !isStopHit && !isFishingEmergencyExit && !isWickTakerCollapseScratch && !pos.tp1Done && rawCoinMoveFrac <= -0.0008) {
+  // Engine #49 + #62 + #75A + #102B (GPT-6-Luna 32-Minute R-Normalized MFE/MAE & Giveback Stale-Trade Scratch — Never Cut Recovering Trades Near Entry):
+  // 1. Require rawCoinMoveFrac <= -0.0032 and currentAdverseR >= 0.20 so a position that already recovered 70% of an early dip and is sitting within -0.26% (0.12R) of entry
+  //    (like POLYXUSDT at $0.03466 vs $0.03475 right before rallying to $0.03499 +0.69%) is NEVER fee-scratched because of a stale minute-1 aeR!
+  const currentAdverseR = currentAdverseFrac / initRiskFrac;
+  if (
+    !isTpHit &&
+    !isStopHit &&
+    !isFishingEmergencyExit &&
+    !isWickTakerCollapseScratch &&
+    !pos.tp1Done &&
+    rawCoinMoveFrac <= -0.0032 &&
+    currentAdverseR >= 0.20
+  ) {
     const whaleOrTakerFlippedAgainst = Boolean(
       curPosLiveCand &&
         ((pos.side === 'SHORT' &&
@@ -3753,6 +3769,12 @@ async function manageOpenPosition(state, candidates = []) {
           (pos.side === 'LONG' &&
             (curPosLiveCand.whaleRetailSpread <= -3.0 ||
               (curPosLiveCand.instBuySellRatio <= 0.85 && (curPosLiveCand.whaleRetailSpread <= 0 || curPosLiveCand.score < 85)))))
+    );
+    const liveFundNow = Number(curPosLiveCand?.fundingRatePct ?? pos.fundingRatePct ?? 0);
+    const hasHeavyFavorableFundingAndHigherHigh = Boolean(
+      peakCoinMoveFrac >= 0.0035 &&
+        currentAdverseR < 0.35 &&
+        ((pos.side === 'LONG' && liveFundNow <= -0.10) || (pos.side === 'SHORT' && liveFundNow >= 0.10))
     );
     const isGivebackStall =
       minsHeld >= 30 &&
@@ -3763,6 +3785,7 @@ async function manageOpenPosition(state, candidates = []) {
     const isDeepMaeWatchlistDegraded22m = Boolean(
       minsHeld >= 22 &&
         aeR >= 0.55 &&
+        currentAdverseR >= 0.30 &&
         mfeR < 0.15 &&
         (!curPosLiveCand || curPosLiveCand.engine === 'WATCHLIST' || curPosLiveCand.score < 78) &&
         (pos.side === 'LONG'
@@ -3773,12 +3796,12 @@ async function manageOpenPosition(state, candidates = []) {
       isGivebackStall ||
       isDeepMaeWatchlistDegraded22m ||
       (minsHeld >= 32 && aeR >= 0.35 && mfeR < 0.25 && (whaleOrTakerFlippedAgainst || !curPosLiveCand || curPosLiveCand.score < 85)) ||
-      (minsHeld >= 22 && aeR >= 0.30 && mfeR < 0.30 && whaleOrTakerFlippedAgainst)
+      (minsHeld >= 22 && !hasHeavyFavorableFundingAndHigherHigh && aeR >= 0.30 && currentAdverseR >= 0.25 && mfeR < 0.30 && whaleOrTakerFlippedAgainst)
     ) {
       isStaleMomentumScratch = true;
     }
   }
-  if (!isTpHit && !isStopHit && !isFishingEmergencyExit && !isWickTakerCollapseScratch && !isStaleMomentumScratch && minsHeld >= 22 && rawCoinMoveFrac <= -0.0008 && rawCoinMoveFrac >= -0.0045) {
+  if (!isTpHit && !isStopHit && !isFishingEmergencyExit && !isWickTakerCollapseScratch && !isStaleMomentumScratch && minsHeld >= 22 && rawCoinMoveFrac <= -0.0032 && rawCoinMoveFrac >= -0.0045) {
     const depth = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${pos.fSym}&limit=15`, {}, 2000);
     if (state.openPosition?.id !== posId || pos.isClosing) return;
     if (depth?.bids?.length && depth?.asks?.length) {
@@ -4041,8 +4064,19 @@ async function tryOpenPosition(state, candidates) {
       const isQuarantined = symCds[c.symbol] && symCds[c.symbol] > nowEntryMs;
       if (strikes < 2 && !isSpoofOrHollow && !isQuarantined && c.takerDataValid) {
         const elapsedSinceVetoMs = nowEntryMs - (state.obVetoAtMs[c.symbol] || 0);
-        const isLongSurge = c.side === 'LONG' && c.volRatio15m >= 1.25 && c.oiDelta1hPct >= 0.35 && c.instBuySellRatio >= 1.25;
-        const isShortSurge = c.side === 'SHORT' && c.volRatio15m >= 1.25 && c.oiDelta1hPct >= 0.35 && c.instBuySellRatio <= 0.80;
+        // Engine #102A: Require Whale Alignment (whaleRetailSpread >= 0 LONG / <= 0 SHORT) for early 90s Surge Reset so negative-whale coins like POLYX (-2.8%) serve their full orderbook cooldown!
+        const isLongSurge =
+          c.side === 'LONG' &&
+          c.volRatio15m >= 1.25 &&
+          c.oiDelta1hPct >= 0.35 &&
+          c.instBuySellRatio >= 1.25 &&
+          Number(c.whaleRetailSpread || 0) >= 0;
+        const isShortSurge =
+          c.side === 'SHORT' &&
+          c.volRatio15m >= 1.25 &&
+          c.oiDelta1hPct >= 0.35 &&
+          c.instBuySellRatio <= 0.80 &&
+          Number(c.whaleRetailSpread || 0) <= 0;
         if (elapsedSinceVetoMs >= 90 * 1000 && (isLongSurge || isShortSurge)) {
           delete obVetoCds[c.symbol];
           logEvent(
@@ -4980,7 +5014,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v13.10-Anti-Coil-LaggingRS-Veto-And-SecondChance-Bounce-Lock-Motor101';
+  state.version = 'Mutlak-Yapi-v13.11-Anti-FeeScratch-Recovering-Structure-And-Whale-SurgeReset-Motor102';
   // Engine #89 Startup Hygiene: Clear stale orderbook cooldowns so unchained hype rockets are immediately evaluated
   state.obVetoCooldowns = {};
   state.obVetoStrikes = {};

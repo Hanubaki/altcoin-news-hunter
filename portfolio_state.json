@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-26T04:04:17.614Z",
+  "updatedAt": "2026-10-26T05:04:19.167Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.1248,
@@ -2107,10 +2107,10 @@
     "[18:43:01] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (WEAK_IMBALANCE (-0.1945 -> -0.1313 < -0.05) | ob1:-0.1945 -> ob2:-0.1313)",
     "[18:42:57] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (NO_BOOK_SNAPSHOT_2 | ob1:-0.1786 -> ob2:N/A)"
   ],
-  "totalEquityUsdt": 19.454,
-  "totalEquityTry": 966.67,
-  "totalPnlUsdt": -0.6708,
-  "totalPnlPct": -3.33,
+  "totalEquityUsdt": 19.4711,
+  "totalEquityTry": 967.52,
+  "totalPnlUsdt": -0.6537,
+  "totalPnlPct": -3.25,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -2135,250 +2135,10 @@
   "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BCH: 0.0010 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0077 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0870 | HBAR: 0.8140 | HYPE: 0.0009 | ICP: 0.0002 | INJ: 0.0067 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0007 | NEAR: 0.0004 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 0.0628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0636 | STX: 0.0700 | TAO: 0.0001 | THETA: 0.0680 | TIA: 0.0084 | TRY: 895.1391 | UNI: 0.0080 | WLD: 0.0658 | ZRO: 0.0037)",
   "lastWhatsAppReportAt": 1792788324267,
   "highWaterMarkUsdt": 20.1248,
-  "cashIdleSince": null,
+  "cashIdleSince": 1792971034087,
   "usdTryRate": 49.69,
-  "totalPnlTry": -33.33,
+  "totalPnlTry": -32.48,
   "equityHistory": [
-    {
-      "t": "05:29",
-      "v": 966.83
-    },
-    {
-      "t": "05:30",
-      "v": 966.8
-    },
-    {
-      "t": "05:31",
-      "v": 966.82
-    },
-    {
-      "t": "05:32",
-      "v": 966.79
-    },
-    {
-      "t": "05:33",
-      "v": 966.71
-    },
-    {
-      "t": "05:34",
-      "v": 966.71
-    },
-    {
-      "t": "05:35",
-      "v": 966.71
-    },
-    {
-      "t": "05:36",
-      "v": 966.73
-    },
-    {
-      "t": "05:37",
-      "v": 966.68
-    },
-    {
-      "t": "05:38",
-      "v": 966.7
-    },
-    {
-      "t": "05:39",
-      "v": 966.63
-    },
-    {
-      "t": "05:40",
-      "v": 966.66
-    },
-    {
-      "t": "05:41",
-      "v": 966.62
-    },
-    {
-      "t": "05:42",
-      "v": 966.54
-    },
-    {
-      "t": "05:43",
-      "v": 966.54
-    },
-    {
-      "t": "05:44",
-      "v": 966.6
-    },
-    {
-      "t": "05:45",
-      "v": 966.54
-    },
-    {
-      "t": "05:46",
-      "v": 966.5
-    },
-    {
-      "t": "05:47",
-      "v": 966.55
-    },
-    {
-      "t": "05:48",
-      "v": 966.6
-    },
-    {
-      "t": "05:49",
-      "v": 966.63
-    },
-    {
-      "t": "05:50",
-      "v": 966.56
-    },
-    {
-      "t": "05:51",
-      "v": 966.49
-    },
-    {
-      "t": "05:52",
-      "v": 966.46
-    },
-    {
-      "t": "05:53",
-      "v": 966.42
-    },
-    {
-      "t": "05:54",
-      "v": 966.46
-    },
-    {
-      "t": "05:55",
-      "v": 966.49
-    },
-    {
-      "t": "05:56",
-      "v": 966.51
-    },
-    {
-      "t": "05:57",
-      "v": 966.53
-    },
-    {
-      "t": "05:58",
-      "v": 966.54
-    },
-    {
-      "t": "05:59",
-      "v": 966.53
-    },
-    {
-      "t": "06:00",
-      "v": 966.56
-    },
-    {
-      "t": "06:01",
-      "v": 966.66
-    },
-    {
-      "t": "06:02",
-      "v": 966.78
-    },
-    {
-      "t": "06:03",
-      "v": 966.88
-    },
-    {
-      "t": "06:04",
-      "v": 966.83
-    },
-    {
-      "t": "06:05",
-      "v": 966.97
-    },
-    {
-      "t": "06:06",
-      "v": 966.96
-    },
-    {
-      "t": "06:07",
-      "v": 967.03
-    },
-    {
-      "t": "06:08",
-      "v": 966.96
-    },
-    {
-      "t": "06:09",
-      "v": 966.83
-    },
-    {
-      "t": "06:10",
-      "v": 966.76
-    },
-    {
-      "t": "06:11",
-      "v": 966.75
-    },
-    {
-      "t": "06:12",
-      "v": 966.77
-    },
-    {
-      "t": "06:13",
-      "v": 966.74
-    },
-    {
-      "t": "06:14",
-      "v": 966.72
-    },
-    {
-      "t": "06:15",
-      "v": 966.7
-    },
-    {
-      "t": "06:16",
-      "v": 966.76
-    },
-    {
-      "t": "06:17",
-      "v": 966.69
-    },
-    {
-      "t": "06:18",
-      "v": 966.69
-    },
-    {
-      "t": "06:19",
-      "v": 966.65
-    },
-    {
-      "t": "06:20",
-      "v": 966.62
-    },
-    {
-      "t": "06:21",
-      "v": 966.64
-    },
-    {
-      "t": "06:22",
-      "v": 966.7
-    },
-    {
-      "t": "06:23",
-      "v": 966.77
-    },
-    {
-      "t": "06:24",
-      "v": 966.74
-    },
-    {
-      "t": "06:25",
-      "v": 966.81
-    },
-    {
-      "t": "06:26",
-      "v": 966.83
-    },
-    {
-      "t": "06:27",
-      "v": 966.72
-    },
-    {
-      "t": "06:28",
-      "v": 966.64
-    },
     {
       "t": "06:29",
       "v": 966.6
@@ -2522,6 +2282,246 @@
     {
       "t": "07:04",
       "v": 966.67
+    },
+    {
+      "t": "07:05",
+      "v": 966.76
+    },
+    {
+      "t": "07:06",
+      "v": 966.62
+    },
+    {
+      "t": "07:07",
+      "v": 966.61
+    },
+    {
+      "t": "07:08",
+      "v": 966.65
+    },
+    {
+      "t": "07:09",
+      "v": 966.61
+    },
+    {
+      "t": "07:10",
+      "v": 966.7
+    },
+    {
+      "t": "07:11",
+      "v": 966.71
+    },
+    {
+      "t": "07:12",
+      "v": 966.84
+    },
+    {
+      "t": "07:13",
+      "v": 966.86
+    },
+    {
+      "t": "07:14",
+      "v": 966.89
+    },
+    {
+      "t": "07:15",
+      "v": 966.92
+    },
+    {
+      "t": "07:16",
+      "v": 967
+    },
+    {
+      "t": "07:17",
+      "v": 967.08
+    },
+    {
+      "t": "07:18",
+      "v": 966.98
+    },
+    {
+      "t": "07:19",
+      "v": 966.91
+    },
+    {
+      "t": "07:20",
+      "v": 966.9
+    },
+    {
+      "t": "07:21",
+      "v": 966.84
+    },
+    {
+      "t": "07:22",
+      "v": 966.8
+    },
+    {
+      "t": "07:23",
+      "v": 966.78
+    },
+    {
+      "t": "07:24",
+      "v": 966.78
+    },
+    {
+      "t": "07:25",
+      "v": 966.82
+    },
+    {
+      "t": "07:26",
+      "v": 966.77
+    },
+    {
+      "t": "07:27",
+      "v": 966.77
+    },
+    {
+      "t": "07:28",
+      "v": 966.78
+    },
+    {
+      "t": "07:29",
+      "v": 966.76
+    },
+    {
+      "t": "07:30",
+      "v": 966.8
+    },
+    {
+      "t": "07:31",
+      "v": 966.89
+    },
+    {
+      "t": "07:32",
+      "v": 966.99
+    },
+    {
+      "t": "07:33",
+      "v": 967
+    },
+    {
+      "t": "07:34",
+      "v": 967.07
+    },
+    {
+      "t": "07:35",
+      "v": 967.11
+    },
+    {
+      "t": "07:36",
+      "v": 967.11
+    },
+    {
+      "t": "07:37",
+      "v": 967.06
+    },
+    {
+      "t": "07:38",
+      "v": 967.04
+    },
+    {
+      "t": "07:39",
+      "v": 967.03
+    },
+    {
+      "t": "07:40",
+      "v": 967.02
+    },
+    {
+      "t": "07:41",
+      "v": 967.01
+    },
+    {
+      "t": "07:42",
+      "v": 966.95
+    },
+    {
+      "t": "07:43",
+      "v": 966.96
+    },
+    {
+      "t": "07:44",
+      "v": 966.95
+    },
+    {
+      "t": "07:45",
+      "v": 966.93
+    },
+    {
+      "t": "07:46",
+      "v": 966.92
+    },
+    {
+      "t": "07:47",
+      "v": 966.95
+    },
+    {
+      "t": "07:48",
+      "v": 966.94
+    },
+    {
+      "t": "07:49",
+      "v": 966.94
+    },
+    {
+      "t": "07:50",
+      "v": 966.94
+    },
+    {
+      "t": "07:51",
+      "v": 967.02
+    },
+    {
+      "t": "07:52",
+      "v": 967.06
+    },
+    {
+      "t": "07:53",
+      "v": 967.19
+    },
+    {
+      "t": "07:54",
+      "v": 967.19
+    },
+    {
+      "t": "07:55",
+      "v": 967.2
+    },
+    {
+      "t": "07:56",
+      "v": 967.2
+    },
+    {
+      "t": "07:57",
+      "v": 967.22
+    },
+    {
+      "t": "07:58",
+      "v": 967.27
+    },
+    {
+      "t": "07:59",
+      "v": 967.29
+    },
+    {
+      "t": "08:00",
+      "v": 967.34
+    },
+    {
+      "t": "08:01",
+      "v": 967.49
+    },
+    {
+      "t": "08:02",
+      "v": 967.46
+    },
+    {
+      "t": "08:03",
+      "v": 967.5
+    },
+    {
+      "t": "08:04",
+      "v": 967.52
     }
   ],
   "walletAssetsMap": {
@@ -2559,10 +2559,10 @@
     "WLD": 0.0658,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.4395,
-  "dustAssetsTry": 71.53,
+  "dustAssetsUsdt": 1.4567,
+  "dustAssetsTry": 72.38,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-26T04:04:17.614Z",
+    "updatedAt": "2026-10-26T05:04:19.167Z",
     "totalAnalyzedTrades": 46,
     "globalWR": 0.458,
     "coinStats": {
@@ -3347,19 +3347,30 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 966.67,
+    "totalNetWorthTry": 967.52,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
       "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %45.7 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-26T04:04:17.614Z"
+    "updatedAt": "2026-10-26T05:04:19.167Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254,
-  "noBuyShort": "🛡️ Raad ol, nakit kalkanı devrede (Rejim A -> BNF): Piyasanın %81'u kırmızı (%19 yeşil); 895,14 TL nakiti eritmemek için BNF panik dönüş teyidi bekleniyor.",
-  "noBuyDetail": "1) **Piyasa Kan Gölü (%19 Yeşil / %81 Kırmızı — Engine #30 Rejim A):** Altcoinlerin %81'u şu an düşüşte (1s BTC: %0.02). 2) **%65 Nakit Koruma Zırhı & BNF Panik Emilim Kuralı:** Yeşil oranı %24'ün altındayken kasanın en az %65'i güvenli TRY nakitte tutulur (`Maksimum Coin Tavanı: 314 TL`) ve yalnızca `Fiyat <= 0.94*MA25 + RSI<=28 + 5dk/1dk Mikro Dönüş + 15dk OI >= +%0.25 + NetRR >= 1.5` şartlarını eksiksiz sağlayan BNF adayına girilir. 3) **Taranan Adaylar (105 Haber):** Onaylı BNF panik dönüş adayı sayısı: **0**. Düşen bıçak teyitsiz tutulmaz!",
-  "shadowPositions": [],
+  "noBuyShort": "📡 Raad ol, seçici moddayız (Rejim B -> SOVEREIGN): 2 aday incelendi ancak tahta/NO-CHASE/Kelly risk filtresini geçen net fırsat bekleniyor.",
+  "noBuyDetail": "1) **Aday Taraması:** 2 aday bulundu ancak ya haber çoktan fiyatlanmış (`NO-CHASE ask > Pmax`), ya tahta alıcı oranı zayıf ya da kasa koruma limiti (`0 / 671 TL`) dolu.",
+  "shadowPositions": [
+    {
+      "symbol": "XRP",
+      "headline": "XRP ETFs Resume Winning Streak While SOL Funds Stay in the Red",
+      "priceSource": "BINANCE_TR",
+      "spreadPct": 0.016,
+      "entryAsk": 1.28879,
+      "currentBid": 1.28839,
+      "highestBid": 1.28939,
+      "entryTime": "2026-10-26T04:53:02.685Z"
+    }
+  ],
   "shadowTrapMemory": {
     "DOGE": {
       "traps": 1,
@@ -3385,7 +3396,7 @@
     }
   },
   "isConfirmedGoldenAge": false,
-  "confirmedRegime": "A",
-  "regimeEngineOwner": "BNF",
+  "confirmedRegime": "B",
+  "regimeEngineOwner": "SOVEREIGN",
   "goldenAgeStartedAt": "2026-10-25T22:05:02.515Z"
 }
