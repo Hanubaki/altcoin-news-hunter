@@ -858,14 +858,23 @@ async function fetchJson(url, options = {}, timeoutMs = 5500) {
   }
 }
 
+const _invalidGlobalUsdtSyms = new Set(['ETHW', 'HYPE']);
+const _lastValidQuoteCache = {};
+
 async function getOrderbookQuotes(symbols) {
   if (symbols.length === 0) return {};
   const map = {};
   const uniqueSyms = Array.from(new Set(symbols));
 
-  // Primary for active sets (first 12 symbols — open positions & top candidates): fetch live Binance TR _TRY bestBid/bestAsk directly
+  // Primary for active sets (first 12 symbols + any TR-only symbols like ETHW/HYPE not on Global Spot USDT):
+  // fetch live Binance TR _TRY bestBid/bestAsk directly
   if (USD_TRY_RATE > 0) {
-    const trPrioritySyms = uniqueSyms.slice(0, 12);
+    const trPrioritySyms = Array.from(
+      new Set([
+        ...uniqueSyms.slice(0, 12),
+        ...uniqueSyms.filter(s => _invalidGlobalUsdtSyms.has(s)),
+      ])
+    );
     await Promise.all(
       trPrioritySyms.map(async sym => {
         try {
@@ -886,54 +895,69 @@ async function getOrderbookQuotes(symbols) {
               bestAskTry,
               priceSource: 'BINANCE_TR',
             };
+            _lastValidQuoteCache[sym] = map[sym];
           }
         } catch {}
       })
     );
   }
 
-  const missingSyms = uniqueSyms.filter(s => !map[s]);
-  if (missingSyms.length === 0) return map;
-
-  const wanted = new Set(missingSyms.map(s => `${s}USDT`));
-  try {
-    const param = JSON.stringify(Array.from(wanted));
-    const list = await fetchJson(`${BINANCE_API}/ticker/bookTicker?symbols=${encodeURIComponent(param)}`, {}, 5000);
-    for (const item of list) {
-      const sym = item.symbol.replace(/USDT$/, '');
-      const bidU = Number(item.bidPrice);
-      const askU = Number(item.askPrice);
-      map[sym] = {
-        bestBid: bidU,
-        bestAsk: askU,
-        bestBidTry: Number((bidU * USD_TRY_RATE).toFixed(4)),
-        bestAskTry: Number((askU * USD_TRY_RATE).toFixed(4)),
-        priceSource: 'GLOBAL_PROXY',
-      };
-    }
-    return map;
-  } catch {
+  const missingSyms = uniqueSyms.filter(s => !map[s] && !_invalidGlobalUsdtSyms.has(s));
+  if (missingSyms.length > 0) {
+    const wanted = new Set(missingSyms.map(s => `${s}USDT`));
     try {
-      const allList = await fetchJson(`${BINANCE_API}/ticker/bookTicker`, {}, 7500);
-      for (const item of allList) {
-        if (wanted.has(item.symbol)) {
-          const sym = item.symbol.replace(/USDT$/, '');
-          const bidU = Number(item.bidPrice);
-          const askU = Number(item.askPrice);
+      const param = JSON.stringify(Array.from(wanted));
+      const list = await fetchJson(`${BINANCE_API}/ticker/bookTicker?symbols=${encodeURIComponent(param)}`, {}, 5000);
+      for (const item of list || []) {
+        const sym = item.symbol.replace(/USDT$/, '');
+        const bidU = Number(item.bidPrice);
+        const askU = Number(item.askPrice);
+        if (bidU > 0) {
           map[sym] = {
             bestBid: bidU,
-            bestAsk: askU,
+            bestAsk: askU || bidU,
             bestBidTry: Number((bidU * USD_TRY_RATE).toFixed(4)),
-            bestAskTry: Number((askU * USD_TRY_RATE).toFixed(4)),
+            bestAskTry: Number(((askU || bidU) * USD_TRY_RATE).toFixed(4)),
             priceSource: 'GLOBAL_PROXY',
           };
+          _lastValidQuoteCache[sym] = map[sym];
         }
       }
-      return map;
     } catch {
-      return map;
+      try {
+        const allList = await fetchJson(`${BINANCE_API}/ticker/bookTicker`, {}, 7500);
+        const foundGlobal = new Set();
+        for (const item of allList || []) {
+          if (wanted.has(item.symbol)) {
+            const sym = item.symbol.replace(/USDT$/, '');
+            foundGlobal.add(sym);
+            const bidU = Number(item.bidPrice);
+            const askU = Number(item.askPrice);
+            if (bidU > 0) {
+              map[sym] = {
+                bestBid: bidU,
+                bestAsk: askU || bidU,
+                bestBidTry: Number((bidU * USD_TRY_RATE).toFixed(4)),
+                bestAskTry: Number(((askU || bidU) * USD_TRY_RATE).toFixed(4)),
+                priceSource: 'GLOBAL_PROXY',
+              };
+              _lastValidQuoteCache[sym] = map[sym];
+            }
+          }
+        }
+        for (const s of missingSyms) {
+          if (!foundGlobal.has(s)) _invalidGlobalUsdtSyms.add(s);
+        }
+      } catch {}
     }
   }
+
+  for (const sym of uniqueSyms) {
+    if (!map[sym] && _lastValidQuoteCache[sym]) {
+      map[sym] = { ..._lastValidQuoteCache[sym], priceSource: 'CACHED_FALLBACK' };
+    }
+  }
+  return map;
 }
 
 function computeWeightedBookImbalance(bids, asks) {
