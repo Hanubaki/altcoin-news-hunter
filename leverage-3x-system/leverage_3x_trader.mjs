@@ -640,6 +640,12 @@ function runTwoHourSelfAudit(state, forceLog = false) {
           rootCause: 'Yapısal Destek ($0.08341) Tutup Fiyat Giriş Üstüne ($0.08450) Toparlanırken 24. Dakikada Erken Bayat-İvme Tahliyesi',
           fixApplied: 'Motor #75A & #75B: Giriş Üstü/Başabaş Toparlanan İşlemde Erken Scratch Yasağı + <3.50 TL Scratch İşlemlerde 10s Karantina Muafiyeti',
         });
+      } else if (t.symbol === 'RLC' && t.side === 'LONG') {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: 'Sıkışmasız (Normal) + Pozitif Fonlama/Basis Coinde 3 Ardışık Yeşil Mum (3 Yükselen Dip, 1s:+%2.59) ve Maksimuma Gerilmiş Stop (-%2.20) Tepesine Sahte Hype-Squeeze Puanı (+14p Velocity -> 120p) İle Kârlı İşlemden Slot Rotasyonu Girişi',
+          fixApplied: 'Motor #109A & #109B: Sıkışmasız (Normal) & 3 Yeşil Mum / Stop>=%1.80 Uzamış Tepe LONG Vetosu + Hype-Squeeze İçin Gerçek Sıkışma/Dar Stop Zorunluluğu + Slot Rotasyonunda Stop<=%1.75 & 1s<=%2.00 & TTM Patlaması Zorunluluğu',
+        });
       } else if (t.symbol === 'BABY' && t.side === 'LONG') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
@@ -2701,6 +2707,15 @@ async function scanPerpUniverse(state) {
 
     // Layer #16 + Engine #52 + #57A + #77A (GPT-6-Luna Hype-Breakout, Short-Squeeze Reload & Qullamaggie High-Tight-Flag TTM-Coil LONG Engine):
     // Fixed Bug #16 & #20 + Engine #57A + #77A: Require genuine 24h hype (>= +6.5% & 1h >= +0.65%) or explosive 1h/squeeze breakout (never a +3.98% 24h crawl under 4h resistance like DASHUSDT!)
+    const longStructDistPct =
+      anatomy.structuralLow > 0 && anatomy.structuralLow < lastPrice
+        ? ((lastPrice - anatomy.structuralLow * 0.999) / lastPrice) * 100
+        : 0.95;
+    const shortStructDistPct =
+      anatomy.structuralHigh > lastPrice
+        ? ((anatomy.structuralHigh * 1.001 - lastPrice) / lastPrice) * 100
+        : 0.95;
+
     const isSqueezeConfirmedLong =
       oiQuadrant.startsWith('Q3-TUZAK') ||
       mtfSqueeze.squeezeBullishPts > 0 ||
@@ -2731,10 +2746,16 @@ async function scanPerpUniverse(state) {
     );
     const minHypeSqueezeClv =
       mtfSqueeze.squeezeBullishPts > 0 && volRatio15m >= 1.50 && rawInstBuySellRatio >= 1.25 ? 0.48 : 0.56;
-    // Engine #88A: Require genuine 24h momentum (item.change24hPct >= 6.5%) across ALL branches of isHypeSqueezeMomentumLong
-    // so sleepy low-24h coins (+2.78% 24h like MTLUSDT) NEVER unlock RSI > 70 or wide VWAP extension bands!
+    // Engine #88A + #109A: Require genuine 24h momentum (item.change24hPct >= 6.5%) across ALL branches of isHypeSqueezeMomentumLong,
+    // and never grant Hype-Squeeze exemptions/velocity points to a non-squeeze (Normal) coin that is already stretched (3 green bars / 1h >= +2.10% / stop >= 1.85%) like RLCUSDT ($0.5584, Normal, 3 Yükselen Dip, 1s:+2.59%, Stop:-2.20%)!
+    const isNonSqueezeExtendedHypeLong =
+      mtfSqueeze.squeezeBullishPts === 0 &&
+      !(item.fundingRatePct <= -0.020 && item.basisPct <= -0.08) &&
+      item.change24hPct < 15.0 &&
+      (anatomy.green3Completed || longStructDistPct >= 1.85 || change1hPct >= 2.10);
     const isHypeSqueezeMomentumLong = Boolean(
       item.change24hPct >= 6.5 &&
+        !isNonSqueezeExtendedHypeLong &&
         (change1hPct >= 0.65 || (isSqueezeConfirmedLong && item.fundingRatePct <= -0.020 && change1hPct >= 0.50)) &&
         !isStallingUnder4hResistanceLong &&
         (oiQuadrant.startsWith('Q1') || isSqueezeConfirmedLong) &&
@@ -2938,15 +2959,6 @@ async function scanPerpUniverse(state) {
     let score = 50;
     let thesis = '';
 
-    const longStructDistPct =
-      anatomy.structuralLow > 0 && anatomy.structuralLow < lastPrice
-        ? ((lastPrice - anatomy.structuralLow * 0.999) / lastPrice) * 100
-        : 0.95;
-    const shortStructDistPct =
-      anatomy.structuralHigh > lastPrice
-        ? ((anatomy.structuralHigh * 1.001 - lastPrice) / lastPrice) * 100
-        : 0.95;
-
     // Engine #82B + #89A (GPT-6-Luna Hype-Unchained Single-Bar Climax Gate):
     // Never blindly ban a hype coin just because its 2-bar range (longStructDistPct) is > 2.20%!
     // Only block when b1 spiked >= max(3.50%, 2.25 * ATR%) in a single 15m bar AND live bar b0 has turned red (!anatomy.b0IsGreen)!
@@ -3005,6 +3017,16 @@ async function scanPerpUniverse(state) {
       anatomy.posIn16BarRange >= 0.85 &&
       lastPrice <= high4h * 1.001 &&
       (anatomy.b0MoveFromOpenPct >= 0.95 || longStructDistPct >= 1.65);
+    // Motor #109A (GPT-6-Luna Non-Squeeze 3-Green-Bar & Stretched-Stop Exhaustion Veto):
+    // When there is NO TTM Squeeze breakout (squeezeBullishPts === 0) and no deep negative-funding/basis short squeeze,
+    // a coin that has already printed 3 consecutive green 15m candles (green3Completed / 3 Yükselen Dip) with a stretched stop (>= 1.80%) or 1h rally (>= +2.05%, like RLCUSDT 1s:+2.59%, Stop:-2.20%, Normal at $0.5584)
+    // is buying the 4th-candle blow-off top right before mean reversion!
+    const isNonSqueeze3GreenStretchedTopLong =
+      !isBnfLiquidationBounce &&
+      mtfSqueeze.squeezeBullishPts === 0 &&
+      !(item.fundingRatePct <= -0.025 && item.basisPct <= -0.08) &&
+      ((anatomy.green3Completed && (longStructDistPct >= 1.80 || change1hPct >= 2.05 || anatomy.posIn16BarRange >= 0.80)) ||
+        (longStructDistPct >= 1.95 && change1hPct >= 2.00 && item.fundingRatePct >= 0));
     const isOverextendedMicroTopLong =
       isSingleBarClimaxTopLong ||
       isCoiledTopLongTrap ||
@@ -3013,6 +3035,7 @@ async function scanPerpUniverse(state) {
       isNonQ1OneHourBlowoffTopLong ||
       isQ1OneHourExhaustedTopLong ||
       isUnbrokenSupplyRetestTopLong ||
+      isNonSqueeze3GreenStretchedTopLong ||
       (!isBnfLiquidationBounce &&
         !isHypeSqueezeMomentumLong &&
         ((anatomy.green3Completed &&
@@ -4110,20 +4133,27 @@ async function manageOpenPosition(state, candidates = []) {
     candidates.length > 0
   ) {
     const curRawScore = Number(curPosLiveCand?.rawScore ?? curPosLiveCand?.score ?? 72);
-    const isCurDegraded = Boolean(!curPosLiveCand || curPosLiveCand.engine === 'WATCHLIST' || curRawScore < 82);
-    const bestNewCand = candidates.find(
-      c =>
-        c.symbol !== pos.symbol &&
-        c.engine !== 'WATCHLIST' &&
-        (c.side === 'LONG' || c.side === 'SHORT') &&
-        Number(c.rawScore || c.score) >= 96 &&
-        (isCurDegraded || Number(c.rawScore || c.score) - curRawScore >= 12) &&
-        Math.abs(Number(c.rsVsBtcAtr || 0)) < 2.50 &&
-        Math.abs(Number(c.change1hPct || 0)) < 3.00 &&
-        !(state.obVetoStrikes && state.obVetoStrikes[c.symbol] >= 1) &&
-        (!symbolCooldowns[c.symbol] || symbolCooldowns[c.symbol] <= nowMs) &&
-        (!obVetoCooldowns[c.symbol] || obVetoCooldowns[c.symbol] <= nowMs)
-    );
+    const isCurDegraded = Boolean(!curPosLiveCand || curPosLiveCand.engine === 'WATCHLIST' || curRawScore < 80);
+    // Motor #109B (GPT-6-Luna Strict Slot-Rotation Quality & Structural-Stop Guard):
+    // Only rotate out if the current position is degraded (isCurDegraded), and NEVER rotate into a candidate with a stretched stop (underlyingSlPct > 1.75%),
+    // an already-extended 1h move (> 2.00%), or a non-squeeze 3-green/red-bar top (like RLCUSDT Stop:-2.20%, 1s:+2.59%, Normal)!
+    const bestNewCand = isCurDegraded
+      ? candidates.find(
+          c =>
+            c.symbol !== pos.symbol &&
+            c.engine !== 'WATCHLIST' &&
+            (c.side === 'LONG' || c.side === 'SHORT') &&
+            Number(c.rawScore || c.score) >= 96 &&
+            Number(c.rawScore || c.score) - curRawScore >= 14 &&
+            Number(c.underlyingSlPct || 2.20) <= 1.75 &&
+            Math.abs(Number(c.rsVsBtcAtr || 0)) < 2.20 &&
+            Math.abs(Number(c.change1hPct || 0)) <= 2.00 &&
+            (String(c.squeezeLabel || '').includes('Patlaması') || Number(c.fundingRatePct || 0) <= -0.025) &&
+            !(state.obVetoStrikes && state.obVetoStrikes[c.symbol] >= 1) &&
+            (!symbolCooldowns[c.symbol] || symbolCooldowns[c.symbol] <= nowMs) &&
+            (!obVetoCooldowns[c.symbol] || obVetoCooldowns[c.symbol] <= nowMs)
+        )
+      : null;
     if (bestNewCand) {
       rotationTarget = bestNewCand;
     }
@@ -5302,7 +5332,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v13.17-StretchedQ2FlatMtfVeto-And-22mCvdExhaustionRescue-Motor108';
+  state.version = 'Mutlak-Yapi-v13.18-NonSqueeze3GreenStretchedTopVeto-And-StrictSlotRotation-Motor109';
   // Engine #89 Startup Hygiene: Clear stale orderbook cooldowns so unchained hype rockets are immediately evaluated
   state.obVetoCooldowns = {};
   state.obVetoStrikes = {};
