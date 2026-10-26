@@ -643,8 +643,8 @@ function runTwoHourSelfAudit(state, forceLog = false) {
       } else if (t.symbol === 'POLYX' && t.side === 'LONG') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
-          rootCause: 'Negatif Balina Makasında (-%2.8) 90sn Erken Surge Reset Girişi + -%0.86 Dipten +%0.55 Tepeye Toparlanıp -%0.158 Fonlama İle Sadece -%0.26 (0.12R) Gerideyken Eski MAE (39%R) Yüzünden 22.dk Komisyon-Zararı Tahliyesi',
-          fixApplied: 'Motor #102A & #102B: Engine #41 Surge Reset İçin Balina Uyumu (>=0 LONG / <=0 SHORT) Zorunluluğu + 22dk/32dk Bayat Tahliyede Anlık Drawdown (currentAdverseR >= 0.20 & <= -%0.32) ve Negatif Fonlama Kalkanı',
+          rootCause: '11.dk Olgunlaşmış Kırmızı 15dk b0 Mumunda ($0.03547 Zirveden -%0.68 Ret -> $0.03523, Erken Dip İğnesi Yüzünden CLV:0.52) Satış Hacminden +8p Velocity + 24s Düşüş (-%3.53) & Negatif Balinada (-%1.6) Fonlama/Basis Çifte Puanlaması (+22p) İle Giriş',
+          fixApplied: 'Motor #106A–#106C: Olgunlaşmış (>=%60) Kırmızı b0 Zirve Reddi (>=-%0.45) LONG Vetosu + Satış Mumunda Velocity Puanı Sıfırlama & 24s Düşüş/Negatif Balinada Fonlama+Basis Tavanı + 7-Mumluk 1dk Zirve Reddi Kalkanı',
         });
       } else if (t.symbol === 'ENA' && t.side === 'LONG') {
         diagnosedMistakes.push({
@@ -1522,6 +1522,17 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
     b0.close > b0.open &&
     b0BodyFrac >= Math.max(0.0032, 0.28 * atrFracForBar) &&
     b0.clv >= 0.62;
+  // Motor #106A (GPT-6-Luna Mature Red/Green Bar Peak-Rejection Veto):
+  // When b0ElapsedFrac >= 0.60, an early lower wick (like POLYXUSDT dipping to $0.03501 at minute 1, peaking at $0.03547 at minute 9, and dumping -0.68% to $0.03523 below b0.open $0.03535)
+  // artificially inflates b0.clv = 0.52 while the mature 15m candle is RED and actively dumping from its peak!
+  const isMatureRedPeakRejectionLongB0 =
+    b0ElapsedFrac >= 0.60 &&
+    !b0.isGreen &&
+    (b0RejectFromHighFrac >= 0.0045 || b0.clv <= 0.48);
+  const isMatureGreenTroughBounceShortB0 =
+    b0ElapsedFrac >= 0.60 &&
+    b0.isGreen &&
+    (b0BounceFromLowFrac >= 0.0045 || b0.clv >= 0.52);
   const effectiveClv =
     isBabyB0 && !materialAdverseLongB0 && !materialAdverseShortB0 && !rejectedBabyLongB0 && !rejectedBabyShortB0
       ? b1.clv
@@ -1924,6 +1935,7 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
       isFishingTrapLong ||
       materialAdverseLongB0 ||
       rejectedBabyLongB0 ||
+      isMatureRedPeakRejectionLongB0 ||
       isPriorBarBearishRejectionUnreclaimed ||
       isOverheadWickCeilingBlockingTp1Long ||
       (isMatureB0 && b0.upperWickRatio >= 0.50 && b0.clv <= 0.38) ||
@@ -1938,6 +1950,7 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
       sellSideSweep ||
       materialAdverseShortB0 ||
       rejectedBabyShortB0 ||
+      isMatureGreenTroughBounceShortB0 ||
       isPriorBarBullishRejectionUnbroken ||
       isUnderfootWickFloorBlockingTp1Short ||
       (isMatureB0 && b0.lowerWickRatio >= 0.50 && b0.clv >= 0.62) ||
@@ -2046,18 +2059,19 @@ function computeWeightedBookImbalance(bids, asks) {
 }
 
 async function fetchPerpOrderbookConfirm(symbol, side, atr15mPct = 1.5) {
-  // Engine #38 + #64A + #72E (GPT-6-Luna Two-Snapshot Perp Microprice, ATR-Scaled 1m Spike-Chase Guard & Passive Maker Fill — 1.8s Interval):
+  // Engine #38 + #64A + #72E + #106C (GPT-6-Luna Two-Snapshot Perp Microprice, 7-Bar 1m Peak/Trough Reversal Guard & Passive Maker Fill — 1.8s Interval):
   const [d1, klines1m] = await Promise.all([
     fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${symbol}USDT&limit=20`, {}, 2500),
-    fetchJson(`${FAPI_BASE}/fapi/v1/klines?symbol=${symbol}USDT&interval=1m&limit=4`, {}, 2500),
+    fetchJson(`${FAPI_BASE}/fapi/v1/klines?symbol=${symbol}USDT&interval=1m&limit=7`, {}, 2500),
   ]);
   if (!d1?.bids?.length || !d1?.asks?.length) return { ok: false, vetoCode: 'NO_DEPTH', reason: 'NO_DEPTH_1' };
 
-  // Engine #64A + #72E + #103B (GPT-6-Luna Rolling 3-Minute Blow-Off Spike & Red-Candle Reversal Guard):
+  // Engine #64A + #72E + #103B + #106C (GPT-6-Luna Rolling 3m/5m Blow-Off Spike & Two-Red-Bar Reversal Guard):
   if (Array.isArray(klines1m) && klines1m.length >= 3) {
     const kNow = klines1m[klines1m.length - 1];
     const kPrev1 = klines1m[klines1m.length - 2];
     const kPrev2 = klines1m[klines1m.length - 3];
+    const completed1m = klines1m.slice(0, -1);
     const open2mAgo = Number(kPrev2[1] || 0);
     const closeNow = Number(kNow[4] || 0);
     const highNow = Number(kNow[2] || 0);
@@ -2073,6 +2087,11 @@ async function fetchPerpOrderbookConfirm(symbol, side, atr15mPct = 1.5) {
     const dump3mPct = open2mAgo > 0 ? Number((((recentLow3m - open2mAgo) / open2mAgo) * 100).toFixed(2)) : 0;
     const rejectionFrom3mHighPct = recentHigh3m > 0 ? Number((((recentHigh3m - closeNow) / recentHigh3m) * 100).toFixed(2)) : 0;
     const bounceFrom3mLowPct = recentLow3m > 0 ? Number((((closeNow - recentLow3m) / recentLow3m) * 100).toFixed(2)) : 0;
+    const high5mCompleted = completed1m.length ? Math.max(...completed1m.map(k => Number(k[2] || 0))) : recentHigh3m;
+    const low5mCompleted = completed1m.length ? Math.min(...completed1m.map(k => Number(k[3] || 9e9))) : recentLow3m;
+    const runup5mPct = low5mCompleted > 0 ? Number((((high5mCompleted - low5mCompleted) / low5mCompleted) * 100).toFixed(2)) : 0;
+    const dropFrom5mPeakPct = high5mCompleted > 0 ? Number((((high5mCompleted - closeNow) / high5mCompleted) * 100).toFixed(2)) : 0;
+    const bounceFrom5mLowPct = low5mCompleted > 0 ? Number((((closeNow - low5mCompleted) / low5mCompleted) * 100).toFixed(2)) : 0;
     const prev1Open = Number(kPrev1[1] || 0);
     const prev1High = Number(kPrev1[2] || 0);
     const prev1Low = Number(kPrev1[3] || 0);
@@ -2080,13 +2099,19 @@ async function fetchPerpOrderbookConfirm(symbol, side, atr15mPct = 1.5) {
     const prev1Range = Math.max(1e-9, prev1High - prev1Low);
     const prev1Clv = (prev1Close - prev1Low) / prev1Range;
     const prev1BodyPct = prev1Open > 0 ? ((prev1Close - prev1Open) / prev1Open) * 100 : 0;
+    const prev2Open = Number(kPrev2[1] || 0);
+    const prev2Close = Number(kPrev2[4] || 0);
+    const bothPrev2Red = prev1Close < prev1Open && prev2Close < prev2Open;
+    const bothPrev2Green = prev1Close > prev1Open && prev2Close > prev2Open;
     const prev1IsRedDump = prev1Close < prev1Open && prev1Clv <= 0.25 && prev1BodyPct <= -0.25;
     const prev1IsGreenSqueeze = prev1Close > prev1Open && prev1Clv >= 0.75 && prev1BodyPct >= 0.25;
     const recentSpikeRejectionLong =
       (spike3mPct >= 0.90 && rejectionFrom3mHighPct >= 0.38 && (prev1IsRedDump || rejectionFrom3mHighPct >= 0.50)) ||
+      (runup5mPct >= 0.85 && dropFrom5mPeakPct >= 0.45 && (bothPrev2Red || prev1IsRedDump)) ||
       (prev1BodyPct <= -0.40 && prev1Clv <= 0.20 && closeNow <= prev1Open * 0.999);
     const recentDumpRejectionShort =
       (dump3mPct <= -0.90 && bounceFrom3mLowPct >= 0.38 && (prev1IsGreenSqueeze || bounceFrom3mLowPct >= 0.50)) ||
+      (runup5mPct >= 0.85 && bounceFrom5mLowPct >= 0.45 && (bothPrev2Green || prev1IsGreenSqueeze)) ||
       (prev1BodyPct >= 0.40 && prev1Clv >= 0.80 && closeNow >= prev1Open * 1.001);
     const move2mPct = open2mAgo > 0 ? Number((((closeNow - open2mAgo) / open2mAgo) * 100).toFixed(2)) : 0;
     const max2mSpikePct = Number(Math.max(1.15, Math.min(2.40, Number(atr15mPct || 1.5) * 0.78)).toFixed(2));
@@ -2703,18 +2728,24 @@ async function scanPerpUniverse(state) {
 
     let velocityLongPts = 0;
     let velocityShortPts = 0;
-    if (isHypeSqueezeMomentumLong) {
+    // Motor #106B (GPT-6-Luna Directional Candle Evidence for Velocity Points):
+    // Never award +8p velocityLongPts when the live 15m candle b0 is RED (!anatomy.b0IsGreen) or has weak CLV (< 0.60, like POLYXUSDT selling climax at 10:41)!
+    if (isHypeSqueezeMomentumLong && (anatomy.b0IsGreen || anatomy.b0ElapsedFrac < 0.35)) {
       velocityLongPts = Math.min(14, Math.round(6 + Math.max(0, change1hPct) * 2.2 + Math.max(0, volRatio15m - 0.8) * 3));
     } else if (
       change1hPct >= 0.85 &&
       mtfSqueeze.mtfBullishPts > 0 &&
       volRatio15m >= 1.25 &&
+      anatomy.b0IsGreen &&
+      anatomy.clv >= 0.60 &&
       !anatomy.isFishingTrapLong
     ) {
       velocityLongPts = Math.min(8, Math.round(change1hPct * 2.5 + (volRatio15m - 1) * 3));
     } else if (
       change1hPct <= -0.85 &&
       mtfSqueeze.mtfBearishPts > 0 &&
+      !anatomy.b0IsGreen &&
+      anatomy.clv <= 0.40 &&
       (volRatio15m >= 1.15 || isLiveInstTakerDumping)
     ) {
       velocityShortPts = Math.min(8, Math.round(Math.abs(change1hPct) * 2.5 + Math.max(0, volRatio15m - 0.9) * 3));
@@ -2773,6 +2804,23 @@ async function scanPerpUniverse(state) {
       bullishFundNewsPts += 7;
     }
     bullishFundNewsPts = Math.min(14, bullishFundNewsPts);
+    // Motor #106B (GPT-6-Luna Anti-Double-Counted Spot-Discount Carry Cap on 24h-Red / Negative-Whale / No-Pattern Coins):
+    // Negative funding and negative basis measure the same spot-perp arbitrage discount. When there is no fresh news,
+    // never let passive discount double-counting award +22 points on a coin with 24h < 0, negative whale spread, and no bullish pattern (like POLYXUSDT 24s:-3.53%, Whale:-1.6%, CLV:0.52 -> 93p)!
+    if (!hasFreshDirectNews && !hasSpotGoldenLeaderSynergy) {
+      if (item.change24hPct < 0 && whaleRetailSpread < 0 && !anatomy.bullishPattern) {
+        bullishFundNewsPts = 0;
+        bullishBasisPts = 0;
+      } else if (item.change24hPct < 0 || whaleRetailSpread < 0 || !anatomy.bullishPattern) {
+        const combinedCarryPts = bullishFundNewsPts + bullishBasisPts;
+        if (combinedCarryPts > 8) {
+          const excessCarry = combinedCarryPts - 8;
+          const trimFund = Math.min(bullishFundNewsPts, excessCarry);
+          bullishFundNewsPts -= trimFund;
+          bullishBasisPts = Math.max(0, bullishBasisPts - (excessCarry - trimFund));
+        }
+      }
+    }
 
     if (item.fundingRatePct >= 0.015) {
       bearishFundNewsPts += Math.min(10, Math.round(item.fundingRatePct * 350));
@@ -5212,7 +5260,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v13.14-Anti-Intrabar-SqueezeFakeout-And-Local8BarWickCeiling-Motor105';
+  state.version = 'Mutlak-Yapi-v13.15-MatureRedBarRejection-CorrelatedDiscountCap-And-7Bar1mReversal-Motor106';
   // Engine #89 Startup Hygiene: Clear stale orderbook cooldowns so unchained hype rockets are immediately evaluated
   state.obVetoCooldowns = {};
   state.obVetoStrikes = {};
