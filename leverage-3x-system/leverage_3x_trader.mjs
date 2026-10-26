@@ -775,8 +775,8 @@ function runTwoHourSelfAudit(state, forceLog = false) {
       } else if (t.symbol === 'NIL' && t.side === 'LONG') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
-          rootCause: 'Önceki 15dk Kırmızı Ret Mumu (b1 CLV:0.30, Üst İğne:0.45) + Düşen EMA20/Düşük Hacimli (0.60x) TTM Sıkışması İçinde Giriş & Stop Kırılırken Motor #74A İle Stopun $0.0864->$0.0863 Genişletilmesi',
-          fixApplied: 'Motor #79A–#79C: Pozisyon Açıldıktan Sonra Stop Genişletme Yasağı + Önceki Kırmızı Ret Mumu (b1.open Geçilmeden) LONG Vetosu + EMA20 Eğim & Tamamlanmış Mum Onayı',
+          rootCause: '4s Zirvesinde ($0.09492) 2-Mumluk İkili Tepe Satış Duvarı (b2 Yeşil Zirve -> b1 -%1.28 Kırmızı Döküm CLV:0.27) İçine Düşük Hacimli Retest ($0.09482) + Sahte Likidasyon Mıknatısı (+5p) & Geniş Stop (-%1.87) İle Giriş',
+          fixApplied: 'Motor #104A–#104C: 2-Bar İkili Tepe/Dip Arz-Talep Tavanı ($0.09492 Kırılmadan) LONG Vetosu + Kırmızı b1 Mumda Sıkışmasız Likidasyon Mıknatısı & Tepe Retest Yasağı + 8dk Mum-Vetosu/Taker-Çöküşü Erken Tahliyesi',
         });
       } else {
         diagnosedMistakes.push({
@@ -1755,10 +1755,23 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
     bearishCvdPts = 6;
   }
 
-  // Engine #79B + #81B (GPT-6-Luna Prior-Bar Supply/Demand Rejection Guard with Mature Green Reclaim Exemption):
-  // When the completed 15m candle b1 is a red upper-wick/low-CLV rejection bar (!b1.isGreen && (b1.clv <= 0.34 || b1.upperWickRatio >= 0.44)),
-  // do NOT lift vetoLong just because b0ElapsedFrac crossed 0.55 (!isBabyB0) unless b0 has reclaimed b1.open * 1.001
-  // OR b0 is a mature green body (isMatureB0 && b0.isGreen && b0.clv >= 0.78 && b0.bodyRatio >= 0.55 && b1.upperWickRatio < 0.40) reclaiming >=65% of b1's body!
+  // Engine #79B + #81B + #104A (GPT-6-Luna Prior-Bar Supply/Demand Rejection Guard & 2-Bar Twin-Candle Ceiling Veto):
+  // 1. When completed 15m candle b1 is a red upper-wick/low-CLV rejection bar (!b1.isGreen && (b1.clv <= 0.34 || b1.upperWickRatio >= 0.44)),
+  //    or forms a 2-bar twin-candle supply rejection ceiling at the 4h high (b2.isGreen && !b1.isGreen && b1.clv <= 0.36 && b1.body >= b2.body * 0.72 && max(b1.high, b2.high) >= fullHigh16 * 0.998, like NILUSDT b2 $0.09492 -> b1 $0.09359),
+  //    do NOT lift vetoLong on a lower-volume retest just because b0.close ($0.09482) ticked 0.02% above b1.open ($0.09480) without clearing the twin-bar supply high ($0.09492)!
+  const isTwinBarBearishSupplyCeiling =
+    b2.isGreen &&
+    !b1.isGreen &&
+    b1.clv <= 0.36 &&
+    b1.body >= b2.body * 0.72 &&
+    Math.max(b1.high, b2.high) >= fullHigh16 * 0.998;
+  const isTwinBarBullishDemandFloor =
+    !b2.isGreen &&
+    b1.isGreen &&
+    b1.clv >= 0.64 &&
+    b1.body >= b2.body * 0.72 &&
+    Math.min(b1.low, b2.low) <= fullLow16 * 1.002;
+
   const b0MatureBodyReclaimedB1 =
     isMatureB0 &&
     b0.isGreen &&
@@ -1766,6 +1779,7 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
     b0.bodyRatio >= 0.55 &&
     b0.upperWickRatio <= 0.18 &&
     b1.upperWickRatio < 0.40 &&
+    !isTwinBarBearishSupplyCeiling &&
     b0.close >= b1.close + (b1.open - b1.close) * 0.65;
   const b0MatureBodyBrokeB1 =
     isMatureB0 &&
@@ -1774,32 +1788,42 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
     b0.bodyRatio >= 0.55 &&
     b0.lowerWickRatio <= 0.18 &&
     b1.lowerWickRatio < 0.40 &&
+    !isTwinBarBullishDemandFloor &&
     b0.close <= b1.close - (b1.close - b1.open) * 0.65;
+
+  const requiredPriorBearishReclaimLevel = isTwinBarBearishSupplyCeiling
+    ? Math.max(b1.high, b2.high) * 0.9995
+    : b1.open * 1.001;
+  const requiredPriorBullishBreakLevel = isTwinBarBullishDemandFloor
+    ? Math.min(b1.low, b2.low) * 1.0005
+    : b1.open * 0.999;
 
   const isPriorBarBearishRejectionUnreclaimed =
     !b1.isGreen &&
-    (b1.clv <= 0.34 || b1.upperWickRatio >= 0.44) &&
-    b0.close <= b1.open * 1.001 &&
+    (b1.clv <= 0.34 || b1.upperWickRatio >= 0.44 || isTwinBarBearishSupplyCeiling) &&
+    b0.close < requiredPriorBearishReclaimLevel &&
     !b0MatureBodyReclaimedB1;
   const isPriorBarBullishRejectionUnbroken =
     b1.isGreen &&
-    (b1.clv >= 0.66 || b1.lowerWickRatio >= 0.44) &&
-    b0.close >= b1.open * 0.999 &&
+    (b1.clv >= 0.66 || b1.lowerWickRatio >= 0.44 || isTwinBarBullishDemandFloor) &&
+    b0.close > requiredPriorBullishBreakLevel &&
     !b0MatureBodyBrokeB1;
 
-  // Engine #84B + #87C (GPT-6-Luna Overhead 4h Rejection-Wick Room-to-TP1 Gate & Active Ceiling-Absorption Exemption):
-  // If b1 or b2 set the 16-bar high with a >= 42% upper rejection wick (like LUMIAUSDT b2.high = $0.08182 at 09:07),
-  // and b0.close is at posIn16BarRange >= 0.72 with < 1.15% room to that rejection ceiling (blocking TP1 +1.25%), veto LONG until the wick ceiling is broken
-  // UNLESS b0 is actively absorbing the ceiling at the high of the bar (b0.isGreen && b0.clv >= 0.85 && b0.close >= ceiling * 0.9985 && b0.deltaPct >= 10)!
+  // Engine #84B + #87C + #104A (GPT-6-Luna Overhead 4h Rejection-Wick / Twin-Bar Supply Room-to-TP1 Gate & Volume-Backed Absorption Exemption):
+  // If b1 or b2 set the 16-bar high with a >= 42% upper rejection wick (like LUMIAUSDT b2.high = $0.08182) OR a 2-bar twin-candle supply rejection (like NILUSDT $0.09492),
+  // and b0.close is at posIn16BarRange >= 0.72 with < 1.15% room to that rejection ceiling (blocking TP1 +1.25%), veto LONG until the ceiling is broken
+  // UNLESS b0 is actively absorbing the ceiling at the high of the bar with volume parity (b0.vol >= max(b1.vol, b2.vol) * 0.85 when twin-bar supply is present)!
   const b1OrB2WickCeilingHigh = Math.max(
     b1.upperWickRatio >= 0.42 ? b1.high : 0,
-    b2.upperWickRatio >= 0.42 ? b2.high : 0
+    b2.upperWickRatio >= 0.42 ? b2.high : 0,
+    isTwinBarBearishSupplyCeiling ? Math.max(b1.high, b2.high) : 0
   );
   const b0ActivelyAbsorbingCeilingLong =
     b0.isGreen &&
     b0.clv >= 0.85 &&
     b0.close >= b1OrB2WickCeilingHigh * 0.9985 &&
-    b0.deltaPct >= 10;
+    b0.deltaPct >= 10 &&
+    (!isTwinBarBearishSupplyCeiling || b0.vol >= Math.max(b1.vol, b2.vol) * 0.85);
   const isOverheadWickCeilingBlockingTp1Long =
     b1OrB2WickCeilingHigh >= fullHigh16 * 0.998 &&
     b0.close < b1OrB2WickCeilingHigh &&
@@ -1809,13 +1833,15 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
 
   const b1OrB2WickFloorLow = Math.min(
     b1.lowerWickRatio >= 0.42 ? b1.low : Infinity,
-    b2.lowerWickRatio >= 0.42 ? b2.low : Infinity
+    b2.lowerWickRatio >= 0.42 ? b2.low : Infinity,
+    isTwinBarBullishDemandFloor ? Math.min(b1.low, b2.low) : Infinity
   );
   const b0ActivelyAbsorbingFloorShort =
     !b0.isGreen &&
     b0.clv <= 0.15 &&
     b0.close <= b1OrB2WickFloorLow * 1.0015 &&
-    b0.deltaPct <= -10;
+    b0.deltaPct <= -10 &&
+    (!isTwinBarBullishDemandFloor || b0.vol >= Math.max(b1.vol, b2.vol) * 0.85);
   const isUnderfootWickFloorBlockingTp1Short =
     Number.isFinite(b1OrB2WickFloorLow) &&
     b1OrB2WickFloorLow <= fullLow16 * 1.002 &&
@@ -1914,6 +1940,9 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
     clv: effectiveClv,
     b0ElapsedFrac,
     b0IsGreen: b0.isGreen,
+    b0MoveFromOpenPct: b0.open > 0 ? Number((((b0.close - b0.open) / b0.open) * 100).toFixed(2)) : 0,
+    b1IsRedRejection: Boolean(!b1.isGreen && (b1.clv <= 0.38 || b1.upperWickRatio >= 0.42)),
+    b1IsGreenRejection: Boolean(b1.isGreen && (b1.clv >= 0.62 || b1.lowerWickRatio >= 0.42)),
     b1MovePct: b1.open > 0 ? Number((((b1.close - b1.open) / b1.open) * 100).toFixed(2)) : 0,
     b1RangePct: b1.low > 0 ? Number((((b1.high - b1.low) / b1.low) * 100).toFixed(2)) : 0,
     structuralLow: Math.min(b0.low, b1.low),
@@ -2636,7 +2665,7 @@ async function scanPerpUniverse(state) {
         item.newsCand.liveLlmDecision === 'LONG'
     );
 
-    // Layer #15 + Engine #77A + #96B: Liquidation Magnet Cluster Detector (4h High/Low Stop-Hunt & Short/Long Squeeze Magnet — requires whale alignment >= 0 and 1h >= +0.55% so retail FOMO into whale ask walls like CTUSDT never gets magnet bonus!)
+    // Layer #15 + Engine #77A + #96B + #104B: Liquidation Magnet Cluster Detector (4h High/Low Stop-Hunt & Short/Long Squeeze Magnet — requires whale alignment >= 0, 1h >= +0.55%, and no prior-bar red supply rejection unless active squeeze + 1h >= +1.0% + RS >= +0.85 ATR is present so NILUSDT double-top retests never get +5p magnet inflation!)
     let liqMagnetLongPts = 0;
     let liqMagnetShortPts = 0;
     let liqMagnetLabel = '';
@@ -2646,6 +2675,7 @@ async function scanPerpUniverse(state) {
       whaleRetailSpread >= 0 &&
       change1hPct >= 0.55 &&
       (item.fundingRatePct < 0 || item.basisPct <= -0.025) &&
+      (!anatomy.b1IsRedRejection || (mtfSqueeze.squeezeBullishPts > 0 && change1hPct >= 1.0 && rsVsBtcAtr >= 0.85)) &&
       !(anatomy.green3Completed && lastPrice < high4h * 1.001 && volRatio15m < 1.30 && item.fundingRatePct > -0.015) &&
       !anatomy.vetoLong
     ) {
@@ -2657,6 +2687,7 @@ async function scanPerpUniverse(state) {
       whaleRetailSpread <= 0 &&
       change1hPct <= -0.55 &&
       item.fundingRatePct > -0.05 &&
+      (!anatomy.b1IsGreenRejection || (mtfSqueeze.squeezeBearishPts > 0 && change1hPct <= -1.0 && rsVsBtcAtr <= -0.85)) &&
       !anatomy.vetoShort
     ) {
       liqMagnetShortPts = 5;
@@ -2824,6 +2855,17 @@ async function scanPerpUniverse(state) {
       !isBnfLiquidationBounce &&
       (rsVsBtcAtr >= 3.00 || change1hPct >= 3.40) &&
       (anatomy.clv < 0.68 || (!anatomy.bullishPattern && longStructDistPct >= 1.85));
+    // Engine #104B (GPT-6-Luna Unbroken Supply Retest Top-Chase Guard):
+    // When there is NO active bullish squeeze breakout (squeezeBullishPts === 0) and completed bar b1 was a red supply rejection (b1IsRedRejection),
+    // never chase a stretched live bar b0 (b0MoveFromOpenPct >= 0.95% or longStructDistPct >= 1.65%) right into the top 15% of the 4h range (posIn16BarRange >= 0.85, lastPrice <= high4h * 1.001)!
+    const isUnbrokenSupplyRetestTopLong =
+      !isBnfLiquidationBounce &&
+      !isHypeSqueezeMomentumLong &&
+      mtfSqueeze.squeezeBullishPts === 0 &&
+      anatomy.b1IsRedRejection &&
+      anatomy.posIn16BarRange >= 0.85 &&
+      lastPrice <= high4h * 1.001 &&
+      (anatomy.b0MoveFromOpenPct >= 0.95 || longStructDistPct >= 1.65);
     const isOverextendedMicroTopLong =
       isSingleBarClimaxTopLong ||
       isCoiledTopLongTrap ||
@@ -2831,6 +2873,7 @@ async function scanPerpUniverse(state) {
       isHypeExhaustedTopLong ||
       isNonQ1OneHourBlowoffTopLong ||
       isQ1OneHourExhaustedTopLong ||
+      isUnbrokenSupplyRetestTopLong ||
       (!isBnfLiquidationBounce &&
         !isHypeSqueezeMomentumLong &&
         ((anatomy.green3Completed &&
@@ -3738,17 +3781,23 @@ async function manageOpenPosition(state, candidates = []) {
       }
     }
   }
+  // Engine #104C (GPT-6-Luna 8m Early Candle-Veto + Taker-Decay Rescue):
+  // If a trade has been open >= 8m with negligible MFE (mfeR < 0.16) and is already down <= -0.65% (aeR >= 0.45)
+  // while the live 15m candle flips to vetoLong/vetoShort AND 5m Taker drops <= 0.88x LONG / >= 1.15x SHORT (like NILUSDT at 09:20 after the 06:00 bar closed with a 48% upper rejection wick),
+  // evacuate immediately instead of waiting for the full -1.87% stop!
   const isEarlyFishingCandleTrap = Boolean(
     !isTpHit &&
       !isStopHit &&
       !pos.tp1Done &&
       minsHeld >= 8 &&
-      mfeR < 0.15 &&
+      mfeR < 0.16 &&
       aeR >= 0.45 &&
       rawCoinMoveFrac <= -0.0065 &&
       curPosLiveCand &&
-      ((pos.side === 'LONG' && curPosLiveCand.candlePattern && curPosLiveCand.candlePattern.includes('Yemleme/Fishing')) ||
-        (pos.side === 'SHORT' && curPosLiveCand.vetoShort && curPosLiveCand.instBuySellRatio >= 1.25))
+      ((pos.side === 'LONG' &&
+        ((curPosLiveCand.candlePattern && curPosLiveCand.candlePattern.includes('Yemleme/Fishing')) ||
+          (curPosLiveCand.vetoLong && curPosLiveCand.instBuySellRatio <= 0.88))) ||
+        (pos.side === 'SHORT' && curPosLiveCand.vetoShort && curPosLiveCand.instBuySellRatio >= 1.15))
   );
   // Engine #98C (GPT-6-Luna >=6m Active Q3 / Bearish-Breakout Reversal Rescue):
   // If a trade has been open >= 6m with weak MFE (mfeR < 0.30) and is already down <= -0.72% (aeR >= 0.48)
@@ -5085,7 +5134,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v13.12-Anti-1mBlowoffReversal-And-QuarantineSlotPurge-Motor103';
+  state.version = 'Mutlak-Yapi-v13.13-Anti-TwinBar-DoubleTop-Ceiling-And-EarlyRejection-Scratch-Motor104';
   // Engine #89 Startup Hygiene: Clear stale orderbook cooldowns so unchained hype rockets are immediately evaluated
   state.obVetoCooldowns = {};
   state.obVetoStrikes = {};

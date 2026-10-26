@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-26T06:07:15.150Z",
+  "updatedAt": "2026-10-26T06:37:24.144Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.1207,
@@ -2107,10 +2107,10 @@
     "[18:43:01] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (WEAK_IMBALANCE (-0.1945 -> -0.1313 < -0.05) | ob1:-0.1945 -> ob2:-0.1313)",
     "[18:42:57] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (NO_BOOK_SNAPSHOT_2 | ob1:-0.1786 -> ob2:N/A)"
   ],
-  "totalEquityUsdt": 19.46,
-  "totalEquityTry": 967.16,
-  "totalPnlUsdt": -0.6608,
-  "totalPnlPct": -3.28,
+  "totalEquityUsdt": 19.4495,
+  "totalEquityTry": 966.64,
+  "totalPnlUsdt": -0.6712,
+  "totalPnlPct": -3.34,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -2135,130 +2135,10 @@
   "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BCH: 0.0010 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0077 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0870 | HBAR: 0.8140 | HYPE: 0.0009 | ICP: 0.0002 | INJ: 0.0067 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0007 | NEAR: 0.0004 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 0.0628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0636 | STX: 0.0700 | TAO: 0.0001 | THETA: 0.0680 | TIA: 0.0084 | TRY: 895.1391 | UNI: 0.0080 | WLD: 0.0658 | ZRO: 0.0037)",
   "lastWhatsAppReportAt": 1792788324267,
   "highWaterMarkUsdt": 20.1207,
-  "cashIdleSince": 1792971034087,
+  "cashIdleSince": null,
   "usdTryRate": 49.7,
-  "totalPnlTry": -32.84,
+  "totalPnlTry": -33.36,
   "equityHistory": [
-    {
-      "t": "07:32",
-      "v": 966.99
-    },
-    {
-      "t": "07:33",
-      "v": 967
-    },
-    {
-      "t": "07:34",
-      "v": 967.07
-    },
-    {
-      "t": "07:35",
-      "v": 967.11
-    },
-    {
-      "t": "07:36",
-      "v": 967.11
-    },
-    {
-      "t": "07:37",
-      "v": 967.06
-    },
-    {
-      "t": "07:38",
-      "v": 967.04
-    },
-    {
-      "t": "07:39",
-      "v": 967.03
-    },
-    {
-      "t": "07:40",
-      "v": 967.02
-    },
-    {
-      "t": "07:41",
-      "v": 967.01
-    },
-    {
-      "t": "07:42",
-      "v": 966.95
-    },
-    {
-      "t": "07:43",
-      "v": 966.96
-    },
-    {
-      "t": "07:44",
-      "v": 966.95
-    },
-    {
-      "t": "07:45",
-      "v": 966.93
-    },
-    {
-      "t": "07:46",
-      "v": 966.92
-    },
-    {
-      "t": "07:47",
-      "v": 966.95
-    },
-    {
-      "t": "07:48",
-      "v": 966.94
-    },
-    {
-      "t": "07:49",
-      "v": 966.94
-    },
-    {
-      "t": "07:50",
-      "v": 966.94
-    },
-    {
-      "t": "07:51",
-      "v": 967.02
-    },
-    {
-      "t": "07:52",
-      "v": 967.06
-    },
-    {
-      "t": "07:53",
-      "v": 967.19
-    },
-    {
-      "t": "07:54",
-      "v": 967.19
-    },
-    {
-      "t": "07:55",
-      "v": 967.2
-    },
-    {
-      "t": "07:56",
-      "v": 967.2
-    },
-    {
-      "t": "07:57",
-      "v": 967.22
-    },
-    {
-      "t": "07:58",
-      "v": 967.27
-    },
-    {
-      "t": "07:59",
-      "v": 967.29
-    },
-    {
-      "t": "08:00",
-      "v": 967.34
-    },
-    {
-      "t": "08:01",
-      "v": 967.49
-    },
     {
       "t": "08:02",
       "v": 967.46
@@ -2522,6 +2402,126 @@
     {
       "t": "09:07",
       "v": 967.16
+    },
+    {
+      "t": "09:08",
+      "v": 967.13
+    },
+    {
+      "t": "09:09",
+      "v": 967.05
+    },
+    {
+      "t": "09:10",
+      "v": 967.01
+    },
+    {
+      "t": "09:11",
+      "v": 967.05
+    },
+    {
+      "t": "09:12",
+      "v": 967.01
+    },
+    {
+      "t": "09:13",
+      "v": 967.01
+    },
+    {
+      "t": "09:14",
+      "v": 967.03
+    },
+    {
+      "t": "09:15",
+      "v": 967.08
+    },
+    {
+      "t": "09:16",
+      "v": 967.11
+    },
+    {
+      "t": "09:17",
+      "v": 967.06
+    },
+    {
+      "t": "09:18",
+      "v": 967.12
+    },
+    {
+      "t": "09:19",
+      "v": 967.11
+    },
+    {
+      "t": "09:20",
+      "v": 966.96
+    },
+    {
+      "t": "09:21",
+      "v": 967.04
+    },
+    {
+      "t": "09:22",
+      "v": 966.96
+    },
+    {
+      "t": "09:23",
+      "v": 966.97
+    },
+    {
+      "t": "09:24",
+      "v": 966.86
+    },
+    {
+      "t": "09:25",
+      "v": 966.84
+    },
+    {
+      "t": "09:26",
+      "v": 966.87
+    },
+    {
+      "t": "09:27",
+      "v": 966.78
+    },
+    {
+      "t": "09:28",
+      "v": 966.75
+    },
+    {
+      "t": "09:29",
+      "v": 966.7
+    },
+    {
+      "t": "09:30",
+      "v": 966.67
+    },
+    {
+      "t": "09:31",
+      "v": 966.72
+    },
+    {
+      "t": "09:32",
+      "v": 966.75
+    },
+    {
+      "t": "09:33",
+      "v": 966.74
+    },
+    {
+      "t": "09:34",
+      "v": 966.79
+    },
+    {
+      "t": "09:35",
+      "v": 966.69
+    },
+    {
+      "t": "09:36",
+      "v": 966.66
+    },
+    {
+      "t": "09:37",
+      "v": 966.64
     }
   ],
   "walletAssetsMap": {
@@ -2559,10 +2559,10 @@
     "WLD": 0.0658,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.4491,
-  "dustAssetsTry": 72.02,
+  "dustAssetsUsdt": 1.4386,
+  "dustAssetsTry": 71.5,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-26T06:07:15.150Z",
+    "updatedAt": "2026-10-26T06:37:24.144Z",
     "totalAnalyzedTrades": 46,
     "globalWR": 0.458,
     "coinStats": {
@@ -3347,18 +3347,18 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 967.16,
+    "totalNetWorthTry": 966.64,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
       "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %45.7 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-26T06:07:15.150Z"
+    "updatedAt": "2026-10-26T06:37:24.144Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254,
-  "noBuyShort": "📡 Raad ol, pusudayız (Rejim B -> SOVEREIGN): Piyasa %37 yeşil ama 99 haber içinde henüz mutlak kriterleri geçen aday yok, sahte sinyale girmiyoruz.",
-  "noBuyDetail": "1) **Piyasa & Rejim Durumu:** Altcoinlerin %37'i yeşil (1s BTC: %0.16 | Aktif Motor: `Engine #30 SOVEREIGN`). 2) **Sıfır Sahte Sinyal Kuralı:** 14 kaynaktan 105 haber ve kurumsal liderler tarandı; kriterleri geçen ilk fırsatta otomatik alım yapılacak.",
+  "noBuyShort": "📡 Raad ol, pusudayız (Rejim B -> SOVEREIGN): Piyasa %29 yeşil ama 99 haber içinde henüz mutlak kriterleri geçen aday yok, sahte sinyale girmiyoruz.",
+  "noBuyDetail": "1) **Piyasa & Rejim Durumu:** Altcoinlerin %29'i yeşil (1s BTC: %-0.24 | Aktif Motor: `Engine #30 SOVEREIGN`). 2) **Sıfır Sahte Sinyal Kuralı:** 14 kaynaktan 106 haber ve kurumsal liderler tarandı; kriterleri geçen ilk fırsatta otomatik alım yapılacak.",
   "shadowPositions": [
     {
       "symbol": "XRP",
