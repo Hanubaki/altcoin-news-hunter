@@ -2148,7 +2148,7 @@ async function runTradingCycle() {
         !isBnfEntryAllowed &&
         (confirmedRegime !== 'C' ||
           breadthPct < 62 ||
-          btc1hPct < 0.35 ||
+          Number(signalsData.btc1hChangePct || 0) < 0.35 ||
           Number(cand.last1hTakerBuyPct || 50) < 54.5 ||
           Number(cand.takerBuyRatioPct || 50) < 53.5 ||
           Number(cand.rsAtr ?? 0.5) < 0.35 ||
