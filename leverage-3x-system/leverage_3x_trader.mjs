@@ -3212,6 +3212,7 @@ async function scanPerpUniverse(state) {
     const isStretchedQ2FlatMtfLongVeto =
       oiQuadrant.startsWith('Q2') &&
       mtfSqueeze.mtfBullishPts === 0 &&
+      !(item.fundingRatePct <= -0.05 && item.basisPct <= -0.15 && anatomy.clv >= 0.88 && whaleRetailSpread >= 0) &&
       (longStructDistPct >= 1.85 || whaleRetailSpread < 2.0 || item.change24hPct < 4.5);
     const isQ2WeakBounceLongVeto =
       isWeakNeutralOiLongVeto ||
@@ -4052,18 +4053,19 @@ async function manageOpenPosition(state, candidates = []) {
       aeR >= 0.30 &&
       mfeR < 0.45 &&
       whaleOrTakerFlippedAgainst;
+    const hasFavorableFundingCarry =
+      (pos.side === 'LONG' && liveFundNow <= -0.04) || (pos.side === 'SHORT' && liveFundNow >= 0.04);
     const isDeepMaeWatchlistDegraded22m = Boolean(
-      minsHeld >= 22 &&
+      minsHeld >= 35 &&
+        !hasFavorableFundingCarry &&
         aeR >= 0.65 &&
-        currentAdverseR >= 0.32 &&
+        currentAdverseR >= 0.42 &&
         mfeR < 0.08 &&
         (!curPosLiveCand || curPosLiveCand.engine === 'WATCHLIST' || curPosLiveCand.score < 78) &&
         (pos.side === 'LONG'
-          ? String(curPosLiveCand?.thesis || '').includes('Tepe Alıcı Tükenmesi') ||
-            Number(curPosLiveCand?.whaleRetailSpread ?? 0) <= -2.0 ||
+          ? Number(curPosLiveCand?.whaleRetailSpread ?? 0) <= -2.0 &&
             Number(curPosLiveCand?.instBuySellRatio ?? 1) <= 0.85
-          : String(curPosLiveCand?.thesis || '').includes('Dip Alıcı Emilimi') ||
-            Number(curPosLiveCand?.whaleRetailSpread ?? 0) >= 2.0 ||
+          : Number(curPosLiveCand?.whaleRetailSpread ?? 0) >= 2.0 &&
             Number(curPosLiveCand?.instBuySellRatio ?? 1) >= 1.18)
     );
     // Engine #106C + #108B: Require >= 50m (over 3 full 15m bars) for general stale momentum scratch, OR >= 22m when MFE < 0.08R (zero follow-through), MAE >= 0.65R, and CVD Divergence / Taker collapse confirms!
