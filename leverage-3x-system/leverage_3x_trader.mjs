@@ -1399,8 +1399,17 @@ function analyzeMtfAndVolatilitySqueeze(klines) {
   const wasRecentlyCoiled = prevStats.isCoiled || prev2Stats.isCoiled || prevStats.bbWidthPct <= 1.85;
   const rawExpandingUp = wasRecentlyCoiled && lastClose > curStats.mean + 1.15 * curStats.std;
   const rawExpandingDown = wasRecentlyCoiled && lastClose < curStats.mean - 1.15 * curStats.std;
-  const isExpandingUp = rawExpandingUp && (confirmedBreakAboveH8 || (b1IsGreen && b0ElapsedFrac >= 0.60));
-  const isExpandingDown = rawExpandingDown && (confirmedBreakBelowL8 || (!b1IsGreen && b0ElapsedFrac >= 0.60));
+  // Motor #107B (GPT-6-Luna Healthy TTM Squeeze Expansion CLV Gate):
+  // A mature 15m candle (b0ElapsedFrac >= 0.50) rolling over into its lower half (b0Clv < 0.52, like ETHFIUSDT at minute 14 with CLV:0.43 before closing as a Shooting Star CLV:0.29)
+  // is a failed expansion / upper-wick rejection, NEVER a valid upward TTM breakout!
+  const b0High = Number(b0Raw[2] || lastClose);
+  const b0Low = Number(b0Raw[3] || lastClose);
+  const b0Range = Math.max(1e-9, b0High - b0Low);
+  const b0Clv = (lastClose - b0Low) / b0Range;
+  const b0HealthyLongExpand = b0ElapsedFrac < 0.50 || b0Clv >= 0.52;
+  const b0HealthyShortExpand = b0ElapsedFrac < 0.50 || b0Clv <= 0.48;
+  const isExpandingUp = rawExpandingUp && b0HealthyLongExpand && (confirmedBreakAboveH8 || (b1IsGreen && b0ElapsedFrac >= 0.60));
+  const isExpandingDown = rawExpandingDown && b0HealthyShortExpand && (confirmedBreakBelowL8 || (!b1IsGreen && b0ElapsedFrac >= 0.60));
 
   let squeezeLabel = curStats.isCoiled || (wasRecentlyCoiled && (rawExpandingUp || rawExpandingDown) && !isExpandingUp && !isExpandingDown)
     ? 'Yay Sıkışması (TTM Coil)'
@@ -1522,17 +1531,19 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
     b0.close > b0.open &&
     b0BodyFrac >= Math.max(0.0032, 0.28 * atrFracForBar) &&
     b0.clv >= 0.62;
-  // Motor #106A (GPT-6-Luna Mature Red/Green Bar Peak-Rejection Veto):
-  // When b0ElapsedFrac >= 0.60, an early lower wick (like POLYXUSDT dipping to $0.03501 at minute 1, peaking at $0.03547 at minute 9, and dumping -0.68% to $0.03523 below b0.open $0.03535)
-  // artificially inflates b0.clv = 0.52 while the mature 15m candle is RED and actively dumping from its peak!
+  // Motor #106A + #107A (GPT-6-Luna Mature Red/Green Bar Peak-Rejection & Upper-Wick Rollover Veto):
+  // 1. When b0ElapsedFrac >= 0.60, an early lower wick (like POLYXUSDT dipping to $0.03501 at minute 1, peaking at $0.03547 at minute 9, and dumping -0.68% to $0.03523 below b0.open $0.03535)
+  //    artificially inflates b0.clv = 0.52 while the mature 15m candle is RED and actively dumping from its peak!
+  // 2. Even if b0 is still slightly green (like ETHFIUSDT at 11:59:08, b0ElapsedFrac = 0.94, CLV: 0.43, upperWickRatio: 0.58, 52s before closing as a Shooting Star CLV:0.29),
+  //    any mature candle with b0.clv <= 0.46 and heavy upper wick (upperWickRatio >= 0.42 or b0RejectFromHighFrac >= 0.0045) is actively rolling over and must be vetoed for LONG!
   const isMatureRedPeakRejectionLongB0 =
     b0ElapsedFrac >= 0.60 &&
-    !b0.isGreen &&
-    (b0RejectFromHighFrac >= 0.0045 || b0.clv <= 0.48);
+    ((!b0.isGreen && (b0RejectFromHighFrac >= 0.0045 || b0.clv <= 0.48)) ||
+      (b0.clv <= 0.46 && (b0.upperWickRatio >= 0.42 || b0RejectFromHighFrac >= 0.0045)));
   const isMatureGreenTroughBounceShortB0 =
     b0ElapsedFrac >= 0.60 &&
-    b0.isGreen &&
-    (b0BounceFromLowFrac >= 0.0045 || b0.clv >= 0.52);
+    ((b0.isGreen && (b0BounceFromLowFrac >= 0.0045 || b0.clv >= 0.52)) ||
+      (b0.clv >= 0.54 && (b0.lowerWickRatio >= 0.42 || b0BounceFromLowFrac >= 0.0045)));
   const effectiveClv =
     isBabyB0 && !materialAdverseLongB0 && !materialAdverseShortB0 && !rejectedBabyLongB0 && !rejectedBabyShortB0
       ? b1.clv
@@ -5260,7 +5271,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v13.15-MatureRedBarRejection-CorrelatedDiscountCap-And-7Bar1mReversal-Motor106';
+  state.version = 'Mutlak-Yapi-v13.16-MatureUpperWickRolloverVeto-And-HealthyTtmExpansion-Motor107';
   // Engine #89 Startup Hygiene: Clear stale orderbook cooldowns so unchained hype rockets are immediately evaluated
   state.obVetoCooldowns = {};
   state.obVetoStrikes = {};
