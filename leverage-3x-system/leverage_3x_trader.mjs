@@ -644,7 +644,7 @@ function runTwoHourSelfAudit(state, forceLog = false) {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
           rootCause: 'Q1 Long Girişi Sonrası Balina Makasının Negatife (-%0.7) ve Yapının Q3 (Fiyat↓ OI↑ Ayı Yutan) Yıkımına Dönmesi (-10.30 TL Stop Yerine -4.08 TL Erken Tahliye)',
-          fixApplied: 'Motor #98D & #99A–#99B: 22dk Derin MAE Watchlist Erken Tahliyesi (-4.08 TL Kurtarış) + TP1 Öncesi Sağlıklı Akışta (Taker>=1.12x & Balina>=0) Erken Boğma Yasağı + Tepeden Kovalama Vetosu',
+          fixApplied: 'Motor #98D, #99 & #100: 22dk Derin MAE Watchlist Erken Tahliyesi (-4.08 TL Kurtarış) + [%1.02–%1.25] TP1 Ölü Bölge Sıfırlama & Pullback TP1 Hasadı + Anlık LiveCand Senkronu',
         });
       } else if (t.symbol === 'ARIA' && t.side === 'LONG') {
         diagnosedMistakes.push({
@@ -3179,21 +3179,26 @@ async function manageOpenPosition(state, candidates = []) {
   pos.underlyingMovePct = underlyingMovePct;
   const posLev = pos.leverage || LEVERAGE;
 
-  // Engine #64C (Human Orderbook Wall Front-Run TP1 Harvest):
-  // If price reaches >= +1.02% (>82% of TP1 +1.25%) and either encounters an opposing orderbook wall (|liveOb| >= 0.24) or 5m Taker weakens,
-  // front-run the wall and harvest TP1 immediately instead of letting the wall reject price back down!
+  // Engine #64C + #100B (Human Orderbook Wall Front-Run & Near-TP1 Pullback Partial Harvest — Closing the [1.02%, 1.25%) Spread Dead Zone):
+  // 1. If price reaches >= +1.02% (>82% of TP1 +1.25%) and either encounters an opposing orderbook wall (|liveOb| >= 0.24) or 5m Taker weakens,
+  //    OR if peakCoinMoveFrac already reached >= +1.10% (so lastPrice touched ~+1.18%..+1.25% TP1, like TAUSDT at $0.05918) and pulls back >= 0.12% while still >= +0.88%,
+  //    harvest the 35% TP1 partial immediately instead of letting a 1-tick spread miss round-trip without TP1!
   let isWallFrontRunTp1 = false;
-  if (!pos.tp1Done && !pos.externallyClosedOnExchange && rawCoinMoveFrac >= 0.0102 && rawCoinMoveFrac < 0.0125) {
+  if (!pos.tp1Done && !pos.externallyClosedOnExchange && rawCoinMoveFrac >= 0.0088 && rawCoinMoveFrac < 0.0125) {
     const frontRunCand =
       candidates.find(c => c.symbol === pos.symbol) ||
       (state.openPositionLiveCand?.symbol === pos.symbol ? state.openPositionLiveCand : null);
+    const isPullbackFromNearTp1Touch = Boolean(
+      peakCoinMoveFrac >= 0.0110 && rawCoinMoveFrac <= peakCoinMoveFrac - 0.0012
+    );
     const takerWeakNearTp1 = Boolean(
-      frontRunCand?.takerDataValid &&
+      rawCoinMoveFrac >= 0.0102 &&
+        frontRunCand?.takerDataValid &&
         (pos.side === 'LONG' ? frontRunCand.instBuySellRatio <= 0.90 : frontRunCand.instBuySellRatio >= 1.12)
     );
-    if (takerWeakNearTp1) {
+    if (isPullbackFromNearTp1Touch || takerWeakNearTp1) {
       isWallFrontRunTp1 = true;
-    } else {
+    } else if (rawCoinMoveFrac >= 0.0102) {
       const tp1Depth = await fetchJson(`${FAPI_BASE}/fapi/v1/depth?symbol=${pos.fSym}&limit=15`, {}, 1800);
       if (state.openPosition?.id !== posId || pos.isClosing) return;
       if (tp1Depth?.bids?.length && tp1Depth?.asks?.length) {
@@ -3269,17 +3274,30 @@ async function manageOpenPosition(state, candidates = []) {
         pos.tp1Done = true;
         pos.ratchetStage = 'TP1_HARVESTED_RUNNER';
 
+        const tp1CandNow =
+          candidates.find(c => c.symbol === pos.symbol) ||
+          (state.openPositionLiveCand?.symbol === pos.symbol ? state.openPositionLiveCand : null);
+        const tp1HeldMins = (Date.now() - new Date(pos.entryTime).getTime()) / 60000;
+        const isBoomingRunnerFlow = Boolean(
+          tp1HeldMins < 12 &&
+            tp1CandNow &&
+            tp1CandNow.takerDataValid &&
+            (pos.side === 'LONG'
+              ? tp1CandNow.instBuySellRatio >= 1.12 && Number(tp1CandNow.whaleRetailSpread || 0) >= 0 && !tp1CandNow.vetoLong
+              : tp1CandNow.instBuySellRatio <= 0.89 && Number(tp1CandNow.whaleRetailSpread || 0) <= 0 && !tp1CandNow.vetoShort)
+        );
+        const tp1RunnerLockFrac = isBoomingRunnerFlow ? 0.0012 : 0.0035;
         if (pos.side === 'LONG') {
-          const lockTp1 = roundPriceToTick(pos.fSym, pos.entryPrice * (1 + 0.0035), 'floor');
+          const lockTp1 = roundPriceToTick(pos.fSym, pos.entryPrice * (1 + tp1RunnerLockFrac), 'floor');
           if (lockTp1 > pos.stopPrice) pos.stopPrice = lockTp1;
         } else {
-          const lockTp1 = roundPriceToTick(pos.fSym, pos.entryPrice * (1 - 0.0035), 'ceil');
+          const lockTp1 = roundPriceToTick(pos.fSym, pos.entryPrice * (1 - tp1RunnerLockFrac), 'ceil');
           if (lockTp1 < pos.stopPrice) pos.stopPrice = lockTp1;
         }
 
         logEvent(
           state,
-          `💰 [TP1 %35 KÂR CEBELLEZİ] ${pos.symbol}USDT (${posLev}x ${pos.side}) +%${underlyingMovePct} yürüyüşte %${Math.round(harvestFrac * 100)} nakde çevrildi (+${partialNetPnlTry} TL cebe indi!) | Kalan Ana Gövde Runner Stopu +%0.35 Kâra Kilitlendi (0.90% Nefes Payı)!`
+          `💰 [TP1 %35 KÂR CEBELLEZİ] ${pos.symbol}USDT (${posLev}x ${pos.side}) +%${underlyingMovePct} yürüyüşte %${Math.round(harvestFrac * 100)} nakde çevrildi (+${partialNetPnlTry} TL cebe indi!) | Kalan Ana Gövde Runner Stopu +%${(tp1RunnerLockFrac * 100).toFixed(2)} Kâra Kilitlendi!`
         );
 
         const tp1Sweep = sweepProfitToSpotVault(
@@ -3354,20 +3372,19 @@ async function manageOpenPosition(state, candidates = []) {
       if (lockRunner1 < pos.stopPrice && lockRunner1 > markExitPrice) pos.stopPrice = lockRunner1;
     }
   } else if (peakCoinMoveFrac >= 0.0082 && rawCoinMoveFrac >= 0.0036) {
-    // Engine #44B + #76B + #81A + #94A + #99A (GPT-6-Luna Anti-RoundTrip 0.82% MFE Fee-Plus Lock & Pre-TP1 Healthy Flow Breathing Guard):
+    // Engine #44B + #76B + #81A + #94A + #99A + #100C (GPT-6-Luna Anti-RoundTrip 0.82% MFE Fee-Plus Lock & Zero-Dead-Zone Breathing Guard):
     // Once a leveraged trade reaches >= +0.82% underlying move (+2.46% to +3.28% ROE at 3x-4x), lock +0.34% net fee-plus stop
-    // UNLESS the position is < 10m old, pre-TP1 (< +1.02% peak), and institutional flow is still actively expanding
+    // UNLESS the position is < 10m old (< 12m if tp1Done), peak < +1.30%, and institutional flow is still actively expanding
     // (5m Taker >= 1.12x LONG / <= 0.89x SHORT, Whale Spread >= 0 LONG / <= 0 SHORT, no candle veto, no 2m BTC shock),
-    // preventing healthy breakouts like NILUSDT from being choked at +0.34% on a 3m breather before hitting TP1 (+1.25%)!
+    // preventing healthy breakouts like NILUSDT and TAUSDT ($0.05992 -> $0.05918 -> $0.05988 retest -> $0.05770 -3.70% crash) from being choked on an entry retest!
     const beLockCand =
       candidates.find(c => c.symbol === pos.symbol) ||
       (state.openPositionLiveCand?.symbol === pos.symbol ? state.openPositionLiveCand : null);
     const beHeldMins = (Date.now() - new Date(pos.entryTime).getTime()) / 60000;
     const btc2mBe = Number(state.marketSummary?.btcChange2mPct || 0);
     const isHealthyPreTp1Expansion = Boolean(
-      !pos.tp1Done &&
-        beHeldMins < 10 &&
-        peakCoinMoveFrac < 0.0102 &&
+      beHeldMins < (pos.tp1Done ? 12 : 10) &&
+        peakCoinMoveFrac < 0.0130 &&
         beLockCand &&
         beLockCand.takerDataValid &&
         (pos.side === 'LONG'
@@ -4257,6 +4274,8 @@ async function tryOpenPosition(state, candidates) {
       underlyingMovePct: 0,
       entryTime: new Date().toISOString(),
     };
+    // Engine #100A: Immediately populate openPositionLiveCand on entry so the 4s fast loop has full Taker/Whale/Candle telemetry from second 0!
+    state.openPositionLiveCand = cand;
 
     logEvent(
       state,
@@ -4939,7 +4958,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v13.8-Anti-PreTP1-Choke-And-Chase-Guard-Motor99';
+  state.version = 'Mutlak-Yapi-v13.9-Zero-DeadZone-TP1-Pullback-Harvest-And-LiveCand-Sync-Motor100';
   // Engine #89 Startup Hygiene: Clear stale orderbook cooldowns so unchained hype rockets are immediately evaluated
   state.obVetoCooldowns = {};
   state.obVetoStrikes = {};
