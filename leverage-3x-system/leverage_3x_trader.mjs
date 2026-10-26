@@ -640,6 +640,12 @@ function runTwoHourSelfAudit(state, forceLog = false) {
           rootCause: 'Yapısal Destek ($0.08341) Tutup Fiyat Giriş Üstüne ($0.08450) Toparlanırken 24. Dakikada Erken Bayat-İvme Tahliyesi',
           fixApplied: 'Motor #75A & #75B: Giriş Üstü/Başabaş Toparlanan İşlemde Erken Scratch Yasağı + <3.50 TL Scratch İşlemlerde 10s Karantina Muafiyeti',
         });
+      } else if (t.symbol === 'ENA' && t.side === 'LONG') {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: 'Q1 Long Girişi Sonrası Balina Makasının Negatife (-%0.7) ve Yapının Q3 (Fiyat↓ OI↑ Ayı Yutan) Yıkımına Dönmesi (-10.30 TL Stop Yerine -4.08 TL Erken Tahliye)',
+          fixApplied: 'Motor #98D & #99A–#99B: 22dk Derin MAE Watchlist Erken Tahliyesi (-4.08 TL Kurtarış) + TP1 Öncesi Sağlıklı Akışta (Taker>=1.12x & Balina>=0) Erken Boğma Yasağı + Tepeden Kovalama Vetosu',
+        });
       } else if (t.symbol === 'ARIA' && t.side === 'LONG') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
@@ -829,7 +835,7 @@ function runTwoHourSelfAudit(state, forceLog = false) {
       ).length;
       const isTrueSingleMicroWin = !t.tp1Done && Number(t.netPnlTry || 0) < 1.25 && sameSymRecentWins <= 1;
       if (isTrueSingleMicroWin) {
-        const microWinCapMs = lastLossMs + 8 * 60 * 1000;
+        const microWinCapMs = lastLossMs + 15 * 60 * 1000;
         if ((state.symbolCooldowns[t.symbol] || 0) > microWinCapMs) {
           state.symbolCooldowns[t.symbol] = microWinCapMs;
         }
@@ -3348,26 +3354,51 @@ async function manageOpenPosition(state, candidates = []) {
       if (lockRunner1 < pos.stopPrice && lockRunner1 > markExitPrice) pos.stopPrice = lockRunner1;
     }
   } else if (peakCoinMoveFrac >= 0.0082 && rawCoinMoveFrac >= 0.0036) {
-    // Engine #44B + #76B + #81A + #94A (GPT-6-Luna Anti-RoundTrip 0.82% MFE Fee-Plus Lock & Exchange-Safe Stop Guard):
+    // Engine #44B + #76B + #81A + #94A + #99A (GPT-6-Luna Anti-RoundTrip 0.82% MFE Fee-Plus Lock & Pre-TP1 Healthy Flow Breathing Guard):
     // Once a leveraged trade reaches >= +0.82% underlying move (+2.46% to +3.28% ROE at 3x-4x), lock +0.34% net fee-plus stop
-    // while price is still >= +0.36% (strictly below markExitPrice LONG / above markExitPrice SHORT), preventing +0.94% (+2.83% ROE) winners like TUSDT from round-tripping!
-    if (pos.side === 'LONG') {
-      const bePlus = roundPriceToTick(pos.fSym, pos.entryPrice * (1 + 0.0034), 'floor');
-      if (bePlus > pos.stopPrice && bePlus < markExitPrice) {
-        pos.stopPrice = bePlus;
-        if (!pos.ratchetStage.includes('TP1')) pos.ratchetStage = 'FAST_BREAKEVEN_PLUS';
-      }
-    } else {
-      const bePlus = roundPriceToTick(pos.fSym, pos.entryPrice * (1 - 0.0034), 'ceil');
-      if (bePlus < pos.stopPrice && bePlus > markExitPrice) {
-        pos.stopPrice = bePlus;
-        if (!pos.ratchetStage.includes('TP1')) pos.ratchetStage = 'FAST_BREAKEVEN_PLUS';
+    // UNLESS the position is < 10m old, pre-TP1 (< +1.02% peak), and institutional flow is still actively expanding
+    // (5m Taker >= 1.12x LONG / <= 0.89x SHORT, Whale Spread >= 0 LONG / <= 0 SHORT, no candle veto, no 2m BTC shock),
+    // preventing healthy breakouts like NILUSDT from being choked at +0.34% on a 3m breather before hitting TP1 (+1.25%)!
+    const beLockCand =
+      candidates.find(c => c.symbol === pos.symbol) ||
+      (state.openPositionLiveCand?.symbol === pos.symbol ? state.openPositionLiveCand : null);
+    const beHeldMins = (Date.now() - new Date(pos.entryTime).getTime()) / 60000;
+    const btc2mBe = Number(state.marketSummary?.btcChange2mPct || 0);
+    const isHealthyPreTp1Expansion = Boolean(
+      !pos.tp1Done &&
+        beHeldMins < 10 &&
+        peakCoinMoveFrac < 0.0102 &&
+        beLockCand &&
+        beLockCand.takerDataValid &&
+        (pos.side === 'LONG'
+          ? beLockCand.instBuySellRatio >= 1.12 &&
+            Number(beLockCand.whaleRetailSpread || 0) >= 0 &&
+            !beLockCand.vetoLong &&
+            btc2mBe > -0.20
+          : beLockCand.instBuySellRatio <= 0.89 &&
+            Number(beLockCand.whaleRetailSpread || 0) <= 0 &&
+            !beLockCand.vetoShort &&
+            btc2mBe < 0.20)
+    );
+    if (!isHealthyPreTp1Expansion) {
+      if (pos.side === 'LONG') {
+        const bePlus = roundPriceToTick(pos.fSym, pos.entryPrice * (1 + 0.0034), 'floor');
+        if (bePlus > pos.stopPrice && bePlus < markExitPrice) {
+          pos.stopPrice = bePlus;
+          if (!pos.ratchetStage.includes('TP1')) pos.ratchetStage = 'FAST_BREAKEVEN_PLUS';
+        }
+      } else {
+        const bePlus = roundPriceToTick(pos.fSym, pos.entryPrice * (1 - 0.0034), 'ceil');
+        if (bePlus < pos.stopPrice && bePlus > markExitPrice) {
+          pos.stopPrice = bePlus;
+          if (!pos.ratchetStage.includes('TP1')) pos.ratchetStage = 'FAST_BREAKEVEN_PLUS';
+        }
       }
     }
   } else if (peakCoinMoveFrac >= 0.0055 && rawCoinMoveFrac >= 0.0036 && !pos.tp1Done) {
-    // Engine #60A + #76B + #78B + #87D + #94B (GPT-6-Luna Pre-TP1 Zero-Choke & Wide Pullback Lock Window [0.36%, 0.52%]):
+    // Engine #60A + #76B + #78B + #87D + #94B + #99A (GPT-6-Luna Pre-TP1 Zero-Choke & Orderflow-Confirmed Pullback Lock):
     // 1. Require rawCoinMoveFrac >= 0.0036 so the +0.34% stop is ALWAYS strictly below markExitPrice (LONG) / above markExitPrice (SHORT) on real Binance Futures!
-    // 2. Widen pullback catch band to rawCoinMoveFrac <= 0.0052 (16 bps wide instead of 6 bps) so a fast 4s tick never jumps over the lock window!
+    // 2. Motor #99A: Never lock +0.34% unconditionally at minute 1-3 when Taker >= 1.05x & Whale >= 0! Require peak >= +0.75%, pullback <= +0.50%, AND either held >= 8m or orderflow/whale/candle weakening.
     const earlyLockCand =
       candidates.find(c => c.symbol === pos.symbol) ||
       (state.openPositionLiveCand?.symbol === pos.symbol ? state.openPositionLiveCand : null);
@@ -3386,13 +3417,13 @@ async function manageOpenPosition(state, candidates = []) {
           : earlyLockCand.instBuySellRatio > 1.04 || earlyLockCand.whaleRetailSpread >= 3.5)
     );
     const isDeepPullbackFromNearTp1 = Boolean(
-      peakCoinMoveFrac >= 0.0062 &&
-        rawCoinMoveFrac <= 0.0052 &&
-        (peakCoinMoveFrac >= 0.0070 ||
+      peakCoinMoveFrac >= 0.0075 &&
+        rawCoinMoveFrac <= 0.0050 &&
+        (earlyHeldMins >= 8 ||
           !earlyLockCand ||
           (pos.side === 'LONG'
-            ? earlyLockCand.instBuySellRatio < 1.25 || earlyLockCand.whaleRetailSpread < 0
-            : earlyLockCand.instBuySellRatio > 0.82 || earlyLockCand.whaleRetailSpread > 0))
+            ? earlyLockCand.instBuySellRatio < 1.05 || earlyLockCand.whaleRetailSpread < 0 || earlyLockCand.vetoLong
+            : earlyLockCand.instBuySellRatio > 0.95 || earlyLockCand.whaleRetailSpread > 0 || earlyLockCand.vetoShort))
     );
     if (isSevereEarlyTakerCrash || isEarlyTakerDecaying || isDeepPullbackFromNearTp1) {
       if (pos.side === 'LONG') {
@@ -3872,12 +3903,12 @@ async function manageOpenPosition(state, candidates = []) {
     if (!state.symbolConsecStops) state.symbolConsecStops = {};
     if (totalLifecyclePnlUsdt >= 0) {
       state.symbolConsecStops[pos.symbol] = 0;
-      // Engine #80A + #84A (GPT-6-Luna Post-TP1 Cooldown Integrity & Repeat Micro-Win Churn Guard):
-      // Only a first pre-TP1 micro-profit lock (< 1.25 TL, !pos.tp1Done, !isTpHit, !hadPriorSameSymWin60m) gets an 8-minute breather.
+      // Engine #80A + #84A + #99B (GPT-6-Luna Post-TP1 Cooldown Integrity & 15m Pre-TP1 Micro-Win Cooldown):
+      // Only a first pre-TP1 micro-profit lock (< 1.25 TL, !pos.tp1Done, !isTpHit, !hadPriorSameSymWin60m) gets a 15-minute breather (1 full 15m candle).
       // Any TP1/TP harvest, >= 1.25 TL win (like LUMIAUSDT +3.02 TL), or 2nd win on the same symbol within 60m gets the full 45-minute cooldown!
       const isMicroProfitScratch =
         !pos.tp1Done && !isTpHit && totalLifecyclePnlTry < 1.25 && !hadPriorSameSymWin60m;
-      const winCooldownMins = isMicroProfitScratch ? 8 : 45;
+      const winCooldownMins = isMicroProfitScratch ? 15 : 45;
       const winExpiry = Date.now() + winCooldownMins * 60 * 1000;
       state.symbolCooldowns[pos.symbol] = isMicroProfitScratch
         ? winExpiry
@@ -3989,25 +4020,52 @@ async function tryOpenPosition(state, candidates) {
   const dualAi = state.lastSelfAudit?.dualAiCouncil || {};
   const fbLongBonus = Number(dualAi.freebuffMinLongBonus || 0);
 
-  const actionable = candidates.filter(
-    c =>
-      c.engine !== 'WATCHLIST' &&
-      (c.side === 'LONG' || c.side === 'SHORT') &&
-      c.score >=
+  const actionable = candidates.filter(c => {
+    if (
+      c.engine === 'WATCHLIST' ||
+      (c.side !== 'LONG' && c.side !== 'SHORT') ||
+      c.score <
         (isInPostLossCoolDown
           ? 86
           : c.side === 'LONG' && fbLongBonus > 0 && Number(c.volRatio15m || 0) < 1.10
             ? 78 + fbLongBonus
-            : 78) &&
-      (!isInPostLossCoolDown ||
-        (c.takerDataValid &&
+            : 78) ||
+      (isInPostLossCoolDown &&
+        !(
+          c.takerDataValid &&
           Math.abs(Number(c.rsVsBtcAtr || 0)) >= 0.80 &&
           (c.side === 'LONG'
             ? c.instBuySellRatio >= 1.25 && Number(c.whaleRetailSpread || 0) >= 2.0 && Number(c.basisPct || 0) < 0.15
-            : c.instBuySellRatio <= 0.78 && Number(c.whaleRetailSpread || 0) <= -2.0))) &&
-      (!symCds[c.symbol] || symCds[c.symbol] <= nowEntryMs) &&
-      (!obVetoCds[c.symbol] || obVetoCds[c.symbol] <= nowEntryMs)
-  );
+            : c.instBuySellRatio <= 0.78 && Number(c.whaleRetailSpread || 0) <= -2.0)
+        )) ||
+      (symCds[c.symbol] && symCds[c.symbol] > nowEntryMs) ||
+      (obVetoCds[c.symbol] && obVetoCds[c.symbol] > nowEntryMs)
+    ) {
+      return false;
+    }
+    // Engine #99B (GPT-6-Luna Same-Symbol Pre-TP1 Anti-Chase Re-Entry Guard):
+    // If the most recent closed trade on c.symbol within the last 35m was in the same direction, pre-TP1 (!tp1Done), and closed in profit,
+    // forbid chasing the exact same symbol >= +0.45% higher (LONG) / lower (SHORT) than our recent exit price (like NILUSDT exited at $0.09061 and re-entered at $0.09158 +1.07% higher)!
+    const lastSymClosed = (state.closedTrades || []).find(r => r.symbol === c.symbol);
+    if (
+      lastSymClosed &&
+      lastSymClosed.side === c.side &&
+      !lastSymClosed.tp1Done &&
+      Number(lastSymClosed.netPnlTry || 0) >= 0 &&
+      nowEntryMs - Number(lastSymClosed.closedAtMs || parseClosedAtMs(lastSymClosed.closedAt) || 0) <= 35 * 60 * 1000
+    ) {
+      const lastExitPx = Number(lastSymClosed.exitPrice || 0);
+      const curPx = Number(c.price || 0);
+      if (lastExitPx > 0 && curPx > 0) {
+        const chasePastExitPct =
+          c.side === 'LONG' ? ((curPx - lastExitPx) / lastExitPx) * 100 : ((lastExitPx - curPx) / lastExitPx) * 100;
+        if (chasePastExitPct >= 0.45) {
+          return false;
+        }
+      }
+    }
+    return true;
+  });
   if (!actionable.length) return;
 
   // Tier-Capped Principal Rule: NEVER risk more than activeCapUsdt (300.00 TL at Tier 1) in Leverage!
@@ -4881,7 +4939,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v13.7-Anti-GCR-Perp-Bubble-And-PostLoss-Guard-Motor98';
+  state.version = 'Mutlak-Yapi-v13.8-Anti-PreTP1-Choke-And-Chase-Guard-Motor99';
   // Engine #89 Startup Hygiene: Clear stale orderbook cooldowns so unchained hype rockets are immediately evaluated
   state.obVetoCooldowns = {};
   state.obVetoStrikes = {};

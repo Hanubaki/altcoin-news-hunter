@@ -1,20 +1,20 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 26.10.2026 00:35:40
+**Son Güncelleme:** 26.10.2026 05:09:31
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`976,83 TL`**
-* **Toplam Net Kâr / Zarar:** **`-23,17 TL` (`%-2.32`)**
-* **Boşta Bekleyen Nakit:** `917,82 TL`
+* **Şu Anki Toplam Para:** **`967,14 TL`**
+* **Toplam Net Kâr / Zarar:** **`-32,86 TL` (`%-3.29`)**
+* **Boşta Bekleyen Nakit:** `895,14 TL`
 * **Coinde Olan Para (Açık İşlemler):** `0,00 TL`
-* **Cüzdandaki Küsürat (Dust) Varlıklar:** `59,01 TL` *(Aynı coine tekrar girildiğinde otomatik birleştirilip nakite çevrilir)*
-* **Başarılı Satış / Zarar Kes:** `21 Kârlı Satış / 22 Zarar Kes`
-* **📡 Şu An Neden Yeni Coin Alınmıyor?:** **📡 Raad ol, pusudayız (Rejim B -> SOVEREIGN): Piyasa %49 yeşil ama 99 haber içinde henüz mutlak kriterleri geçen aday yok, sahte sinyale girmiyoruz.**<br><details><summary>🔍 Detaylı Sebebi Gör</summary>1) **Piyasa & Rejim Durumu:** Altcoinlerin %49'i yeşil (1s BTC: %-0.03 | Aktif Motor: `Engine #30 SOVEREIGN`). 2) **Sıfır Sahte Sinyal Kuralı:** 14 kaynaktan 103 haber ve kurumsal liderler tarandı; kriterleri geçen ilk fırsatta otomatik alım yapılacak.</details>
-* **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0077 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0870 | HBAR: 0.8140 | HYPE: 0.0009 | ICP: 0.0002 | INJ: 0.0075 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0007 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 0.0628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0636 | STX: 0.0700 | TAO: 0.0001 | THETA: 0.0680 | TIA: 0.0084 | TRY: 917.8261 | UNI: 0.0080 | WLD: 0.0658 | ZRO: 0.0037)`
+* **Cüzdandaki Küsürat (Dust) Varlıklar:** `72,00 TL` *(Aynı coine tekrar girildiğinde otomatik birleştirilip nakite çevrilir)*
+* **Başarılı Satış / Zarar Kes:** `21 Kârlı Satış / 25 Zarar Kes`
+* **📡 Şu An Neden Yeni Coin Alınmıyor?:** **🛡️ Raad ol, nakit kalkanı devrede (Rejim A -> BNF): Piyasanın %81'u kırmızı (%19 yeşil); 895,14 TL nakiti eritmemek için BNF panik dönüş teyidi bekleniyor.**<br><details><summary>🔍 Detaylı Sebebi Gör</summary>1) **Piyasa Kan Gölü (%19 Yeşil / %81 Kırmızı — Engine #30 Rejim A):** Altcoinlerin %81'u şu an düşüşte (1s BTC: %-0.51). 2) **%65 Nakit Koruma Zırhı & BNF Panik Emilim Kuralı:** Yeşil oranı %24'ün altındayken kasanın en az %65'i güvenli TRY nakitte tutulur (`Maksimum Coin Tavanı: 313 TL`) ve yalnızca `Fiyat <= 0.94*MA25 + RSI<=28 + 5dk/1dk Mikro Dönüş + 15dk OI >= +%0.25 + NetRR >= 1.5` şartlarını eksiksiz sağlayan BNF adayına girilir. 3) **Taranan Adaylar (104 Haber):** Onaylı BNF panik dönüş adayı sayısı: **0**. Düşen bıçak teyitsiz tutulmaz!</details>
+* **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0082 | BCH: 0.0010 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0077 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0870 | HBAR: 0.8140 | HYPE: 0.0009 | ICP: 0.0002 | INJ: 0.0067 | JASMY: 0.6080 | LDO: 0.0063 | LTC: 0.0007 | NEAR: 0.0004 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 0.0628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0636 | STX: 0.0700 | TAO: 0.0001 | THETA: 0.0680 | TIA: 0.0084 | TRY: 895.1391 | UNI: 0.0080 | WLD: 0.0658 | ZRO: 0.0037)`
 
 ---
 
@@ -22,6 +22,9 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
+| **BCH** | `153,55 TL` | `150,76 TL` | **`-2,78 TL`** | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.62 | -2.82 TL) |
+| **INJ** | `174,01 TL` | `170,55 TL` | **`-3,46 TL`** | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.79 | -3.50 TL) |
+| **NEAR** | `180,46 TL` | `177,39 TL` | **`-3,06 TL`** | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.5 | -3.10 TL) |
 | **LTC** | `181,62 TL` | `180,44 TL` | **`-1,18 TL`** | 🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (133dk Tepkisiz + 4sn Hızlı Tahliye %-0.45) |
 | **HYPE** | `180,89 TL` | `179,24 TL` | **`-1,65 TL`** | 🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (115dk Tepkisiz + Tahta -0.21 -> Stop Beklenmeden Zarar Küçültüldü %-0.69) |
 | **TIA** | `185,52 TL` | `182,47 TL` | **`-3,04 TL`** | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.44 | -3.08 TL) |
@@ -78,10 +81,13 @@
 
 ## 4. 🧠 ÖZ-ÖĞRENME HAFIZASI VE HATA OTOPSİSİ (Engine #15 — Adaptive Self-Learning)
 
-> Sistem kapattığı her işlemi (`43 işlem`) otonom olarak otopsiye alır; zarar eden coinlerin giriş şartlarını kalıcı olarak sıkılaştırırken, istikrarlı kâr bırakan coinlere ve haber kaynaklarına ek konsey puanı tanımlar.
+> Sistem kapattığı her işlemi (`46 işlem`) otonom olarak otopsiye alır; zarar eden coinlerin giriş şartlarını kalıcı olarak sıkılaştırırken, istikrarlı kâr bırakan coinlere ve haber kaynaklarına ek konsey puanı tanımlar.
 
 | Coin | Geçmiş Performans | Toplam Net Kâr/Zarar | Öğrenilen Otonom Kural & Parametre Evrimi |
 | :--- | :--- | :--- | :--- |
+| **BCH** | `0G / 1Z` | **`-2.78 TL`** | 🛑 **Sıkılaştırıldı:** Max RSI `<=65`, Min Balina `>=%51.5`, Skor Cezası `-1` Puan |
+| **INJ** | `1G / 2Z` | **`-2.53 TL`** | 🛑 **Sıkılaştırıldı:** Max RSI `<=65`, Min Balina `>=%51.5`, Skor Cezası `-5` Puan |
+| **NEAR** | `0G / 1Z` | **`-3.06 TL`** | 🛑 **Sıkılaştırıldı:** Max RSI `<=65`, Min Balina `>=%51.5`, Skor Cezası `-1` Puan |
 | **LTC** | `0G / 2Z` | **`-4.68 TL`** | 🛑 **Sıkılaştırıldı:** Max RSI `<=65`, Min Balina `>=%51.5`, Skor Cezası `-4` Puan |
 | **HYPE** | `0G / 1Z` | **`-1.65 TL`** | 🛑 **Sıkılaştırıldı:** Max RSI `<=65`, Min Balina `>=%51.5`, Skor Cezası `-1` Puan |
 | **TIA** | `0G / 3Z` | **`-7.05 TL`** | 🛑 **Sıkılaştırıldı:** Max RSI `<=65`, Min Balina `>=%51.5`, Skor Cezası `-8` Puan |
@@ -95,7 +101,6 @@
 | **OP** | `0G / 1Z` | **`-5.77 TL`** | 🛑 **Sıkılaştırıldı:** Max RSI `<=65`, Min Balina `>=%51.5`, Skor Cezası `-1` Puan |
 | **PENDLE** | `1G / 0Z` | **`+1.93 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+1` Puan (Standart Filtre) |
 | **RSR** | `1G / 1Z` | **`+0.54 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+1` Puan (Standart Filtre) |
-| **INJ** | `1G / 1Z` | **`+0.93 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+1` Puan (Standart Filtre) |
 | **ZRO** | `0G / 1Z` | **`-10.12 TL`** | 🛑 **Sıkılaştırıldı:** Max RSI `<=65`, Min Balina `>=%51.5`, Skor Cezası `-1` Puan |
 | **RAY** | `1G / 1Z` | **`+0.30 TL`** | ✅ **Ödüllendirildi:** Konsey Skor Bonusu `+1` Puan (Standart Filtre) |
 | **PYTH** | `0G / 1Z` | **`-0.02 TL`** | 🛑 **Sıkılaştırıldı:** Max RSI `<=65`, Min Balina `>=%51.5`, Skor Cezası `-1` Puan |
@@ -117,11 +122,11 @@
 
 * **Banka & Entegrasyon:** `İş Bankası (İşCep & Gmail Bildirim Entegreli)`
 * **İş Bankası Güncel Bakiye:** **`0,00 TL`**
-* **Toplam Kişisel Servet (İş Bankası + Binance TR):** **`976,83 TL`**
+* **Toplam Kişisel Servet (İş Bankası + Binance TR):** **`967,14 TL`**
 * **Beklenen Aylık Gelir Akışı:** `Staj Maaşı: 8.000 TL | Mevcut Burs: 3.000 TL | Yeni Başvurulan Burs: 3.500 TL (Toplam: 14.500 TL/Ay)`
 * **Aylık Dokunulmaz Yaşam & Nakit Kalkanı:** `5.500 TL` *(Haftalık Harcama Limiti: `1.375 TL` | Bu Hafta Harcanan: `0 TL`)*
 * **💡 Günün Otonom CFO Tüyoları & Bütçe Emirleri:**
-  - 🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %48.8 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.
+  - 🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %45.7 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.
   - 🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız.
 
 ---
