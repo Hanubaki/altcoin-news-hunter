@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-26T05:41:49.503Z",
+  "updatedAt": "2026-10-26T06:07:15.150Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
   "initialBankrollUsdt": 20.1207,
@@ -2107,10 +2107,10 @@
     "[18:43:01] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (WEAK_IMBALANCE (-0.1945 -> -0.1313 < -0.05) | ob1:-0.1945 -> ob2:-0.1313)",
     "[18:42:57] ⚖️ [Engine #27 Kalıcı Tahta Vetosu] FET pas geçildi (NO_BOOK_SNAPSHOT_2 | ob1:-0.1786 -> ob2:N/A)"
   ],
-  "totalEquityUsdt": 19.465,
-  "totalEquityTry": 967.41,
-  "totalPnlUsdt": -0.6557,
-  "totalPnlPct": -3.26,
+  "totalEquityUsdt": 19.46,
+  "totalEquityTry": 967.16,
+  "totalPnlUsdt": -0.6608,
+  "totalPnlPct": -3.28,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -2137,112 +2137,8 @@
   "highWaterMarkUsdt": 20.1207,
   "cashIdleSince": 1792971034087,
   "usdTryRate": 49.7,
-  "totalPnlTry": -32.59,
+  "totalPnlTry": -32.84,
   "equityHistory": [
-    {
-      "t": "07:06",
-      "v": 966.62
-    },
-    {
-      "t": "07:07",
-      "v": 966.61
-    },
-    {
-      "t": "07:08",
-      "v": 966.65
-    },
-    {
-      "t": "07:09",
-      "v": 966.61
-    },
-    {
-      "t": "07:10",
-      "v": 966.7
-    },
-    {
-      "t": "07:11",
-      "v": 966.71
-    },
-    {
-      "t": "07:12",
-      "v": 966.84
-    },
-    {
-      "t": "07:13",
-      "v": 966.86
-    },
-    {
-      "t": "07:14",
-      "v": 966.89
-    },
-    {
-      "t": "07:15",
-      "v": 966.92
-    },
-    {
-      "t": "07:16",
-      "v": 967
-    },
-    {
-      "t": "07:17",
-      "v": 967.08
-    },
-    {
-      "t": "07:18",
-      "v": 966.98
-    },
-    {
-      "t": "07:19",
-      "v": 966.91
-    },
-    {
-      "t": "07:20",
-      "v": 966.9
-    },
-    {
-      "t": "07:21",
-      "v": 966.84
-    },
-    {
-      "t": "07:22",
-      "v": 966.8
-    },
-    {
-      "t": "07:23",
-      "v": 966.78
-    },
-    {
-      "t": "07:24",
-      "v": 966.78
-    },
-    {
-      "t": "07:25",
-      "v": 966.82
-    },
-    {
-      "t": "07:26",
-      "v": 966.77
-    },
-    {
-      "t": "07:27",
-      "v": 966.77
-    },
-    {
-      "t": "07:28",
-      "v": 966.78
-    },
-    {
-      "t": "07:29",
-      "v": 966.76
-    },
-    {
-      "t": "07:30",
-      "v": 966.8
-    },
-    {
-      "t": "07:31",
-      "v": 966.89
-    },
     {
       "t": "07:32",
       "v": 966.99
@@ -2522,6 +2418,110 @@
     {
       "t": "08:41",
       "v": 967.41
+    },
+    {
+      "t": "08:42",
+      "v": 967.43
+    },
+    {
+      "t": "08:43",
+      "v": 967.45
+    },
+    {
+      "t": "08:44",
+      "v": 967.43
+    },
+    {
+      "t": "08:45",
+      "v": 967.47
+    },
+    {
+      "t": "08:46",
+      "v": 967.48
+    },
+    {
+      "t": "08:47",
+      "v": 967.47
+    },
+    {
+      "t": "08:48",
+      "v": 967.49
+    },
+    {
+      "t": "08:49",
+      "v": 967.54
+    },
+    {
+      "t": "08:50",
+      "v": 967.59
+    },
+    {
+      "t": "08:51",
+      "v": 967.53
+    },
+    {
+      "t": "08:52",
+      "v": 967.55
+    },
+    {
+      "t": "08:53",
+      "v": 967.48
+    },
+    {
+      "t": "08:54",
+      "v": 967.46
+    },
+    {
+      "t": "08:55",
+      "v": 967.46
+    },
+    {
+      "t": "08:56",
+      "v": 967.45
+    },
+    {
+      "t": "08:57",
+      "v": 967.45
+    },
+    {
+      "t": "08:58",
+      "v": 967.45
+    },
+    {
+      "t": "08:59",
+      "v": 967.48
+    },
+    {
+      "t": "09:00",
+      "v": 967.5
+    },
+    {
+      "t": "09:01",
+      "v": 967.58
+    },
+    {
+      "t": "09:02",
+      "v": 967.49
+    },
+    {
+      "t": "09:03",
+      "v": 967.4
+    },
+    {
+      "t": "09:04",
+      "v": 967.38
+    },
+    {
+      "t": "09:05",
+      "v": 967.3
+    },
+    {
+      "t": "09:06",
+      "v": 967.19
+    },
+    {
+      "t": "09:07",
+      "v": 967.16
     }
   ],
   "walletAssetsMap": {
@@ -2559,10 +2559,10 @@
     "WLD": 0.0658,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.4541,
-  "dustAssetsTry": 72.27,
+  "dustAssetsUsdt": 1.4491,
+  "dustAssetsTry": 72.02,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-26T05:41:49.502Z",
+    "updatedAt": "2026-10-26T06:07:15.150Z",
     "totalAnalyzedTrades": 46,
     "globalWR": 0.458,
     "coinStats": {
@@ -3347,18 +3347,18 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 967.41,
+    "totalNetWorthTry": 967.16,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
       "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %45.7 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-26T05:41:49.503Z"
+    "updatedAt": "2026-10-26T06:07:15.150Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254,
-  "noBuyShort": "📡 Raad ol, seçici moddayız (Rejim B -> SOVEREIGN): 4 aday incelendi ancak tahta/NO-CHASE/Kelly risk filtresini geçen net fırsat bekleniyor.",
-  "noBuyDetail": "1) **Aday Taraması:** 4 aday bulundu ancak ya haber çoktan fiyatlanmış (`NO-CHASE ask > Pmax`), ya tahta alıcı oranı zayıf ya da kasa koruma limiti (`0 / 671 TL`) dolu.",
+  "noBuyShort": "📡 Raad ol, pusudayız (Rejim B -> SOVEREIGN): Piyasa %37 yeşil ama 99 haber içinde henüz mutlak kriterleri geçen aday yok, sahte sinyale girmiyoruz.",
+  "noBuyDetail": "1) **Piyasa & Rejim Durumu:** Altcoinlerin %37'i yeşil (1s BTC: %0.16 | Aktif Motor: `Engine #30 SOVEREIGN`). 2) **Sıfır Sahte Sinyal Kuralı:** 14 kaynaktan 105 haber ve kurumsal liderler tarandı; kriterleri geçen ilk fırsatta otomatik alım yapılacak.",
   "shadowPositions": [
     {
       "symbol": "XRP",
@@ -3366,18 +3366,18 @@
       "priceSource": "BINANCE_TR",
       "spreadPct": 0.016,
       "entryAsk": 1.28879,
-      "currentBid": 1.29014,
-      "highestBid": 1.29282,
+      "currentBid": 1.28934,
+      "highestBid": 1.29316,
       "entryTime": "2026-10-26T04:53:02.685Z"
     },
     {
       "symbol": "UNI",
       "headline": "Golden Age Kurumsal Dönüş Dalgası (UNI — VWAP & Balina İvme Lideri [2026-10-26T05])",
       "priceSource": "BINANCE_TR",
-      "spreadPct": 0.173,
+      "spreadPct": 0.115,
       "entryAsk": 6.94908,
-      "currentBid": 6.95775,
-      "highestBid": 6.9839,
+      "currentBid": 6.97586,
+      "highestBid": 6.99799,
       "entryTime": "2026-10-26T05:15:32.925Z"
     }
   ],

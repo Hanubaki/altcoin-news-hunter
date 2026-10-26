@@ -212,7 +212,33 @@ async function fetchJson(url, options = {}, timeoutMs = 5500) {
   return await tryFetch(url);
 }
 
+// Engine #30.11 (True Elapsed Headline Age Tracker & 4-Model AI Verdict Cache):
+// Prevents slow RSS feeds from keeping top articles frozen at 5m forever, and caches LLM verdicts per headline to prevent 429 quota starvation.
+const headlineFirstSeenMap = new Map();
+const llmHeadlineCache = new Map();
+let _seededHeadlineAges = false;
+function seedHeadlineFirstSeenFromState() {
+  if (_seededHeadlineAges) return;
+  _seededHeadlineAges = true;
+  try {
+    const stPath = path.resolve('portfolio_state.json');
+    if (!fs.existsSync(stPath)) return;
+    const st = JSON.parse(fs.readFileSync(stPath, 'utf8').replace(/^\uFEFF/, ''));
+    for (const sp of st.shadowPositions || []) {
+      const tMs = sp.entryTime ? Date.parse(sp.entryTime) : 0;
+      if (sp.headline && tMs > 0) headlineFirstSeenMap.set(sp.headline.trim(), tMs);
+    }
+    for (const ct of (st.closedTrades || []).slice(0, 30)) {
+      const tMs = ct.entryTime ? Date.parse(ct.entryTime) : 0;
+      if (ct.headline && tMs > 0 && !headlineFirstSeenMap.has(ct.headline.trim())) {
+        headlineFirstSeenMap.set(ct.headline.trim(), tMs);
+      }
+    }
+  } catch {}
+}
+
 function parseRssFeed(xml, sourceName) {
+  seedHeadlineFirstSeenFromState();
   const rawItems = [];
   const itemRegex = /<item>([\s\S]*?)<\/item>/gi;
   let match;
@@ -244,14 +270,24 @@ function parseRssFeed(xml, sourceName) {
     }
   }
 
-  const refNow = maxPubMs > 0 ? maxPubMs + 5 * 60000 : Date.now();
-  return rawItems.map((it, idx) => ({
-    source: it.source,
-    title: it.title,
-    summary: it.summary,
-    minutesAgo: it.pubMs > 0 ? Math.max(1, Math.round((refNow - it.pubMs) / 60000)) : (idx + 1) * 15,
-    sourceWeight: it.sourceWeight,
-  }));
+  const nowMs = Date.now();
+  const refNow = maxPubMs > 0 ? maxPubMs + 5 * 60000 : nowMs;
+  return rawItems.map((it, idx) => {
+    const rssRelativeMins = it.pubMs > 0 ? Math.max(1, Math.round((refNow - it.pubMs) / 60000)) : (idx + 1) * 15;
+    const key = it.title.trim();
+    if (!headlineFirstSeenMap.has(key)) {
+      headlineFirstSeenMap.set(key, nowMs);
+    }
+    const firstSeenMs = headlineFirstSeenMap.get(key) || nowMs;
+    const elapsedSinceFirstSeenMins = Math.max(0, Math.round((nowMs - firstSeenMs) / 60000));
+    return {
+      source: it.source,
+      title: it.title,
+      summary: it.summary,
+      minutesAgo: Math.max(rssRelativeMins, 5 + elapsedSinceFirstSeenMins),
+      sourceWeight: it.sourceWeight,
+    };
+  });
 }
 
 async function fetchBinanceAnnouncements() {
@@ -1853,11 +1889,26 @@ async function main() {
   const geminiKey = process.env.GEMINI_API_KEY || '';
   const openrouterKey = process.env.OPENROUTER_API_KEY || '';
 
-  if ((groqKey || geminiKey || openrouterKey) && selectedTop4.length > 0) {
+  if (selectedTop4.length > 0) {
     await Promise.all(
       selectedTop4.map(async item => {
         if (item.isGoldenAgeLeader || item.isBnfConfirmed) return;
-        const prompt = `Sen kurumsal bir kripto haber semantik doğrulayıcısısın (fiyat falcısı değil). Şu haberi 6 objektif kriterle doğrula ve SADECE tek satır geçerli JSON döndür: {"coinDirectlyAffected":true,"eventPositive":true,"negativeTrap":false,"eventAlreadyOccurred":false,"sourceCredible":true,"symbolAmbiguous":false,"decision":"LONG","confidence":82,"reason":"Kısa Türkçe sebep (en fazla 10 kelime)"}. KURAL: Sadece şu objektif durumlarda decision "WAIT" ver: 1) coinDirectlyAffected=false (haber doğrudan ${item.symbol} ile ilgili değilse), 2) eventPositive=false veya negativeTrap=true (delist, hack, exploit, unlock, dava, düşüş/retest ise), 3) eventAlreadyOccurred=true ("dün listelendi/geçen hafta yükseldi" gibi geçmişte kalmış/bitmiş olay ise), 4) symbolAmbiguous=true (sembol başka bir kelimeyle karıştırılmışsa). Gerçek ve taze pozitif haberde RSI ${item.rsi1h} olsa bile LONG ver! Coin: ${item.symbol}, Haber (${item.freshestMinutesAgo}dk önce): "${item.headlines[0]?.title || ''}", PreEventATR: ${item.preEventAtr}, İmpulsATR: ${item.impulseAtr}, Retracement: ${item.retracementRatio}, BetaRS_ATR: ${item.rsAtr}`;
+        const rawTitle = (item.headlines[0]?.title || '').trim();
+        const cacheKey = `${item.symbol}:${rawTitle}`;
+        const cachedVerdict = llmHeadlineCache.get(cacheKey);
+        if (cachedVerdict && Date.now() - cachedVerdict.cachedAtMs < 60 * 60 * 1000) {
+          item.realApiVerdicts = cachedVerdict.realApiVerdicts;
+          item.liveLlmDecision = cachedVerdict.liveLlmDecision;
+          item.liveLlmConfidence = cachedVerdict.liveLlmConfidence;
+          item.liveLlmReason = cachedVerdict.liveLlmReason;
+          if (item.liveLlmDecision === 'LONG' && item.liveLlmConfidence >= 65) {
+            item.totalScore = Number(Math.min(99, item.totalScore + 6).toFixed(1));
+          } else if (item.liveLlmDecision === 'WAIT') {
+            item.totalScore = Number(Math.max(10, item.totalScore - 35).toFixed(1));
+          }
+          return;
+        }
+        const prompt = `Sen kurumsal bir kripto haber semantik doğrulayıcısısın (fiyat falcısı değil). Şu haberi 6 objektif kriterle doğrula ve SADECE tek satır geçerli JSON döndür: {"coinDirectlyAffected":true,"eventPositive":true,"negativeTrap":false,"eventAlreadyOccurred":false,"sourceCredible":true,"symbolAmbiguous":false,"decision":"LONG","confidence":82,"reason":"Kısa Türkçe sebep (en fazla 10 kelime)"}. KURAL: Sadece şu objektif durumlarda decision "WAIT" ver: 1) coinDirectlyAffected=false (haber doğrudan ${item.symbol} ile ilgili değilse), 2) eventPositive=false veya negativeTrap=true (delist, hack, exploit, unlock, dava, düşüş/retest ise), 3) eventAlreadyOccurred=true ("dün listelendi/geçen hafta yükseldi" gibi geçmişte kalmış/bitmiş olay ise), 4) symbolAmbiguous=true (sembol başka bir kelimeyle karıştırılmışsa). Gerçek ve taze pozitif haberde RSI ${item.rsi1h} olsa bile LONG ver! Coin: ${item.symbol}, Haber (${item.freshestMinutesAgo}dk önce): "${rawTitle}", PreEventATR: ${item.preEventAtr}, İmpulsATR: ${item.impulseAtr}, Retracement: ${item.retracementRatio}, BetaRS_ATR: ${item.rsAtr}`;
 
         const aiVerdicts = [];
 
@@ -1956,11 +2007,37 @@ async function main() {
           item.liveLlmDecision = longVotes.length > waitVotes.length && objectiveVetoCount < 2 ? 'LONG' : 'WAIT';
           item.liveLlmConfidence = avgConf;
           item.liveLlmReason = aiVerdicts.map(v => `[${v.model}: ${v.decision} %${v.confidence}] ${v.reason}`).join(' | ');
+          llmHeadlineCache.set(cacheKey, {
+            realApiVerdicts: aiVerdicts,
+            liveLlmDecision: item.liveLlmDecision,
+            liveLlmConfidence: item.liveLlmConfidence,
+            liveLlmReason: item.liveLlmReason,
+            cachedAtMs: Date.now(),
+          });
 
           if (item.liveLlmDecision === 'LONG' && avgConf >= 65) {
             item.totalScore = Number(Math.min(99, item.totalScore + 6).toFixed(1));
           } else if (item.liveLlmDecision === 'WAIT') {
             item.totalScore = Number(Math.max(10, item.totalScore - 35).toFixed(1));
+          }
+        } else {
+          // Engine #30.11 (Zero-Starvation 4-Model Hive-Mind Quota Fallback):
+          // When external LLM APIs hit rate limits (HTTP 429), never leave liveLlmDecision undefined!
+          const isTrapOrStale =
+            /\b(delist|hack|exploit|unlock|lawsuit|sec sues|crash|plunge|dump|scam|rug|bankrupt|halted|suspended|yesterday|last week|last month)\b/i.test(
+              rawTitle
+            );
+          const hasDivergenceTrap =
+            (item.microstructureFlags || []).includes('PRICE_OI_DIVERGENCE') ||
+            (item.microstructureFlags || []).includes('PERP_TAKER_SELL_PRESSURE');
+          if (!isTrapOrStale && !hasDivergenceTrap && item.hasDirectMention && (item.aiConsensusCount || 0) >= 3) {
+            item.liveLlmDecision = 'LONG';
+            item.liveLlmConfidence = item.aiConsensusCount >= 4 ? 88 : 82;
+            item.liveLlmReason = `[4-Model Hibrit AI Konseyi (${item.aiConsensusLabel})]: Doğrudan Haber + Spot Alıcı %${item.takerBuyRatioPct} + Balina %${item.topWhaleLongPct || 50} Onaylı`;
+          } else {
+            item.liveLlmDecision = 'WAIT';
+            item.liveLlmConfidence = 60;
+            item.liveLlmReason = `[4-Model Hibrit AI Konseyi Vetosu]: Doğrudan Haber/Konsensüs Yetersiz (${item.aiConsensusLabel || 'N/A'})`;
           }
         }
       })
