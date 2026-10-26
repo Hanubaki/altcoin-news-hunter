@@ -661,8 +661,8 @@ function runTwoHourSelfAudit(state, forceLog = false) {
       } else if (t.symbol === 'GRASS' && t.side === 'LONG') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
-          rootCause: 'Kârlı İşlemden (STEEM +%0.52) Slot Rotasyonu İle 1 Saatte +%3.62 (+3.33 ATR) Şişmiş & Zayıf Mumlu (CLV:0.56 Dengeli Mum, Stop:-%2.20) Q1 Tepeye Geçiş',
-          fixApplied: 'Motor #97A–#97C: Q1 OI Olsa Bile 1s >= +%3.40 / RS_BTC >= +3.00 ATR + Zayıf CLV (<0.68) Tepe Vetosu + Rotasyonda Aşırı Uzamış Coin Yasağı + 8dk Yemleme/Fishing Erken Tahliyesi',
+          rootCause: '1dk +%1.09 Blow-Off Zirve ($0.7145) Sonrası Tam Kırmızı 1dk Döküm Mumunda ($0.7134->$0.7102, CLV:0) Baby-Bar Körlüğü (CLV:1) İle Stop Sonrası YATAY MTF + NÖTR OI Giriş',
+          fixApplied: 'Motor #103A–#103D: 3dk Zirve Reddi & Kırmızı 1dk Döküm Mum Vetosu + Baby-Bar Üst İğne Körlüğü Sıfırlama + Stop Sonrası YATAY/NÖTR OI Giriş Yasağı + Karantina Radar/Slot Temizliği',
         });
       } else if (t.symbol === 'CT' && t.side === 'LONG') {
         diagnosedMistakes.push({
@@ -1471,6 +1471,24 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
   const isMatureB0 = !isBabyB0 && b0ElapsedFrac >= 0.70;
   const atrFracForBar = (Number(atr15mPct) || 1.2) / 100;
   const b0BodyFrac = b0.open > 0 ? Math.abs(b0.close - b0.open) / b0.open : 0;
+  const b0SpikeUpFrac = b0.open > 0 ? (b0.high - b0.open) / b0.open : 0;
+  const b0RejectFromHighFrac = b0.high > 0 ? (b0.high - b0.close) / b0.high : 0;
+  const b0SpikeDownFrac = b0.open > 0 ? (b0.open - b0.low) / b0.open : 0;
+  const b0BounceFromLowFrac = b0.low > 0 ? (b0.close - b0.low) / b0.low : 0;
+  // Motor #103A (GPT-6-Luna Rejected Baby-Bar Blow-Off Unblinding):
+  // If b0 has already spiked >= max(0.85%, 0.65 * ATR%) above b0.open and rejected >= 0.38% from b0.high with upperWickRatio >= 0.30
+  // (like GRASSUSDT spiking $0.7059->$0.7145 +1.22% and dumping to $0.7109 -0.50% at minute 3 of b0),
+  // NEVER mask b0 with b1.clv = 1.00; unblind effectiveClv = b0.clv and invalidate b1 bullish patterns!
+  const rejectedBabyLongB0 =
+    isBabyB0 &&
+    b0.upperWickRatio >= 0.30 &&
+    b0SpikeUpFrac >= Math.max(0.0085, 0.65 * atrFracForBar) &&
+    b0RejectFromHighFrac >= 0.0038;
+  const rejectedBabyShortB0 =
+    isBabyB0 &&
+    b0.lowerWickRatio >= 0.30 &&
+    b0SpikeDownFrac >= Math.max(0.0085, 0.65 * atrFracForBar) &&
+    b0BounceFromLowFrac >= 0.0038;
   const materialAdverseLongB0 =
     b0.close < b0.open &&
     b0BodyFrac >= Math.max(0.0032, 0.28 * atrFracForBar) &&
@@ -1480,7 +1498,7 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
     b0BodyFrac >= Math.max(0.0032, 0.28 * atrFracForBar) &&
     b0.clv >= 0.62;
   const effectiveClv =
-    isBabyB0 && !materialAdverseLongB0 && !materialAdverseShortB0
+    isBabyB0 && !materialAdverseLongB0 && !materialAdverseShortB0 && !rejectedBabyLongB0 && !rejectedBabyShortB0
       ? b1.clv
       : b0.clv;
 
@@ -1566,11 +1584,12 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
     ? b1.high < b2.high && b2.high < b3.high && !b1.isGreen && !b2.isGreen && b1.clv <= 0.40
     : b0.high < b1.high && b1.high < b2.high && !b0.isGreen && !b1.isGreen && b0.clv <= 0.40;
 
-  // Engine #80B (GPT-6-Luna Completed-Bar Pattern vs. Live-Bar CLV Coherence):
-  // Never allow a b1 Bullish Marubozu / 3 Higher Lows to remain active when b0 has collapsed (effectiveClv < 0.56, like USELESSUSDT CLV:0.12),
+  // Engine #80B + #103A (GPT-6-Luna Completed-Bar Pattern vs. Live-Bar CLV Coherence & Baby-Bar Blow-Off Rejection):
+  // Never allow a b1 Bullish Marubozu / 3 Higher Lows to remain active when b0 has collapsed (effectiveClv < 0.56, like USELESSUSDT CLV:0.12)
+  // or suffered a baby-bar blow-off upper-wick rejection (rejectedBabyLongB0, like GRASSUSDT $0.7059->$0.7145->$0.7109 at minute 3),
   // and never allow a b1 Bearish Marubozu / 3 Lower Highs to remain active when b0 has bounced (effectiveClv > 0.44, like NEARUSDT CLV:0.58)!
-  const liveBarCollapsedBearish = isMatureB0 && !b0.isGreen && b0.clv <= 0.42;
-  const liveBarReclaimedBullish = isMatureB0 && b0.isGreen && b0.clv >= 0.58;
+  const liveBarCollapsedBearish = (isMatureB0 && !b0.isGreen && b0.clv <= 0.42) || rejectedBabyLongB0;
+  const liveBarReclaimedBullish = (isMatureB0 && b0.isGreen && b0.clv >= 0.58) || rejectedBabyShortB0;
 
   let bullishPattern = null;
   let bullishCandlePts = 0;
@@ -1810,6 +1829,7 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
       buySideSweep ||
       isFishingTrapLong ||
       materialAdverseLongB0 ||
+      rejectedBabyLongB0 ||
       isPriorBarBearishRejectionUnreclaimed ||
       isOverheadWickCeilingBlockingTp1Long ||
       (isMatureB0 && b0.upperWickRatio >= 0.50 && b0.clv <= 0.38) ||
@@ -1823,6 +1843,7 @@ function analyzeCandleSmcAndCvd15m(klines, atr15mPct = 1.5, change24hPct = 0, is
     bullishPattern ||
       sellSideSweep ||
       materialAdverseShortB0 ||
+      rejectedBabyShortB0 ||
       isPriorBarBullishRejectionUnbroken ||
       isUnderfootWickFloorBlockingTp1Short ||
       (isMatureB0 && b0.lowerWickRatio >= 0.50 && b0.clv >= 0.62) ||
@@ -1935,9 +1956,10 @@ async function fetchPerpOrderbookConfirm(symbol, side, atr15mPct = 1.5) {
   ]);
   if (!d1?.bids?.length || !d1?.asks?.length) return { ok: false, vetoCode: 'NO_DEPTH', reason: 'NO_DEPTH_1' };
 
-  // Engine #64A + #72E (Human 1-Minute Chart Discipline — ATR-scaled 2m spike cap & meaningful 1m range filter):
+  // Engine #64A + #72E + #103B (GPT-6-Luna Rolling 3-Minute Blow-Off Spike & Red-Candle Reversal Guard):
   if (Array.isArray(klines1m) && klines1m.length >= 3) {
     const kNow = klines1m[klines1m.length - 1];
+    const kPrev1 = klines1m[klines1m.length - 2];
     const kPrev2 = klines1m[klines1m.length - 3];
     const open2mAgo = Number(kPrev2[1] || 0);
     const closeNow = Number(kNow[4] || 0);
@@ -1948,20 +1970,41 @@ async function fetchPerpOrderbookConfirm(symbol, side, atr15mPct = 1.5) {
     const isMeaningful1mRange = openNow > 0 && rangeNow / openNow >= 0.0035;
     const upperWickNow = isMeaningful1mRange ? (highNow - Math.max(openNow, closeNow)) / rangeNow : 0;
     const lowerWickNow = isMeaningful1mRange ? (Math.min(openNow, closeNow) - lowNow) / rangeNow : 0;
+    const recentHigh3m = Math.max(Number(kPrev2[2] || 0), Number(kPrev1[2] || 0), highNow);
+    const recentLow3m = Math.min(Number(kPrev2[3] || 9e9), Number(kPrev1[3] || 9e9), lowNow);
+    const spike3mPct = open2mAgo > 0 ? Number((((recentHigh3m - open2mAgo) / open2mAgo) * 100).toFixed(2)) : 0;
+    const dump3mPct = open2mAgo > 0 ? Number((((recentLow3m - open2mAgo) / open2mAgo) * 100).toFixed(2)) : 0;
+    const rejectionFrom3mHighPct = recentHigh3m > 0 ? Number((((recentHigh3m - closeNow) / recentHigh3m) * 100).toFixed(2)) : 0;
+    const bounceFrom3mLowPct = recentLow3m > 0 ? Number((((closeNow - recentLow3m) / recentLow3m) * 100).toFixed(2)) : 0;
+    const prev1Open = Number(kPrev1[1] || 0);
+    const prev1High = Number(kPrev1[2] || 0);
+    const prev1Low = Number(kPrev1[3] || 0);
+    const prev1Close = Number(kPrev1[4] || 0);
+    const prev1Range = Math.max(1e-9, prev1High - prev1Low);
+    const prev1Clv = (prev1Close - prev1Low) / prev1Range;
+    const prev1BodyPct = prev1Open > 0 ? ((prev1Close - prev1Open) / prev1Open) * 100 : 0;
+    const prev1IsRedDump = prev1Close < prev1Open && prev1Clv <= 0.25 && prev1BodyPct <= -0.25;
+    const prev1IsGreenSqueeze = prev1Close > prev1Open && prev1Clv >= 0.75 && prev1BodyPct >= 0.25;
+    const recentSpikeRejectionLong =
+      (spike3mPct >= 0.90 && rejectionFrom3mHighPct >= 0.38 && (prev1IsRedDump || rejectionFrom3mHighPct >= 0.50)) ||
+      (prev1BodyPct <= -0.40 && prev1Clv <= 0.20 && closeNow <= prev1Open * 0.999);
+    const recentDumpRejectionShort =
+      (dump3mPct <= -0.90 && bounceFrom3mLowPct >= 0.38 && (prev1IsGreenSqueeze || bounceFrom3mLowPct >= 0.50)) ||
+      (prev1BodyPct >= 0.40 && prev1Clv >= 0.80 && closeNow >= prev1Open * 1.001);
     const move2mPct = open2mAgo > 0 ? Number((((closeNow - open2mAgo) / open2mAgo) * 100).toFixed(2)) : 0;
     const max2mSpikePct = Number(Math.max(1.15, Math.min(2.40, Number(atr15mPct || 1.5) * 0.78)).toFixed(2));
-    if (side === 'LONG' && (move2mPct >= max2mSpikePct || (move2mPct >= 0.65 && upperWickNow >= 0.55))) {
+    if (side === 'LONG' && (move2mPct >= max2mSpikePct || (move2mPct >= 0.65 && upperWickNow >= 0.55) || recentSpikeRejectionLong)) {
       return {
         ok: false,
         vetoCode: 'MICRO_1M_SPIKE',
-        reason: `MICRO_1M_SPIKE_WAIT_PULLBACK (2dk:+%${move2mPct}/${max2mSpikePct}% | 1dk Üstİğne:${(upperWickNow * 100).toFixed(0)}%)`,
+        reason: `MICRO_1M_SPIKE_WAIT_PULLBACK (2dk:+%${move2mPct}/${max2mSpikePct}% | 3dkZirve:+%${spike3mPct}->Red:-%${rejectionFrom3mHighPct} | 1dk Üstİğne:${(upperWickNow * 100).toFixed(0)}%)`,
       };
     }
-    if (side === 'SHORT' && (move2mPct <= -max2mSpikePct || (move2mPct <= -0.65 && lowerWickNow >= 0.55))) {
+    if (side === 'SHORT' && (move2mPct <= -max2mSpikePct || (move2mPct <= -0.65 && lowerWickNow >= 0.55) || recentDumpRejectionShort)) {
       return {
         ok: false,
         vetoCode: 'MICRO_1M_SPIKE',
-        reason: `MICRO_1M_DUMP_WAIT_PULLBACK (2dk:%${move2mPct}/-${max2mSpikePct}% | 1dk Altİğne:${(lowerWickNow * 100).toFixed(0)}%)`,
+        reason: `MICRO_1M_DUMP_WAIT_PULLBACK (2dk:%${move2mPct}/-${max2mSpikePct}% | 3dkDip:%${dump3mPct}->Tepki:+%${bounceFrom3mLowPct} | 1dk Altİğne:${(lowerWickNow * 100).toFixed(0)}%)`,
       };
     }
   }
@@ -2219,10 +2262,15 @@ async function scanPerpUniverse(state) {
     });
   }
 
-  // Engine #51B + #55B (GPT-6-Luna Deterministic Hype-Shortlist + Priority Scanner):
-  // Guarantee the top 10 pure 24h/squeeze gainers are ALWAYS included in topToInspect, plus the highest priorityScore candidates up to 30 slots!
+  // Engine #51B + #55B + #103D (GPT-6-Luna Deterministic Hype-Shortlist + Quarantine Slot Purge):
+  // Guarantee the top 10 pure 24h/squeeze gainers are ALWAYS included in topToInspect, plus the highest priorityScore candidates up to 30 slots,
+  // while never wasting API inspection slots on symbols locked in 12-hour quarantine (>20m cooldown)!
+  const nowScanMs = Date.now();
+  const isQuarantinedSym = sym =>
+    sym !== state.openPosition?.symbol &&
+    Number(state.symbolCooldowns?.[sym] || 0) - nowScanMs > 20 * 60 * 1000;
   const hypeSorted = [...preCandidates]
-    .filter(c => c.change24hPct >= 4.0)
+    .filter(c => c.change24hPct >= 4.0 && !isQuarantinedSym(c.symbol))
     .sort((a, b) => (b.change24hPct + (b.fundingRatePct < -0.02 ? 25 : 0)) - (a.change24hPct + (a.fundingRatePct < -0.02 ? 25 : 0)));
   preCandidates.sort((a, b) => b.priorityScore - a.priorityScore);
   const inspectMap = new Map();
@@ -2235,6 +2283,7 @@ async function scanPerpUniverse(state) {
   }
   for (const p of preCandidates) {
     if (inspectMap.size >= 30) break;
+    if (isQuarantinedSym(p.symbol)) continue;
     inspectMap.set(p.symbol, p);
   }
   const topToInspect = Array.from(inspectMap.values());
@@ -2872,12 +2921,26 @@ async function scanPerpUniverse(state) {
         item.basisPct >= 0.075 &&
         !(item.fundingRatePct <= -0.015 && oiQuadrant.startsWith('Q1') && rawInstBuySellRatio >= 1.35)) ||
       (oiQuadrant === 'NÖTR' && item.basisPct > 0.045 && !hasFreshDirectNews && whaleRetailSpread < 5.0);
+    const symPriorStops = Number(state.symbolConsecStops?.[item.symbol] || 0);
+    // Motor #103C (GPT-6-Luna Independent Bullish Confirmation for Whale+Taker Fallback & Prior-Stop Range Chop Veto):
+    // Never allow a single-bar whale+taker spike to override YATAY MTF + Normal Squeeze + NÖTR OI + positive funding on a symbol with a prior stop (like GRASSUSDT -5.45 TL)!
+    const blockWhaleTakerLongFallback =
+      symPriorStops >= 1 &&
+      mtfSqueeze.mtfBullishPts === 0 &&
+      mtfSqueeze.squeezeBullishPts === 0 &&
+      oiQuadrant === 'NÖTR' &&
+      item.fundingRatePct > 0;
     const hasLongStructureOrBreakout =
       mtfSqueeze.mtfBullishPts > 0 ||
       mtfSqueeze.squeezeBullishPts > 0 ||
       isHtfCoilContinuationLong ||
       isHypeSqueezeMomentumLong ||
-      (whaleRetailSpread >= 4.0 && rawInstBuySellRatio >= 1.30 && anatomy.normCvd3BarPct >= 10.0 && change1hPct >= 0.45) ||
+      (!blockWhaleTakerLongFallback &&
+        whaleRetailSpread >= 4.0 &&
+        rawInstBuySellRatio >= 1.30 &&
+        anatomy.normCvd3BarPct >= 10.0 &&
+        change1hPct >= 0.45 &&
+        (mtfSqueeze.mtfBullishPts > 0 || oiQuadrant.startsWith('Q1') || item.fundingRatePct <= -0.010 || symPriorStops === 0)) ||
       (oiQuadrant.startsWith('Q1') && oiDelta1hPct >= 1.2 && change1hPct >= 1.2 && anatomy.normCvd3BarPct >= 6.0);
     // Engine #74B + #77B (Symmetric Short Structure & Anti-Counter-MTF Shield):
     // Forbid SHORT entries inside flat range chop (YATAY MTF + Normal) or against MTF YÜKSELİŞ (EMA20>50) unless TTM Downward Breakout or violent dump confirmation!
@@ -2953,10 +3016,15 @@ async function scanPerpUniverse(state) {
         (rsVsBtcAtr < 0.90 || whaleRetailSpread < 3.0 || longStructDistPct >= 1.85 || mtfSqueeze.squeezeLabel.includes('Yay Sıkışması'))) ||
         (rsVsBtcAtr < 0.58 &&
           (mtfSqueeze.squeezeBullishPts === 0 || whaleRetailSpread <= 0.5 || longStructDistPct >= 1.95 || (!anatomy.bullishPattern && item.basisPct >= 0))));
+    const isPriorStopRangeChopLongVeto =
+      symPriorStops >= 1 &&
+      mtfSqueeze.squeezeBullishPts === 0 &&
+      (mtfSqueeze.mtfBullishPts === 0 || (!oiQuadrant.startsWith('Q1') && item.fundingRatePct > -0.015));
     const isQ2WeakBounceLongVeto =
       isWeakNeutralOiLongVeto ||
       isStalledNonSqueezeLongVeto ||
       isGcrPerpBubbleOrLaggingRsLongVeto ||
+      isPriorStopRangeChopLongVeto ||
       (!isActiveShortSqueezeRegime &&
         ((oiQuadrant.startsWith('Q2') &&
           (whaleRetailSpread <= -2.0 ||
@@ -3003,7 +3071,10 @@ async function scanPerpUniverse(state) {
     const whaleAlignedLong = whaleRetailSpread >= 0 || (isActiveShortSqueezeRegime && volRatio15m >= 1.35);
     const whaleAlignedShort = whaleRetailSpread <= 0;
     const isQ2NonSqueezeLong = oiQuadrant.startsWith('Q2') && mtfSqueeze.squeezeBullishPts === 0;
-    if (canTriggerLong && (!canTriggerShort || rawLongTotal >= rawShortTotal)) {
+    const isSymCoolingDown =
+      item.symbol !== state.openPosition?.symbol &&
+      Number(state.symbolCooldowns?.[item.symbol] || 0) > nowScanMs;
+    if (!isSymCoolingDown && canTriggerLong && (!canTriggerShort || rawLongTotal >= rawShortTotal)) {
       side = 'LONG';
       rawScore = rawLongTotal;
       score = Math.min(99, rawLongTotal);
@@ -3021,7 +3092,7 @@ async function scanPerpUniverse(state) {
                 ? 'ENGINE_LIGHTCRYPTO_SQUEEZE_LONG'
                 : 'ENGINE_EUGENE_WHALE_SMC_LONG';
       thesis = `[${anatomy.patternLabel} | ${mtfSqueeze.squeezeLabel}] ${oiQuadrant} | ${mtfSqueeze.mtfTrend} | 1s: ${change1hPct >= 0 ? '+' : ''}%${change1hPct} (24s: ${item.change24hPct >= 0 ? '+' : ''}%${item.change24hPct}) | RS_BTC: ${rsVsBtcAtr >= 0 ? '+' : ''}${rsVsBtcAtr} ATR | ${basisLabel} | Balina Makası: ${whaleRetailSpread >= 0 ? '+' : ''}%${whaleRetailSpread} | 5dk Taker: ${instBuySellRatio}x | ${anatomy.cvdLabel}${liqMagnetLabel} | HamSkor:${rawScore} -> ${dynLev}x LONG!`;
-    } else if (canTriggerShort) {
+    } else if (!isSymCoolingDown && canTriggerShort) {
       side = 'SHORT';
       rawScore = rawShortTotal;
       score = Math.min(99, rawShortTotal);
@@ -5014,7 +5085,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v13.11-Anti-FeeScratch-Recovering-Structure-And-Whale-SurgeReset-Motor102';
+  state.version = 'Mutlak-Yapi-v13.12-Anti-1mBlowoffReversal-And-QuarantineSlotPurge-Motor103';
   // Engine #89 Startup Hygiene: Clear stale orderbook cooldowns so unchained hype rockets are immediately evaluated
   state.obVetoCooldowns = {};
   state.obVetoStrikes = {};
