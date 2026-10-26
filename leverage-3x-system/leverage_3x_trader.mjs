@@ -640,6 +640,12 @@ function runTwoHourSelfAudit(state, forceLog = false) {
           rootCause: 'Yapısal Destek ($0.08341) Tutup Fiyat Giriş Üstüne ($0.08450) Toparlanırken 24. Dakikada Erken Bayat-İvme Tahliyesi',
           fixApplied: 'Motor #75A & #75B: Giriş Üstü/Başabaş Toparlanan İşlemde Erken Scratch Yasağı + <3.50 TL Scratch İşlemlerde 10s Karantina Muafiyeti',
         });
+      } else if (t.symbol === 'BABY' && t.side === 'LONG') {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: 'Q2 (Fiyat↑ OI↓ Düşen OI Short Kapatma) + YATAY MTF + Zayıf Balina (+%0.1) + 24s +%3.11 Coinde Maksimuma Gerilmiş Stop (-%2.20) İle Negatif Fonlama/Basis Sıkışması Girişi (MFE %0.00, MAE %73R -> Tepe Alıcı Tükenmesi CVD Div -%8.4)',
+          fixApplied: 'Motor #108A & #108B: Q2 (Düşen OI) & YATAY MTF Coinde Stop>=%1.85 / Balina<%2.0 / 24s<%4.5 İse Negatif Basis Olsa Bile LONG Vetosu + 22dk Derin MAE/Sıfır MFE/CVD Div Erken Tahliyesi',
+        });
       } else if (t.symbol === 'ETHFI' && t.side === 'LONG') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
@@ -3199,11 +3205,20 @@ async function scanPerpUniverse(state) {
       ((mtfSqueeze.squeezeBullishPts === 0 &&
         (mtfSqueeze.mtfBullishPts === 0 || (!oiQuadrant.startsWith('Q1') && item.fundingRatePct > -0.015))) ||
         (mtfSqueeze.mtfBullishPts === 0 && !oiQuadrant.startsWith('Q1') && !anatomy.bullishPattern && item.fundingRatePct > -0.015));
+    // Motor #108A (GPT-6-Luna Stretched Q2 Short-Covering & Flat-MTF Exhaustion Veto):
+    // Even if negative funding/basis (isActiveShortSqueezeRegime) is present, a Q2 (Fiyat↑ OI↓ falling OI) move in YATAY MTF (mtfBullishPts === 0)
+    // with stretched structural stop (longStructDistPct >= 1.85, like BABYUSDT 2.20% at $0.01427), flat whales (whaleRetailSpread < 2.0, BABY +0.1%), or low 24h trend (< 4.5%, BABY +3.11%)
+    // is an exhausted short-covering wick (MFE = 0.00%, MAE = 73%R) and must be vetoed!
+    const isStretchedQ2FlatMtfLongVeto =
+      oiQuadrant.startsWith('Q2') &&
+      mtfSqueeze.mtfBullishPts === 0 &&
+      (longStructDistPct >= 1.85 || whaleRetailSpread < 2.0 || item.change24hPct < 4.5);
     const isQ2WeakBounceLongVeto =
       isWeakNeutralOiLongVeto ||
       isStalledNonSqueezeLongVeto ||
       isGcrPerpBubbleOrLaggingRsLongVeto ||
       isPriorStopRangeChopLongVeto ||
+      isStretchedQ2FlatMtfLongVeto ||
       (!isActiveShortSqueezeRegime &&
         ((oiQuadrant.startsWith('Q2') &&
           (whaleRetailSpread <= -2.0 ||
@@ -4039,22 +4054,27 @@ async function manageOpenPosition(state, candidates = []) {
       whaleOrTakerFlippedAgainst;
     const isDeepMaeWatchlistDegraded22m = Boolean(
       minsHeld >= 22 &&
-        aeR >= 0.55 &&
-        currentAdverseR >= 0.30 &&
-        mfeR < 0.15 &&
+        aeR >= 0.65 &&
+        currentAdverseR >= 0.32 &&
+        mfeR < 0.08 &&
         (!curPosLiveCand || curPosLiveCand.engine === 'WATCHLIST' || curPosLiveCand.score < 78) &&
         (pos.side === 'LONG'
-          ? Number(curPosLiveCand?.whaleRetailSpread ?? 0) < 0 || Number(curPosLiveCand?.volRatio15m ?? 1) < 0.80
-          : Number(curPosLiveCand?.whaleRetailSpread ?? 0) > 0 || Number(curPosLiveCand?.volRatio15m ?? 1) < 0.80)
+          ? String(curPosLiveCand?.thesis || '').includes('Tepe Alıcı Tükenmesi') ||
+            Number(curPosLiveCand?.whaleRetailSpread ?? 0) <= -2.0 ||
+            Number(curPosLiveCand?.instBuySellRatio ?? 1) <= 0.85
+          : String(curPosLiveCand?.thesis || '').includes('Dip Alıcı Emilimi') ||
+            Number(curPosLiveCand?.whaleRetailSpread ?? 0) >= 2.0 ||
+            Number(curPosLiveCand?.instBuySellRatio ?? 1) >= 1.18)
     );
-    // Engine #106C: Require >= 50m (over 3 full 15m bars) and deep currentAdverseR >= 0.50 before stale momentum scratch can fire (prevents 22m/32m -5.45 TL GRASS & -2.02 TL POLYX chops!)
+    // Engine #106C + #108B: Require >= 50m (over 3 full 15m bars) for general stale momentum scratch, OR >= 22m when MFE < 0.08R (zero follow-through), MAE >= 0.65R, and CVD Divergence / Taker collapse confirms!
     if (
-      minsHeld >= 50 &&
-      !hasHeavyFavorableFundingAndHigherHigh &&
-      aeR >= 0.60 &&
-      currentAdverseR >= 0.50 &&
-      mfeR < 0.15 &&
-      whaleOrTakerFlippedAgainst
+      isDeepMaeWatchlistDegraded22m ||
+      (minsHeld >= 50 &&
+        !hasHeavyFavorableFundingAndHigherHigh &&
+        aeR >= 0.60 &&
+        currentAdverseR >= 0.50 &&
+        mfeR < 0.15 &&
+        whaleOrTakerFlippedAgainst)
     ) {
       isStaleMomentumScratch = true;
     }
@@ -5280,7 +5300,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v13.16-MatureUpperWickRolloverVeto-And-HealthyTtmExpansion-Motor107';
+  state.version = 'Mutlak-Yapi-v13.17-StretchedQ2FlatMtfVeto-And-22mCvdExhaustionRescue-Motor108';
   // Engine #89 Startup Hygiene: Clear stale orderbook cooldowns so unchained hype rockets are immediately evaluated
   state.obVetoCooldowns = {};
   state.obVetoStrikes = {};
