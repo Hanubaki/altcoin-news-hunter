@@ -3986,7 +3986,7 @@ async function manageOpenPosition(state, candidates = []) {
     pos.ratchetStage === 'INITIAL_STOP' &&
     peakCoinMoveFrac >= 0.0065 &&
     rawCoinMoveFrac <= -0.0030;
-  if (!isTpHit && !isStopHit && !isFishingEmergencyExit && !pos.tp1Done && minsHeld >= 15 && aeR >= 0.35 && (mfeR < 0.22 || isFailedBreakoutRoundTrip) && curPosLiveCand) {
+  if (!isTpHit && !isStopHit && !isFishingEmergencyExit && !pos.tp1Done && minsHeld >= 35 && aeR >= 0.65 && currentAdverseFrac >= 0.0075 && mfeR < 0.12 && curPosLiveCand) { // Engine #106D: Stop 15m wick-scratch bleed (saved T -7.11 TL, ZRO -9.19 TL, PONS -3.74 TL)
     const isLongWickCollapse =
       pos.side === 'LONG' &&
       curPosLiveCand.vetoLong &&
@@ -4350,6 +4350,8 @@ async function tryOpenPosition(state, candidates) {
   const isInPostLossCoolDown = nowEntryMs - (state.lastLossClosedAtMs || 0) < 25 * 60 * 1000;
   const lastAnyClosedMs = Number(state.closedTrades?.[0]?.closedAtMs || 0);
   const isInGlobalBreathingCooldown = lastAnyClosedMs > 0 && nowEntryMs - lastAnyClosedMs < 15 * 60 * 1000;
+  const trHour = Number(new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Istanbul', hour: 'numeric', hour12: false }).format(new Date(nowEntryMs)));
+  const isOvernightDeadZone = trHour >= 1 && trHour < 8; // Engine #106E: Overnight dead-zone shield (01:00-08:00 TSI)
   const dualAi = state.lastSelfAudit?.dualAiCouncil || {};
   const fbLongBonus = Number(dualAi.freebuffMinLongBonus || 0);
 
@@ -4358,6 +4360,7 @@ async function tryOpenPosition(state, candidates) {
       c.engine === 'WATCHLIST' ||
       (c.side !== 'LONG' && c.side !== 'SHORT') ||
       (isInGlobalBreathingCooldown && c.score < 90) ||
+      (isOvernightDeadZone && (c.score < 88 || Number(c.volRatio15m || 0) < 1.35)) ||
       Number(c.volRatio15m || 0) < 1.10 ||
       (c.side === 'LONG' ? Number(c.whaleRetailSpread || 0) < 0 : Number(c.whaleRetailSpread || 0) > 0) ||
       c.score <
