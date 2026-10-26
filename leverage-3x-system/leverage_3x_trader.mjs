@@ -640,6 +640,12 @@ function runTwoHourSelfAudit(state, forceLog = false) {
           rootCause: 'Yapısal Destek ($0.08341) Tutup Fiyat Giriş Üstüne ($0.08450) Toparlanırken 24. Dakikada Erken Bayat-İvme Tahliyesi',
           fixApplied: 'Motor #75A & #75B: Giriş Üstü/Başabaş Toparlanan İşlemde Erken Scratch Yasağı + <3.50 TL Scratch İşlemlerde 10s Karantina Muafiyeti',
         });
+      } else if (t.symbol === 'ETHFI' && t.side === 'LONG') {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: '14.dk Olgunlaşmış (%94) 15dk b0 Mumunda $0.6335 Zirveden -$0.6290 Üst İğne Dönüşü (CLV:0.43, UpperWick:%58 -> 52sn Sonra Shooting Star CLV:0.29) İle Sahte TTM Patlaması Girişi (-9.8 TL Stop Yerine Motor #104C İle -3.12 TL Erken Kurtarış)',
+          fixApplied: 'Motor #107A & #107B: Olgunlaşmış (>=%60) Mumda Yeşil Olsa Bile CLV<=0.46 & Üst İğne>=%42 LONG Vetosu + Olgun Mumda CLV<0.52 İken Sahte TTM Patlaması Puanı Yasağı',
+        });
       } else if (t.symbol === 'POLYX' && t.side === 'LONG') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,

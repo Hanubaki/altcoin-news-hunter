@@ -2151,7 +2151,7 @@ async function runTradingCycle() {
           btc1hPct < 0.35 ||
           Number(cand.last1hTakerBuyPct || 50) < 54.5 ||
           Number(cand.takerBuyRatioPct || 50) < 53.5 ||
-          Number(cand.rsAtr ?? 1.2) < 1.45 ||
+          Number(cand.rsAtr ?? 0.5) < 0.35 ||
           Number(cand.atr1hPct || 1.0) < 0.95 ||
           Number(cand.impulseAtr ?? 0.30) < 0.35 ||
           Number(cand.oiChange15mPct || 0) < 0.30 ||
