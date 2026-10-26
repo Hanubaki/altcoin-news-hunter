@@ -640,6 +640,12 @@ function runTwoHourSelfAudit(state, forceLog = false) {
           rootCause: 'Yapısal Destek ($0.08341) Tutup Fiyat Giriş Üstüne ($0.08450) Toparlanırken 24. Dakikada Erken Bayat-İvme Tahliyesi',
           fixApplied: 'Motor #75A & #75B: Giriş Üstü/Başabaş Toparlanan İşlemde Erken Scratch Yasağı + <3.50 TL Scratch İşlemlerde 10s Karantina Muafiyeti',
         });
+      } else if (t.symbol === 'ZEC' && t.side === 'LONG') {
+        diagnosedMistakes.push({
+          trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
+          rootCause: '4 Tamamlanmış Yeşil 15dk Mum Üstüne 5. Mumda +%1.14 Uzamış (1s:+%3.40, 24s:+%4.46) ve Yapısal Stopu Maksimuma (-%2.66 -> -%2.20) Gerilmiş Dikey Tepeye Giriş (MFE %0.018 / %1R -> 15:15 CLV:0.03 Üst İğne Reddi)',
+          fixApplied: 'Motor #112A & #112B: 1s >= +%3.10 & Stop >= %2.05 & 4. Yeşil Mum / b0 >= +%0.80 Dikey Uzama LONG Vetosu + 25dk Sıfır-MFE (<%6R) & Derin MAE & Üst İğne Reddi Erken Tahliyesi',
+        });
       } else if (t.symbol === 'RLC' && t.side === 'LONG') {
         diagnosedMistakes.push({
           trade: `${t.symbol}USDT (${t.leverage}x ${t.side} | ${pnl} TL)`,
@@ -4124,18 +4130,29 @@ async function manageOpenPosition(state, candidates = []) {
       whaleOrTakerFlippedAgainst;
     const hasFavorableFundingCarry =
       (pos.side === 'LONG' && liveFundNow <= -0.04) || (pos.side === 'SHORT' && liveFundNow >= 0.04);
+    // Motor #112B (GPT-6-Luna 25m Zero-MFE & Completed Upper-Wick Rejection Watchlist Rescue):
+    // If a position has been open >= 25m with near-zero follow-through (mfeR < 0.06, like ZECUSDT 1%R MFE) and deep active drawdown (aeR >= 0.55, currentAdverseR >= 0.44),
+    // is downgraded to WATCHLIST (<78p), and prints a 15m candle veto with sub-0.96x taker or CVD exhaustion, evacuate at 25m instead of waiting 50m!
     const isDeepMaeWatchlistDegraded22m = Boolean(
-      minsHeld >= 35 &&
+      minsHeld >= 25 &&
         !hasFavorableFundingCarry &&
-        aeR >= 0.65 &&
-        currentAdverseR >= 0.42 &&
-        mfeR < 0.08 &&
+        aeR >= 0.55 &&
+        currentAdverseR >= 0.44 &&
+        mfeR < 0.06 &&
         (!curPosLiveCand || curPosLiveCand.engine === 'WATCHLIST' || curPosLiveCand.score < 78) &&
         (pos.side === 'LONG'
-          ? Number(curPosLiveCand?.whaleRetailSpread ?? 0) <= -2.0 &&
-            Number(curPosLiveCand?.instBuySellRatio ?? 1) <= 0.85
-          : Number(curPosLiveCand?.whaleRetailSpread ?? 0) >= 2.0 &&
-            Number(curPosLiveCand?.instBuySellRatio ?? 1) >= 1.18)
+          ? (Boolean(curPosLiveCand?.vetoLong) &&
+              (Number(curPosLiveCand?.instBuySellRatio ?? 1) <= 0.96 ||
+                String(curPosLiveCand?.cvdLabel || '').includes('Tükenmesi') ||
+                Number(curPosLiveCand?.whaleRetailSpread ?? 0) <= 0)) ||
+            (Number(curPosLiveCand?.whaleRetailSpread ?? 0) <= -2.0 &&
+              Number(curPosLiveCand?.instBuySellRatio ?? 1) <= 0.85)
+          : (Boolean(curPosLiveCand?.vetoShort) &&
+              (Number(curPosLiveCand?.instBuySellRatio ?? 1) >= 1.04 ||
+                String(curPosLiveCand?.cvdLabel || '').includes('Tükenmesi') ||
+                Number(curPosLiveCand?.whaleRetailSpread ?? 0) >= 0)) ||
+            (Number(curPosLiveCand?.whaleRetailSpread ?? 0) >= 2.0 &&
+              Number(curPosLiveCand?.instBuySellRatio ?? 1) >= 1.18))
     );
     // Engine #106C + #108B: Require >= 50m (over 3 full 15m bars) for general stale momentum scratch, OR >= 22m when MFE < 0.08R (zero follow-through), MAE >= 0.65R, and CVD Divergence / Taker collapse confirms!
     if (
