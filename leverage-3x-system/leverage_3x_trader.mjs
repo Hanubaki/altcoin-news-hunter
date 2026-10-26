@@ -3021,10 +3021,21 @@ async function scanPerpUniverse(state) {
     // AND its 15m candle fails to close strong (anatomy.clv < 0.68 or !anatomy.bullishPattern with longStructDistPct >= 1.85,
     // like GRASSUSDT 1s:+3.62%, RS_BTC:+3.33 ATR, CLV:0.56 Dengeli Mum, Stop:-2.20% at $0.7372),
     // the 1-hour vertical leg is exhausted right at local supply!
+    // Motor #112A (GPT-6-Luna 4th-Candle Post-Marubozu & 1H Vertical Blow-Off Extension Veto):
+    // Even if b1 printed a bullish pattern, when a coin has already spiked >= +3.10%..+3.40% in 1h with a stretched structural stop (>= 2.05%)
+    // AND is on a 4th green candle (green3Completed) or stretched live b0 (>= +0.80%..+0.85% above b0.open, like ZECUSDT at 18:07:27: 1s:+3.40%, 24s:+4.46%, b0:+1.14% at $1266.35, Stop:-2.20% -> 0.018% MFE),
+    // buying b0 is chasing an exhausted 1-hour vertical blow-off top!
     const isQ1OneHourExhaustedTopLong =
       !isBnfLiquidationBounce &&
-      (rsVsBtcAtr >= 3.00 || change1hPct >= 3.40) &&
-      (anatomy.clv < 0.68 || (!anatomy.bullishPattern && longStructDistPct >= 1.85));
+      (((rsVsBtcAtr >= 3.00 || change1hPct >= 3.40) &&
+        (anatomy.clv < 0.68 ||
+          (!anatomy.bullishPattern && longStructDistPct >= 1.85) ||
+          (longStructDistPct >= 2.05 && (anatomy.green3Completed || anatomy.b0MoveFromOpenPct >= 0.80)))) ||
+        (item.change24hPct < 12.0 &&
+          !(item.fundingRatePct <= -0.025 && item.basisPct <= -0.10) &&
+          change1hPct >= 3.10 &&
+          longStructDistPct >= 2.05 &&
+          (anatomy.green3Completed || anatomy.b0MoveFromOpenPct >= 0.85)));
     // Engine #104B (GPT-6-Luna Unbroken Supply Retest Top-Chase Guard):
     // When there is NO active bullish squeeze breakout (squeezeBullishPts === 0) and completed bar b1 was a red supply rejection (b1IsRedRejection),
     // never chase a stretched live bar b0 (b0MoveFromOpenPct >= 0.95% or longStructDistPct >= 1.65%) right into the top 15% of the 4h range (posIn16BarRange >= 0.85, lastPrice <= high4h * 1.001)!
@@ -5367,7 +5378,7 @@ async function main() {
   loadEnv();
   const isDaemon = process.argv.includes('--daemon');
   const state = loadState();
-  state.version = 'Mutlak-Yapi-v13.20-DeepMaeRecoveryProfitLock-And-SpotGoldenAgeHarmonization-Motor111';
+  state.version = 'Mutlak-Yapi-v13.21-1hVertical4thCandleBlowoffVeto-And-DeepMaeRecoveryLock-Motor112';
   // Engine #89 Startup Hygiene: Clear stale orderbook cooldowns so unchained hype rockets are immediately evaluated
   state.obVetoCooldowns = {};
   state.obVetoStrikes = {};
