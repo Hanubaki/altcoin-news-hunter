@@ -402,6 +402,7 @@ async function fetchTelegramPublicChannels() {
             .replace(/&amp;/g, '&')
             .replace(/&quot;/g, '"')
             .replace(/&#039;|&#39;/g, "'")
+            .replace(/(?:\s*[—\-|]\s*(?:link|source|ai comment)\b)+.*$/i, '')
             .replace(/\s+/g, ' ')
             .trim();
           if (cleanTxt.length < 15) continue;
@@ -511,7 +512,26 @@ async function scanAllNewsFeeds() {
         entry.ecosystems.add(eco.name);
         titleKw.forEach(k => entry.matchedKeywords.add(k.trim()));
 
-        const directMention = titleLower.includes(` ${alt.toLowerCase()} `) || titleKw.some(k => k.trim().toUpperCase() === alt);
+        // Engine #30.13 (Strict Ambiguous-Ticker Disambiguation):
+        // Prevent common English words ('link', 'near', 'op', 'id', 'io', 'ar', 'sand', 'rune', 'portal') from triggering false directMention on unrelated headlines (e.g. '— link | AI comment' or 'near $70k')!
+        const AMBIGUOUS_PROJECT_NAMES = {
+          LINK: ['chainlink', 'ccip'],
+          NEAR: ['near protocol'],
+          OP: ['optimism'],
+          ID: ['space id'],
+          IO: ['io.net'],
+          AR: ['arweave'],
+          SAND: ['the sandbox', 'sandbox'],
+          RUNE: ['thorchain'],
+          PORTAL: ['portal gaming', 'portal coin'],
+        };
+        const isAmbiguousTicker = Object.prototype.hasOwnProperty.call(AMBIGUOUS_PROJECT_NAMES, alt);
+        const hasCashtagOrUpperTicker =
+          new RegExp(`\\$${alt}\\b`, 'i').test(item.title) ||
+          (item.title !== item.title.toUpperCase() && new RegExp(`\\b${alt}\\b`).test(item.title));
+        const directMention = isAmbiguousTicker
+          ? hasCashtagOrUpperTicker || AMBIGUOUS_PROJECT_NAMES[alt].some(pName => titleLower.includes(pName))
+          : titleLower.includes(` ${alt.toLowerCase()} `) || titleKw.some(k => k.trim().toUpperCase() === alt);
         // Prevent weak/unrelated single-coin sympathy contagion: non-direct sympathy requires genuine positive sentiment (>= 1.2)
         if (!directMention && netHeadlineSentiment < 1.2) continue;
         const catalystPoints = Number(
