@@ -3325,7 +3325,10 @@ async function scanPerpUniverse(state) {
     let rawScore = 50;
     const whaleAlignedLong = whaleRetailSpread >= 0 || (isActiveShortSqueezeRegime && volRatio15m >= 1.35);
     const whaleAlignedShort = whaleRetailSpread <= 0;
-    const isQ2NonSqueezeLong = oiQuadrant.startsWith('Q2') && mtfSqueeze.squeezeBullishPts === 0;
+    // Motor #114A (GPT-6-Luna Strict 3x Cap on Q2 Falling-OI or Positive-Funding >= +0.008% LONGs):
+    // Never allow 4x leverage when Open Interest is contracting (Q2 / oiDelta1hPct < 0.25%) or funding is crowded positive (>= +0.008%, like BATUSDT Q2 +0.01% funding at 4x -> -8.13 TL)!
+    const isQ2NonSqueezeLong =
+      oiQuadrant.startsWith('Q2') || oiDelta1hPct < 0.25 || item.fundingRatePct >= 0.008;
     const isSymCoolingDown =
       item.symbol !== state.openPosition?.symbol &&
       Number(state.symbolCooldowns?.[item.symbol] || 0) > nowScanMs;
@@ -4089,7 +4092,8 @@ async function manageOpenPosition(state, candidates = []) {
     pos.ratchetStage === 'INITIAL_STOP' &&
     peakCoinMoveFrac >= 0.0065 &&
     rawCoinMoveFrac <= -0.0030;
-  // Motor #113B: Unblock isFailedBreakoutRoundTrip (which always has mfeR >= 0.30 and was dead code behind mfeR < 0.12!)
+  // Motor #113B + #114B: Unblock isFailedBreakoutRoundTrip and prevent tight-stop (<1.1%) noise ticks (peakCoinMoveFrac < 0.0032) from locking out Engine #56/#49!
+  const curAdvRPre = currentAdverseFrac / initRiskFrac;
   if (
     !isTpHit &&
     !isStopHit &&
@@ -4097,8 +4101,8 @@ async function manageOpenPosition(state, candidates = []) {
     !pos.tp1Done &&
     minsHeld >= 35 &&
     aeR >= 0.65 &&
-    currentAdverseFrac >= 0.0075 &&
-    (mfeR < 0.12 || (isFailedBreakoutRoundTrip && mfeR < 0.45)) &&
+    (currentAdverseFrac >= 0.0065 || curAdvRPre >= 0.45) &&
+    (mfeR < 0.18 || peakCoinMoveFrac < 0.0032 || (isFailedBreakoutRoundTrip && mfeR < 0.45)) &&
     curPosLiveCand
   ) {
     const isLongWickCollapse =
@@ -4161,7 +4165,7 @@ async function manageOpenPosition(state, candidates = []) {
         !hasFavorableFundingCarry &&
         aeR >= 0.55 &&
         currentAdverseR >= 0.44 &&
-        mfeR < 0.06 &&
+        (mfeR < 0.06 || peakCoinMoveFrac < 0.0022) &&
         (!curPosLiveCand || curPosLiveCand.engine === 'WATCHLIST' || curPosLiveCand.score < 78) &&
         (pos.side === 'LONG'
           ? (Boolean(curPosLiveCand?.vetoLong) &&
@@ -4177,14 +4181,14 @@ async function manageOpenPosition(state, candidates = []) {
             (Number(curPosLiveCand?.whaleRetailSpread ?? 0) >= 2.0 &&
               Number(curPosLiveCand?.instBuySellRatio ?? 1) >= 1.18))
     );
-    // Engine #106C + #108B: Require >= 50m (over 3 full 15m bars) for general stale momentum scratch, OR >= 22m when MFE < 0.08R (zero follow-through), MAE >= 0.65R, and CVD Divergence / Taker collapse confirms!
+    // Engine #106C + #108B + #114B: Require >= 42m for general stale momentum scratch when never cleared +0.32% (mfeR < 0.18 || peakCoinMoveFrac < 0.0032), OR >= 25m via isDeepMaeWatchlistDegraded22m!
     if (
       isDeepMaeWatchlistDegraded22m ||
-      (minsHeld >= 50 &&
+      (minsHeld >= 42 &&
         !hasHeavyFavorableFundingAndHigherHigh &&
-        aeR >= 0.60 &&
-        currentAdverseR >= 0.50 &&
-        mfeR < 0.15 &&
+        aeR >= 0.58 &&
+        currentAdverseR >= 0.46 &&
+        (mfeR < 0.18 || peakCoinMoveFrac < 0.0032) &&
         whaleOrTakerFlippedAgainst)
     ) {
       isStaleMomentumScratch = true;
