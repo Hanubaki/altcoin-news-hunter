@@ -3062,7 +3062,8 @@ async function scanPerpUniverse(state) {
       mtfSqueeze.squeezeBullishPts === 0 &&
       !(item.fundingRatePct <= -0.025 && item.basisPct <= -0.08) &&
       ((anatomy.green3Completed && (longStructDistPct >= 1.80 || change1hPct >= 2.05 || anatomy.posIn16BarRange >= 0.80)) ||
-        (longStructDistPct >= 1.95 && change1hPct >= 2.00 && item.fundingRatePct >= 0));
+        (longStructDistPct >= 1.95 && change1hPct >= 2.00 && item.fundingRatePct >= 0) ||
+        (!oiQuadrant.startsWith('Q1') && longStructDistPct >= 2.05 && change1hPct >= 1.75 && item.change24hPct >= 12.0 && item.fundingRatePct >= 0));
     const isOverextendedMicroTopLong =
       isSingleBarClimaxTopLong ||
       isCoiledTopLongTrap ||
