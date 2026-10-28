@@ -1,19 +1,19 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 28.10.2026 08:21:32
+**Son Güncelleme:** 28.10.2026 08:30:33
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`964,72 TL`**
-* **Toplam Net Kâr / Zarar:** **`-35,28 TL` (`%-3.53`)**
+* **Şu Anki Toplam Para:** **`964,71 TL`**
+* **Toplam Net Kâr / Zarar:** **`-35,29 TL` (`%-3.53`)**
 * **Boşta Bekleyen Nakit:** `879,82 TL`
 * **Coinde Olan Para (Açık İşlemler):** `0,00 TL`
 * **Cüzdandaki Küsürat (Dust) Varlıklar:** `84,89 TL` *(Aynı coine tekrar girildiğinde otomatik birleştirilip nakite çevrilir)*
 * **Başarılı Satış / Zarar Kes:** `21 Kârlı Satış / 28 Zarar Kes`
-* **📡 Şu An Neden Yeni Coin Alınmıyor?:** **🌟 ALTIN ÇAĞ (Rejim C -> EP) AKTİF (%87 Yeşil | 1s BTC +%-0.01): Engine #23, #24 & #30 EP kurumsal liderleri tarıyor!**<br><details><summary>🔍 Detaylı Sebebi Gör</summary>1) **Altın Çağ Teyitli (Rejim C):** Altcoinlerin %87'i yeşil (1s BTC: +%-0.01). 2) **Engine #24, #27 & #30 Qullamaggie EP Aktif:** $15M+ hacimli kurumsal liderler ve 14 haber kaynağı taranıyor; NO-CHASE (`ask <= Pmax`) ve çift tahta doğrulaması (`Engine #27`) geçen ilk lidere otomatik girilecek.</details>
+* **📡 Şu An Neden Yeni Coin Alınmıyor?:** **📡 Raad ol, pusudayız (Rejim C -> EP): Piyasa %87 yeşil ama 99 haber içinde henüz mutlak kriterleri geçen aday yok, sahte sinyale girmiyoruz.**<br><details><summary>🔍 Detaylı Sebebi Gör</summary>1) **Piyasa & Rejim Durumu:** Altcoinlerin %87'i yeşil (1s BTC: %-0.02 | Aktif Motor: `Engine #30 EP`). 2) **Sıfır Sahte Sinyal Kuralı:** 14 kaynaktan 101 haber ve kurumsal liderler tarandı; kriterleri geçen ilk fırsatta otomatik alım yapılacak.</details>
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0074 | BCH: 0.0010 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0077 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0870 | HBAR: 0.8140 | HYPE: 0.0009 | ICP: 0.0002 | INJ: 0.0067 | JASMY: 0.6080 | LDO: 0.0063 | LINK: 0.0094 | LTC: 0.0007 | NEAR: 0.0004 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 0.0628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0636 | STX: 0.0700 | TAO: 0.0001 | THETA: 0.0680 | TIA: 0.0084 | TRY: 879.8263 | UNI: 0.0080 | WLD: 0.0658 | XRP: 0.0946 | ZRO: 0.0037)`
 
 ---
@@ -127,7 +127,7 @@
 
 * **Banka & Entegrasyon:** `İş Bankası (İşCep & Gmail Bildirim Entegreli)`
 * **İş Bankası Güncel Bakiye:** **`0,00 TL`**
-* **Toplam Kişisel Servet (İş Bankası + Binance TR):** **`964,72 TL`**
+* **Toplam Kişisel Servet (İş Bankası + Binance TR):** **`964,71 TL`**
 * **Beklenen Aylık Gelir Akışı:** `Staj Maaşı: 8.000 TL | Mevcut Burs: 3.000 TL | Yeni Başvurulan Burs: 3.500 TL (Toplam: 14.500 TL/Ay)`
 * **Aylık Dokunulmaz Yaşam & Nakit Kalkanı:** `5.500 TL` *(Haftalık Harcama Limiti: `1.375 TL` | Bu Hafta Harcanan: `0 TL`)*
 * **💡 Günün Otonom CFO Tüyoları & Bütçe Emirleri:**

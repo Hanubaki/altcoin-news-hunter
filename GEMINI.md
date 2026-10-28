@@ -1,5 +1,9 @@
 # Workspace Rules — AltcoinAutoTrader & AltcoinNewsHunter (`modest-faraday`)
 
+## Zero-Bloat & No-New-Engines Rule (`Yeni Motor Ekleme Yasağı` — Mandatory)
+1. **Never Pile On New Engines (`Motor #X` / `Engine #X` Ekleme Yasağı):** When fixing losses, bottlenecks, or bugs during 30-minute autonomous audits or user requests, **NEVER invent or stack new engines on top of existing ones**.
+2. **Fix by Simplifying & Tuning Existing Logic (`Mevcut Olanı Düzenle & Sadeleştir`):** Always solve problems by auditing, editing, merging, or deleting conflicting conditions inside the existing scanner, entry, ratchet, and exit blocks. Deletion and harmonization beat addition.
+
 ## Zero-Conflict & Cross-Engine Harmonization Rule (Mandatory)
 1. **End-to-End Cross-Engine Verification:** Any change in `altcoin_news_hunter.mjs` or `altcoin_auto_trader.mjs` MUST be verified against all interacting engines before going live:
    - **Scanner Gate vs. Execution Gate:** Freshness limits (`<=45–75m`), `directMention === true`, RSI ceilings, and 4-Model AI Council (`liveLlmDecision`) quotas must never starve valid fresh candidates or allow stale candidates through.

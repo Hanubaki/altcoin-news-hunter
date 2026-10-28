@@ -3800,83 +3800,34 @@ async function manageOpenPosition(state, candidates = []) {
         }
       }
     }
-  } else if (peakCoinMoveFrac >= 0.0052 && rawCoinMoveFrac >= 0.0028 && !pos.tp1Done) { // Engine #106B + #111A: Keep normal weakening gated at >=0.92%, while unblocking #101B Second-Chance Bounce & Deep-MAE/20m+ Supply-Ceiling Recovery Lock!
-    // Engine #63A + #78B + #87D + #111A (GPT-6-Luna Pre-TP1 MFE Expectancy Guard & Deep-Drawdown Recovery Lock):
-    // 1. Require rawCoinMoveFrac >= 0.0028 so the +0.26% stop is strictly on the valid side of current markExitPrice!
-    // 2. Regular weakening path requires peak >= +0.92%, raw >= +0.42%, microHeldMins >= 8, AND 5m taker <= 0.86x LONG / >= 1.16x SHORT so normal breathers are never choked before TP1 (+1.25%)!
-    // 3. Second-chance bounce (#101B) or Deep-MAE (>=0.65% adverse) / >=20m recovery to >=+0.62% MFE against live resistance veto (#111A, like PHAUSDT recovering from -1.01% MAE to +0.68% MFE at 35m into 4h wick ceiling) locks +0.26% immediately!
+  } else if (peakCoinMoveFrac >= 0.0092 && rawCoinMoveFrac >= 0.0058 && !pos.tp1Done) {
+    // Zero-Choke Pre-TP1 Profit Lock: Never lock a stop 2 bps away from price (which strangled STRK +0.21 TL, BTW +0.40 TL, ZEC +0.53 TL).
+    // Require peak >= +0.92% and live move >= +0.58%, then lock +0.38% (leaving >= 0.20%-0.54% breathing room to reach TP1 +1.25%!).
     const microLockCand =
       candidates.find(c => c.symbol === pos.symbol) ||
       (state.openPositionLiveCand?.symbol === pos.symbol ? state.openPositionLiveCand : null);
     const microHeldMins = (Date.now() - new Date(pos.entryTime).getTime()) / 60000;
-    const isFastMicroTakerCrash = Boolean(
-      peakCoinMoveFrac >= 0.0085 &&
-        rawCoinMoveFrac >= 0.0038 &&
-        microHeldMins >= 3.5 &&
-        microLockCand &&
-        microLockCand.takerDataValid &&
-        (pos.side === 'LONG' ? microLockCand.instBuySellRatio <= 0.76 : microLockCand.instBuySellRatio >= 1.28)
-    );
-    const isMicroTakerWeakening = Boolean(
-      peakCoinMoveFrac >= 0.0092 &&
-        rawCoinMoveFrac >= 0.0042 &&
-        microHeldMins >= 8 &&
-        microLockCand &&
-        microLockCand.takerDataValid &&
-        (pos.side === 'LONG' ? microLockCand.instBuySellRatio <= 0.86 : microLockCand.instBuySellRatio >= 1.16)
-    );
     const btc2mNow = Number(state.marketSummary?.btcChange2mPct || 0);
-    const isBtc2mShockAgainst = Boolean(peakCoinMoveFrac >= 0.0065 && (pos.side === 'LONG' ? btc2mNow <= -0.28 : btc2mNow >= 0.28));
-    // Engine #101B (Second-Chance Lower-High Bounce Lock):
-    // If the trade already spiked >= +0.52%, rejected below entry (<= -0.15%), and then bounced back to >= +0.28% (like QNTUSDT bouncing to $191.06 +0.315% at minute 9 after dipping to $190.10),
-    // lock the +0.26% fee-plus stop immediately on the lower-high bounce before the real breakdown hits!
-    const isSecondChanceBounceAfterDip = Boolean(
-      pos.dippedBelowEntryAfterPop && peakCoinMoveFrac >= 0.0052 && rawCoinMoveFrac >= 0.0028
-    );
-    // Motor #111A + #113A (GPT-6-Luna Deep-Drawdown / Mature Supply-Ceiling / Sub-TP1 Watchlist-Veto Recovery Lock):
-    // 1. When a position suffered >= 0.65% MAE or has been open >= 20m, and recovers to >= +0.62% MFE while hitting a 15m resistance veto or held >= 25m (#111A), lock +0.26%.
-    // 2. When a position pops to >= +0.62% MFE (just below PROFIT_LOCK_1 +0.75%, like RLCUSDT peaking at +0.676% / $0.5510) at microHeldMins >= 8 while downgraded to WATCHLIST (<78p) AND printing an opposing 15m candle veto with stalled 5m Taker (<=1.05x LONG / >=0.95x SHORT, #113A), lock +0.26% immediately before it round-trips to a -5.65 TL loss!
-    const isSubTp1WickVetoDegradedLock = Boolean(
-      peakCoinMoveFrac >= 0.0062 &&
-        rawCoinMoveFrac >= 0.0028 &&
-        microHeldMins >= 8 &&
+    const isBtc2mShockAgainst = Boolean(pos.side === 'LONG' ? btc2mNow <= -0.28 : btc2mNow >= 0.28);
+    const isOrderflowWeakeningAfterPop = Boolean(
+      microHeldMins >= 8 &&
         microLockCand &&
-        (microLockCand.engine === 'WATCHLIST' || Number(microLockCand.score || 0) < 78) &&
         (pos.side === 'LONG'
-          ? Boolean(microLockCand.vetoLong) && Number(microLockCand.instBuySellRatio ?? 1) <= 1.05
-          : Boolean(microLockCand.vetoShort) && Number(microLockCand.instBuySellRatio ?? 1) >= 0.95)
+          ? microLockCand.vetoLong || Number(microLockCand.instBuySellRatio ?? 1) <= 0.88 || Number(microLockCand.whaleRetailSpread ?? 0) < 0
+          : microLockCand.vetoShort || Number(microLockCand.instBuySellRatio ?? 1) >= 1.14 || Number(microLockCand.whaleRetailSpread ?? 0) > 0)
     );
-    const isDeepMaeOrStaleResistanceRecoveryLock = Boolean(
-      isSubTp1WickVetoDegradedLock ||
-        (peakCoinMoveFrac >= 0.0062 &&
-          rawCoinMoveFrac >= 0.0028 &&
-          ((pos.maxAdverseCoinMoveFrac || 0) >= 0.0065 || microHeldMins >= 20) &&
-          (microHeldMins >= 25 ||
-            (microLockCand &&
-              (pos.side === 'LONG'
-                ? microLockCand.vetoLong || microLockCand.instBuySellRatio <= 0.95 || microLockCand.whaleRetailSpread < 0
-                : microLockCand.vetoShort || microLockCand.instBuySellRatio >= 1.05 || microLockCand.whaleRetailSpread > 0))))
-    );
-    if (isFastMicroTakerCrash || isMicroTakerWeakening || isBtc2mShockAgainst || isSecondChanceBounceAfterDip || isDeepMaeOrStaleResistanceRecoveryLock) {
+    if (isBtc2mShockAgainst || isOrderflowWeakeningAfterPop || (pos.dippedBelowEntryAfterPop && microHeldMins >= 10)) {
       if (pos.side === 'LONG') {
-        const microLock = roundPriceToTick(pos.fSym, pos.entryPrice * (1 + 0.0026), 'floor');
-        if (microLock > pos.stopPrice && microLock < markExitPrice) {
+        const microLock = roundPriceToTick(pos.fSym, pos.entryPrice * (1 + 0.0038), 'floor');
+        if (microLock > pos.stopPrice && microLock < markExitPrice * 0.998) {
           pos.stopPrice = microLock;
-          pos.ratchetStage = isBtc2mShockAgainst
-            ? 'BTC_SHOCK_PROFIT_LOCK'
-            : isSecondChanceBounceAfterDip
-              ? 'SECOND_CHANCE_BOUNCE_LOCK'
-              : 'MICRO_POP_FEE_LOCK';
+          pos.ratchetStage = 'PRE_TP1_PROFIT_FLOOR';
         }
       } else {
-        const microLock = roundPriceToTick(pos.fSym, pos.entryPrice * (1 - 0.0026), 'ceil');
-        if (microLock < pos.stopPrice && microLock > markExitPrice) {
+        const microLock = roundPriceToTick(pos.fSym, pos.entryPrice * (1 - 0.0038), 'ceil');
+        if (microLock < pos.stopPrice && microLock > markExitPrice * 1.002) {
           pos.stopPrice = microLock;
-          pos.ratchetStage = isBtc2mShockAgainst
-            ? 'BTC_SHOCK_PROFIT_LOCK'
-            : isSecondChanceBounceAfterDip
-              ? 'SECOND_CHANCE_BOUNCE_LOCK'
-              : 'MICRO_POP_FEE_LOCK';
+          pos.ratchetStage = 'PRE_TP1_PROFIT_FLOOR';
         }
       }
     }
@@ -4615,11 +4566,11 @@ async function tryOpenPosition(state, candidates) {
     //    and let highAtrMarginScale scale position margin down so TL risk is strictly bounded without starving the hype entry!
     const rawStopFrac = Math.max(
       0.0092,
-      Math.min(0.0220, rawWickDistFrac),
-      Math.min(0.0215, (cand.atr15mPct / 100) * 0.65)
+      Math.min(0.0155, rawWickDistFrac),
+      Math.min(0.0155, (cand.atr15mPct / 100) * 0.65)
     );
-    const underlyingSlFrac = Math.min(0.0220, rawStopFrac);
-    const maxRiskLev = 0.0525 / (underlyingSlFrac + ROUND_TRIP_FEE_SLIP_FRAC + 0.0005);
+    const underlyingSlFrac = Math.min(0.0155, rawStopFrac);
+    const maxRiskLev = 0.0450 / (underlyingSlFrac + ROUND_TRIP_FEE_SLIP_FRAC + 0.0005);
     const microConfirm5x =
       cand.side === 'LONG'
         ? obCheck.microSkew > 0 && obCheck.ob2 >= 0.08
@@ -4628,15 +4579,15 @@ async function tryOpenPosition(state, candidates) {
     const rawChosenLev =
       rawAllowedLev >= 4.15 && tierLev >= 5 && microConfirm5x && underlyingSlFrac <= 0.0096
         ? 5
-        : rawAllowedLev >= 3.85 && tierLev >= 4 && underlyingSlFrac <= 0.0112
+        : rawAllowedLev >= 3.85 && tierLev >= 4 && underlyingSlFrac <= 0.0108
           ? 4
-          : rawAllowedLev >= 3.25 && tierLev >= 3.5 && underlyingSlFrac <= 0.0140
+          : rawAllowedLev >= 3.25 && tierLev >= 3.5 && underlyingSlFrac <= 0.0125
             ? 3.5
             : 3;
     // Engine #72G (GPT-6-Luna Integer Leverage Parity for LIVE_BINANCE_FAPI):
     // Binance Futures only accepts integer leverage (3, 4, 5); in LIVE_BINANCE_FAPI mode, quantize chosenLev to integer before sizing!
     const chosenLev = state.mode === 'LIVE_BINANCE_FAPI' ? Math.max(1, Math.min(5, Math.round(rawChosenLev))) : rawChosenLev;
-    const highAtrMarginScale = underlyingSlFrac > 0.0150 ? Math.max(0.55, Number((0.0150 / underlyingSlFrac).toFixed(4))) : 1.0;
+    const highAtrMarginScale = underlyingSlFrac > 0.0115 ? Math.max(0.55, Number((0.0115 / underlyingSlFrac).toFixed(4))) : 1.0;
     const posMarginUsdt = Number(Math.max(MIN_NOTIONAL_USDT / chosenLev + 0.05, usableMarginUsdt * highAtrMarginScale).toFixed(4));
     const finalMarginUsdt = Math.min(usableMarginUsdt, posMarginUsdt);
     const maxNotionalUsdt = Number((finalMarginUsdt * chosenLev).toFixed(4));
