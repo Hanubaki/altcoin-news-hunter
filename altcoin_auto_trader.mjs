@@ -487,6 +487,8 @@ function computeWalkForwardEnginePWinLower95(state, engineOwner, evalTimeMs = Da
   for (const t of state?.closedTrades || []) {
     const posId = t.positionId || t.id;
     if (!posId || openIds.has(posId)) continue;
+    // Engine #30.14: Isolate walk-forward pWinLower95 from deprecated newsless GoldenAgeLeaderIgniter top-chasing losses (0W/10L)
+    if (t.newsSource === 'GoldenAgeLeaderIgniter') continue;
     const exitMs = t.exitTime ? new Date(t.exitTime).getTime() : 0;
     if (exitMs <= calibCutoffMs || exitMs > evalTimeMs) continue; // Strictly point-in-time & non-overlapping with OOS file
     const owner =
@@ -1563,12 +1565,11 @@ async function runTradingCycle() {
     // Engine #7A & #7B: Unified Volatility-Scaled Profit Harvest (TP1 & TP2)
     await processProfitTargets(cfg, state, pos, currentBid);
 
-    // Engine #8: HARMONIZED ZERO-CONFLICT RATCHET LADDER (Synchronized with dynamic tp1Pct/tp2Pct + Engine #28 Friday PM Early Profit Lock)
+    // Engine #8: HARMONIZED ZERO-CONFLICT RATCHET LADDER (Synchronized with dynamic tp1Pct/tp2Pct + Engine #30.14 Early Profit Lock)
     const tsiCycleNow = new Date(Date.now() + 3 * 3600 * 1000);
     const isFridayPmCycle = tsiCycleNow.getUTCDay() === 5 && tsiCycleNow.getUTCHours() >= 15;
     const peakGainPct = ((pos.highestPrice - pos.entryPrice) / pos.entryPrice) * 100;
-    const dynTp1 = Number(pos.tp1Pct || 2.2);
-    const breakevenTriggerPct = isFridayPmCycle ? 1.35 : Math.max(1.75, Number((dynTp1 * 0.72).toFixed(2)));
+    const breakevenTriggerPct = isFridayPmCycle ? 1.15 : 1.25;
     let stepFloorPrice = pos.stopLossPrice;
     if (pos.partialTpDone && peakGainPct >= 7.0) {
       stepFloorPrice = Math.max(stepFloorPrice, Number((pos.highestPrice * 0.988).toPrecision(5)), Number((pos.entryPrice * 1.0602).toPrecision(5)));
@@ -1724,22 +1725,16 @@ async function runTradingCycle() {
           : pos.engineOwner === 'BNF'
             ? `🛡️ BNF İLK STOP TAM ÇIKIŞ (%${pos.unrealizedPnlPct} | ${netPnlTryExec.toFixed(2)} TL)`
             : `🛡️ SABİT TL RİSK & ATR KALKANI (%${pos.unrealizedPnlPct} | ${netPnlTryExec.toFixed(2)} TL)`;
-    } else if (
-      ['WhaleOrderflowRadar', 'ShortSqueezeRadar'].includes(pos.newsSource) &&
-      pos.unrealizedPnlPct >= 0.25
-    ) {
-      exitReason = `🧹 HABERSİZ SİNYAL KÂRLI TAHLİYESİ (Gerçek Haber Slotuna Yer Açıldı +%${pos.unrealizedPnlPct})`;
     } else if (latestSig && latestSig.liveLlmDecision === 'WAIT' && latestSig.liveLlmConfidence >= 80 && !pos.rocketMode && pos.unrealizedPnlPct >= 0.15) {
       exitReason = `🧠 AI KONSEYİ TUZAK HABER TAHLİYESİ (GPT-120B & Qwen-3.8: Riskli Haber — +%${pos.unrealizedPnlPct})`;
-    } else if (!pos.partialTpDone && minsHeld >= 45 && pos.unrealizedPnlPct <= 0.1 && pos.unrealizedPnlPct >= -0.60 && liveObForScratch < -0.25 && latestSig && latestSig.takerBuyRatioPct < 45) {
+    } else if (!pos.partialTpDone && minsHeld >= 45 && pos.unrealizedPnlPct <= 0.1 && pos.unrealizedPnlPct >= -0.60 && liveObForScratch < -0.28 && latestSig && latestSig.takerBuyRatioPct < 44) {
       exitReason = `🛡️ SIFIR RİSK ERKEN TAHLİYE (İvme Zayıfladı, Başa Baş Noktasında Çıkıldı %${pos.unrealizedPnlPct})`;
     } else if (
       !pos.partialTpDone &&
-      ((minsHeld >= 75 && peakGainPct < 1.0 && pos.unrealizedPnlPct <= -0.65 && liveObForScratch <= -0.15) ||
-        (minsHeld >= 120 && peakGainPct < 0.8 && pos.unrealizedPnlPct <= -0.85) ||
-        (isFridayPmCycle && minsHeld >= 35 && peakGainPct < 0.9 && pos.unrealizedPnlPct <= -0.45 && liveObForScratch <= -0.18) ||
-        (minsHeld >= 45 && peakGainPct < 0.8 && pos.unrealizedPnlPct <= -0.80 && (signalsData.marketBreadthPct ?? 50) < 20) ||
-        (minsHeld >= 90 && peakGainPct < 1.2 && pos.unrealizedPnlPct <= -0.40 && liveObForScratch <= -0.22))
+      ((minsHeld >= 95 && peakGainPct < 0.70 && pos.unrealizedPnlPct <= -0.85 && liveObForScratch <= -0.25) ||
+        (minsHeld >= 135 && peakGainPct < 0.65 && pos.unrealizedPnlPct <= -0.95 && liveObForScratch <= -0.18) ||
+        (isFridayPmCycle && minsHeld >= 45 && peakGainPct < 0.70 && pos.unrealizedPnlPct <= -0.65 && liveObForScratch <= -0.22) ||
+        (minsHeld >= 60 && peakGainPct < 0.70 && pos.unrealizedPnlPct <= -0.90 && (signalsData.marketBreadthPct ?? 50) < 20))
     ) {
       exitReason = `🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (${Math.round(minsHeld)}dk Tepkisiz + Tahta ${liveObForScratch} -> Stop Beklenmeden Zarar Küçültüldü %${pos.unrealizedPnlPct})`;
     } else if (pos.isMoonshot) {
@@ -2079,24 +2074,36 @@ async function runTradingCycle() {
           cand.isBnfConfirmed &&
           !signalsData.btcCrashAlert
       );
-      const isGoldenAgeLeaderAllowed = Boolean(
-        (confirmedRegime === 'C' &&
-          cand.isGoldenAgeLeader &&
-          signalsData.isConfirmedGoldenAge &&
+      const isDipSqueezeAllowed = Boolean(
+        cand.isDipShortSqueeze &&
+          (confirmedRegime === 'B' || confirmedRegime === 'C') &&
           !isRedMarketDump &&
-          !isWeakMarket &&
-          !signalsData.btcCrashAlert) ||
+          !isFridayPmEntry &&
+          !signalsData.btcCrashAlert &&
+          Number(cand.fundingHourlyPct ?? 0) <= -0.012 &&
+          Number(cand.rsi1h || 50) >= 24 &&
+          Number(cand.rsi1h || 50) <= 43 &&
+          Number(cand.atr1hPct || 0) >= 1.15 &&
+          Number(cand.topWhaleLongPct || 50) >= 55.0 &&
+          Number(cand.oiChange15mPct || 0) >= 0.15
+      );
+      const isGoldenAgeLeaderAllowed = Boolean(
+        isDipSqueezeAllowed ||
+          (confirmedRegime === 'C' &&
+            cand.isGoldenAgeLeader &&
+            signalsData.isConfirmedGoldenAge &&
+            !isRedMarketDump &&
+            !isWeakMarket &&
+            !signalsData.btcCrashAlert) ||
           isSovereignOverrideAllowed ||
           isBnfEntryAllowed
       );
-      // Engine Conflict Prevention: Require explicit LONG consensus AND (directMention === true OR authorized regime leader/BNF)!
+      // Engine Conflict Prevention: Require explicit LONG consensus AND (directMention === true OR authorized regime leader/BNF/DipSqueeze)!
       if (cand.liveLlmDecision !== 'LONG' || (cand.hasDirectMention === false && !isGoldenAgeLeaderAllowed)) continue;
-      // Engine #30.8 (Anti-Correlated Synthetic Beta Concentration in Lukewarm Regime B):
-      // In Regime B (or when breadthPct < 55%), allow at most 1 concurrent newsless synthetic GoldenAgeLeaderIgniter position,
-      // reserving the remaining slots for genuine direct-mention coin news or confirmed Regime C Golden Age waves!
-      if (!cand.hasDirectMention && cand.headlines?.[0]?.source === 'GoldenAgeLeaderIgniter') {
+      // Engine #30.8 (Anti-Correlated Synthetic Beta Concentration):
+      if (!cand.hasDirectMention && ['GoldenAgeLeaderIgniter', 'InstitutionalShortSqueeze'].includes(cand.headlines?.[0]?.source)) {
         const openSynthGoldenCount = state.openPositions.filter(
-          p => !p.isMoonshot && (p.newsSource === 'GoldenAgeLeaderIgniter' || p.ecosystem === 'GoldenAgeWave')
+          p => !p.isMoonshot && (['GoldenAgeLeaderIgniter', 'InstitutionalShortSqueeze'].includes(p.newsSource) || p.ecosystem === 'GoldenAgeWave')
         ).length;
         const maxAllowedSynthGoldenSlots = confirmedRegime === 'C' && breadthPct >= 55 ? 2 : 1;
         if (openSynthGoldenCount >= maxAllowedSynthGoldenSlots) continue;
@@ -2121,11 +2128,11 @@ async function runTradingCycle() {
       const effectiveTotalScore = Number((cand.totalScore + learnedScoreMod).toFixed(1));
       const hasInstitutionalWhaleSurge =
         ((cand.topWhaleLongPct || 0) >= 60 && (cand.oiChange15mPct || 0) >= 0) ||
-        ((cand.topWhaleLongPct || 0) >= 65 && (cand.oiChange15mPct || 0) >= -0.05 && (cand.rsi1h || 50) <= 58 && (cand.freshestMinutesAgo || 999) <= 60);
+        ((cand.topWhaleLongPct || 0) >= 65 && (cand.oiChange15mPct || 0) >= -0.05 && (cand.rsi1h || 50) <= 55 && (cand.freshestMinutesAgo || 999) <= 60);
       const rawMinReqScore = isRedMarketDump ? 78 : isWeakMarket ? 75 : isAntiMeltdownActive ? 70 : 58;
       const minReqScore = isApexSoftOverride ? Math.max(58, rawMinReqScore - 6) : rawMinReqScore;
-      const baseMinWhale = isBnfEntryAllowed ? 48.0 : isRedMarketDump ? 56.0 : isWeakMarket ? 53.5 : hasInstitutionalWhaleSurge ? 49.5 : isAntiMeltdownActive ? 53.5 : isCashIdleTooLong ? 50.2 : 51.0;
-      const baseMaxRsi = isBnfEntryAllowed ? 28 : isRedMarketDump ? 62 : isWeakMarket ? 60 : 66;
+      const baseMinWhale = isBnfEntryAllowed ? 48.0 : isRedMarketDump ? 56.0 : isWeakMarket ? 53.5 : hasInstitutionalWhaleSurge ? 51.0 : isAntiMeltdownActive ? 53.5 : 52.0;
+      const baseMaxRsi = isBnfEntryAllowed ? 28 : isDipSqueezeAllowed ? 43 : isRedMarketDump || isWeakMarket ? 52 : 55;
       const minReqWhale = coinMem && !isBnfEntryAllowed && !hasInstitutionalWhaleSurge ? Math.max(baseMinWhale, coinMem.minWhale) : baseMinWhale;
       const maxReqRsi = coinMem ? Math.min(baseMaxRsi, coinMem.maxRsi) : baseMaxRsi;
       if (effectiveTotalScore < minReqScore) continue;
@@ -2136,6 +2143,7 @@ async function runTradingCycle() {
       if (
         isSynthCand ||
         (cand.headlines?.[0]?.source === 'GoldenAgeLeaderIgniter' && !isGoldenAgeLeaderAllowed) ||
+        (cand.headlines?.[0]?.source === 'InstitutionalShortSqueeze' && !isDipSqueezeAllowed) ||
         (cand.headlines?.[0]?.source === 'BNFPanicSniper' && !isBnfEntryAllowed)
       ) {
         continue; // 100% BAN unauthorized synthetic signals!
@@ -2143,22 +2151,36 @@ async function runTradingCycle() {
       if ((cand.rsi1h || 50) > maxReqRsi) continue;
       const effectiveSpotWhalePct = Math.max(Number(cand.takerBuyRatioPct || 50), Number(cand.last1hTakerBuyPct || 50));
       if (!isBnfEntryAllowed && effectiveSpotWhalePct < minReqWhale) continue;
+      // Engine #30.14 Universal Volatility, Relative-Strength & Toxic Microstructure Gate (applies to ALL entries including hasDirectMention === true!)
+      const candFlags = Array.isArray(cand.microstructureFlags) ? cand.microstructureFlags : [];
+      const hasToxicMicroFlag = candFlags.some(f =>
+        ['BINANCE_SOCIAL_NEGATIVE', 'TAKER_FLOW_DECEL', 'PRICE_OI_DIVERGENCE', 'PERP_TAKER_SELL_PRESSURE', 'OVERLEVERAGED_LONG_TRAP', 'UPPER_WICK_REJECTION'].includes(f)
+      );
+      if (
+        !isBnfEntryAllowed &&
+        (hasToxicMicroFlag ||
+          Number(cand.atr1hPct || 0) < 1.05 ||
+          (Number(cand.rsAtr ?? 0) < 0.65 && Number(cand.rsi1h || 50) > 38 && !isDipSqueezeAllowed))
+      ) {
+        continue;
+      }
       if (
         !cand.hasDirectMention &&
         !isBnfEntryAllowed &&
+        !isDipSqueezeAllowed &&
         (confirmedRegime !== 'C' ||
           breadthPct < 62 ||
           Number(signalsData.btc1hChangePct || 0) < 0.35 ||
           Number(cand.last1hTakerBuyPct || 50) < 54.5 ||
           Number(cand.takerBuyRatioPct || 50) < 53.5 ||
-          Number(cand.rsAtr ?? 0.5) < 0.35 ||
-          Number(cand.atr1hPct || 1.0) < 0.95 ||
-          Number(cand.impulseAtr ?? 0.30) < 0.35 ||
+          Number(cand.rsAtr ?? 0.5) < 0.75 ||
+          Number(cand.atr1hPct || 1.0) < 1.10 ||
+          Number(cand.impulseAtr ?? 0.30) < 0.25 ||
+          Number(cand.impulseAtr ?? 0.30) > 1.25 ||
           Number(cand.oiChange15mPct || 0) < 0.30 ||
-          Number(cand.topWhaleLongPct || 50) < 56.0 ||
-          (Array.isArray(cand.microstructureFlags) && cand.microstructureFlags.includes('TAKER_FLOW_DECEL')))
+          Number(cand.topWhaleLongPct || 50) < 56.0)
       ) {
-        continue; // Engine #30.12 (Zero-Synthetic-Bleed Shield): Forbid newsless synthetic GoldenAge entries outside confirmed Regime C bull surges (blocks 9/9 recent synthetic losses!)
+        continue; // Engine #30.14 (Zero-Synthetic-Bleed Shield): Forbid newsless non-squeeze entries outside confirmed Regime C bull surges!
       }
       if (cand.topWhaleLongPct && cand.topWhaleLongPct < 42) continue; // Reject if Binance Top 20% Whales are shorting
       if (state.cooldowns[cand.symbol] && state.cooldowns[cand.symbol] > nowMs) continue;
@@ -3242,8 +3264,7 @@ async function runFastPositionRiskTick() {
       const tsiFastNow = new Date(Date.now() + 3 * 3600 * 1000);
       const isFridayPmFast = tsiFastNow.getUTCDay() === 5 && tsiFastNow.getUTCHours() >= 15;
       const peakGainPct = ((pos.highestPrice - pos.entryPrice) / pos.entryPrice) * 100;
-      const dynTp1Fast = Number(pos.tp1Pct || 2.2);
-      const breakevenTriggerFast = isFridayPmFast ? 1.35 : Math.max(1.75, Number((dynTp1Fast * 0.72).toFixed(2)));
+      const breakevenTriggerFast = isFridayPmFast ? 1.15 : 1.25;
       let stepFloor = pos.stopLossPrice;
       if (pos.partialTpDone && peakGainPct >= 7.0) stepFloor = Math.max(stepFloor, Number((pos.highestPrice * 0.988).toPrecision(5)), Number((pos.entryPrice * 1.0602).toPrecision(5)));
       else if (pos.partialTpDone && peakGainPct >= 4.5) stepFloor = Math.max(stepFloor, Number((pos.highestPrice * 0.986).toPrecision(5)), Number((pos.entryPrice * 1.0342).toPrecision(5)));
@@ -3269,10 +3290,9 @@ async function runFastPositionRiskTick() {
       const fastObImb = Number(pos.liveObImbalance ?? pos.obImbalance ?? 0);
       const isFastSlowBleedRaw =
         !pos.partialTpDone &&
-        ((minsHeldFast >= 75 && peakGainPct < 1.0 && pos.unrealizedPnlPct <= -0.65 && fastObImb <= -0.15) ||
-          (minsHeldFast >= 120 && peakGainPct < 0.8 && pos.unrealizedPnlPct <= -0.85) ||
-          (isFridayPmFast && minsHeldFast >= 35 && peakGainPct < 0.9 && pos.unrealizedPnlPct <= -0.45 && fastObImb <= -0.18) ||
-          (minsHeldFast >= 90 && peakGainPct < 1.2 && pos.unrealizedPnlPct <= -0.40 && fastObImb <= -0.22));
+        ((minsHeldFast >= 95 && peakGainPct < 0.70 && pos.unrealizedPnlPct <= -0.85 && fastObImb <= -0.25) ||
+          (minsHeldFast >= 135 && peakGainPct < 0.65 && pos.unrealizedPnlPct <= -0.95 && fastObImb <= -0.18) ||
+          (isFridayPmFast && minsHeldFast >= 45 && peakGainPct < 0.70 && pos.unrealizedPnlPct <= -0.65 && fastObImb <= -0.22));
       if (isFastSlowBleedRaw) {
         pos.slowBleedHitCount = (pos.slowBleedHitCount || 0) + 1;
         stateModified = true;
