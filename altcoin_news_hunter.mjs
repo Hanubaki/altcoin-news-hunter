@@ -1010,6 +1010,9 @@ async function main() {
       prevSignals = JSON.parse(fs.readFileSync(SIGNALS_FILE, 'utf8').replace(/^\uFEFF/, ''));
     }
   } catch {}
+  if (tickersRes.length < 20 && prevSignals && Array.isArray(prevSignals.opportunities)) {
+    return prevSignals;
+  }
 
   const maxNewsFreshnessForQual = breadth24hPct >= 52 ? 60 : 90;
   const qualifiedNewsCats = Object.values(newsScan.altCatalysts).filter(
@@ -1177,7 +1180,7 @@ async function main() {
   if (rawRegime === prevConfirmedRegime) {
     confirmedRegime = rawRegime;
     regimeStreak = (Number(prevSignals?.regimeStreak) || 1) + 1;
-  } else if (rawRegime === prevRawRegime) {
+  } else if (rawRegime === prevRawRegime || (rawRegime === 'C' && marketBreadthPct >= 62 && !btcCrashAlert)) {
     confirmedRegime = rawRegime;
     regimeStreak = 2;
   } else {
