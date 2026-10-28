@@ -2159,12 +2159,12 @@ async function fetchPerpOrderbookConfirm(symbol, side, atr15mPct = 1.5) {
     const prev1IsHammerBounce = prev1RangePct >= 0.35 && prev1Clv >= 0.68 && prev1LowerWickRatio >= 0.50;
     const recentSpikeRejectionLong =
       (spike3mPct >= 0.80 && rejectionFrom3mHighPct >= 0.38 && (prev1IsRedDump || prev1IsShootingStarReject || rejectionFrom3mHighPct >= 0.48)) ||
-      (runup5mPct >= 0.85 && dropFrom5mPeakPct >= 0.42 && (bothPrev2Red || prev1IsRedDump || prev1IsShootingStarReject || closeNow < openNow)) ||
+      (runup5mPct >= 0.85 && dropFrom5mPeakPct >= 0.42 && (bothPrev2Red || prev1IsRedDump || prev1IsShootingStarReject || closeNow < openNow || dropFrom5mPeakPct >= 0.65)) ||
       (prev1IsShootingStarReject && closeNow <= prev1Close) ||
       (prev1BodyPct <= -0.40 && prev1Clv <= 0.20 && closeNow <= prev1Open * 0.999);
     const recentDumpRejectionShort =
       (dump3mPct <= -0.80 && bounceFrom3mLowPct >= 0.38 && (prev1IsGreenSqueeze || prev1IsHammerBounce || bounceFrom3mLowPct >= 0.48)) ||
-      (runup5mPct >= 0.85 && bounceFrom5mLowPct >= 0.42 && (bothPrev2Green || prev1IsGreenSqueeze || prev1IsHammerBounce || closeNow > openNow)) ||
+      (runup5mPct >= 0.85 && bounceFrom5mLowPct >= 0.42 && (bothPrev2Green || prev1IsGreenSqueeze || prev1IsHammerBounce || closeNow > openNow || bounceFrom5mLowPct >= 0.65)) ||
       (prev1IsHammerBounce && closeNow >= prev1Close) ||
       (prev1BodyPct >= 0.40 && prev1Clv >= 0.80 && closeNow >= prev1Open * 1.001);
     const move2mPct = open2mAgo > 0 ? Number((((closeNow - open2mAgo) / open2mAgo) * 100).toFixed(2)) : 0;
@@ -2172,14 +2172,14 @@ async function fetchPerpOrderbookConfirm(symbol, side, atr15mPct = 1.5) {
     if (side === 'LONG' && (move2mPct >= max2mSpikePct || (move2mPct >= 0.65 && upperWickNow >= 0.55) || recentSpikeRejectionLong)) {
       return {
         ok: false,
-        vetoCode: 'MICRO_1M_SPIKE',
+        vetoCode: recentSpikeRejectionLong ? 'SPIKE_REJECTION_REVERSAL' : 'MICRO_1M_SPIKE',
         reason: `MICRO_1M_SPIKE_WAIT_PULLBACK (2dk:+%${move2mPct}/${max2mSpikePct}% | 3dkZirve:+%${spike3mPct}->Red:-%${rejectionFrom3mHighPct} | 1dk Üstİğne:${(upperWickNow * 100).toFixed(0)}%)`,
       };
     }
     if (side === 'SHORT' && (move2mPct <= -max2mSpikePct || (move2mPct <= -0.65 && lowerWickNow >= 0.55) || recentDumpRejectionShort)) {
       return {
         ok: false,
-        vetoCode: 'MICRO_1M_SPIKE',
+        vetoCode: recentDumpRejectionShort ? 'SPIKE_REJECTION_REVERSAL' : 'MICRO_1M_SPIKE',
         reason: `MICRO_1M_DUMP_WAIT_PULLBACK (2dk:%${move2mPct}/-${max2mSpikePct}% | 3dkDip:%${dump3mPct}->Tepki:+%${bounceFrom3mLowPct} | 1dk Altİğne:${(lowerWickNow * 100).toFixed(0)}%)`,
       };
     }
@@ -4411,6 +4411,7 @@ async function tryOpenPosition(state, candidates) {
       const isSpoofOrHollow =
         lastCode === 'SPOOF_WALL_DECAY' ||
         lastCode === 'BOOK_HOLLOWING' ||
+        lastCode === 'SPIKE_REJECTION_REVERSAL' ||
         lastReason.includes('SPOOF_WALL_DECAY') ||
         lastReason.includes('BOOK_HOLLOWING');
       const isQuarantined = symCds[c.symbol] && symCds[c.symbol] > nowEntryMs;
@@ -4528,7 +4529,7 @@ async function tryOpenPosition(state, candidates) {
       if (!isNoStrikeWait) {
         strikeCount += 1;
         state.obVetoStrikes[cand.symbol] = strikeCount;
-        const isSpoofVeto = obCheck.vetoCode === 'SPOOF_WALL_DECAY' || obCheck.vetoCode === 'BOOK_HOLLOWING';
+        const isSpoofVeto = obCheck.vetoCode === 'SPOOF_WALL_DECAY' || obCheck.vetoCode === 'BOOK_HOLLOWING' || obCheck.vetoCode === 'SPIKE_REJECTION_REVERSAL';
         cdMins = isSpoofVeto
           ? (strikeCount === 1 ? 3.5 : strikeCount === 2 ? 12.0 : 35.0)
           : (strikeCount === 1 ? 2.5 : strikeCount === 2 ? 8.0 : 18.0);

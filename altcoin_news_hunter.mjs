@@ -1311,9 +1311,9 @@ async function main() {
         rsi1h <= 45 &&
         atr1hPct >= 1.05 &&
         last1hTakerBuy >= 0.53 &&
-        takerBuyRatio >= 0.525 &&
+        (takerBuyRatio >= 0.52 || (takerBuyRatio >= 0.495 && last1hTakerBuy >= 0.54)) &&
         last1hQuoteVolUsd >= 90000 &&
-        isGreenBounce &&
+        (isGreenBounce || (change1hPct >= 0.15 && last1hTakerBuy >= 0.54)) &&
         !isUpperWickRejection &&
         amihudIlliquidity <= 9.5
     );
@@ -1364,7 +1364,7 @@ async function main() {
         atr1hPct < 1.05 ||
         (!isDipShortSqueeze && !ema20AboveEma50 && !isHigherLow3Bar && !macdBullishTurn) ||
         last1hTakerBuy < 0.53 ||
-        takerBuyRatio < 0.52 ||
+        (takerBuyRatio < 0.52 && !(takerBuyRatio >= 0.495 && last1hTakerBuy >= 0.535)) ||
         last1hQuoteVolUsd < 90000 ||
         amihudIlliquidity > 9.5 ||
         change1hPct < minGolden1hPct ||
@@ -1382,7 +1382,8 @@ async function main() {
 
     // 1. Event-Timestamp-Aligned Price Model: Separate preEventMove (leak/front-run) from postEventImpulse (news reaction)
     const eventAgeMins = Math.max(1, Number(cat.freshestMinutesAgo || 15));
-    const eventBarsAgo = Math.max(1, Math.min(Math.max(1, klines.length - 3), Math.ceil(eventAgeMins / 60)));
+    const effectiveAgeMins = isGoldenAgeCandidate && fracHour < 0.65 ? 75 : eventAgeMins;
+    const eventBarsAgo = Math.max(1, Math.min(Math.max(1, klines.length - 3), Math.ceil(effectiveAgeMins / 60)));
     const eventBarIdx = Math.max(0, klines.length - eventBarsAgo);
     const preBarIdx = Math.max(0, eventBarIdx - 2);
     const eventBasePrice = Number(klines[eventBarIdx]?.[1] || mkt.lastPrice);

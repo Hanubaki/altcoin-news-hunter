@@ -2173,7 +2173,7 @@ async function runTradingCycle() {
           breadthPct < 62 ||
           (Number(signalsData.btc1hChangePct || 0) < 0.25 && !(breadthPct >= 65 && Number(signalsData.btc1hChangePct || 0) >= -0.25)) ||
           Number(cand.last1hTakerBuyPct || 50) < 54.0 ||
-          Number(cand.takerBuyRatioPct || 50) < 53.0 ||
+          (Number(cand.takerBuyRatioPct || 50) < 53.0 && !(Number(cand.takerBuyRatioPct || 50) >= 50.0 && Number(cand.last1hTakerBuyPct || 50) >= 54.0)) ||
           Number(cand.rsAtr ?? 0.5) < 0.55 ||
           Number(cand.atr1hPct || 1.0) < 1.05 ||
           Number(cand.impulseAtr ?? 0.30) < 0.25 ||
