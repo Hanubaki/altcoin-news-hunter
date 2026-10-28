@@ -1,19 +1,19 @@
 # 💰 KASA VE KÂR RAPORU (Sadece TL — Smart-Shield v9.1)
 
-**Son Güncelleme:** 28.10.2026 10:08:46
+**Son Güncelleme:** 28.10.2026 10:30:41
 
 ---
 
 ## 1. GENEL KASA DURUMU
 
 * **Başlangıç Parası:** `1.000,00 TL`
-* **Şu Anki Toplam Para:** **`964,45 TL`**
-* **Toplam Net Kâr / Zarar:** **`-35,55 TL` (`%-3.55`)**
-* **Boşta Bekleyen Nakit:** `879,82 TL`
+* **Şu Anki Toplam Para:** **`964,42 TL`**
+* **Toplam Net Kâr / Zarar:** **`-35,58 TL` (`%-3.56`)**
+* **Boşta Bekleyen Nakit:** `879,83 TL`
 * **Coinde Olan Para (Açık İşlemler):** `0,00 TL`
-* **Cüzdandaki Küsürat (Dust) Varlıklar:** `84,63 TL` *(Aynı coine tekrar girildiğinde otomatik birleştirilip nakite çevrilir)*
+* **Cüzdandaki Küsürat (Dust) Varlıklar:** `84,59 TL` *(Aynı coine tekrar girildiğinde otomatik birleştirilip nakite çevrilir)*
 * **Başarılı Satış / Zarar Kes:** `21 Kârlı Satış / 28 Zarar Kes`
-* **📡 Şu An Neden Yeni Coin Alınmıyor?:** **🌟 ALTIN ÇAĞ (Rejim C -> EP) AKTİF (%84 Yeşil | 1s BTC +%-0.04): Engine #23, #24 & #30 EP kurumsal liderleri tarıyor!**<br><details><summary>🔍 Detaylı Sebebi Gör</summary>1) **Altın Çağ Teyitli (Rejim C):** Altcoinlerin %84'i yeşil (1s BTC: +%-0.04). 2) **Engine #24, #27 & #30 Qullamaggie EP Aktif:** $15M+ hacimli kurumsal liderler ve 14 haber kaynağı taranıyor; NO-CHASE (`ask <= Pmax`) ve çift tahta doğrulaması (`Engine #27`) geçen ilk lidere otomatik girilecek.</details>
+* **📡 Şu An Neden Yeni Coin Alınmıyor?:** **🌟 ALTIN ÇAĞ (Rejim C -> EP) AKTİF (%81 Yeşil | 1s BTC +%0.02): Engine #23, #24 & #30 EP kurumsal liderleri tarıyor!**<br><details><summary>🔍 Detaylı Sebebi Gör</summary>1) **Altın Çağ Teyitli (Rejim C):** Altcoinlerin %81'i yeşil (1s BTC: +%0.02). 2) **Engine #24, #27 & #30 Qullamaggie EP Aktif:** $15M+ hacimli kurumsal liderler ve 14 haber kaynağı taranıyor; NO-CHASE (`ask <= Pmax`) ve çift tahta doğrulaması (`Engine #27`) geçen ilk lidere otomatik girilecek.</details>
 * **🏦 Binance TR Gerçek Hesap Bağlantısı:** `Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0074 | BCH: 0.0010 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0077 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0870 | HBAR: 0.8140 | HYPE: 0.0009 | ICP: 0.0002 | INJ: 0.0067 | JASMY: 0.6080 | LDO: 0.0063 | LINK: 0.0094 | LTC: 0.0007 | NEAR: 0.0004 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 0.0628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0636 | STX: 0.0700 | TAO: 0.0001 | THETA: 0.0680 | TIA: 0.0084 | TRY: 879.8263 | UNI: 0.0080 | WLD: 0.0658 | XRP: 0.0946 | ZRO: 0.0037)`
 
 ---
@@ -22,55 +22,55 @@
 
 | Coin | Yatırılan Para | Satış Sonucu Alınan | Cebe Giren Net Kâr | Durum |
 | :--- | :--- | :--- | :--- | :--- |
-| **LINK** | `170,05 TL` | `168,15 TL` | **`-1,91 TL`** | 🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (77dk Tepkisiz + 4sn Hızlı Tahliye %-0.92) |
-| **XRP** | `167,14 TL` | `166,09 TL` | **`-1,05 TL`** | 🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (102dk Tepkisiz + Tahta -0.23 -> Stop Beklenmeden Zarar Küçültüldü %-0.43) |
-| **AVAX** | `173,69 TL` | `172,62 TL` | **`-1,07 TL`** | 🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (218dk Tepkisiz + 4sn Hızlı Tahliye %-0.41) |
-| **BCH** | `153,36 TL` | `150,58 TL` | **`-2,78 TL`** | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.62 | -2.82 TL) |
-| **INJ** | `173,80 TL` | `170,34 TL` | **`-3,46 TL`** | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.79 | -3.50 TL) |
-| **NEAR** | `180,24 TL` | `177,18 TL` | **`-3,06 TL`** | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.5 | -3.10 TL) |
-| **LTC** | `181,40 TL` | `180,22 TL` | **`-1,18 TL`** | 🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (133dk Tepkisiz + 4sn Hızlı Tahliye %-0.45) |
-| **HYPE** | `180,67 TL` | `179,02 TL` | **`-1,65 TL`** | 🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (115dk Tepkisiz + Tahta -0.21 -> Stop Beklenmeden Zarar Küçültüldü %-0.69) |
-| **TIA** | `185,29 TL` | `182,25 TL` | **`-3,04 TL`** | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.44 | -3.08 TL) |
-| **FET** | `185,24 TL` | `182,53 TL` | **`-2,71 TL`** | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.26 | -2.75 TL) |
-| **WLD** | `182,02 TL` | `179,56 TL` | **`-2,46 TL`** | 🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (46dk Tepkisiz + Stop Beklenmeden Zarar Küçültüldü %-1.16) |
-| **SEI** | `186,91 TL` | `184,22 TL` | **`-2,70 TL`** | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.24 | -2.73 TL) |
-| **TIA** | `186,84 TL` | `184,09 TL` | **`-2,75 TL`** | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.28 | -2.79 TL) |
-| **TAO** | `213,03 TL` | `210,60 TL` | **`-2,43 TL`** | 🛡️ BAYATLAYAN İVME & SATIŞ BASKISI ERKEN TAHLİYESİ (182dk Tepkisiz + Tahta -0.36 -> Stop Beklenmeden Çıkıldı %-1.14) |
-| **LTC** | `233,11 TL` | `229,60 TL` | **`-3,51 TL`** | 🛡️ ATR KORUMA KALKANI (%-1.51) |
-| **PNUT** | `263,81 TL` | `259,11 TL` | **`-4,70 TL`** | 🛡️ ATR KORUMA KALKANI (%-1.78) |
-| **CAKE** | `246,82 TL` | `242,84 TL` | **`-3,98 TL`** | 🛡️ ATR KORUMA KALKANI (%-1.61) |
-| **HBAR** | `221,06 TL` | `216,58 TL` | **`-4,48 TL`** | 🛡️ ATR KORUMA KALKANI (%-2.03) |
-| **OP** | `242,24 TL` | `236,45 TL` | **`-5,79 TL`** | 🛡️ ATR KORUMA KALKANI (%-2.39) |
-| **WLD** | `262,80 TL` | `267,32 TL` | **`+4,52 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%1.72) |
-| **PENDLE** | `247,94 TL` | `249,88 TL` | **`+1,94 TL`** | ⚡ AKILLI ROTASYON (OP [118p] Fırsatına Geçildi) |
-| **RSR** | `222,33 TL` | `221,98 TL` | **`-0,35 TL`** | ⚡ AKILLI ROTASYON (HBAR [137.2p] Fırsatına Geçildi) |
-| **INJ** | `252,34 TL` | `251,38 TL` | **`-0,96 TL`** | ⚡ AKILLI ROTASYON (CAKE [120.7p] Fırsatına Geçildi) |
-| **ZRO** | `318,11 TL` | `307,93 TL` | **`-10,18 TL`** | 🛡️ ATR KORUMA KALKANI (%-3.2) |
-| **RAY** | `422,28 TL` | `422,05 TL` | **`-0,23 TL`** | ⚡ AKILLI ROTASYON (INJ [131.2p] Fırsatına Geçildi) |
-| **PYTH** | `103,99 TL` | `103,96 TL` | **`-0,02 TL`** | 📲 TELEFONDAN MANUEL SATIŞ (Kâr/Nakit Alındı) |
-| **THETA** | `164,32 TL` | `161,86 TL` | **`-2,46 TL`** | 🔄 SEÇENEK 2 GEÇİŞİ (Vurgun Slotu Kapatılıp 3 Ana Slota Aktarıldı %-1.5) |
-| **UNI** | `369,22 TL` | `370,29 TL` | **`+1,07 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.29) |
-| **RAY** | `306,65 TL` | `307,18 TL` | **`+0,54 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.18) |
-| **HBAR** | `169,34 TL` | `174,42 TL` | **`+5,08 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%3) |
-| **EDU** | `365,81 TL` | `367,81 TL` | **`+2,00 TL`** | ⚡ AKILLI ROTASYON (ALGO [106.4p] Fırsatına Geçildi) |
-| **INJ** | `281,96 TL` | `283,86 TL` | **`+1,90 TL`** | ⚡ AKILLI ROTASYON (RAY [94.6p] Fırsatına Geçildi) |
-| **BEAMX** | `163,91 TL` | `165,00 TL` | **`+1,10 TL`** | ⚡ AKILLI ROTASYON (UNI [100.2p] Fırsatına Geçildi) |
-| **JASMY** | `402,46 TL` | `401,62 TL` | **`-0,84 TL`** | ⚡ AKILLI ROTASYON (JTO [105.7p] Fırsatına Geçildi) |
-| **EDU** | `231,46 TL` | `233,36 TL` | **`+1,90 TL`** | ⚡ AKILLI ROTASYON (INJ [103.9p] Fırsatına Geçildi) |
-| **TIA** | `218,67 TL` | `217,40 TL` | **`-1,27 TL`** | 🛡️ ATR KORUMA KALKANI (%-0.58) |
-| **STX** | `168,82 TL` | `173,23 TL` | **`+4,41 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%2.61) |
-| **SAND** | `193,06 TL` | `188,57 TL` | **`-4,50 TL`** | 🛡️ ATR KORUMA KALKANI (%-2.33) |
-| **STX** | `90,54 TL` | `94,04 TL` | **`+3,50 TL`** | 💰 1. KADEME (%35) SIFIR RİSK KÂR AL (+%3.88) |
-| **FET** | `342,86 TL` | `343,74 TL` | **`+0,88 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26) |
-| **RSR** | `425,62 TL` | `426,52 TL` | **`+0,89 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.21) |
-| **ARB** | `426,48 TL` | `427,60 TL` | **`+1,13 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26) |
-| **AVAX** | `432,00 TL` | `432,54 TL` | **`+0,54 TL`** | ⚡ AKILLI ROTASYON (ARB [122p] Fırsatına Geçildi) |
-| **ICP** | `342,52 TL` | `343,78 TL` | **`+1,26 TL`** | ⚡ AKILLI ROTASYON (FET [106.7p] Fırsatına Geçildi) |
-| **CAKE** | `252,82 TL` | `258,86 TL` | **`+6,04 TL`** | 💰 HIZLI KÂR HASADI & ROTASYON (Yavaşlayan Kârlı Coin Cebe Alındı +%2.59) |
-| **LDO** | `252,82 TL` | `265,30 TL` | **`+12,48 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%5.2) |
-| **SEI** | `160,52 TL` | `167,89 TL` | **`+7,37 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%5.04) |
-| **CAKE** | `168,54 TL` | `172,62 TL` | **`+4,08 TL`** | 💰 1. KADEME (%40) SIFIR RİSK KÂR AL (+%2.82) |
-| **LDO** | `168,54 TL` | `173,38 TL` | **`+4,84 TL`** | 💰 1. KADEME (%40) SIFIR RİSK KÂR AL (+%3.14) |
+| **LINK** | `170,12 TL` | `168,21 TL` | **`-1,91 TL`** | 🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (77dk Tepkisiz + 4sn Hızlı Tahliye %-0.92) |
+| **XRP** | `167,21 TL` | `166,16 TL` | **`-1,05 TL`** | 🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (102dk Tepkisiz + Tahta -0.23 -> Stop Beklenmeden Zarar Küçültüldü %-0.43) |
+| **AVAX** | `173,76 TL` | `172,69 TL` | **`-1,07 TL`** | 🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (218dk Tepkisiz + 4sn Hızlı Tahliye %-0.41) |
+| **BCH** | `153,42 TL` | `150,64 TL` | **`-2,78 TL`** | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.62 | -2.82 TL) |
+| **INJ** | `173,87 TL` | `170,41 TL` | **`-3,46 TL`** | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.79 | -3.50 TL) |
+| **NEAR** | `180,31 TL` | `177,25 TL` | **`-3,06 TL`** | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.5 | -3.10 TL) |
+| **LTC** | `181,47 TL` | `180,29 TL` | **`-1,18 TL`** | 🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (133dk Tepkisiz + 4sn Hızlı Tahliye %-0.45) |
+| **HYPE** | `180,74 TL` | `179,09 TL` | **`-1,65 TL`** | 🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (115dk Tepkisiz + Tahta -0.21 -> Stop Beklenmeden Zarar Küçültüldü %-0.69) |
+| **TIA** | `185,37 TL` | `182,33 TL` | **`-3,04 TL`** | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.44 | -3.08 TL) |
+| **FET** | `185,32 TL` | `182,60 TL` | **`-2,71 TL`** | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.26 | -2.75 TL) |
+| **WLD** | `182,10 TL` | `179,64 TL` | **`-2,46 TL`** | 🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (46dk Tepkisiz + Stop Beklenmeden Zarar Küçültüldü %-1.16) |
+| **SEI** | `186,99 TL` | `184,29 TL` | **`-2,70 TL`** | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.24 | -2.73 TL) |
+| **TIA** | `186,92 TL` | `184,16 TL` | **`-2,75 TL`** | 🛡️ 4sn HIZLI RİSK MONİTÖRÜ (%-1.28 | -2.79 TL) |
+| **TAO** | `213,11 TL` | `210,68 TL` | **`-2,43 TL`** | 🛡️ BAYATLAYAN İVME & SATIŞ BASKISI ERKEN TAHLİYESİ (182dk Tepkisiz + Tahta -0.36 -> Stop Beklenmeden Çıkıldı %-1.14) |
+| **LTC** | `233,21 TL` | `229,70 TL` | **`-3,51 TL`** | 🛡️ ATR KORUMA KALKANI (%-1.51) |
+| **PNUT** | `263,92 TL` | `259,22 TL` | **`-4,70 TL`** | 🛡️ ATR KORUMA KALKANI (%-1.78) |
+| **CAKE** | `246,92 TL` | `242,94 TL` | **`-3,98 TL`** | 🛡️ ATR KORUMA KALKANI (%-1.61) |
+| **HBAR** | `221,15 TL` | `216,67 TL` | **`-4,48 TL`** | 🛡️ ATR KORUMA KALKANI (%-2.03) |
+| **OP** | `242,34 TL` | `236,55 TL` | **`-5,80 TL`** | 🛡️ ATR KORUMA KALKANI (%-2.39) |
+| **WLD** | `262,91 TL` | `267,42 TL` | **`+4,52 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%1.72) |
+| **PENDLE** | `248,04 TL` | `249,98 TL` | **`+1,94 TL`** | ⚡ AKILLI ROTASYON (OP [118p] Fırsatına Geçildi) |
+| **RSR** | `222,42 TL` | `222,07 TL` | **`-0,35 TL`** | ⚡ AKILLI ROTASYON (HBAR [137.2p] Fırsatına Geçildi) |
+| **INJ** | `252,44 TL` | `251,48 TL` | **`-0,96 TL`** | ⚡ AKILLI ROTASYON (CAKE [120.7p] Fırsatına Geçildi) |
+| **ZRO** | `318,24 TL` | `308,06 TL` | **`-10,18 TL`** | 🛡️ ATR KORUMA KALKANI (%-3.2) |
+| **RAY** | `422,45 TL` | `422,22 TL` | **`-0,23 TL`** | ⚡ AKILLI ROTASYON (INJ [131.2p] Fırsatına Geçildi) |
+| **PYTH** | `104,03 TL` | `104,00 TL` | **`-0,02 TL`** | 📲 TELEFONDAN MANUEL SATIŞ (Kâr/Nakit Alındı) |
+| **THETA** | `164,38 TL` | `161,93 TL` | **`-2,46 TL`** | 🔄 SEÇENEK 2 GEÇİŞİ (Vurgun Slotu Kapatılıp 3 Ana Slota Aktarıldı %-1.5) |
+| **UNI** | `369,37 TL` | `370,44 TL` | **`+1,07 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.29) |
+| **RAY** | `306,77 TL` | `307,31 TL` | **`+0,54 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.18) |
+| **HBAR** | `169,41 TL` | `174,49 TL` | **`+5,08 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%3) |
+| **EDU** | `365,95 TL` | `367,96 TL` | **`+2,00 TL`** | ⚡ AKILLI ROTASYON (ALGO [106.4p] Fırsatına Geçildi) |
+| **INJ** | `282,07 TL` | `283,97 TL` | **`+1,90 TL`** | ⚡ AKILLI ROTASYON (RAY [94.6p] Fırsatına Geçildi) |
+| **BEAMX** | `163,97 TL` | `165,07 TL` | **`+1,10 TL`** | ⚡ AKILLI ROTASYON (UNI [100.2p] Fırsatına Geçildi) |
+| **JASMY** | `402,62 TL` | `401,78 TL` | **`-0,84 TL`** | ⚡ AKILLI ROTASYON (JTO [105.7p] Fırsatına Geçildi) |
+| **EDU** | `231,55 TL` | `233,45 TL` | **`+1,90 TL`** | ⚡ AKILLI ROTASYON (INJ [103.9p] Fırsatına Geçildi) |
+| **TIA** | `218,76 TL` | `217,49 TL` | **`-1,27 TL`** | 🛡️ ATR KORUMA KALKANI (%-0.58) |
+| **STX** | `168,89 TL` | `173,30 TL` | **`+4,41 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%2.61) |
+| **SAND** | `193,14 TL` | `188,64 TL` | **`-4,50 TL`** | 🛡️ ATR KORUMA KALKANI (%-2.33) |
+| **STX** | `90,57 TL` | `94,08 TL` | **`+3,50 TL`** | 💰 1. KADEME (%35) SIFIR RİSK KÂR AL (+%3.88) |
+| **FET** | `343,00 TL` | `343,88 TL` | **`+0,88 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26) |
+| **RSR** | `425,79 TL` | `426,69 TL` | **`+0,89 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.21) |
+| **ARB** | `426,65 TL` | `427,78 TL` | **`+1,13 TL`** | 🔒 SIFIR RİSK KÂR KİLİDİ (+%0.26) |
+| **AVAX** | `432,18 TL` | `432,71 TL` | **`+0,54 TL`** | ⚡ AKILLI ROTASYON (ARB [122p] Fırsatına Geçildi) |
+| **ICP** | `342,65 TL` | `343,92 TL` | **`+1,26 TL`** | ⚡ AKILLI ROTASYON (FET [106.7p] Fırsatına Geçildi) |
+| **CAKE** | `252,92 TL` | `258,96 TL` | **`+6,04 TL`** | 💰 HIZLI KÂR HASADI & ROTASYON (Yavaşlayan Kârlı Coin Cebe Alındı +%2.59) |
+| **LDO** | `252,92 TL` | `265,41 TL` | **`+12,49 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%5.2) |
+| **SEI** | `160,59 TL` | `167,96 TL` | **`+7,37 TL`** | 🚀 UÇUŞ MODU KÂR KİLİDİ (+%5.04) |
+| **CAKE** | `168,61 TL` | `172,69 TL` | **`+4,08 TL`** | 💰 1. KADEME (%40) SIFIR RİSK KÂR AL (+%2.82) |
+| **LDO** | `168,61 TL` | `173,45 TL` | **`+4,84 TL`** | 💰 1. KADEME (%40) SIFIR RİSK KÂR AL (+%3.14) |
 
 ---
 
@@ -127,7 +127,7 @@
 
 * **Banka & Entegrasyon:** `İş Bankası (İşCep & Gmail Bildirim Entegreli)`
 * **İş Bankası Güncel Bakiye:** **`0,00 TL`**
-* **Toplam Kişisel Servet (İş Bankası + Binance TR):** **`964,45 TL`**
+* **Toplam Kişisel Servet (İş Bankası + Binance TR):** **`964,42 TL`**
 * **Beklenen Aylık Gelir Akışı:** `Staj Maaşı: 8.000 TL | Mevcut Burs: 3.000 TL | Yeni Başvurulan Burs: 3.500 TL (Toplam: 14.500 TL/Ay)`
 * **Aylık Dokunulmaz Yaşam & Nakit Kalkanı:** `5.500 TL` *(Haftalık Harcama Limiti: `1.375 TL` | Bu Hafta Harcanan: `0 TL`)*
 * **💡 Günün Otonom CFO Tüyoları & Bütçe Emirleri:**

@@ -1,11 +1,11 @@
 {
   "createdAt": "2026-10-15T11:25:30.002Z",
-  "updatedAt": "2026-10-28T07:08:45.993Z",
+  "updatedAt": "2026-10-28T07:30:41.438Z",
   "mode": "LIVE_BINANCE",
   "liveActivated": true,
-  "initialBankrollUsdt": 20.145,
+  "initialBankrollUsdt": 20.1369,
   "initialBankrollTry": 1000,
-  "cashUsdt": 17.7241,
+  "cashUsdt": 17.717,
   "realizedPnlUsdt": -0.159,
   "winCount": 21,
   "lossCount": 28,
@@ -2339,10 +2339,10 @@
     "[16:59:18] 🌟 [GOLDEN AGE BAŞLADI] Altcoin İştahı %53 Yeşil | 1s BTC +%-0.15 -> Engine #23, #24 & #30 (Rejim C: EP) Tam Kapasite Devrede!",
     "[16:58:23] ⚡ [4sn HIZLI ÇIKIŞ] LINK @ $11.291 | 🛡️ YAVAŞ ERİME & BAYAT HABER KALKANI (77dk Tepkisiz + 4sn Hızlı Tahliye %-0.92) | Net: -1,91 TL"
   ],
-  "totalEquityUsdt": 19.4289,
-  "totalEquityTry": 964.45,
-  "totalPnlUsdt": -0.7162,
-  "totalPnlPct": -3.55,
+  "totalEquityUsdt": 19.4205,
+  "totalEquityTry": 964.42,
+  "totalPnlUsdt": -0.7165,
+  "totalPnlPct": -3.56,
   "cooldowns": {
     "ARB": 1792544650227,
     "SAND": 1792570490286,
@@ -2369,99 +2369,11 @@
   },
   "binanceTrStatus": "Aktif (trbinance.com — Spot Cüzdan: ARB: 0.0090 | AVAX: 0.0074 | BCH: 0.0010 | BEAMX: 0.8900 | BNB: 0.0004 | CAKE: 0.0077 | EDU: 0.6720 | ETHW: 0.0010 | FET: 0.0870 | HBAR: 0.8140 | HYPE: 0.0009 | ICP: 0.0002 | INJ: 0.0067 | JASMY: 0.6080 | LDO: 0.0063 | LINK: 0.0094 | LTC: 0.0007 | NEAR: 0.0004 | OP: 0.0045 | PENDLE: 0.0954 | PNUT: 0.0628 | PYTH: 0.0474 | RAY: 0.0854 | RSR: 0.2760 | SAND: 0.0674 | SEI: 0.0636 | STX: 0.0700 | TAO: 0.0001 | THETA: 0.0680 | TIA: 0.0084 | TRY: 879.8263 | UNI: 0.0080 | WLD: 0.0658 | XRP: 0.0946 | ZRO: 0.0037)",
   "lastWhatsAppReportAt": 1792788324267,
-  "highWaterMarkUsdt": 20.145,
+  "highWaterMarkUsdt": 20.1369,
   "cashIdleSince": 1792971034087,
-  "usdTryRate": 49.64,
-  "totalPnlTry": -35.55,
+  "usdTryRate": 49.66,
+  "totalPnlTry": -35.58,
   "equityHistory": [
-    {
-      "t": "08:33",
-      "v": 964.67
-    },
-    {
-      "t": "08:34",
-      "v": 964.66
-    },
-    {
-      "t": "08:35",
-      "v": 964.64
-    },
-    {
-      "t": "08:36",
-      "v": 964.65
-    },
-    {
-      "t": "08:37",
-      "v": 964.62
-    },
-    {
-      "t": "08:38",
-      "v": 964.61
-    },
-    {
-      "t": "08:39",
-      "v": 964.57
-    },
-    {
-      "t": "08:40",
-      "v": 964.61
-    },
-    {
-      "t": "08:41",
-      "v": 964.59
-    },
-    {
-      "t": "08:42",
-      "v": 964.6
-    },
-    {
-      "t": "08:43",
-      "v": 964.58
-    },
-    {
-      "t": "08:44",
-      "v": 964.57
-    },
-    {
-      "t": "08:45",
-      "v": 964.57
-    },
-    {
-      "t": "08:46",
-      "v": 964.58
-    },
-    {
-      "t": "08:47",
-      "v": 964.57
-    },
-    {
-      "t": "08:48",
-      "v": 964.57
-    },
-    {
-      "t": "08:49",
-      "v": 964.56
-    },
-    {
-      "t": "08:50",
-      "v": 964.55
-    },
-    {
-      "t": "08:51",
-      "v": 964.52
-    },
-    {
-      "t": "08:52",
-      "v": 964.49
-    },
-    {
-      "t": "08:53",
-      "v": 964.54
-    },
-    {
-      "t": "08:54",
-      "v": 964.54
-    },
     {
       "t": "08:55",
       "v": 964.52
@@ -2757,6 +2669,94 @@
     {
       "t": "10:08",
       "v": 964.42
+    },
+    {
+      "t": "10:09",
+      "v": 964.45
+    },
+    {
+      "t": "10:10",
+      "v": 964.47
+    },
+    {
+      "t": "10:11",
+      "v": 964.48
+    },
+    {
+      "t": "10:12",
+      "v": 964.47
+    },
+    {
+      "t": "10:13",
+      "v": 964.46
+    },
+    {
+      "t": "10:14",
+      "v": 964.45
+    },
+    {
+      "t": "10:15",
+      "v": 964.43
+    },
+    {
+      "t": "10:16",
+      "v": 964.48
+    },
+    {
+      "t": "10:17",
+      "v": 964.43
+    },
+    {
+      "t": "10:18",
+      "v": 964.37
+    },
+    {
+      "t": "10:19",
+      "v": 964.41
+    },
+    {
+      "t": "10:20",
+      "v": 964.38
+    },
+    {
+      "t": "10:21",
+      "v": 964.41
+    },
+    {
+      "t": "10:22",
+      "v": 964.42
+    },
+    {
+      "t": "10:23",
+      "v": 964.46
+    },
+    {
+      "t": "10:24",
+      "v": 964.42
+    },
+    {
+      "t": "10:25",
+      "v": 964.42
+    },
+    {
+      "t": "10:26",
+      "v": 964.41
+    },
+    {
+      "t": "10:27",
+      "v": 964.43
+    },
+    {
+      "t": "10:28",
+      "v": 964.43
+    },
+    {
+      "t": "10:29",
+      "v": 964.43
+    },
+    {
+      "t": "10:30",
+      "v": 964.42
     }
   ],
   "walletAssetsMap": {
@@ -2796,10 +2796,10 @@
     "XRP": 0.0946,
     "ZRO": 0.00368
   },
-  "dustAssetsUsdt": 1.7048,
-  "dustAssetsTry": 84.63,
+  "dustAssetsUsdt": 1.7034,
+  "dustAssetsTry": 84.59,
   "adaptiveMemory": {
-    "updatedAt": "2026-10-28T07:08:45.993Z",
+    "updatedAt": "2026-10-28T07:30:41.438Z",
     "totalAnalyzedTrades": 49,
     "globalWR": 0.431,
     "coinStats": {
@@ -3646,18 +3646,18 @@
     "monthlyTotalOutTry": 0,
     "nextBotDcaTrancheTry": 2000,
     "recentCashflows": [],
-    "totalNetWorthTry": 964.45,
+    "totalNetWorthTry": 964.42,
     "totalExpectedMonthlyTry": 14500,
     "cfoTips": [
       "🚀 [Büyütme Onayı Aktif]: Bot 35+ işlem barajını ve %42.9 başarı oranını kanıtladı! İş Bankası'ndaki fazladan nakitten 2000 TL dilimi Binance TR kasasına aktarabilirsin.",
       "🛡️ [Nakit Kalkanı]: Aylık 14.500 TL beklenen gelirinin 5.500 TL'si İş Bankası'nda dokunulmaz yaşam/acil durum fonun olarak kalmalı; kalan 9.000 TL'yi haftalık 2.000 TL dilimlerle bota aktararak 1 ay içinde 10.000 TL+ kasaya sıfır stresle çıkacağız."
     ],
-    "updatedAt": "2026-10-28T07:08:45.993Z"
+    "updatedAt": "2026-10-28T07:30:41.438Z"
   },
   "_apiFailCount": 0,
   "lastTelegramUpdateId": 444799254,
-  "noBuyShort": "🌟 ALTIN ÇAĞ (Rejim C -> EP) AKTİF (%84 Yeşil | 1s BTC +%-0.04): Engine #23, #24 & #30 EP kurumsal liderleri tarıyor!",
-  "noBuyDetail": "1) **Altın Çağ Teyitli (Rejim C):** Altcoinlerin %84'i yeşil (1s BTC: +%-0.04). 2) **Engine #24, #27 & #30 Qullamaggie EP Aktif:** $15M+ hacimli kurumsal liderler ve 14 haber kaynağı taranıyor; NO-CHASE (`ask <= Pmax`) ve çift tahta doğrulaması (`Engine #27`) geçen ilk lidere otomatik girilecek.",
+  "noBuyShort": "🌟 ALTIN ÇAĞ (Rejim C -> EP) AKTİF (%81 Yeşil | 1s BTC +%0.02): Engine #23, #24 & #30 EP kurumsal liderleri tarıyor!",
+  "noBuyDetail": "1) **Altın Çağ Teyitli (Rejim C):** Altcoinlerin %81'i yeşil (1s BTC: +%0.02). 2) **Engine #24, #27 & #30 Qullamaggie EP Aktif:** $15M+ hacimli kurumsal liderler ve 14 haber kaynağı taranıyor; NO-CHASE (`ask <= Pmax`) ve çift tahta doğrulaması (`Engine #27`) geçen ilk lidere otomatik girilecek.",
   "shadowPositions": [],
   "shadowTrapMemory": {
     "DOGE": {
