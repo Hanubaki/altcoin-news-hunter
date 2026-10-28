@@ -912,7 +912,9 @@ async function main() {
 
   const [newsScan, allBinanceTickersRes, trSymbolsRes, hlMetaRes, fapiPremRes, fngRes, globalRes, binanceSocialMap] = await Promise.all([
     scanAllNewsFeeds(),
-    fetchJson(`${BINANCE_API}/ticker/24hr`, {}, 8000).catch(() => []),
+    fetchJson(`${BINANCE_API}/ticker/24hr`, {}, 7500)
+      .catch(() => fetchJson('https://data-api.binance.vision/api/v3/ticker/24hr', {}, 7500))
+      .catch(() => []),
     fetchJson('https://www.trbinance.com/open/v1/common/symbols', {}, 4500).catch(() => null),
     fetchJson(HYPERLIQUID_API, {
       method: 'POST',
@@ -1056,7 +1058,7 @@ async function main() {
     }
   }
 
-  // Engine #30.14: Institutional Oversold Short-Squeeze Radar (RSI 24-43 + Neg Funding <= -0.012%) & Unextended Regime C Leader Watchlist
+  // Engine #30.14: Institutional Oversold Short-Squeeze Radar (RSI 24-45 + Neg Funding < -0.0010%) & Unextended Regime C Leader Watchlist
   // Replaces top-chasing posInRange 0.45-0.95 (which caused 0W/10L MFE 0.00%) with the proven dip short-squeeze setup (LDO +17.26 TL, CAKE +10.06 TL, STX +7.87 TL, SEI +7.34 TL)
   const goldenAgeWatchList = [];
   if (breadth24hPct >= 28) {
@@ -1064,34 +1066,34 @@ async function main() {
     const waveTag = new Date().toISOString().slice(0, 13);
     const liquidLeaders = Object.entries(tickerMap)
       .filter(([sym, m]) => {
-        if (sym === 'BTC' || existingSyms.has(sym) || m.quoteVol24h < 4000000) return false;
+        if (sym === 'BTC' || existingSyms.has(sym) || m.quoteVol24h < 3000000) return false;
         const fRate = hlMap[sym] ?? 0;
         const isNegFundingDip =
-          fRate <= -0.012 &&
-          m.change24hPct >= -6.5 &&
-          m.change24hPct <= 6.5 &&
-          m.posInRange >= 0.12 &&
-          m.posInRange <= 0.56;
+          fRate <= -0.0010 &&
+          m.change24hPct >= -7.5 &&
+          m.change24hPct <= 7.5 &&
+          m.posInRange >= 0.10 &&
+          m.posInRange <= 0.65;
         const isUnextendedRegimeCLeader =
-          intradayRecoveryPct >= 58 &&
-          breadth24hPct >= 62 &&
-          m.quoteVol24h >= 6000000 &&
-          m.change24hPct >= 0.5 &&
+          intradayRecoveryPct >= 52 &&
+          breadth24hPct >= 58 &&
+          m.quoteVol24h >= 4500000 &&
+          m.change24hPct >= 0.4 &&
           m.change24hPct <= 9.5 &&
-          m.vwapPremiumPct >= 0.0 &&
-          m.vwapPremiumPct <= 2.20 &&
-          m.posInRange >= 0.25 &&
-          m.posInRange <= 0.60;
+          m.vwapPremiumPct >= -0.10 &&
+          m.vwapPremiumPct <= 2.40 &&
+          m.posInRange >= 0.22 &&
+          m.posInRange <= 0.68;
         return isNegFundingDip || isUnextendedRegimeCLeader;
       })
       .sort((a, b) => {
-        const fA = (hlMap[a[0]] ?? 0) <= -0.012 ? 15 : 0;
-        const fB = (hlMap[b[0]] ?? 0) <= -0.012 ? 15 : 0;
+        const fA = (hlMap[a[0]] ?? 0) <= -0.0010 ? 15 : 0;
+        const fB = (hlMap[b[0]] ?? 0) <= -0.0010 ? 15 : 0;
         return (fB + b[1].bounceFromLowPct * 0.6 - b[1].posInRange * 2) - (fA + a[1].bounceFromLowPct * 0.6 - a[1].posInRange * 2);
       })
       .slice(0, 30);
     for (const [sym] of liquidLeaders) {
-      const isSqz = (hlMap[sym] ?? 0) <= -0.012;
+      const isSqz = (hlMap[sym] ?? 0) <= -0.0010;
       goldenAgeWatchList.push({
         symbol: sym,
         leaderSymbol: sym,
@@ -1295,22 +1297,22 @@ async function main() {
       continue;
     }
 
-    // Engine #30.14: Institutional Oversold Negative-Funding Short-Squeeze (RSI 24-43 + Funding <= -0.012% + Active Whale Absorption)
+    // Engine #30.14: Institutional Oversold Negative-Funding Short-Squeeze (RSI 24-45 + Funding <= -0.0010% + Active Whale Absorption)
     const isDipShortSqueeze = Boolean(
       isGoldenAgeCandidate &&
         cat.isShortSqueezeCandidate &&
         !btcCrashAlert &&
         !isFridayPmDumpWindow &&
-        fundingHourlyPct <= -0.012 &&
+        fundingHourlyPct <= -0.0010 &&
         rsi1h >= 24 &&
-        rsi1h <= 43 &&
-        atr1hPct >= 1.15 &&
-        last1hTakerBuy >= 0.54 &&
-        takerBuyRatio >= 0.535 &&
-        last1hQuoteVolUsd >= 120000 &&
+        rsi1h <= 45 &&
+        atr1hPct >= 1.05 &&
+        last1hTakerBuy >= 0.53 &&
+        takerBuyRatio >= 0.525 &&
+        last1hQuoteVolUsd >= 90000 &&
         isGreenBounce &&
         !isUpperWickRejection &&
-        amihudIlliquidity <= 9.0
+        amihudIlliquidity <= 9.5
     );
 
     // Engine #29 + #30.14: 4-Master Sovereign Crisis Alpha Setup (Strictly in Regime B: 24 <= marketBreadthPct < 52)
@@ -1356,20 +1358,20 @@ async function main() {
         (confirmedRegime === 'C' && !isConfirmedGoldenAge && !isDipShortSqueeze) ||
         confirmedRegime === 'A' ||
         isFridayPmDumpWindow ||
-        atr1hPct < 1.10 ||
+        atr1hPct < 1.05 ||
         (!isDipShortSqueeze && !ema20AboveEma50 && !isHigherLow3Bar && !macdBullishTurn) ||
-        last1hTakerBuy < 0.535 ||
-        takerBuyRatio < 0.525 ||
-        last1hQuoteVolUsd < 120000 ||
-        amihudIlliquidity > 9.0 ||
+        last1hTakerBuy < 0.53 ||
+        takerBuyRatio < 0.52 ||
+        last1hQuoteVolUsd < 90000 ||
+        amihudIlliquidity > 9.5 ||
         change1hPct < minGolden1hPct ||
         change1hPct > 3.2 ||
         rsi1h < (isDipShortSqueeze ? 24 : 38) ||
-        rsi1h > (isDipShortSqueeze ? 43 : 54) ||
+        rsi1h > (isDipShortSqueeze ? 45 : 54) ||
         (!isDipShortSqueeze && !aboveVwap) ||
         isUpperWickRejection ||
-        takerFlowDecel > 0.02 ||
-        (closePositionInRange < 0.50 && last1hTakerBuy < 0.54)
+        takerFlowDecel > 0.03 ||
+        (closePositionInRange < 0.48 && last1hTakerBuy < 0.535)
       ) {
         continue;
       }
@@ -1425,9 +1427,9 @@ async function main() {
     const expectedCoin1h = Number((betaBtc * btc1hChangePct).toFixed(2));
     const relativeStrength1h = Number((change1hPct - expectedCoin1h).toFixed(2));
     const rsAtr = Number((relativeStrength1h / Math.max(0.45, atr1hPct)).toFixed(2));
-    // Engine #30.14 Universal Volatility & Relative-Strength Gate: Block sleepy low-ATR (<1.05%) & weak-RS (<0.65) dinosaurs (XRP 0.92%/0.48, LINK 0.83%/0.41, LTC 0.70%)
-    if (!isBnfPanicCandidate && (atr1hPct < 1.05 || (rsAtr < 0.65 && rsi1h > 38 && !isDipShortSqueeze))) continue;
-    if (isGoldenAgeCandidate && !isDipShortSqueeze && rsAtr < (isFridayMorningTrapSetup ? 1.10 : 0.75)) continue;
+    // Engine #30.14 Universal Volatility & Relative-Strength Gate: Block sleepy low-ATR (<1.00%) & weak-RS (<0.20 on direct news / <0.55 on GoldenAge) dinosaurs (XRP 0.92%, LINK 0.83%, LTC 0.70%)
+    const minReqRsAtr = hasDirectMention || isDipShortSqueeze || rsi1h <= 38 ? 0.20 : isFridayMorningTrapSetup ? 1.10 : 0.55;
+    if (!isBnfPanicCandidate && (atr1hPct < 1.00 || rsAtr < minReqRsAtr)) continue;
 
     // Engine #30 Qullamaggie EP (Episodic Pivot) with Strict NO-CHASE Pmax & Event-Anchored VWAP in Regime C
     const preEventCompBar = klines[Math.max(0, eventBarIdx - 1)] || completedKlines[completedKlines.length - 1];
@@ -1887,29 +1889,29 @@ async function main() {
           // Engine #30.14 Cross-Engine Harmonization: Match altcoin_auto_trader.mjs Dip Short-Squeeze & Regime C execution gates 1:1!
           const isVerifiedDipSqueeze = Boolean(
             item.isDipShortSqueeze &&
-              Number(item.fundingHourlyPct ?? 0) <= -0.012 &&
+              Number(item.fundingHourlyPct ?? 0) <= -0.0010 &&
               Number(item.rsi1h || 50) >= 24 &&
-              Number(item.rsi1h || 50) <= 43 &&
-              Number(item.atr1hPct || 0) >= 1.15 &&
-              Number(item.last1hTakerBuyPct || 50) >= 54.0 &&
-              Number(item.takerBuyRatioPct || 50) >= 53.5 &&
-              Number(item.topWhaleLongPct || 50) >= 55.0 &&
-              Number(item.oiChange15mPct || 0) >= 0.15
+              Number(item.rsi1h || 50) <= 45 &&
+              Number(item.atr1hPct || 0) >= 1.05 &&
+              Number(item.last1hTakerBuyPct || 50) >= 53.0 &&
+              Number(item.takerBuyRatioPct || 50) >= 52.5 &&
+              Number(item.topWhaleLongPct || 50) >= 54.0 &&
+              Number(item.oiChange15mPct || 0) >= 0.05
           );
           const passesEngine3012SynthGate =
             item.hasDirectMention ||
             isVerifiedDipSqueeze ||
             (confirmedRegime === 'C' &&
               marketBreadthPct >= 62 &&
-              btc1hChangePct >= 0.35 &&
-              Number(item.last1hTakerBuyPct || 50) >= 54.5 &&
-              Number(item.takerBuyRatioPct || 50) >= 53.5 &&
-              Number(item.rsAtr ?? 0) >= 0.75 &&
-              Number(item.atr1hPct || 0) >= 1.10 &&
+              (btc1hChangePct >= 0.25 || (marketBreadthPct >= 65 && btc1hChangePct >= -0.25)) &&
+              Number(item.last1hTakerBuyPct || 50) >= 54.0 &&
+              Number(item.takerBuyRatioPct || 50) >= 53.0 &&
+              Number(item.rsAtr ?? 0) >= 0.55 &&
+              Number(item.atr1hPct || 0) >= 1.05 &&
               Number(item.impulseAtr ?? 0) >= 0.25 &&
               Number(item.impulseAtr ?? 0) <= 1.25 &&
-              Number(item.oiChange15mPct || 0) >= 0.30 &&
-              Number(item.topWhaleLongPct || 50) >= 56.0 &&
+              Number(item.oiChange15mPct || 0) >= 0.20 &&
+              Number(item.topWhaleLongPct || 50) >= 55.0 &&
               !(Array.isArray(item.microstructureFlags) && item.microstructureFlags.includes('TAKER_FLOW_DECEL')));
           const hasValidOi = Number.isFinite(item.oiChange15mPct);
           const minReqWhale = item.isSovereignCrisisCandidate || isFridayMorningTrapSetup ? 54 : 52;

@@ -2080,12 +2080,12 @@ async function runTradingCycle() {
           !isRedMarketDump &&
           !isFridayPmEntry &&
           !signalsData.btcCrashAlert &&
-          Number(cand.fundingHourlyPct ?? 0) <= -0.012 &&
+          Number(cand.fundingHourlyPct ?? 0) <= -0.0010 &&
           Number(cand.rsi1h || 50) >= 24 &&
-          Number(cand.rsi1h || 50) <= 43 &&
-          Number(cand.atr1hPct || 0) >= 1.15 &&
-          Number(cand.topWhaleLongPct || 50) >= 55.0 &&
-          Number(cand.oiChange15mPct || 0) >= 0.15
+          Number(cand.rsi1h || 50) <= 45 &&
+          Number(cand.atr1hPct || 0) >= 1.05 &&
+          Number(cand.topWhaleLongPct || 50) >= 54.0 &&
+          Number(cand.oiChange15mPct || 0) >= 0.05
       );
       const isGoldenAgeLeaderAllowed = Boolean(
         isDipSqueezeAllowed ||
@@ -2132,7 +2132,7 @@ async function runTradingCycle() {
       const rawMinReqScore = isRedMarketDump ? 78 : isWeakMarket ? 75 : isAntiMeltdownActive ? 70 : 58;
       const minReqScore = isApexSoftOverride ? Math.max(58, rawMinReqScore - 6) : rawMinReqScore;
       const baseMinWhale = isBnfEntryAllowed ? 48.0 : isRedMarketDump ? 56.0 : isWeakMarket ? 53.5 : hasInstitutionalWhaleSurge ? 51.0 : isAntiMeltdownActive ? 53.5 : 52.0;
-      const baseMaxRsi = isBnfEntryAllowed ? 28 : isDipSqueezeAllowed ? 43 : isRedMarketDump || isWeakMarket ? 52 : 55;
+      const baseMaxRsi = isBnfEntryAllowed ? 28 : isDipSqueezeAllowed ? 45 : isRedMarketDump || isWeakMarket ? 52 : 55;
       const minReqWhale = coinMem && !isBnfEntryAllowed && !hasInstitutionalWhaleSurge ? Math.max(baseMinWhale, coinMem.minWhale) : baseMinWhale;
       const maxReqRsi = coinMem ? Math.min(baseMaxRsi, coinMem.maxRsi) : baseMaxRsi;
       if (effectiveTotalScore < minReqScore) continue;
@@ -2156,11 +2156,12 @@ async function runTradingCycle() {
       const hasToxicMicroFlag = candFlags.some(f =>
         ['BINANCE_SOCIAL_NEGATIVE', 'TAKER_FLOW_DECEL', 'PRICE_OI_DIVERGENCE', 'PERP_TAKER_SELL_PRESSURE', 'OVERLEVERAGED_LONG_TRAP', 'UPPER_WICK_REJECTION'].includes(f)
       );
+      const minExecRsAtr = cand.hasDirectMention || isDipSqueezeAllowed || Number(cand.rsi1h || 50) <= 38 ? 0.20 : 0.55;
       if (
         !isBnfEntryAllowed &&
         (hasToxicMicroFlag ||
-          Number(cand.atr1hPct || 0) < 1.05 ||
-          (Number(cand.rsAtr ?? 0) < 0.65 && Number(cand.rsi1h || 50) > 38 && !isDipSqueezeAllowed))
+          Number(cand.atr1hPct || 0) < 1.00 ||
+          Number(cand.rsAtr ?? 0) < minExecRsAtr)
       ) {
         continue;
       }
@@ -2170,15 +2171,15 @@ async function runTradingCycle() {
         !isDipSqueezeAllowed &&
         (confirmedRegime !== 'C' ||
           breadthPct < 62 ||
-          Number(signalsData.btc1hChangePct || 0) < 0.35 ||
-          Number(cand.last1hTakerBuyPct || 50) < 54.5 ||
-          Number(cand.takerBuyRatioPct || 50) < 53.5 ||
-          Number(cand.rsAtr ?? 0.5) < 0.75 ||
-          Number(cand.atr1hPct || 1.0) < 1.10 ||
+          (Number(signalsData.btc1hChangePct || 0) < 0.25 && !(breadthPct >= 65 && Number(signalsData.btc1hChangePct || 0) >= -0.25)) ||
+          Number(cand.last1hTakerBuyPct || 50) < 54.0 ||
+          Number(cand.takerBuyRatioPct || 50) < 53.0 ||
+          Number(cand.rsAtr ?? 0.5) < 0.55 ||
+          Number(cand.atr1hPct || 1.0) < 1.05 ||
           Number(cand.impulseAtr ?? 0.30) < 0.25 ||
           Number(cand.impulseAtr ?? 0.30) > 1.25 ||
-          Number(cand.oiChange15mPct || 0) < 0.30 ||
-          Number(cand.topWhaleLongPct || 50) < 56.0)
+          Number(cand.oiChange15mPct || 0) < 0.20 ||
+          Number(cand.topWhaleLongPct || 50) < 55.0)
       ) {
         continue; // Engine #30.14 (Zero-Synthetic-Bleed Shield): Forbid newsless non-squeeze entries outside confirmed Regime C bull surges!
       }
